@@ -1,0 +1,65 @@
+﻿@model RapidDoc.Models.ViewModels.USR_ORD_MainActivity_View
+@using RapidDoc.Extensions;
+
+<div class="row">
+    @if(!String.IsNullOrEmpty(Model.ControlUsers))
+    { 
+        <div class="col-xs-4">
+            <div class="editor-label">
+                @Html.LabelForRequired(model => model.Executed)
+            </div>
+            <div class="editor-field">
+                @Html.CheckBoxFor(model => model.Executed, new { @disabled = true })
+                Контролирует: @Html.HtmlDisplayTagsFor(model => model.ControlUsers), @Model.ControlDate.Value.ToShortDateString()
+            </div>
+        </div>
+    }
+    @if(Model.Addition == true)
+    { 
+        <div class="col-xs-2">
+            <div class="editor-label">
+                @Html.LabelForRequired(model => model.Addition)
+            </div>
+            <div class="editor-field">
+                @Html.CheckBoxFor(model => model.Addition, new { @disabled = true })
+            </div>
+        </div>
+    }
+    @if (Model.CancelOrder == true)
+    {
+        <div class="col-xs-6">
+            <h5>
+                Аннулировать приказ:
+                @Html.Action("GetRevocationORD", "Custom", new { id = Model.CancelDocumentId, edit = false })
+            </h5>
+        </div>
+    }
+</div>
+
+<h4 class="text-center"><strong>БҰЙРЫҚ</strong></h4>
+<h4 class="text-center"><strong>№ @Html.DisplayTextFor(x => x.OrderNum)</strong></h4>
+<h5 class="text-center"><strong>@Html.FormatValue(Model.OrderDate, "{0:dd.MM.yyyy}") ж.</strong></h5>
+
+<strong>ТАҚЫРЫБЫ:</strong> @Html.DisplayTextFor(x => x.Subject)
+<hr style="height:1px;border:none;color:#333;background-color:#333;" />
+@Html.Raw(Model.MainField)
+<hr style="height:1px;border:none;color:#333;background-color:#333;" />
+@Html.Raw(Model.MainFieldTranslate)
+<br />
+<div class="row">
+    <div class="col-xs-8">
+        <div class="editor-label">
+            <strong>@Html.DisplayTextFor(x => x.SignTitle)</strong>
+        </div>
+    </div>
+    <div class="col-xs-4">
+        <div class="editor-label">
+            <strong>@Html.DisplayTextFor(x => x.SignName)</strong>
+        </div>
+    </div>
+</div>
+
+
+
+
+

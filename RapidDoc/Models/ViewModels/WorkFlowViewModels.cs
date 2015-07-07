@@ -148,6 +148,9 @@ namespace RapidDoc.Models.ViewModels
         public string DepartmentName { get; set; }
         [Display(Name = "Notify", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public bool IsNotified { get; set; }
+        public bool Cancel { get; set; }
+        public bool Addition { get; set; }
+        public bool Executed { get; set; }
     }
 
     public class WFTrackerListView : BasicCompanyNullView

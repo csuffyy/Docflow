@@ -11,6 +11,10 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "TitleName", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public string TitleName { get; set; }
 
+        [StringLength(256, ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisLong")]
+        [Display(Name = "TitleNameKZ", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public string TitleNameKZ { get; set; }
+
         public Guid? ProfileTableId { get; set; }
 
         [Display(Name = "ProfileName", ResourceType = typeof(FieldNameRes.FieldNameResource))]
@@ -110,6 +114,24 @@ namespace RapidDoc.Models.ViewModels
             get
             {
                 return (SecondName + "_" + FirstName.Substring(0, 1) + "." + MiddleName.Substring(0, 1));
+            }
+        }
+
+        [Display(Name = "FirstName", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public string ShortFullNameType2
+        {
+            get
+            {
+                return (SecondName + " " + FirstName.Substring(0, 1) + "." + MiddleName.Substring(0, 1));
+            }
+        }
+
+        [Display(Name = "FirstName", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public string ShortFullNameType3
+        {
+            get
+            {
+                return (FirstName.Substring(0, 1) + ". " + SecondName);
             }
         }
     }

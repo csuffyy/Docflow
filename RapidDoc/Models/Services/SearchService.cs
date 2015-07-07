@@ -25,10 +25,10 @@ namespace RapidDoc.Models.Services
         SearchTable FirstOrDefault(Expression<Func<SearchTable, bool>> predicate);
         SearchView FirstOrDefaultView(Expression<Func<SearchTable, bool>> predicate);
         bool Contains(Expression<Func<SearchTable, bool>> predicate);
-        void SaveDomain(SearchTable domainTable);
+        void SaveDomain(SearchTable domainTable, string currentUserId = "");
         Tuple<int, List<SearchView>> GetDocuments(int blockNumber, int blockSize, SearchFormView model);
-        void SaveSearchData(Guid id, string searchString);
-        void SaveSearchData(Guid id, dynamic docModel, string actionModelName);
+        void SaveSearchData(Guid id, string searchString, string currentUserId = "");
+        void SaveSearchData(Guid id, dynamic docModel, string actionModelName, string currentUserId = "");
         string PrepareSearchString(dynamic docModel, string actionModelName);
         void Delete(Guid Id);
     }
@@ -92,21 +92,21 @@ namespace RapidDoc.Models.Services
         {
             return repo.Contains(predicate);
         }
-        public void SaveDomain(SearchTable domainTable)
+        public void SaveDomain(SearchTable domainTable, string currentUserId = "")
         {
-            string userId = HttpContext.Current.User.Identity.GetUserId();
+            string userid = getCurrentUserId(currentUserId);
             if (domainTable.Id == Guid.Empty)
             {
                 domainTable.CreatedDate = DateTime.UtcNow;
                 domainTable.ModifiedDate = domainTable.CreatedDate;
-                domainTable.ApplicationUserCreatedId = userId;
-                domainTable.ApplicationUserModifiedId = userId;
+                domainTable.ApplicationUserCreatedId = userid;
+                domainTable.ApplicationUserModifiedId = userid;
                 repo.Add(domainTable);
             }
             else
             {
                 domainTable.ModifiedDate = DateTime.UtcNow;
-                domainTable.ApplicationUserModifiedId = userId;
+                domainTable.ApplicationUserModifiedId = userid;
                 repo.Update(domainTable);
             }
             _uow.Commit();
@@ -273,7 +273,7 @@ namespace RapidDoc.Models.Services
             return new string(array, 0, arrayIndex);
         }
 
-        public void SaveSearchData(Guid id, string searchString)
+        public void SaveSearchData(Guid id, string searchString, string currentUserId = "")
         {
             if (String.IsNullOrEmpty(searchString))
                 return;
@@ -287,25 +287,37 @@ namespace RapidDoc.Models.Services
             _DocumentService.SaveDocumentText(document);
 
             if (!Contains(x => x.DocumentTableId == document.Id))
-                SaveDomain(new SearchTable { DocumentText = searchString, DocumentTableId = document.Id });
+                SaveDomain(new SearchTable { DocumentText = searchString, DocumentTableId = document.Id }, currentUserId);
             else
             {
                 SearchTable searchTable = FirstOrDefault(x => x.DocumentTableId == document.Id);
                 searchTable.DocumentText = searchString;
-                SaveDomain(searchTable);
+                SaveDomain(searchTable, currentUserId);
             }
         }
 
-        public void SaveSearchData(Guid id, dynamic docModel, string actionModelName)
+        public void SaveSearchData(Guid id, dynamic docModel, string actionModelName, string currentUserId = "")
         {
             string searchString = PrepareSearchString(docModel, actionModelName);
             if (!String.IsNullOrEmpty(searchString))
-                SaveSearchData(id, searchString);
+                SaveSearchData(id, searchString, currentUserId);
         }
         public void Delete(Guid Id)
         {
             repo.Delete(x => x.Id == Id);
             _uow.Commit();
+        }
+
+        private string getCurrentUserId(string currentUserId = "")
+        {
+            if (currentUserId != string.Empty)
+            {
+                return currentUserId;
+            }
+            else
+            {
+                return HttpContext.Current.User.Identity.GetUserId();
+            }
         }
     }
 }

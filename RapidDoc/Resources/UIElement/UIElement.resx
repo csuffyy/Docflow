@@ -597,4 +597,10 @@
   <data name="TooltipAboutReading" xml:space="preserve">
     <value>Уведомление о прочтении документа при следовании по маршруту согласования</value>
   </data>
+  <data name="Booking" xml:space="preserve">
+    <value>Забронировать</value>
+  </data>
+  <data name="Revocation" xml:space="preserve">
+    <value>Аннулирование</value>
+  </data>
 </root>

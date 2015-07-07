@@ -60,5 +60,5 @@
         .Filterable(true)
         .RenderValueAs(o => DocumentState(o));
     columns.Add(o => o.CreatedDate).Titled(Html.DisplayNameFor(o => ((RapidDoc.Models.ViewModels.DocumentView)o.Columns).CreatedDate).ToHtmlString()).Sortable(true).Filterable(true);
-    columns.Add(o => o.CreatedBy).Titled(Html.DisplayNameFor(o => ((RapidDoc.Models.ViewModels.DocumentView)o.Columns).CreatedBy).ToHtmlString()).Encoded(false).Sortable(true).Sanitized(false).Filterable(false).RenderValueAs(o => CreatedByFull(o));
+    columns.Add(o => o.CreatedBy).Titled(Html.DisplayNameFor(o => ((RapidDoc.Models.ViewModels.DocumentView)o.Columns).CreatedBy).ToHtmlString()).Sortable(true).Filterable(true).Encoded(false).Sanitized(false).RenderValueAs(o => CreatedByFull(o));
 }).Selectable(true).SetLanguage(UIElementRes.UIElement.LangName).WithPaging(20).SetColCssClasses(o => o.isNotReview ? "" : "info allocation text-center empty")

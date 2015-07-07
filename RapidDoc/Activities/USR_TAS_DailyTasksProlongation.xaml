@@ -291,30 +291,30 @@
               </ActivityAction>
             </ForEach>
             <FlowStep.Next>
-              <FlowStep x:Name="__ReferenceID5" sap2010:WorkflowViewState.IdRef="FlowStep_5">
-                <local2:WFUpdateProlongationDate _service="{x:Null}" DisplayName="Обновление даты" sap2010:WorkflowViewState.IdRef="WFUpdateProlongationDate_1">
-                  <local2:WFUpdateProlongationDate.ProlongationDate>
-                    <InArgument x:TypeArguments="s:DateTime">
-                      <mca:CSharpValue x:TypeArguments="s:DateTime">(DateTime)documentData["ProlongationDate"]</mca:CSharpValue>
-                    </InArgument>
-                  </local2:WFUpdateProlongationDate.ProlongationDate>
-                  <local2:WFUpdateProlongationDate.RefDocId>
-                    <InArgument x:TypeArguments="s:Guid">
-                      <mca:CSharpValue x:TypeArguments="s:Guid">(Guid)documentData["RefDocumentId"]</mca:CSharpValue>
-                    </InArgument>
-                  </local2:WFUpdateProlongationDate.RefDocId>
-                  <local2:WFUpdateProlongationDate.inputCurrentUser>
-                    <InArgument x:TypeArguments="x:String">
-                      <mca:CSharpValue x:TypeArguments="x:String">inputCurrentUser</mca:CSharpValue>
-                    </InArgument>
-                  </local2:WFUpdateProlongationDate.inputCurrentUser>
-                </local2:WFUpdateProlongationDate>
-                <FlowStep.Next>
-                  <FlowDecision x:Name="__ReferenceID2" DisplayName="Статус документа" sap2010:WorkflowViewState.IdRef="FlowDecision_1">
-                    <FlowDecision.Condition>
-                      <mca:CSharpValue x:TypeArguments="x:Boolean">outputStep == DocumentState.Agreement</mca:CSharpValue>
-                    </FlowDecision.Condition>
-                    <FlowDecision.True>
+              <FlowDecision x:Name="__ReferenceID2" DisplayName="Статус документа" sap2010:WorkflowViewState.IdRef="FlowDecision_1">
+                <FlowDecision.Condition>
+                  <mca:CSharpValue x:TypeArguments="x:Boolean">outputStep == DocumentState.Agreement</mca:CSharpValue>
+                </FlowDecision.Condition>
+                <FlowDecision.True>
+                  <FlowStep x:Name="__ReferenceID5" sap2010:WorkflowViewState.IdRef="FlowStep_5">
+                    <local2:WFUpdateProlongationDate _service="{x:Null}" DisplayName="Обновление даты" sap2010:WorkflowViewState.IdRef="WFUpdateProlongationDate_1">
+                      <local2:WFUpdateProlongationDate.ProlongationDate>
+                        <InArgument x:TypeArguments="s:DateTime">
+                          <mca:CSharpValue x:TypeArguments="s:DateTime">(DateTime)documentData["ProlongationDate"]</mca:CSharpValue>
+                        </InArgument>
+                      </local2:WFUpdateProlongationDate.ProlongationDate>
+                      <local2:WFUpdateProlongationDate.RefDocId>
+                        <InArgument x:TypeArguments="s:Guid">
+                          <mca:CSharpValue x:TypeArguments="s:Guid">(Guid)documentData["RefDocumentId"]</mca:CSharpValue>
+                        </InArgument>
+                      </local2:WFUpdateProlongationDate.RefDocId>
+                      <local2:WFUpdateProlongationDate.inputCurrentUser>
+                        <InArgument x:TypeArguments="x:String">
+                          <mca:CSharpValue x:TypeArguments="x:String">inputCurrentUser</mca:CSharpValue>
+                        </InArgument>
+                      </local2:WFUpdateProlongationDate.inputCurrentUser>
+                    </local2:WFUpdateProlongationDate>
+                    <FlowStep.Next>
                       <FlowStep x:Name="__ReferenceID3" sap2010:WorkflowViewState.IdRef="FlowStep_2">
                         <Assign DisplayName="Завершение" sap2010:WorkflowViewState.IdRef="Assign_5">
                           <Assign.To>
@@ -329,26 +329,26 @@
                           </Assign.Value>
                         </Assign>
                       </FlowStep>
-                    </FlowDecision.True>
-                    <FlowDecision.False>
-                      <FlowStep x:Name="__ReferenceID4" sap2010:WorkflowViewState.IdRef="FlowStep_3">
-                        <Assign DisplayName="Завершение" sap2010:WorkflowViewState.IdRef="Assign_6">
-                          <Assign.To>
-                            <OutArgument x:TypeArguments="local:DocumentState">
-                              <mca:CSharpReference x:TypeArguments="local:DocumentState">outputStep</mca:CSharpReference>
-                            </OutArgument>
-                          </Assign.To>
-                          <Assign.Value>
-                            <InArgument x:TypeArguments="local:DocumentState">
-                              <mca:CSharpValue x:TypeArguments="local:DocumentState">DocumentState.Cancelled</mca:CSharpValue>
-                            </InArgument>
-                          </Assign.Value>
-                        </Assign>
-                      </FlowStep>
-                    </FlowDecision.False>
-                  </FlowDecision>
-                </FlowStep.Next>
-              </FlowStep>
+                    </FlowStep.Next>
+                  </FlowStep>
+                </FlowDecision.True>
+                <FlowDecision.False>
+                  <FlowStep x:Name="__ReferenceID4" sap2010:WorkflowViewState.IdRef="FlowStep_3">
+                    <Assign DisplayName="Завершение" sap2010:WorkflowViewState.IdRef="Assign_6">
+                      <Assign.To>
+                        <OutArgument x:TypeArguments="local:DocumentState">
+                          <mca:CSharpReference x:TypeArguments="local:DocumentState">outputStep</mca:CSharpReference>
+                        </OutArgument>
+                      </Assign.To>
+                      <Assign.Value>
+                        <InArgument x:TypeArguments="local:DocumentState">
+                          <mca:CSharpValue x:TypeArguments="local:DocumentState">DocumentState.Cancelled</mca:CSharpValue>
+                        </InArgument>
+                      </Assign.Value>
+                    </Assign>
+                  </FlowStep>
+                </FlowDecision.False>
+              </FlowDecision>
             </FlowStep.Next>
           </FlowStep>
         </FlowStep.Next>
@@ -360,7 +360,7 @@
     <x:Reference>__ReferenceID3</x:Reference>
     <x:Reference>__ReferenceID4</x:Reference>
     <x:Reference>__ReferenceID5</x:Reference>
-    <sads:DebugSymbol.Symbol>d29DOlxVc2Vyc1xEbVNoa2EuQUxUWU5UQVVcRGVza3RvcFxHaXRIdWJcRG9jRmxvd1xEb2NmbG93XFJhcGlkRG9jXEFjdGl2aXRpZXNcVVNSX1RBU19EYWlseVRhc2tzUHJvbG9uZ2F0aW9uLnhhbWwzHAccZwEDAZ0BAaMBAQKHAQPsAg8CAQGLATWLATwCAQOMATOMATYCAQKQAQmbARIDAfYCngENpAIXAgFnpwIRtwIzAgFCuwIXuwJ7AgE2zwIZ2gIiAgEdvwIZygIiAgEEmAEPmAG8AQMBgwOTAQ+TAYYBAwH3AqEBE6EBiQEDAeoCqAERogIWAgFoqgIXqgKBAQIBW68CF68CdgIBT7QCF7QCZQIBQ9cCH9cCfwIBKtICH9ICegIBHscCH8cCfAIBEcICH8ICegIBBasBF6sBZwIBaa8BFaACIAIBdrABF7sBIAMBzwK8ARflAT4DAeUB5gEXgAI4AwGjAYECF58CHAIBd7gBHbgBbQMB3QKzAR2zAXEDAdACzgEdzgFvAwHCArwB/wG8AYYCAwHBAt0BHd0BcgMBtALYAR3YAW8DAacC4gEd4gF4AwGaAr8BHb8BaQMBjQLTAR3TAXsDAYACyQEdyQFoAwHzAcQBHcQBawMB5gHuAR3uAW8DAdgB8wEd8wFzAwHLAekBHekBZwMBvgH9AR39AXgDAbEB+AEd+AGJAQMBpAGEAh2EAoEBAgF4iAIbkQIkAwGUAZQCG50CJAMBhQGPAkePAkwDAaIBiwIhiwJwAwGVAZsCR5sCSwMBkwGXAiGXAnADAYYB</sads:DebugSymbol.Symbol>
+    <sads:DebugSymbol.Symbol>d2BDOlxVc2Vyc1xpZ2RtaXRcU291cmNlXFJlcG9zXERvY2Zsb3dSZXBvXFJhcGlkRG9jXEFjdGl2aXRpZXNcVVNSX1RBU19EYWlseVRhc2tzUHJvbG9uZ2F0aW9uLnhhbWwzHAccZwEDAZ0BAaMBAQKHAQPsAg8CAQGLATWLATwCAQOMATOMATYCAQKQAQmbARIDAfYCngENpAIXAgFnqAITqAJ3AgFb0QIV3AIeAgFCrAIVvAI3AgEdvwIZygIiAgEEmAEPmAG8AQMBgwOTAQ+TAYYBAwH3AqEBE6EBiQEDAeoCqAERogIWAgFo2QIb2QJ7AgFP1AIb1AJ2AgFDrwIbrwKFAQIBNrQCG7QCegIBKrkCG7kCaQIBHscCH8cCfAIBEcICH8ICegIBBasBF6sBZwIBaa8BFaACIAIBdrABF7sBIAMBzwK8ARflAT4DAeUB5gEXgAI4AwGjAYECF58CHAIBd7gBHbgBbQMB3QKzAR2zAXEDAdACzgEdzgFvAwHCArwB/wG8AYYCAwHBAt0BHd0BcgMBtALYAR3YAW8DAacC4gEd4gF4AwGaAr8BHb8BaQMBjQLTAR3TAXsDAYACyQEdyQFoAwHzAcQBHcQBawMB5gHuAR3uAW8DAdgB8wEd8wFzAwHLAekBHekBZwMBvgH9AR39AXgDAbEB+AEd+AGJAQMBpAGEAh2EAoEBAgF4iAIbkQIkAwGUAZQCG50CJAMBhQGPAkePAkwDAaIBiwIhiwJwAwGVAZsCR5sCSwMBkwGXAiGXAnADAYYB</sads:DebugSymbol.Symbol>
   </Flowchart>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>
@@ -409,8 +409,17 @@
       <sap2010:ViewStateData Id="FlowStep_2">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
-            <av:Point x:Key="ShapeLocation">59,519</av:Point>
+            <av:Point x:Key="ShapeLocation">39,509</av:Point>
             <av:Size x:Key="ShapeSize">242,62</av:Size>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_5">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">60,429</av:Point>
+            <av:Size x:Key="ShapeSize">200,22</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">160,451 160,509</av:PointCollection>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
@@ -424,30 +433,21 @@
       <sap2010:ViewStateData Id="FlowStep_3">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
-            <av:Point x:Key="ShapeLocation">449,519</av:Point>
+            <av:Point x:Key="ShapeLocation">449,439</av:Point>
             <av:Size x:Key="ShapeSize">242,62</av:Size>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="FlowDecision_1" sap:VirtualizedContainerService.HintSize="103,87">
+      <sap2010:ViewStateData Id="FlowDecision_1" sap:VirtualizedContainerService.HintSize="101,87">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-            <av:Point x:Key="ShapeLocation">308.5,406.5</av:Point>
-            <av:Size x:Key="ShapeSize">103,87</av:Size>
+            <av:Point x:Key="ShapeLocation">308.5,326.5</av:Point>
+            <av:Size x:Key="ShapeSize">101,87</av:Size>
             <x:String x:Key="FalseLabel">Cancelled</x:String>
             <x:String x:Key="TrueLabel">Agreement</x:String>
-            <av:PointCollection x:Key="TrueConnector">308.5,450 180,450 180,519</av:PointCollection>
-            <av:PointCollection x:Key="FalseConnector">411.5,450 570,450 570,519</av:PointCollection>
-          </scg:Dictionary>
-        </sap:WorkflowViewStateService.ViewState>
-      </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="FlowStep_5">
-        <sap:WorkflowViewStateService.ViewState>
-          <scg:Dictionary x:TypeArguments="x:String, x:Object">
-            <av:Point x:Key="ShapeLocation">260,329</av:Point>
-            <av:Size x:Key="ShapeSize">200,22</av:Size>
-            <av:PointCollection x:Key="ConnectorLocation">360,351 360,406.5</av:PointCollection>
+            <av:PointCollection x:Key="TrueConnector">308.5,370 160,370 160,429</av:PointCollection>
+            <av:PointCollection x:Key="FalseConnector">409.5,370 570,370 570,439</av:PointCollection>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
@@ -456,7 +456,7 @@
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <av:Point x:Key="ShapeLocation">260,224.5</av:Point>
             <av:Size x:Key="ShapeSize">200,51</av:Size>
-            <av:PointCollection x:Key="ConnectorLocation">360,275.5 360,329</av:PointCollection>
+            <av:PointCollection x:Key="ConnectorLocation">360,275.5 360,305.5 359,305.5 359,326.5</av:PointCollection>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
@@ -469,7 +469,7 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="Flowchart_1" sap:VirtualizedContainerService.HintSize="994,636">
+      <sap2010:ViewStateData Id="Flowchart_1" sap:VirtualizedContainerService.HintSize="994,787">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">False</x:Boolean>
@@ -477,6 +477,7 @@
             <av:Size x:Key="ShapeSize">60,75</av:Size>
             <av:PointCollection x:Key="ConnectorLocation">360,97.5 360,129</av:PointCollection>
             <x:Double x:Key="Width">980.5</x:Double>
+            <x:Double x:Key="Height">751</x:Double>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>

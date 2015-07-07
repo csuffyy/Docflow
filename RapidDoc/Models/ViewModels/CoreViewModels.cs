@@ -66,6 +66,10 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "NumberSeriesPrefix", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public string Prefix { get; set; }
 
+        [StringLength(256, ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisLong")]
+        [Display(Name = "TableName", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public string TableName { get; set; }
+
         [Range(3, 10, ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorRangeNumberSeqSize")]
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         [Display(Name = "NumberSeriesSize", ResourceType = typeof(FieldNameRes.FieldNameResource))]
@@ -73,6 +77,24 @@ namespace RapidDoc.Models.ViewModels
 
         [Display(Name = "NumberSeriesLastNum", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public int LastNum { get; set; }
+    }
+
+    public class NumberSeriesBookingView : BasicView
+    {
+        public Guid NumberSeriesTableId { get; set; }
+
+        [StringLength(5, ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisLong")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "NumberSeriesPrefix", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public string Prefix { get; set; }
+
+        [Display(Name = "NumberSeriesLastNum", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public int LastNum { get; set; }
+
+        [Display(Name = "Enable", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public bool Enable { get; set; }
+
+        public string NumberSeq { get; set; }
     }
 
     public class WorkScheduleView : BasicView

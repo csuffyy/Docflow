@@ -24,10 +24,14 @@ namespace RapidDoc.Models.Services
         private readonly IServiceIncidentService _ServiceIncidentService;
         private readonly ITripSettingsService _TripSettingsService;
         private readonly IWorkflowTrackerService _WorkflowTrackerService;
+        private readonly ISystemService _SystemService;
+        private readonly IEmplService _EmplService;
 
-        public CustomCheckDocument(IWorkflowTrackerService workflowTrackerService, IServiceIncidentService serviceIncidentService, ITripSettingsService tripSettingsService)
+        public CustomCheckDocument(IEmplService emplService, IWorkflowTrackerService workflowTrackerService, IServiceIncidentService serviceIncidentService, ITripSettingsService tripSettingsService, ISystemService systemService)
         {
             _WorkflowTrackerService = workflowTrackerService;
+            _SystemService = systemService;
+            _EmplService = emplService;
 
             //Custom
             _ServiceIncidentService = serviceIncidentService;
@@ -1249,6 +1253,29 @@ namespace RapidDoc.Models.Services
                     TripSettingsTable tripSettingsTable = _TripSettingsService.FirstOrDefault(x => x.EmplTripType == emplTripType4 && x.TripDirection == tripDirection4);
                     actionModel.DayRate4 = tripSettingsTable.DayRate;
                     actionModel.ResidenceRate4 = tripSettingsTable.ResidenceRate;
+                }
+            }
+
+            if (type == (new USR_ORD_MainActivity_View()).GetType())
+            {
+                if (!String.IsNullOrEmpty(actionModel.Sign))
+                {
+                    string[] arrayGuid = _SystemService.GuidsFromText(actionModel.Sign);
+                    if (arrayGuid != null)
+                    {
+                        string guidstr = arrayGuid.FirstOrDefault();
+                        Guid guidId = Guid.Parse(guidstr);
+                        EmplTable empl = _EmplService.Find(guidId);
+                        if (empl != null && empl.TitleTable != null)
+                        {
+                            if (String.IsNullOrEmpty(empl.TitleTable.TitleNameKZ))
+                                actionModel.SignTitle = empl.TitleTable.TitleName;
+                            else
+                                actionModel.SignTitle = empl.TitleTable.TitleNameKZ;
+
+                            actionModel.SignName = empl.ShortFullNameType3;
+                        }
+                    }
                 }
             }
 

@@ -12,6 +12,9 @@ namespace RapidDoc.Models.DomainModels
         [Required]
         public string TitleName { get; set; }
 
+        [StringLength(256)]
+        public string TitleNameKZ { get; set; }
+
         public bool isIntegratedLDAP { get; set; }
 
         public Guid? ProfileTableId { get; set; }
@@ -191,6 +194,22 @@ namespace RapidDoc.Models.DomainModels
             get
             {
                 return (SecondName + "_" + FirstName.Substring(0, 1) + ".");
+            }
+        }
+
+        public string ShortFullNameType2
+        {
+            get
+            {
+                return (SecondName + " " + FirstName.Substring(0, 1) + "." + MiddleName.Substring(0, 1));
+            }
+        }
+
+        public string ShortFullNameType3
+        {
+            get
+            {
+                return (FirstName.Substring(0, 1) + ". " + SecondName);
             }
         }
     }

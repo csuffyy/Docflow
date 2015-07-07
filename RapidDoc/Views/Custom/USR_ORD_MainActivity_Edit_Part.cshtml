@@ -1,0 +1,120 @@
+﻿@model RapidDoc.Models.ViewModels.USR_ORD_MainActivity_View
+@using RapidDoc.Extensions;
+
+@Html.HiddenFor(model => model.Id)
+@Html.HiddenFor(model => model.DocumentTableId)
+@Html.HiddenFor(model => model.NeedTranslate)
+@Html.HiddenFor(model => model.ListAgreement)
+@Html.HiddenFor(model => model.ListSubcription)
+@Html.HiddenFor(model => model.Sign)
+
+<div class="row">
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.OrderDate)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.OrderDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", data_date_format = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.ToLower(), placeholder = "Дата приказа", startDate = "" })
+        </div>
+    </div>
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.ControlDate)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.ControlDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", data_date_format = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.ToLower(), placeholder = "Срок исполнения", startDate = "" })
+        </div>
+    </div>
+    <div class="col-xs-8">
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ItemCauseNumber)
+        </div>
+        <div class="row">
+            <div class="col-xs-2">
+                <div class="editor-field">
+                    <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target=".itemcause-modal">@UIElementRes.UIElement.Choose...</button>
+                </div>
+            </div>
+            <div class="col-xs-10">
+                @Html.HiddenFor(model => Model.ItemCauseTableId)
+                <span id="ItemCauseNumber">@Html.DisplayTextFor(model => Model.ItemCauseNumber)</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.CancelOrder)
+        </div>
+        <div class="editor-field">
+            <div class="row">
+                <div class="col-xs-2">
+                    <div class="editor-field">
+                        @Html.CheckBoxFor(model => model.CancelOrder)
+                    </div>
+                </div>
+                <div class="col-xs-10">
+                    <div class="editor-field">
+                        @Html.Action("GetRevocationORD", "Custom", new { id = Model.CancelDocumentId, edit = true })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<hr />
+<div class="form-group">
+    <div class="input-group">
+        <span class="input-group-addon">
+            <span class="fa fa-tags fa-lg"></span>
+        </span>
+        @Html.TextBoxFor(model => Model.Subject, new { @class = "form-control", @size = 256, @maxlength = 256, placeholder = "Тема" })
+    </div>
+</div>
+<h4>БҰЙРЫҚ</h4>
+<div class="editor-field">
+    @Html.TextAreaFor(model => Model.MainField, new { @class = "form-control summernote" })
+</div>
+<h4>ПРИКАЗ</h4>
+<div class="editor-field">
+    @Html.TextAreaFor(model => Model.MainFieldTranslate, new { @class = "form-control summernote" })
+</div>
+
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.SignTitle)
+</div>
+<div class="editor-field">
+    @Html.TextBoxFor(model => Model.SignTitle, new { @class = "form-control", placeholder = "Должность" })
+</div>
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.SignName)
+</div>
+<div class="editor-field">
+    @Html.TextBoxFor(model => Model.SignName, new { @class = "form-control", placeholder = "ФИО" })
+</div>
+
+<div class="modal fade itemcause-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sidebar">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">@CustomRes.Custom.ItemCause</h4>
+            </div>
+            <div class="modal-body" style="min-height:700px;">
+                @Html.Action("ItemCausesListLookup", "ItemCause")
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        document.getElementById('buttoncancelorder').style.visibility = 'visible';
+        $('.itemcauseslink').click(function (event) {
+            var element = $(event.target);
+            $('#ItemCauseTableId').val(element.attr('data-itemid'));
+            $('#ItemCauseNumber').text(element.text());
+        });
+    });
+</script>

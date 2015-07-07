@@ -363,4 +363,7 @@
   <data name="Notify" xml:space="preserve">
     <value>Notify about reading</value>
   </data>
+  <data name="TitleNameKZ" xml:space="preserve">
+    <value>Title name KZ</value>
+  </data>
 </root>

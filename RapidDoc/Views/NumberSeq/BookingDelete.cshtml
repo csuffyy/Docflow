@@ -1,0 +1,35 @@
+﻿@model RapidDoc.Models.ViewModels.NumberSeriesBookingView
+
+@{
+    ViewBag.Title = UIElementRes.UIElement.Delete;
+}
+
+<h2>@UIElementRes.UIElement.Delete</h2>
+
+<h3>@UIElementRes.UIElement.СonfirmDeletion</h3>
+<fieldset>
+    <legend></legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Prefix)
+    </div>
+    <div class="display-field text-danger">
+        @Html.DisplayFor(model => model.Prefix)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.LastNum)
+    </div>
+    <div class="display-field text-danger">
+        @Html.DisplayFor(model => model.LastNum)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+    <br>
+    <p>
+        <input class="btn btn-primary btn-sm" type="submit" value=@UIElementRes.UIElement.Delete />
+        @Html.ActionLink(UIElementRes.UIElement.Back, "Booking")
+    </p>
+}

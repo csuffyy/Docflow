@@ -81,6 +81,55 @@ namespace RapidDoc.Models.DomainModels
         public string RefDocNum { get; set; }
 
         public bool Separated { get; set; }
-    
+    }
+
+    public abstract class BasicOrderTable : BasicDocumentTable
+    {
+        [Required]
+        public Guid? ItemCauseTableId { get; set; }
+        public virtual ItemCauseTable ItemCauseTable { get; set; }
+
+        public string ItemCauseNumber
+        {
+            get
+            {
+                if (this.ItemCauseTable != null)
+                    return this.ItemCauseTable.CaseNumber + " - " + this.ItemCauseTable.CaseName;
+
+                return String.Empty;
+            }
+        }
+
+        public string OrderNum { get; set; }
+        public DateTime? OrderDate { get; set; }
+
+        [Required]
+        public string Subject { get; set; }
+
+        [Required]
+        public string MainField { get; set; }
+        public string MainFieldTranslate { get; set; }
+        public bool NeedTranslate { get; set; }
+        public bool CancelOrder { get; set; }
+        public Guid? CancelDocumentId { get; set; }
+
+        public bool Addition { get; set; }
+        public bool Executed { get; set; }
+
+        [Required]
+        public string ListAgreement { get; set; }
+
+        [Required]
+        public string ListSubcription { get; set; }
+        public DateTime? ControlDate { get; set; }
+        public string ControlUsers { get; set; }
+
+        [Required]
+        public string Sign { get; set; }
+        public string SignName { get; set; }
+        public string SignTitle { get; set; }
+
+        public Guid? NumberSeriesBookingTableId { get; set; }
+        public virtual NumberSeriesBookingTable NumberSeriesBookingTable { get; set; }
     }
 }

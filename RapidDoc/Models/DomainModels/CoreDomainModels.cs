@@ -66,6 +66,9 @@ namespace RapidDoc.Models.DomainModels
         [Required]
         public string Prefix { get; set; }
 
+        [StringLength(256)]
+        public string TableName { get; set; }
+
         [Range(3, 10)]
         [Required]
         public int Size { get; set; }
@@ -73,6 +76,27 @@ namespace RapidDoc.Models.DomainModels
         public int LastNum { get; set; }
 
         public IEnumerable<GroupProcessTable> GroupProcessTables { get; set; }
+    }
+
+    public class NumberSeriesBookingTable : BasicTable
+    {
+        public Guid NumberSeriesTableId { get; set; }
+        public IEnumerable<NumberSeriesTable> NumberSeriesTables { get; set; }
+
+        [StringLength(5)]
+        [Required]
+        public string Prefix { get; set; }
+        public int LastNum { get; set; }
+
+        public bool Enable { get; set; }
+
+        public string NumberSeq
+        {
+            get
+            {
+                return this.LastNum.ToString() + "-" + this.Prefix;
+            }
+        }
     }
 
     public class WorkScheduleTable : BasicTable

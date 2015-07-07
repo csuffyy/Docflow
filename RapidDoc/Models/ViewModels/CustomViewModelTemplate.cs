@@ -97,4 +97,73 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Отдельная карточка каждому исполнителю")]
         public bool Separated { get; set; }
     }
+
+    public abstract class BasicOrderView : BasicDocumentView
+    {
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Номенклатурное дело")]
+        public Guid? ItemCauseTableId { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Номенклатурное дело")]
+        public string ItemCauseNumber { get; set; }
+
+        [Display(Name = "Номер приказа")]
+        public string OrderNum { get; set; }
+
+        [Display(Name = "Дата приказа")]
+        public DateTime? OrderDate { get; set; }
+
+        [Display(Name = "Тема")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string Subject { get; set; }
+
+        [Display(Name = "Текст приказа")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string MainField { get; set; }
+
+        [Display(Name = "Текст приказа (перевод)")]
+        public string MainFieldTranslate { get; set; }
+
+        [Display(Name = "Требуется перевод")]
+        public bool NeedTranslate { get; set; }
+
+        [Display(Name = "Аннулировать приказ")]
+        public bool CancelOrder { get; set; }
+
+        public Guid? CancelDocumentId { get; set; }
+
+        [Display(Name = "Дополнение")]
+        public bool Addition { get; set; }
+
+        [Display(Name = "Исполнен")]
+        public bool Executed { get; set; }
+
+        [Display(Name = "Список согласования")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string ListAgreement { get; set; }
+
+        [Display(Name = "Список рассылки")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string ListSubcription { get; set; }
+
+        [Display(Name = "Срок исполнения")]
+        public DateTime? ControlDate { get; set; }
+
+        [Display(Name = "Поставить на контроль")]
+        public string ControlUsers { get; set; }
+
+        [Display(Name = "Подпись")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string Sign { get; set; }
+
+        [Display(Name = "ФИО")]
+        public string SignName { get; set; }
+
+        [Display(Name = "Должность")]
+        public string SignTitle { get; set; }
+
+        [Display(Name = "Забронированные номера")]
+        public Guid? NumberSeriesBookingTableId { get; set; }
+    }
 }

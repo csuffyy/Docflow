@@ -41,7 +41,7 @@ namespace RapidDoc.Models.Services
         WFUserFunctionResult WFUsersDocument(Guid documentId, string currentUserId);
         WFUserFunctionResult WFChooseManual(Guid documentId, Dictionary<string, Object> documentData, string manualKey, string currentUserId);
         string WFChooseSpecificUserFromService(string serviceName, ServiceIncidientPriority priority, ServiceIncidientLevel level, ServiceIncidientLocation location);
-        void RunWorkflow(DocumentTable documentTable, string TableName, IDictionary<string, object> documentData);
+        void RunWorkflow(DocumentTable documentTable, string TableName, IDictionary<string, object> documentData, string currentUserId = "");
         void AgreementWorkflowApprove(Guid documentId, string TableName, Guid WWFInstanceId, Guid processId, IDictionary<string, object> documentData);
         void AgreementWorkflowReject(Guid documentId, string TableName, Guid WWFInstanceId, Guid processId, IDictionary<string, object> documentData);
         void AgreementWorkflowWithdraw(Guid documentId, string TableName, Guid WWFInstanceId, Guid processId);
@@ -49,8 +49,8 @@ namespace RapidDoc.Models.Services
         List<Array> GetRequestTree(Activity activity, IDictionary<string, object> documentData, string _parallel = "");
         List<Array> GetTrackerList(Guid documentId, Activity activity, IDictionary<string, object> documentData, DocumentType documentType);
         List<string> GetUniqueUserList(Guid documentId, IDictionary<string, object> documentData, string nameField);
+        List<string> EmplAndRolesToUserList(string[] list);
         void CreateDynamicTracker(List<string> users, Guid documentId, string currentUserId, bool parallel, string additionalText = "");
-        void UpdateProlongationDate(Guid refDocumentid, DateTime prolongationDate, string currentUserId);
     }
 
     public class WorkflowService : IWorkflowService
@@ -158,11 +158,7 @@ namespace RapidDoc.Models.Services
             
             if ((string)documentData[manualKey] != "" )
             {              
-                string users = (string)documentData[manualKey];
-                string[] array = users.Split(',');
-                Regex isGuid = new Regex(@"^(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}$", RegexOptions.Compiled);
-                string[] result = array.Where(a => isGuid.IsMatch(a) == true).ToArray();
-
+                string[] result = _DocumentService.GetUserListFromStructure((string)documentData[manualKey]);
                 foreach (var item in result)
                 {
                     Guid emplId = Guid.Parse(item);
@@ -230,11 +226,7 @@ namespace RapidDoc.Models.Services
             {
                 if(domainTable.Users != null)
                 {
-                    string users = domainTable.Users;
-                    string[] array = users.Split(',');
-                    Regex isGuid = new Regex(@"^(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}$", RegexOptions.Compiled);
-                    string[] result = array.Where(a => isGuid.IsMatch(a) == true).ToArray();
-
+                    string[] result = _DocumentService.GetUserListFromStructure(domainTable.Users);
                     foreach(var item in result)
                     {
                         Guid emplId = Guid.Parse(item);
@@ -264,13 +256,13 @@ namespace RapidDoc.Models.Services
 
             return String.Empty;
         }
-        public void RunWorkflow(DocumentTable documentTable, string TableName, IDictionary<string, object> documentData)
+        public void RunWorkflow(DocumentTable documentTable, string TableName, IDictionary<string, object> documentData, string currentUserId = "")
         {        
             SqlWorkflowInstanceStore instanceStore = SetupInstanceStore();
             FileTable fileTableWF = GetActualFileWF(TableName, documentTable);
             Activity activity = ChooseActualWorkflow(TableName, fileTableWF);
-            _WorkflowTrackerService.SaveTrackList(documentTable.Id, this.GetTrackerList(documentTable.Id, activity, documentData, documentTable.DocType));     
-            StartAndPersistInstance(documentTable.Id, DocumentState.Agreement, documentData, instanceStore, activity, fileTableWF); 
+            _WorkflowTrackerService.SaveTrackList(documentTable.Id, this.GetTrackerList(documentTable.Id, activity, documentData, documentTable.DocType), currentUserId);
+            StartAndPersistInstance(documentTable.Id, DocumentState.Agreement, documentData, instanceStore, activity, fileTableWF, currentUserId); 
             DeleteInstanceStoreOwner(instanceStore);
             _EmailService.SendExecutorEmail(documentTable.Id, documentData.ContainsKey("AdditionalText") ? (string)documentData["AdditionalText"] : "");
             if (documentTable.IsNotified == true)
@@ -342,12 +334,12 @@ namespace RapidDoc.Models.Services
             InstanceView view = instanceStore.Execute(instanceStore.CreateInstanceHandle(instanceStore.DefaultInstanceOwner), new DeleteWorkflowOwnerCommand(), TimeSpan.FromSeconds(40));
         }
 
-        public void StartAndPersistInstance(Guid _documentId, DocumentState _state, IDictionary<string, object> documentData, SqlWorkflowInstanceStore instanceStore, Activity activity, FileTable fileTableWF)
+        public void StartAndPersistInstance(Guid _documentId, DocumentState _state, IDictionary<string, object> documentData, SqlWorkflowInstanceStore instanceStore, Activity activity, FileTable fileTableWF, string currentUserId = "")
         {
             AutoResetEvent instanceUnloaded = new AutoResetEvent(false);
             var documentTable = _DocumentService.Find(_documentId);
             IDictionary<string, object> inputArguments = new Dictionary<string, object>();
-            string currentUserId = HttpContext.Current.User.Identity.GetUserId();
+            currentUserId = getCurrentUserId(currentUserId);
 
             inputArguments.Add("inputStep" ,  _state);
             inputArguments.Add("inputDocumentId" ,  _documentId);
@@ -714,14 +706,35 @@ namespace RapidDoc.Models.Services
                 endListUsers.Add(new List<WFTrackerUsersTable> {new WFTrackerUsersTable { UserId = documentTable.ApplicationUserCreatedId }});
                 allSteps.Add(new string[3] { "Исполнитель", (++i).ToString(), "" });
                 _documentData.Add("endListUsers", endListUsers);
-                
-
+            }
+            if (activity.GetType() == typeof(WFSetUsersForOrder))
+            {
+                List<string> userList = (List<string>)_documentData["ListAgreement"];
+                foreach(string userId in userList)
+                {
+                    EmplTable empl = _EmplService.FirstOrDefault(x => x.ApplicationUserId == userId);
+                    string activityName = String.Empty;
+                    if(empl != null && empl.TitleTable != null)
+                    {
+                        activityName = empl.TitleTable.TitleName;
+                    }
+                    else
+                    {
+                        ApplicationUser user = repoUser.GetById(userId);
+                        activityName = user.UserName;
+                    }
+                    myIntArray.SetValue(activityName, 0);
+                    myIntArray.SetValue(activity.Id + userId, 1);
+                    myIntArray.SetValue(_parallel, 2);
+                    allSteps.Add(myIntArray);
+                    myIntArray = new string[3];
+                }
             }
 
             if ((activity is Parallel))
                 _parallel = activity.Id;
 
-            IEnumerator<Activity> list = WorkflowInspectionServices.GetActivities(activity).GetEnumerator();
+            IEnumerator<Activity> list = WorkflowInspectionServices.GetActivities(activity).Where(x => x.GetType() != typeof(EnvironmentLocationReference<List<String>>)).GetEnumerator();
 
             while (list.MoveNext())
             {
@@ -752,6 +765,14 @@ namespace RapidDoc.Models.Services
                 case DocumentType.Task:
                     allSteps = this.GetRequestTree(activity, documentData);
                     break;
+                case DocumentType.Order:
+                    List<string> usersOrder = this.GetUniqueUserList(documentId, documentData, "ListAgreement");
+                    documentData["ListAgreement"] = usersOrder;
+                    allSteps = this.GetRequestTree(activity, documentData);
+                    break;
+                default:
+                    allSteps = this.GetRequestTree(activity, documentData);
+                    break;
             }
             
             return allSteps;
@@ -763,7 +784,6 @@ namespace RapidDoc.Models.Services
             List<string> ofmList = new List<string>();
             string initailStructure = (string)documentData[nameField];
             string[] arrayTempStructrue = initailStructure.Split(',');
-            ofmList.Clear();
 
             Regex isGuid = new Regex(@"^(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}$", RegexOptions.Compiled);
             string[] arrayStructure = arrayTempStructrue.Where(a => isGuid.IsMatch(a) == true).ToArray();
@@ -804,6 +824,41 @@ namespace RapidDoc.Models.Services
                                     else
                                         ofmList.Add(userRole.UserId);
                                 }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return ofmList;
+        }
+
+        public List<string> EmplAndRolesToUserList(string[] list)
+        {
+            List<string> ofmList = new List<string>();
+
+            foreach (string emplIdStr in list)
+            {
+                Guid emplId = Guid.Parse(emplIdStr);
+                var emplTable = _EmplService.FirstOrDefault(x => x.Id == emplId && x.Enable == true);
+
+                if (emplTable != null && !ofmList.Exists(x => x == emplTable.ApplicationUserId))
+                {
+                    ofmList.Add(emplTable.ApplicationUserId);
+                }
+                else
+                {
+                    RoleManager<ApplicationRole> RoleManager = new RoleManager<ApplicationRole>(new RoleStore<ApplicationRole>(_uow.GetDbContext<ApplicationDbContext>()));
+                    ApplicationRole role = RoleManager.FindById(emplIdStr);
+                    if (role != null && role.Users != null && role.Users.Count() > 0)
+                    {
+                        var empllist = _EmplService.GetPartialIntercompany(x => x.Enable == true).ToList();
+
+                        foreach (IdentityUserRole userRole in role.Users)
+                        {
+                            if (!ofmList.Exists(x => x == userRole.UserId) && empllist.Any(x => x.ApplicationUserId == userRole.UserId))
+                            {
+                                ofmList.Add(userRole.UserId);
                             }
                         }
                     }
@@ -946,18 +1001,16 @@ namespace RapidDoc.Models.Services
             _EmailService.SendNewExecutorEmail(documentId, reminderList, additionalText);
         }
 
-
-        public void UpdateProlongationDate(Guid refDocumentid, DateTime prolongationDate, string currentUserId)
+        private string getCurrentUserId(string currentUserId = "")
         {
-            ApplicationDbContext contextQuery = _uow.GetDbContext<ApplicationDbContext>();
-            DocumentTable documentTable = _DocumentService.Find(refDocumentid);
-            ProcessTable processTable = _ProcessService.FirstOrDefault(x => x.Id == documentTable.ProcessTableId);
-            ProcessView processView = _ProcessService.FindView(processTable.Id, currentUserId);
-
-            var documentIdNew = _DocumentService.GetDocumentView(_DocumentService.Find(refDocumentid).RefDocumentId, processTable.TableName);
-
-            documentIdNew.ProlongationDate = prolongationDate;
-            _DocumentService.UpdateDocumentFields(documentIdNew, processView);
+            if (currentUserId != string.Empty)
+            {
+                return currentUserId;
+            }
+            else
+            {
+                return HttpContext.Current.User.Identity.GetUserId();
+            }
         }
     }
 }

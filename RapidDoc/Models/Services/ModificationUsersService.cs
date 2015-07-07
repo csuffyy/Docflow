@@ -117,7 +117,7 @@ namespace RapidDoc.Models.Services
             {
                 DocumentTable docTable = _uow.GetRepository<DocumentTable>().GetById(item.DocumentTableId);
 
-                listModificationHierarchy.Add(new ModificationDocumentView { DocumentId = item.DocumentTableId, DocumentNum = docTable.DocumentNum, ParentDocumentId = parentDocumentId, Name = _EmplService.FirstOrDefault(x => x.ApplicationUserId == item.UserId).FullName, CreateDateTime = docTable.CreatedDate, Enable = (currentUserId == docTable.ApplicationUserCreatedId || item.UserId == currentUserId) ? true : false, NamesTo = this.GetModificationUserNamesFromDocument(item.DocumentTableId, item.UserId) });
+                listModificationHierarchy.Add(new ModificationDocumentView { DocumentId = item.DocumentTableId, DocumentNum = docTable.DocumentNum, ParentDocumentId = parentDocumentId, Name = _EmplService.FirstOrDefault(x => x.ApplicationUserId == item.UserId).FullName, CreateDateTime = docTable.CreatedDate, Enable = (currentUserId == docTable.ApplicationUserCreatedId || this.ContainDocumentUser(item.DocumentTableId, currentUserId)) ? true : false, NamesTo = this.GetModificationUserNamesFromDocument(item.DocumentTableId, item.UserId) });
                 listModificationHierarchy.AddRange(this.GetHierarchyModification(item.DocumentTableId));    
             }
 

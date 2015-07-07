@@ -23,6 +23,14 @@
         </div>
 
         <div class="editor-label">
+            @Html.LabelForRequired(model => model.TitleNameKZ)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.TitleNameKZ, new { @class = "form-control", @size = 256, @maxlength = 256, placeholder = "Specialist", @autofocus = "required", @x_webkit_speech = "" })
+            @Html.ValidationMessageFor(model => model.TitleNameKZ)
+        </div>
+
+        <div class="editor-label">
             @Html.LabelFor(model => model.ProfileName)
         </div>
         <div class="editor-field">

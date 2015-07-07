@@ -26,7 +26,7 @@ namespace RapidDoc.Activities.CodeActivities
         public InArgument<string> inputCurrentUser { get; set; }
 
         [Inject]
-        public IWorkflowService _service { get; set; }
+        public IDocumentService _service { get; set; }
 
         protected override void Execute(CodeActivityContext context)
         {
@@ -34,7 +34,7 @@ namespace RapidDoc.Activities.CodeActivities
             DateTime prolongationDate = context.GetValue(this.ProlongationDate);
             string currentUserId = context.GetValue(this.inputCurrentUser);
 
-            _service = DependencyResolver.Current.GetService<IWorkflowService>();
+            _service = DependencyResolver.Current.GetService<IDocumentService>();
             _service.UpdateProlongationDate(refDocId, prolongationDate, currentUserId);
 
         }

@@ -189,7 +189,7 @@
     </Flowchart.StartNode>
     <x:Reference>__ReferenceID0</x:Reference>
     <x:Reference>__ReferenceID1</x:Reference>
-    <sads:DebugSymbol.Symbol>d2NDOlxVc2Vyc1xEbVNoa2EuQUxUWU5UQVVcRGVza3RvcFxHaXRIdWJcRG9jRmxvd1xEb2NmbG93XFJhcGlkRG9jXEFjdGl2aXRpZXNcVVNSX1RBU19EYWlseVRhc2tzLnhhbWwPGgcaZwEDAYUBAYsBAQKFAQPBAQ8CAQGMAQmrASMCAReuAQ25ARYCAQKZAQ+ZAWECAUyMAc0BjAHUAQIBS6MBD6MBZAIBQZ4BD54BYQIBN6gBD6gBagIBLYwBvAGMAcIBAgEslAEPlAFaAgEijwEPjwFdAgEYtgETtgFwAgENsQETsQFuAgED</sads:DebugSymbol.Symbol>
+    <sads:DebugSymbol.Symbol>d1RDOlxVc2Vyc1xpZ2RtaXRcU291cmNlXFJlcG9zXERvY2Zsb3dSZXBvXFJhcGlkRG9jXEFjdGl2aXRpZXNcVVNSX1RBU19EYWlseVRhc2tzLnhhbWwPGgcaZwEDAYUBAYsBAQKFAQPBAQ8CAQGMAQmrASMCAReuAQ25ARYCAQKZAQ+ZAWECAUyMAc0BjAHUAQIBS6MBD6MBZAIBQZ4BD54BYQIBN6gBD6gBagIBLYwBvAGMAcIBAgEslAEPlAFaAgEijwEPjwFdAgEYtgETtgFwAgENsQETsQFuAgED</sads:DebugSymbol.Symbol>
   </Flowchart>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>
@@ -204,7 +204,7 @@
       <sap2010:ViewStateData Id="FlowStep_7">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
-            <av:Point x:Key="ShapeLocation">229,299</av:Point>
+            <av:Point x:Key="ShapeLocation">229,199</av:Point>
             <av:Size x:Key="ShapeSize">242,62</av:Size>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
@@ -212,24 +212,24 @@
       <sap2010:ViewStateData Id="FlowStep_13">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
-            <av:Point x:Key="ShapeLocation">250,189</av:Point>
+            <av:Point x:Key="ShapeLocation">250,139</av:Point>
             <av:Size x:Key="ShapeSize">200,22</av:Size>
-            <av:PointCollection x:Key="ConnectorLocation">350,211 350,299</av:PointCollection>
+            <av:PointCollection x:Key="ConnectorLocation">350,161 350,199</av:PointCollection>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="Flowchart_2" sap:VirtualizedContainerService.HintSize="784,636">
+      <sap2010:ViewStateData Id="Flowchart_2" sap:VirtualizedContainerService.HintSize="804,636">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">False</x:Boolean>
-            <av:Point x:Key="ShapeLocation">330,22.5</av:Point>
+            <av:Point x:Key="ShapeLocation">320,22.5</av:Point>
             <av:Size x:Key="ShapeSize">60,75</av:Size>
-            <av:PointCollection x:Key="ConnectorLocation">360,97.5 360,127.5 350,127.5 350,189</av:PointCollection>
-            <x:Double x:Key="Width">770</x:Double>
+            <av:PointCollection x:Key="ConnectorLocation">350,97.5 350,139</av:PointCollection>
+            <x:Double x:Key="Width">790</x:Double>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="RapidDoc.Activities.USR_TAS_DailyTasks_1" sap:VirtualizedContainerService.HintSize="824,716" />
+      <sap2010:ViewStateData Id="RapidDoc.Activities.USR_TAS_DailyTasks_1" sap:VirtualizedContainerService.HintSize="844,716" />
     </sap2010:ViewStateManager>
   </sap2010:WorkflowViewState.ViewStateManager>
 </Activity>

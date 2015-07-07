@@ -54,6 +54,7 @@ namespace RapidDoc.Models.Services
         void SendNewModificationUserEmail(Guid documentId, string userId, string additionalTextCZ = "");
         void SendNoteReadyModificationUserEmail(Guid documentId, string userId, string additionalTextCZ = "");
         void SendNotificationForUserEmail(Guid documentId, string userId, string additionalTextCZ = "");
+        void SendORDForUserEmail(Guid documentId, List<string> users, dynamic model);
     }
 
     public class EmailService : IEmailService
@@ -979,6 +980,42 @@ namespace RapidDoc.Models.Services
                     Thread.CurrentThread.CurrentUICulture = ci;
                 }).Start();
             }
+        }
+
+        public void SendORDForUserEmail(Guid documentId, List<string> users, dynamic model)
+        {
+            var documentTable = _DocumentService.Find(documentId);
+            if (documentTable == null)
+                return;
+
+            List<string> emailList = repoUser.FindAll(x => users.Contains(x.Id) && x.Email != String.Empty).GroupBy(x => x.Email).Select(x => x.Key).ToList();
+
+            if (emailList == null || emailList.Count == 0)
+                return;
+
+            string documentUri = "http://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id + "?isAfterView=true";
+            
+            EmailParameterTable emailParameter = FirstOrDefault(x => x.SmtpServer != String.Empty);
+            if (emailParameter == null)
+                return;
+
+            string processName = documentTable.ProcessName;
+
+            new Task(() =>
+            {
+                string absFile = HostingEnvironment.ApplicationPhysicalPath + @"Views\\EmailTemplate\\ORDEmailTemplate.cshtml";
+                string razorText = System.IO.File.ReadAllText(absFile);
+
+                string currentLang = Thread.CurrentThread.CurrentCulture.Name;
+                CultureInfo ci = CultureInfo.GetCultureInfo("ru-RU");
+                Thread.CurrentThread.CurrentCulture = ci;
+                Thread.CurrentThread.CurrentUICulture = ci;
+                string body = Razor.Parse(razorText, new { DocumentNum = String.Format("{0} - {1}", documentTable.DocumentNum, processName), DocumentUri = documentUri, OrderNum = model.OrderNum, OrderDate = model.OrderDate.ToShortDateString(), Subject = model.Subject, MainField = model.MainField, MainFieldTranslate = model.MainFieldTranslate, SignTitle = model.SignTitle, SignName = model.SignName }, "emailORD");
+                SendEmail(emailParameter, emailList.ToArray(), new string[] { }, String.Format("Приказ [{0}]", documentTable.DocumentNum), body);
+                ci = CultureInfo.GetCultureInfo(currentLang);
+                Thread.CurrentThread.CurrentCulture = ci;
+                Thread.CurrentThread.CurrentUICulture = ci;
+            }).Start();
         }
     }
 }

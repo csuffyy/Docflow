@@ -372,4 +372,7 @@
   <data name="Notify" xml:space="preserve">
     <value>Уведомление о прочтении</value>
   </data>
+  <data name="TitleNameKZ" xml:space="preserve">
+    <value>Должность KZ</value>
+  </data>
 </root>

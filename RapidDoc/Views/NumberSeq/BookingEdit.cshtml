@@ -1,0 +1,34 @@
+﻿@model RapidDoc.Models.ViewModels.NumberSeriesBookingView
+@using RapidDoc.Extensions;
+
+@{
+    ViewBag.Title = UIElementRes.UIElement.Edit;
+}
+
+<h2>@UIElementRes.UIElement.Edit</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend></legend>
+        @Html.HiddenFor(model => model.NumberSeriesTableId)
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Prefix)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Prefix, new { @class = "form-control", @size = 5, @maxlength = 5, placeholder = "RQN" })
+            @Html.ValidationMessageFor(model => model.Prefix)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.LastNum)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.LastNum, new { @class = "form-control bfh-number" })
+            @Html.ValidationMessageFor(model => model.LastNum)
+        </div>
+        @{Html.RenderPartial("SaveBackBtn");}
+    </fieldset>
+}

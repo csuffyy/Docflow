@@ -772,6 +772,15 @@ namespace FieldNameRes {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Должность KZ.
+        /// </summary>
+        public static string TitleNameKZ {
+            get {
+                return ResourceManager.GetString("TitleNameKZ", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Тип.
         /// </summary>
         public static string Type {

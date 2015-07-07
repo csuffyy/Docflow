@@ -363,4 +363,7 @@
   <data name="Notify" xml:space="preserve">
     <value>-</value>
   </data>
+  <data name="TitleNameKZ" xml:space="preserve">
+    <value>Лауазымы KZ</value>
+  </data>
 </root>

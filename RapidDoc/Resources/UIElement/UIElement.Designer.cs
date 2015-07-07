@@ -187,6 +187,15 @@ namespace UIElementRes {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Забронировать.
+        /// </summary>
+        public static string Booking {
+            get {
+                return ResourceManager.GetString("Booking", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Календарь.
         /// </summary>
         public static string Calendar {
@@ -1110,6 +1119,15 @@ namespace UIElementRes {
         public static string ResetPassword {
             get {
                 return ResourceManager.GetString("ResetPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Аннулирование.
+        /// </summary>
+        public static string Revocation {
+            get {
+                return ResourceManager.GetString("Revocation", resourceCulture);
             }
         }
         

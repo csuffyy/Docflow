@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = UIElementRes.UIElement.Booking;
+}
+
+<h2>@UIElementRes.UIElement.Booking</h2>
+
+<p>
+    @Html.ActionLink(UIElementRes.UIElement.Create, "BookingCreate", new { id = ViewBag.NumberSeqId }, new { @class = "btn btn-primary btn-sm" })
+    @Html.ActionLink(UIElementRes.UIElement.Back, "Index", null, new { @class = "btn btn-default btn-sm" })
+</p>
+
+<div>
+    @Html.Action("BookingGrid", new { id = ViewBag.NumberSeqId })
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/gridmvc")
+}
+@section jslaunch {
+    <script type="text/javascript">
+$(function () {
+    grid_init("@Url.Action("GetNumberSeriesBookingList", "NumberSeq", new { id = ViewBag.NumberSeqId })")
+
+    var detailsUrl = '@Url.Action("BookingEdit", "NumberSeq")';
+    pageGrids.ordersGrid.onRowSelect(function (e) {
+    window.location.href = detailsUrl  + '/' + e.row.Id;
+    });
+});
+    </script>
+}

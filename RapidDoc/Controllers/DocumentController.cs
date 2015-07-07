@@ -484,6 +484,7 @@ namespace RapidDoc.Controllers
 
             ProcessTable process = _ProcessService.Find(processId);
             _WorkflowService.AgreementWorkflowWithdraw(documentId, process.TableName, documentTable.WWFInstanceId, processId);
+            _NotificationUsersService.DeleteAll(documentId);
             var view = ShowDraft(documentId);
             return view;
         }
@@ -618,10 +619,27 @@ namespace RapidDoc.Controllers
                 _DocumentService.UpdateDocumentFields(documentIdNew, process);
             }
 
+            string userId = User.Identity.GetUserId();
             DocumentTable documentTable = _DocumentService.Find(documentId);
             documentTable.DocumentState = DocumentState.Closed;
-            
-            _DocumentService.UpdateDocument(documentTable, User.Identity.GetUserId());
+            _DocumentService.UpdateDocument(documentTable, userId);
+
+            if(collection["RefDocumentId"] != null)
+            {
+                Guid sourceDocumentId = Guid.Parse(collection["RefDocumentId"]);
+                DocumentTable documentSourceTable = _DocumentService.Find(sourceDocumentId);
+
+                if (documentSourceTable != null && documentSourceTable.DocType == DocumentType.Order && documentSourceTable.Executed == false)
+                {
+                    var sourceDocumentData = _DocumentService.GetDocumentView(documentSourceTable.RefDocumentId, documentSourceTable.ProcessTable.TableName);
+                    sourceDocumentData.Executed = true;
+                    var processSourceView = _ProcessService.FindView(documentSourceTable.ProcessTable.Id);
+                    _DocumentService.UpdateDocumentFields(sourceDocumentData, processSourceView);
+
+                    documentSourceTable.Executed = true;
+                    _DocumentService.UpdateDocument(documentTable, userId);
+                }
+            }
 
             _HistoryUserService.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = Models.Repository.HistoryType.ApproveDocument }, User.Identity.GetUserId());
 

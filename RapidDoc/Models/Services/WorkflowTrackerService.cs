@@ -22,7 +22,7 @@ namespace RapidDoc.Models.Services
         bool Contains(Expression<Func<WFTrackerTable, bool>> predicate);
         WFTrackerTable FirstOrDefault(Expression<Func<WFTrackerTable, bool>> predicate);
         void SaveDomain(WFTrackerTable domainTable, string currentUserId = "");
-        void SaveTrackList(Guid documentId, List<Array> allSteps);
+        void SaveTrackList(Guid documentId, List<Array> allSteps, string currentUserId = "");
         WFTrackerTable Find(Guid id);
         List<WFTrackerTable> GetCurrentStep(Expression<Func<WFTrackerTable, bool>> predicate);
         void DeleteAll(Guid documentId);
@@ -146,7 +146,7 @@ namespace RapidDoc.Models.Services
                     if (performToDate != null)
                         model.PerformToDate = TimeZoneInfo.ConvertTimeFromUtc(performToDate ?? DateTime.MinValue, currentTimeZoneInfo);
 
-                    if (documentType == DocumentType.Request || (documentType == DocumentType.Task && item.TrackerType != TrackerType.NonActive) || (!trackerViewItems.Any(x => x.SignUserId == item.SignUserId) && documentType == DocumentType.OfficeMemo))
+                    if (documentType == DocumentType.Request || documentType == DocumentType.Order || (documentType == DocumentType.Task && item.TrackerType != TrackerType.NonActive) || (!trackerViewItems.Any(x => x.SignUserId == item.SignUserId) && documentType == DocumentType.OfficeMemo))
                         trackerViewItems.Add(model);
                 }
                 else
@@ -214,9 +214,9 @@ namespace RapidDoc.Models.Services
             }
             return null;
         }
-        public void SaveTrackList(Guid documentId, List<Array> allSteps)
+        public void SaveTrackList(Guid documentId, List<Array> allSteps, string currentUserId = "")
         {
-            string userid = getCurrentUserId(String.Empty);
+            string userid = getCurrentUserId(currentUserId);
             DateTime createdDate = DateTime.UtcNow;
 
             using(var bcp = new System.Data.SqlClient.SqlBulkCopy(System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))

@@ -13,6 +13,7 @@ namespace RapidDoc.Models.Services
     {
         DateTime ConvertDateTimeToLocal(ApplicationUser userTable, DateTime value);
         bool IsGUID(string expression);
+        string[] GuidsFromText(string text);
     }
 
     public class SystemService : ISystemService
@@ -33,6 +34,14 @@ namespace RapidDoc.Models.Services
                 return isGuid.IsMatch(expression);
             }
             return false;
+        }
+
+        public string[] GuidsFromText(string text)
+        {
+            string[] arrayTempStructrue = text.Split(',');
+            Regex isGuid = new Regex(@"^(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}$", RegexOptions.Compiled);
+            string[] arrayStructure = arrayTempStructrue.Where(a => isGuid.IsMatch(a) == true).ToArray();
+            return arrayStructure;
         }
     }
 }

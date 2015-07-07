@@ -260,6 +260,8 @@
   <ItemGroup>
     <Compile Include="Activities\CodeActivities\WFChooseOfficeMemoSpecificUser.cs" />
     <Compile Include="Activities\CodeActivities\WFCreateDynamicTracker.cs" />
+    <Compile Include="Activities\CodeActivities\WFRegistrationORD.cs" />
+    <Compile Include="Activities\CodeActivities\WFSetUsersForOrder.cs" />
     <Compile Include="Activities\CodeActivities\WFSetUsersForTaskProlongation.cs" />
     <Compile Include="Activities\CodeActivities\WFUpdateProlongationDate.cs" />
     <Compile Include="Activities\WFChooseCreatedUser.cs" />
@@ -333,6 +335,7 @@
     <Compile Include="Models\Grids\EmplAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\GroupProcessAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\ItemCauseAjaxPagingGrid.cs" />
+    <Compile Include="Models\Grids\NumberSeriesBookingAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\ProcessAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\ServiceIncidentAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\TripSettingsAjaxPagingGrid.cs" />
@@ -1551,6 +1554,23 @@
     <Content Include="Views\Custom\USR_OFM_UIT_OfficeMemo_View_Full.cshtml" />
     <Content Include="Views\Custom\USR_OFM_UIT_OfficeMemo_Edit_Part.cshtml" />
     <Content Include="Views\Document\_ModificationDocumentList.cshtml" />
+    <Content Include="Views\Custom\USR_ORD_MainActivity_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_ORD_MainActivity_View.cshtml" />
+    <Content Include="Views\Custom\USR_ORD_MainActivity_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USR_ORD_MainActivity_View_Full.cshtml" />
+    <Content Include="Views\Custom\USR_ORD_MainActivity_Edit_Translator.cshtml" />
+    <Content Include="Views\Custom\USR_ORD_MainActivity_Edit_Registration.cshtml" />
+    <Content Include="Views\NumberSeq\Booking.cshtml" />
+    <Content Include="Views\NumberSeq\_NumberSeriesBookingGrid.cshtml" />
+    <Content Include="Views\NumberSeq\BookingCreate.cshtml" />
+    <Content Include="Views\NumberSeq\BookingDelete.cshtml" />
+    <Content Include="Views\NumberSeq\BookingDetail.cshtml" />
+    <Content Include="Views\NumberSeq\BookingEdit.cshtml" />
+    <Content Include="Views\Custom\USR_ORD_Registration.cshtml" />
+    <Content Include="Views\Custom\USR_ORD_Revocation.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UB_RequestForExportAssetZIF_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UB_RequestForExportAssetZIF_View.cshtml" />
+    <Content Include="Views\EmailTemplate\ORDEmailTemplate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -2959,6 +2979,18 @@
   </ItemGroup>
   <ItemGroup>
     <XamlAppDef Include="Activities\USR_REQ_UZL_RequestForContractNoneresidentCustoms.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USR_ORD_MainActivity.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USR_REQ_UB_RequestForExportAssetZIF.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </XamlAppDef>

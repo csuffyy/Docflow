@@ -390,7 +390,7 @@
                                 <Flowchart DisplayName="ИД Блока" sap2010:WorkflowViewState.IdRef="Flowchart_1">
                                   <Flowchart.StartNode>
                                     <FlowStep x:Name="__ReferenceID8" sap2010:WorkflowViewState.IdRef="FlowStep_5">
-                                      <local1:WFChooseUpManager _service="{x:Null}" executionStep="{x:Null}" slaOffset="{x:Null}" DisplayName="ИД Блока" sap2010:WorkflowViewState.IdRef="WFChooseUpManager_1" inputLevel="1" noneSkip="True" profileName="ИД" useManual="False">
+                                      <local1:WFChooseUpManager _service="{x:Null}" executionStep="{x:Null}" slaOffset="{x:Null}" DisplayName="ИД Блока" sap2010:WorkflowViewState.IdRef="WFChooseUpManager_1" inputLevel="1" noneSkip="False" profileName="ИД" useManual="False">
                                         <local1:WFChooseUpManager.inputCurrentUser>
                                           <InArgument x:TypeArguments="x:String">
                                             <mca:CSharpValue x:TypeArguments="x:String">inputCurrentUser</mca:CSharpValue>
@@ -889,7 +889,7 @@
     <x:Reference>__ReferenceID38</x:Reference>
     <x:Reference>__ReferenceID39</x:Reference>
     <x:Reference>__ReferenceID40</x:Reference>
-    <sads:DebugSymbol.Symbol>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</sads:DebugSymbol.Symbol>
+    <sads:DebugSymbol.Symbol>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</sads:DebugSymbol.Symbol>
   </Flowchart>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>
@@ -1065,13 +1065,13 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="FlowDecision_2" sap:VirtualizedContainerService.HintSize="128,87">
+      <sap2010:ViewStateData Id="FlowDecision_2" sap:VirtualizedContainerService.HintSize="126,87">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
             <av:Point x:Key="ShapeLocation">246,196.5</av:Point>
-            <av:Size x:Key="ShapeSize">128,87</av:Size>
-            <av:PointCollection x:Key="FalseConnector">374,240 490,240 490,309</av:PointCollection>
+            <av:Size x:Key="ShapeSize">126,87</av:Size>
+            <av:PointCollection x:Key="FalseConnector">372,240 490,240 490,309</av:PointCollection>
             <av:PointCollection x:Key="TrueConnector">317.5,276.96 287.5,276.96 287.5,403.46 465.75,403.46 465.75,433.46</av:PointCollection>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
@@ -1085,7 +1085,7 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="Flowchart_1" sap:VirtualizedContainerService.HintSize="200,51">
+      <sap2010:ViewStateData Id="Flowchart_1" sap:VirtualizedContainerService.HintSize="676,636">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -1139,7 +1139,7 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="Flowchart_2" sap:VirtualizedContainerService.HintSize="790,636">
+      <sap2010:ViewStateData Id="Flowchart_2" sap:VirtualizedContainerService.HintSize="200,51">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>

@@ -2961,6 +2961,72 @@ namespace RapidDoc.Models.ViewModels
         public bool Post7 { get; set; }
     }
 
+    public class USR_REQ_UB_RequestForExportAssetZIF_View : BasicDocumentView
+    {
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Наименование ОС")]
+        public string Name { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Инвентарный номер ОС")]
+        public string Number { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Количество")]
+        public string Count { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Подразделение")]
+        public string Department { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "МОЛ")]
+        public string UserChooseManual1 { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Пункт отправки")]
+        public string DeparturePlace { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Пункт назначения")]
+        public string DestinationPlace { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Марка автомобиля, гос.номер")]
+        public string CarBrand { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "ФИО водителя, сопровождающих лиц")]
+        public string NamesPeople { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Цель")]
+        public string Aim { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Дата")]
+        public string Date { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Ожидаемая дата возврата собственных ОС")]
+        public string DateReturnOC { get; set; }
+
+        [Display(Name = "Пост №1 (Блокпост АТК)")]
+        public bool Post1 { get; set; }
+        [Display(Name = "Пост №2 (Проходная ЗИФ)")]
+        public bool Post2 { get; set; }
+        [Display(Name = "Пост №3 (КПП Ж/Д ЗИФ)")]
+        public bool Post3 { get; set; }
+        [Display(Name = "Пост №4 (Пристройка КИ ЗИФ)")]
+        public bool Post4 { get; set; }
+        [Display(Name = "Пост №6 (КПП Транспортный АТК)")]
+        public bool Post5 { get; set; }
+        [Display(Name = "Пост №11(КПП Транспортный ЗИФ)")]
+        public bool Post6 { get; set; }
+        [Display(Name = "Пост №28(Реагентное отделение)")]
+        public bool Post7 { get; set; }
+    }
+
     public class USR_REQ_UB_RequestForExportZIFOre_View : BasicDocumentView
     {
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
@@ -8837,6 +8903,20 @@ namespace RapidDoc.Models.ViewModels
 
         [Display(Name = "Ссылка на исходный документ")]
         public string RefDocNum { get; set; }
+
+    }
+    #endregion
+
+    #region Приказы
+
+    public class USR_ORD_RevocationView
+    {
+        public Guid? Id { get; set; }
+        public string Name { get; set; }
+    }
+
+    public class USR_ORD_MainActivity_View : BasicOrderView
+    {
 
     }
     #endregion

@@ -101,4 +101,19 @@ namespace RapidDoc.Models.Repository
         Reader = 3,
         Group = 4
     }
+
+    public enum DocumentType : byte
+    {
+        [Display(Name = "Запрос")]
+        Request = 0,
+
+        [Display(Name = "Служебная записка")]
+        OfficeMemo = 1,
+
+        [Display(Name = "Задача")]
+        Task = 2,
+
+        [Display(Name = "Приказ")]
+        Order = 3
+    }
 }

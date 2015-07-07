@@ -2195,6 +2195,54 @@ namespace RapidDoc.Models.DomainModels
 
     }
 
+    public class USR_REQ_UB_RequestForExportAssetZIF_Table : BasicDocumentTable
+    {
+        [Required]
+        public string Name { get; set; }
+
+        [Required]
+        public string Number { get; set; }
+
+        [Required]
+        public string Count { get; set; }
+
+        [Required]
+        public string Department { get; set; }
+
+        [Required]
+        public string UserChooseManual1 { get; set; }
+
+        [Required]
+        public string DeparturePlace { get; set; }
+
+        [Required]
+        public string DestinationPlace { get; set; }
+
+        [Required]
+        public string CarBrand { get; set; }
+
+        [Required]
+        public string NamesPeople { get; set; }
+
+        [Required]
+        public string Aim { get; set; }
+
+        [Required]
+        public string Date { get; set; }
+
+        [Required]
+        public string DateReturnOC { get; set; }
+
+        public bool Post1 { get; set; }
+        public bool Post2 { get; set; }
+        public bool Post3 { get; set; }
+        public bool Post4 { get; set; }
+        public bool Post5 { get; set; }
+        public bool Post6 { get; set; }
+        public bool Post7 { get; set; }
+
+    }
+
     public class USR_REQ_UB_RequestForExportZIFOre_Table : BasicDocumentTable
     {
         [Required]
@@ -6524,6 +6572,14 @@ namespace RapidDoc.Models.DomainModels
 
         [Required]
         public string TextTask { get; set; }
+    }
+    #endregion
+
+    #region Приказы
+
+    public class USR_ORD_MainActivity_Table : BasicOrderTable
+    {
+        
     }
     #endregion
 }

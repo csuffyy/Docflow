@@ -591,4 +591,10 @@
   <data name="TooltipAboutReading" xml:space="preserve">
     <value>Notify about reading document when following a route</value>
   </data>
+  <data name="Booking" xml:space="preserve">
+    <value>Booking</value>
+  </data>
+  <data name="Revocation" xml:space="preserve">
+    <value>Revocation</value>
+  </data>
 </root>

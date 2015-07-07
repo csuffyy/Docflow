@@ -31,6 +31,14 @@
         </div>
 
         <div class="editor-label">
+            @Html.LabelFor(model => model.TableName)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.TableName, new { @class = "form-control", @size = 256, @maxlength = 256, placeholder = "USR_UIT_TableName" })
+            @Html.ValidationMessageFor(model => model.TableName)
+        </div>
+
+        <div class="editor-label">
             @Html.LabelFor(model => model.Size)
         </div>
         <div class="editor-field">

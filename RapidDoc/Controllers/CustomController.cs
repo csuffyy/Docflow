@@ -17,10 +17,11 @@ namespace RapidDoc.Controllers
         private readonly IEmplService _EmplService;
         private readonly ISystemService _SystemService;
         private readonly IDocumentService _DocumentService;
+        private readonly INumberSeqService _NumberSeqService;
         private readonly IServiceIncidentService _ServiceIncidentService;
         private readonly ITripSettingsService _TripSettingsService;
 
-        public CustomController(IEmplService emplService, ISystemService systemService, IDocumentService documentService, IServiceIncidentService serviceIncidentService, ICompanyService companyService, IAccountService accountService, ITripSettingsService tripSettingsService)
+        public CustomController(IEmplService emplService, ISystemService systemService, IDocumentService documentService, IServiceIncidentService serviceIncidentService, ICompanyService companyService, IAccountService accountService, ITripSettingsService tripSettingsService, INumberSeqService numberSeqService)
             : base(companyService, accountService)
         {
             _EmplService = emplService;
@@ -28,6 +29,7 @@ namespace RapidDoc.Controllers
             _DocumentService = documentService;
             _ServiceIncidentService = serviceIncidentService;
             _TripSettingsService = tripSettingsService;
+            _NumberSeqService = numberSeqService;
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
@@ -86,6 +88,25 @@ namespace RapidDoc.Controllers
             }
 
             return PartialView("_Empty");
+        }
+
+        public ActionResult GetBookingNumberORD(Guid documentId)
+        {
+            DocumentTable document = _DocumentService.Find(documentId);
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var numberSeqTable = _NumberSeqService.FirstOrDefault(x => x.TableName == document.ProcessTable.TableName);
+                ViewBag.NumberSeqBookingList = _NumberSeqService.GetDropListNumberSeqBookingNull(numberSeqTable.Id, Guid.Empty);
+                return PartialView("USR_ORD_Registration");
+            }
+            return PartialView("_Empty");
+        }
+
+        public ActionResult GetRevocationORD(Guid? id, bool edit)
+        {
+            ViewBag.ORDRevocationList = _DocumentService.RevocationORDList(id);
+            ViewBag.EditMode = edit;
+            return PartialView("USR_ORD_Revocation");
         }
 
         public ActionResult GetManualRequest(RapidDoc.Models.ViewModels.USR_REQ_KD_RequestForCompetitonProc_View model)
@@ -1513,6 +1534,33 @@ namespace RapidDoc.Controllers
             }
 
             return PartialView("USR_OFM_UIT_OfficeMemo_View_Full", model);
+        }
+
+        public ActionResult GetManualORDMainActivity(RapidDoc.Models.ViewModels.USR_ORD_MainActivity_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.ActivityName == "Цензор 1") || current.Any(x => x.ActivityName == "Цензор 2"))
+                    {
+                        return PartialView("USR_ORD_MainActivity_Edit_Part", model);
+                    }
+                    if (current.Any(x => x.ActivityName == "Переводчик"))
+                    {
+                        return PartialView("USR_ORD_MainActivity_Edit_Translator", model);
+                    }
+                    if (current.Any(x => x.ActivityName == "Регистрация"))
+                    {
+                        return PartialView("USR_ORD_MainActivity_Edit_Registration", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_ORD_MainActivity_View_Full", model);
         }
 
         public ActionResult GetRequestCTPTRU(RapidDoc.Models.ViewModels.USR_REQ_IT_CTP_RequestTRU_View model)

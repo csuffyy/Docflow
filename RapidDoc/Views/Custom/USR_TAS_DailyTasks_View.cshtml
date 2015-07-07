@@ -9,7 +9,6 @@
     </div>
     @Html.ActionLink(Model.RefDocNum.ToString(), "ShowDocument", "Document", new { id = Model.RefDocumentId, isAfterView = true }, null)
 
-    @Html.Partial("_DocumentViewFields", Model, new ViewDataDictionary(ViewData) { { "FieldName", "ExecutionDate" } })
     @Html.Partial("_DocumentViewFields", Model, new ViewDataDictionary(ViewData) { { "FieldName", "TextTask" } })
 
     @Html.HiddenFor(model => model.RefDocumentId)

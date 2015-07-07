@@ -26,6 +26,7 @@ namespace RapidDoc.Models.Infrastructure
         public DbSet<DelegationTable> DelegationTable { get; set; }
         public DbSet<DepartmentTable> DepartmentTable { get; set; }
         public DbSet<NumberSeriesTable> NumberSeriesTable { get; set; }
+        public DbSet<NumberSeriesBookingTable> NumberSeriesBookingTable { get; set; }
         public DbSet<WFTrackerTable> WFTrackerTable { get; set; }
         public DbSet<WFTrackerUsersTable> WFTrackerUsersTable { get; set; }
         public DbSet<ReviewDocLogTable> ReviewDocLogTable { get; set; }
@@ -144,6 +145,7 @@ namespace RapidDoc.Models.Infrastructure
         public DbSet<USR_REQ_UB_RequestForInOutNotebook_Table> USR_REQ_UB_RequestForInOutNotebook_Table { get; set; }
         public DbSet<USR_REQ_UB_RequestForCarAccess_Table> USR_REQ_UB_RequestForCarAccess_Table { get; set; }
         public DbSet<USR_REQ_UB_RequestForExportAsset_Table> USR_REQ_UB_RequestForExportAsset_Table { get; set; }
+        public DbSet<USR_REQ_UB_RequestForExportAssetZIF_Table> USR_REQ_UB_RequestForExportAssetZIF_Table { get; set; }
         public DbSet<USR_REQ_UB_RequestForExportZIFOre_Table> USR_REQ_UB_RequestForExportZIFOre_Table { get; set; }
         public DbSet<USR_REQ_UB_RequestForExportOSPVHZIF_Table> USR_REQ_UB_RequestForExportOSPVHZIF_Table { get; set; }
         public DbSet<USR_REQ_UB_RequestForExportItems_Table> USR_REQ_UB_RequestForExportItems_Table { get; set; }
@@ -277,6 +279,7 @@ namespace RapidDoc.Models.Infrastructure
         public DbSet<USR_TAS_DailyTasksProlongation_Table> USR_TAS_DailyTasksProlongation_Table { get; set; }
         public DbSet<USR_REQ_UB_RequestForPhotoRealization_Table> USR_REQ_UB_RequestForPhotoRealization_Table { get; set; }
         public DbSet<USR_REQ_UZL_RequestForContractNoneresidentCustoms_Table> USR_REQ_UZL_RequestForContractNoneresidentCustoms_Table { get; set; }
+        public DbSet<USR_ORD_MainActivity_Table> USR_ORD_MainActivity_Table { get; set; }
         
         protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder)
         {
