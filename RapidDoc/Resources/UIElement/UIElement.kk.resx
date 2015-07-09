@@ -597,4 +597,10 @@
   <data name="Revocation" xml:space="preserve">
     <value>-</value>
   </data>
+  <data name="Delivery" xml:space="preserve">
+    <value>-</value>
+  </data>
+  <data name="Dispatch" xml:space="preserve">
+    <value>-</value>
+  </data>
 </root>

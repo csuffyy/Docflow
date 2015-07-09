@@ -161,6 +161,12 @@
                 <li>
                     <a href=@Url.Action("CopyDocument", new { processId = Model.ProcessView.Id, fileId = Model.fileId, documentId = Model.DocumentView.Id })>@UIElementRes.UIElement.Copy</a>
                 </li>
+                @if (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Order && Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Closed)
+                {
+                    <li>
+                        <a href="#" data-toggle="modal" data-target=".deliveryOrder-modal">@UIElementRes.UIElement.Delivery</a>
+                    </li>
+                }
                 @if (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.OfficeMemo &&
                         Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.OnSign)
                 {

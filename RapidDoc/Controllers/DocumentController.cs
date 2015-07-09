@@ -676,6 +676,24 @@ namespace RapidDoc.Controllers
             return RedirectToAction("Index", "Document");         
         }
 
+        [HttpPost]
+        [MultipleButton(Name= "action", Argument= "DeliveryOrder")]
+        public ActionResult DeliveryOrder(Guid processId, int type, Guid fileId, FormCollection collection, string actionModelName, Guid documentId)
+        {
+            DocumentTable documentTable = _DocumentService.Find(documentId);
+            List<string> appUsers = new List<string>();
+
+            if (!String.IsNullOrEmpty(collection["ReceiversOrder"]))
+            {
+                string[] users = _DocumentService.GetUserListFromStructure(collection["ReceiversOrder"].ToString());
+                var documentModel = _DocumentService.GetDocumentView(documentTable.RefDocumentId, documentTable.ProcessTable.TableName);
+                users.ToList().ForEach(x => appUsers.Add(_EmplService.Find(new Guid(x)).ApplicationUserId));
+                _EmailService.SendORDForUserEmail(documentTable.Id, appUsers, documentModel);
+            }
+
+            return RedirectToAction("ShowDocument", new { id = documentId, isAfterView = true });
+        }
+
         public ActionResult ProlongDocumentTask(string tableName, Guid documentId)
         {
             ApplicationUser userTable = _AccountService.Find(User.Identity.GetUserId());

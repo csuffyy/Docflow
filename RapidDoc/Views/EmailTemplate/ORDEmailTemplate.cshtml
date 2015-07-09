@@ -160,7 +160,6 @@
 </head>
 
 <body bgcolor="#f6f6f6">
-
     <!-- body -->
     <table class="body-wrap">
         <tr>
@@ -171,36 +170,45 @@
                 <div class="content">
                     <table>
                         <tr>
-                            <td>
-                                <h4 class="text-center"><strong>БҰЙРЫҚ</strong></h4>
-                                <h4 class="text-center"><strong>№ @Model.OrderNum</strong></h4>
-                                <h5 class="text-center"><strong>@Model.OrderDate ж.</strong></h5>
-                                <strong>ТАҚЫРЫБЫ:</strong> @Model.Subject
-                                <hr style="height:1px;border:none;color:#333;background-color:#333;" />
-                                @Model.MainField
-                                <hr style="height:1px;border:none;color:#333;background-color:#333;" />
-                                @Model.MainFieldTranslate
-                                <br />
-                                <div class="row">
-                                    <div class="col-xs-8">
-                                        <div class="editor-label">
-                                            <strong>@Model.SignTitle</strong>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-4">
-                                        <div class="editor-label">
-                                            <strong>@Model.SignName</strong>
-                                        </div>
-                                    </div>
-                                </div>
+                            <td align="left" colspan="2">
+                                <h5><a href="@Model.DocumentUri">@Model.DocumentNum</a></h5>
                             </td>
                         </tr>
+                        <tr>                         
+                            <td align="center" colspan="2">
+                                <h4 class="text-center">
+                                    <strong>
+                                        БҰЙРЫҚ<br />
+                                        № @Model.OrderNum от:@Model.OrderDate г.<br />
+                                    </strong>
+                                    @Model.Subject
+                                </h4>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td align="left" colspan="2">
+                                @Raw(@Model.MainField)
+                                <hr style="height:1px;border:none;color:#333;background-color:#333;" />
+                                @Raw(@Model.MainFieldTranslate)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left">
+                                <strong>@Model.SignTitle</strong>
+                            </td>
+                            <td align="left">                               
+                                <strong>@Model.SignName</strong>
+                            </td>
+                        </tr>                      
                     </table>
                 </div>
                 <!-- /content -->
 
             </td>
-            <td></td>
+            <td>
+                
+            </td>          
         </tr>
     </table>
     <!-- /body -->
