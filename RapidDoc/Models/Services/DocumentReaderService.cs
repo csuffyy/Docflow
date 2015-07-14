@@ -122,7 +122,7 @@ namespace RapidDoc.Models.Services
             }
 
             var currentReaders = GetPartial(x => x.DocumentTableId == documentId && x.RoleId == null).ToList();
-            var currentReadersGroup = GetPartial(x => x.DocumentTableId == documentId && x.RoleId != null).GroupBy(x => x.RoleId).ToList();
+            var currentReadersGroup = GetPartial(x => x.DocumentTableId == documentId && x.RoleId != null).GroupBy(x => new { RoleId = x.RoleId, CreateUserId = x.ApplicationUserCreatedId }).ToList();
             if(listdata == null)
                 Delete(documentId);
 
@@ -130,7 +130,7 @@ namespace RapidDoc.Models.Services
             {
                 if(listdata != null)
                 {
-                    if (listdata.Contains(item.UserId) == false)
+                    if (listdata.Contains(item.UserId) == false && item.ApplicationUserCreatedId == user.Id)
                     {
                         var empl = _EmplService.GetEmployer(item.UserId, user.CompanyTableId);
                         removeReadersDescription += empl.FullName + "; ";
@@ -146,13 +146,13 @@ namespace RapidDoc.Models.Services
 
             foreach (var item in currentReadersGroup)
             {
-                ApplicationRole role = RoleManager.FindById(item.Key);
+                ApplicationRole role = RoleManager.FindById(item.Key.RoleId);
                 if (listdata != null)
                 {
-                    if (listdata.Contains(item.Key) == false)
+                    if (listdata.Contains(item.Key.RoleId) == false && item.Key.CreateUserId == user.Id)
                     {                   
                         removeReadersDescription += role.Description + "; ";
-                        Delete(x => x.DocumentTableId == documentId && x.RoleId == item.Key);
+                        Delete(x => x.DocumentTableId == documentId && x.RoleId == item.Key.RoleId);
                     }
                 }
                 else
