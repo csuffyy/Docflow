@@ -9,6 +9,7 @@ using RapidDoc.App_Start;
 using System.Activities.Tracking;
 using Ninject;
 using System.Web.Mvc;
+using System.ComponentModel;
 
 
 namespace RapidDoc.Activities.CodeActivities
@@ -25,6 +26,7 @@ namespace RapidDoc.Activities.CodeActivities
         [RequiredArgument]
         public InArgument<string> inputCurrentUser { get; set; }
 
+        [Browsable(false)]
         [Inject]
         public IDocumentService _service { get; set; }
 

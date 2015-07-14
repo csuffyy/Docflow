@@ -15,6 +15,7 @@ using System.Runtime.CompilerServices;
 using System.Web.Mvc;
 using RapidDoc.Models.Repository;
 using RapidDoc.Models.ViewModels;
+using System.ComponentModel;
 
 namespace RapidDoc.Activities
 {
@@ -52,7 +53,8 @@ namespace RapidDoc.Activities
         public OutArgument<DocumentState> outputStep { get; set; }
 
         public InArgument<bool> noneSkip { get; set; }
-        
+
+        [Browsable(false)]
         [Inject]
         public IWorkflowService _service { get; set; }
       

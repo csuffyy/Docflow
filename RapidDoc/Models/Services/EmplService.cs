@@ -40,7 +40,9 @@ namespace RapidDoc.Models.Services
         object GetJsonGroup();
         object GetJsonEmplIntercompany();
         object GetJsonRoles();
+        object GetJsonOnlyGroup();
         EmplTable GetEmployer(string userId, Guid? companyId);
+        
     }
     public class EmplService : IEmplService
     {
@@ -219,6 +221,18 @@ namespace RapidDoc.Models.Services
             return jsondata;
         }
 
+        public object GetJsonOnlyGroup()
+        {
+            var jsondata = (from x in RoleManager.Roles.AsEnumerable()
+                            where x.RoleType == RoleType.Group
+                            select new
+                            {
+                                value = string.Format("{0}, {1}", x.Id, x.Description.Replace(",", " ")),
+                                text = string.Format("{0}", x.Description)
+                            });
+
+            return jsondata;
+        }
         public object GetJsonRoles()
         {
             var jsondata = from r in RoleManager.Roles.AsEnumerable()

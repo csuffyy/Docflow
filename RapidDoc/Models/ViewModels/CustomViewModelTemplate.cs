@@ -118,8 +118,7 @@ namespace RapidDoc.Models.ViewModels
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         public string Subject { get; set; }
 
-        [Display(Name = "Текст приказа")]
-        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Текст приказа")]      
         public string MainField { get; set; }
 
         [Display(Name = "Текст приказа (перевод)")]

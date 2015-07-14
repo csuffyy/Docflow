@@ -11,6 +11,7 @@ using Ninject;
 using System.Web.Mvc;
 using RapidDoc.Models.Repository;
 using RapidDoc.Models.ViewModels;
+using System.ComponentModel;
 
 namespace RapidDoc.Activities
 {
@@ -43,6 +44,7 @@ namespace RapidDoc.Activities
 
         public InArgument<bool> noneSkip { get; set; }
 
+        [Browsable(false)]
         [Inject]
         public IWorkflowService _service { get; set; }
 

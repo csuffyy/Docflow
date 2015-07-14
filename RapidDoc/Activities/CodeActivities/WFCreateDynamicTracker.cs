@@ -6,6 +6,7 @@ using System.Activities;
 using Ninject;
 using RapidDoc.Models.Services;
 using System.Web.Mvc;
+using System.ComponentModel;
 
 namespace RapidDoc.Activities.CodeActivities
 {
@@ -26,6 +27,7 @@ namespace RapidDoc.Activities.CodeActivities
 
         public InArgument<string> inputAdditionalText { get; set; }
 
+        [Browsable(false)]
         [Inject]
         public IWorkflowService _service { get; set; }
 

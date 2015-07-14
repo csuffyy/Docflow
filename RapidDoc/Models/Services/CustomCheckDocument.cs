@@ -900,6 +900,14 @@ namespace RapidDoc.Models.Services
                 }
             }
 
+            if (type.IsSubclassOf(typeof(BasicOrderView)))
+            {
+                if (actionModel.NeedTranslate == false && String.IsNullOrEmpty(actionModel.MainField))
+                {
+                    errorList.Add("Необходимо заполнить на казахском языке");
+                }
+            }
+
             return errorList;
         }
 
@@ -1210,8 +1218,20 @@ namespace RapidDoc.Models.Services
                         errorList.Add("Нужно заполнить поле Исполнители");
                     }
                 }
-            }        
+            }
 
+            if (type.IsSubclassOf(typeof(BasicOrderView)))
+            {
+                if ((documentTable.ActivityName == "Переводчик") && isSign == true)
+                {
+
+                    if (actionModel.NeedTranslate == true && String.IsNullOrEmpty(actionModel.MainField))
+                    {
+                        errorList.Add("Необходимо произвести перевод");
+                    }
+                }
+            }
+          
             return errorList;
         }
 

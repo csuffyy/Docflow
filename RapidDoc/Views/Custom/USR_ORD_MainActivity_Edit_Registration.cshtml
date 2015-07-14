@@ -77,7 +77,14 @@
 <h4 class="text-center"><strong>БҰЙРЫҚ</strong></h4>
 <h4 class="text-center"><strong>№ @Html.DisplayTextFor(x => x.OrderNum)</strong></h4>
 
-<strong>ТАҚЫРЫБЫ:</strong> @Html.DisplayTextFor(x => x.Subject)
+<h5 class="text-center">
+    <strong>
+        ТАҚЫРЫБЫ:
+    </strong>
+    @Html.DisplayTextFor(x => x.Subject)
+</h5>
+<br />
+
 <hr style="height:1px;border:none;color:#333;background-color:#333;" />
 @Html.Raw(Model.MainField)
 <hr style="height:1px;border:none;color:#333;background-color:#333;" />

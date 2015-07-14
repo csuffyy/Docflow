@@ -106,23 +106,23 @@ namespace RapidDoc.Models.DomainModels
         [Required]
         public string Subject { get; set; }
 
-        [Required]
-        public string MainField { get; set; }
+        [Required]       
         public string MainFieldTranslate { get; set; }
         public bool NeedTranslate { get; set; }
         public bool CancelOrder { get; set; }
         public Guid? CancelDocumentId { get; set; }
 
+        public string MainField { get; set; }
         public bool Addition { get; set; }
-        public bool Executed { get; set; }
+        public bool Executed { get; set; }      
 
         [Required]
         public string ListAgreement { get; set; }
 
         [Required]
-        public string ListSubcription { get; set; }
-        public DateTime? ControlDate { get; set; }
+        public string ListSubcription { get; set; }       
         public string ControlUsers { get; set; }
+        public DateTime? ControlDate { get; set; }
 
         [Required]
         public string Sign { get; set; }

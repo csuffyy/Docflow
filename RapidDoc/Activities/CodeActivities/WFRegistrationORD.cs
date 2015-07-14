@@ -9,6 +9,7 @@ using Ninject;
 using RapidDoc.Models.DomainModels;
 using RapidDoc.Models.Services;
 using RapidDoc.Models.ViewModels;
+using System.ComponentModel;
 
 namespace RapidDoc.Activities.CodeActivities
 {
@@ -23,18 +24,23 @@ namespace RapidDoc.Activities.CodeActivities
         [RequiredArgument]
         public InArgument<string> inputCurrentUser { get; set; }
 
+        [Browsable(false)]
         [Inject]
         public IDocumentService _service { get; set; }
 
+        [Browsable(false)]
         [Inject]
         public IAccountService _serviceAccount { get; set; }
 
+        [Browsable(false)]
         [Inject]
         public IProcessService _serviceProcess { get; set; }
 
+        [Browsable(false)]
         [Inject]
         public ISearchService _serviceSearch { get; set; }
 
+        [Browsable(false)]
         [Inject]
         public IWorkflowService _serviceWorkflow { get; set; }
 

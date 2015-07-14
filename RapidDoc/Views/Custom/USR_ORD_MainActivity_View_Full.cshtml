@@ -1,6 +1,9 @@
 ﻿@model RapidDoc.Models.ViewModels.USR_ORD_MainActivity_View
 @using RapidDoc.Extensions;
 
+@Html.HiddenFor(model => model.MainField)
+@Html.HiddenFor(model => model.NeedTranslate)
+
 <div class="row">
     @if(!String.IsNullOrEmpty(Model.ControlUsers))
     { 
@@ -62,7 +65,13 @@
 <h4 class="text-center"><strong>№ @Html.DisplayTextFor(x => x.OrderNum)</strong></h4>
 <h5 class="text-center"><strong>@Html.FormatValue(Model.OrderDate, "{0:dd.MM.yyyy}") ж.</strong></h5>
 
-<strong>ТАҚЫРЫБЫ:</strong> @Html.DisplayTextFor(x => x.Subject)
+<h5 class="text-center">
+    <strong>
+        ТАҚЫРЫБЫ:
+    </strong>
+    @Html.DisplayTextFor(x => x.Subject)
+</h5> 
+<br />
 <hr style="height:1px;border:none;color:#333;background-color:#333;" />
 @Html.Raw(Model.MainField)
 <hr style="height:1px;border:none;color:#333;background-color:#333;" />
