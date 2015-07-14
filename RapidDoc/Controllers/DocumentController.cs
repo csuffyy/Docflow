@@ -688,7 +688,7 @@ namespace RapidDoc.Controllers
                 string[] users = _DocumentService.GetUserListFromStructure(collection["ReceiversOrder"].ToString());
                 var documentModel = _DocumentService.GetDocumentView(documentTable.RefDocumentId, documentTable.ProcessTable.TableName);
                 users.ToList().ForEach(x => appUsers.Add(_EmplService.Find(new Guid(x)).ApplicationUserId));
-                _DocumentReaderService.SaveReader(documentTable.Id, appUsers.ToArray());
+                _DocumentReaderService.AddOrderReader(documentTable.Id, appUsers, User.Identity.GetUserId());
                 _EmailService.SendORDForUserEmail(documentTable.Id, appUsers, documentModel);
             }
 

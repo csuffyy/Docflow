@@ -25,7 +25,8 @@ namespace RapidDoc.Models.Services
         bool ContainsRoleUser(Guid documentId, string userId);
         List<string> SaveReader(Guid documentId, string[] listdata);
         List<string> AddReader(Guid documentId, List<IdentityUserRole> listdata);
-        void SaveDomain(DocumentReaderTable domainTable);
+        List<string> AddOrderReader(Guid documentId, List<string> listdata, string currentUserId);
+        void SaveDomain(DocumentReaderTable domainTable, string currentUserId = "");
         void Delete(Guid documentId);
         void Delete(Expression<Func<DocumentReaderTable, bool>> predicate);
         DocumentReaderTable Find(Guid id);
@@ -203,13 +204,23 @@ namespace RapidDoc.Models.Services
 
             return newReader;
         }
-        public void SaveDomain(DocumentReaderTable domainTable)
+        public void SaveDomain(DocumentReaderTable domainTable, string currentUserId = "")
         {
-            string userId = HttpContext.Current.User.Identity.GetUserId();
-            domainTable.CreatedDate = DateTime.UtcNow;
-            domainTable.ModifiedDate = domainTable.CreatedDate;
-            domainTable.ApplicationUserCreatedId = userId;
-            domainTable.ApplicationUserModifiedId = userId;
+            if (currentUserId != string.Empty)
+            {
+                domainTable.CreatedDate = DateTime.UtcNow;
+                domainTable.ModifiedDate = domainTable.CreatedDate;
+                domainTable.ApplicationUserCreatedId = currentUserId;
+                domainTable.ApplicationUserModifiedId = currentUserId;
+            }
+            else
+            {
+                string userId = HttpContext.Current.User.Identity.GetUserId();
+                domainTable.CreatedDate = DateTime.UtcNow;
+                domainTable.ModifiedDate = domainTable.CreatedDate;
+                domainTable.ApplicationUserCreatedId = userId;
+                domainTable.ApplicationUserModifiedId = userId;
+            }
             repo.Add(domainTable);
             _uow.Commit();
         }
@@ -246,6 +257,40 @@ namespace RapidDoc.Models.Services
                 }
             }
             return false;
+        }
+
+
+        public List<string> AddOrderReader(Guid documentId, List<string> listdata, string currentUserId)
+        {
+            List<string> newReader = new List<string>();
+            string addReadersDescription = String.Empty;
+            string removeReadersDescription = String.Empty;
+            ApplicationUser currentUser = repoUser.GetById(currentUserId);
+
+            if (listdata != null)
+            {
+                foreach (var user in listdata)
+                {
+                    if (Contains(x => x.DocumentTableId == documentId && x.UserId == user) == false)
+                    {
+                        newReader.Add(user);
+                        var empl = _EmplService.GetEmployer(user, currentUser.CompanyTableId);
+                        addReadersDescription += empl.FullName + "; ";
+
+                        DocumentReaderTable reader = new DocumentReaderTable();
+                        reader.DocumentTableId = documentId;
+                        reader.UserId = user;
+                        SaveDomain(reader, currentUserId);
+                    }
+                }
+            }
+
+            if (addReadersDescription.Length > 0)
+            {
+                _HistoryUserService.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = HistoryType.AddReader, Description = addReadersDescription }, currentUser.Id);
+            }
+
+            return newReader;
         }
     }
 }

@@ -44,6 +44,10 @@ namespace RapidDoc.Activities.CodeActivities
         [Inject]
         public IWorkflowService _serviceWorkflow { get; set; }
 
+        [Browsable(false)]
+        [Inject]
+        public IDocumentReaderService _serviceDocumentReader { get; set; }
+
         protected override void Execute(CodeActivityContext context)
         {
             _service = DependencyResolver.Current.GetService<IDocumentService>();
@@ -51,6 +55,7 @@ namespace RapidDoc.Activities.CodeActivities
             _serviceProcess = DependencyResolver.Current.GetService<IProcessService>();
             _serviceSearch = DependencyResolver.Current.GetService<ISearchService>();
             _serviceWorkflow = DependencyResolver.Current.GetService<IWorkflowService>();
+            _serviceDocumentReader = DependencyResolver.Current.GetService<IDocumentReaderService>();
             Guid documentId = context.GetValue(this.inputDocumentId);
             Dictionary<string, Object> documentData = context.GetValue(this.inputDocumentData);
             string currentUserId = context.GetValue(this.inputCurrentUser);
@@ -139,6 +144,7 @@ namespace RapidDoc.Activities.CodeActivities
                     List<string> users = _serviceWorkflow.EmplAndRolesToUserList(usersAndRoles);
                     IEmailService _EmailService = DependencyResolver.Current.GetService<IEmailService>();
                     var documentModel = _service.GetDocumentView(document.RefDocumentId, document.ProcessTable.TableName);
+                    _serviceDocumentReader.AddOrderReader(documentId, users, currentUserId);
                     _EmailService.SendORDForUserEmail(documentId, users, documentModel);
                 }
             }
