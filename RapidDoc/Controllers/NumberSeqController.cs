@@ -75,6 +75,26 @@ namespace RapidDoc.Controllers
             return View();
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(NumberSeriesView model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _Service.Save(model);
+                    return RedirectToAction("Index");
+                }
+                catch (Exception e)
+                {
+                    ModelState.AddModelError(string.Empty, e.GetOriginalException().Message);
+                }
+            }
+
+            return View(model);
+        }
+
         public ActionResult BookingCreate(Guid id)
         {
             NumberSeriesTable numberTable = _Service.Find(id);
