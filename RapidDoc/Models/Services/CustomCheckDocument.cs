@@ -904,7 +904,7 @@ namespace RapidDoc.Models.Services
             {
                 if (actionModel.NeedTranslate == false && String.IsNullOrEmpty(actionModel.MainField))
                 {
-                    errorList.Add("Необходимо заполнить на казахском языке");
+                    errorList.Add("Необходимо заполнить поле приказа на казахском языке");
                 }
             }
 
@@ -1227,7 +1227,7 @@ namespace RapidDoc.Models.Services
 
                     if (actionModel.NeedTranslate == true && String.IsNullOrEmpty(actionModel.MainField))
                     {
-                        errorList.Add("Необходимо произвести перевод");
+                        errorList.Add("Необходимо заполнить поле перевод");
                     }
                 }
             }

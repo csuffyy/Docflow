@@ -122,6 +122,7 @@ namespace RapidDoc.Models.ViewModels
         public string MainField { get; set; }
 
         [Display(Name = "Текст приказа (перевод)")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         public string MainFieldTranslate { get; set; }
 
         [Display(Name = "Требуется перевод")]
