@@ -166,6 +166,9 @@
                     <li>
                         <a href="#" data-toggle="modal" data-target=".deliveryOrder-modal">@UIElementRes.UIElement.Delivery</a>
                     </li>
+                    <li>
+                        <a href=@Url.Action("PdfReport", "Report", new { id = Model.DocumentView.Id, processId = Model.ProcessView.Id })>@UIElementRes.UIElement.Print</a>
+                    </li>
                 }
                 @if (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.OfficeMemo &&
                         Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.OnSign)

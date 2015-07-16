@@ -17,6 +17,8 @@ using System.Linq.Expressions;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Office.Interop.Excel;
+using Rotativa;
+using Rotativa.Options;
 
 namespace RapidDoc.Controllers
 {
@@ -60,6 +62,19 @@ namespace RapidDoc.Controllers
         {
             ViewBag.ProcessList = _ProcessService.GetDropListProcessNull(null);
             return View();
+        }
+
+        public ActionResult PdfReport(Guid id, Guid? processId)
+        {
+            DocumentTable docTable = _DocumentService.FirstOrDefault(x => x.Id == id);
+            ProcessTable process = _ProcessService.FirstOrDefault(x => x.Id == processId);
+
+            var documentView = _DocumentService.GetDocumentView(docTable.RefDocumentId, process.TableName);
+
+            return new ViewAsPdf("PdfReport", documentView)
+            {
+                PageSize = Size.A4
+            };
         }
 
         [HttpPost]
@@ -469,4 +484,14 @@ namespace RapidDoc.Controllers
         public DateTime? Date { get; set; }
         public int? Minutes { get; set; }
     }
+  /*  public class PdfReport
+    {
+        public string OrderNum { get; set; }
+        public DateTime? OrderDate { get; set; }
+        public string Subject { get; set; }
+        public string MainField { get; set; }
+        public string MainFieldTranslate { get; set; }
+        public string SignTitle { get; set; }
+        public string SignName { get; set; }
+    }*/
 }

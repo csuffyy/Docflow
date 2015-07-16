@@ -1,0 +1,69 @@
+﻿@model dynamic
+@{
+    Layout = null;
+}
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>PdfReport</title>
+</head>
+<body>
+    <div> 
+        <h4 align ="center">
+            <strong>
+                <font size="4" face="Arial">
+                    БҰЙРЫҚ<br />
+                    № @Model.OrderNum от:@Model.OrderDate.ToShortDateString() г.<br />
+                </font>
+            </strong>
+            @Model.Subject
+        </h4>
+        <font size="4" face="Arial">
+            @Html.Raw(@Model.MainField)
+        </font>
+        <hr style="height:1px;border:none;color:#333;background-color:#333;" />
+        <font size="4" face="Arial">
+            @Html.Raw(@Model.MainFieldTranslate)
+        </font>
+        <br/>
+        <br />
+        <table width="800">
+            <tr>
+                <td align="left">
+                    <strong>
+                        <font size="4" face="Arial">
+                            @Model.SignTitle
+                        </font>
+                    </strong>
+                </td>
+                <td align="right">
+                    <strong>
+                        <font size="4" face="Arial">
+                            @Model.SignName
+                        </font>
+                    </strong>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <br />
+                </td>
+            </tr>
+            <tr>
+            <td align="left">
+                <font size="4" face="Arial">
+                    Бұйрықпен таныстым:
+                </font>
+            </td>
+            </tr>
+            <tr>
+                <td align="left">  
+                    <font size="4" face="Arial">
+                        С приказом ознакомлен(а):
+                    </font>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

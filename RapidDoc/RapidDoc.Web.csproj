@@ -154,6 +154,9 @@
     <Reference Include="RazorEngine">
       <HintPath>..\packages\RazorEngine.3.4.1\lib\net45\RazorEngine.dll</HintPath>
     </Reference>
+    <Reference Include="Rotativa">
+      <HintPath>..\packages\Rotativa.1.6.4\lib\net40\Rotativa.dll</HintPath>
+    </Reference>
     <Reference Include="Simple.ImageResizer">
       <HintPath>..\packages\Simple.ImageResizer.2.0.1\lib\net40\Simple.ImageResizer.dll</HintPath>
     </Reference>
@@ -627,8 +630,10 @@
     <Content Include="Content\Bootstrap\css\fonts\lato\LatoLatin-Italic.eot" />
     <Content Include="Content\Bootstrap\css\fonts\lato\LatoLatin-Italic.ttf" />
     <Content Include="Content\Bootstrap\css\fonts\lato\LatoLatin-Italic.woff" />
+    <Content Include="App_Browsers\qt.browser" />
     <None Include="LICENSE" />
     <None Include="NOTICE" />
+    <Content Include="Rotativa\wkhtmltopdf.exe" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.kk.js" />
@@ -1573,6 +1578,7 @@
     <Content Include="Views\Custom\USR_ORD_Revocation.cshtml" />
     <Content Include="Views\Custom\USR_REQ_UB_RequestForExportAssetZIF_Edit.cshtml" />
     <Content Include="Views\Custom\USR_REQ_UB_RequestForExportAssetZIF_View.cshtml" />
+    <Content Include="Views\Report\PdfReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
