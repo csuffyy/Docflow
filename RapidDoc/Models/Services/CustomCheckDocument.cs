@@ -1276,7 +1276,7 @@ namespace RapidDoc.Models.Services
                 }
             }
 
-            if (type == (new USR_ORD_MainActivity_View()).GetType())
+            if (type.IsSubclassOf(typeof(BasicOrderView)))
             {
                 if (!String.IsNullOrEmpty(actionModel.Sign))
                 {

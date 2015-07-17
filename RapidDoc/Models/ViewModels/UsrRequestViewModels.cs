@@ -8919,5 +8919,45 @@ namespace RapidDoc.Models.ViewModels
     {
 
     }
+
+    public class USR_ORD_BusinessTrip_View : BasicOrderView
+    {
+
+    }
+
+    public class USR_ORD_Staff_View : BasicOrderView
+    {
+
+    }
+
+    public class USR_ORD_Reception_View : BasicOrderView
+    {
+
+    }
+
+    public class USR_ORD_Dismissal_View : BasicOrderView
+    {
+
+    }
+
+    public class USR_ORD_Transfer_View : BasicOrderView
+    {
+
+    }
+
+    public class USR_ORD_Holiday_View : BasicOrderView
+    {
+
+    }
+
+    public class USR_ORD_ChangeStaff_View : BasicOrderView
+    {
+
+    }
+
+    public class USR_ORD_Sanction_View : BasicOrderView
+    {
+
+    }
     #endregion
 }

@@ -83,7 +83,7 @@ namespace RapidDoc.Controllers
             ViewBag.CompanyList = _CompanyService.GetDropListCompany(null);
             ViewBag.GroupProcessList = _GroupProcessService.GetDropListGroupProcessNull(null);
             ViewBag.ProcessList = _ProcessService.GetDropListProcessNull(null);
-            var droplistTmp = _EmplService.GetDropListEmplNull(null);
+            var droplistTmp = _EmplService.GetDropListEmplActiveNull(null);
             ViewBag.EmplToList = droplistTmp;
             if (UserManager.IsInRole(userId, "Administrator") || UserManager.IsInRole(userId, "Delegations"))
                 ViewBag.EmplFromList = droplistTmp;
@@ -117,7 +117,7 @@ namespace RapidDoc.Controllers
             ViewBag.CompanyList = _CompanyService.GetDropListCompany(null);
             ViewBag.GroupProcessList = _GroupProcessService.GetDropListGroupProcessNull(null);
             ViewBag.ProcessList = _ProcessService.GetDropListProcessNull(null);
-            var droplistTmp = _EmplService.GetDropListEmplNull(null);
+            var droplistTmp = _EmplService.GetDropListEmplActiveNull(null);
             ViewBag.EmplToList = droplistTmp;
             if (UserManager.IsInRole(userId, "Administrator") || UserManager.IsInRole(userId, "Delegations"))
                 ViewBag.EmplFromList = droplistTmp;
@@ -139,9 +139,9 @@ namespace RapidDoc.Controllers
             ViewBag.CompanyList = _CompanyService.GetDropListCompany(model.CompanyTableId);
             ViewBag.GroupProcessList = _GroupProcessService.GetDropListGroupProcessNull(model.GroupProcessTableId);
             ViewBag.ProcessList = _ProcessService.GetDropListProcessNull(model.ProcessTableId);
-            ViewBag.EmplToList = _EmplService.GetDropListEmplNull(model.EmplTableToId);
+            ViewBag.EmplToList = _EmplService.GetDropListEmplActiveNull(model.EmplTableToId);
             if (UserManager.IsInRole(userId, "Administrator") || UserManager.IsInRole(userId, "Delegations"))
-                ViewBag.EmplFromList = _EmplService.GetDropListEmplNull(model.EmplTableFromId);
+                ViewBag.EmplFromList = _EmplService.GetDropListEmplActiveNull(model.EmplTableFromId);
             else
                 ViewBag.EmplFromList = _EmplService.GetDropListCurrentEmplNull(model.EmplTableFromId);
             
@@ -168,9 +168,9 @@ namespace RapidDoc.Controllers
             ViewBag.CompanyList = _CompanyService.GetDropListCompany(model.CompanyTableId);
             ViewBag.GroupProcessList = _GroupProcessService.GetDropListGroupProcessNull(model.GroupProcessTableId);
             ViewBag.ProcessList = _ProcessService.GetDropListProcessNull(model.ProcessTableId);
-            ViewBag.EmplToList = _EmplService.GetDropListEmplNull(model.EmplTableToId);
+            ViewBag.EmplToList = _EmplService.GetDropListEmplActiveNull(model.EmplTableToId);
             if (UserManager.IsInRole(userId, "Administrator") || UserManager.IsInRole(userId, "Delegations"))
-                ViewBag.EmplFromList = _EmplService.GetDropListEmplNull(model.EmplTableFromId);
+                ViewBag.EmplFromList = _EmplService.GetDropListEmplActiveNull(model.EmplTableFromId);
             else
                 ViewBag.EmplFromList = _EmplService.GetDropListCurrentEmplNull(model.EmplTableFromId);
             return View(model);

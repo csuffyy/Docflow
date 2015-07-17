@@ -997,6 +997,15 @@ namespace UIElementRes {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Печать приказа (PDF).
+        /// </summary>
+        public static string PrintOrder {
+            get {
+                return ResourceManager.GetString("PrintOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Процессы.
         /// </summary>
         public static string Processes {

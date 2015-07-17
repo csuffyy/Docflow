@@ -6581,6 +6581,46 @@ namespace RapidDoc.Models.DomainModels
     {
         
     }
+
+    public class USR_ORD_BusinessTrip_Table : BasicOrderTable
+    {
+
+    }
+
+    public class USR_ORD_Staff_Table : BasicOrderTable
+    {
+
+    }
+
+    public class USR_ORD_Reception_Table : BasicOrderTable
+    {
+
+    }
+
+    public class USR_ORD_Dismissal_Table : BasicOrderTable
+    {
+
+    }
+
+    public class USR_ORD_Transfer_Table : BasicOrderTable
+    {
+
+    }
+
+    public class USR_ORD_Holiday_Table : BasicOrderTable
+    {
+
+    }
+
+    public class USR_ORD_ChangeStaff_Table : BasicOrderTable
+    {
+
+    }
+
+    public class USR_ORD_Sanction_Table : BasicOrderTable
+    {
+
+    }
     #endregion
 }
     

@@ -603,4 +603,7 @@
   <data name="Dispatch" xml:space="preserve">
     <value>Dispatch</value>
   </data>
+  <data name="PrintOrder" xml:space="preserve">
+    <value>Print Order (PDF)</value>
+  </data>
 </root>

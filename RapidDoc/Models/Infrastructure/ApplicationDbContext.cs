@@ -280,6 +280,14 @@ namespace RapidDoc.Models.Infrastructure
         public DbSet<USR_REQ_UB_RequestForPhotoRealization_Table> USR_REQ_UB_RequestForPhotoRealization_Table { get; set; }
         public DbSet<USR_REQ_UZL_RequestForContractNoneresidentCustoms_Table> USR_REQ_UZL_RequestForContractNoneresidentCustoms_Table { get; set; }
         public DbSet<USR_ORD_MainActivity_Table> USR_ORD_MainActivity_Table { get; set; }
+        public DbSet<USR_ORD_BusinessTrip_Table> USR_ORD_BusinessTrip_Table { get; set; }
+        public DbSet<USR_ORD_Staff_Table> USR_ORD_Staff_Table { get; set; }
+        public DbSet<USR_ORD_Reception_Table> USR_ORD_Reception_Table { get; set; }
+        public DbSet<USR_ORD_Dismissal_Table> USR_ORD_Dismissal_Table { get; set; }
+        public DbSet<USR_ORD_Transfer_Table> USR_ORD_Transfer_Table { get; set; }
+        public DbSet<USR_ORD_Holiday_Table> USR_ORD_Holiday_Table { get; set; }
+        public DbSet<USR_ORD_ChangeStaff_Table> USR_ORD_ChangeStaff_Table { get; set; }
+        public DbSet<USR_ORD_Sanction_Table> USR_ORD_Sanction_Table { get; set; }
         
         protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder)
         {

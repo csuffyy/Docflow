@@ -609,4 +609,7 @@
   <data name="Dispatch" xml:space="preserve">
     <value>Отправить</value>
   </data>
+  <data name="PrintOrder" xml:space="preserve">
+    <value>Печать приказа (PDF)</value>
+  </data>
 </root>

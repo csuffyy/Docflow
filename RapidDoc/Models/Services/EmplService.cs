@@ -35,6 +35,7 @@ namespace RapidDoc.Models.Services
         EmplTable FindIntercompany(Guid id);
         EmplView FindView(Guid id);
         SelectList GetDropListEmplNull(Guid? id);
+        SelectList GetDropListEmplActiveNull(Guid? id);
         SelectList GetDropListCurrentEmplNull(Guid? id);
         object GetJsonEmpl();
         object GetJsonGroup();
@@ -168,6 +169,13 @@ namespace RapidDoc.Models.Services
         public SelectList GetDropListEmplNull(Guid? id)
         {
             var items = GetAllView().ToList();
+            items.Insert(0, new EmplView { AliasCompanyName = UIElementRes.UIElement.No, FirstName = UIElementRes.UIElement.NoValue, Id = null });
+            return new SelectList(items, "Id", "FullNameAddon", id);
+        }
+
+        public SelectList GetDropListEmplActiveNull(Guid? id)
+        {
+            var items = GetPartialView(x => x.Enable == true).ToList();
             items.Insert(0, new EmplView { AliasCompanyName = UIElementRes.UIElement.No, FirstName = UIElementRes.UIElement.NoValue, Id = null });
             return new SelectList(items, "Id", "FullNameAddon", id);
         }

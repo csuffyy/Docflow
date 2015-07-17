@@ -1571,6 +1571,222 @@ namespace RapidDoc.Controllers
             return PartialView("USR_ORD_MainActivity_View_Full", model);
         }
 
+        public ActionResult GetManualORDBusinessTrip(RapidDoc.Models.ViewModels.USR_ORD_BusinessTrip_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.ActivityName == "Цензор 1") || current.Any(x => x.ActivityName == "Цензор 2"))
+                    {
+                        return PartialView("USR_ORD_BusinessTrip_Edit_Part", model);
+                    }
+                    if (current.Any(x => x.ActivityName == "Переводчик"))
+                    {
+                        return PartialView("USR_ORD_BusinessTrip_Edit_Translator", model);
+                    }
+                    if (current.Any(x => x.ActivityName == "Регистрация"))
+                    {
+                        return PartialView("USR_ORD_BusinessTrip_Edit_Registration", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_ORD_BusinessTrip_View_Full", model);
+        }
+
+        public ActionResult GetManualORDStaff(RapidDoc.Models.ViewModels.USR_ORD_Staff_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.ActivityName == "Цензор"))
+                    {
+                        return PartialView("USR_ORD_Staff_Edit_Part", model);
+                    }
+                    if (current.Any(x => x.ActivityName == "Переводчик"))
+                    {
+                        return PartialView("USR_ORD_Staff_Edit_Translator", model);
+                    }
+                    if (current.Any(x => x.ActivityName == "Регистрация"))
+                    {
+                        return PartialView("USR_ORD_Staff_Edit_Registration", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_ORD_Staff_View_Full", model);
+        }
+
+        public ActionResult GetManualORDReception(RapidDoc.Models.ViewModels.USR_ORD_Reception_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.ActivityName == "Цензор"))
+                    {
+                        return PartialView("USR_ORD_Reception_Edit_Part", model);
+                    }
+                    if (current.Any(x => x.ActivityName == "Переводчик"))
+                    {
+                        return PartialView("USR_ORD_Reception_Edit_Translator", model);
+                    }
+                    if (current.Any(x => x.ActivityName == "Регистрация"))
+                    {
+                        return PartialView("USR_ORD_Reception_Edit_Registration", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_ORD_Reception_View_Full", model);
+        }
+
+        public ActionResult GetManualORDDismissal(RapidDoc.Models.ViewModels.USR_ORD_Dismissal_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.ActivityName == "Цензор"))
+                    {
+                        return PartialView("USR_ORD_Dismissal_Edit_Part", model);
+                    }
+                    if (current.Any(x => x.ActivityName == "Переводчик"))
+                    {
+                        return PartialView("USR_ORD_Dismissal_Edit_Translator", model);
+                    }
+                    if (current.Any(x => x.ActivityName == "Регистрация"))
+                    {
+                        return PartialView("USR_ORD_Dismissal_Edit_Registration", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_ORD_Dismissal_View_Full", model);
+        }
+
+        public ActionResult GetManualORDTransfer(RapidDoc.Models.ViewModels.USR_ORD_Transfer_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.ActivityName == "Цензор"))
+                    {
+                        return PartialView("USR_ORD_Transfer_Edit_Part", model);
+                    }
+                    if (current.Any(x => x.ActivityName == "Переводчик"))
+                    {
+                        return PartialView("USR_ORD_Transfer_Edit_Translator", model);
+                    }
+                    if (current.Any(x => x.ActivityName == "Регистрация"))
+                    {
+                        return PartialView("USR_ORD_Transfer_Edit_Registration", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_ORD_Transfer_View_Full", model);
+        }
+
+        public ActionResult GetManualORDHoliday(RapidDoc.Models.ViewModels.USR_ORD_Holiday_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.ActivityName == "Цензор"))
+                    {
+                        return PartialView("USR_ORD_Holiday_Edit_Part", model);
+                    }
+                    if (current.Any(x => x.ActivityName == "Переводчик"))
+                    {
+                        return PartialView("USR_ORD_Holiday_Edit_Translator", model);
+                    }
+                    if (current.Any(x => x.ActivityName == "Регистрация"))
+                    {
+                        return PartialView("USR_ORD_Holiday_Edit_Registration", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_ORD_Holiday_View_Full", model);
+        }
+
+        public ActionResult GetManualORDChangeStaff(RapidDoc.Models.ViewModels.USR_ORD_ChangeStaff_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.ActivityName == "Цензор"))
+                    {
+                        return PartialView("USR_ORD_ChangeStaff_Edit_Part", model);
+                    }
+                    if (current.Any(x => x.ActivityName == "Переводчик"))
+                    {
+                        return PartialView("USR_ORD_ChangeStaff_Edit_Translator", model);
+                    }
+                    if (current.Any(x => x.ActivityName == "Регистрация"))
+                    {
+                        return PartialView("USR_ORD_ChangeStaff_Edit_Registration", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_ORD_ChangeStaff_View_Full", model);
+        }
+
+        public ActionResult GetManualORDSanction(RapidDoc.Models.ViewModels.USR_ORD_Sanction_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.ActivityName == "Цензор"))
+                    {
+                        return PartialView("USR_ORD_Sanction_Edit_Part", model);
+                    }
+                    if (current.Any(x => x.ActivityName == "Переводчик"))
+                    {
+                        return PartialView("USR_ORD_Sanction_Edit_Translator", model);
+                    }
+                    if (current.Any(x => x.ActivityName == "Регистрация"))
+                    {
+                        return PartialView("USR_ORD_Sanction_Edit_Registration", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_ORD_Sanction_View_Full", model);
+        }
+
         public ActionResult GetRequestCTPTRU(RapidDoc.Models.ViewModels.USR_REQ_IT_CTP_RequestTRU_View model)
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);

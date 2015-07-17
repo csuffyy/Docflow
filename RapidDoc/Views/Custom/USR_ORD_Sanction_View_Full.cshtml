@@ -1,0 +1,96 @@
+﻿@model RapidDoc.Models.ViewModels.USR_ORD_Sanction_View
+@using RapidDoc.Extensions;
+
+@Html.HiddenFor(model => model.MainField)
+@Html.HiddenFor(model => model.NeedTranslate)
+
+<div class="row">
+    @if(!String.IsNullOrEmpty(Model.ControlUsers))
+    { 
+        <div class="col-xs-4">
+            <div class="editor-label">
+                @Html.LabelForRequired(model => model.Executed)
+            </div>
+            <div class="editor-field">
+                @Html.CheckBoxFor(model => model.Executed, new { @disabled = true })
+                Контролирует: @Html.HtmlDisplayTagsFor(model => model.ControlUsers), @Model.ControlDate.Value.ToShortDateString()
+            </div>
+        </div>
+    }
+    @if(Model.Addition == true)
+    { 
+        <div class="col-xs-2">
+            <div class="editor-label">
+                @Html.LabelForRequired(model => model.Addition)
+            </div>
+            <div class="editor-field">
+                @Html.CheckBoxFor(model => model.Addition, new { @disabled = true })
+            </div>
+        </div>
+    }
+    @if (Model.CancelOrder == true)
+    {
+        <div class="col-xs-6">
+            <h5>
+                Аннулировать приказ:
+                @Html.Action("GetRevocationORD", "Custom", new { id = Model.CancelDocumentId, edit = false })
+            </h5>
+        </div>
+    }
+</div>
+
+<div class="modal fade deliveryOrder-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="alert_placeholder"></div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Создание рассылки</h4>
+            </div>
+            <div class="modal-body" style="min-height:250px;">
+                @Html.TextBox("ReceiversOrder", "", new { @class = "form-control", @data_role = "tagsinputEmpl3", @size = 256, @maxlength = 256, placeholder = "Сотрудники" })
+                <br>
+                <div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default pull-right" data-dismiss="modal">@UIElementRes.UIElement.Cancel</button>
+                        <button type="submit" id="rejectCZ" class="btn btn-success pull-left" name="action:DeliveryOrder">@UIElementRes.UIElement.Dispatch</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h4 class="text-center"><strong>БҰЙРЫҚ</strong></h4>
+<h4 class="text-center"><strong>№ @Html.DisplayTextFor(x => x.OrderNum)</strong></h4>
+<h5 class="text-center"><strong>@Html.FormatValue(Model.OrderDate, "{0:dd.MM.yyyy}") ж.</strong></h5>
+
+<h5 class="text-center">
+    <strong>
+        ТАҚЫРЫБЫ:
+    </strong>
+    @Html.DisplayTextFor(x => x.Subject)
+</h5> 
+<br />
+<hr style="height:1px;border:none;color:#333;background-color:#333;" />
+@Html.Raw(Model.MainField)
+<hr style="height:1px;border:none;color:#333;background-color:#333;" />
+@Html.Raw(Model.MainFieldTranslate)
+<br />
+<div class="row">
+    <div class="col-xs-8">
+        <div class="editor-label">
+            <strong>@Html.DisplayTextFor(x => x.SignTitle)</strong>
+        </div>
+    </div>
+    <div class="col-xs-4">
+        <div class="editor-label">
+            <strong>@Html.DisplayTextFor(x => x.SignName)</strong>
+        </div>
+    </div>
+</div>
+
+
+
+
+
