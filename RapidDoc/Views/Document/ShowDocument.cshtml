@@ -253,7 +253,10 @@
                 </div>
             </div>
         </div>
-
+        @if (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Order && Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Closed && Model.DocumentView.GetType().IsInstanceOfType(typeof(RapidDoc.Models.ViewModels.USR_ORD_BusinessTrip_View)))
+        {
+            <a href=@Url.Action("PdfReportTrip", "Report", new { id = Model.DocumentView.Id, processId = Model.ProcessView.Id }) class="btn btn-default hidden-print">@UIElementRes.UIElement.PrintPdfTrip</a>
+        }
         <a href="javascript:window.print()" class="btn btn-default hidden-print">@UIElementRes.UIElement.Print</a>
         <a href=@Url.Action("Index", "Document") class="btn btn-default hidden-print" role="button">@UIElementRes.UIElement.Close</a>
     </fieldset>

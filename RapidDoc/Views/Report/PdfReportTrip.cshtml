@@ -1,0 +1,136 @@
+﻿@model dynamic
+@{
+    Layout = null;
+}
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>PdfReportTrip</title>
+</head>
+<body>
+    <div>
+        <table>
+            <tr>
+                <td align="center">
+                    <img src="@Url.Content("~/Content/Custom/image-icon/Logo.png")"></td>
+                <td>
+
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>
+
+                </td>
+                <td >
+                    <h4 align="left">
+                        <strong>
+                            <font size="4" face="Arial">
+                               КОМАНДИРОВОЧНОЕ УДОСТОВЕРЕНИЕ №
+                            </font>
+                        </strong>
+                    </h4>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <font size="4" face="Arial">
+                        Командирован(а):<br />
+                    </font>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <font size="4" face="Arial">
+                        Маршрут:<br />
+                    </font>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <font size="4" face="Arial">
+                        Срок командировки:<br />
+                    </font>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <font size="4" face="Arial">
+                        Основание:<br />
+                    </font>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="2">
+                    <font size="4" face="Arial">
+                        Действителен по предъявлении паспорта<br />
+                        серия №______________________________<br />
+                        Уд. личности №________________________
+                    </font>
+                    <br />
+                    <br />
+                </td>
+            </tr>
+
+
+            <tr>
+                <td colspan="3" align="center">
+                    <font size="4" face="Arial">
+                        Начальник отделения ___________________ <br/>
+                    </font>
+                    <br />
+                    <br />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" align="left">
+                    <font size="4" face="Arial">
+                        Отметки и прибытии в пункты назначения и выбытия из них:
+                    </font>
+                    <br />
+                    <br />
+                </td>
+            </tr>
+
+            @for(var i = 0; i < 5; i++)
+            { 
+                <tr>
+                    <td>
+                        <font size="4" face="Arial">
+                            убыл    _________________<br />
+                            <span style="padding-left:48px;">____________201  г.</span>
+                        </font>      
+                    </td>
+                    <td colspan ="2" align="center">
+                        <font size="4" face="Arial">
+                            <span style="padding-left:85px;">прибыл в    _________________</span><br />
+                            <span style="padding-left:172px;">____________201  г.</span>
+                        </font>
+                        <br />
+                        <br />
+                    </td>
+                </tr>
+            }
+
+            <tr>
+                <td colspan="3">
+                    <font size="4" face="Arial">
+                        ПРИМИЧЕНИЕ: При выезде в несколько пунктов отметки о прибытии и убытии делаются
+                        отдельно в каждом из них
+                    </font>
+                </td>
+            </tr>
+        </table>      
+    </div>
+</body>
+</html>

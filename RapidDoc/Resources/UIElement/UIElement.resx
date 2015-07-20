@@ -612,4 +612,7 @@
   <data name="PrintOrder" xml:space="preserve">
     <value>Печать приказа (PDF)</value>
   </data>
+  <data name="PrintPdfTrip" xml:space="preserve">
+    <value>Печать удостоверения</value>
+  </data>
 </root>

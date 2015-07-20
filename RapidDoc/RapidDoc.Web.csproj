@@ -1627,6 +1627,7 @@
     <Content Include="Views\Custom\USR_ORD_Sanction_Edit_Registration.cshtml" />
     <Content Include="Views\Custom\USR_ORD_Sanction_Edit_Part.cshtml" />
     <Content Include="Views\Custom\USR_ORD_Sanction_Edit.cshtml" />
+    <Content Include="Views\Report\PdfReportTrip.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
