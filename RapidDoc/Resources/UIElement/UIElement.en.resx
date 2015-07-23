@@ -606,4 +606,7 @@
   <data name="PrintOrder" xml:space="preserve">
     <value>Print Order (PDF)</value>
   </data>
+  <data name="PrintPdfTrip" xml:space="preserve">
+    <value>Print tirp</value>
+  </data>
 </root>
