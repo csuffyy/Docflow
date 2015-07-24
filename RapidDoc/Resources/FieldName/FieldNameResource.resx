@@ -375,4 +375,7 @@
   <data name="TitleNameKZ" xml:space="preserve">
     <value>Должность KZ</value>
   </data>
+  <data name="Grouping" xml:space="preserve">
+    <value>Группировка</value>
+  </data>
 </root>

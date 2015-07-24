@@ -250,4 +250,110 @@ namespace RapidDoc.Models.ViewModels
         public List<WFTrackerUsersTable> Users { get; set; }
         public bool Skip { get; set; }
     }
+
+    public class RequestBaseView
+    {
+        [Display(Name = "Grouping", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public RequestFilterType FilterType { get; set; }
+
+        [Display(Name = "StartDate", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public DateTime? StartDate { get; set; }
+
+        [Display(Name = "EndDate", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public DateTime? EndDate { get; set; }
+    }
+
+    public class OfficeMemoBaseView
+    {
+        [Display(Name = "Grouping", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public OfficeMemoFilterType FilterType { get; set; }
+
+        [Display(Name = "StartDate", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public DateTime? StartDate { get; set; }
+
+        [Display(Name = "EndDate", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public DateTime? EndDate { get; set; }
+    }
+
+    public class TaskBaseView
+    {
+        [Display(Name = "Grouping", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public TaskFilterType FilterType { get; set; }
+
+        [Display(Name = "StartDate", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public DateTime? StartDate { get; set; }
+
+        [Display(Name = "EndDate", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public DateTime? EndDate { get; set; }
+    }
+
+    public class OrderBaseView
+    {
+        [Display(Name = "Grouping", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public OrderFilterType FilterType { get; set; }
+
+        [Display(Name = "StartDate", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public DateTime? StartDate { get; set; }
+
+        [Display(Name = "EndDate", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public DateTime? EndDate { get; set; }
+    }
+
+    public class DocumentBaseView : BasicCompanyNullView
+    {
+        [StringLength(256, ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisLong")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "DocumentNum", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public string DocumentNum { get; set; }
+
+        [Display(Name = "GroupProcesses", ResourceType = typeof(UIElementRes.UIElement))]
+        public string GroupProcessName { get; set; }
+
+        [Display(Name = "Processes", ResourceType = typeof(UIElementRes.UIElement))]
+        public string ProcessName { get; set; }
+        public Guid? ProcessTableId { get; set; }
+
+        [Display(Name = "DocumentState", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public DocumentState DocumentState { get; set; }
+
+        [Display(Name = "CurrentActivityName", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public string ActivityName { get; set; }
+
+        public DocumentType DocType { get; set; }
+
+        public bool isNotReview { get; set; }
+
+        public bool isArchive { get; set; }
+
+        public bool isSign { get; set; }
+
+        public bool isShow { get; set; }
+
+        [Display(Name = "FirstName", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public string FullName { get; set; }
+
+        [StringLength(256, ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisLong")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "TitleName", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public string TitleName { get; set; }
+
+        [StringLength(256, ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisLong")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "DepartmentName", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public string DepartmentName { get; set; }
+        [Display(Name = "Notify", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public bool IsNotified { get; set; }
+        public bool Cancel { get; set; }
+        public bool Addition { get; set; }
+        public bool Executed { get; set; }
+        public string UserName { get; set; }
+        public string ItemCaseNumber { get; set; }
+        public string ItemCaseName { get; set; }
+        public string DocumentTitle { get; set; }
+        public Guid DocumentRefId { get; set; }
+        public string ProcessTableName { get; set; }
+        public string OrderNumber { get; set; }
+        
+    }
+
 }

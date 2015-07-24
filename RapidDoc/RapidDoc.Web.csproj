@@ -288,6 +288,7 @@
     <Compile Include="Attributes\MultipleButtonAttribute.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BasicController.cs" />
+    <Compile Include="Controllers\DocumentBaseController.cs" />
     <Compile Include="Controllers\ItemCauseController.cs" />
     <Compile Include="Controllers\LDAPIntegrationController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
@@ -373,6 +374,7 @@
     <Compile Include="Models\Services\CompanyService.cs" />
     <Compile Include="Models\Services\DelegationService.cs" />
     <Compile Include="Models\Services\CommentService.cs" />
+    <Compile Include="Models\Services\DocumentBaseService.cs" />
     <Compile Include="Models\Services\DocumentService.cs" />
     <Compile Include="Models\Services\ItemCauseService.cs" />
     <Compile Include="Models\Services\ModificationUsersService.cs" />
@@ -1628,6 +1630,14 @@
     <Content Include="Views\Custom\USR_ORD_Sanction_Edit_Part.cshtml" />
     <Content Include="Views\Custom\USR_ORD_Sanction_Edit.cshtml" />
     <Content Include="Views\Report\PdfReportTrip.cshtml" />
+    <Content Include="Views\DocumentBase\IndexRequest.cshtml" />
+    <Content Include="Views\DocumentBase\_DocumentBaseRequest.cshtml" />
+    <Content Include="Views\DocumentBase\_DocumentBaseOfficeMemo.cshtml" />
+    <Content Include="Views\DocumentBase\IndexOfficeMemo.cshtml" />
+    <Content Include="Views\DocumentBase\IndexTask.cshtml" />
+    <Content Include="Views\DocumentBase\IndexOrder.cshtml" />
+    <Content Include="Views\DocumentBase\_DocumentBaseTask.cshtml" />
+    <Content Include="Views\DocumentBase\_DocumentBaseOrder.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -3103,6 +3113,9 @@
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <MvcBuildViews>true</MvcBuildViews>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />

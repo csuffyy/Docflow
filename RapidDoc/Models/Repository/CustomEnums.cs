@@ -1063,4 +1063,52 @@ namespace RapidDoc.Models.Repository
         [Display(Name = "Фото и видео")]
         Element3 = 2
     }
+
+    public enum RequestFilterType : byte
+    {
+        [Display(Name = "По инициатору")]
+        Initiator = 0,
+
+        [Display(Name = "По подразделению")]
+        Department = 1
+    }
+
+    public enum OfficeMemoFilterType : byte
+    {
+        [Display(Name = "По инициатору")]
+        Initiator = 0,
+
+        [Display(Name = "По подразделению")]
+        Department = 1,
+
+        [Display(Name = "По номенклатурному делу")]
+        ItemCase = 2,
+
+        [Display(Name = "По теме документа")]
+        Topic = 3
+    }
+
+    public enum TaskFilterType : byte
+    {
+        [Display(Name = "По инициатору")]
+        Initiator = 0,
+
+        [Display(Name = "По подразделению")]
+        Department = 1
+    }
+
+    public enum OrderFilterType : byte
+    {
+        [Display(Name = "По инициатору")]
+        Initiator = 0,
+
+        [Display(Name = "По подразделению")]
+        Department = 1,
+
+        [Display(Name = "По номеру приказа")]
+        NumberOrder = 2,
+
+        [Display(Name = "По теме документа")]
+        Topic = 3
+    }
 }

@@ -73,6 +73,23 @@
                     <li class="dropdown">
                         @Html.ActionLink(UIElementRes.UIElement.Search, "Index", "Search")
                     </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@UIElementRes.UIElement.DocumentBase<b class="caret"></b></a>
+                        <ul class="dropdown-menu">                         
+                            <li class="dropdown">
+                                @Html.ActionLink(UIElementRes.UIElement.RequestBase, "IndexRequest", "DocumentBase")
+                            </li>
+                            <li class="dropdown">
+                                @Html.ActionLink(UIElementRes.UIElement.OfficeMemoBase, "IndexOfficeMemo", "DocumentBase")
+                            </li>
+                            <li class="dropdown">
+                                @Html.ActionLink(UIElementRes.UIElement.TaskBase, "IndexTask", "DocumentBase")
+                            </li>
+                            <li class="dropdown">
+                                @Html.ActionLink(UIElementRes.UIElement.OrderBase, "IndexOrder", "DocumentBase")
+                            </li>
+                        </ul>
+                    </li>
 
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">@UICulture.Substring(0, 2).ToUpper() <b class="caret"></b></a>

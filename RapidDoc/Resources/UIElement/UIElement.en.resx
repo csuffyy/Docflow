@@ -609,4 +609,19 @@
   <data name="PrintPdfTrip" xml:space="preserve">
     <value>Print tirp</value>
   </data>
+  <data name="DocumentBase" xml:space="preserve">
+    <value>Document base</value>
+  </data>
+  <data name="RequestBase" xml:space="preserve">
+    <value>Requests</value>
+  </data>
+  <data name="OfficeMemoBase" xml:space="preserve">
+    <value>Office memo</value>
+  </data>
+  <data name="OrderBase" xml:space="preserve">
+    <value>Orders</value>
+  </data>
+  <data name="TaskBase" xml:space="preserve">
+    <value>Tasks</value>
+  </data>
 </root>

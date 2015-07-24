@@ -592,6 +592,15 @@ namespace UIElementRes {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to База документов.
+        /// </summary>
+        public static string DocumentBase {
+            get {
+                return ResourceManager.GetString("DocumentBase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Файл удален.
         /// </summary>
         public static string DocumentDeletedFile {
@@ -925,11 +934,29 @@ namespace UIElementRes {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Служебные записки.
+        /// </summary>
+        public static string OfficeMemoBase {
+            get {
+                return ResourceManager.GetString("OfficeMemoBase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to На доработку.
         /// </summary>
         public static string OnRework {
             get {
                 return ResourceManager.GetString("OnRework", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Приказы.
+        /// </summary>
+        public static string OrderBase {
+            get {
+                return ResourceManager.GetString("OrderBase", resourceCulture);
             }
         }
         
@@ -1146,6 +1173,15 @@ namespace UIElementRes {
         public static string Reports {
             get {
                 return ResourceManager.GetString("Reports", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Заявки.
+        /// </summary>
+        public static string RequestBase {
+            get {
+                return ResourceManager.GetString("RequestBase", resourceCulture);
             }
         }
         
@@ -1398,6 +1434,15 @@ namespace UIElementRes {
         public static string SupportFileTypes {
             get {
                 return ResourceManager.GetString("SupportFileTypes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Задачи.
+        /// </summary>
+        public static string TaskBase {
+            get {
+                return ResourceManager.GetString("TaskBase", resourceCulture);
             }
         }
         

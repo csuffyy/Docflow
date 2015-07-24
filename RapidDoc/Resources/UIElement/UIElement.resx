@@ -615,4 +615,19 @@
   <data name="PrintPdfTrip" xml:space="preserve">
     <value>Печать удостоверения</value>
   </data>
+  <data name="DocumentBase" xml:space="preserve">
+    <value>База документов</value>
+  </data>
+  <data name="RequestBase" xml:space="preserve">
+    <value>Заявки</value>
+  </data>
+  <data name="OfficeMemoBase" xml:space="preserve">
+    <value>Служебные записки</value>
+  </data>
+  <data name="OrderBase" xml:space="preserve">
+    <value>Приказы</value>
+  </data>
+  <data name="TaskBase" xml:space="preserve">
+    <value>Задачи</value>
+  </data>
 </root>
