@@ -1023,7 +1023,8 @@ namespace RapidDoc.Controllers
 
                 if (operationType == OperationType.ApproveDocument)
                 {
-                    if (documentTable.ProcessTable != null && !String.IsNullOrEmpty(documentTable.ProcessTable.StartReaderRoleId))
+                    //Previous code for startReaderRole
+                    /*if (documentTable.ProcessTable != null && !String.IsNullOrEmpty(documentTable.ProcessTable.StartReaderRoleId))
                     {
                         try
                         {
@@ -1035,7 +1036,7 @@ namespace RapidDoc.Controllers
                             }
                         }
                         catch { }
-                    }
+                    }*/
                     _WorkflowService.RunWorkflow(documentTable, processView.TableName, documentData);
                 }
 
@@ -2044,7 +2045,8 @@ namespace RapidDoc.Controllers
 
             if (operationType == OperationType.ApproveDocument)
             {
-                if (documentTable.ProcessTable != null && !String.IsNullOrEmpty(documentTable.ProcessTable.StartReaderRoleId))
+                //Previous code for startReaderRole
+                /*if (documentTable.ProcessTable != null && !String.IsNullOrEmpty(documentTable.ProcessTable.StartReaderRoleId))
                 {
                     try
                     {
@@ -2056,7 +2058,7 @@ namespace RapidDoc.Controllers
                         }
                     }
                     catch { }
-                }
+                }*/
                 _WorkflowService.RunWorkflow(documentTable, processView.TableName, documentData);
             }
         }       

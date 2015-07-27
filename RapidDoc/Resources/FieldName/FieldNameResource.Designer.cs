@@ -727,7 +727,7 @@ namespace FieldNameRes {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Роль (Добавление читателей при создании).
+        ///   Looks up a localized string similar to Полный просмотр.
         /// </summary>
         public static string StartReaderRoleName {
             get {

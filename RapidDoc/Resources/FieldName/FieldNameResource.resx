@@ -352,7 +352,7 @@
     <value>Роль (Добавление читателей при закрытии)</value>
   </data>
   <data name="StartReaderRoleName" xml:space="preserve">
-    <value>Роль (Добавление читателей при создании)</value>
+    <value>Полный просмотр</value>
   </data>
   <data name="Type" xml:space="preserve">
     <value>Тип</value>

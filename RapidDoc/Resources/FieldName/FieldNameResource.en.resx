@@ -343,7 +343,7 @@
     <value>Role (Adding viewers at closing)</value>
   </data>
   <data name="StartReaderRoleName" xml:space="preserve">
-    <value>Role (Adding viewers when creating)</value>
+    <value>Role (Full process's view)</value>
   </data>
   <data name="Type" xml:space="preserve">
     <value>Type</value>
