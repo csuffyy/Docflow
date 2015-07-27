@@ -585,7 +585,7 @@ namespace RapidDoc.Models.Services
                 return true;
             }
 
-            if (_ProcessService.GetPartialView(x => x.Id == documentTable.ProcessTableId).Any(p =>
+            if (_ProcessService.GetPartial(x => x.Id == documentTable.ProcessTableId).Any(p =>
                 RoleManager.Roles.Where( pr => pr.Id == p.StartReaderRoleId).ToList().Any(x => x.Users.ToList().Any(z => z.UserId == user.Id ))))
             {
                 return true;
