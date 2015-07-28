@@ -6584,6 +6584,12 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_ORD_BusinessTrip_Table : BasicOrderTable
     {
+        [Required]
+        public string Workers { get; set; }
+        public string Department { get; set; }
+        public string Position { get; set; }
+
+
 
     }
 

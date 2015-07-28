@@ -288,6 +288,7 @@
     <Compile Include="Attributes\MultipleButtonAttribute.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BasicController.cs" />
+    <Compile Include="Controllers\CountryController.cs" />
     <Compile Include="Controllers\DocumentBaseController.cs" />
     <Compile Include="Controllers\ItemCauseController.cs" />
     <Compile Include="Controllers\LDAPIntegrationController.cs" />
@@ -296,6 +297,7 @@
     <Compile Include="Controllers\DelegationController.cs" />
     <Compile Include="Controllers\DocumentController.cs" />
     <Compile Include="Controllers\MonitoringController.cs" />
+    <Compile Include="Controllers\OrganizationController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HistoryUserController.cs" />
@@ -331,6 +333,7 @@
     <Compile Include="Models\DomainModels\CustomDirectoryModels.cs" />
     <Compile Include="Models\DomainModels\CustomDomainModelTemplate.cs" />
     <Compile Include="Models\DomainModels\UsrRequestDomainModels.cs" />
+    <Compile Include="Models\Grids\CountryAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\MyDocumentAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\AjaxGridPager.cs" />
     <Compile Include="Models\Grids\AgreedDocumentAjaxPagingGrid.cs" />
@@ -340,6 +343,7 @@
     <Compile Include="Models\Grids\GroupProcessAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\ItemCauseAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\NumberSeriesBookingAjaxPagingGrid.cs" />
+    <Compile Include="Models\Grids\OrganizationAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\ProcessAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\ServiceIncidentAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\TripSettingsAjaxPagingGrid.cs" />
@@ -362,6 +366,7 @@
     <Compile Include="Models\Interfaces\IDbContext.cs" />
     <Compile Include="Models\Interfaces\IUnitOfWork.cs" />
     <Compile Include="Models\Repository\CompanyConstraint.cs" />
+    <Compile Include="Models\Services\CountryService.cs" />
     <Compile Include="Models\Services\CustomCheckDocument.cs" />
     <Compile Include="Models\Repository\CustomEnums.cs" />
     <Compile Include="Models\Repository\Enums.cs" />
@@ -379,6 +384,7 @@
     <Compile Include="Models\Services\ItemCauseService.cs" />
     <Compile Include="Models\Services\ModificationUsersService.cs" />
     <Compile Include="Models\Services\NotificationUsersService.cs" />
+    <Compile Include="Models\Services\OrganizationService.cs" />
     <Compile Include="Models\Services\ReportService.cs" />
     <Compile Include="Models\Services\SearchService.cs" />
     <Compile Include="Models\Services\HistoryUserService.cs" />
@@ -1638,6 +1644,18 @@
     <Content Include="Views\DocumentBase\IndexOrder.cshtml" />
     <Content Include="Views\DocumentBase\_DocumentBaseTask.cshtml" />
     <Content Include="Views\DocumentBase\_DocumentBaseOrder.cshtml" />
+    <Content Include="Views\Country\Index.cshtml" />
+    <Content Include="Views\Country\Edit.cshtml" />
+    <Content Include="Views\Country\Detail.cshtml" />
+    <Content Include="Views\Country\Delete.cshtml" />
+    <Content Include="Views\Country\Create.cshtml" />
+    <Content Include="Views\Country\_CountryGrid.cshtml" />
+    <Content Include="Views\Organization\Index.cshtml" />
+    <Content Include="Views\Organization\Edit.cshtml" />
+    <Content Include="Views\Organization\Detail.cshtml" />
+    <Content Include="Views\Organization\Delete.cshtml" />
+    <Content Include="Views\Organization\Create.cshtml" />
+    <Content Include="Views\Organization\_OrganizationGrid.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -3110,6 +3128,7 @@
       <SubType>Designer</SubType>
     </XamlAppDef>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

@@ -59,4 +59,15 @@ namespace RapidDoc.Models.DomainModels
         public bool Enable { get; set; }
         
     }
+
+    public class CountryTable : BasicCompanyNullTable
+    {
+        public string CountryName { get; set; }
+        public string CityName { get; set; }
+    }
+
+    public class OrganizationTable : BasicCompanyNullTable
+    {
+        public string OrgName { get; set; }
+    }
 }

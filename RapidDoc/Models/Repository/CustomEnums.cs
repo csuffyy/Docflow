@@ -1111,4 +1111,22 @@ namespace RapidDoc.Models.Repository
         [Display(Name = "По теме документа")]
         Topic = 3
     }
+
+    public enum BusinessTripType : byte
+    {
+        [Display(Name = "Производственная")]
+        Element1 = 0,
+
+        [Display(Name = "Учебная")]
+        Element2 = 1,
+
+        [Display(Name = "Для участия в конференции")]
+        Element3 = 2,
+
+        [Display(Name = "Для участия в семинаре")]
+        Element4 = 3,
+
+        [Display(Name = "Другое")]
+        Element5 = 3
+    }
 }

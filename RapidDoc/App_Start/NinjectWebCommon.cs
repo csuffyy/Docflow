@@ -95,7 +95,9 @@ namespace RapidDoc.App_Start
             kernel.Bind<IReportService>().To<ReportService>();
             kernel.Bind<IModificationUsersService>().To<ModificationUsersService>();
             kernel.Bind<INotificationUsersService>().To<NotificationUsersService>();
-            kernel.Bind<IDocumentBaseService>().To<DocumentBaseService>();  
+            kernel.Bind<IDocumentBaseService>().To<DocumentBaseService>();
+            kernel.Bind<IOrganizationService>().To<OrganizationService>();
+            kernel.Bind<ICountryService>().To<CountryService>();  
         }        
     }
 }

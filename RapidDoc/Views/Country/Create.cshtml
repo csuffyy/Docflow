@@ -1,0 +1,34 @@
+﻿@model RapidDoc.Models.ViewModels.CountryView
+@using RapidDoc.Extensions;
+@{
+    ViewBag.Title = "Новый Город";
+}
+<h2>Город</h2>
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend></legend>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => model.CityName)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.CityName, new { @class = "form-control", @size = 70, @maxlength = 70, placeholder = "Кокшетау", @autofocus = "required", @x_webkit_speech = "" })
+            @Html.ValidationMessageFor(model => model.CityName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelForRequired(model => model.CountryName)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.CountryName, new { @class = "form-control", @size = 70, @maxlength = 70, placeholder = "Казахстан", @autofocus = "required", @x_webkit_speech = "" })
+            @Html.ValidationMessageFor(model => model.CountryName)
+        </div>
+
+        @{Html.RenderPartial("SaveBackBtn");}
+    </fieldset>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/editentity")
+}

@@ -85,4 +85,19 @@ namespace RapidDoc.Models.ViewModels
         public bool Enable { get; set; }
         public string NamesTo { get; set; }
     }
+
+    public class CountryView : BasicCompanyNullView
+    {
+        [Display(Name = "Страна")]
+        public string CountryName { get; set; }
+
+        [Display(Name = "Город")]
+        public string CityName { get; set; }
+    }
+
+    public class OrganizationView : BasicCompanyNullView
+    {
+        [Display(Name = "Организация")]
+        public string OrgName { get; set; }
+    }
 }

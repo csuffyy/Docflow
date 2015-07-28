@@ -44,6 +44,8 @@ namespace RapidDoc.Models.Infrastructure
         public DbSet<ItemCauseTable> ItemCauseTable { get; set; }
         public DbSet<ModificationUsersTable> ModificationUsersTable { get; set; }
         public DbSet<NotificationUsersTable> NotificationUsersTable { get; set; }
+        public DbSet<OrganizationTable> OrganizationTable { get; set; }
+        public DbSet<CountryTable> CountryTable { get; set; }
 
         //Custom Requests
         public DbSet<USR_REQ_IT_CTS_DeliveryOfPinCode_Table> USR_REQ_IT_CTS_DeliveryOfPinCode_Table { get; set; }
@@ -288,7 +290,7 @@ namespace RapidDoc.Models.Infrastructure
         public DbSet<USR_ORD_Holiday_Table> USR_ORD_Holiday_Table { get; set; }
         public DbSet<USR_ORD_ChangeStaff_Table> USR_ORD_ChangeStaff_Table { get; set; }
         public DbSet<USR_ORD_Sanction_Table> USR_ORD_Sanction_Table { get; set; }
-        
+       
         protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
