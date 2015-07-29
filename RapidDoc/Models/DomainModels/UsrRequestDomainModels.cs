@@ -6588,9 +6588,35 @@ namespace RapidDoc.Models.DomainModels
         public string Workers { get; set; }
         public string Department { get; set; }
         public string Position { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
+        public int CountDays { get; set; }
+        public BusinessTripType BusinessTripType { get; set; }
+        public string GoalTrip { get; set; }
+        public BusinessTripCategory BusinessTripCategory { get; set; }
+
+        
+        public Guid? CountryTableId { get; set; }
+        public virtual CountryTable CountryTable { get; set; }
+        public string Country { get; set; }
+
+        public BusinessTripDestination BusinessTripDestination { get; set; }
+
+        public bool BusinessTrip_Plane { get; set; }
+        public bool BusinessTrip_Train { get; set; }
+        public bool BusinessTrip_Car { get; set; }
+        public bool BusinessTrip_Boat { get; set; }
 
 
+        public Guid? OrganizationTableId { get; set; }
+        public virtual OrganizationTable OrganizationTable { get; set; }
+        public string Organization { get; set; }
 
+        public PaymentType Transit { get; set; }
+        public PaymentType Accommodation { get; set; }
+        public PaymentType Money { get; set; }
+
+        public bool VisaRequired { get; set; }
     }
 
     public class USR_ORD_Staff_Table : BasicOrderTable

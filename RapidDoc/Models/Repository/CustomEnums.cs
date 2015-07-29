@@ -1127,6 +1127,39 @@ namespace RapidDoc.Models.Repository
         Element4 = 3,
 
         [Display(Name = "Другое")]
-        Element5 = 3
+        Element5 = 4
+    }
+
+    public enum BusinessTripCategory : byte
+    {
+        [Display(Name = "Плановая")]
+        Element1 = 0,
+
+        [Display(Name = "Внеплановая")]
+        Element2 = 1
+    }
+
+    public enum BusinessTripDestination : byte
+    {
+        [Display(Name = "Республика Казахстан")]
+        Element1 = 0,
+
+        [Display(Name = "СНГ")]
+        Element2 = 1,
+
+        [Display(Name = "Дальнее зарубежье")]
+        Element3 = 2,
+    }
+
+    public enum PaymentType : byte
+    {
+        [Display(Name = "Компания")]
+        Element1 = 0,
+
+        [Display(Name = "Приглашающая сторона")]
+        Element2 = 1,
+
+        [Display(Name = "Не оплачивается")]
+        Element3 = 2,
     }
 }

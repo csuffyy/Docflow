@@ -1656,6 +1656,8 @@
     <Content Include="Views\Organization\Delete.cshtml" />
     <Content Include="Views\Organization\Create.cshtml" />
     <Content Include="Views\Organization\_OrganizationGrid.cshtml" />
+    <Content Include="Views\Custom\USR_ORD_Country.cshtml" />
+    <Content Include="Views\Custom\USR_ORD_Organization.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

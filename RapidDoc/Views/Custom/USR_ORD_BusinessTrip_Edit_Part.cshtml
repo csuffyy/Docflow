@@ -7,6 +7,166 @@
 @Html.HiddenFor(model => model.ListAgreement)
 @Html.HiddenFor(model => model.ListSubcription)
 
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.Workers)
+</div>
+<div class="editor-field">
+    @Html.TextBoxFor(model => Model.Workers, new { @class = "form-control", @data_role = "tagsinputEmpl2", @size = 256, @maxlength = 256, placeholder = "Работник", @autofocus = "required" })
+</div>
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.Department)
+</div>
+<div class="editor-field">
+    @Html.TextBoxFor(model => Model.Department, new { @class = "form-control", placeholder = "Подразделение" })
+</div>
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.Position)
+</div>
+<div class="editor-field">
+    @Html.TextBoxFor(model => Model.Position, new { @class = "form-control", placeholder = "Должность" })
+</div>
+<hr />
+<h4>Сроки командировки:</h4>
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.StartDate)
+</div>
+<div class="editor-field">
+    @Html.TextBoxFor(model => Model.StartDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control form-control-date", placeholder = "c", startDate = "" })
+</div>
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.EndDate)
+</div>
+<div class="editor-field">
+    @Html.TextBoxFor(model => Model.EndDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control form-control-date", placeholder = "по", startDate = "" })
+</div>
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.CountDays)
+</div>
+<div class="editor-field">
+    @Html.TextBoxFor(model => Model.CountDays, new { @class = "form-control bfh-number", placeholder = "Количество дней" })
+</div>
+
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.BusinessTripType)
+</div>
+<div class="editor-field">
+    @Html.EnumDropDownListFor(model => Model.BusinessTripType, new { @class = "selectpicker" })
+</div>
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.GoalTrip)
+</div>
+<div class="editor-field">
+    @Html.TextAreaFor(model => Model.GoalTrip, new { @class = "form-control", @row = 2, placeholder = "Цель командировки" })
+</div>
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.BusinessTripCategory)
+</div>
+<div class="editor-field">
+    @Html.EnumDropDownListFor(model => Model.BusinessTripCategory, new { @class = "selectpicker" })
+</div>
+<div class="row">
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => model.CountryTableId)
+        </div>
+        @Html.Action("GetCountryORD", "Custom")
+    </div>
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Country)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => Model.Country, new { @class = "form-control", placeholder = "Город" })
+        </div>
+    </div>
+</div>
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.BusinessTripDestination)
+</div>
+<div class="editor-field">
+    @Html.EnumDropDownListFor(model => Model.BusinessTripDestination, new { @class = "selectpicker" })
+</div>
+
+<div class="row">
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.BusinessTrip_Plane)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.BusinessTrip_Plane)
+        </div>
+    </div>
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.BusinessTrip_Train)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.BusinessTrip_Train)
+        </div>
+    </div>
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.BusinessTrip_Car)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.BusinessTrip_Car)
+        </div>
+    </div>
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.BusinessTrip_Boat)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.BusinessTrip_Boat)
+        </div>
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => model.OrganizationTableId)
+        </div>
+        <div class="editor-field">
+            @Html.Action("GetOrganizationORD", "Custom")
+        </div>
+    </div>
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Organization)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => Model.Organization, new { @class = "form-control", placeholder = "Организация" })
+        </div>
+    </div>
+</div>
+<hr />
+<h4>Оплата:</h4>
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.Transit)
+</div>
+<div class="editor-field">
+    @Html.EnumDropDownListFor(model => Model.Transit, new { @class = "selectpicker" })
+</div>
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.Accommodation)
+</div>
+<div class="editor-field">
+    @Html.EnumDropDownListFor(model => Model.Accommodation, new { @class = "selectpicker" })
+</div>
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.Money)
+</div>
+<div class="editor-field">
+    @Html.EnumDropDownListFor(model => Model.Money, new { @class = "selectpicker" })
+</div>
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.VisaRequired)
+</div>
+<div class="editor-field">
+    @Html.CheckBoxFor(model => model.VisaRequired)
+</div>
+
 <div class="row">
     <div class="col-xs-2">
         <div class="editor-label">

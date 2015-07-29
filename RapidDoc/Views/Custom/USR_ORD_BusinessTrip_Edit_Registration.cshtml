@@ -15,6 +15,180 @@
 @Html.HiddenFor(model => model.MainFieldTranslate)
 @Html.HiddenFor(model => model.Subject)
 
+<div class="editor-label">
+    @Html.LabelFor(model => Model.Workers)
+</div>
+<div class="editor-field">
+    @Html.DisplayTextFor(model => Model.Workers)
+</div>
+<div class="editor-label">
+    @Html.LabelFor(model => Model.Department)
+</div>
+<div class="editor-field">
+    @Html.DisplayTextFor(model => Model.Department)
+</div>
+<div class="editor-label">
+    @Html.LabelFor(model => Model.Position)
+</div>
+<div class="editor-field">
+    @Html.DisplayTextFor(model => Model.Position)
+</div>
+<hr />
+<h4>Сроки командировки:</h4>
+<div class="editor-label">
+    @Html.LabelFor(model => Model.StartDate)
+</div>
+<div class="editor-field">
+    @Html.DisplayTextFor(model => Model.StartDate)
+</div>
+<div class="editor-label">
+    @Html.LabelFor(model => Model.EndDate)
+</div>
+<div class="editor-field">
+    @Html.DisplayTextFor(model => Model.EndDate)
+</div>
+<div class="editor-label">
+    @Html.LabelFor(model => Model.CountDays)
+</div>
+<div class="editor-field">
+    @Html.DisplayTextFor(model => Model.CountDays)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.BusinessTripType)
+</div>
+<div class="editor-field">
+    @Html.DisplayTextFor(model => Model.BusinessTripType)
+</div>
+<div class="editor-label">
+    @Html.LabelFor(model => Model.GoalTrip)
+</div>
+<div class="editor-field">
+    @Html.DisplayTextFor(model => Model.GoalTrip)
+</div>
+<div class="editor-label">
+    @Html.LabelFor(model => Model.BusinessTripCategory)
+</div>
+<div class="editor-field">
+    @Html.DisplayTextFor(model => Model.BusinessTripCategory)
+</div>
+<div class="row">
+    @if (Model.CountryTableId != null)
+    {
+        <div class="col-xs-2">
+            <div class="editor-label">
+                @Html.LabelFor(model => model.CountryTableId)
+            </div>
+            <div class="editor-field">
+                @Html.DisplayTextFor(model => Model.CountryTable)
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="col-xs-2">
+            <div class="editor-label">
+                @Html.LabelFor(model => Model.Country)
+            </div>
+            <div class="editor-field">
+                @Html.DisplayTextFor(model => Model.Country)
+            </div>
+        </div>
+    }
+</div>
+<div class="editor-label">
+    @Html.LabelFor(model => Model.BusinessTripDestination)
+</div>
+<div class="editor-field">
+    @Html.DisplayTextFor(model => Model.BusinessTripDestination)
+</div>
+
+<div class="row">
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.BusinessTrip_Plane)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => Model.BusinessTrip_Plane, new { @disabled = true })
+        </div>
+    </div>
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.BusinessTrip_Train)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => Model.BusinessTrip_Train, new { @disabled = true })
+        </div>
+    </div>
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.BusinessTrip_Car)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => Model.BusinessTrip_Car, new { @disabled = true })
+        </div>
+    </div>
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.BusinessTrip_Boat)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => Model.BusinessTrip_Boat, new { @disabled = true })
+        </div>
+    </div>
+
+</div>
+<div class="row">
+    @if (Model.OrganizationTableId != null)
+    {
+        <div class="col-xs-2">
+            <div class="editor-label">
+                @Html.LabelFor(model => model.OrganizationTableId)
+            </div>
+            <div class="editor-field">
+                @Html.DisplayTextFor(model => Model.OrganizationTable)
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="col-xs-2">
+            <div class="editor-label">
+                @Html.LabelFor(model => Model.Organization)
+            </div>
+            <div class="editor-field">
+                @Html.DisplayTextFor(model => Model.Organization)
+            </div>
+        </div>
+    }
+</div>
+<hr />
+<h4>Оплата:</h4>
+<div class="editor-label">
+    @Html.LabelFor(model => Model.Transit)
+</div>
+<div class="editor-field">
+    @Html.DisplayTextFor(model => Model.Transit)
+</div>
+<div class="editor-label">
+    @Html.LabelFor(model => Model.Accommodation)
+</div>
+<div class="editor-field">
+    @Html.DisplayTextFor(model => Model.Accommodation)
+</div>
+<div class="editor-label">
+    @Html.LabelFor(model => Model.Money)
+</div>
+<div class="editor-field">
+    @Html.DisplayTextFor(model => Model.Money)
+</div>
+<div class="editor-label">
+    @Html.LabelFor(model => Model.VisaRequired)
+</div>
+<div class="editor-field">
+    @Html.CheckBoxFor(model => Model.VisaRequired, new { @disabled = true })
+</div>
+
 @if (Model.CancelOrder == true)
 {
     <h5>
@@ -81,7 +255,14 @@
     <strong>
         ТАҚЫРЫБЫ:
     </strong>
-    @Html.DisplayTextFor(x => x.Subject)
+    @if (Model.CountryTableId != null)
+    {
+        Командировка: @Html.DisplayTextFor(model => Model.Workers + "- г. " + @Html.DisplayTextFor(m => m.CountryTable));
+    }
+    else
+    {
+        Командировка: @Html.DisplayTextFor(model => Model.Workers + "- г. " + @Html.DisplayTextFor(m => m.Country));
+    }
 </h5>
 <br />
 

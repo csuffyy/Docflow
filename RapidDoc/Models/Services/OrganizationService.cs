@@ -30,6 +30,8 @@ namespace RapidDoc.Models.Services
         void Delete(Guid id);
         OrganizationTable Find(Guid id);
         OrganizationView FindView(Guid id);
+        SelectList GetDropListOrganization(Guid? id);
+        SelectList GetDropListOrganizationNull(Guid? id);
     }
 
     public class OrganizationService : IOrganizationService
@@ -150,6 +152,17 @@ namespace RapidDoc.Models.Services
             return Mapper.Map<OrganizationTable, OrganizationView>(Find(id));
         }
 
+        public SelectList GetDropListOrganization(Guid? id)
+        {
+            var items = GetAllView().ToList();
+            return new SelectList(items, "Id", "OrgName", id);
+        }
 
+        public SelectList GetDropListOrganizationNull(Guid? id)
+        {
+            var items = GetAllView().ToList();
+            items.Insert(0, new OrganizationView { OrgName = UIElementRes.UIElement.NoValue, Id = null });
+            return new SelectList(items, "Id", "OrgName", id);
+        }
     }
 }

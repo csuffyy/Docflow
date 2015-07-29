@@ -30,6 +30,8 @@ namespace RapidDoc.Models.Services
         void Delete(Guid id);
         CountryTable Find(Guid id);
         CountryView FindView(Guid id);
+        SelectList GetDropListCountry(Guid? id);
+        SelectList GetDropListCountryNull(Guid? id);
     }
 
     public class CountryService : ICountryService
@@ -150,6 +152,18 @@ namespace RapidDoc.Models.Services
             return Mapper.Map<CountryTable, CountryView>(Find(id));
         }
 
+        public SelectList GetDropListCountry(Guid? id)
+        {
+            var items = GetAllView().ToList();
+            return new SelectList(items, "Id", "CityName", id);
+        }
+
+        public SelectList GetDropListCountryNull(Guid? id)
+        {
+            var items = GetAllView().ToList();
+            items.Insert(0, new CountryView { CityName = UIElementRes.UIElement.NoValue, Id = null });
+            return new SelectList(items, "Id", "CityName", id);
+        }
         
     }
 }

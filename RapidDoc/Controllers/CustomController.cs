@@ -20,8 +20,10 @@ namespace RapidDoc.Controllers
         private readonly INumberSeqService _NumberSeqService;
         private readonly IServiceIncidentService _ServiceIncidentService;
         private readonly ITripSettingsService _TripSettingsService;
+        private readonly ICountryService _CountryService;
+        private readonly IOrganizationService _OrganizationService;
 
-        public CustomController(IEmplService emplService, ISystemService systemService, IDocumentService documentService, IServiceIncidentService serviceIncidentService, ICompanyService companyService, IAccountService accountService, ITripSettingsService tripSettingsService, INumberSeqService numberSeqService)
+        public CustomController(IEmplService emplService, ISystemService systemService, IDocumentService documentService, IServiceIncidentService serviceIncidentService, ICompanyService companyService, IAccountService accountService, ITripSettingsService tripSettingsService, INumberSeqService numberSeqService, ICountryService countryService, IOrganizationService organizationService)
             : base(companyService, accountService)
         {
             _EmplService = emplService;
@@ -30,6 +32,8 @@ namespace RapidDoc.Controllers
             _ServiceIncidentService = serviceIncidentService;
             _TripSettingsService = tripSettingsService;
             _NumberSeqService = numberSeqService;
+            _CountryService = countryService;
+            _OrganizationService = organizationService;
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
@@ -115,6 +119,20 @@ namespace RapidDoc.Controllers
             ViewBag.ORDRevocationList = _DocumentService.RevocationORDList(id);
             ViewBag.EditMode = edit;
             return PartialView("USR_ORD_Revocation");
+        }
+
+        public ActionResult GetCountryORD(Guid? id = null, bool selected = false)
+        {
+            ViewBag.Selected = selected;
+            ViewBag.CountryList = _CountryService.GetDropListCountryNull(id);
+            return PartialView("USR_ORD_Country");
+        }
+
+        public ActionResult GetOrganizationORD(Guid? id = null, bool selected = false)
+        {
+            ViewBag.Selected = selected;
+            ViewBag.OrganizationList = _OrganizationService.GetDropListOrganizationNull(id);
+            return PartialView("USR_ORD_Organization");
         }
 
         public ActionResult GetManualRequest(RapidDoc.Models.ViewModels.USR_REQ_KD_RequestForCompetitonProc_View model)

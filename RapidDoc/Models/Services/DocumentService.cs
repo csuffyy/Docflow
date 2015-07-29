@@ -70,6 +70,7 @@ namespace RapidDoc.Models.Services
         void UpdateProlongationDate(Guid refDocumentid, DateTime prolongationDate, string currentUserId);
         void ORDRegistration(Guid refDocumentid, string currentUserId, Guid? bookingNumberId);
         SelectList RevocationORDList(Guid? id);
+        Type GetTableType(string TableName);
     }
 
     public class DocumentService : IDocumentService
@@ -1193,6 +1194,12 @@ namespace RapidDoc.Models.Services
             }
 
             return new SelectList(result, "Id", "Name", id);
+        }
+
+
+        public Type GetTableType(string TableName)
+        {
+            return Type.GetType("RapidDoc.Models.DomainModels." + TableName + "_Table");
         }
     }
 }

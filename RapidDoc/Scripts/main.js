@@ -133,7 +133,7 @@ function summernote_init(lang) {
     if ($(".summernote")[0]) {
         $('.summernote').summernote({
             height: 350,
-            focus: true,
+            focus: false,
             lang: lang,
             defaultFontName: 'Arial',
             toolbar: [
