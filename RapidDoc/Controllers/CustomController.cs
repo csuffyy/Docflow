@@ -124,14 +124,14 @@ namespace RapidDoc.Controllers
         public ActionResult GetCountryORD(Guid? id = null, bool selected = false)
         {
             ViewBag.Selected = selected;
-            ViewBag.CountryList = _CountryService.GetDropListCountryNull(id);
+            ViewBag.CountryList = selected == true ? _CountryService.GetDropListCountry(id) : _CountryService.GetDropListCountryNull(id);
             return PartialView("USR_ORD_Country");
         }
 
         public ActionResult GetOrganizationORD(Guid? id = null, bool selected = false)
         {
             ViewBag.Selected = selected;
-            ViewBag.OrganizationList = _OrganizationService.GetDropListOrganizationNull(id);
+            ViewBag.OrganizationList = selected == true ? _OrganizationService.GetDropListOrganization(id) :_OrganizationService.GetDropListOrganizationNull(id);
             return PartialView("USR_ORD_Organization");
         }
 

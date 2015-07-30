@@ -70,7 +70,7 @@
                 @Html.LabelFor(model => model.CountryTableId)
             </div>
             <div class="editor-field">
-                @Html.EditorFor(model => model.CountryTable)
+                @Html.Action("GetCountryORD", "Custom", new { id = Model.CountryTableId, selected = true}) 
             </div>
         </div>
     }
@@ -136,9 +136,7 @@
                         @Html.LabelFor(model => model.OrganizationTableId)
                     </div>
                     <div class="editor-field">
-
-                        @Html.DropDownListFor(x => x.OrganizationTableId,
-                     new SelectList(Model.OrganizationTableId, "ProjectId", "ProjectName"))
+                        @Html.Action("GetOrganizationORD", "Custom", new { id = Model.OrganizationTableId, selected = true })
                     </div>
             </div>
         }

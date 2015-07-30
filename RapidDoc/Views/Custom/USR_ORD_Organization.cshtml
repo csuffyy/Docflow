@@ -1,3 +1,13 @@
 ﻿<div class="editor-field">
-    @Html.DropDownList("OrganizationTableId", (IEnumerable<SelectListItem>)ViewBag.OrganizationList, new { @class = "selectpickerfull", @data_live_search = "true", @data_size = "10" })
+    @if (ViewBag.Selected == true)
+    {
+        @foreach (var item in (IEnumerable<SelectListItem>)ViewBag.OrganizationList)
+        {
+            @Html.DisplayText(item.Text)
+        }
+    }
+    else
+    {
+        @Html.DropDownList("OrganizationTableId", (IEnumerable<SelectListItem>)ViewBag.OrganizationList, new { @class = "selectpickerfull", @data_live_search = "true", @data_size = "10" })
+    }
 </div>
