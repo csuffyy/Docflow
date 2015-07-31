@@ -6,6 +6,7 @@
 @Html.HiddenFor(model => model.NeedTranslate)
 @Html.HiddenFor(model => model.ListAgreement)
 @Html.HiddenFor(model => model.ListSubcription)
+@Html.HiddenFor(model => model.CountDays)
 
 <div class="editor-label">
     @Html.LabelForRequired(model => Model.Workers)
@@ -39,12 +40,13 @@
 <div class="editor-field">
     @Html.TextBoxFor(model => Model.EndDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control form-control-date", placeholder = "по", startDate = "" })
 </div>
+<br />
+<div class="alert_placeholderDate"></div>
+
 <div class="editor-label">
     @Html.LabelForRequired(model => Model.CountDays)
 </div>
-<div class="editor-field">
-    @Html.TextBoxFor(model => Model.CountDays, new { @class = "form-control bfh-number", placeholder = "Количество дней" })
-</div>
+<div id="diffdays"></div>
 
 <div class="editor-label">
     @Html.LabelForRequired(model => Model.BusinessTripType)
@@ -69,7 +71,7 @@
         <div class="editor-label">
             @Html.LabelForRequired(model => model.CountryTableId)
         </div>
-        @Html.Action("GetCountryORD", "Custom")
+        @Html.Action("GetCountryORD", "Custom", new {@id = Model.CountryTableId })
     </div>
     <div class="col-xs-2">
         <div class="editor-label">
@@ -128,7 +130,7 @@
             @Html.LabelForRequired(model => model.OrganizationTableId)
         </div>
         <div class="editor-field">
-            @Html.Action("GetOrganizationORD", "Custom")
+            @Html.Action("GetOrganizationORD", "Custom", new { @id = Model.OrganizationTableId })
         </div>
     </div>
     <div class="col-xs-2">
@@ -268,6 +270,33 @@
             var element = $(event.target);
             $('#ItemCauseTableId').val(element.attr('data-itemid'));
             $('#ItemCauseNumber').text(element.text());
+        });
+
+       $('#diffdays').html($('#CountDays').val());
+
+        $("[id*='Date']").change(function (event) {
+            var pattern = /(\d{2})\.(\d{2})\.(\d{4})/;
+            var startDate = new Date($("#StartDate").val().replace(pattern, '$3-$2-$1'));
+            var endDate = new Date($("#EndDate").val().replace(pattern, '$3-$2-$1'));
+            var diffDays = parseInt((endDate - startDate) / (1000 * 60 * 60 * 24));
+
+            if (startDate != null && endDate != null) {
+                if (diffDays < 0) {
+                    $('.alert_placeholderDate').html('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><span class="sr-only">Error:</span>' + " Введите корректно даты" + '</div>');
+                    $('#diffdays').html("");
+                    $('#CountDays').val(0);
+                } else {
+                    $('.alert_placeholderDate').html("");
+                    if (diffDays == 0) {
+                        $('#CountDays').val(1);
+                        $('#diffdays').html(1);
+                    }
+                    else {
+                        $('#CountDays').val(diffDays);
+                        $('#diffdays').html(diffDays);
+                    }
+                }
+            }
         });
     });
 </script>

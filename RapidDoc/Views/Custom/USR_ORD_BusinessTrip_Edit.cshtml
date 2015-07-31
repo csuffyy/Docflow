@@ -3,7 +3,8 @@
 @{
     Model.OrderDate = DateTime.Today;
     Model.ControlDate = DateTime.Today.AddDays(2);
-}
+}       
+@Html.HiddenFor(model => model.CountDays)
 @Html.ValidationSummary(true)
 <div class="editor-label">
     @Html.LabelForRequired(model => Model.Workers)
@@ -38,13 +39,13 @@
 <div class="editor-field">
     @Html.TextBoxFor(model => Model.EndDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control form-control-date", placeholder = "по", startDate = "" })
 </div>
+<br />
+<div class="alert_placeholderDate"></div>
+
 <div class="editor-label">
     @Html.LabelForRequired(model => Model.CountDays)
 </div>
-<div class="editor-field">
-    @Html.TextBoxFor(model => Model.CountDays, new { @class = "form-control bfh-number", placeholder = "Количество дней" })
-</div>
-
+<div id="diffdays"></div>
 
 <div class="editor-label">
     @Html.LabelForRequired(model => Model.BusinessTripType)
@@ -356,5 +357,30 @@
             $('#ItemCauseTableId').val(element.attr('data-itemid'));
             $('#ItemCauseNumber').text(element.text());
         });
+
+        $("[id*='Date']").change(function (event) {
+            var pattern = /(\d{2})\.(\d{2})\.(\d{4})/;           
+            var startDate = new Date($("#StartDate").val().replace(pattern, '$3-$2-$1'));
+            var endDate = new Date($("#EndDate").val().replace(pattern, '$3-$2-$1'));
+            var diffDays = parseInt((endDate - startDate) / (1000 * 60 * 60 * 24));
+            
+            if (startDate != null && endDate != null) {
+                if (diffDays < 0) {
+                    $('.alert_placeholderDate').html('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><span class="sr-only">Error:</span>' + " Введите корректно даты" + '</div>');
+                    $('#diffdays').html("");
+                    $('#CountDays').val(0);
+                } else {
+                    $('.alert_placeholderDate').html("");
+                    if (diffDays == 0) {
+                        $('#CountDays').val(1);
+                        $('#diffdays').html(1);
+                    }
+                    else {
+                        $('#CountDays').val(diffDays);
+                        $('#diffdays').html(diffDays);
+                    }
+                }
+            }
+        }); 
     });
 </script>

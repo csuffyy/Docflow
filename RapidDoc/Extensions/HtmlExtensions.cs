@@ -16,6 +16,7 @@ using RapidDoc.Models.Infrastructure;
 using Microsoft.AspNet.Identity;
 using RapidDoc.Models.DomainModels;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Web.Routing;
 
 namespace RapidDoc.Extensions
 {
@@ -185,6 +186,26 @@ namespace RapidDoc.Extensions
             Regex isGuid = new Regex(@"^(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}$", RegexOptions.Compiled);
             string[] tagsResult = tags.Where(a => isGuid.IsMatch(a) == false).ToArray();
             var model = string.Join(",", tagsResult).Replace(",", ",<br />\n");
+
+            if (String.IsNullOrEmpty(model))
+                return MvcHtmlString.Empty;
+
+            return MvcHtmlString.Create(model);
+        }
+
+        public static MvcHtmlString HtmlDisplayTagsFor<TModel, TValue>(this HtmlHelper<TModel> html,
+            Expression<Func<TModel, TValue>> expression, object htmlAttributes)
+        {
+            IDictionary<string, object> attributes = new RouteValueDictionary(htmlAttributes);
+
+            var metadata = ModelMetadata.FromLambdaExpression(expression, html.ViewData);
+
+            string[] tags = html.Encode(metadata.Model).Split(',');
+
+            Regex isGuid = new Regex(@"^(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}$", RegexOptions.Compiled);
+            string[] tagsResult = tags.Where(a => isGuid.IsMatch(a) == false).ToArray();
+            
+            var model = (attributes.ContainsKey("row") && (bool)attributes["row"] == true) ? string.Join(",", tagsResult).Replace(",", ",\n") : string.Join(",", tagsResult).Replace(",", ",<br />\n");
 
             if (String.IsNullOrEmpty(model))
                 return MvcHtmlString.Empty;

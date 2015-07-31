@@ -1,13 +1,15 @@
-﻿<div class="editor-field">
+﻿@{
+        IEnumerable<SelectListItem> CountryListFull = ViewBag.CountryList;
+}
     @if (ViewBag.Selected == true)
     {
-        @foreach (var item in (IEnumerable<SelectListItem>)ViewBag.CountryList)
+        foreach (var item in CountryListFull.Where(x => x.Selected == true))
 	    {
-		    @Html.DisplayText(item.Text )
+		    @item.Text
 	    }       
     }
     else
     { 
         @Html.DropDownList("CountryTableId", (IEnumerable<SelectListItem>)ViewBag.CountryList, new { @class = "selectpickerfull", @data_live_search = "true", @data_size = "10"})
     }
-</div>
+

@@ -1,6 +1,9 @@
-﻿@model dynamic
+﻿@using RapidDoc.Extensions;
+
+@model dynamic
 @{
     Layout = null;
+    string workers = Model.Workers;
 }
 <html>
 <head>
@@ -37,7 +40,7 @@
                 <td></td>
                 <td>
                     <font size="4" face="Arial">
-                        Командирован(а):<br />
+                        Командирован(а): @Html.HtmlDisplayTagsFor(model => workers, new { @row = true})<br />
                     </font>
                 </td>
                 <td></td>
@@ -46,7 +49,18 @@
                 <td></td>
                 <td>
                     <font size="4" face="Arial">
-                        Маршрут:<br />
+                        @if (Model.OrganizationTableId != null)
+                        {
+                            <div class="row">
+                                Маршрут: @Html.Action("GetCountryORD", "Custom", new { id = Model.CountryTableId, selected = true })
+                            </div>
+                        }
+                        else
+                        {
+                            <div class ="row">
+                                Маршрут: @Html.DisplayText((string)Model.Country)
+                            </div>
+                        }
                     </font>
                 </td>
                 <td></td>
@@ -55,7 +69,7 @@
                 <td></td>
                 <td>
                     <font size="4" face="Arial">
-                        Срок командировки:<br />
+                        Срок командировки: с @Model.StartDate.ToString("MM/dd/yyyy") по @Model.EndDate.ToString("MM/dd/yyyy")<br />
                     </font>
                 </td>
                 <td></td>
@@ -64,7 +78,9 @@
                 <td></td>
                 <td>
                     <font size="4" face="Arial">
-                        Основание:<br />
+                        Основание: № 
+                        @if (Model.OrderNum != null)
+                        { @Model.OrderNum} от @Html.FormatValue(Model.OrderDate, "{0:dd.MM.yyyy}")<br />
                     </font>
                 </td>
                 <td></td>
@@ -107,14 +123,14 @@
                 <tr>
                     <td>
                         <font size="4" face="Arial">
-                            убыл    _________________<br />
-                            <span style="padding-left:48px;">____________201  г.</span>
+                            убыл    __________________   
+                            <span style="padding-left:44px;">____________201__ г.</span>
                         </font>      
                     </td>
                     <td colspan ="2" align="center">
                         <font size="4" face="Arial">
-                            <span style="padding-left:85px;">прибыл в    _________________</span><br />
-                            <span style="padding-left:172px;">____________201  г.</span>
+                            <span style="padding-left:85px;">прибыл в    __________________</span><br />
+                            <span style="padding-left:172px;">____________201__  г.</span>
                         </font>
                         <br />
                         <br />

@@ -640,6 +640,10 @@ namespace RapidDoc.Models.Services
                 {
                     errorList.Add("Организация должна быть указана");
                 }
+                if (actionModel.CountDays <= 0)
+                {
+                    errorList.Add("Введите корректно даты");
+                }
             }
 
             return errorList;

@@ -118,11 +118,11 @@ namespace RapidDoc.Models.DomainModels
 
         [Required]
         public string ListAgreement { get; set; }
-
-        [Required]
-        public string ListSubcription { get; set; }       
+            
         public string ControlUsers { get; set; }
         public DateTime? ControlDate { get; set; }
+
+        public string ListSubcription { get; set; } 
 
         [Required]
         public string Sign { get; set; }

@@ -143,8 +143,7 @@ namespace RapidDoc.Models.ViewModels
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         public string ListAgreement { get; set; }
 
-        [Display(Name = "Список рассылки")]
-        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Список рассылки")]      
         public string ListSubcription { get; set; }
 
         [Display(Name = "Срок исполнения")]

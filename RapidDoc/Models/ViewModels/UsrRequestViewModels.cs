@@ -8957,7 +8957,6 @@ namespace RapidDoc.Models.ViewModels
 
         [Display(Name = "Город")]
         public Guid? CountryTableId { get; set; }
-        public string CountryTable { get; set; }
 
         [Display(Name = "Город")]
         public string Country { get; set; }
@@ -8979,7 +8978,6 @@ namespace RapidDoc.Models.ViewModels
 
         [Display(Name = "Организация")]
         public Guid? OrganizationTableId { get; set; }
-        public string OrganizationTable { get; set; }
 
         [Display(Name = "Организация")]
         public string Organization { get; set; }

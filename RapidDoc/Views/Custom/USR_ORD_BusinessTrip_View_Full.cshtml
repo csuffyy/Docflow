@@ -4,6 +4,11 @@
 
 @Html.HiddenFor(model => model.MainField)
 @Html.HiddenFor(model => model.NeedTranslate)
+@Html.HiddenFor(model => model.OrganizationTableId)
+@Html.HiddenFor(model => model.CountryTableId)
+@Html.HiddenFor(model => model.CountDays)
+@Html.HiddenFor(model => model.Country)
+@Html.HiddenFor(model => model.Organization)
 
 <div class="editor-label">
     @Html.LabelFor(model => Model.Workers)
@@ -90,7 +95,7 @@
     @Html.LabelFor(model => Model.BusinessTripDestination)
 </div>
 <div class="editor-field">
-    @Html.DisplayTextFor(model => Model.BusinessTripDestination)
+    @Html.EnumToDescription(Model.BusinessTripDestination)
 </div>
 
 <div class="row">
@@ -158,19 +163,19 @@
     @Html.LabelFor(model => Model.Transit)
 </div>
 <div class="editor-field">
-    @Html.DisplayTextFor(model => Model.Transit)
+    @Html.EnumToDescription(Model.Transit)
 </div>
 <div class="editor-label">
     @Html.LabelFor(model => Model.Accommodation)
 </div>
 <div class="editor-field">
-    @Html.DisplayTextFor(model => Model.Accommodation)
+    @Html.EnumToDescription(Model.Accommodation)
 </div>
 <div class="editor-label">
     @Html.LabelFor(model => Model.Money)
 </div>
 <div class="editor-field">
-    @Html.DisplayTextFor(model => Model.Money)
+   @Html.EnumToDescription(Model.Money)
 </div>
 <div class="editor-label">
     @Html.LabelFor(model => Model.VisaRequired)
@@ -244,7 +249,7 @@
     <strong>
         ТАҚЫРЫБЫ:
     </strong>
-    @String.Format("Командировка: {0} - г.{1}", @Html.HtmlDisplayTagsFor(model => model.Workers), Model.CountryTableId != null ? @Html.HtmlDisplayTagsFor(model => Model.CountryTable) : @Html.DisplayTextFor(model => Model.Country))
+    @String.Format("Командировка: {0} - г.{1}", @Html.HtmlDisplayTagsFor(model => model.Workers, new { @row = true }), Model.CountryTableId != null ? @Html.Action("GetCountryORD", "Custom", new { id = Model.CountryTableId, selected = true }) : @Html.DisplayTextFor(model => Model.Country))
 </h5> 
 <br />
 <hr style="height:1px;border:none;color:#333;background-color:#333;" />

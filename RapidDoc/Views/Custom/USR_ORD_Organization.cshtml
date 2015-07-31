@@ -1,9 +1,12 @@
 ﻿<div class="editor-field">
+    @{
+        IEnumerable<SelectListItem> OrganizationListFull = ViewBag.OrganizationList;
+    }
     @if (ViewBag.Selected == true)
     {
-        @foreach (var item in (IEnumerable<SelectListItem>)ViewBag.OrganizationList)
+        foreach (var item in OrganizationListFull.Where(x => x.Selected == true))
         {
-            @Html.DisplayText(item.Text)
+            @item.Text
         }
     }
     else
