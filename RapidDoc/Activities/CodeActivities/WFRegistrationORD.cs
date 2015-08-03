@@ -86,7 +86,8 @@ namespace RapidDoc.Activities.CodeActivities
                 if(!String.IsNullOrEmpty((string)documentData["ControlUsers"]))
                 {
                     USR_TAS_DailyTasks_View docModel = new USR_TAS_DailyTasks_View();
-                    docModel.MainField = (string)documentData["Subject"] + (string)documentData["MainField"] + (string)documentData["MainFieldTranslate"];
+                    docModel.MainField = (string)documentData["Subject"] + 
+                        (string)documentData["MainField"] + (string)documentData["MainFieldTranslate"];
 
                     DateTime? controlDate = (DateTime?)documentData["ControlDate"];
                     if (controlDate == null)

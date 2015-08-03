@@ -165,10 +165,7 @@
                 {
                     <li>
                         <a href="#" data-toggle="modal" data-target=".deliveryOrder-modal">@UIElementRes.UIElement.Delivery</a>
-                    </li>
-                    <li>
-                        <a href=@Url.Action("PdfReport", "Report", new { id = Model.DocumentView.Id, processId = Model.ProcessView.Id })>@UIElementRes.UIElement.PrintOrder</a>
-                    </li>
+                    </li>                 
                 }
                 @if (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.OfficeMemo &&
                         Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.OnSign)
@@ -256,6 +253,10 @@
         @if (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Order && Model.docData.GetType() == typeof(RapidDoc.Models.ViewModels.USR_ORD_BusinessTrip_View))
         {
             <a href=@Url.Action("PdfReportTrip", "Report", new { id = Model.DocumentView.Id, processId = Model.ProcessView.Id }) class="btn btn-default hidden-print">@UIElementRes.UIElement.PrintPdfTrip</a>
+        }
+        @if (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Order && Model.docData.GetType() == typeof(RapidDoc.Models.ViewModels.USR_ORD_BusinessTrip_View))
+        {
+            <a href=@Url.Action("PdfReport", "Report", new { id = Model.DocumentView.Id, processId = Model.ProcessView.Id }) class="btn btn-default hidden-print">@UIElementRes.UIElement.PrintOrder</a>
         }
         <a href="javascript:window.print()" class="btn btn-default hidden-print">@UIElementRes.UIElement.Print</a>
         <a href=@Url.Action("Index", "Document") class="btn btn-default hidden-print" role="button">@UIElementRes.UIElement.Close</a>
