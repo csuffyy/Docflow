@@ -308,7 +308,7 @@ a.thumbnail:focus {
 }
 .navbar-default .navbar-toggle:hover,
 .navbar-default .navbar-toggle:focus {
-  background-color: #1ABC9C;
+  background-color: #008cba;
   border-color: #FFFFFF;
 }
 .navbar-default .navbar-toggle .icon-bar {

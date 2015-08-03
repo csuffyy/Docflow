@@ -25,7 +25,8 @@ namespace RapidDoc.Controllers
         public ActionResult Index()
         {
             string userId = User.Identity.GetUserId();
-            var model = _HistoryUserService.GetPartialView(x => x.ApplicationUserCreatedId == userId && x.CreatedDate >= DateTime.UtcNow.AddDays(-60)).OrderByDescending(x => x.CreatedDate);
+            DateTime startDate = DateTime.UtcNow.AddDays(-60);
+            var model = _HistoryUserService.GetPartialView(x => x.ApplicationUserCreatedId == userId && x.CreatedDate >= startDate).OrderByDescending(x => x.CreatedDate);
 
             return View(model);
         }

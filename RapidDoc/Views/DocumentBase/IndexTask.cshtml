@@ -2,6 +2,10 @@
 @using RapidDoc.Extensions;
 @using RapidDoc.Models.Repository;
 
+@{
+    ViewBag.Title = UIElementRes.UIElement.DocumentBase;
+}
+
 @using (Ajax.BeginForm("Search", "DocumentBase", new { documentType = DocumentType.Task, filterType = (int)Model.FilterType, startDate = Model.StartDate, endDate = Model.EndDate }, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "GroupData" }))
 {
     <div class="form-group">
@@ -10,6 +14,7 @@
         </div>
         <div class="editor-field">
             @Html.EnumDropDownListFor(model => model.FilterType, new { @class = "selectpicker" })
+            <input class="btn btn-primary" type="submit" value=@UIElementRes.UIElement.Search />
         </div>
     </div>
     <a data-toggle="collapse" href="#collapseSettings" aria-expanded="false" aria-controls="collapseSettings" id="setting">@UIElementRes.UIElement.AddonSettings</a>
@@ -33,9 +38,6 @@
             </div>
         </div>
     </div>
-    <p>
-        <input class="btn btn-primary btn-sm pull-right" type="submit" value=@UIElementRes.UIElement.Search />
-    </p>
 }
 <br />
 <br />

@@ -1240,6 +1240,26 @@ namespace RapidDoc.Models.DomainModels
         public string Users { get; set; }
     }
 
+    public class USR_REQ_OKS_RequestForTranslateZIF_Table : BasicDocumentTable
+    {
+        [Required]
+        public string Department { get; set; }
+        [Required]
+        public string Contact { get; set; }
+        [Required]
+        public string Purpose { get; set; }
+        [Required]
+        public TranslateDirection Direction { get; set; }
+        [Required]
+        public int CountPage { get; set; }
+        [Required]
+        public ServiceIncidientPriority Priority { get; set; }
+        [Required]
+        public string ExplanationPriority { get; set; }
+        [Required]
+        public string Users { get; set; }
+    }
+
     public class USR_REQ_OKS_RequestForTranslateKAZ_Table : BasicDocumentTable
     {
         [Required]

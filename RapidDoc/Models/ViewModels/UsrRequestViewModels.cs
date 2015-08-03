@@ -1685,6 +1685,38 @@ namespace RapidDoc.Models.ViewModels
         public string Users { get; set; }
     }
 
+    public class USR_REQ_OKS_RequestForTranslateZIF_View : BasicDocumentView
+    {
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Подразделение")]
+        public string Department { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Контакты (имя, телефон, электронная почта)")]
+        public string Contact { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Цель перевода")]
+        public string Purpose { get; set; }
+
+        [Display(Name = "Направление перевода")]
+        public TranslateDirection Direction { get; set; }
+
+        [Display(Name = "Количество страниц в исходном документе")]
+        public int CountPage { get; set; }
+
+        [Display(Name = "Приоритет")]
+        public ServiceIncidientPriority Priority { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Обоснование приоритетности")]
+        public string ExplanationPriority { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Инициатор")]
+        public string Users { get; set; }
+    }
+
     public class USR_REQ_OKS_RequestForTranslateKAZ_View : BasicDocumentView
     {
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
