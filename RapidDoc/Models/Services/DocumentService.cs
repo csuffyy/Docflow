@@ -71,6 +71,7 @@ namespace RapidDoc.Models.Services
         void ORDRegistration(Guid refDocumentid, string currentUserId, Guid? bookingNumberId);
         SelectList RevocationORDList(Guid? id);
         Type GetTableType(string TableName);
+        string ScrubHtml(string value);
     }
 
     public class DocumentService : IDocumentService
@@ -1200,6 +1201,13 @@ namespace RapidDoc.Models.Services
         public Type GetTableType(string TableName)
         {
             return Type.GetType("RapidDoc.Models.DomainModels." + TableName + "_Table");
+        }
+
+        public string ScrubHtml(string value)
+        {
+            var step1 = Regex.Replace(value, @"<[^>]+>|&nbsp;", "").Trim();
+            var step2 = Regex.Replace(step1, @"\s{2,}", " ");
+            return step2;
         }
     }
 }
