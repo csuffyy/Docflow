@@ -186,8 +186,7 @@
                     </li>
                 }
                 @if (Model.DocumentView.DocType != RapidDoc.Models.Repository.DocumentType.Task &&
-                    (Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement ||
-                    Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.OnSign))
+                    Model.DocumentView.DocumentState != RapidDoc.Models.Repository.DocumentState.Created)
                 {
                     <li>
                         <a href=@Url.Action("CreateTaskFromDocument", new {documentId = Model.DocumentView.Id})>@UIElementRes.UIElement.CreateTask</a>
@@ -252,11 +251,8 @@
         </div>
         @if (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Order && Model.docData.GetType() == typeof(RapidDoc.Models.ViewModels.USR_ORD_BusinessTrip_View))
         {
-            <a href=@Url.Action("PdfReportTrip", "Report", new { id = Model.DocumentView.Id, processId = Model.ProcessView.Id }) class="btn btn-default hidden-print">@UIElementRes.UIElement.PrintPdfTrip</a>
-        }
-        @if (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Order && Model.docData.GetType() == typeof(RapidDoc.Models.ViewModels.USR_ORD_BusinessTrip_View))
-        {
-            <a href=@Url.Action("PdfReport", "Report", new { id = Model.DocumentView.Id, processId = Model.ProcessView.Id }) class="btn btn-default hidden-print">@UIElementRes.UIElement.PrintOrder</a>
+            <a href=@Url.Action("PdfReport", "Report", new { id = Model.DocumentView.Id, processId = Model.ProcessView.Id }) class="btn btn-default hidden-print" target="_blank">@UIElementRes.UIElement.PrintOrder</a>
+    <a href=@Url.Action("PdfReportTrip", "Report", new { id = Model.DocumentView.Id, processId = Model.ProcessView.Id }) class="btn btn-default hidden-print" target="_blank">@UIElementRes.UIElement.PrintPdfTrip</a>
         }
         <a href="javascript:window.print()" class="btn btn-default hidden-print">@UIElementRes.UIElement.Print</a>
         <a href=@Url.Action("Index", "Document") class="btn btn-default hidden-print" role="button">@UIElementRes.UIElement.Close</a>
