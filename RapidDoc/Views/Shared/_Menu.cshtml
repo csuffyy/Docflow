@@ -11,7 +11,7 @@
                 </button>
             }
             <div class="navbar-logo">
-                <a class="navbar-brand" rel="home" href="@Url.Action("Index", "Document")" title="Home"><i class="fa fa-ils fa-lg"></i> DOCFLOW</a>
+                <a class="navbar-brand" rel="home" href="@Url.Action("Index", "Document")" title="Home"><i class="fa fa-circle"></i> DOCFLOW</a>
             </div>
         </div>
 
@@ -23,61 +23,45 @@
                         <a href=@Url.Action("Index", "NewProcess", new { id = User.Identity.GetUserId() }) class="btn-info"><span class="fa fa-plus fa-lg fa-fw"></span></a>
                     </li>
 
-                    @if (User.IsInRole("Administrator") || User.IsInRole("SetupAdministrator"))
+                    @if (User.IsInRole("Administrator") || User.IsInRole("SetupAdministrator") || User.IsInRole("DirectoryAdministrator"))
                     {
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-cog"></span> <b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li class="dropdown-header">@UIElementRes.UIElement.Basic</li>
-                                <li>@Html.ActionLink(UIElementRes.UIElement.Company, "Index", "Company")</li>
-                                <li>@Html.ActionLink(UIElementRes.UIElement.NumberSeqs, "Index", "NumberSeq")</li>
-                                <li>@Html.ActionLink(UIElementRes.UIElement.Profiles, "Index", "Profile")</li>
-                                <li>@Html.ActionLink(UIElementRes.UIElement.Titles, "Index", "Title")</li>
-                                <li>@Html.ActionLink(UIElementRes.UIElement.Departments, "Index", "Department")</li>
-                                <li>@Html.ActionLink(UIElementRes.UIElement.Staff, "Index", "Empl")</li>
-                                <li>@Html.ActionLink(UIElementRes.UIElement.GroupProcesses, "Index", "GroupProcess")</li>
-                                <li>@Html.ActionLink(UIElementRes.UIElement.Processes, "Index", "Process")</li>
-                                <li>@Html.ActionLink(UIElementRes.UIElement.WorkSchedules, "Index", "WorkSchedule")</li>
-                                <li>@Html.ActionLink(UIElementRes.UIElement.Delegations, "Index", "Delegation")</li>
-                                <li class="dropdown-header">@UIElementRes.UIElement.Identification</li>
-                                <li>@Html.ActionLink(UIElementRes.UIElement.Roles, "Index", "Role")</li>
-                                <li>@Html.ActionLink(UIElementRes.UIElement.Users, "Index", "User")</li>
-                                <li class="dropdown-header">@UIElementRes.UIElement.Additional</li>
-                                <li>@Html.ActionLink(UIElementRes.UIElement.Domains, "Index", "Domain")</li>
-                                <li>@Html.ActionLink(UIElementRes.UIElement.EmailParameter, "Edit", "Email")</li>
-                                <li>@Html.ActionLink(UIElementRes.UIElement.ServiceIncident, "Index", "ServiceIncident")</li>
-                                <li>@Html.ActionLink(CustomRes.Custom.TripSettings, "Index", "TripSettings")</li>
-                                <li>@Html.ActionLink(CustomRes.Custom.ItemCause, "Index", "ItemCause")</li>
-                                <li>@Html.ActionLink(CustomRes.Custom.Country, "Index", "Country")</li>
-                                <li>@Html.ActionLink(CustomRes.Custom.Organization, "Index", "Organization")</li>
+                                @if (User.IsInRole("Administrator") || User.IsInRole("SetupAdministrator"))
+                                {
+                                    <li class="dropdown-header">@UIElementRes.UIElement.Basic</li>
+                                    <li>@Html.ActionLink(UIElementRes.UIElement.Company, "Index", "Company")</li>
+                                    <li>@Html.ActionLink(UIElementRes.UIElement.NumberSeqs, "Index", "NumberSeq")</li>
+                                    <li>@Html.ActionLink(UIElementRes.UIElement.Profiles, "Index", "Profile")</li>
+                                    <li>@Html.ActionLink(UIElementRes.UIElement.Titles, "Index", "Title")</li>
+                                    <li>@Html.ActionLink(UIElementRes.UIElement.Departments, "Index", "Department")</li>
+                                    <li>@Html.ActionLink(UIElementRes.UIElement.Staff, "Index", "Empl")</li>
+                                    <li>@Html.ActionLink(UIElementRes.UIElement.GroupProcesses, "Index", "GroupProcess")</li>
+                                    <li>@Html.ActionLink(UIElementRes.UIElement.Processes, "Index", "Process")</li>
+                                    <li>@Html.ActionLink(UIElementRes.UIElement.WorkSchedules, "Index", "WorkSchedule")</li>
+                                    <li>@Html.ActionLink(UIElementRes.UIElement.Delegations, "Index", "Delegation")</li>
+                                    <li class="dropdown-header">@UIElementRes.UIElement.Identification</li>
+                                    <li>@Html.ActionLink(UIElementRes.UIElement.Roles, "Index", "Role")</li>
+                                    <li>@Html.ActionLink(UIElementRes.UIElement.Users, "Index", "User")</li>
+                                    <li class="dropdown-header">@UIElementRes.UIElement.Additional</li>
+                                    <li>@Html.ActionLink(UIElementRes.UIElement.Domains, "Index", "Domain")</li>
+                                    <li>@Html.ActionLink(UIElementRes.UIElement.EmailParameter, "Edit", "Email")</li>
+                                    <li>@Html.ActionLink(UIElementRes.UIElement.ServiceIncident, "Index", "ServiceIncident")</li>
+                                    <li>@Html.ActionLink(CustomRes.Custom.TripSettings, "Index", "TripSettings")</li>
+                                    <li>@Html.ActionLink(CustomRes.Custom.ItemCause, "Index", "ItemCause")</li>
+                                }
+                                @if (User.IsInRole("Administrator") || User.IsInRole("SetupAdministrator") || User.IsInRole("DirectoryAdministrator"))
+                                {
+                                    <li>@Html.ActionLink(CustomRes.Custom.Country, "Index", "Country")</li>
+                                    <li>@Html.ActionLink(CustomRes.Custom.Organization, "Index", "Organization")</li>
+                                }
                             </ul>
                         </li>
                     }
-                    @if (User.IsInRole("Administrator") || User.IsInRole("Reports"))
-                    {
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">@UIElementRes.UIElement.Reports <b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href=@Url.Action("PerformanceDepartment", "Report")><span class="fa fa-file-excel-o"></span> @UIElementRes.UIElement.PerformanceDepartment</a></li>
-                                <li class="dropdown">
-                                    <a href=@Url.Action("Index", "Monitoring")><span class="fa fa-signal"></span> @UIElementRes.UIElement.Monitoring</a>
-                                </li>
-                                <li class="dropdown">
-                                    <a href=@Url.Action("ReportOfRoutes", "Report")><span class="fa fa-file-excel-o"></span> @UIElementRes.UIElement.ReportOfRoutes</a>
-                                </li>
-                                <li class="dropdown">
-                                    <a href=@Url.Action("DetailReport", "Report")><span class="fa fa-file-excel-o"></span> @UIElementRes.UIElement.DetailReport</a>
-                                </li>
-                            </ul>
-                        </li>
-                    }
-
                     <li class="dropdown">
-                        @Html.ActionLink(UIElementRes.UIElement.Search, "Index", "Search")
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@UIElementRes.UIElement.DocumentBase<b class="caret"></b></a>
-                        <ul class="dropdown-menu">                         
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-database"></span> <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
                             <li class="dropdown">
                                 @Html.ActionLink(UIElementRes.UIElement.RequestBase, "IndexRequest", "DocumentBase")
                             </li>
@@ -92,6 +76,24 @@
                             </li>
                         </ul>
                     </li>
+                    @if (User.IsInRole("Administrator") || User.IsInRole("Reports"))
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-area-chart"></span> <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href=@Url.Action("PerformanceDepartment", "Report")><span class="fa fa-file-excel-o"></span> @UIElementRes.UIElement.PerformanceDepartment</a></li>
+                                <li class="dropdown">
+                                    <a href=@Url.Action("Index", "Monitoring")><span class="fa fa-signal"></span> @UIElementRes.UIElement.Monitoring</a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href=@Url.Action("ReportOfRoutes", "Report")><span class="fa fa-file-excel-o"></span> @UIElementRes.UIElement.ReportOfRoutes</a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href=@Url.Action("DetailReport", "Report")><span class="fa fa-file-excel-o"></span> @UIElementRes.UIElement.DetailReport</a>
+                                </li>
+                            </ul>
+                        </li>
+                    }
 
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">@UICulture.Substring(0, 2).ToUpper() <b class="caret"></b></a>
@@ -111,7 +113,10 @@
                                 @Html.Action("GetCompanyList", "Basic")
                             </ul>
                         </li>
-                    }    
+                    } 
+                    <li class="dropdown">
+                        <a href="@Url.Action("Index", "Search")" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-search"></span></a>
+                    </li>   
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

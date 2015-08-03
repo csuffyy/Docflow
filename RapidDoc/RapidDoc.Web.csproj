@@ -1660,6 +1660,8 @@
     <Content Include="Views\Organization\_OrganizationGrid.cshtml" />
     <Content Include="Views\Custom\USR_ORD_Country.cshtml" />
     <Content Include="Views\Custom\USR_ORD_Organization.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_OKS_RequestForTranslateZIF_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_OKS_RequestForTranslateZIF_View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -3132,7 +3134,12 @@
       <SubType>Designer</SubType>
     </XamlAppDef>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USR_REQ_OKS_RequestForTranslateZIF.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

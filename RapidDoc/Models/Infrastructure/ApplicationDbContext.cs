@@ -113,6 +113,7 @@ namespace RapidDoc.Models.Infrastructure
         public DbSet<USR_REQ_ZIF_RequestForFuel_Table> USR_REQ_ZIF_RequestForFuel_Table { get; set; }
         public DbSet<USR_REQ_ZIF_RequestForSIZ_Table> USR_REQ_ZIF_RequestForSIZ_Table { get; set; }
         public DbSet<USR_REQ_OKS_RequestForTranslate_Table> USR_REQ_OKS_RequestForTranslate_Table { get; set; }
+        public DbSet<USR_REQ_OKS_RequestForTranslateZIF_Table> USR_REQ_OKS_RequestForTranslateZIF_Table { get; set; }
         public DbSet<USR_REQ_OKS_RequestForTranslateKAZ_Table> USR_REQ_OKS_RequestForTranslateKAZ_Table { get; set; }
         public DbSet<USR_REQ_OKS_RequestForPrintBlank_Table> USR_REQ_OKS_RequestForPrintBlank_Table { get; set; }
         public DbSet<USR_REQ_OKS_RequestForArchive_Table> USR_REQ_OKS_RequestForArchive_Table { get; set; }

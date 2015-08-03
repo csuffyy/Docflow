@@ -73,7 +73,8 @@ namespace RapidDoc.Controllers
 
             return new ViewAsPdf("PdfReport", documentView)
             {
-                PageSize = Size.A4
+                PageSize = Size.A4,
+                FileName = String.Format("{0}.pdf", docTable.DocumentNum)
             };
         }
 
@@ -85,7 +86,8 @@ namespace RapidDoc.Controllers
             var documentView = _DocumentService.GetDocumentView(docTable.RefDocumentId, process.TableName);
             return new ViewAsPdf("PdfReportTrip", documentView)
             {
-                PageSize = Size.A4
+                PageSize = Size.A4,
+                FileName = String.Format("{0}.pdf", docTable.DocumentNum)
             };
         }
 
