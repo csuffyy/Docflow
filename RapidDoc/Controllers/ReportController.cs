@@ -84,7 +84,6 @@ namespace RapidDoc.Controllers
             ProcessTable process = _ProcessService.FirstOrDefault(x => x.Id == processId);
 
             var documentView = _DocumentService.GetDocumentView(docTable.RefDocumentId, process.TableName);
-
             return new ViewAsPdf("PdfReportTrip", documentView)
             {
                 PageSize = Size.A4,
