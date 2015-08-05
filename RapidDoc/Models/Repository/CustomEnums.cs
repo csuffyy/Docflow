@@ -839,7 +839,7 @@ namespace RapidDoc.Models.Repository
         [Display(Name = "№4")]
         Graphics9 = 8,
 
-        [Display(Name = "№7 для механиков по выпуску ЦЛТ, ЦПТ (для JDE №7)")]
+        [Display(Name = "№5(ночь) (для JDE №7)")]
         Graphics10 = 9,
 
         [Display(Name = "№6 (день-ночь) (для JDE №10)")]

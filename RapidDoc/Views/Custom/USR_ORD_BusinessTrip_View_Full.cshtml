@@ -30,72 +30,78 @@
 </div>
 <hr />
 <h4>Сроки командировки:</h4>
-<div class="editor-label">
-    @Html.LabelFor(model => Model.StartDate)
-</div>
-<div class="editor-field">
-    @Html.DisplayTextFor(model => Model.StartDate)
-</div>
-<div class="editor-label">
-    @Html.LabelFor(model => Model.EndDate)
-</div>
-<div class="editor-field">
-    @Html.DisplayTextFor(model => Model.EndDate)
-</div>
-<div class="editor-label">
-    @Html.LabelFor(model => Model.CountDays)
-</div>
-<div class="editor-field">
-    @Html.DisplayTextFor(model => Model.CountDays)
+<div class="row">
+    <div class="col-xs-3">
+        @Html.Partial("_DocumentViewFields", Model, new ViewDataDictionary(ViewData) { { "FieldName", "StartDate" } })
+    </div>
+    <div class="col-xs-3">
+        @Html.Partial("_DocumentViewFields", Model, new ViewDataDictionary(ViewData) { { "FieldName", "EndDate" } })
+    </div>
+    <div class="col-xs-3">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.CountDays)
+        </div>
+        <div class="editor-field">
+            @Html.DisplayTextFor(model => Model.CountDays)
+        </div>
+    </div>
 </div>
 
-<div class="editor-label">
-    @Html.LabelFor(model => Model.BusinessTripType)
-</div>
-<div class="editor-field">
-    @Html.EnumToDescription(Model.BusinessTripType)
-</div>
-<div class="editor-label">
-    @Html.LabelFor(model => Model.GoalTrip)
-</div>
-<div class="editor-field">
-    @Html.DisplayTextFor(model => Model.GoalTrip)
-</div>
-<div class="editor-label">
-    @Html.LabelFor(model => Model.BusinessTripCategory)
-</div>
-<div class="editor-field">
-    @Html.EnumToDescription(Model.BusinessTripCategory)
-</div>
 <div class="row">
-    @if (Model.CountryTableId != null)
-    {
-        <div class="col-xs-2">
+    <div class="col-xs-6">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.BusinessTripType)
+        </div>
+        <div class="editor-field">
+            @Html.EnumToDescription(Model.BusinessTripType)
+        </div>
+    </div>
+    <div class="col-xs-6">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.BusinessTripCategory)
+        </div>
+        <div class="editor-field">
+            @Html.EnumToDescription(Model.BusinessTripCategory)
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-6">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.BusinessTripDestination)
+        </div>
+        <div class="editor-field">
+            @Html.EnumToDescription(Model.BusinessTripDestination)
+        </div>
+    </div>
+    <div class="col-xs-6">
+        @if (Model.CountryTableId != null)
+        {
             <div class="editor-label">
                 @Html.LabelFor(model => model.CountryTableId)
             </div>
             <div class="editor-field">
-                @Html.Action("GetCountryORD", "Custom", new { id = Model.CountryTableId, selected = true}) 
+                @Html.Action("GetCountryORD", "Custom", new { id = Model.CountryTableId, selected = true })
             </div>
-        </div>
-    }
-    else
-    {
-        <div class="col-xs-2">
+        }
+        else
+        {
             <div class="editor-label">
                 @Html.LabelFor(model => Model.Country)
             </div>
             <div class="editor-field">
                 @Html.DisplayTextFor(model => Model.Country)
             </div>
-        </div>
-    }
+        }
+    </div>
 </div>
+
 <div class="editor-label">
-    @Html.LabelFor(model => Model.BusinessTripDestination)
+    @Html.LabelFor(model => Model.GoalTrip)
 </div>
 <div class="editor-field">
-    @Html.EnumToDescription(Model.BusinessTripDestination)
+    @Html.DisplayTextFor(model => Model.GoalTrip)
 </div>
 
 <div class="row">
@@ -159,31 +165,37 @@
 </div>
 <hr />
 <h4>Оплата:</h4>
-<div class="editor-label">
-    @Html.LabelFor(model => Model.Transit)
+<div class="row">
+    <div class="col-xs-6">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.Transit)
+        </div>
+        <div class="editor-field">
+            @Html.EnumToDescription(Model.Transit)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.Accommodation)
+        </div>
+        <div class="editor-field">
+            @Html.EnumToDescription(Model.Accommodation)
+        </div>
+    </div>
+    <div class="col-xs-6">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.Money)
+        </div>
+        <div class="editor-field">
+            @Html.EnumToDescription(Model.Money)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.VisaRequired)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => Model.VisaRequired, new { @disabled = true })
+        </div>
+    </div>
 </div>
-<div class="editor-field">
-    @Html.EnumToDescription(Model.Transit)
-</div>
-<div class="editor-label">
-    @Html.LabelFor(model => Model.Accommodation)
-</div>
-<div class="editor-field">
-    @Html.EnumToDescription(Model.Accommodation)
-</div>
-<div class="editor-label">
-    @Html.LabelFor(model => Model.Money)
-</div>
-<div class="editor-field">
-   @Html.EnumToDescription(Model.Money)
-</div>
-<div class="editor-label">
-    @Html.LabelFor(model => Model.VisaRequired)
-</div>
-<div class="editor-field">
-    @Html.CheckBoxFor(model => Model.VisaRequired, new { @disabled = true })
-</div>
-
+<hr />
 <div class="row">
     @if(!String.IsNullOrEmpty(Model.ControlUsers))
     { 

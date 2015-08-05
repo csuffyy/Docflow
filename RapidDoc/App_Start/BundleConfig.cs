@@ -41,16 +41,16 @@ namespace RapidDoc
 
             bundles.Add(new ScriptBundle("~/bundles/gridmvc").Include(
                         "~/Scripts/bootstrap-datepicker.js",
-                        "~/Scripts/locales/bootstrap-datepicker.ru.js",
-                        "~/Scripts/locales/bootstrap-datepicker.kk.js",
+                        "~/Scripts/locales/bootstrap-datepicker.ru.min.js",
+                        "~/Scripts/locales/bootstrap-datepicker.kk.min.js",
                         "~/Scripts/GridMvc/gridmvc.min.js",
                         "~/Scripts/GridMvc/gridmvc.lang.ru.js",
                         "~/Scripts/GridMvc/gridmvc.lang.kk.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/editentity").Include(
                         "~/Scripts/bootstrap-datepicker.js",
-                        "~/Scripts/locales/bootstrap-datepicker.ru.js",
-                        "~/Scripts/locales/bootstrap-datepicker.kk.js",
+                        "~/Scripts/locales/bootstrap-datepicker.ru.min.js",
+                        "~/Scripts/locales/bootstrap-datepicker.kk.min.js",
                         "~/Scripts/bootstrap-timepicker.js",
                         "~/Scripts/jquery.bootstrap-duallistbox.js",
                         "~/Scripts/bootstrap-select.js",

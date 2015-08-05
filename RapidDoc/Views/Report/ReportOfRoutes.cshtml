@@ -1,6 +1,10 @@
 ﻿@model RapidDoc.Models.ViewModels.ReportParametersBasicView
 @using RapidDoc.Extensions;
 
+@{
+    ViewBag.Title = UIElementRes.UIElement.CreateReport;
+}
+
 <h2>@UIElementRes.UIElement.CreateReport</h2>
 
 @using (Html.BeginForm("GetReportOfRoutes", "Report"))
