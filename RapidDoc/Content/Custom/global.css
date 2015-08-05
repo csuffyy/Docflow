@@ -619,3 +619,9 @@ a.thumbnaillist:focus {
 	display: inline;
 	padding: 8px;
 }
+
+input.labelauty + label > span.labelauty-unchecked,
+input.labelauty + label > span.labelauty-checked
+{
+	display:inline;
+}

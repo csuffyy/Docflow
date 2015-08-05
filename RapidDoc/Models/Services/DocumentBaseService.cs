@@ -94,9 +94,11 @@ namespace RapidDoc.Models.Services
             {
                     items = (from document in contextQuery.DocumentTable
                             where
-                                ((document.ApplicationUserCreatedId == user.Id ||
+                                (document.ApplicationUserCreatedId == user.Id ||
                                     contextQuery.ModificationUsersTable.Any(m => m.UserId == user.Id && m.DocumentTableId == document.Id && document.DocumentState == DocumentState.Created) ||
-                                    contextQuery.WFTrackerTable.Any(x => x.DocumentTableId == document.Id && x.SignUserId == null && x.TrackerType == TrackerType.Waiting && x.Users.Any(b => b.UserId == user.Id)) ||
+                                    contextQuery.WFTrackerTable.Any(x => x.DocumentTableId == document.Id && ((x.SignUserId == null && x.TrackerType == TrackerType.Waiting) ||
+ 
+                                        (x.SignUserId == user.Id && (x.TrackerType == TrackerType.Approved || x.TrackerType == TrackerType.Cancelled))) && x.Users.Any(b => b.UserId == user.Id)) ||
 
                                     ((contextQuery.DocumentReaderTable.Any(r => r.DocumentTableId == document.Id && r.UserId == user.Id) || (
 
@@ -110,7 +112,7 @@ namespace RapidDoc.Models.Services
                                     && (d.ProcessTableId == document.ProcessTableId || d.ProcessTableId == null)
                                     && contextQuery.WFTrackerTable.Any(w => w.DocumentTableId == document.Id && w.SignUserId == null && w.TrackerType == TrackerType.Waiting && w.Users.Any(b => b.UserId == d.EmplTableFrom.ApplicationUserId))
                                     ))
-                                )) && document.DocType == type && (document.CreatedDate >= startDate && document.CreatedDate <= endDate)
+                                ) && document.DocType == type && (document.CreatedDate >= startDate && document.CreatedDate <= endDate)
                             join company in contextQuery.CompanyTable on document.CompanyTableId equals company.Id
                             join process in contextQuery.ProcessTable on document.ProcessTableId equals process.Id
                             let empl = contextQuery.EmplTable.Where(p => p.ApplicationUserId == document.ApplicationUserCreatedId).OrderByDescending(p => p.Enable).FirstOrDefault()

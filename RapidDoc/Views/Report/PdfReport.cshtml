@@ -1,4 +1,6 @@
-﻿@model dynamic
+﻿@using RapidDoc.Models.DomainModels;
+@using RapidDoc.Models.Repository;
+@model dynamic
 @{
     Layout = null;
 }
@@ -50,11 +52,11 @@
                 </td>
             </tr>
             <tr>
-            <td align="left">
-                <font size="4" face="Arial">
-                    Бұйрықпен таныстым:
-                </font>
-            </td>
+                <td align="left">
+                    <font size="4" face="Arial">
+                        Бұйрықпен таныстым:
+                    </font>
+                </td>
             </tr>
             <tr>
                 <td align="left">  
@@ -63,6 +65,101 @@
                     </font>
                 </td>
             </tr>
+            <tr>
+                <td>
+                    <br />
+                </td>
+            </tr>
+            @if (((List<FileTable>)ViewBag.ListFiles).Count > 0)
+            { 
+                <tr>
+                    <td align="left">
+                        <strong>
+                            <font size="4" face="Arial">
+                                Вложенные файлы:
+                            </font>
+                        </strong>
+                    </td>
+                </tr>
+                foreach (FileTable file in ViewBag.ListFiles)
+                {
+                    <tr>
+                               
+                            <td align="left">
+                                <font size="4" face="Arial">                           
+                                        @file.FileName                          
+                                </font>
+                            </td>
+                    
+                    </tr>
+                }
+                <tr>
+                    <td>
+                        <br />
+                    </td>
+                </tr>
+            }
+            @if ((DocumentState)ViewBag.DocState == DocumentState.Closed)
+            {         
+                <tr>
+                    <td align="left">
+                        <strong>
+                            <font size="4" face="Arial">
+                                Согласовано:
+                            </font>
+                        </strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <br />
+                    </td>
+                </tr>
+                foreach (EmplTable item in ViewBag.ListUsers)
+                {
+                    <tr>
+                               
+                            <td align="left">
+                                <font size="4" face="Arial">                           
+                                        @item.TitleName                          
+                                </font>
+                            </td>
+                            <td align="right">
+                                <font size="4" face="Arial">
+                                       @item.ShortFullNameType2
+                                </font>
+                            </td>
+                    
+                    </tr>
+                }
+                <tr>
+                    <td>
+                        <br />
+                    </td>
+                </tr>
+            }        
+            <tr>
+                <td align="left">
+                    <strong>
+                        <font size="4" face="Arial">
+                            Подготовлено:
+                        </font>
+                    </strong>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <br />
+                </td>
+            </tr>
+            <tr>
+                <td align="left">
+                    <font size="4" face="Arial">
+                        @ViewBag.Title
+                    </font>
+                </td>
+            </tr>
+            
         </table>
     </div>
 </body>

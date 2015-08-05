@@ -48,7 +48,7 @@ namespace RapidDoc.Models.Services
         void CreateTrackerRecord(DocumentState step, Guid documentId, string bookmarkName, List<WFTrackerUsersTable> listUser, string currentUserId, string workflowId, bool useManual, int slaOffset, bool executionStep);
         List<Array> GetRequestTree(Activity activity, IDictionary<string, object> documentData, string _parallel = "");
         List<Array> GetTrackerList(Guid documentId, Activity activity, IDictionary<string, object> documentData, DocumentType documentType);
-        List<string> GetUniqueUserList(Guid documentId, IDictionary<string, object> documentData, string nameField);
+        List<string> GetUniqueUserList(Guid documentId, IDictionary<string, object> documentData, string nameField, bool getAll = false);
         List<string> EmplAndRolesToUserList(string[] list);
         void CreateDynamicTracker(List<string> users, Guid documentId, string currentUserId, bool parallel, string additionalText = "");
     }
@@ -779,7 +779,7 @@ namespace RapidDoc.Models.Services
         }
 
 
-        public List<string> GetUniqueUserList(Guid documentId, IDictionary<string, object> documentData, string nameField)
+        public List<string> GetUniqueUserList(Guid documentId, IDictionary<string, object> documentData, string nameField, bool getAll = false)
         {
             List<string> ofmList = new List<string>();
             string initailStructure = (string)documentData[nameField];
@@ -797,8 +797,8 @@ namespace RapidDoc.Models.Services
 
                 if (emplTable != null && (documentTable == null || documentTable.ApplicationUserCreatedId != emplTable.ApplicationUserId) && !ofmList.Exists(x => x == emplTable.ApplicationUserId))
                 {
-                    if (trackerListCheck.Any(x => (x.TrackerType == TrackerType.Approved || x.TrackerType == TrackerType.Cancelled) && x.SignUserId == emplTable.ApplicationUserId)
-                        || trackerListCheck.Any(x => x.Users.Any(p => p.UserId == emplTable.ApplicationUserId) && x.TrackerType == TrackerType.Waiting))
+                    if ((trackerListCheck.Any(x => (x.TrackerType == TrackerType.Approved || x.TrackerType == TrackerType.Cancelled) && x.SignUserId == emplTable.ApplicationUserId)
+                        || trackerListCheck.Any(x => x.Users.Any(p => p.UserId == emplTable.ApplicationUserId) && x.TrackerType == TrackerType.Waiting)) && getAll == false)
                         continue;
                     else
                         ofmList.Add(emplTable.ApplicationUserId);
@@ -818,8 +818,8 @@ namespace RapidDoc.Models.Services
                                 if ((documentTable == null || documentTable.ApplicationUserCreatedId != userRole.UserId)
                                     && !ofmList.Exists(x => x == userRole.UserId) && empllist.Any(x => x.ApplicationUserId == userRole.UserId))
                                 {
-                                    if (trackerListCheck.Any(x => (x.TrackerType == TrackerType.Approved || x.TrackerType == TrackerType.Cancelled) && x.SignUserId == userRole.UserId)
-                                        || trackerListCheck.Any(x => x.Users.Any(p => p.UserId == userRole.UserId) && x.TrackerType == TrackerType.Waiting))
+                                    if ((trackerListCheck.Any(x => (x.TrackerType == TrackerType.Approved || x.TrackerType == TrackerType.Cancelled) && x.SignUserId == userRole.UserId)
+                                        || trackerListCheck.Any(x => x.Users.Any(p => p.UserId == userRole.UserId) && x.TrackerType == TrackerType.Waiting)) && getAll == false)
                                         continue;
                                     else
                                         ofmList.Add(userRole.UserId);

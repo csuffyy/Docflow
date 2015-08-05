@@ -73,6 +73,10 @@ namespace RapidDoc.Models.ViewModels
     {
         public string DocumentNum { get; set; }
         public Guid DocumentId { get; set; }
+        public string UserCreate { get; set; }
+        public DateTime DateCreate { get; set; }
+
+
     }
 
     public class ModificationDocumentView

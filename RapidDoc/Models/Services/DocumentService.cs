@@ -1130,10 +1130,10 @@ namespace RapidDoc.Models.Services
 
             var  taskList= _uow.GetDbContext<ApplicationDbContext>().USR_TAS_DailyTasks_Table.Where(x => x.RefDocumentId == documentId).ToList();
 
-            taskList.ForEach(y => taskDelegationList.Add(new TaskDelegationView{ DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id}));
+            taskList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.FirstOrDefault(z => z.ApplicationUserId == y.ApplicationUserCreatedId).FullName }));
 
             var  prolongationsList= _uow.GetDbContext<ApplicationDbContext>().USR_TAS_DailyTasksProlongation_Table.Where(x => x.RefDocumentId == documentId).ToList();
-            prolongationsList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id }));
+            prolongationsList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.FirstOrDefault(z => z.ApplicationUserId == y.ApplicationUserCreatedId).FullName }));
 
              return taskDelegationList;
         }

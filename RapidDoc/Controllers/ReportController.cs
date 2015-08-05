@@ -32,8 +32,9 @@ namespace RapidDoc.Controllers
         private readonly IReportService _ReportService;
         private readonly IWorkScheduleService _WorkScheduleService;
         private readonly IEmailService _EmailService;
+        private readonly IWorkflowService _WorkflowService;
 
-        public ReportController(IWorkflowTrackerService workflowTrackerService, IDocumentService documentService, IDepartmentService departmentService, ICompanyService companyService, IAccountService accountService, IProcessService processService, IEmplService emplService, IReportService reportService, IWorkScheduleService workScheduleService, IEmailService emailService)
+        public ReportController(IWorkflowTrackerService workflowTrackerService, IDocumentService documentService, IDepartmentService departmentService, ICompanyService companyService, IAccountService accountService, IProcessService processService, IEmplService emplService, IReportService reportService, IWorkScheduleService workScheduleService, IEmailService emailService, IWorkflowService workflowService)
             : base(companyService, accountService)
         {
             _WorkflowTrackerService = workflowTrackerService;
@@ -44,6 +45,7 @@ namespace RapidDoc.Controllers
             _ReportService = reportService;
             _WorkScheduleService = workScheduleService;
             _EmailService = emailService;
+            _WorkflowService = workflowService;
         }
 
         public ActionResult PerformanceDepartment()
@@ -68,8 +70,16 @@ namespace RapidDoc.Controllers
         {
             DocumentTable docTable = _DocumentService.FirstOrDefault(x => x.Id == id);
             ProcessTable process = _ProcessService.FirstOrDefault(x => x.Id == processId);
-
+            List<EmplTable> emplList = new List<EmplTable>();
+            
             var documentView = _DocumentService.GetDocumentView(docTable.RefDocumentId, process.TableName);
+            List<string> userList = _WorkflowService.GetUniqueUserList(id, new Dictionary<string, object> { { "ListAgreement", documentView.ListAgreement } }, "ListAgreement", true);
+
+            userList.ForEach(user => _EmplService.GetPartial(x => x.ApplicationUserId == user).ToList().ForEach(emplUser => emplList.Add(emplUser)));
+            ViewBag.ListFiles = _DocumentService.GetAllFilesDocument(docTable.FileId).ToList();
+            ViewBag.ListUsers = emplList;
+            ViewBag.Title = _EmplService.FirstOrDefault(x => x.ApplicationUserId == docTable.ApplicationUserCreatedId).DepartmentName;
+            ViewBag.DocState = docTable.DocumentState;
 
             return new ViewAsPdf("PdfReport", documentView)
             {
