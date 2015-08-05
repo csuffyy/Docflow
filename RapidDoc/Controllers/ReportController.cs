@@ -75,10 +75,10 @@ namespace RapidDoc.Controllers
             var documentView = _DocumentService.GetDocumentView(docTable.RefDocumentId, process.TableName);
             List<string> userList = _WorkflowService.GetUniqueUserList(id, new Dictionary<string, object> { { "ListAgreement", documentView.ListAgreement } }, "ListAgreement", true);
 
-            userList.ForEach(user => _EmplService.GetPartial(x => x.ApplicationUserId == user).ToList().ForEach(emplUser => emplList.Add(emplUser)));
+            userList.ForEach(user => emplList.Add(_EmplService.GetEmployer(user, process.CompanyTableId)));
             ViewBag.ListFiles = _DocumentService.GetAllFilesDocument(docTable.FileId).ToList();
             ViewBag.ListUsers = emplList;
-            ViewBag.Title = _EmplService.FirstOrDefault(x => x.ApplicationUserId == docTable.ApplicationUserCreatedId).DepartmentName;
+            ViewBag.Title = _EmplService.GetEmployer(docTable.ApplicationUserCreatedId, process.CompanyTableId).DepartmentName;
             ViewBag.DocState = docTable.DocumentState;
 
             return new ViewAsPdf("PdfReport", documentView)
