@@ -8966,10 +8966,12 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Должность")]
         public string Position { get; set; }
 
+        [DataType(DataType.Date)]
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         [Display(Name = "Начальная дата")]
         public DateTime? StartDate { get; set; }
 
+        [DataType(DataType.Date)]
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         [Display(Name = "Конечная дата")]
         public DateTime? EndDate { get; set; }

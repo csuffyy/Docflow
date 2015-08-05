@@ -28,57 +28,72 @@
 </div>
 <hr />
 <h4>Сроки командировки:</h4>
-<div class="editor-label">
-    @Html.LabelForRequired(model => Model.StartDate)
-</div>
-<div class="editor-field">
-    @Html.TextBoxFor(model => Model.StartDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control form-control-date", placeholder = "c", startDate = "" })
-</div>
-<div class="editor-label">
-    @Html.LabelForRequired(model => Model.EndDate)
-</div>
-<div class="editor-field">
-    @Html.TextBoxFor(model => Model.EndDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control form-control-date", placeholder = "по", startDate = "" })
+<div class="row">
+    <div class="col-xs-4">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.StartDate)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => Model.StartDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", placeholder = "c", startDate = "" })
+        </div>
+    </div>
+    <div class="col-xs-4">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.EndDate)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => Model.EndDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", placeholder = "по", startDate = "" })
+        </div>
+    </div>
+    <div class="col-xs-4">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.CountDays)
+        </div>
+        <div id="diffdays"></div>
+    </div>
 </div>
 <br />
 <div class="alert_placeholderDate"></div>
 
-<div class="editor-label">
-    @Html.LabelForRequired(model => Model.CountDays)
+<div class="row">
+    <div class="col-xs-6">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.BusinessTripType)
+        </div>
+        <div class="editor-field">
+            @Html.EnumDropDownListFor(model => Model.BusinessTripType, new { @class = "selectpickerfull" })
+        </div>
+    </div>
+    <div class="col-xs-6">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.BusinessTripCategory)
+        </div>
+        <div class="editor-field">
+            @Html.EnumDropDownListFor(model => Model.BusinessTripCategory, new { @class = "selectpickerfull" })
+        </div>
+    </div>
 </div>
-<div id="diffdays"></div>
 
-<div class="editor-label">
-    @Html.LabelForRequired(model => Model.BusinessTripType)
-</div>
-<div class="editor-field">
-    @Html.EnumDropDownListFor(model => Model.BusinessTripType, new { @class = "selectpicker" })
-</div>
 <div class="editor-label">
     @Html.LabelForRequired(model => Model.GoalTrip)
 </div>
 <div class="editor-field">
     @Html.TextAreaFor(model => Model.GoalTrip, new { @class = "form-control", @row = 2, placeholder = "Цель командировки" })
 </div>
-<div class="editor-label">
-    @Html.LabelForRequired(model => Model.BusinessTripCategory)
-</div>
-<div class="editor-field">
-    @Html.EnumDropDownListFor(model => Model.BusinessTripCategory, new { @class = "selectpicker" })
-</div>
+
 <div class="row">
-    <div class="col-xs-2">
+    <div class="col-xs-4">
         <div class="editor-label">
             @Html.LabelForRequired(model => model.CountryTableId)
         </div>
         @Html.Action("GetCountryORD", "Custom", new {@id = Model.CountryTableId })
     </div>
-    <div class="col-xs-2">
+    <div class="col-xs-4">
         <div class="editor-label">
             @Html.LabelForRequired(model => Model.Country)
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(model => Model.Country, new { @class = "form-control", placeholder = "Город" })
+            @Html.TextBoxFor(model => Model.Country, new { @class = "form-control", placeholder = "Опционально" })
         </div>
     </div>
 </div>
@@ -125,7 +140,7 @@
 
 </div>
 <div class="row">
-    <div class="col-xs-2">
+    <div class="col-xs-4">
         <div class="editor-label">
             @Html.LabelForRequired(model => model.OrganizationTableId)
         </div>
@@ -133,41 +148,48 @@
             @Html.Action("GetOrganizationORD", "Custom", new { @id = Model.OrganizationTableId })
         </div>
     </div>
-    <div class="col-xs-2">
+    <div class="col-xs-4">
         <div class="editor-label">
             @Html.LabelForRequired(model => Model.Organization)
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(model => Model.Organization, new { @class = "form-control", placeholder = "Организация" })
+            @Html.TextBoxFor(model => Model.Organization, new { @class = "form-control", placeholder = "Опционально" })
         </div>
     </div>
 </div>
 <hr />
 <h4>Оплата:</h4>
-<div class="editor-label">
-    @Html.LabelForRequired(model => Model.Transit)
+<div class="row">
+    <div class="col-xs-6">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Transit)
+        </div>
+        <div class="editor-field">
+            @Html.EnumDropDownListFor(model => Model.Transit, new { @class = "selectpickerfull" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Accommodation)
+        </div>
+        <div class="editor-field">
+            @Html.EnumDropDownListFor(model => Model.Accommodation, new { @class = "selectpickerfull" })
+        </div>
+    </div>
+    <div class="col-xs-6">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Money)
+        </div>
+        <div class="editor-field">
+            @Html.EnumDropDownListFor(model => Model.Money, new { @class = "selectpickerfull" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.VisaRequired)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.VisaRequired)
+        </div>
+    </div>
 </div>
-<div class="editor-field">
-    @Html.EnumDropDownListFor(model => Model.Transit, new { @class = "selectpicker" })
-</div>
-<div class="editor-label">
-    @Html.LabelForRequired(model => Model.Accommodation)
-</div>
-<div class="editor-field">
-    @Html.EnumDropDownListFor(model => Model.Accommodation, new { @class = "selectpicker" })
-</div>
-<div class="editor-label">
-    @Html.LabelForRequired(model => Model.Money)
-</div>
-<div class="editor-field">
-    @Html.EnumDropDownListFor(model => Model.Money, new { @class = "selectpicker" })
-</div>
-<div class="editor-label">
-    @Html.LabelForRequired(model => Model.VisaRequired)
-</div>
-<div class="editor-field">
-    @Html.CheckBoxFor(model => model.VisaRequired)
-</div>
+<hr />
 
 <div class="row">
     <div class="col-xs-2">
@@ -278,23 +300,17 @@
             var pattern = /(\d{2})\.(\d{2})\.(\d{4})/;
             var startDate = new Date($("#StartDate").val().replace(pattern, '$3-$2-$1'));
             var endDate = new Date($("#EndDate").val().replace(pattern, '$3-$2-$1'));
-            var diffDays = parseInt((endDate - startDate) / (1000 * 60 * 60 * 24));
+            var diffDays = parseInt((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
 
             if (startDate != null && endDate != null) {
                 if (diffDays < 0) {
-                    $('.alert_placeholderDate').html('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><span class="sr-only">Error:</span>' + " Введите корректно даты" + '</div>');
+                    $('.alert_placeholderDate').html('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><span class="sr-only">Error:</span>' + " Введите корректно даты коммандировки" + '</div>');
                     $('#diffdays').html("");
                     $('#CountDays').val(0);
                 } else {
                     $('.alert_placeholderDate').html("");
-                    if (diffDays == 0) {
-                        $('#CountDays').val(1);
-                        $('#diffdays').html(1);
-                    }
-                    else {
-                        $('#CountDays').val(diffDays);
-                        $('#diffdays').html(diffDays);
-                    }
+                    $('#CountDays').val(diffDays);
+                    $('#diffdays').html(diffDays);
                 }
             }
         });

@@ -16,11 +16,14 @@
         @Html.LabelFor(model => Model.Whom): @Html.DisplayTextFor(model => Model.Whom)
     </div>
 </div>
+@if(!String.IsNullOrEmpty(Model.DocumentCopy))
+{ 
 <div class="row">
     <div class="col-xs-12">
         @Html.LabelFor(model => Model.DocumentCopy): @Html.DisplayTextFor(model => Model.DocumentCopy)
     </div>
 </div>
+}
 <div class="row">
     <div class="col-xs-12">
         @Html.LabelFor(model => Model.FromWhom): @Html.DisplayTextFor(model => Model.FromWhom)
