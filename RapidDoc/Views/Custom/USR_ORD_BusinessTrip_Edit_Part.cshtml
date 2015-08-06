@@ -287,7 +287,16 @@
 
 <script type="text/javascript">
     $(function () {
-        document.getElementById('buttoncancelorder').style.visibility = 'visible';
+        var buttoncancelorderstatus = true;
+        $('#CancelOrder').click(function (event) {
+            buttoncancelorderstatus = !buttoncancelorderstatus;
+            if (buttoncancelorderstatus) {
+                document.getElementById('buttoncancelorder').style.visibility = 'hidden';
+            } else {
+                document.getElementById('buttoncancelorder').style.visibility = 'visible';
+            }
+        });
+
         $('.itemcauseslink').click(function (event) {
             var element = $(event.target);
             $('#ItemCauseTableId').val(element.attr('data-itemid'));
@@ -312,6 +321,26 @@
                     $('#CountDays').val(diffDays);
                     $('#diffdays').html(diffDays);
                 }
+            }
+        });
+
+        $('#CountryTableId').change(function (event) {
+            if ($('#CountryTableId').val() == '') {
+                $('#Country')[0].disabled = false;
+            }
+            else {
+                $('#Country')[0].disabled = true;
+                $('#Country').val('');
+            }
+        });
+
+        $('#OrganizationTableId').change(function (event) {
+            if ($('#OrganizationTableId').val() == '') {
+                $('#Organization')[0].disabled = false;
+            }
+            else {
+                $('#Organization')[0].disabled = true;
+                $('#Organization').val('');
             }
         });
     });

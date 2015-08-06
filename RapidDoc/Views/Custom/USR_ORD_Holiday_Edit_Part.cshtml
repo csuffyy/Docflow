@@ -103,7 +103,16 @@
 
 <script type="text/javascript">
     $(function () {
-        document.getElementById('buttoncancelorder').style.visibility = 'visible';
+        var buttoncancelorderstatus = true;
+        $('#CancelOrder').click(function (event) {
+            buttoncancelorderstatus = !buttoncancelorderstatus;
+            if (buttoncancelorderstatus) {
+                document.getElementById('buttoncancelorder').style.visibility = 'hidden';
+            } else {
+                document.getElementById('buttoncancelorder').style.visibility = 'visible';
+            }
+        });
+
         $('.itemcauseslink').click(function (event) {
             var element = $(event.target);
             $('#ItemCauseTableId').val(element.attr('data-itemid'));

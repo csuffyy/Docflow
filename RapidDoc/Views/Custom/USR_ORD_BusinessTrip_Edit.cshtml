@@ -396,6 +396,26 @@
                     $('#diffdays').html(diffDays);
                 }
             }
-        }); 
+        });
+
+        $('#CountryTableId').change(function (event) {
+            if($('#CountryTableId').val() == '') {
+                $('#Country')[0].disabled = false;
+            }
+            else {
+                $('#Country')[0].disabled = true;
+                $('#Country').val('');
+            }
+        });
+
+        $('#OrganizationTableId').change(function (event) {
+            if ($('#OrganizationTableId').val() == '') {
+                $('#Organization')[0].disabled = false;
+            }
+            else {
+                $('#Organization')[0].disabled = true;
+                $('#Organization').val('');
+            }
+        });
     });
 </script>
