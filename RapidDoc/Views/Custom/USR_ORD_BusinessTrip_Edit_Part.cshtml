@@ -303,7 +303,7 @@
             var diffDays = parseInt((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
 
             if (startDate != null && endDate != null) {
-                if (diffDays < 0) {
+                if (diffDays <= 0) {
                     $('.alert_placeholderDate').html('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><span class="sr-only">Error:</span>' + " Введите корректно даты коммандировки" + '</div>');
                     $('#diffdays').html("");
                     $('#CountDays').val(0);
