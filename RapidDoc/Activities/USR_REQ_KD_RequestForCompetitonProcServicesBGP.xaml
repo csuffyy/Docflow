@@ -73,6 +73,7 @@
       <AssemblyReference>Ninject</AssemblyReference>
       <AssemblyReference>Ninject.Web.Common</AssemblyReference>
       <AssemblyReference>Ninject.Web.Mvc</AssemblyReference>
+      <AssemblyReference>Ninject.Web.WebApi</AssemblyReference>
       <AssemblyReference>PresentationCore</AssemblyReference>
       <AssemblyReference>PresentationFramework</AssemblyReference>
       <AssemblyReference>RazorEngine</AssemblyReference>
@@ -121,7 +122,6 @@
       <AssemblyReference>System.Net.Http</AssemblyReference>
       <AssemblyReference>System.Net.Http.WebRequest</AssemblyReference>
       <AssemblyReference>System.Xml.Linq</AssemblyReference>
-      <AssemblyReference>WebActivator</AssemblyReference>
       <AssemblyReference>WebActivatorEx</AssemblyReference>
       <AssemblyReference>WebGrease</AssemblyReference>
       <AssemblyReference>WindowsBase</AssemblyReference>
@@ -386,10 +386,10 @@
                             </FlowDecision.Condition>
                             <FlowDecision.True>
                               <FlowStep x:Name="__ReferenceID24" sap2010:WorkflowViewState.IdRef="FlowStep_11">
-                                <Flowchart DisplayName="КД" sap2010:WorkflowViewState.IdRef="Flowchart_3">
+                                <Flowchart DisplayName="Начальник УЗЛ" sap2010:WorkflowViewState.IdRef="Flowchart_3">
                                   <Flowchart.StartNode>
                                     <FlowStep x:Name="__ReferenceID10" sap2010:WorkflowViewState.IdRef="FlowStep_10">
-                                      <local1:WFChooseSpecificUser _service="{x:Null}" executionStep="{x:Null}" noneSkip="{x:Null}" slaOffset="{x:Null}" DisplayName="КД" sap2010:WorkflowViewState.IdRef="WFChooseSpecificUser_1" inputUserName="IlFili" useManual="False">
+                                      <local1:WFChooseSpecificUser _service="{x:Null}" executionStep="{x:Null}" noneSkip="{x:Null}" slaOffset="{x:Null}" DisplayName="Начальник УЗЛ" sap2010:WorkflowViewState.IdRef="WFChooseSpecificUser_1" inputUserName="YuKras" useManual="False">
                                         <local1:WFChooseSpecificUser.inputCurrentUser>
                                           <InArgument x:TypeArguments="x:String">
                                             <mca:CSharpValue x:TypeArguments="x:String">inputCurrentUser</mca:CSharpValue>
@@ -685,7 +685,7 @@
     <x:Reference>__ReferenceID27</x:Reference>
     <x:Reference>__ReferenceID28</x:Reference>
     <x:Reference>__ReferenceID29</x:Reference>
-    <sads:DebugSymbol.Symbol>d39DOlxVc2Vyc1xEbVNoa2EuQUxUWU5UQVVcRGVza3RvcFxHaXRIdWJcRG9jRmxvd1xEb2NmbG93XFJhcGlkRG9jXEFjdGl2aXRpZXNcVVNSX1JFUV9LRF9SZXF1ZXN0Rm9yQ29tcGV0aXRvblByb2NTZXJ2aWNlc0JHUC54YW1scBwHHGcBAwG9AQHDAQEChwEDsQUPAgEBjQEJ1gEVAwHeBNoBD9oBcwMB1QSOBRGZBRoDAcIE3gERpwIdAwHZA6sCF6sCewMB0AP6BBmFBSIDAb0DrwIZ/QIlAwHNAoEDH4EDgwEDAcQC5gQh8QQqAwGxAoUDIdMDLQMBwAHXAyfXA4sBAwG3AdIEKd0EMgMBpAHbAymmBDUCATGqBC+qBJMBAgEovgQxyQQ6AgEVrgQxuQQ6AgECkAEPrwEqAwGNBbMBFbMBagMBhAW3ARfMATgDAd8ElgUXlgVqAwHMBJEFF5EFcgMBwwThAReAAjIDAYgEhAIdhAJyAwH/A4gCH50CQAMB2gOCBR+CBXIDAccD/QQf/QR6AwG+A7ICH9YCPwMB/ALaAiXaAnoDAfMC3gIn8wJIAwHOAu4EJ+4EegMBuwLpBCfpBIIBAwGyAogDJ6cDRQMB+AGrAy2rA4IBAwHvAa8DL8kDUAMBwQHaBC/aBIIBAwGuAdUEL9UEigEDAaUB3gMvggRQAgFghQQznwRUAgEyxgQ3xgSXAQIBH8EEN8EEkgECARa2BDe2BJQBAgEMsQQ3sQSSAQIBA50BFZ0BZwMBvgWQAf4BkAGFAgMBvQWnARWnAWoDAbQFogEVogFnAwGrBZAB7wGQAfMBAwGqBawBFawBcAMBoQWQAd8BkAHiAQMBoAWYARWYAWADAZcFkwEVkwFjAwGOBb8BHb8BbwMB+wTEAR3EAXMDAfIEugEdugFnAwHpBMkBHckBeAMB4ATuAR3uAW8DAbkE4QGCAuEBiQIDAbgE+AEd+AFyAwGvBPMBHfMBbwMBpgThAfMB4QH3AQMBpQT9AR39AXgDAZwE4QHjAeEB5gEDAZsE6QEd6QFoAwGSBOQBHeQBawMBiQSQAiWQAncDAfYDlQIllQJ7AwHtA4sCJYsCbwMB5AOaAiWaAoABAwHbA8QCJcQCdwMBtAOyAu0BsgL0AQMBswPOAiXOAnoDAaoDyQIlyQJ3AwGhA9MCJdMCgAEDAZgDugIlugJwAwGPA7UCJbUCcwMBhgO/AiW/AuACAwH9AuYCLeYCfwMB6gLrAi3rAoMBAwHhAuECLeECdwMB2ALwAi3wAogBAwHPApUDLZUDfwMBqAKIA4UCiAOMAgMBpwKfAy2fA4IBAwGeApoDLZoDfwMBlQKkAy2kA4gBAwGMAogD8gGIA/oBAwGLApADLZADeAMBggKLAy2LA3sDAfkBtwM1twOHAQMB5gG8AzW8A4sBAwHdAbIDNbIDfwMB1AHGAzXGA5ABAwHLAcEDNcEDoQEDAcIB8AM18AOHAQMBmwHeA/IB3gOFAgMBmgHeA6AC3gOnAgMBmQH6AzX6A4oBAwGQAfUDNfUDhwEDAYcB3gPcAd4D4gEDAYYB/wM1/wOQAQIBfd4DjwLeA5UCAgF86wM16wOAAQIBc+EDNeEDgwECAWrmAzXmA5kBAgFhjQQ5jQSLAQIBV5IEOZIEjwECAU6IBDmIBIMBAgFFnAQ5nASUAQIBPJcEOZcEpQECATM=</sads:DebugSymbol.Symbol>
+    <sads:DebugSymbol.Symbol>d2xEOlxVc2Vyc1xndWtvemhcU291cmNlXFJlcG9zXERvY2Zsb3dcUmFwaWREb2NcQWN0aXZpdGllc1xVU1JfUkVRX0tEX1JlcXVlc3RGb3JDb21wZXRpdG9uUHJvY1NlcnZpY2VzQkdQLnhhbWxwHAccZwEDAb0BAcMBAQKHAQOxBQ8CAQGNAQnWARUDAd4E2gEP2gFzAwHVBI4FEZkFGgMBwgTeARGnAh0DAdkDqwIXqwJ7AwHQA/oEGYUFIgMBvQOvAhn9AiUDAc0CgQMfgQODAQMBxALmBCHxBCoDAbEChQMh0wMtAwHAAdcDJ9cDiwEDAbcB0gQp3QQyAwGkAdsDKaYENQIBMaoEL6oEkwECASi+BDHJBDoCARWuBDG5BDoCAQKQAQ+vASoDAY0FswEVswFqAwGEBbcBF8wBOAMB3wSWBReWBWoDAcwEkQUXkQVyAwHDBOEBF4ACMgMBiASEAh2EAnIDAf8DiAIfnQJAAwHaA4IFH4IFcgMBxwP9BB/9BHoDAb4DsgIf1gI/AwH8AtoCJdoCegMB8wLeAifzAkgDAc4C7gQn7gR6AwG7AukEJ+kEggEDAbICiAMnpwNFAwH4AasDLasDggEDAe8BrwMvyQNQAwHBAdoEL9oEggEDAa4B1QQv1QSKAQMBpQHeAy+CBFACAWCFBDOfBFQCATLGBDfGBJcBAgEfwQQ3wQSSAQIBFrYEN7YElAECAQyxBDexBJIBAgEDnQEVnQFnAwG+BZAB/gGQAYUCAwG9BacBFacBagMBtAWiARWiAWcDAasFkAHvAZAB8wEDAaoFrAEVrAFwAwGhBZAB3wGQAeIBAwGgBZgBFZgBYAMBlwWTARWTAWMDAY4FvwEdvwFvAwH7BMQBHcQBcwMB8gS6AR26AWcDAekEyQEdyQF4AwHgBO4BHe4BbwMBuQThAYIC4QGJAgMBuAT4AR34AXIDAa8E8wEd8wFvAwGmBOEB8wHhAfcBAwGlBP0BHf0BeAMBnAThAeMB4QHmAQMBmwTpAR3pAWgDAZIE5AEd5AFrAwGJBJACJZACdwMB9gOVAiWVAnsDAe0DiwIliwJvAwHkA5oCJZoCgAEDAdsDxAIlxAJ3AwG0A7IC7QGyAvQBAwGzA84CJc4CegMBqgPJAiXJAncDAaED0wIl0wKAAQMBmAO6AiW6AnADAY8DtQIltQJzAwGGA78CJb8C4AIDAf0C5gIt5gJ/AwHqAusCLesCgwEDAeEC4QIt4QJ3AwHYAvACLfACiAEDAc8ClQMtlQN/AwGoAogDkAKIA5cCAwGnAp8DLZ8DggEDAZ4CmgMtmgN/AwGVAqQDLaQDiAEDAYwCiAP9AYgDhQIDAYsCkAMtkAN4AwGCAosDLYsDewMB+QG3AzW3A4cBAwHmAbwDNbwDiwEDAd0BsgM1sgN/AwHUAcYDNcYDkAEDAcsBwQM1wQOhAQMBwgHwAzXwA4cBAwGbAd4D8gHeA4UCAwGaAd4DoALeA6cCAwGZAfoDNfoDigEDAZAB9QM19QOHAQMBhwHeA9wB3gPiAQMBhgH/AzX/A5ABAgF93gOPAt4DlQICAXzrAzXrA4ABAgFz4QM14QODAQIBauYDNeYDmQECAWGNBDmNBIsBAgFXkgQ5kgSPAQIBTogEOYgEgwECAUWcBDmcBJQBAgE8lwQ5lwSlAQIBMw==</sads:DebugSymbol.Symbol>
   </Flowchart>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>
