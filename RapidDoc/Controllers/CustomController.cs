@@ -70,6 +70,13 @@ namespace RapidDoc.Controllers
             var jsondata = _EmplService.GetJsonOnlyGroup();
             return Json(jsondata, JsonRequestBehavior.AllowGet);
         }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public JsonResult GetJsonTripEmpl()
+        {
+            var jsondata = _EmplService.GetJsonTripEmpl();
+            return Json(jsondata, JsonRequestBehavior.AllowGet);
+        }
         
 
         //Custom

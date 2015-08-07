@@ -38,6 +38,7 @@ namespace RapidDoc.Models.Services
         SelectList GetDropListEmplActiveNull(Guid? id);
         SelectList GetDropListCurrentEmplNull(Guid? id);
         object GetJsonEmpl();
+        object GetJsonTripEmpl();
         object GetJsonGroup();
         object GetJsonEmplIntercompany();
         object GetJsonRoles();
@@ -295,6 +296,20 @@ namespace RapidDoc.Models.Services
             {
                 return repoUser.GetById(HttpContext.Current.User.Identity.GetUserId());
             }
-        }      
+        }
+
+
+        public object GetJsonTripEmpl()
+        {
+            ApplicationUser user = repoUser.GetById(HttpContext.Current.User.Identity.GetUserId());
+            var jsondata = (from c in GetPartial(x => x.Enable == true && x.CompanyTableId == user.CompanyTableId)
+                           select new
+                           {
+                               value = string.Format("{0},{1} - {2} - {3}", c.Id, c.FullName, c.DepartmentName, c.TitleName),
+                               text = string.Format("{0} - {1} - {2}", c.FullName, c.DepartmentName, c.TitleName)
+                           }).ToList();
+
+            return jsondata;
+        }
     }
 }

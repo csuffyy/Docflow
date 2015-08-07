@@ -711,3 +711,50 @@ function custom_tagsinputEmplOne_init(url_json) {
     }
 }
 
+function custom_tagsinputEmplOne1_init(url_json) {
+    var element = document.getSelection('input[data-role=tagsinputEmplOne1]');
+    if (typeof (element) != 'undefined' && element != null) {
+        try {
+            elt = $('input[data-role=tagsinputEmplOne1]');
+            elt.tagsinput({
+                itemValue: 'value',
+                itemText: 'text',
+                maxTags: 1,
+                tagClass: function (item) {
+                    return 'label label-primary bts-tags';
+                }
+            });
+
+            elt.tagsinput('input').typeahead({
+                valueKey: 'text',
+                prefetch: url_json,
+                template: '<p>{{text}}</p>',
+                engine: Hogan
+
+            }).bind('typeahead:selected', $.proxy(function (obj, datum) {
+                this.tagsinput('add', datum);
+                this.tagsinput('input').typeahead('setQuery', '');
+            }, elt));
+
+            currentValue = $('input[data-role=tagsinputEmplOne1]').val();
+            if (currentValue != null) {
+                currentArrData = currentValue.split(",");
+                $('input[data-role=tagsinputEmplOne1]').val('');
+
+                if (currentArrData.length > 1) {
+                    for (var i = 0; i < currentArrData.length; i += 2) {
+                        var key = currentArrData[i];
+                        var numValue = i;
+                        numValue++;
+                        var value = currentArrData[numValue];
+                        if (value.length > 0)
+                            $('input[data-role=tagsinputEmplOne1]').tagsinput('add', { "value": key + "," + value, "text": value });
+                    }
+                }
+            }
+        }
+        catch (e) {
+
+        }
+    }
+}

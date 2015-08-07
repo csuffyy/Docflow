@@ -3,14 +3,58 @@
 @{
     Model.OrderDate = DateTime.Today;
     Model.ControlDate = DateTime.Today.AddDays(2);
-}       
+}
 @Html.HiddenFor(model => model.CountDays)
 @Html.ValidationSummary(true)
+
+<hr />
+<h4>Ввод работников:</h4>
+
+<div class="editor-field">
+    @Html.TextBox("CompanyWorker", "", new { @class = "form-control", @data_role = "tagsinputEmplOne1", @size = 256, @maxlength = 256, placeholder = "Работник" })
+</div>
+
+<div class="row">
+    <div class="col-xs-3">
+        <div class="editor-label">
+            @Html.Label("")
+        </div>
+        <div class="editor-field">
+            @Html.TextBox("FIO", "", new { @class = "form-control", placeholder = "ФИО" })
+        </div>
+    </div>
+
+    <div class="col-xs-3">
+        <div class="editor-label">
+            @Html.Label("")
+        </div>
+        <div class="editor-field">
+            @Html.TextBox("Department", "", new { @class = "form-control", placeholder = "Подразделение" })
+        </div>
+    </div>
+
+    <div class="col-xs-3">
+        <div class="editor-label">
+            @Html.Label("")
+        </div>
+        <div class="editor-field">
+            @Html.TextBox("Title", "", new { @class = "form-control", placeholder = "Должность" })
+        </div>
+    </div>
+</div>
+<br />
+<div class="editor-field">
+    <button type="button" id="addUser" class="btn btn-default btn-sm">@UIElementRes.UIElement.AddUsers</button>
+</div>
+<br />
+
+<hr />
+
 <div class="editor-label">
     @Html.LabelForRequired(model => Model.Workers)
 </div>
 <div class="editor-field">
-    @Html.TextBoxFor(model => Model.Workers, new { @class = "form-control", @data_role = "tagsinputEmpl2", @size = 256, @maxlength = 256, placeholder = "Работник", @autofocus = "required" })
+    @Html.TextBoxFor(model => Model.Workers, new { @class = "form-control", @data_role = "tagsinput", placeholder = "Работник", })
 </div>
 <div class="editor-label">
     @Html.LabelForRequired(model => Model.Department)
@@ -87,7 +131,7 @@
             @Html.LabelForRequired(model => model.CountryTableId)
         </div>
         @Html.Action("GetCountryORD", "Custom")
-    </div>   
+    </div>
     <div class="col-xs-4">
         <div class="editor-label">
             @Html.LabelForRequired(model => Model.Country)
@@ -95,7 +139,7 @@
         <div class="editor-field">
             @Html.TextBoxFor(model => Model.Country, new { @class = "form-control", placeholder = "Опционально" })
         </div>
-    </div>   
+    </div>
 </div>
 
 <div class="editor-label">
@@ -205,13 +249,13 @@
         </div>
     </div>
     @*<div class="col-xs-2">
-        <div class="editor-label">
-            @Html.LabelForRequired(model => Model.ControlDate)
-        </div>
-        <div class="editor-field">
-            @Html.TextBoxFor(model => model.ControlDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", data_date_format = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.ToLower(), placeholder = "Срок исполнения", startDate = "" })
-        </div>
-    </div>*@
+            <div class="editor-label">
+                @Html.LabelForRequired(model => Model.ControlDate)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.ControlDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", data_date_format = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.ToLower(), placeholder = "Срок исполнения", startDate = "" })
+            </div>
+        </div>*@
     <div class="col-xs-2">
         <div class="editor-label">
             @Html.LabelForRequired(model => Model.NeedTranslate)
@@ -379,14 +423,55 @@
             $('#ItemCauseNumber').text(element.text());
         });
 
+        $('#FIO').change(function (event) {
+            if ($('#FIO').val() == '' && $('#Department').val() == '' && $('#Title').val() == '') {
+                $('#CompanyWorker')[0].disabled = false;
+            }
+            else {
+                $('#CompanyWorker').visible(false);
+                $('#CompanyWorker').val('');
+            }
+        });
+
+        $('#CompanyWorker').change(function (event) {
+            if ($('#CompanyWorker').val() == '') {
+                $('#FIO')[0].disabled = false;
+                $('#Department')[0].disabled = false;
+                $('#Title')[0].disabled = false;
+
+            }
+            else {
+                $('#FIO')[0].disabled = true;
+                $('#FIO').val('');
+
+                $('#Department')[0].disabled = true;
+                $('#Department').val('');
+
+                $('#Title')[0].disabled = true;
+                $('#Title').val('');
+            }
+        });
+
+        $('#addUser').click(function (event) {
+            event.preventDefault();
+            var value = $('#CompanyWorker').val();
+            if ($('#CompanyWorker').val() == '')
+                $('input[data-role=tagsinput]').tagsinput('add', $('#FIO').val() + "-" + $('#Department').val() + "-" + $('#Title').val());
+            else {
+                var pattern = /\b[a-f\d-]{36}\b,/;
+                var result = value.replace(pattern, "");
+                $('input[data-role=tagsinput]').tagsinput('add', $('#CompanyWorker').text());
+            }
+        });
+
         $("[id*='Date']").change(function (event) {
-            var pattern = /(\d{2})\.(\d{2})\.(\d{4})/;           
+            var pattern = /(\d{2})\.(\d{2})\.(\d{4})/;
             var startDate = new Date($("#StartDate").val().replace(pattern, '$3-$2-$1'));
             var endDate = new Date($("#EndDate").val().replace(pattern, '$3-$2-$1'));
             var diffDays = parseInt((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
-            
+
             if (startDate != null && endDate != null) {
-                if (diffDays <= 0) {
+                if (diffDays < 0) {
                     $('.alert_placeholderDate').html('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><span class="sr-only">Error:</span>' + " Введите корректно даты коммандировки" + '</div>');
                     $('#diffdays').html("");
                     $('#CountDays').val(0);
@@ -395,26 +480,6 @@
                     $('#CountDays').val(diffDays);
                     $('#diffdays').html(diffDays);
                 }
-            }
-        });
-
-        $('#CountryTableId').change(function (event) {
-            if($('#CountryTableId').val() == '') {
-                $('#Country')[0].disabled = false;
-            }
-            else {
-                $('#Country')[0].disabled = true;
-                $('#Country').val('');
-            }
-        });
-
-        $('#OrganizationTableId').change(function (event) {
-            if ($('#OrganizationTableId').val() == '') {
-                $('#Organization')[0].disabled = false;
-            }
-            else {
-                $('#Organization')[0].disabled = true;
-                $('#Organization').val('');
             }
         });
     });
