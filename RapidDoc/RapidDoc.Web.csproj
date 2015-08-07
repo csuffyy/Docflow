@@ -1685,6 +1685,7 @@
     <Content Include="Views\Custom\USR_ORD_Organization.cshtml" />
     <Content Include="Views\Custom\USR_REQ_OKS_RequestForTranslateZIF_Edit.cshtml" />
     <Content Include="Views\Custom\USR_REQ_OKS_RequestForTranslateZIF_View.cshtml" />
+    <Content Include="Views\Custom\USR_ORD_Workers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

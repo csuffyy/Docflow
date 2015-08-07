@@ -1902,5 +1902,12 @@ namespace RapidDoc.Controllers
 
             return PartialView("_Empty");
         }
+        public ActionResult GetWorkersOrdTrip(string Workers)
+        {
+            List<string> workersList = Workers.Split(',').ToList();
+            ViewBag.WorkerSearchList = new SelectList(workersList);
+            return PartialView("USR_ORD_Workers");
+        }
+        
 	}
 }

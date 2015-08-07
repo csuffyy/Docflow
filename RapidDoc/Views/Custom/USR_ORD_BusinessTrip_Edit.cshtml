@@ -7,38 +7,39 @@
 @Html.HiddenFor(model => model.CountDays)
 @Html.ValidationSummary(true)
 
-<hr />
 <h4>Ввод работников:</h4>
 
-<div class="editor-field">
+<div id="CompanyW">
     @Html.TextBox("CompanyWorker", "", new { @class = "form-control", @data_role = "tagsinputEmplOne1", @size = 256, @maxlength = 256, placeholder = "Работник" })
 </div>
 
-<div class="row">
-    <div class="col-xs-3">
-        <div class="editor-label">
-            @Html.Label("")
+<div id="CustomW">
+    <div class="row">
+        <div class="col-xs-4">
+            <div class="editor-label">
+                @Html.Label("")
+            </div>
+            <div class="editor-field">
+                @Html.TextBox("FIO", "", new { @class = "form-control", placeholder = "ФИО" })
+            </div>
         </div>
-        <div class="editor-field">
-            @Html.TextBox("FIO", "", new { @class = "form-control", placeholder = "ФИО" })
-        </div>
-    </div>
 
-    <div class="col-xs-3">
-        <div class="editor-label">
-            @Html.Label("")
+        <div class="col-xs-4">
+            <div class="editor-label">
+                @Html.Label("")
+            </div>
+            <div class="editor-field">
+                @Html.TextBox("Department", "", new { @class = "form-control", placeholder = "Подразделение" })
+            </div>
         </div>
-        <div class="editor-field">
-            @Html.TextBox("Department", "", new { @class = "form-control", placeholder = "Подразделение" })
-        </div>
-    </div>
 
-    <div class="col-xs-3">
-        <div class="editor-label">
-            @Html.Label("")
-        </div>
-        <div class="editor-field">
-            @Html.TextBox("Title", "", new { @class = "form-control", placeholder = "Должность" })
+        <div class="col-xs-4">
+            <div class="editor-label">
+                @Html.Label("")
+            </div>
+            <div class="editor-field">
+                @Html.TextBox("Title", "", new { @class = "form-control", placeholder = "Должность" })
+            </div>
         </div>
     </div>
 </div>
@@ -46,8 +47,9 @@
 <div class="editor-field">
     <button type="button" id="addUser" class="btn btn-default btn-sm">@UIElementRes.UIElement.AddUsers</button>
 </div>
-<br />
 
+<br />
+<div class="alert_placeholderWorker"></div>
 <hr />
 
 <div class="editor-label">
@@ -55,18 +57,6 @@
 </div>
 <div class="editor-field">
     @Html.TextBoxFor(model => Model.Workers, new { @class = "form-control", @data_role = "tagsinput", placeholder = "Работник", })
-</div>
-<div class="editor-label">
-    @Html.LabelForRequired(model => Model.Department)
-</div>
-<div class="editor-field">
-    @Html.TextBoxFor(model => Model.Department, new { @class = "form-control", placeholder = "Подразделение" })
-</div>
-<div class="editor-label">
-    @Html.LabelForRequired(model => Model.Position)
-</div>
-<div class="editor-field">
-    @Html.TextBoxFor(model => Model.Position, new { @class = "form-control", placeholder = "Должность" })
 </div>
 
 <hr />
@@ -425,42 +415,70 @@
 
         $('#FIO').change(function (event) {
             if ($('#FIO').val() == '' && $('#Department').val() == '' && $('#Title').val() == '') {
-                $('#CompanyWorker')[0].disabled = false;
+                $('#CompanyW').show();               
             }
             else {
-                $('#CompanyWorker').visible(false);
-                $('#CompanyWorker').val('');
+                $('#CompanyW').hide();
+                $('input[data-role=tagsinputEmplOne1]').tagsinput('removeAll');
             }
         });
 
         $('#CompanyWorker').change(function (event) {
-            if ($('#CompanyWorker').val() == '') {
-                $('#FIO')[0].disabled = false;
-                $('#Department')[0].disabled = false;
-                $('#Title')[0].disabled = false;
-
+            if ($('#CompanyWorker').val() == '') {               
+                $('#CustomW').show();
             }
             else {
-                $('#FIO')[0].disabled = true;
-                $('#FIO').val('');
-
-                $('#Department')[0].disabled = true;
+                $('#CustomW').hide();
+                $('#FIO').val('');              
                 $('#Department').val('');
-
-                $('#Title')[0].disabled = true;
                 $('#Title').val('');
             }
         });
 
         $('#addUser').click(function (event) {
             event.preventDefault();
+            $('.alert_placeholderWorker').html("");
             var value = $('#CompanyWorker').val();
-            if ($('#CompanyWorker').val() == '')
-                $('input[data-role=tagsinput]').tagsinput('add', $('#FIO').val() + "-" + $('#Department').val() + "-" + $('#Title').val());
-            else {
+            if ($('#CompanyWorker').val() == '') {
+                if ($('#FIO').val() == '' || $('#Department').val() == '' || $('#Title').val() == '')
+                {
+                    $('.alert_placeholderWorker').html('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><span class="sr-only">Error:</span>' + " Не обходио ввести полные данные о сотруднике(ФИО-Подразделение-Должность)" + '</div>');
+                }
+                else
+                {
+                    $('input[data-role=tagsinput]').tagsinput('add', $('#FIO').val() + "-" + $('#Department').val() + "-" + $('#Title').val());
+
+                    $('#FIO').val('');
+                    $('#Department').val('');
+                    $('#Title').val('');
+                    $('#CompanyW').show();
+                }
+            }
+            else {                
                 var pattern = /\b[a-f\d-]{36}\b,/;
                 var result = value.replace(pattern, "");
-                $('input[data-role=tagsinput]').tagsinput('add', $('#CompanyWorker').text());
+                $('input[data-role=tagsinput]').tagsinput('add', result);
+                $('input[data-role=tagsinputEmplOne1]').tagsinput('removeAll');
+            }
+        });
+
+        $('#CountryTableId').change(function (event) {
+            if($('#CountryTableId').val() == '') {
+                    $('#Country')[0].disabled = false;
+                }
+            else {
+                $('#Country')[0].disabled = true;
+                $('#Country').val('');
+            }
+         });
+    
+        $('#OrganizationTableId').change(function (event) {
+            if ($('#OrganizationTableId').val() == '') {
+                    $('#Organization')[0].disabled = false;
+                }
+            else {
+                $('#Organization')[0].disabled = true;
+                $('#Organization').val('');
             }
         });
 
@@ -471,7 +489,7 @@
             var diffDays = parseInt((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
 
             if (startDate != null && endDate != null) {
-                if (diffDays < 0) {
+                if (diffDays <= 0) {
                     $('.alert_placeholderDate').html('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><span class="sr-only">Error:</span>' + " Введите корректно даты коммандировки" + '</div>');
                     $('#diffdays').html("");
                     $('#CountDays').val(0);

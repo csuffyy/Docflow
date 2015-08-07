@@ -45,7 +45,7 @@ namespace RapidDoc.Models.Services
         bool isSignDocument(Guid documentId, ApplicationUser user = null);
         IEnumerable<WFTrackerTable> GetCurrentSignStep(Guid documentId, string currentUserId = "", ApplicationUser user = null);
         SLAStatusList SLAStatus(Guid documentId, string currentUserId = "", ApplicationUser user = null);
-        void SaveSignData(IEnumerable<WFTrackerTable> trackerTables, TrackerType trackerType);
+        void SaveSignData(IEnumerable<WFTrackerTable> trackerTables, TrackerType trackerType, bool changeSignUser = true);
         Guid SaveFile(FileTable file);
         void UpdateFile(FileTable file);
         bool FileContains(Guid documentFileId);
@@ -763,7 +763,7 @@ namespace RapidDoc.Models.Services
             return signStep;
         }
 
-        public void SaveSignData(IEnumerable<WFTrackerTable> trackerTables, TrackerType trackerType)
+        public void SaveSignData(IEnumerable<WFTrackerTable> trackerTables, TrackerType trackerType, bool changeSignUser = true)
         {
             string userId = HttpContext.Current.User.Identity.GetUserId(); 
 
@@ -774,8 +774,12 @@ namespace RapidDoc.Models.Services
                 {
                     try
                     {
-                        trackerTable.SignDate = DateTime.UtcNow;
-                        trackerTable.SignUserId = userId;
+
+                        if (changeSignUser == true)
+                        {
+                            trackerTable.SignDate = DateTime.UtcNow;
+                            trackerTable.SignUserId = userId;
+                        }                    
                         trackerTable.TrackerType = trackerType;
                         _WorkflowTrackerService.SaveDomain(trackerTable);
                         break;
@@ -1121,7 +1125,7 @@ namespace RapidDoc.Models.Services
              var trackerTables = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == documentId && x.SignUserId == null && x.TrackerType == TrackerType.Waiting).ToList();
 
             if (trackerTables != null && trackerTables.Count > 0)
-                SaveSignData(trackerTables, TrackerType.NonActive);
+                SaveSignData(trackerTables, TrackerType.Active, false);
         }
 
         public List<TaskDelegationView> GetDocumentRefTask(Guid documentId)

@@ -33,7 +33,8 @@ namespace RapidDoc.Models.Repository
         Waiting = 0,
         Approved = 1,
         Cancelled = 2,
-        NonActive = 3
+        NonActive = 3,
+        Active = 4
     }
 
     public enum SLAStatusList : byte

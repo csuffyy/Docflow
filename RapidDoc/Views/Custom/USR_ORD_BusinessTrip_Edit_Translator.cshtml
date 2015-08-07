@@ -16,8 +16,6 @@
 @Html.HiddenFor(model => model.CountryTableId)
 @Html.HiddenFor(model => model.CountDays)
 @Html.HiddenFor(model => model.Workers)
-@Html.HiddenFor(model => model.Department)
-@Html.HiddenFor(model => model.Position)
 @Html.HiddenFor(model => model.StartDate)
 @Html.HiddenFor(model => model.EndDate)
 @Html.HiddenFor(model => model.BusinessTripType)
@@ -40,18 +38,6 @@
 </div>
 <div class="editor-field">
     @Html.HtmlDisplayTagsFor(model => Model.Workers)
-</div>
-<div class="editor-label">
-    @Html.LabelFor(model => Model.Department)
-</div>
-<div class="editor-field">
-    @Html.DisplayTextFor(model => Model.Department)
-</div>
-<div class="editor-label">
-    @Html.LabelFor(model => Model.Position)
-</div>
-<div class="editor-field">
-    @Html.DisplayTextFor(model => Model.Position)
 </div>
 <hr />
 <h4>Сроки командировки:</h4>

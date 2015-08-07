@@ -249,63 +249,82 @@
                 </div>
             </div>
         </div>
-        @if (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Order)
-        { 
+
+        <div class="modal pdfreporttrip-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">@CustomRes.Custom.Users</h4>
+                    </div>
+                    <div class="modal-body" style="min-height: 180px;">
+                        @Html.Action("GetWorkersOrdTrip", "Custom", new { Workers = Model.docData.Workers })
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" name="action:PrintPdfTrip" id="PrintTrip">@UIElementRes.UIElement.Print</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">@UIElementRes.UIElement.Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>           
+    </div>
+
+    @if (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Order)
+        {
             <a href=@Url.Action("PdfReport", "Report", new { id = Model.DocumentView.Id, processId = Model.ProcessView.Id }) class="btn btn-default hidden-print" target="_blank">@UIElementRes.UIElement.PrintOrder</a>
         }
-        @if (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Order && Model.docData.GetType() == typeof(RapidDoc.Models.ViewModels.USR_ORD_BusinessTrip_View))
+    @if (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Order && Model.docData.GetType() == typeof(RapidDoc.Models.ViewModels.USR_ORD_BusinessTrip_View))
         {
-            <a href=@Url.Action("PdfReportTrip", "Report", new { id = Model.DocumentView.Id, processId = Model.ProcessView.Id }) class="btn btn-default hidden-print" target="_blank">@UIElementRes.UIElement.PrintPdfTrip</a>
+            <a href="#" class="btn btn-default hidden-print"  data-toggle="modal" data-target=".pdfreporttrip-modal">@UIElementRes.UIElement.PrintPdfTrip</a>
         }
-        <a href="javascript:window.print()" class="btn btn-default hidden-print">@UIElementRes.UIElement.Print</a>
-        <a href=@Url.Action("Index", "Document") class="btn btn-default hidden-print" role="button">@UIElementRes.UIElement.Close</a>
-    </fieldset>
-}
+    <a href="javascript:window.print()" class="btn btn-default hidden-print">@UIElementRes.UIElement.Print</a>
+    <a href=@Url.Action("Index", "Document") class="btn btn-default hidden-print" role="button">@UIElementRes.UIElement.Close</a>
+</fieldset>
+    }
 
-@if(Model.DocumentView.DocType != RapidDoc.Models.Repository.DocumentType.OfficeMemo)
+    @if(Model.DocumentView.DocType != RapidDoc.Models.Repository.DocumentType.OfficeMemo)
 {
 <p>
-    <h4 class="text-right hidden-print">@UIElementRes.UIElement.AddComment</h4>
-    @using (Ajax.BeginForm("GetAllComment", new { documentId = Model.DocumentView.Id }, new AjaxOptions { UpdateTargetId = "comments", OnComplete = "clearTextAreaComment" }, new { name = "commentForm" }))
+        <h4 class="text-right hidden-print">@UIElementRes.UIElement.AddComment</h4>
+        @using (Ajax.BeginForm("GetAllComment", new { documentId = Model.DocumentView.Id }, new AjaxOptions { UpdateTargetId = "comments", OnComplete = "clearTextAreaComment" }, new { name = "commentForm" }))
     {
         <div class="hidden-print">
-            @Html.TextArea("lastComment", new { @class = "form-control", @rows = "3" })
-            <div class="row">
-                <div class="col-md-7 visible-lg-inline"></div>
-                <div class="col-md-5"><button type="submit" class="btn btn-primary btn-xs btn-block pull-right" id="saveCommentBtn">@UIElementRes.UIElement.Save / Ctrl + Enter</button></div>
+                @Html.TextArea("lastComment", new { @class = "form-control", @rows = "3" })
+                <div class="row">
+                    <div class="col-md-7 visible-lg-inline"></div>
+                    <div class="col-md-5"><button type="submit" class="btn btn-primary btn-xs btn-block pull-right" id="saveCommentBtn">@UIElementRes.UIElement.Save / Ctrl + Enter</button></div>
+                </div>
             </div>
-        </div>
         <br class="hidden-print">
     }
-</p>
+    </p>
 }
 
-<!-- The template to display files available for upload -->
-<script id="template-upload" type="text/x-tmpl">
+    <!-- The template to display files available for upload -->
+    <script id="template-upload" type="text/x-tmpl">
     {% for (var i=0, file; file=o.files[i]; i++) { %}
-    <tr class="template-upload fade">
-        <td>
-            <span class="preview"></span>
-        </td>
-        <td>
-            <p class="name">{%=file.name%}</p>
-            <strong class="error text-danger"></strong>
-        </td>
-        <td>
-            <p class="size">Processing...</p>
-            <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar progress-bar-success" style="width:0%;"></div></div>
-        </td>
-        <td>
-            {% if (!i) { %}
-            <button class="btn btn-warning btn-xs cancel">
-                <i class="glyphicon glyphicon-ban-circle"></i>
-                <span>@UIElementRes.UIElement.Cancel</span>
-            </button>
-            {% } %}
-        </td>
-    </tr>
+        <tr class="template-upload fade">
+            <td>
+                <span class="preview"></span>
+            </td>
+            <td>
+                <p class="name">{%=file.name%}</p>
+                <strong class="error text-danger"></strong>
+            </td>
+            <td>
+                <p class="size">Processing...</p>
+                <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar progress-bar-success" style="width:0%;"></div></div>
+            </td>
+            <td>
+    {% if (!i) { %}
+                <button class="btn btn-warning btn-xs cancel">
+                    <i class="glyphicon glyphicon-ban-circle"></i>
+                    <span>@UIElementRes.UIElement.Cancel</span>
+                </button>
     {% } %}
-</script>
+            </td>
+        </tr>
+    {% } %}
+            </script>
 <!-- The template to display files available for download -->
 <script id="template-download" type="text/x-tmpl">
     {% for (var i=0, file; file=o.files[i]; i++) { %}
@@ -475,6 +494,14 @@
             return false;
         });
     });
+
+    $('#PrintTrip').click(function () {       
+        $('.pdfreporttrip-modal').modal('hide');
+    });
+
+    $('.pdfreporttrip-modal').on('shown.bs.modal', function (e) {
+        $('#PrintTrip').removeAttr("disabled");
+    })
 
     function replaceFile(e) {
         var replaceFileId = $(e).closest('tr').find('.fileuploadtdid').text().trim();

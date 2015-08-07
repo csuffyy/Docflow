@@ -8,23 +8,12 @@
 @Html.HiddenFor(model => model.ListSubcription)
 @Html.HiddenFor(model => model.CountDays)
 
+
 <div class="editor-label">
     @Html.LabelForRequired(model => Model.Workers)
 </div>
 <div class="editor-field">
-    @Html.TextBoxFor(model => Model.Workers, new { @class = "form-control", @data_role = "tagsinputEmpl2", @size = 256, @maxlength = 256, placeholder = "Работник", @autofocus = "required" })
-</div>
-<div class="editor-label">
-    @Html.LabelForRequired(model => Model.Department)
-</div>
-<div class="editor-field">
-    @Html.TextBoxFor(model => Model.Department, new { @class = "form-control", placeholder = "Подразделение" })
-</div>
-<div class="editor-label">
-    @Html.LabelForRequired(model => Model.Position)
-</div>
-<div class="editor-field">
-    @Html.TextBoxFor(model => Model.Position, new { @class = "form-control", placeholder = "Должность" })
+    @Html.TextBoxFor(model => Model.Workers, new { @class = "form-control", @data_role = "tagsinput", placeholder = "Работник", @autofocus = "required" })
 </div>
 <hr />
 <h4>Сроки командировки:</h4>

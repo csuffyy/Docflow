@@ -25,6 +25,8 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System.Threading.Tasks;
 using RapidDoc.Attributes;
 using System.Configuration;
+using Rotativa;
+using Rotativa.Options;
 
 
 namespace RapidDoc.Controllers
@@ -694,6 +696,27 @@ namespace RapidDoc.Controllers
             }
 
             return RedirectToAction("ShowDocument", new { id = documentId, isAfterView = true });
+        }
+
+        [HttpPost]
+        [MultipleButton(Name = "action", Argument = "PrintPdfTrip")]
+        public ActionResult PrintPdfTrip(Guid processId, int type, Guid fileId, FormCollection collection, string actionModelName, Guid documentId)
+        {
+            DocumentTable docTable = _DocumentService.FirstOrDefault(x => x.Id == documentId);
+            ProcessTable process = _ProcessService.FirstOrDefault(x => x.Id == processId);
+            if (!String.IsNullOrEmpty(collection["WorkerSearchId"]))
+            {
+                string worker = collection["WorkerSearchId"].ToString();
+                ViewBag.Worker = worker;
+                var documentView = _DocumentService.GetDocumentView(docTable.RefDocumentId, process.TableName);
+                return new ViewAsPdf("~/Views/Report/PdfReportTrip.cshtml", documentView)
+                {
+                    PageSize = Size.A4,
+                    FileName = String.Format("{0}.pdf", docTable.DocumentNum)
+                };
+            }
+            else
+                return new EmptyResult();
         }
 
         public ActionResult ProlongDocumentTask(string tableName, Guid documentId)

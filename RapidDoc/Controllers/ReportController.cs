@@ -88,19 +88,6 @@ namespace RapidDoc.Controllers
             };
         }
 
-        public ActionResult PdfReportTrip(Guid id, Guid? processId)
-        {
-            DocumentTable docTable = _DocumentService.FirstOrDefault(x => x.Id == id);
-            ProcessTable process = _ProcessService.FirstOrDefault(x => x.Id == processId);
-
-            var documentView = _DocumentService.GetDocumentView(docTable.RefDocumentId, process.TableName);
-            return new ViewAsPdf("PdfReportTrip", documentView)
-            {
-                PageSize = Size.A4,
-                FileName = String.Format("{0}.pdf", docTable.DocumentNum)
-            };
-        }
-
         [HttpPost]
         public FileContentResult GenerateDetail(ReportParametersBasicView model)
         {

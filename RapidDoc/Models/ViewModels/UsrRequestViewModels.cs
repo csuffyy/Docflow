@@ -8958,14 +8958,6 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Работники")]
         public string Workers { get; set; }
 
-        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
-        [Display(Name = "Подразделение")]
-        public string Department { get; set; }
-
-        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
-        [Display(Name = "Должность")]
-        public string Position { get; set; }
-
         [DataType(DataType.Date)]
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         [Display(Name = "Начальная дата")]

@@ -6607,10 +6607,6 @@ namespace RapidDoc.Models.DomainModels
         [Required]
         public string Workers { get; set; }
         [Required]
-        public string Department { get; set; }
-        [Required]
-        public string Position { get; set; }
-        [Required]
         public DateTime? StartDate { get; set; }
         [Required]
         public DateTime? EndDate { get; set; }
