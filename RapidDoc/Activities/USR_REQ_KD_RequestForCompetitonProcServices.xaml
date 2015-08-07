@@ -70,6 +70,7 @@
       <AssemblyReference>Ninject</AssemblyReference>
       <AssemblyReference>Ninject.Web.Common</AssemblyReference>
       <AssemblyReference>Ninject.Web.Mvc</AssemblyReference>
+      <AssemblyReference>Ninject.Web.WebApi</AssemblyReference>
       <AssemblyReference>PresentationCore</AssemblyReference>
       <AssemblyReference>PresentationFramework</AssemblyReference>
       <AssemblyReference>RazorEngine</AssemblyReference>
@@ -118,7 +119,6 @@
       <AssemblyReference>System.Net.Http</AssemblyReference>
       <AssemblyReference>System.Net.Http.WebRequest</AssemblyReference>
       <AssemblyReference>System.Xml.Linq</AssemblyReference>
-      <AssemblyReference>WebActivator</AssemblyReference>
       <AssemblyReference>WebActivatorEx</AssemblyReference>
       <AssemblyReference>WebGrease</AssemblyReference>
       <AssemblyReference>WindowsBase</AssemblyReference>
@@ -297,10 +297,10 @@
                     </FlowDecision.Condition>
                     <FlowDecision.True>
                       <FlowStep x:Name="__ReferenceID19" sap2010:WorkflowViewState.IdRef="FlowStep_11">
-                        <Flowchart DisplayName="КД" sap2010:WorkflowViewState.IdRef="Flowchart_3">
+                        <Flowchart DisplayName="СМТС" sap2010:WorkflowViewState.IdRef="Flowchart_3">
                           <Flowchart.StartNode>
                             <FlowStep x:Name="__ReferenceID7" sap2010:WorkflowViewState.IdRef="FlowStep_10">
-                              <local1:WFChooseSpecificUser _service="{x:Null}" executionStep="{x:Null}" noneSkip="{x:Null}" slaOffset="{x:Null}" DisplayName="КД" sap2010:WorkflowViewState.IdRef="WFChooseSpecificUser_1" inputUserName="IlFili" useManual="False">
+                              <local1:WFChooseSpecificUser _service="{x:Null}" executionStep="{x:Null}" noneSkip="{x:Null}" slaOffset="{x:Null}" DisplayName="СМТС" sap2010:WorkflowViewState.IdRef="WFChooseSpecificUser_1" inputUserName="RiTate" useManual="False">
                                 <local1:WFChooseSpecificUser.inputCurrentUser>
                                   <InArgument x:TypeArguments="x:String">
                                     <mca:CSharpValue x:TypeArguments="x:String">inputCurrentUser</mca:CSharpValue>
@@ -573,7 +573,7 @@
     <x:Reference>__ReferenceID21</x:Reference>
     <x:Reference>__ReferenceID22</x:Reference>
     <x:Reference>__ReferenceID23</x:Reference>
-    <sads:DebugSymbol.Symbol>d3xDOlxVc2Vyc1xEbVNoa2EuQUxUWU5UQVVcRGVza3RvcFxHaXRIdWJcRG9jRmxvd1xEb2NmbG93XFJhcGlkRG9jXEFjdGl2aXRpZXNcVVNSX1JFUV9LRF9SZXF1ZXN0Rm9yQ29tcGV0aXRvblByb2NTZXJ2aWNlcy54YW1sXBoHGmcBAwG3AQG9AQEChAEDwQQPAgEBigEJ0wEVAwHSA9cBD9cBcwMByQOhBBGsBBoDAbYD2wERpAIdAwHNAqgCF6gCewMBxAKNBBmYBCIDAbECrAIZ+gIlAwHAAf4CH/4CgwEDAbcB+QMhhAQqAwGkAYIDIc0DLQIBMdEDJ9EDiwECASjlAynwAzICARXVAyngAzICAQKNAQ+sASoDAYEEsAEVsAFqAwH4A7QBF8kBOAMB0wOpBBepBGoDAcADpAQXpARyAwG3A94BF/0BMgMB/AKBAh2BAnIDAfMChQIfmgJAAwHOApUEH5UEcgMBuwKQBB+QBHoDAbICrwIfzgI9AwH4AdICJdICegMB7wHWAifwAkgDAcEBgQQngQR6AwGuAfwDJ/wDggEDAaUBhQMnqQNIAgFgrAMrxgNMAgEy7QMv7QOPAQIBH+gDL+gDigECARbdAy/dA4wBAgEM2AMv2AOKAQIBA5oBFZoBZwMBsgSNAf4BjQGFAgMBsQSkARWkAWoDAagEnwEVnwFnAwGfBI0B7wGNAfMBAwGeBKkBFakBcAMBlQSNAd8BjQHiAQMBlASVARWVAWADAYsEkAEVkAFjAwGCBLwBHbwBbwMB7wPBAR3BAXMDAeYDtwEdtwFnAwHdA8YBHcYBeAMB1APrAR3rAW8DAa0D3gGCAt4BiQIDAawD9QEd9QFyAwGjA/ABHfABbwMBmgPeAfMB3gH3AQMBmQP6AR36AXgDAZAD3gHjAd4B5gEDAY8D5gEd5gFoAwGGA+EBHeEBawMB/QKNAiWNAncDAeoCkgIlkgJ7AwHhAogCJYgCbwMB2AKXAiWXAoABAwHPArwCJbwCdwMBqAKvAv0BrwKEAgMBpwLGAiXGAnoDAZ4CwQIlwQJ3AwGVAssCJcsCgAEDAYwCrwLqAa8C8gEDAYsCtwIltwJwAwGCArICJbICcwMB+QHeAi3eAn8DAeYB4wIt4wKDAQMB3QHZAi3ZAncDAdQB7QIt7QKIAQMBywHoAi3oApkBAwHCAZcDLZcDfwMBmwGFA+oBhQP9AQMBmgGFA5gChQOfAgMBmQGhAy2hA4IBAwGQAZwDLZwDfwMBhwGFA9QBhQPaAQMBhgGmAy2mA4gBAgF9hQOHAoUDjQICAXySAy2SA3gCAXOIAy2IA3sCAWqNAy2NA5EBAgFhtAMxtAODAQIBV7kDMbkDhwECAU6vAzGvA3sCAUXDAzHDA4wBAgE8vgMxvgOdAQIBMw==</sads:DebugSymbol.Symbol>
+    <sads:DebugSymbol.Symbol>d2lEOlxVc2Vyc1xndWtvemhcU291cmNlXFJlcG9zXERvY2Zsb3dcUmFwaWREb2NcQWN0aXZpdGllc1xVU1JfUkVRX0tEX1JlcXVlc3RGb3JDb21wZXRpdG9uUHJvY1NlcnZpY2VzLnhhbWxcGgcaZwEDAbcBAb0BAQKEAQPBBA8CAQGKAQnTARUDAdID1wEP1wFzAwHJA6EEEawEGgMBtgPbARGkAh0DAc0CqAIXqAJ7AwHEAo0EGZgEIgMBsQKsAhn6AiUDAcAB/gIf/gKDAQMBtwH5AyGEBCoDAaQBggMhzQMtAgEx0QMn0QOLAQIBKOUDKfADMgIBFdUDKeADMgIBAo0BD6wBKgMBgQSwARWwAWoDAfgDtAEXyQE4AwHTA6kEF6kEagMBwAOkBBekBHIDAbcD3gEX/QEyAwH8AoECHYECcgMB8wKFAh+aAkADAc4ClQQflQRyAwG7ApAEH5AEegMBsgKvAh/OAj0DAfgB0gIl0gJ6AwHvAdYCJ/ACSAMBwQGBBCeBBHoDAa4B/AMn/AOCAQMBpQGFAyepA0gCAWCsAyvGA0wCATLtAy/tA48BAgEf6AMv6AOKAQIBFt0DL90DjAECAQzYAy/YA4oBAgEDmgEVmgFnAwGyBI0B/gGNAYUCAwGxBKQBFaQBagMBqASfARWfAWcDAZ8EjQHvAY0B8wEDAZ4EqQEVqQFwAwGVBI0B3wGNAeIBAwGUBJUBFZUBYAMBiwSQARWQAWMDAYIEvAEdvAFvAwHvA8EBHcEBcwMB5gO3AR23AWcDAd0DxgEdxgF4AwHUA+sBHesBbwMBrQPeAYIC3gGJAgMBrAP1AR31AXIDAaMD8AEd8AFvAwGaA94B8wHeAfcBAwGZA/oBHfoBeAMBkAPeAeMB3gHmAQMBjwPmAR3mAWgDAYYD4QEd4QFrAwH9Ao0CJY0CdwMB6gKSAiWSAnsDAeECiAIliAJvAwHYApcCJZcCgAEDAc8CvAIlvAJ3AwGoAq8C/wGvAoYCAwGnAsYCJcYCegMBngLBAiXBAncDAZUCywIlywKAAQMBjAKvAuwBrwL0AQMBiwK3AiW3AnADAYICsgIlsgJzAwH5Ad4CLd4CfwMB5gHjAi3jAoMBAwHdAdkCLdkCdwMB1AHtAi3tAogBAwHLAegCLegCmQEDAcIBlwMtlwN/AwGbAYUD6gGFA/0BAwGaAYUDmAKFA58CAwGZAaEDLaEDggEDAZABnAMtnAN/AwGHAYUD1AGFA9oBAwGGAaYDLaYDiAECAX2FA4cChQONAgIBfJIDLZIDeAIBc4gDLYgDewIBao0DLY0DkQECAWG0AzG0A4MBAgFXuQMxuQOHAQIBTq8DMa8DewIBRcMDMcMDjAECATy+AzG+A50BAgEz</sads:DebugSymbol.Symbol>
   </Flowchart>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>
