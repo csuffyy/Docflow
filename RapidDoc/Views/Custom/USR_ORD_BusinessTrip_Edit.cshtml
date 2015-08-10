@@ -12,33 +12,24 @@
 <div id="CompanyW">
     @Html.TextBox("CompanyWorker", "", new { @class = "form-control", @data_role = "tagsinputEmplOne1", @size = 256, @maxlength = 256, placeholder = "Работник" })
 </div>
-
+<br />
 <div id="CustomW">
     <div class="row">
         <div class="col-xs-4">
-            <div class="editor-label">
-                @Html.Label("")
-            </div>
             <div class="editor-field">
                 @Html.TextBox("FIO", "", new { @class = "form-control", placeholder = "ФИО" })
             </div>
         </div>
 
         <div class="col-xs-4">
-            <div class="editor-label">
-                @Html.Label("")
-            </div>
             <div class="editor-field">
-                @Html.TextBox("Department", "", new { @class = "form-control", placeholder = "Подразделение" })
+                @Html.TextBox("Title", "", new { @class = "form-control", placeholder = "Должность" })
             </div>
         </div>
 
         <div class="col-xs-4">
-            <div class="editor-label">
-                @Html.Label("")
-            </div>
             <div class="editor-field">
-                @Html.TextBox("Title", "", new { @class = "form-control", placeholder = "Должность" })
+                @Html.TextBox("Department", "", new { @class = "form-control", placeholder = "Подразделение" })
             </div>
         </div>
     </div>
@@ -446,7 +437,7 @@
                 }
                 else
                 {
-                    $('input[data-role=tagsinput]').tagsinput('add', $('#FIO').val() + "-" + $('#Department').val() + "-" + $('#Title').val());
+                    $('input[data-role=tagsinput]').tagsinput('add', $('#FIO').val() + "-" + $('#Title').val() + "-" + $('#Department').val());
 
                     $('#FIO').val('');
                     $('#Department').val('');
