@@ -13,6 +13,10 @@
             {
                 <span class="fa fa-archive"></span>
             }
+            @if (Model.DocumentView.Cancel == true)
+            {
+                <span class="fa fa-times text-danger"></span>
+            }
         </h5>
     </div>
     <div class="col-xs-6">
@@ -122,24 +126,24 @@
         {
             if (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Request || Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Order || (Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement && Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.OfficeMemo))
             {
-                <button type="button" class="btn btn-success hidden-print" data-toggle="modal" data-target=".bs-approve-modal-sm">@UIElementRes.UIElement.Approve</button>
-                <button type="button" class="btn btn-danger hidden-print" data-toggle="modal" data-target=".bs-reject-modal-sm">@UIElementRes.UIElement.Reject</button>
+                <button type="button" class="btn btn-success btn-lg hidden-print" data-toggle="modal" data-target=".bs-approve-modal-sm">@UIElementRes.UIElement.Approve</button>
+                <button type="button" class="btn btn-danger btn-lg hidden-print" data-toggle="modal" data-target=".bs-reject-modal-sm">@UIElementRes.UIElement.Reject</button>
             }
             else
             {
-                <button type="button" class="btn btn-success hidden-print" data-toggle="modal" data-target=".approvecz-modal-sm">@UIElementRes.UIElement.Approve</button>
-                <button type="button" class="btn btn-danger hidden-print" data-toggle="modal" data-target=".rejectcz-modal-sm">@UIElementRes.UIElement.Reject</button>                       
+                <button type="button" class="btn btn-success btn-lg hidden-print" data-toggle="modal" data-target=".approvecz-modal-sm">@UIElementRes.UIElement.Approve</button>
+                <button type="button" class="btn btn-danger btn-lg hidden-print" data-toggle="modal" data-target=".rejectcz-modal-sm">@UIElementRes.UIElement.Reject</button>
             }
         }
 
         @if ((Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && Model.DocumentView.CreatedBy == User.Identity.Name)
         {
-            <button type="button" class="btn btn-danger hidden-print" data-toggle="modal" data-target=".bs-withdraw-modal-sm">@UIElementRes.UIElement.Withdraw</button>
+            <button type="button" class="btn btn-danger btn-sm hidden-print" data-toggle="modal" data-target=".bs-withdraw-modal-sm">@UIElementRes.UIElement.Withdraw</button>
         }
         
         @if (Model.DocumentView.isArchive == true)
         {
-            <a href=@Url.Action("DocumentFromArchive", new { id = Model.DocumentView.Id }) class="btn btn-primary hidden-print">@UIElementRes.UIElement.FromArchive</a>
+            <a href=@Url.Action("DocumentFromArchive", new { id = Model.DocumentView.Id }) class="btn btn-primary btn-sm hidden-print">@UIElementRes.UIElement.FromArchive</a>
         }
         else
         {
@@ -148,12 +152,12 @@
                     Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Created ||
                     Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.OnSign))
             {
-                <a href=@Url.Action("DocumentToArchive", new { id = Model.DocumentView.Id }) class="btn btn-primary hidden-print">@UIElementRes.UIElement.ToArchive</a>
+                <a href=@Url.Action("DocumentToArchive", new { id = Model.DocumentView.Id }) class="btn btn-primary btn-sm hidden-print">@UIElementRes.UIElement.ToArchive</a>
             }
         }
 
         <div class="btn-group hidden-print">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
                 @UIElementRes.UIElement.Create <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" role="menu">
@@ -250,34 +254,16 @@
             </div>
         </div>
 
-        <div class="modal pdfreporttrip-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">@CustomRes.Custom.Users</h4>
-                    </div>
-                    <div class="modal-body" style="min-height: 180px;">
-                        @Html.Action("GetWorkersOrdTrip", "Custom", new { Workers = Model.docData.Workers })
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary" name="action:PrintPdfTrip" id="PrintTrip">@UIElementRes.UIElement.Print</button>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">@UIElementRes.UIElement.Cancel</button>
-                        </div>
-                    </div>
-                </div>
-            </div>           
-    </div>
-
     @if (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Order)
-        {
-            <a href=@Url.Action("PdfReport", "Report", new { id = Model.DocumentView.Id, processId = Model.ProcessView.Id }) class="btn btn-default hidden-print" target="_blank">@UIElementRes.UIElement.PrintOrder</a>
-        }
+    {
+        <a href=@Url.Action("PdfReport", "Report", new { id = Model.DocumentView.Id, processId = Model.ProcessView.Id }) class="btn btn-default btn-sm hidden-print" target="_blank">@UIElementRes.UIElement.PrintOrder</a>
+    }
     @if (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Order && Model.docData.GetType() == typeof(RapidDoc.Models.ViewModels.USR_ORD_BusinessTrip_View))
-        {
-            <a href="#" class="btn btn-default hidden-print"  data-toggle="modal" data-target=".pdfreporttrip-modal">@UIElementRes.UIElement.PrintPdfTrip</a>
-        }
-    <a href="javascript:window.print()" class="btn btn-default hidden-print">@UIElementRes.UIElement.Print</a>
-    <a href=@Url.Action("Index", "Document") class="btn btn-default hidden-print" role="button">@UIElementRes.UIElement.Close</a>
+    {
+        <a href="#" class="btn btn-default btn-sm hidden-print" data-toggle="modal" data-target=".pdfreporttrip-modal">@UIElementRes.UIElement.PrintPdfTrip</a>
+    }
+        <a href="javascript:window.print()" class="btn btn-default btn-sm hidden-print">@UIElementRes.UIElement.Print</a>
+        <a href=@Url.Action("Index", "Document") class="btn btn-default btn-sm hidden-print" role="button">@UIElementRes.UIElement.Close</a>
 </fieldset>
     }
 
@@ -441,6 +427,7 @@
         custom_tagsinputEmplIntercompany_init("@Url.Action("JsonEmplIntercompany", "Custom")");
         custom_tagsinputEmplOne_init("@Url.Action("JsonEmpl", "Custom")");
         custom_tagsinputOnlyGroup_init("@Url.Action("GetJsonOnlyGroup", "Custom")");
+        custom_tagsinputEmplOne1_init("@Url.Action("GetJsonTripEmpl", "Custom")");
         popover_init();
         qrcode_init();
 
@@ -495,7 +482,7 @@
         });
     });
 
-    $('#PrintTrip').click(function () {       
+    $('#PrintTrip').click(function () {
         $('.pdfreporttrip-modal').modal('hide');
     });
 

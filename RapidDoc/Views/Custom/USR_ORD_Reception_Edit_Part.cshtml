@@ -103,7 +103,20 @@
 
 <script type="text/javascript">
     $(function () {
-        var buttoncancelorderstatus = true;
+        @if(Model.CancelOrder == false)
+        {
+            <text>
+            var buttoncancelorderstatus = true;
+            </text>
+        }
+        else
+        {
+            <text>
+            var buttoncancelorderstatus = false;
+            document.getElementById('buttoncancelorder').style.visibility = 'visible';
+            </text>
+        }
+
         $('#CancelOrder').click(function (event) {
             buttoncancelorderstatus = !buttoncancelorderstatus;
             if (buttoncancelorderstatus) {

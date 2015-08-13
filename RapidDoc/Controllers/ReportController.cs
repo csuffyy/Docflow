@@ -70,16 +70,25 @@ namespace RapidDoc.Controllers
         {
             DocumentTable docTable = _DocumentService.FirstOrDefault(x => x.Id == id);
             ProcessTable process = _ProcessService.FirstOrDefault(x => x.Id == processId);
-            List<EmplTable> emplList = new List<EmplTable>();
-            
             var documentView = _DocumentService.GetDocumentView(docTable.RefDocumentId, process.TableName);
-            List<string> userList = _WorkflowService.GetUniqueUserList(id, new Dictionary<string, object> { { "ListAgreement", documentView.ListAgreement } }, "ListAgreement", true);
+            EmplTable emplTable = _EmplService.GetEmployer(docTable.ApplicationUserCreatedId, process.CompanyTableId);
+            List<EmplTable> emplList = new List<EmplTable>();
+            string managerName = String.Empty;
 
-            userList.ForEach(user => emplList.Add(_EmplService.GetEmployer(user, process.CompanyTableId)));
+            var trackersAssign = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == id && x.SystemName == "ORDCustomUserAssign" && x.TrackerType == TrackerType.Approved).ToList();
+            trackersAssign.ForEach(item => emplList.Add(_EmplService.GetEmployer(item.SignUserId, process.CompanyTableId)));
+            
+            var trackerManager = _WorkflowTrackerService.FirstOrDefault(x => x.DocumentTableId == id && x.SystemName == "ORDUserManager" && x.TrackerType == TrackerType.Approved);
+            if (trackerManager != null)
+            {
+                managerName = _EmplService.GetEmployer(trackerManager.SignUserId, process.CompanyTableId).ShortFullNameType2;
+            }
+
             ViewBag.ListFiles = _DocumentService.GetAllFilesDocument(docTable.FileId).ToList();
             ViewBag.ListUsers = emplList;
-            ViewBag.Title = _EmplService.GetEmployer(docTable.ApplicationUserCreatedId, process.CompanyTableId).DepartmentName;
+            ViewBag.Department = emplTable.DepartmentName;
             ViewBag.DocState = docTable.DocumentState;
+            ViewBag.ManagerName = managerName;
 
             return new ViewAsPdf("PdfReport", documentView)
             {

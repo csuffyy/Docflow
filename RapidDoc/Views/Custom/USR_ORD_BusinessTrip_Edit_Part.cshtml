@@ -7,6 +7,42 @@
 @Html.HiddenFor(model => model.ListAgreement)
 @Html.HiddenFor(model => model.ListSubcription)
 @Html.HiddenFor(model => model.CountDays)
+@Html.HiddenFor(model => model.Subject)
+
+<h4>Ввод работников:</h4>
+
+<div id="CompanyW">
+    @Html.TextBox("CompanyWorker", "", new { @class = "form-control", @data_role = "tagsinputEmplOne1", @size = 256, @maxlength = 256, placeholder = "Работник" })
+</div>
+<br />
+<div id="CustomW">
+    <div class="row">
+        <div class="col-xs-4">
+            <div class="editor-field">
+                @Html.TextBox("FIO", "", new { @class = "form-control", placeholder = "ФИО" })
+            </div>
+        </div>
+
+        <div class="col-xs-4">
+            <div class="editor-field">
+                @Html.TextBox("Title", "", new { @class = "form-control", placeholder = "Должность" })
+            </div>
+        </div>
+
+        <div class="col-xs-4">
+            <div class="editor-field">
+                @Html.TextBox("Department", "", new { @class = "form-control", placeholder = "Подразделение" })
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<div class="editor-field">
+    <button type="button" id="addUser" class="btn btn-default btn-sm">@UIElementRes.UIElement.AddUsers</button>
+</div>
+
+<br />
+<div class="alert_placeholderWorker"></div>
 
 
 <div class="editor-label">
@@ -44,23 +80,17 @@
 <br />
 <div class="alert_placeholderDate"></div>
 
-<div class="row">
-    <div class="col-xs-6">
-        <div class="editor-label">
-            @Html.LabelForRequired(model => Model.BusinessTripType)
-        </div>
-        <div class="editor-field">
-            @Html.EnumDropDownListFor(model => Model.BusinessTripType, new { @class = "selectpickerfull" })
-        </div>
-    </div>
-    <div class="col-xs-6">
-        <div class="editor-label">
-            @Html.LabelForRequired(model => Model.BusinessTripCategory)
-        </div>
-        <div class="editor-field">
-            @Html.EnumDropDownListFor(model => Model.BusinessTripCategory, new { @class = "selectpickerfull" })
-        </div>
-    </div>
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.BusinessTripType)
+</div>
+<div class="editor-field">
+    @Html.EnumDropDownListFor(model => Model.BusinessTripType, new { @class = "selectpicker" })
+</div>
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.BusinessTripCategory)
+</div>
+<div class="editor-field">
+    @Html.EnumDropDownListFor(model => Model.BusinessTripCategory, new { @class = "selectpicker" })
 </div>
 
 <div class="editor-label">
@@ -148,35 +178,29 @@
 </div>
 <hr />
 <h4>Оплата:</h4>
-<div class="row">
-    <div class="col-xs-6">
-        <div class="editor-label">
-            @Html.LabelForRequired(model => Model.Transit)
-        </div>
-        <div class="editor-field">
-            @Html.EnumDropDownListFor(model => Model.Transit, new { @class = "selectpickerfull" })
-        </div>
-        <div class="editor-label">
-            @Html.LabelForRequired(model => Model.Accommodation)
-        </div>
-        <div class="editor-field">
-            @Html.EnumDropDownListFor(model => Model.Accommodation, new { @class = "selectpickerfull" })
-        </div>
-    </div>
-    <div class="col-xs-6">
-        <div class="editor-label">
-            @Html.LabelForRequired(model => Model.Money)
-        </div>
-        <div class="editor-field">
-            @Html.EnumDropDownListFor(model => Model.Money, new { @class = "selectpickerfull" })
-        </div>
-        <div class="editor-label">
-            @Html.LabelForRequired(model => Model.VisaRequired)
-        </div>
-        <div class="editor-field">
-            @Html.CheckBoxFor(model => model.VisaRequired)
-        </div>
-    </div>
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.Transit)
+</div>
+<div class="editor-field">
+    @Html.EnumDropDownListFor(model => Model.Transit, new { @class = "selectpicker" })
+</div>
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.Accommodation)
+</div>
+<div class="editor-field">
+    @Html.EnumDropDownListFor(model => Model.Accommodation, new { @class = "selectpicker" })
+</div>
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.Money)
+</div>
+<div class="editor-field">
+    @Html.EnumDropDownListFor(model => Model.Money, new { @class = "selectpicker" })
+</div>
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.VisaRequired)
+</div>
+<div class="editor-field">
+    @Html.CheckBoxFor(model => model.VisaRequired)
 </div>
 <hr />
 
@@ -189,33 +213,7 @@
             @Html.TextBoxFor(model => model.OrderDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", data_date_format = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.ToLower(), placeholder = "Дата приказа", startDate = "" })
         </div>
     </div>
-    @**<div class="col-xs-2">
-        <div class="editor-label">
-            @Html.LabelForRequired(model => Model.ControlDate)
-        </div>
-        <div class="editor-field">
-            @Html.TextBoxFor(model => model.ControlDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", data_date_format = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.ToLower(), placeholder = "Срок исполнения", startDate = "" })
-        </div>
-    </div>*@
-    <div class="col-xs-8">
-        <div class="editor-label">
-            @Html.LabelFor(model => model.ItemCauseNumber)
-        </div>
-        <div class="row">
-            <div class="col-xs-2">
-                <div class="editor-field">
-                    <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target=".itemcause-modal">@UIElementRes.UIElement.Choose...</button>
-                </div>
-            </div>
-            <div class="col-xs-10">
-                @Html.HiddenFor(model => Model.ItemCauseTableId)
-                <span id="ItemCauseNumber">@Html.DisplayTextFor(model => Model.ItemCauseNumber)</span>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-xs-12">
+    <div class="col-xs-10">
         <div class="editor-label">
             @Html.LabelForRequired(model => Model.CancelOrder)
         </div>
@@ -236,14 +234,6 @@
     </div>
 </div>
 <hr />
-<div class="form-group">
-    <div class="input-group">
-        <span class="input-group-addon">
-            <span class="fa fa-tags fa-lg"></span>
-        </span>
-        @Html.TextBoxFor(model => Model.Subject, new { @class = "form-control", @size = 256, @maxlength = 256, placeholder = "Тема" })
-    </div>
-</div>
 <h4>БҰЙРЫҚ</h4>
 <div class="editor-field">
     @Html.TextAreaFor(model => Model.MainField, new { @class = "form-control summernote" })
@@ -260,23 +250,22 @@
     @Html.TextBoxFor(model => Model.Sign, new { @class = "form-control", @data_role = "tagsinputEmplOne", @size = 256, @maxlength = 256, placeholder = "Подпись" })
 </div>
 
-<div class="modal fade itemcause-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sidebar">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">@CustomRes.Custom.ItemCause</h4>
-            </div>
-            <div class="modal-body" style="min-height:700px;">
-                @Html.Action("ItemCausesListLookup", "ItemCause")
-            </div>
-        </div>
-    </div>
-</div>
-
 <script type="text/javascript">
     $(function () {
-        var buttoncancelorderstatus = true;
+        @if(Model.CancelOrder == false)
+        {
+            <text>
+            var buttoncancelorderstatus = true;
+            </text>
+        }
+        else
+        {
+            <text>
+            var buttoncancelorderstatus = false;
+            document.getElementById('buttoncancelorder').style.visibility = 'visible';
+            </text>
+        }
+
         $('#CancelOrder').click(function (event) {
             buttoncancelorderstatus = !buttoncancelorderstatus;
             if (buttoncancelorderstatus) {
@@ -286,13 +275,7 @@
             }
         });
 
-        $('.itemcauseslink').click(function (event) {
-            var element = $(event.target);
-            $('#ItemCauseTableId').val(element.attr('data-itemid'));
-            $('#ItemCauseNumber').text(element.text());
-        });
-
-       $('#diffdays').html($('#CountDays').val());
+        $('#diffdays').html($('#CountDays').val());
 
         $("[id*='Date']").change(function (event) {
             var pattern = /(\d{2})\.(\d{2})\.(\d{4})/;
@@ -310,6 +293,55 @@
                     $('#CountDays').val(diffDays);
                     $('#diffdays').html(diffDays);
                 }
+            }
+        });
+
+        $('#FIO').change(function (event) {
+            if ($('#FIO').val() == '' && $('#Department').val() == '' && $('#Title').val() == '') {
+                $('#CompanyW').show();
+            }
+            else {
+                $('#CompanyW').hide();
+                $('input[data-role=tagsinputEmplOne1]').tagsinput('removeAll');
+            }
+        });
+
+        $('#CompanyWorker').change(function (event) {
+            if ($('#CompanyWorker').val() == '') {
+                $('#CustomW').show();
+            }
+            else {
+                $('#CustomW').hide();
+                $('#FIO').val('');
+                $('#Department').val('');
+                $('#Title').val('');
+            }
+        });
+
+        $('#addUser').click(function (event) {
+            event.preventDefault();
+            $('.alert_placeholderWorker').html("");
+            var value = $('#CompanyWorker').val();
+            if ($('#CompanyWorker').val() == '') {
+                if ($('#FIO').val() == '' || $('#Department').val() == '' || $('#Title').val() == '') {
+                    $('.alert_placeholderWorker').html('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><span class="sr-only">Error:</span>' + " Не обходио ввести полные данные о сотруднике(ФИО-Подразделение-Должность)" + '</div>');
+                }
+                else {
+                    $('input[data-role=tagsinput]').tagsinput('add', $('#FIO').val() + " - " + $('#Title').val() + " - " + $('#Department').val());
+
+                    $('#FIO').val('');
+                    $('#Department').val('');
+                    $('#Title').val('');
+                    $('#CompanyW').show();
+                    $('#userlist').show();
+                }
+            }
+            else {
+                $('#userlist').show();
+                var pattern = /\b[a-f\d-]{36}\b,/;
+                var result = value.replace(pattern, "");
+                $('input[data-role=tagsinput]').tagsinput('add', result);
+                $('input[data-role=tagsinputEmplOne1]').tagsinput('removeAll');
             }
         });
 

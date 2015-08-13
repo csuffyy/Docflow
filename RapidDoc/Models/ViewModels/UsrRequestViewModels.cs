@@ -8947,13 +8947,16 @@ namespace RapidDoc.Models.ViewModels
         public string Name { get; set; }
     }
 
-    public class USR_ORD_MainActivity_View : BasicOrderView
+    public class USR_ORD_MainActivity_View : BasicOrderDefaultView
     {
 
     }
 
     public class USR_ORD_BusinessTrip_View : BasicOrderView
     {
+        [Display(Name = "Тема")]
+        public string Subject { get; set; }
+
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         [Display(Name = "Работники")]
         public string Workers { get; set; }
@@ -9021,37 +9024,37 @@ namespace RapidDoc.Models.ViewModels
         public bool VisaRequired { get; set; }
     }
 
-    public class USR_ORD_Staff_View : BasicOrderView
+    public class USR_ORD_Staff_View : BasicOrderDefaultView
     {
 
     }
 
-    public class USR_ORD_Reception_View : BasicOrderView
+    public class USR_ORD_Reception_View : BasicOrderDefaultView
     {
 
     }
 
-    public class USR_ORD_Dismissal_View : BasicOrderView
+    public class USR_ORD_Dismissal_View : BasicOrderDefaultView
     {
 
     }
 
-    public class USR_ORD_Transfer_View : BasicOrderView
+    public class USR_ORD_Transfer_View : BasicOrderDefaultView
     {
 
     }
 
-    public class USR_ORD_Holiday_View : BasicOrderView
+    public class USR_ORD_Holiday_View : BasicOrderDefaultView
     {
 
     }
 
-    public class USR_ORD_ChangeStaff_View : BasicOrderView
+    public class USR_ORD_ChangeStaff_View : BasicOrderDefaultView
     {
 
     }
 
-    public class USR_ORD_Sanction_View : BasicOrderView
+    public class USR_ORD_Sanction_View : BasicOrderDefaultView
     {
 
     }

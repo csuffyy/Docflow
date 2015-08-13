@@ -6597,13 +6597,16 @@ namespace RapidDoc.Models.DomainModels
 
     #region Приказы
 
-    public class USR_ORD_MainActivity_Table : BasicOrderTable
+    public class USR_ORD_MainActivity_Table : BasicOrderDefaultTable
     {
         
     }
 
     public class USR_ORD_BusinessTrip_Table : BasicOrderTable
     {
+        public string Subject { get; set; }
+
+
         [Required]
         public string Workers { get; set; }
         [Required]
@@ -6640,37 +6643,37 @@ namespace RapidDoc.Models.DomainModels
         public bool VisaRequired { get; set; }
     }
 
-    public class USR_ORD_Staff_Table : BasicOrderTable
+    public class USR_ORD_Staff_Table : BasicOrderDefaultTable
     {
 
     }
 
-    public class USR_ORD_Reception_Table : BasicOrderTable
+    public class USR_ORD_Reception_Table : BasicOrderDefaultTable
     {
 
     }
 
-    public class USR_ORD_Dismissal_Table : BasicOrderTable
+    public class USR_ORD_Dismissal_Table : BasicOrderDefaultTable
     {
 
     }
 
-    public class USR_ORD_Transfer_Table : BasicOrderTable
+    public class USR_ORD_Transfer_Table : BasicOrderDefaultTable
     {
 
     }
 
-    public class USR_ORD_Holiday_Table : BasicOrderTable
+    public class USR_ORD_Holiday_Table : BasicOrderDefaultTable
     {
 
     }
 
-    public class USR_ORD_ChangeStaff_Table : BasicOrderTable
+    public class USR_ORD_ChangeStaff_Table : BasicOrderDefaultTable
     {
 
     }
 
-    public class USR_ORD_Sanction_Table : BasicOrderTable
+    public class USR_ORD_Sanction_Table : BasicOrderDefaultTable
     {
 
     }

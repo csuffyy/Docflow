@@ -85,26 +85,8 @@ namespace RapidDoc.Models.DomainModels
 
     public abstract class BasicOrderTable : BasicDocumentTable
     {
-        [Required]
-        public Guid? ItemCauseTableId { get; set; }
-        public virtual ItemCauseTable ItemCauseTable { get; set; }
-
-        public string ItemCauseNumber
-        {
-            get
-            {
-                if (this.ItemCauseTable != null)
-                    return this.ItemCauseTable.CaseNumber + " - " + this.ItemCauseTable.CaseName;
-
-                return String.Empty;
-            }
-        }
-
         public string OrderNum { get; set; }
         public DateTime? OrderDate { get; set; }
-
-        [Required]
-        public string Subject { get; set; }
 
         [Required]       
         public string MainFieldTranslate { get; set; }
@@ -131,5 +113,26 @@ namespace RapidDoc.Models.DomainModels
 
         public Guid? NumberSeriesBookingTableId { get; set; }
         public virtual NumberSeriesBookingTable NumberSeriesBookingTable { get; set; }
+    }
+
+    public abstract class BasicOrderDefaultTable : BasicOrderTable
+    {
+        [Required]
+        public Guid? ItemCauseTableId { get; set; }
+        public virtual ItemCauseTable ItemCauseTable { get; set; }
+
+        public string ItemCauseNumber
+        {
+            get
+            {
+                if (this.ItemCauseTable != null)
+                    return this.ItemCauseTable.CaseNumber + " - " + this.ItemCauseTable.CaseName;
+
+                return String.Empty;
+            }
+        }
+
+        [Required]
+        public string Subject { get; set; }
     }
 }

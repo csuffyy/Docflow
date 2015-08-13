@@ -598,7 +598,7 @@ function custom_tagsinputEmplIntercompany_init(url_json) {
             currentValue = $('input[data-role=tagsinputEmplIntercompany]').val();
             if (currentValue != null) {
                 currentArrData = currentValue.split(",");
-                $('input[data-role=tagsinputEmpl]').val('');
+                $('input[data-role=tagsinputEmplIntercompany]').val('');
 
                 if (currentArrData.length > 1) {
                     for (var i = 0; i < currentArrData.length; i += 2) {

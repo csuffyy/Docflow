@@ -1,6 +1,10 @@
 ﻿@model RapidDoc.Models.ViewModels.USR_ORD_BusinessTrip_View
 @using RapidDoc.Extensions;
 
+@{
+    Model.Subject = String.Format("Командировка: {0} - {1}", @Html.HtmlDisplayTagsFor(model => model.Workers, new { @row = true, @onlyName = true }), Model.CountryTableId != null ? @Html.Action("GetCountryORD", "Custom", new { id = Model.CountryTableId, selected = true }) : @Html.DisplayTextFor(model => Model.Country));
+}
+
 @Html.HiddenFor(model => model.Id)
 @Html.HiddenFor(model => model.DocumentTableId)
 @Html.HiddenFor(model => model.NeedTranslate)
@@ -10,7 +14,6 @@
 @Html.HiddenFor(model => model.Sign)
 @Html.HiddenFor(model => model.SignTitle)
 @Html.HiddenFor(model => model.SignName)
-@Html.HiddenFor(model => model.ItemCauseTableId)
 @Html.HiddenFor(model => model.MainField)
 @Html.HiddenFor(model => model.MainFieldTranslate)
 @Html.HiddenFor(model => model.Subject)
@@ -265,7 +268,7 @@
     <strong>
         ТАҚЫРЫБЫ:
     </strong>
-    @String.Format("Командировка: {0} - г.{1}", @Html.HtmlDisplayTagsFor(model => model.Workers), Model.CountryTableId != null ? @Html.Action("GetCountryORD", "Custom", new { id = Model.CountryTableId, selected = true }) : @Html.DisplayTextFor(model => Model.Country))
+    @Html.DisplayTextFor(x => x.Subject)
 </h5>
 <br />
 

@@ -18,6 +18,8 @@ namespace RapidDoc.Activities
 
     public sealed class WFChooseManualExecution : CodeActivity
     {
+        public InArgument<string> inputSystemName { get; set; }
+
         [RequiredArgument]
         public InArgument<Dictionary<string, Object>> inputDocumentData { get; set; }
 
@@ -56,6 +58,7 @@ namespace RapidDoc.Activities
 
         protected override void Execute(CodeActivityContext context)
         {
+            string systemName = context.GetValue(this.inputSystemName);
             Dictionary<string, Object> documentData = context.GetValue(this.inputDocumentData);
             string manualKey = context.GetValue(this.inputManualKey);
             Guid documentId = context.GetValue(this.inputDocumentId);
@@ -72,7 +75,7 @@ namespace RapidDoc.Activities
 
             if (executionStep == true || noneSkipStep == true || userFunctionResult.Skip == false)
             {
-                _service.CreateTrackerRecord(documentStep, documentId, this.DisplayName, userFunctionResult.Users, currentUserId, this.Id, useManual, slaOffset, executionStep);
+                _service.CreateTrackerRecord(systemName, documentStep, documentId, this.DisplayName, userFunctionResult.Users, currentUserId, this.Id, useManual, slaOffset, executionStep);
                 outputSkipStep.Set(context, false);
             }
             else

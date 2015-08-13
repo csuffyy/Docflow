@@ -1192,14 +1192,29 @@ namespace RapidDoc.Models.Services
             List<USR_ORD_RevocationView> result = new List<USR_ORD_RevocationView>();
             result.Insert(0, new USR_ORD_RevocationView { Name = UIElementRes.UIElement.NoValue, Id = null });
 
-            IRepository<USR_ORD_MainActivity_Table> repoMainActivity = _uow.GetRepository<USR_ORD_MainActivity_Table>();
-            var itemsMainActivity = repoMainActivity.FindAll(x => x.CancelOrder == false && x.OrderNum != null && x.OrderNum != String.Empty).ToList();
-            foreach (var item in itemsMainActivity)
-            {
-                result.Add(new USR_ORD_RevocationView() { Name = item.OrderNum + ", " + item.OrderDate.Value.ToShortDateString() +", " + item.Subject, Id = item.DocumentTableId });
-            }
+            result.AddRange(GetOrderList<USR_ORD_MainActivity_Table>());
+            result.AddRange(GetOrderList<USR_ORD_Staff_Table>());
+            result.AddRange(GetOrderList<USR_ORD_Reception_Table>());
+            result.AddRange(GetOrderList<USR_ORD_Dismissal_Table>());
+            result.AddRange(GetOrderList<USR_ORD_Transfer_Table>());
+            result.AddRange(GetOrderList<USR_ORD_Holiday_Table>());
+            result.AddRange(GetOrderList<USR_ORD_ChangeStaff_Table>());
+            result.AddRange(GetOrderList<USR_ORD_Sanction_Table>());
+            result.AddRange(GetOrderList<USR_ORD_BusinessTrip_Table>());
 
             return new SelectList(result, "Id", "Name", id);
+        }
+
+        private List<USR_ORD_RevocationView> GetOrderList<T>() where T : BasicOrderTable
+        {
+            List<USR_ORD_RevocationView> result = new List<USR_ORD_RevocationView>();
+            IRepository<T> repo = _uow.GetRepository<T>();
+            var items = repo.FindAll(x => !String.IsNullOrEmpty(x.OrderNum) && x.DocumentTable.Cancel == false).ToList();
+            foreach (var item in items)
+            {
+                result.Add(new USR_ORD_RevocationView() { Name = item.OrderNum + ", " + item.OrderDate.Value.ToShortDateString(), Id = item.DocumentTableId });
+            }
+            return result;
         }
 
 
