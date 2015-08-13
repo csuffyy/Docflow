@@ -43,6 +43,7 @@ namespace RapidDoc.Models.Services
         string WFChooseSpecificUserFromService(string serviceName, ServiceIncidientPriority priority, ServiceIncidientLevel level, ServiceIncidientLocation location);
         void RunWorkflow(DocumentTable documentTable, string TableName, IDictionary<string, object> documentData, string currentUserId = "");
         void AgreementWorkflowApprove(Guid documentId, string TableName, Guid WWFInstanceId, Guid processId, IDictionary<string, object> documentData);
+        void ActiveWorkflowApprove(Guid documentId, string TableName, Guid WWFInstanceId, Guid processId, IDictionary<string, object> documentData, string currentUser);
         void AgreementWorkflowReject(Guid documentId, string TableName, Guid WWFInstanceId, Guid processId, IDictionary<string, object> documentData);
         void AgreementWorkflowWithdraw(Guid documentId, string TableName, Guid WWFInstanceId, Guid processId);
         void CreateTrackerRecord(DocumentState step, Guid documentId, string bookmarkName, List<WFTrackerUsersTable> listUser, string currentUserId, string workflowId, bool useManual, int slaOffset, bool executionStep);
@@ -50,7 +51,7 @@ namespace RapidDoc.Models.Services
         List<Array> GetTrackerList(Guid documentId, Activity activity, IDictionary<string, object> documentData, DocumentType documentType);
         List<string> GetUniqueUserList(Guid documentId, IDictionary<string, object> documentData, string nameField, bool getAll = false);
         List<string> EmplAndRolesToUserList(string[] list);
-        void CreateDynamicTracker(List<string> users, Guid documentId, string currentUserId, bool parallel, string additionalText = "");
+        void CreateDynamicTracker(List<string> users, Guid documentId, string currentUserId, bool parallel, string additionalText = "");     
     }
 
     public class WorkflowService : IWorkflowService
@@ -309,6 +310,20 @@ namespace RapidDoc.Models.Services
             _HistoryUserService.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = Models.Repository.HistoryType.CancelledDocument }, HttpContext.Current.User.Identity.GetUserId());
             _EmailService.SendInitiatorRejectEmail(documentId);
         }
+
+        public void ActiveWorkflowApprove(Guid documentId, string TableName, Guid WWFInstanceId, Guid processId, IDictionary<string, object> documentData, string currentUser)
+        {
+            SqlWorkflowInstanceStore instanceStore = SetupInstanceStore();
+
+            WorkflowApplicationInstance instanceInfo =
+                    WorkflowApplication.GetInstance(WWFInstanceId, instanceStore);
+            FileTable fileTableWF = GetRightFileWF(TableName, processId, instanceInfo);
+            Activity activity = ChooseActualWorkflow(TableName, fileTableWF, instanceInfo.DefinitionIdentity != null);
+            LoadAOrCompleteInstance(documentId, DocumentState.Agreement, TrackerType.Active, documentData, instanceStore, activity, instanceInfo, currentUser);
+            DeleteInstanceStoreOwner(instanceStore);
+            _EmailService.SendExecutorEmail(documentId, documentData.ContainsKey("AdditionalText") ? (string)documentData["AdditionalText"] : "");          
+        }
+
         public void AgreementWorkflowWithdraw(Guid documentId, string tableName, Guid WWFInstanceId, Guid processId)
         {
             SqlWorkflowInstanceStore instanceStore = SetupInstanceStore();
@@ -390,7 +405,7 @@ namespace RapidDoc.Models.Services
             documentTable.DocumentState = (DocumentState)outputParameters["outputStep"];
             _DocumentService.UpdateDocument(documentTable, currentUserId);
         }
-        public void LoadAOrCompleteInstance(Guid _documentId, DocumentState _state, TrackerType _trackerType, IDictionary<string, object> documentData, SqlWorkflowInstanceStore instanceStore, Activity activity, WorkflowApplicationInstance instanceInfo)
+        public void LoadAOrCompleteInstance(Guid _documentId, DocumentState _state, TrackerType _trackerType, IDictionary<string, object> documentData, SqlWorkflowInstanceStore instanceStore, Activity activity, WorkflowApplicationInstance instanceInfo, string currentUser = "")
         {
             try
             {
@@ -400,7 +415,7 @@ namespace RapidDoc.Models.Services
 
                 IDictionary<string, object> inputArguments = new Dictionary<string, object>();
                 inputArguments.Add("inputStep", _state);
-                inputArguments.Add("inputCurrentUser", currentUserId);
+                inputArguments.Add("inputCurrentUser", String.IsNullOrEmpty(currentUser) ? currentUserId : currentUser);
                 inputArguments.Add("documentData", documentData);
 
                 WorkflowApplication application = new WorkflowApplication(activity, instanceInfo.DefinitionIdentity);
@@ -436,8 +451,8 @@ namespace RapidDoc.Models.Services
 
                 application.Load(instanceInfo);
 
-                bookmarks = _DocumentService.GetCurrentSignStep(_documentId, currentUserId).ToList();
-                _DocumentService.SaveSignData(bookmarks, _trackerType);
+                bookmarks = _DocumentService.GetCurrentSignStep(_documentId, String.IsNullOrEmpty(currentUser) ? currentUserId : currentUser).ToList();
+                _DocumentService.SaveSignData(bookmarks, _trackerType, String.IsNullOrEmpty(currentUser) ? true : false);
 
                 if (bookmarks != null)
                 {
@@ -459,7 +474,7 @@ namespace RapidDoc.Models.Services
                 {
                     try
                     {
-                        _DocumentService.UpdateDocument(documentTable, currentUserId);
+                        _DocumentService.UpdateDocument(documentTable, String.IsNullOrEmpty(currentUser) ? currentUserId : currentUser);
                         break;
                     }
                     catch
