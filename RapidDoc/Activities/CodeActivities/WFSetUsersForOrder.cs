@@ -17,7 +17,9 @@ namespace RapidDoc.Activities.CodeActivities
 {
 
     public sealed class WFSetUsersForOrder : CodeActivity
-    {      
+    {
+        public InArgument<string> inputSystemName { get; set; }
+
         [RequiredArgument]
         public InArgument<string> inputUserId { get; set; }
 
@@ -53,6 +55,7 @@ namespace RapidDoc.Activities.CodeActivities
 
         protected override void Execute(CodeActivityContext context)
         {
+            string systemName = context.GetValue(this.inputSystemName);
             string userid = context.GetValue(this.inputUserId);
             Guid documentId = context.GetValue(this.inputDocumentId);
             DocumentState documentStep = context.GetValue(this.inputStep);
@@ -66,7 +69,7 @@ namespace RapidDoc.Activities.CodeActivities
 
             List<WFTrackerUsersTable> userList = new List<WFTrackerUsersTable>();
             userList.Add(new WFTrackerUsersTable { UserId = userid });
-            _service.CreateTrackerRecord(documentStep, documentId, this.DisplayName, userList, currentUserId, this.Id + userid, useManual, slaOffset, executionStep);
+            _service.CreateTrackerRecord(systemName, documentStep, documentId, this.DisplayName, userList, currentUserId, this.Id + userid, useManual, slaOffset, executionStep);
                 
             outputSkipStep.Set(context, false);
             outputBookmark.Set(context, this.DisplayName);

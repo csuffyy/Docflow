@@ -11,13 +11,10 @@
 @Html.HiddenFor(model => model.Sign)
 @Html.HiddenFor(model => model.OrderDate)
 @Html.HiddenFor(model => model.ControlDate)
-@Html.HiddenFor(model => model.ItemCauseTableId)
 @Html.HiddenFor(model => model.OrganizationTableId)
 @Html.HiddenFor(model => model.CountryTableId)
 @Html.HiddenFor(model => model.CountDays)
 @Html.HiddenFor(model => model.Workers)
-@Html.HiddenFor(model => model.StartDate)
-@Html.HiddenFor(model => model.EndDate)
 @Html.HiddenFor(model => model.BusinessTripType)
 @Html.HiddenFor(model => model.GoalTrip)
 @Html.HiddenFor(model => model.BusinessTripCategory)
@@ -58,23 +55,17 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-xs-6">
-        <div class="editor-label">
-            @Html.LabelFor(model => Model.BusinessTripType)
-        </div>
-        <div class="editor-field">
-            @Html.EnumToDescription(Model.BusinessTripType)
-        </div>
-    </div>
-    <div class="col-xs-6">
-        <div class="editor-label">
-            @Html.LabelFor(model => Model.BusinessTripCategory)
-        </div>
-        <div class="editor-field">
-            @Html.EnumToDescription(Model.BusinessTripCategory)
-        </div>
-    </div>
+<div class="editor-label">
+    @Html.LabelFor(model => Model.BusinessTripType)
+</div>
+<div class="editor-field">
+    @Html.EnumToDescription(Model.BusinessTripType)
+</div>
+<div class="editor-label">
+    @Html.LabelFor(model => Model.BusinessTripCategory)
+</div>
+<div class="editor-field">
+    @Html.EnumToDescription(Model.BusinessTripCategory)
 </div>
 
 <div class="editor-label">
@@ -84,36 +75,30 @@
     @Html.DisplayTextFor(model => Model.GoalTrip)
 </div>
 
-<div class="row">
-    <div class="col-xs-6">
-        <div class="editor-label">
-            @Html.LabelFor(model => Model.BusinessTripDestination)
-        </div>
-        <div class="editor-field">
-            @Html.EnumToDescription(Model.BusinessTripDestination)
-        </div>
-    </div>
-    <div class="col-xs-6">
-        @if (Model.CountryTableId != null)
-        {
-            <div class="editor-label">
-                @Html.LabelFor(model => model.CountryTableId)
-            </div>
-            <div class="editor-field">
-                @Html.Action("GetCountryORD", "Custom", new { id = Model.CountryTableId, selected = true })
-            </div>
-        }
-        else
-        {
-            <div class="editor-label">
-                @Html.LabelFor(model => Model.Country)
-            </div>
-            <div class="editor-field">
-                @Html.DisplayTextFor(model => Model.Country)
-            </div>
-        }
-    </div>
+<div class="editor-label">
+    @Html.LabelFor(model => Model.BusinessTripDestination)
 </div>
+<div class="editor-field">
+    @Html.EnumToDescription(Model.BusinessTripDestination)
+</div>
+@if (Model.CountryTableId != null)
+{
+    <div class="editor-label">
+        @Html.LabelFor(model => model.CountryTableId)
+    </div>
+    <div class="editor-field">
+        @Html.Action("GetCountryORD", "Custom", new { id = Model.CountryTableId, selected = true })
+    </div>
+}
+else
+{
+    <div class="editor-label">
+        @Html.LabelFor(model => Model.Country)
+    </div>
+    <div class="editor-field">
+        @Html.DisplayTextFor(model => Model.Country)
+    </div>
+}
 
 <div class="row">
     <div class="col-xs-2">
@@ -176,45 +161,31 @@
 </div>
 <hr />
 <h4>Оплата:</h4>
-<div class="row">
-    <div class="col-xs-6">
-        <div class="editor-label">
-            @Html.LabelFor(model => Model.Transit)
-        </div>
-        <div class="editor-field">
-            @Html.EnumToDescription(Model.Transit)
-        </div>
-        <div class="editor-label">
-            @Html.LabelFor(model => Model.Accommodation)
-        </div>
-        <div class="editor-field">
-            @Html.EnumToDescription(Model.Accommodation)
-        </div>
-    </div>
-    <div class="col-xs-6">
-        <div class="editor-label">
-            @Html.LabelFor(model => Model.Money)
-        </div>
-        <div class="editor-field">
-            @Html.EnumToDescription(Model.Money)
-        </div>
-        <div class="editor-label">
-            @Html.LabelFor(model => Model.VisaRequired)
-        </div>
-        <div class="editor-field">
-            @Html.CheckBoxFor(model => Model.VisaRequired, new { @disabled = true })
-        </div>
-    </div>
+<div class="editor-label">
+    @Html.LabelFor(model => Model.Transit)
+</div>
+<div class="editor-field">
+    @Html.EnumToDescription(Model.Transit)
+</div>
+<div class="editor-label">
+    @Html.LabelFor(model => Model.Accommodation)
+</div>
+<div class="editor-field">
+    @Html.EnumToDescription(Model.Accommodation)
+</div>
+<div class="editor-label">
+    @Html.LabelFor(model => Model.Money)
+</div>
+<div class="editor-field">
+    @Html.EnumToDescription(Model.Money)
+</div>
+<div class="editor-label">
+    @Html.LabelFor(model => Model.VisaRequired)
+</div>
+<div class="editor-field">
+    @Html.CheckBoxFor(model => Model.VisaRequired, new { @disabled = true })
 </div>
 <hr />
-<div class="form-group">
-    <div class="input-group">
-        <span class="input-group-addon">
-            <span class="fa fa-tags fa-lg"></span>
-        </span>
-        @Html.TextBoxFor(model => Model.Subject, new { @class = "form-control", @size = 256, @maxlength = 256, placeholder = "Тема" })
-    </div>
-</div>
 <h4>БҰЙРЫҚ</h4>
 <div class="editor-field">
     @Html.TextAreaFor(model => Model.MainField, new { @class = "form-control summernote" })
@@ -222,18 +193,4 @@
 <h4>ПРИКАЗ</h4>
 <div class="editor-field">
     @Html.TextAreaFor(model => Model.MainFieldTranslate, new { @class = "form-control summernote" })
-</div>
-
-<div class="modal fade itemcause-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sidebar">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">@CustomRes.Custom.ItemCause</h4>
-            </div>
-            <div class="modal-body" style="min-height:700px;">
-                @Html.Action("ItemCausesListLookup", "ItemCause")
-            </div>
-        </div>
-    </div>
 </div>

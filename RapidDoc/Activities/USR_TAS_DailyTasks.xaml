@@ -75,6 +75,7 @@
       <AssemblyReference>PresentationCore</AssemblyReference>
       <AssemblyReference>PresentationFramework</AssemblyReference>
       <AssemblyReference>RazorEngine</AssemblyReference>
+      <AssemblyReference>Rotativa</AssemblyReference>
       <AssemblyReference>Simple.ImageResizer</AssemblyReference>
       <AssemblyReference>Simple.ImageResizer.MvcExtensions</AssemblyReference>
       <AssemblyReference>System</AssemblyReference>
@@ -137,7 +138,7 @@
     </Flowchart.Variables>
     <Flowchart.StartNode>
       <FlowStep x:Name="__ReferenceID1" sap2010:WorkflowViewState.IdRef="FlowStep_13">
-        <local1:WFChooseDocUsers _service="{x:Null}" executionStep="{x:Null}" slaOffset="{x:Null}" DisplayName="Исполнители" sap2010:WorkflowViewState.IdRef="WFChooseDocUsers_4" noneSkip="True" useManual="False">
+        <local1:WFChooseDocUsers _service="{x:Null}" executionStep="{x:Null}" slaOffset="{x:Null}" DisplayName="Исполнители" sap2010:WorkflowViewState.IdRef="WFChooseDocUsers_4" inputSystemName="Executor" noneSkip="True" useManual="False">
           <local1:WFChooseDocUsers.inputCurrentUser>
             <InArgument x:TypeArguments="x:String">
               <mca:CSharpValue x:TypeArguments="x:String">inputCurrentUser</mca:CSharpValue>
@@ -189,7 +190,7 @@
     </Flowchart.StartNode>
     <x:Reference>__ReferenceID0</x:Reference>
     <x:Reference>__ReferenceID1</x:Reference>
-    <sads:DebugSymbol.Symbol>d1RDOlxVc2Vyc1xpZ2RtaXRcU291cmNlXFJlcG9zXERvY2Zsb3dSZXBvXFJhcGlkRG9jXEFjdGl2aXRpZXNcVVNSX1RBU19EYWlseVRhc2tzLnhhbWwPGgcaZwEDAYUBAYsBAQKFAQPBAQ8CAQGMAQmrASMCAReuAQ25ARYCAQKZAQ+ZAWECAUyMAc0BjAHUAQIBS6MBD6MBZAIBQZ4BD54BYQIBN6gBD6gBagIBLYwBvAGMAcIBAgEslAEPlAFaAgEijwEPjwFdAgEYtgETtgFwAgENsQETsQFuAgED</sads:DebugSymbol.Symbol>
+    <sads:DebugSymbol.Symbol>d1RDOlxVc2Vyc1xpZ2RtaXRcU291cmNlXFJlcG9zXERvY2Zsb3dSZXBvXFJhcGlkRG9jXEFjdGl2aXRpZXNcVVNSX1RBU19EYWlseVRhc2tzLnhhbWwQGgcaZwEDAYUBAYsBAQKGAQPCAQ8CAQGNAQmsASMCARevAQ26ARYCAQKaAQ+aAWECAU2NAcMBjQHNAQIBTI0B6AGNAe8BAgFLpAEPpAFkAgFBnwEPnwFhAgE3qQEPqQFqAgEtjQHXAY0B3QECASyVAQ+VAVoCASKQAQ+QAV0CARi3ARO3AXACAQ2yAROyAW4CAQM=</sads:DebugSymbol.Symbol>
   </Flowchart>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>

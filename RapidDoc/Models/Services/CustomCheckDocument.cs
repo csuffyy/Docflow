@@ -1293,7 +1293,7 @@ namespace RapidDoc.Models.Services
                 }
             }
 
-            if (type.IsSubclassOf(typeof(BasicOrderView)))
+            if (type.IsSubclassOf(typeof(BasicOrderView)) || type == (new USR_ORD_BusinessTrip_View()).GetType())
             {
                 if (!String.IsNullOrEmpty(actionModel.Sign))
                 {

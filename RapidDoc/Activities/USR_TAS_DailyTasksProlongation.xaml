@@ -77,6 +77,7 @@
       <AssemblyReference>PresentationCore</AssemblyReference>
       <AssemblyReference>PresentationFramework</AssemblyReference>
       <AssemblyReference>RazorEngine</AssemblyReference>
+      <AssemblyReference>Rotativa</AssemblyReference>
       <AssemblyReference>Simple.ImageResizer</AssemblyReference>
       <AssemblyReference>Simple.ImageResizer.MvcExtensions</AssemblyReference>
       <AssemblyReference>System</AssemblyReference>
@@ -185,7 +186,7 @@
                           </InArgument>
                         </Assign.Value>
                       </Assign>
-                      <local2:WFSetUsersForTaskProlongation _service="{x:Null}" executionStep="{x:Null}" noneSkip="{x:Null}" slaOffset="{x:Null}" DisplayName="Выбор сотрудников" sap2010:WorkflowViewState.IdRef="WFSetUsersForTaskProlongation_1" useManual="False">
+                      <local2:WFSetUsersForTaskProlongation _service="{x:Null}" executionStep="{x:Null}" noneSkip="{x:Null}" slaOffset="{x:Null}" DisplayName="Выбор сотрудников" sap2010:WorkflowViewState.IdRef="WFSetUsersForTaskProlongation_1" inputSystemName="User" useManual="False">
                         <local2:WFSetUsersForTaskProlongation.inputActivityId>
                           <InArgument x:TypeArguments="x:Int32">
                             <mca:CSharpValue x:TypeArguments="x:Int32">indexActivityId</mca:CSharpValue>
@@ -360,7 +361,7 @@
     <x:Reference>__ReferenceID3</x:Reference>
     <x:Reference>__ReferenceID4</x:Reference>
     <x:Reference>__ReferenceID5</x:Reference>
-    <sads:DebugSymbol.Symbol>d2BDOlxVc2Vyc1xpZ2RtaXRcU291cmNlXFJlcG9zXERvY2Zsb3dSZXBvXFJhcGlkRG9jXEFjdGl2aXRpZXNcVVNSX1RBU19EYWlseVRhc2tzUHJvbG9uZ2F0aW9uLnhhbWwzHAccZwEDAZ0BAaMBAQKHAQPsAg8CAQGLATWLATwCAQOMATOMATYCAQKQAQmbARIDAfYCngENpAIXAgFnqAITqAJ3AgFb0QIV3AIeAgFCrAIVvAI3AgEdvwIZygIiAgEEmAEPmAG8AQMBgwOTAQ+TAYYBAwH3AqEBE6EBiQEDAeoCqAERogIWAgFo2QIb2QJ7AgFP1AIb1AJ2AgFDrwIbrwKFAQIBNrQCG7QCegIBKrkCG7kCaQIBHscCH8cCfAIBEcICH8ICegIBBasBF6sBZwIBaa8BFaACIAIBdrABF7sBIAMBzwK8ARflAT4DAeUB5gEXgAI4AwGjAYECF58CHAIBd7gBHbgBbQMB3QKzAR2zAXEDAdACzgEdzgFvAwHCArwB/wG8AYYCAwHBAt0BHd0BcgMBtALYAR3YAW8DAacC4gEd4gF4AwGaAr8BHb8BaQMBjQLTAR3TAXsDAYACyQEdyQFoAwHzAcQBHcQBawMB5gHuAR3uAW8DAdgB8wEd8wFzAwHLAekBHekBZwMBvgH9AR39AXgDAbEB+AEd+AGJAQMBpAGEAh2EAoEBAgF4iAIbkQIkAwGUAZQCG50CJAMBhQGPAkePAkwDAaIBiwIhiwJwAwGVAZsCR5sCSwMBkwGXAiGXAnADAYYB</sads:DebugSymbol.Symbol>
+    <sads:DebugSymbol.Symbol>d2BDOlxVc2Vyc1xpZ2RtaXRcU291cmNlXFJlcG9zXERvY2Zsb3dSZXBvXFJhcGlkRG9jXEFjdGl2aXRpZXNcVVNSX1RBU19EYWlseVRhc2tzUHJvbG9uZ2F0aW9uLnhhbWw0HAccZwEDAZ0BAaMBAQKIAQPtAg8CAQGMATWMATwCAQONATONATYCAQKRAQmcARIDAfcCnwENpQIXAgFnqQITqQJ3AgFb0gIV3QIeAgFCrQIVvQI3AgEdwAIZywIiAgEEmQEPmQG8AQMBhAOUAQ+UAYYBAwH4AqIBE6IBiQEDAesCqQERowIWAgFo2gIb2gJ7AgFP1QIb1QJ2AgFDsAIbsAKFAQIBNrUCG7UCegIBKroCG7oCaQIBHsgCH8gCfAIBEcMCH8MCegIBBawBF6wBZwIBabABFaECIAIBdrEBF7wBIAMB0AK9ARfmAT4DAeUB5wEXgQI4AwGjAYICF6ACHAIBd7kBHbkBbQMB3gK0AR20AXEDAdECzwEdzwFvAwHDAr0BhQK9AYsCAwHCAr0BlgK9AZ0CAwHBAt4BHd4BcgMBtALZAR3ZAW8DAacC4wEd4wF4AwGaAsABHcABaQMBjQLUAR3UAXsDAYACygEdygFoAwHzAcUBHcUBawMB5gHvAR3vAW8DAdgB9AEd9AFzAwHLAeoBHeoBZwMBvgH+AR3+AXgDAbEB+QEd+QGJAQMBpAGFAh2FAoEBAgF4iQIbkgIkAwGUAZUCG54CJAMBhQGQAkeQAkwDAaIBjAIhjAJwAwGVAZwCR5wCSwMBkwGYAiGYAnADAYYB</sads:DebugSymbol.Symbol>
   </Flowchart>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>
@@ -481,7 +482,7 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="RapidDoc.Activities.USR_TAS_DailyTasksProlongation_1" sap:VirtualizedContainerService.HintSize="1034,716" />
+      <sap2010:ViewStateData Id="RapidDoc.Activities.USR_TAS_DailyTasksProlongation_1" sap:VirtualizedContainerService.HintSize="1034,867" />
     </sap2010:ViewStateManager>
   </sap2010:WorkflowViewState.ViewStateManager>
 </Activity>

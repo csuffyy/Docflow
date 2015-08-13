@@ -100,23 +100,11 @@ namespace RapidDoc.Models.ViewModels
 
     public abstract class BasicOrderView : BasicDocumentView
     {
-        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
-        [Display(Name = "Номенклатурное дело")]
-        public Guid? ItemCauseTableId { get; set; }
-
-        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
-        [Display(Name = "Номенклатурное дело")]
-        public string ItemCauseNumber { get; set; }
-
         [Display(Name = "Номер приказа")]
         public string OrderNum { get; set; }
 
         [Display(Name = "Дата приказа")]
         public DateTime? OrderDate { get; set; }
-
-        [Display(Name = "Тема")]
-        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
-        public string Subject { get; set; }
 
         [Display(Name = "Текст приказа")]      
         public string MainField { get; set; }
@@ -164,5 +152,20 @@ namespace RapidDoc.Models.ViewModels
 
         [Display(Name = "Забронированные номера")]
         public Guid? NumberSeriesBookingTableId { get; set; }
+    }
+
+    public abstract class BasicOrderDefaultView : BasicOrderView
+    {
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Номенклатурное дело")]
+        public Guid? ItemCauseTableId { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Номенклатурное дело")]
+        public string ItemCauseNumber { get; set; }
+
+        [Display(Name = "Тема")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string Subject { get; set; }
     }
 }

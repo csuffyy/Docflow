@@ -18,6 +18,8 @@ namespace RapidDoc.Activities
 
     public sealed class WFChooseCreatedUser : CodeActivity
     {
+        public InArgument<string> inputSystemName { get; set; }
+
         [RequiredArgument]
         public InArgument<Guid> inputDocumentId { get; set; }
 
@@ -50,6 +52,7 @@ namespace RapidDoc.Activities
 
         protected override void Execute(CodeActivityContext context)
         {
+            string systemName = context.GetValue(this.inputSystemName);
             Guid documentId = context.GetValue(this.inputDocumentId);
             DocumentState documentStep = context.GetValue(this.inputStep);
             string currentUserId = context.GetValue(this.inputCurrentUser);
@@ -63,7 +66,7 @@ namespace RapidDoc.Activities
 
             if (executionStep == true || noneSkipStep == true || userFunctionResult.Skip == false)
             {
-                _service.CreateTrackerRecord(documentStep, documentId, this.DisplayName, userFunctionResult.Users, currentUserId, this.Id, useManual, slaOffset, executionStep);
+                _service.CreateTrackerRecord(systemName, documentStep, documentId, this.DisplayName, userFunctionResult.Users, currentUserId, this.Id, useManual, slaOffset, executionStep);
                 outputSkipStep.Set(context, false);
             }
             else

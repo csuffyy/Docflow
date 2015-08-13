@@ -49,7 +49,7 @@
                 <td></td>
                 <td>
                     <font size="4" face="Arial">
-                        @if (Model.OrganizationTableId != null)
+                        @if (Model.CountryTableId != null)
                         {
                             <div class="row">
                                 Маршрут: @Html.Action("GetCountryORD", "Custom", new { id = Model.CountryTableId, selected = true })
@@ -58,7 +58,7 @@
                         else
                         {
                             <div class ="row">
-                                Маршрут: @Html.DisplayText((string)Model.Country)
+                                Маршрут: @Model.Country
                             </div>
                         }
                     </font>
@@ -69,7 +69,7 @@
                 <td></td>
                 <td>
                     <font size="4" face="Arial">
-                        Срок командировки: с @Model.StartDate.ToString("MM/dd/yyyy") по @Model.EndDate.ToString("MM/dd/yyyy")<br />
+                        Срок командировки: с @Model.StartDate.ToString("dd/MM/yyyy") по @Model.EndDate.ToString("dd/MM/yyyy")<br />
                     </font>
                 </td>
                 <td></td>

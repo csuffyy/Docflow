@@ -69,6 +69,7 @@ namespace RapidDoc.Activities.CodeActivities
                     bookingNumberId = (Guid)documentData["NumberSeriesBookingTableId"];
             }
 
+            /*
             if (documentData.ContainsKey("Addition"))
             {
                 if ((bool)documentData["Addition"] == true)
@@ -80,6 +81,7 @@ namespace RapidDoc.Activities.CodeActivities
                     }
                 }
             }
+            */
 
             if (documentData.ContainsKey("ControlUsers") && documentData.ContainsKey("ControlDate"))
             {

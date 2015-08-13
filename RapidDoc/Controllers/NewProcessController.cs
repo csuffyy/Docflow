@@ -36,8 +36,8 @@ namespace RapidDoc.Controllers
             RoleManager = new RoleManager<ApplicationRole>(new RoleStore<ApplicationRole>(dbContext));
         }
 
-        [OutputCache(Duration = 86400, VaryByParam = "id")]
-        public ActionResult Index(string id)
+        [OutputCache(Duration = 86400, VaryByParam = "id;lang")]
+        public ActionResult Index(string id, string lang)
         {
             ApplicationUser user = _AccountService.Find(id);
             EmplTable emplTable = _EmplService.FirstOrDefault(x => x.ApplicationUserId == user.Id && x.Enable == true );

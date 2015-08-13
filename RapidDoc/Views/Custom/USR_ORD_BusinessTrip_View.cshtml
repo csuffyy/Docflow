@@ -2,4 +2,22 @@
 
 @Html.Action("GetManualORDBusinessTrip", "Custom", new { model = Model })
 
+<div class="modal pdfreporttrip-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">@CustomRes.Custom.Users</h4>
+            </div>
+            <div class="modal-body" style="min-height: 180px;">
+                @Html.Action("GetWorkersOrdTrip", "Custom", new { Workers = Model.Workers })
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" name="action:PrintPdfTrip" id="PrintTrip">@UIElementRes.UIElement.Print</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">@UIElementRes.UIElement.Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 

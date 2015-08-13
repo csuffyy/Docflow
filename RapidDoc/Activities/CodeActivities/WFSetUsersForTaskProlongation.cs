@@ -17,7 +17,9 @@ namespace RapidDoc.Activities.CodeActivities
 {
 
     public sealed class WFSetUsersForTaskProlongation : CodeActivity
-    {      
+    {
+        public InArgument<string> inputSystemName { get; set; }
+
         [RequiredArgument]
         public InArgument<List<WFTrackerUsersTable>> inputUserNames { get; set; }
 
@@ -56,6 +58,7 @@ namespace RapidDoc.Activities.CodeActivities
 
         protected override void Execute(CodeActivityContext context)
         {
+            string systemName = context.GetValue(this.inputSystemName);
             List<WFTrackerUsersTable> userNames = context.GetValue(this.inputUserNames);
             Guid documentId = context.GetValue(this.inputDocumentId);
             DocumentState documentStep = context.GetValue(this.inputStep);
@@ -68,7 +71,7 @@ namespace RapidDoc.Activities.CodeActivities
 
             _service = DependencyResolver.Current.GetService<IWorkflowService>();
 
-            _service.CreateTrackerRecord(documentStep, documentId, "Исполнитель", userNames, currentUserId, inputActivityId.ToString(), useManual, slaOffset, executionStep);
+            _service.CreateTrackerRecord(systemName, documentStep, documentId, "Исполнитель", userNames, currentUserId, inputActivityId.ToString(), useManual, slaOffset, executionStep);
                 
             outputSkipStep.Set(context, false);
             outputBookmark.Set(context, "Исполнитель");

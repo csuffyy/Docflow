@@ -89,7 +89,7 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if(current != null)
                 {
-                    if(current.Any(x => x.ActivityName == "Администратор"))
+                    if(current.Any(x => x.ActivityName == "Администратор" || x.SystemName == "Administrator"))
                     {
                         ViewBag.ServiceIncidentList = _ServiceIncidentService.GetDropListServiceIncident(String.Empty);
                         return PartialView("USR_REQ_IT_CTP_IncidentIT_Edit_Administrator", model);
@@ -151,7 +151,7 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "КД"))
+                    if (current.Any(x => x.ActivityName == "Начальник УЗЛ" || x.SystemName == "UZL"))
                     {
                         return PartialView("USR_REQ_KD_RequestForCompetitonProc_Edit_Manual", model);
                     }
@@ -170,7 +170,7 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "КД"))
+                    if (current.Any(x => x.ActivityName == "Начальник УЗЛ" || x.SystemName == "UZL"))
                     {
                         return PartialView("USR_REQ_KD_RequestForCompetitonProcUZL_Edit_Manual", model);
                     }
@@ -189,7 +189,7 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "КД"))
+                    if (current.Any(x => x.ActivityName == "Начальник УЗЛ" || x.SystemName == "UZL"))
                     {
                         return PartialView("USR_REQ_KD_RequestForCompetitonProcServices_Edit_Manual", model);
                     }
@@ -208,7 +208,7 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "КД"))
+                    if (current.Any(x => x.ActivityName == "Начальник УЗЛ" || x.SystemName == "UZL"))
                     {
                         return PartialView("USR_REQ_KD_RequestForCompetitonProcServicesBGP_Edit_Manual", model);
                     }
@@ -227,7 +227,7 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Проверка данных"))
+                    if (current.Any(x => x.ActivityName == "Проверка данных" || x.SystemName == "CheckData"))
                     {
                         return PartialView("USR_REQ_IT_CTP_ReissueComputer_Edit_TableCheck", model);
                     }
@@ -253,7 +253,7 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Руководитель 1"))
+                    if (current.Any(x => x.ActivityName == "Руководитель 1" || x.SystemName == "Manager1"))
                     {
                         return PartialView("USR_REQ_UZL_RequestForPeopleAcceptanceItems_Edit_Manual1", model);
                     }
@@ -272,7 +272,7 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Руководитель 2"))
+                    if (current.Any(x => x.ActivityName == "Руководитель 2" || x.SystemName == "Manager2"))
                     {
                         return PartialView("USR_REQ_UZL_RequestForPeopleAcceptanceItems_Edit_Manual2", model);
                     }
@@ -291,7 +291,7 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Руководитель 3"))
+                    if (current.Any(x => x.ActivityName == "Руководитель 3" || x.SystemName == "Manager3"))
                     {
                         return PartialView("USR_REQ_UZL_RequestForPeopleAcceptanceItems_Edit_Manual3", model);
                     }
@@ -310,7 +310,7 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Руководитель 4"))
+                    if (current.Any(x => x.ActivityName == "Руководитель 4" || x.SystemName == "Manager4"))
                     {
                         return PartialView("USR_REQ_UZL_RequestForPeopleAcceptanceItems_Edit_Manual4", model);
                     }
@@ -332,7 +332,7 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Начальник ССД"))
+                    if (current.Any(x => x.ActivityName == "Начальник ССД" || x.SystemName == "ManagerSSD"))
                     {
                         return PartialView("USR_REQ_UZL_RequestForContractNoneresident_Edit_Manual", model);
                     }
@@ -351,7 +351,7 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Начальник ССД"))
+                    if (current.Any(x => x.ActivityName == "Начальник ССД" || x.SystemName == "ManagerSSD"))
                     {
                         return PartialView("USR_REQ_UZL_RequestForContractNoneresidentCustoms_Edit_Manual", model);
                     }
@@ -373,7 +373,7 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Начальник ССД"))
+                    if (current.Any(x => x.ActivityName == "Начальник ССД" || x.SystemName == "ManagerSSD"))
                     {
                         return PartialView("USR_REQ_UZL_RequestForContractResident_Edit_Manual", model);
                     }
@@ -396,7 +396,7 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "УЗЛ"))
+                    if (current.Any(x => x.ActivityName == "УЗЛ" || x.SystemName == "UZL"))
                     {
                         return PartialView("USR_REQ_UZL_RequestForrepresentationKD_Edit_Manual", model);
                     }
@@ -416,11 +416,11 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Начальник СТЗП"))
+                    if (current.Any(x => x.ActivityName == "Начальник СТЗП" || x.SystemName == "ManagerCTZP"))
                     {
                         return PartialView("USR_REQ_UBUO_RequestCreateSettlView_Edit_StatAcxcounting", model);
                     }
-                    if (current.Any(x => x.ActivityName == "Начальник СНУ"))
+                    if (current.Any(x => x.ActivityName == "Начальник СНУ" || x.SystemName == "ManagerCNY"))
                     {
                         return PartialView("USR_REQ_UBUO_RequestCreateSettlView_Edit_BeginAcxcounting", model);
                     }
@@ -455,7 +455,7 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Начальник УКР"))
+                    if (current.Any(x => x.ActivityName == "Начальник УКР" || x.SystemName == "ManagerYKR"))
                     {
                         return PartialView("USR_REQ_UKR_RequestForExpertiseInstruction_Edit_Manual", model);
                     }
@@ -474,7 +474,7 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Начальник УКР"))
+                    if (current.Any(x => x.ActivityName == "Начальник УКР" || x.SystemName == "ManagerYKR"))
                     {
                         return PartialView("USR_REQ_UKR_RequestForExpertiseDepartment_Edit_Manual", model);
                     }
@@ -493,7 +493,7 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Непосредственный руководитель"))
+                    if (current.Any(x => x.ActivityName == "Непосредственный руководитель" || x.SystemName == "DirectManager"))
                     {
                         return PartialView("USR_REQ_URP_RequestForHRCardITR1_Edit_Manual1", model);
                     }
@@ -512,7 +512,7 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "ИД"))
+                    if (current.Any(x => x.ActivityName == "ИД" || x.SystemName == "TopManager"))
                     {
                         return PartialView("USR_REQ_URP_RequestForHRCardITR1_Edit_Manual2", model);
                     }
@@ -531,7 +531,7 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Генеральный директор/и.о. ГД"))
+                    if (current.Any(x => x.ActivityName == "Генеральный директор/и.о. ГД" || x.SystemName == "GeneralDirector"))
                     {
                         return PartialView("USR_REQ_URP_RequestForHRCardITR1_Edit_Manual3", model);
                     }
@@ -550,7 +550,7 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Начальник службы ОЗиТБ"))
+                    if (current.Any(x => x.ActivityName == "Начальник службы ОЗиТБ" || x.SystemName == "ManagerOZTB"))
                     {
                         return PartialView("USR_REQ_URP_RequestForHRCardITR1_Edit_Manual4", model);
                     }
@@ -569,7 +569,7 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Непосредственный руководитель"))
+                    if (current.Any(x => x.ActivityName == "Непосредственный руководитель" || x.SystemName == "DirectManager"))
                     {
                         return PartialView("USR_REQ_URP_RequestForHRCardITR2_Edit_Manual1", model);
                     }
@@ -588,7 +588,7 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Начальник управление"))
+                    if (current.Any(x => x.ActivityName == "Начальник управление" || x.SystemName == "Manager"))
                     {
                         return PartialView("USR_REQ_URP_RequestForHRCardITR2_Edit_Manual2", model);
                     }
@@ -607,7 +607,7 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Начальники служб УИТ"))
+                    if (current.Any(x => x.ActivityName == "Начальники служб УИТ" || x.SystemName == "ManagerIT"))
                     {
                         return PartialView("USR_REQ_IT_CAP_RequestForITWeekend_Edit_Manual", model);
                     }
@@ -626,7 +626,7 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "ИД"))
+                    if (current.Any(x => x.ActivityName == "ИД" || x.SystemName == "TopManager"))
                     {
                         return PartialView("USR_REQ_URP_RequestForHRCardITR2_Edit_Manual3", model);
                     }
@@ -645,7 +645,7 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Начальник службы ОЗиТБ"))
+                    if (current.Any(x => x.ActivityName == "Начальник службы ОЗиТБ" || x.SystemName == "ManagerOZTB"))
                     {
                         return PartialView("USR_REQ_URP_RequestForHRCardITR2_Edit_Manual4", model);
                     }
@@ -664,7 +664,7 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Непосредственный руководитель"))
+                    if (current.Any(x => x.ActivityName == "Непосредственный руководитель" || x.SystemName == "DirectManager"))
                     {
                         return PartialView("USR_REQ_URP_RequestForHRCardITRZIF_Edit_Manual1", model);
                     }
@@ -683,7 +683,7 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Директор фабрики"))
+                    if (current.Any(x => x.ActivityName == "Директор фабрики" || x.SystemName == "DirectorZIF"))
                     {
                         return PartialView("USR_REQ_URP_RequestForHRCardITRZIF_Edit_Manual2", model);
                     }
@@ -702,7 +702,7 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Начальник службы ОЗиТБ"))
+                    if (current.Any(x => x.ActivityName == "Начальник службы ОЗиТБ" || x.SystemName == "ManagerOZTB"))
                     {
                         return PartialView("USR_REQ_URP_RequestForHRCardITRZIF_Edit_Manual3", model);
                     }
@@ -721,7 +721,7 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Непосредственный руководитель"))
+                    if (current.Any(x => x.ActivityName == "Непосредственный руководитель" || x.SystemName == "DirectManager"))
                     {
                         return PartialView("USR_REQ_URP_RequestForHRCardWork_Edit_Manual1", model);
                     }
@@ -740,7 +740,7 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Начальник управления"))
+                    if (current.Any(x => x.ActivityName == "Начальник управления" || x.SystemName == "Manager"))
                     {
                         return PartialView("USR_REQ_URP_RequestForHRCardWork_Edit_Manual2", model);
                     }
@@ -759,7 +759,7 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Исполнительный директор"))
+                    if (current.Any(x => x.ActivityName == "Исполнительный директор" || x.SystemName == "TopManager"))
                     {
                         return PartialView("USR_REQ_URP_RequestForHRCardWork_Edit_Manual3", model);
                     }
@@ -778,7 +778,7 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Начальник службы ОЗиТБ"))
+                    if (current.Any(x => x.ActivityName == "Начальник службы ОЗиТБ" || x.SystemName == "ManagerOZTB"))
                     {
                         return PartialView("USR_REQ_URP_RequestForHRCardWork_Edit_Manual4", model);
                     }
@@ -797,7 +797,7 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Непосредственный руководитель"))
+                    if (current.Any(x => x.ActivityName == "Непосредственный руководитель" || x.SystemName == "DirectManager"))
                     {
                         return PartialView("USR_REQ_URP_RequestForHRCardWorkZIF_Edit_Manual1", model);
                     }
@@ -816,7 +816,7 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Исполнительный директор"))
+                    if (current.Any(x => x.ActivityName == "Исполнительный директор" || x.SystemName == "TopManager"))
                     {
                         return PartialView("USR_REQ_URP_RequestForHRCardWorkZIF_Edit_Manual2", model);
                     }
@@ -835,7 +835,7 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Начальник службы ОЗиТБ"))
+                    if (current.Any(x => x.ActivityName == "Начальник службы ОЗиТБ" || x.SystemName == "ManagerOZTB"))
                     {
                         return PartialView("USR_REQ_URP_RequestForHRCardWorkZIF_Edit_Manual3", model);
                     }
@@ -854,7 +854,7 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Исполнитель"))
+                    if (current.Any(x => x.ActivityName == "Исполнитель" || x.SystemName == "Executor"))
                     {
                         return PartialView("USR_REQ_URP_RequestForProvisionGraphVac_Edit_Exec", model);
                     }
@@ -875,7 +875,8 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ"))
+                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ" 
+                        || x.SystemName == "DispatcherYT" || x.SystemName == "CVT" || x.SystemName == "CLT" || x.SystemName == "CPT"))
                     {
                         return PartialView("USR_REQ_YT_AuxiliaryTransportOCTMCInvest_View_Edit", model);
                     }
@@ -894,7 +895,8 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ"))
+                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ" 
+                        || x.SystemName == "DispatcherYT" || x.SystemName == "CVT" || x.SystemName == "CLT" || x.SystemName == "CPT"))
                     {
                         return PartialView("USR_REQ_YT_AuxiliaryTransportOCTMCOper_View_Edit", model);
                     }
@@ -913,7 +915,8 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ"))
+                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ"
+                        || x.SystemName == "DispatcherYT" || x.SystemName == "CVT" || x.SystemName == "CLT" || x.SystemName == "CPT"))
                     {
                         return PartialView("USR_REQ_YT_AuxiliaryTransportDayOff_View_Edit", model);
                     }
@@ -932,7 +935,8 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ"))
+                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ" 
+                        || x.SystemName == "DispatcherYT" || x.SystemName == "CVT" || x.SystemName == "CLT" || x.SystemName == "CPT"))
                     {
                         return PartialView("USR_REQ_YT_AuxiliaryTransportWorkDays_View_Edit", model);
                     }
@@ -951,7 +955,8 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ"))
+                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ"
+                        || x.SystemName == "DispatcherYT" || x.SystemName == "CVT" || x.SystemName == "CLT" || x.SystemName == "CPT"))
                     {
                         return PartialView("USR_REQ_YT_AuxiliaryTransportOutABK_View_Edit", model);
                     }
@@ -970,7 +975,8 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ"))
+                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ" 
+                        || x.SystemName == "DispatcherYT" || x.SystemName == "CVT" || x.SystemName == "CLT" || x.SystemName == "CPT"))
                     {
                         return PartialView("USR_REQ_YT_StandbyTransport_View_Edit", model);
                     }
@@ -989,7 +995,8 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ"))
+                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ" 
+                        || x.SystemName == "DispatcherYT" || x.SystemName == "CVT" || x.SystemName == "CLT" || x.SystemName == "CPT"))
                     {
                         return PartialView("USR_REQ_YT_StandbyTransportUIT_View_Edit", model);
                     }
@@ -1008,7 +1015,8 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ"))
+                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ" 
+                        || x.SystemName == "DispatcherYT" || x.SystemName == "CVT" || x.SystemName == "CLT" || x.SystemName == "CPT"))
                     {
                         return PartialView("USR_REQ_YT_LightTransportTripManage_View_Edit", model);
                     }
@@ -1027,7 +1035,8 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ"))
+                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ" 
+                        || x.SystemName == "DispatcherYT" || x.SystemName == "CVT" || x.SystemName == "CLT" || x.SystemName == "CPT"))
                     {
                         return PartialView("USR_REQ_YT_LightTransportTripATK_View_Edit", model);
                     }
@@ -1046,7 +1055,8 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ"))
+                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ" 
+                        || x.SystemName == "DispatcherYT" || x.SystemName == "CVT" || x.SystemName == "CLT" || x.SystemName == "CPT"))
                     {
                         return PartialView("USR_REQ_YT_LightTransportOCTMCInvest_View_Edit", model);
                     }
@@ -1065,7 +1075,8 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ"))
+                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ" 
+                        || x.SystemName == "DispatcherYT" || x.SystemName == "CVT" || x.SystemName == "CLT" || x.SystemName == "CPT"))
                     {
                         return PartialView("USR_REQ_YT_LightTransportOCTMCOper_View_Edit", model);
                     }
@@ -1084,7 +1095,8 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ"))
+                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ" 
+                        || x.SystemName == "DispatcherYT" || x.SystemName == "CVT" || x.SystemName == "CLT" || x.SystemName == "CPT"))
                     {
                         return PartialView("USR_REQ_YT_LightTransportOutOrganizationInvest_View_Edit", model);
                     }
@@ -1103,7 +1115,8 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ"))
+                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ" 
+                        || x.SystemName == "DispatcherYT" || x.SystemName == "CVT" || x.SystemName == "CLT" || x.SystemName == "CPT"))
                     {
                         return PartialView("USR_REQ_YT_LightTransportOutOrganizationOper_View_Edit", model);
                     }
@@ -1122,7 +1135,8 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ"))
+                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ" 
+                        || x.SystemName == "DispatcherYT" || x.SystemName == "CVT" || x.SystemName == "CLT" || x.SystemName == "CPT"))
                     {
                         return PartialView("USR_REQ_YT_LightTransportTripDayOff_View_Edit", model);
                     }
@@ -1141,7 +1155,8 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ"))
+                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ" 
+                        || x.SystemName == "DispatcherYT" || x.SystemName == "CVT" || x.SystemName == "CLT" || x.SystemName == "CPT"))
                     {
                         return PartialView("USR_REQ_YT_PassangerTransportTrip_View_Edit", model);
                     }
@@ -1160,7 +1175,8 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ"))
+                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ" 
+                        || x.SystemName == "DispatcherYT" || x.SystemName == "CVT" || x.SystemName == "CLT" || x.SystemName == "CPT"))
                     {
                         return PartialView("USR_REQ_YT_PassangerTransportTripManage_View_Edit", model);
                     }
@@ -1179,7 +1195,8 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ"))
+                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ" 
+                        || x.SystemName == "DispatcherYT" || x.SystemName == "CVT" || x.SystemName == "CLT" || x.SystemName == "CPT"))
                     {
                         return PartialView("USR_REQ_YT_PassangerTransportTripATK_View_Edit", model);
                     }
@@ -1198,7 +1215,8 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ"))
+                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ" 
+                        || x.SystemName == "DispatcherYT" || x.SystemName == "CVT" || x.SystemName == "CLT" || x.SystemName == "CPT"))
                     {
                         return PartialView("USR_REQ_YT_PassangerTransportOutOrganizationInvest_View_Edit", model);
                     }
@@ -1217,7 +1235,8 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ"))
+                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ" 
+                        || x.SystemName == "DispatcherYT" || x.SystemName == "CVT" || x.SystemName == "CLT" || x.SystemName == "CPT"))
                     {
                         return PartialView("USR_REQ_YT_PassangerTransportOutOrganizationOper_View_Edit", model);
                     }
@@ -1236,7 +1255,8 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ"))
+                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ" 
+                        || x.SystemName == "DispatcherYT" || x.SystemName == "CVT" || x.SystemName == "CLT" || x.SystemName == "CPT"))
                     {
                         return PartialView("USR_REQ_YT_PassangerTransportDayOff_View_Edit", model);
                     }
@@ -1255,7 +1275,8 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ"))
+                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ" 
+                        || x.SystemName == "DispatcherYT" || x.SystemName == "CVT" || x.SystemName == "CLT" || x.SystemName == "CPT"))
                     {
                         return PartialView("USR_REQ_YT_PassangerTransportDayOffZIF_View_Edit", model);
                     }
@@ -1274,7 +1295,8 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ"))
+                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ" 
+                        || x.SystemName == "DispatcherYT" || x.SystemName == "CVT" || x.SystemName == "CLT" || x.SystemName == "CPT"))
                     {
                         return PartialView("USR_REQ_YT_PassangerTransportCorporate_View_Edit", model);
                     }
@@ -1293,7 +1315,8 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ"))
+                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ" 
+                        || x.SystemName == "DispatcherYT" || x.SystemName == "CVT" || x.SystemName == "CLT" || x.SystemName == "CPT"))
                     {
                         return PartialView("USR_REQ_YT_RequestForEmergAuxiliaryTransportZIF_View_Edit", model);
                     }
@@ -1312,7 +1335,8 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ"))
+                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ" 
+                        || x.SystemName == "DispatcherYT" || x.SystemName == "CVT" || x.SystemName == "CLT" || x.SystemName == "CPT"))
                     {
                         return PartialView("USR_REQ_YT_RequestForAuxiliaryTransportDayOffZIF_View_Edit", model);
                     }
@@ -1331,7 +1355,8 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ"))
+                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ" 
+                        || x.SystemName == "DispatcherYT" || x.SystemName == "CVT" || x.SystemName == "CLT" || x.SystemName == "CPT"))
                     {
                         return PartialView("USR_REQ_YT_RequestForAuxiliaryTransportWorkDaysZIF_View_Edit", model);
                     }
@@ -1350,7 +1375,8 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ"))
+                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ" 
+                        || x.SystemName == "DispatcherYT" || x.SystemName == "CVT" || x.SystemName == "CLT" || x.SystemName == "CPT"))
                     {
                         return PartialView("USR_REQ_YT_RequestForStandbyTransportZIF_View_Edit", model);
                     }
@@ -1360,7 +1386,7 @@ namespace RapidDoc.Controllers
             return PartialView("USR_REQ_YT_RequestForStandbyTransportZIF_View_Show", model);
         }
 
-        public ActionResult GetRequestLightTransportTripManageZIF      (RapidDoc.Models.ViewModels.USR_REQ_YT_RequestForLightTransportTripManageZIF_View model)
+        public ActionResult GetRequestLightTransportTripManageZIF(RapidDoc.Models.ViewModels.USR_REQ_YT_RequestForLightTransportTripManageZIF_View model)
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
 
@@ -1369,7 +1395,8 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ"))
+                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ" 
+                        || x.SystemName == "DispatcherYT" || x.SystemName == "CVT" || x.SystemName == "CLT" || x.SystemName == "CPT"))
                     {
                         return PartialView("USR_REQ_YT_RequestForLightTransportTripManageZIF_View_Edit", model);
                     }
@@ -1388,7 +1415,8 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ"))
+                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ" 
+                        || x.SystemName == "DispatcherYT" || x.SystemName == "CVT" || x.SystemName == "CLT" || x.SystemName == "CPT"))
                     {
                         return PartialView("USR_REQ_YT_RequestForLightTransportTripDayOffZIF_View_Edit", model);
                     }
@@ -1407,7 +1435,8 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ"))
+                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ" 
+                        || x.SystemName == "DispatcherYT" || x.SystemName == "CVT" || x.SystemName == "CLT" || x.SystemName == "CPT"))
                     {
                         return PartialView("USR_REQ_YT_RequestForPassangerTransportZIF_View_Edit", model);
                     }
@@ -1417,7 +1446,7 @@ namespace RapidDoc.Controllers
             return PartialView("USR_REQ_YT_RequestForPassangerTransportZIF_View_Show", model);
         }
 
-        public ActionResult GetRequestPassangerTransportTripZIF  (RapidDoc.Models.ViewModels.USR_REQ_YT_RequestForPassangerTransportTripZIF_View model)
+        public ActionResult GetRequestPassangerTransportTripZIF(RapidDoc.Models.ViewModels.USR_REQ_YT_RequestForPassangerTransportTripZIF_View model)
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
 
@@ -1426,7 +1455,8 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ"))
+                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ" 
+                        || x.SystemName == "DispatcherYT" || x.SystemName == "CVT" || x.SystemName == "CLT" || x.SystemName == "CPT"))
                     {
                         return PartialView("USR_REQ_YT_RequestForPassangerTransportTripZIF_View_Edit", model);
                     }
@@ -1436,7 +1466,7 @@ namespace RapidDoc.Controllers
             return PartialView("USR_REQ_YT_RequestForPassangerTransportTripZIF_View_Show", model);
         }
 
-        public ActionResult GetRequestStandbyTransportUZL  (RapidDoc.Models.ViewModels.USR_REQ_YT_RequestForStandbyTransportUZL_View model)
+        public ActionResult GetRequestStandbyTransportUZL(RapidDoc.Models.ViewModels.USR_REQ_YT_RequestForStandbyTransportUZL_View model)
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
 
@@ -1445,7 +1475,8 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ"))
+                    if (current.Any(x => x.ActivityName == "Диспетчер УТ" || x.ActivityName == "ЦВТ" || x.ActivityName == "ЦЛТ" || x.ActivityName == "ЦПТ" 
+                        || x.SystemName == "DispatcherYT" || x.SystemName == "CVT" || x.SystemName == "CLT" || x.SystemName == "CPT"))
                     {
                         return PartialView("USR_REQ_YT_RequestForStandbyTransportUZL_View_Edit", model);
                     }
@@ -1465,7 +1496,7 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Начальник ХУ"))
+                    if (current.Any(x => x.ActivityName == "Начальник ХУ" || x.SystemName == "ManagerHY"))
                     {
                         return PartialView("USR_REQ_HY_BookingRoom_Edit_HY", model);
                     }
@@ -1484,7 +1515,7 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Начальник ХУ"))
+                    if (current.Any(x => x.ActivityName == "Начальник ХУ" || x.SystemName == "ManagerHY"))
                     {
                         return PartialView("USR_REQ_HY_FindApartment_Edit_HY", model);
                     }
@@ -1503,7 +1534,7 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Начальник ХУ"))
+                    if (current.Any(x => x.ActivityName == "Начальник ХУ" || x.SystemName == "ManagerHY"))
                     {
                         return PartialView("USR_REQ_HY_RequestRepair_Edit_HY", model);
                     }
@@ -1522,7 +1553,8 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "СХО" || x.ActivityName == "Начальник СХО"))
+                    if (current.Any(x => x.ActivityName == "СХО" || x.ActivityName == "Начальник СХО"
+                        || x.SystemName == "CHO" || x.SystemName == "ManagerCHO"))
                     {
                         return PartialView("USR_REQ_HY_EmergencyPurposeTRU_Edit_CXO", model);
                     }
@@ -1541,7 +1573,8 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "СХО" || x.ActivityName == "Начальник СХО"))
+                    if (current.Any(x => x.ActivityName == "СХО" || x.ActivityName == "Начальник СХО" 
+                        || x.SystemName == "CHO" || x.SystemName == "ManagerCHO"))
                     {
                         return PartialView("USR_REQ_HY_RequestTRU_Edit_CXO", model);
                     }
@@ -1559,7 +1592,7 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Начальник службы" || x.ActivityName == "Начальник управления"))
+                    if (current.Any(x => x.SystemName == "MidManager" || x.SystemName == "Manager"))
                     {
                         return PartialView("USR_OFM_UIT_OfficeMemo_Edit_Part", model);
                     }
@@ -1578,15 +1611,15 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Цензор 1") || current.Any(x => x.ActivityName == "Цензор 2"))
+                    if (current.Any(x => x.SystemName == "Censor1") || current.Any(x => x.SystemName == "Censor2"))
                     {
                         return PartialView("USR_ORD_MainActivity_Edit_Part", model);
                     }
-                    if (current.Any(x => x.ActivityName == "Переводчик"))
+                    if (current.Any(x => x.SystemName == "Translator"))
                     {
                         return PartialView("USR_ORD_MainActivity_Edit_Translator", model);
                     }
-                    if (current.Any(x => x.ActivityName == "Регистрация"))
+                    if (current.Any(x => x.SystemName == "Registration"))
                     {
                         return PartialView("USR_ORD_MainActivity_Edit_Registration", model);
                     }
@@ -1605,15 +1638,15 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Цензор 1") || current.Any(x => x.ActivityName == "Цензор 2"))
+                    if (current.Any(x => x.SystemName == "Censor1") || current.Any(x => x.SystemName == "Censor2"))
                     {
                         return PartialView("USR_ORD_BusinessTrip_Edit_Part", model);
                     }
-                    if (current.Any(x => x.ActivityName == "Переводчик"))
+                    if (current.Any(x => x.SystemName == "Translator"))
                     {
                         return PartialView("USR_ORD_BusinessTrip_Edit_Translator", model);
                     }
-                    if (current.Any(x => x.ActivityName == "Регистрация"))
+                    if (current.Any(x => x.SystemName == "Registration"))
                     {
                         return PartialView("USR_ORD_BusinessTrip_Edit_Registration", model);
                     }
@@ -1632,15 +1665,15 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Цензор"))
+                    if (current.Any(x => x.SystemName == "Censor"))
                     {
                         return PartialView("USR_ORD_Staff_Edit_Part", model);
                     }
-                    if (current.Any(x => x.ActivityName == "Переводчик"))
+                    if (current.Any(x => x.SystemName == "Translator"))
                     {
                         return PartialView("USR_ORD_Staff_Edit_Translator", model);
                     }
-                    if (current.Any(x => x.ActivityName == "Регистрация"))
+                    if (current.Any(x => x.SystemName == "Registration"))
                     {
                         return PartialView("USR_ORD_Staff_Edit_Registration", model);
                     }
@@ -1659,15 +1692,15 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Цензор"))
+                    if (current.Any(x => x.SystemName == "Censor"))
                     {
                         return PartialView("USR_ORD_Reception_Edit_Part", model);
                     }
-                    if (current.Any(x => x.ActivityName == "Переводчик"))
+                    if (current.Any(x => x.SystemName == "Translator"))
                     {
                         return PartialView("USR_ORD_Reception_Edit_Translator", model);
                     }
-                    if (current.Any(x => x.ActivityName == "Регистрация"))
+                    if (current.Any(x => x.SystemName == "Registration"))
                     {
                         return PartialView("USR_ORD_Reception_Edit_Registration", model);
                     }
@@ -1686,15 +1719,15 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Цензор"))
+                    if (current.Any(x => x.SystemName == "Censor"))
                     {
                         return PartialView("USR_ORD_Dismissal_Edit_Part", model);
                     }
-                    if (current.Any(x => x.ActivityName == "Переводчик"))
+                    if (current.Any(x => x.SystemName == "Translator"))
                     {
                         return PartialView("USR_ORD_Dismissal_Edit_Translator", model);
                     }
-                    if (current.Any(x => x.ActivityName == "Регистрация"))
+                    if (current.Any(x => x.SystemName == "Registration"))
                     {
                         return PartialView("USR_ORD_Dismissal_Edit_Registration", model);
                     }
@@ -1713,15 +1746,15 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Цензор"))
+                    if (current.Any(x => x.SystemName == "Censor"))
                     {
                         return PartialView("USR_ORD_Transfer_Edit_Part", model);
                     }
-                    if (current.Any(x => x.ActivityName == "Переводчик"))
+                    if (current.Any(x => x.SystemName == "Translator"))
                     {
                         return PartialView("USR_ORD_Transfer_Edit_Translator", model);
                     }
-                    if (current.Any(x => x.ActivityName == "Регистрация"))
+                    if (current.Any(x => x.SystemName == "Registration"))
                     {
                         return PartialView("USR_ORD_Transfer_Edit_Registration", model);
                     }
@@ -1740,15 +1773,15 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Цензор"))
+                    if (current.Any(x => x.SystemName == "Censor"))
                     {
                         return PartialView("USR_ORD_Holiday_Edit_Part", model);
                     }
-                    if (current.Any(x => x.ActivityName == "Переводчик"))
+                    if (current.Any(x => x.SystemName == "Translator"))
                     {
                         return PartialView("USR_ORD_Holiday_Edit_Translator", model);
                     }
-                    if (current.Any(x => x.ActivityName == "Регистрация"))
+                    if (current.Any(x => x.SystemName == "Registration"))
                     {
                         return PartialView("USR_ORD_Holiday_Edit_Registration", model);
                     }
@@ -1767,15 +1800,15 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Цензор"))
+                    if (current.Any(x => x.SystemName == "Censor"))
                     {
                         return PartialView("USR_ORD_ChangeStaff_Edit_Part", model);
                     }
-                    if (current.Any(x => x.ActivityName == "Переводчик"))
+                    if (current.Any(x => x.SystemName == "Translator"))
                     {
                         return PartialView("USR_ORD_ChangeStaff_Edit_Translator", model);
                     }
-                    if (current.Any(x => x.ActivityName == "Регистрация"))
+                    if (current.Any(x => x.SystemName == "Registration"))
                     {
                         return PartialView("USR_ORD_ChangeStaff_Edit_Registration", model);
                     }
@@ -1794,15 +1827,15 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Цензор"))
+                    if (current.Any(x => x.SystemName == "Censor"))
                     {
                         return PartialView("USR_ORD_Sanction_Edit_Part", model);
                     }
-                    if (current.Any(x => x.ActivityName == "Переводчик"))
+                    if (current.Any(x => x.SystemName == "Translator"))
                     {
                         return PartialView("USR_ORD_Sanction_Edit_Translator", model);
                     }
-                    if (current.Any(x => x.ActivityName == "Регистрация"))
+                    if (current.Any(x => x.SystemName == "Registration"))
                     {
                         return PartialView("USR_ORD_Sanction_Edit_Registration", model);
                     }
@@ -1821,12 +1854,12 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "СТП"))
+                    if (current.Any(x => x.ActivityName == "СТП" || x.SystemName == "CTP"))
                     {
                         return PartialView("USR_REQ_IT_CTP_RequestTRU_Edit_CTP", model);
                     }
 
-                    if (current.Any(x => x.ActivityName == "Заведующий складом СТП"))
+                    if (current.Any(x => x.ActivityName == "Заведующий складом СТП" || x.SystemName == "ManagerWarehouse"))
                     {
                         return PartialView("USR_REQ_IT_CTP_RequestTRU_Edit_StockMan", model);
                     }
@@ -1845,7 +1878,7 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.ActivityName == "Начальник СХО"))
+                    if (current.Any(x => x.ActivityName == "Начальник СХО" || x.SystemName == "ManagerCHO"))
                     {
                         return PartialView("USR_REQ_HY_EmergencyRequestTRU_Edit_CXO", model);
                     }

@@ -204,6 +204,9 @@ namespace RapidDoc.Extensions
 
             Regex isGuid = new Regex(@"^(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}$", RegexOptions.Compiled);
             string[] tagsResult = tags.Where(a => isGuid.IsMatch(a) == false).ToArray();
+
+            if (attributes.ContainsKey("onlyName") && (bool)attributes["onlyName"] == true)
+                tagsResult = tagsResult.Select(x => x.Split('-').First().Trim()).ToArray();
             
             var model = (attributes.ContainsKey("row") && (bool)attributes["row"] == true) ? string.Join(",", tagsResult).Replace(",", ",\n") : string.Join(",", tagsResult).Replace(",", ",<br />\n");
 

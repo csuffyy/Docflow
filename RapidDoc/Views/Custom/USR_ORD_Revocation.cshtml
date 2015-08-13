@@ -3,7 +3,7 @@
 }
 
 @if ((bool)ViewBag.EditMode == true)
-{ 
+{
     <div id="buttoncancelorder" class="editor-field" style="visibility: hidden">
         @Html.DropDownList("CancelDocumentId", (IEnumerable<SelectListItem>)ViewBag.ORDRevocationList, new { @class = "selectpickerfull", @data_live_search = "true", @data_size = "10" })
     </div>

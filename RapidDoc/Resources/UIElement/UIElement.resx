@@ -550,7 +550,7 @@
     <value>Для копирования ссылки нажмите Ctrl+C</value>
   </data>
   <data name="DistributionGroup" xml:space="preserve">
-    <value>Группы рассылки</value>
+    <value>Группы</value>
   </data>
   <data name="SendBookmark" xml:space="preserve">
     <value>Маршрут</value>
