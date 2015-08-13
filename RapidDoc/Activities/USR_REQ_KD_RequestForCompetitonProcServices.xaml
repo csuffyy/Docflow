@@ -300,7 +300,7 @@
                         <Flowchart DisplayName="Начальник УЗЛ" sap2010:WorkflowViewState.IdRef="Flowchart_3">
                           <Flowchart.StartNode>
                             <FlowStep x:Name="__ReferenceID7" sap2010:WorkflowViewState.IdRef="FlowStep_10">
-                              <local1:WFChooseSpecificUser _service="{x:Null}" executionStep="{x:Null}" noneSkip="{x:Null}" slaOffset="{x:Null}" DisplayName="Начальник УЗЛ" sap2010:WorkflowViewState.IdRef="WFChooseSpecificUser_1" inputUserName="YuKras" useManual="False">
+                              <local1:WFChooseSpecificUser _service="{x:Null}" executionStep="{x:Null}" slaOffset="{x:Null}" DisplayName="Начальник УЗЛ" sap2010:WorkflowViewState.IdRef="WFChooseSpecificUser_1" inputUserName="YuKras" noneSkip="True" useManual="False">
                                 <local1:WFChooseSpecificUser.inputCurrentUser>
                                   <InArgument x:TypeArguments="x:String">
                                     <mca:CSharpValue x:TypeArguments="x:String">inputCurrentUser</mca:CSharpValue>
@@ -573,7 +573,7 @@
     <x:Reference>__ReferenceID21</x:Reference>
     <x:Reference>__ReferenceID22</x:Reference>
     <x:Reference>__ReferenceID23</x:Reference>
-    <sads:DebugSymbol.Symbol>d2lEOlxVc2Vyc1xndWtvemhcU291cmNlXFJlcG9zXERvY2Zsb3dcUmFwaWREb2NcQWN0aXZpdGllc1xVU1JfUkVRX0tEX1JlcXVlc3RGb3JDb21wZXRpdG9uUHJvY1NlcnZpY2VzLnhhbWxcGgcaZwEDAbcBAb0BAQKEAQPBBA8CAQGKAQnTARUDAdID1wEP1wFzAwHJA6EEEawEGgMBtgPbARGkAh0DAc0CqAIXqAJ7AwHEAo0EGZgEIgMBsQKsAhn6AiUDAcAB/gIf/gKDAQMBtwH5AyGEBCoDAaQBggMhzQMtAgEx0QMn0QOLAQIBKOUDKfADMgIBFdUDKeADMgIBAo0BD6wBKgMBgQSwARWwAWoDAfgDtAEXyQE4AwHTA6kEF6kEagMBwAOkBBekBHIDAbcD3gEX/QEyAwH8AoECHYECcgMB8wKFAh+aAkADAc4ClQQflQRyAwG7ApAEH5AEegMBsgKvAh/OAj0DAfgB0gIl0gJ6AwHvAdYCJ/ACSAMBwQGBBCeBBHoDAa4B/AMn/AOCAQMBpQGFAyepA0gCAWCsAyvGA0wCATLtAy/tA48BAgEf6AMv6AOKAQIBFt0DL90DjAECAQzYAy/YA4oBAgEDmgEVmgFnAwGyBI0B/gGNAYUCAwGxBKQBFaQBagMBqASfARWfAWcDAZ8EjQHvAY0B8wEDAZ4EqQEVqQFwAwGVBI0B3wGNAeIBAwGUBJUBFZUBYAMBiwSQARWQAWMDAYIEvAEdvAFvAwHvA8EBHcEBcwMB5gO3AR23AWcDAd0DxgEdxgF4AwHUA+sBHesBbwMBrQPeAYIC3gGJAgMBrAP1AR31AXIDAaMD8AEd8AFvAwGaA94B8wHeAfcBAwGZA/oBHfoBeAMBkAPeAeMB3gHmAQMBjwPmAR3mAWgDAYYD4QEd4QFrAwH9Ao0CJY0CdwMB6gKSAiWSAnsDAeECiAIliAJvAwHYApcCJZcCgAEDAc8CvAIlvAJ3AwGoAq8CiAKvAo8CAwGnAsYCJcYCegMBngLBAiXBAncDAZUCywIlywKAAQMBjAKvAvUBrwL9AQMBiwK3AiW3AnADAYICsgIlsgJzAwH5Ad4CLd4CfwMB5gHjAi3jAoMBAwHdAdkCLdkCdwMB1AHtAi3tAogBAwHLAegCLegCmQEDAcIBlwMtlwN/AwGbAYUD6gGFA/0BAwGaAYUDmAKFA58CAwGZAaEDLaEDggEDAZABnAMtnAN/AwGHAYUD1AGFA9oBAwGGAaYDLaYDiAECAX2FA4cChQONAgIBfJIDLZIDeAIBc4gDLYgDewIBao0DLY0DkQECAWG0AzG0A4MBAgFXuQMxuQOHAQIBTq8DMa8DewIBRcMDMcMDjAECATy+AzG+A50BAgEz</sads:DebugSymbol.Symbol>
+    <sads:DebugSymbol.Symbol>d2lEOlxVc2Vyc1xndWtvemhcU291cmNlXFJlcG9zXERvY2Zsb3dcUmFwaWREb2NcQWN0aXZpdGllc1xVU1JfUkVRX0tEX1JlcXVlc3RGb3JDb21wZXRpdG9uUHJvY1NlcnZpY2VzLnhhbWxdGgcaZwEDAbcBAb0BAQKEAQPBBA8CAQGKAQnTARUDAdMD1wEP1wFzAwHKA6EEEawEGgMBtwPbARGkAh0DAc4CqAIXqAJ7AwHFAo0EGZgEIgMBsgKsAhn6AiUDAcAB/gIf/gKDAQMBtwH5AyGEBCoDAaQBggMhzQMtAgEx0QMn0QOLAQIBKOUDKfADMgIBFdUDKeADMgIBAo0BD6wBKgMBggSwARWwAWoDAfkDtAEXyQE4AwHUA6kEF6kEagMBwQOkBBekBHIDAbgD3gEX/QEyAwH9AoECHYECcgMB9AKFAh+aAkADAc8ClQQflQRyAwG8ApAEH5AEegMBswKvAh/OAj0DAfgB0gIl0gJ6AwHvAdYCJ/ACSAMBwQGBBCeBBHoDAa4B/AMn/AOCAQMBpQGFAyepA0gCAWCsAyvGA0wCATLtAy/tA48BAgEf6AMv6AOKAQIBFt0DL90DjAECAQzYAy/YA4oBAgEDmgEVmgFnAwGzBI0B/gGNAYUCAwGyBKQBFaQBagMBqQSfARWfAWcDAaAEjQHvAY0B8wEDAZ8EqQEVqQFwAwGWBI0B3wGNAeIBAwGVBJUBFZUBYAMBjASQARWQAWMDAYMEvAEdvAFvAwHwA8EBHcEBcwMB5wO3AR23AWcDAd4DxgEdxgF4AwHVA+sBHesBbwMBrgPeAYIC3gGJAgMBrQP1AR31AXIDAaQD8AEd8AFvAwGbA94B8wHeAfcBAwGaA/oBHfoBeAMBkQPeAeMB3gHmAQMBkAPmAR3mAWgDAYcD4QEd4QFrAwH+Ao0CJY0CdwMB6wKSAiWSAnsDAeICiAIliAJvAwHZApcCJZcCgAEDAdACvAIlvAJ3AwGpAq8ChAKvAosCAwGoAsYCJcYCegMBnwLBAiXBAncDAZYCywIlywKAAQMBjQKvAuEBrwLpAQMBjAKvAvMBrwL5AQMBiwK3AiW3AnADAYICsgIlsgJzAwH5Ad4CLd4CfwMB5gHjAi3jAoMBAwHdAdkCLdkCdwMB1AHtAi3tAogBAwHLAegCLegCmQEDAcIBlwMtlwN/AwGbAYUD6gGFA/0BAwGaAYUDmAKFA58CAwGZAaEDLaEDggEDAZABnAMtnAN/AwGHAYUD1AGFA9oBAwGGAaYDLaYDiAECAX2FA4cChQONAgIBfJIDLZIDeAIBc4gDLYgDewIBao0DLY0DkQECAWG0AzG0A4MBAgFXuQMxuQOHAQIBTq8DMa8DewIBRcMDMcMDjAECATy+AzG+A50BAgEz</sads:DebugSymbol.Symbol>
   </Flowchart>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>
@@ -728,7 +728,7 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="Flowchart_3" sap:VirtualizedContainerService.HintSize="200,51">
+      <sap2010:ViewStateData Id="Flowchart_3" sap:VirtualizedContainerService.HintSize="714,636">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
