@@ -76,6 +76,7 @@
       <AssemblyReference>PresentationCore</AssemblyReference>
       <AssemblyReference>PresentationFramework</AssemblyReference>
       <AssemblyReference>RazorEngine</AssemblyReference>
+      <AssemblyReference>Rotativa</AssemblyReference>
       <AssemblyReference>Simple.ImageResizer</AssemblyReference>
       <AssemblyReference>Simple.ImageResizer.MvcExtensions</AssemblyReference>
       <AssemblyReference>System</AssemblyReference>
@@ -140,7 +141,7 @@
         <Flowchart DisplayName="Непосредственный руководитель" sap2010:WorkflowViewState.IdRef="Flowchart_7">
           <Flowchart.StartNode>
             <FlowStep x:Name="__ReferenceID2" sap2010:WorkflowViewState.IdRef="FlowStep_28">
-              <local1:WFChooseManualExecution _service="{x:Null}" executionStep="{x:Null}" slaOffset="{x:Null}" DisplayName="Непосредственный руководитель" sap2010:WorkflowViewState.IdRef="WFChooseManualExecution_3" inputManualKey="UserChooseManual1" noneSkip="True" useManual="False">
+              <local1:WFChooseManualExecution _service="{x:Null}" executionStep="{x:Null}" slaOffset="{x:Null}" DisplayName="Непосредственный руководитель" sap2010:WorkflowViewState.IdRef="WFChooseManualExecution_3" inputManualKey="UserChooseManual1" inputSystemName="DirectManager" noneSkip="True" useManual="False">
                 <local1:WFChooseManualExecution.inputCurrentUser>
                   <InArgument x:TypeArguments="x:String">
                     <mca:CSharpValue x:TypeArguments="x:String">inputCurrentUser</mca:CSharpValue>
@@ -231,7 +232,7 @@
                 <Flowchart DisplayName="УРП" sap2010:WorkflowViewState.IdRef="Flowchart_1">
                   <Flowchart.StartNode>
                     <FlowStep x:Name="__ReferenceID4" sap2010:WorkflowViewState.IdRef="FlowStep_5">
-                      <local1:WFChooseStaffStructure _service="{x:Null}" executionStep="{x:Null}" slaOffset="{x:Null}" DisplayName="УРП" sap2010:WorkflowViewState.IdRef="WFChooseStaffStructure_1" noneSkip="True" useManual="False">
+                      <local1:WFChooseStaffStructure _service="{x:Null}" executionStep="{x:Null}" slaOffset="{x:Null}" DisplayName="УРП" sap2010:WorkflowViewState.IdRef="WFChooseStaffStructure_1" inputSystemName="URP" noneSkip="True" useManual="False">
                         <local1:WFChooseStaffStructure.inputCurrentUser>
                           <InArgument x:TypeArguments="x:String">
                             <mca:CSharpValue x:TypeArguments="x:String">inputCurrentUser</mca:CSharpValue>
@@ -322,7 +323,7 @@
                         <Flowchart DisplayName="Начальник УБ" sap2010:WorkflowViewState.IdRef="Flowchart_2">
                           <Flowchart.StartNode>
                             <FlowStep x:Name="__ReferenceID7" sap2010:WorkflowViewState.IdRef="FlowStep_7">
-                              <local1:WFChooseStaffStructure _service="{x:Null}" executionStep="{x:Null}" slaOffset="{x:Null}" DisplayName="Начальник УБ" sap2010:WorkflowViewState.IdRef="WFChooseStaffStructure_2" noneSkip="True" useManual="False">
+                              <local1:WFChooseStaffStructure _service="{x:Null}" executionStep="{x:Null}" slaOffset="{x:Null}" DisplayName="Начальник УБ" sap2010:WorkflowViewState.IdRef="WFChooseStaffStructure_2" inputSystemName="ManagerUB" noneSkip="True" useManual="False">
                                 <local1:WFChooseStaffStructure.inputCurrentUser>
                                   <InArgument x:TypeArguments="x:String">
                                     <mca:CSharpValue x:TypeArguments="x:String">inputCurrentUser</mca:CSharpValue>
@@ -410,10 +411,10 @@
                             </FlowDecision.Condition>
                             <FlowDecision.True>
                               <FlowStep x:Name="__ReferenceID39" sap2010:WorkflowViewState.IdRef="FlowStep_22">
-                                <Flowchart DisplayName="Начальник управление" sap2010:WorkflowViewState.IdRef="Flowchart_3">
+                                <Flowchart DisplayName="Начальник управления" sap2010:WorkflowViewState.IdRef="Flowchart_3">
                                   <Flowchart.StartNode>
                                     <FlowStep x:Name="__ReferenceID11" sap2010:WorkflowViewState.IdRef="FlowStep_9">
-                                      <local1:WFChooseManualExecution _service="{x:Null}" executionStep="{x:Null}" slaOffset="{x:Null}" DisplayName="Начальник управление" sap2010:WorkflowViewState.IdRef="WFChooseManualExecution_1" inputManualKey="UserChooseManual2" noneSkip="False" useManual="False">
+                                      <local1:WFChooseManualExecution _service="{x:Null}" executionStep="{x:Null}" slaOffset="{x:Null}" DisplayName="Начальник управления" sap2010:WorkflowViewState.IdRef="WFChooseManualExecution_1" inputManualKey="UserChooseManual2" inputSystemName="Manager" noneSkip="True" useManual="False">
                                         <local1:WFChooseManualExecution.inputCurrentUser>
                                           <InArgument x:TypeArguments="x:String">
                                             <mca:CSharpValue x:TypeArguments="x:String">inputCurrentUser</mca:CSharpValue>
@@ -504,7 +505,7 @@
                                         <Flowchart DisplayName="Начальник службы ОЗиТБ" sap2010:WorkflowViewState.IdRef="Flowchart_4">
                                           <Flowchart.StartNode>
                                             <FlowStep x:Name="__ReferenceID13" sap2010:WorkflowViewState.IdRef="FlowStep_11">
-                                              <local1:WFChooseStaffStructure _service="{x:Null}" executionStep="{x:Null}" slaOffset="{x:Null}" DisplayName="Начальник службы ОЗиТБ" sap2010:WorkflowViewState.IdRef="WFChooseStaffStructure_3" noneSkip="True" useManual="False">
+                                              <local1:WFChooseStaffStructure _service="{x:Null}" executionStep="{x:Null}" slaOffset="{x:Null}" DisplayName="Начальник службы ОЗиТБ" sap2010:WorkflowViewState.IdRef="WFChooseStaffStructure_3" inputSystemName="ManagerOZTB" noneSkip="True" useManual="False">
                                                 <local1:WFChooseStaffStructure.inputCurrentUser>
                                                   <InArgument x:TypeArguments="x:String">
                                                     <mca:CSharpValue x:TypeArguments="x:String">inputCurrentUser</mca:CSharpValue>
@@ -595,7 +596,7 @@
                                                 <Flowchart DisplayName="ИД" sap2010:WorkflowViewState.IdRef="Flowchart_5">
                                                   <Flowchart.StartNode>
                                                     <FlowStep x:Name="__ReferenceID17" sap2010:WorkflowViewState.IdRef="FlowStep_13">
-                                                      <local1:WFChooseManualExecution _service="{x:Null}" executionStep="{x:Null}" slaOffset="{x:Null}" DisplayName="ИД" sap2010:WorkflowViewState.IdRef="WFChooseManualExecution_2" inputManualKey="UserChooseManual3" noneSkip="True" useManual="False">
+                                                      <local1:WFChooseManualExecution _service="{x:Null}" executionStep="{x:Null}" slaOffset="{x:Null}" DisplayName="ИД" sap2010:WorkflowViewState.IdRef="WFChooseManualExecution_2" inputManualKey="UserChooseManual3" inputSystemName="TopManager" noneSkip="True" useManual="False">
                                                         <local1:WFChooseManualExecution.inputCurrentUser>
                                                           <InArgument x:TypeArguments="x:String">
                                                             <mca:CSharpValue x:TypeArguments="x:String">inputCurrentUser</mca:CSharpValue>
@@ -686,7 +687,7 @@
                                                         <Flowchart DisplayName="Создатель рекруткарты" sap2010:WorkflowViewState.IdRef="Flowchart_6">
                                                           <Flowchart.StartNode>
                                                             <FlowStep x:Name="__ReferenceID19" sap2010:WorkflowViewState.IdRef="FlowStep_30">
-                                                              <local1:WFChooseCreatedUser _service="{x:Null}" executionStep="{x:Null}" slaOffset="{x:Null}" DisplayName="Создатель рекруткарты" sap2010:WorkflowViewState.IdRef="WFChooseCreatedUser_1" noneSkip="True" useManual="False">
+                                                              <local1:WFChooseCreatedUser _service="{x:Null}" executionStep="{x:Null}" slaOffset="{x:Null}" DisplayName="Создатель рекруткарты" sap2010:WorkflowViewState.IdRef="WFChooseCreatedUser_1" inputSystemName="Iniciator" noneSkip="True" useManual="False">
                                                                 <local1:WFChooseCreatedUser.inputCurrentUser>
                                                                   <InArgument x:TypeArguments="x:String">
                                                                     <mca:CSharpValue x:TypeArguments="x:String">inputCurrentUser</mca:CSharpValue>
@@ -932,7 +933,7 @@
     <x:Reference>__ReferenceID39</x:Reference>
     <x:Reference>__ReferenceID40</x:Reference>
     <x:Reference>__ReferenceID41</x:Reference>
-    <sads:DebugSymbol.Symbol>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</sads:DebugSymbol.Symbol>
+    <sads:DebugSymbol.Symbol>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</sads:DebugSymbol.Symbol>
   </Flowchart>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>
@@ -959,13 +960,13 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="FlowDecision_13" sap:VirtualizedContainerService.HintSize="128,87">
+      <sap2010:ViewStateData Id="FlowDecision_13" sap:VirtualizedContainerService.HintSize="126,87">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
             <av:Point x:Key="ShapeLocation">236,199.5</av:Point>
-            <av:Size x:Key="ShapeSize">128,87</av:Size>
-            <av:PointCollection x:Key="FalseConnector">364,243 500,243 500,289</av:PointCollection>
+            <av:Size x:Key="ShapeSize">126,87</av:Size>
+            <av:PointCollection x:Key="FalseConnector">362,243 500,243 500,289</av:PointCollection>
             <av:PointCollection x:Key="TrueConnector">313.5,320.96 291.75,320.96 291.75,437.46 561.75,437.46 561.75,467.46</av:PointCollection>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
@@ -1013,13 +1014,13 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="FlowDecision_2" sap:VirtualizedContainerService.HintSize="128,87">
+      <sap2010:ViewStateData Id="FlowDecision_2" sap:VirtualizedContainerService.HintSize="126,87">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
             <av:Point x:Key="ShapeLocation">236,191</av:Point>
-            <av:Size x:Key="ShapeSize">128,87</av:Size>
-            <av:PointCollection x:Key="FalseConnector">364,234.5 394,234.5 394,230 410,230</av:PointCollection>
+            <av:Size x:Key="ShapeSize">126,87</av:Size>
+            <av:PointCollection x:Key="FalseConnector">362,234.5 392,234.5 392,230 410,230</av:PointCollection>
             <av:PointCollection x:Key="TrueConnector">323,415.42 311.25,415.42 311.25,511.92 581.25,511.92 581.25,541.92</av:PointCollection>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
@@ -1067,13 +1068,13 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="FlowDecision_3" sap:VirtualizedContainerService.HintSize="128,87">
+      <sap2010:ViewStateData Id="FlowDecision_3" sap:VirtualizedContainerService.HintSize="126,87">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
             <av:Point x:Key="ShapeLocation">236,191</av:Point>
-            <av:Size x:Key="ShapeSize">128,87</av:Size>
-            <av:PointCollection x:Key="FalseConnector">364,234.5 414,234.5</av:PointCollection>
+            <av:Size x:Key="ShapeSize">126,87</av:Size>
+            <av:PointCollection x:Key="FalseConnector">362,234.5 414,234.5</av:PointCollection>
             <av:PointCollection x:Key="TrueConnector">332.5,525.38 320.75,525.38 320.75,621.88 590.75,621.88 590.75,651.88</av:PointCollection>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
@@ -1121,13 +1122,13 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="FlowDecision_4" sap:VirtualizedContainerService.HintSize="128,87">
+      <sap2010:ViewStateData Id="FlowDecision_4" sap:VirtualizedContainerService.HintSize="126,87">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
             <av:Point x:Key="ShapeLocation">256,196.5</av:Point>
-            <av:Size x:Key="ShapeSize">128,87</av:Size>
-            <av:PointCollection x:Key="FalseConnector">384,240 510,240 510,289</av:PointCollection>
+            <av:Size x:Key="ShapeSize">126,87</av:Size>
+            <av:PointCollection x:Key="FalseConnector">382,240 510,240 510,289</av:PointCollection>
             <av:PointCollection x:Key="TrueConnector">297.5,336.96 285.75,336.96 285.75,453.46 495.75,453.46 495.75,483.46</av:PointCollection>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
@@ -1141,7 +1142,7 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="Flowchart_3" sap:VirtualizedContainerService.HintSize="666,636">
+      <sap2010:ViewStateData Id="Flowchart_3" sap:VirtualizedContainerService.HintSize="200,51">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -1175,13 +1176,13 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="FlowDecision_5" sap:VirtualizedContainerService.HintSize="128,87">
+      <sap2010:ViewStateData Id="FlowDecision_5" sap:VirtualizedContainerService.HintSize="126,87">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
             <av:Point x:Key="ShapeLocation">236,191</av:Point>
-            <av:Size x:Key="ShapeSize">128,87</av:Size>
-            <av:PointCollection x:Key="FalseConnector">364,234.5 414,234.5</av:PointCollection>
+            <av:Size x:Key="ShapeSize">126,87</av:Size>
+            <av:PointCollection x:Key="FalseConnector">362,234.5 414,234.5</av:PointCollection>
             <av:PointCollection x:Key="TrueConnector">258.5,455.38 246.75,455.38 246.75,551.88 516.75,551.88 516.75,581.88</av:PointCollection>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
@@ -1229,13 +1230,13 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="FlowDecision_6" sap:VirtualizedContainerService.HintSize="128,87">
+      <sap2010:ViewStateData Id="FlowDecision_6" sap:VirtualizedContainerService.HintSize="126,87">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
             <av:Point x:Key="ShapeLocation">236,199.5</av:Point>
-            <av:Size x:Key="ShapeSize">128,87</av:Size>
-            <av:PointCollection x:Key="FalseConnector">364,243 500,243 500,289</av:PointCollection>
+            <av:Size x:Key="ShapeSize">126,87</av:Size>
+            <av:PointCollection x:Key="FalseConnector">362,243 500,243 500,289</av:PointCollection>
             <av:PointCollection x:Key="TrueConnector">313.5,320.96 291.75,320.96 291.75,437.46 561.75,437.46 561.75,467.46</av:PointCollection>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
@@ -1292,7 +1293,7 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="Flowchart_6" sap:VirtualizedContainerService.HintSize="666,636">
+      <sap2010:ViewStateData Id="Flowchart_6" sap:VirtualizedContainerService.HintSize="200,51">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>

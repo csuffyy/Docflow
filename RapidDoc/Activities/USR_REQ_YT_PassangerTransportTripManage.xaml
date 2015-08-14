@@ -72,9 +72,11 @@
       <AssemblyReference>Ninject</AssemblyReference>
       <AssemblyReference>Ninject.Web.Common</AssemblyReference>
       <AssemblyReference>Ninject.Web.Mvc</AssemblyReference>
+      <AssemblyReference>Ninject.Web.WebApi</AssemblyReference>
       <AssemblyReference>PresentationCore</AssemblyReference>
       <AssemblyReference>PresentationFramework</AssemblyReference>
       <AssemblyReference>RazorEngine</AssemblyReference>
+      <AssemblyReference>Rotativa</AssemblyReference>
       <AssemblyReference>Simple.ImageResizer</AssemblyReference>
       <AssemblyReference>Simple.ImageResizer.MvcExtensions</AssemblyReference>
       <AssemblyReference>System</AssemblyReference>
@@ -120,7 +122,6 @@
       <AssemblyReference>System.Net.Http</AssemblyReference>
       <AssemblyReference>System.Net.Http.WebRequest</AssemblyReference>
       <AssemblyReference>System.Xml.Linq</AssemblyReference>
-      <AssemblyReference>WebActivator</AssemblyReference>
       <AssemblyReference>WebActivatorEx</AssemblyReference>
       <AssemblyReference>WebGrease</AssemblyReference>
       <AssemblyReference>WindowsBase</AssemblyReference>
@@ -136,11 +137,11 @@
       <Variable x:TypeArguments="x:String" Name="bookmarkName" />
     </Flowchart.Variables>
     <Flowchart.StartNode>
-      <FlowStep x:Name="__ReferenceID48">
-        <Flowchart DisplayName="Начальник службы">
+      <FlowStep x:Name="__ReferenceID48" sap2010:WorkflowViewState.IdRef="FlowStep_39">
+        <Flowchart DisplayName="Начальник службы" sap2010:WorkflowViewState.IdRef="Flowchart_10">
           <Flowchart.StartNode>
-            <FlowStep x:Name="__ReferenceID0">
-              <local1:WFChooseUpManager _service="{x:Null}" executionStep="{x:Null}" noneSkip="{x:Null}" slaOffset="{x:Null}" DisplayName="Начальник службы" inputLevel="1" profileName="НС" useManual="False">
+            <FlowStep x:Name="__ReferenceID0" sap2010:WorkflowViewState.IdRef="FlowStep_34">
+              <local1:WFChooseUpManager _service="{x:Null}" executionStep="{x:Null}" noneSkip="{x:Null}" slaOffset="{x:Null}" DisplayName="Начальник службы" sap2010:WorkflowViewState.IdRef="WFChooseUpManager_2" inputLevel="1" inputSystemName="MidManager" profileName="НС" useManual="False">
                 <local1:WFChooseUpManager.inputCurrentUser>
                   <InArgument x:TypeArguments="x:String">
                     <mca:CSharpValue x:TypeArguments="x:String">inputCurrentUser</mca:CSharpValue>
@@ -171,16 +172,15 @@
                     <mca:CSharpReference x:TypeArguments="local:DocumentState">outputStep</mca:CSharpReference>
                   </OutArgument>
                 </local1:WFChooseUpManager.outputStep>
-                <sap2010:WorkflowViewState.IdRef>WFChooseUpManager_2</sap2010:WorkflowViewState.IdRef>
               </local1:WFChooseUpManager>
               <FlowStep.Next>
-                <FlowDecision x:Name="__ReferenceID1" DisplayName="Статус текущего шага">
+                <FlowDecision x:Name="__ReferenceID1" DisplayName="Статус текущего шага" sap2010:WorkflowViewState.IdRef="FlowDecision_16">
                   <FlowDecision.Condition>
                     <mca:CSharpValue x:TypeArguments="x:Boolean">outputSkipStep == true</mca:CSharpValue>
                   </FlowDecision.Condition>
                   <FlowDecision.False>
-                    <FlowStep x:Name="__ReferenceID2">
-                      <local1:WFWaitingPersonBookmark outputDocumentData="{x:Null}" DisplayName="Сохранение">
+                    <FlowStep x:Name="__ReferenceID2" sap2010:WorkflowViewState.IdRef="FlowStep_33">
+                      <local1:WFWaitingPersonBookmark outputDocumentData="{x:Null}" DisplayName="Сохранение" sap2010:WorkflowViewState.IdRef="WFWaitingPersonBookmark_9">
                         <local1:WFWaitingPersonBookmark.inputBookmarkName>
                           <InArgument x:TypeArguments="x:String">
                             <mca:CSharpValue x:TypeArguments="x:String">bookmarkName</mca:CSharpValue>
@@ -201,33 +201,28 @@
                             <mca:CSharpReference x:TypeArguments="local:DocumentState">outputStep</mca:CSharpReference>
                           </OutArgument>
                         </local1:WFWaitingPersonBookmark.outputStep>
-                        <sap2010:WorkflowViewState.IdRef>WFWaitingPersonBookmark_9</sap2010:WorkflowViewState.IdRef>
                       </local1:WFWaitingPersonBookmark>
-                      <sap2010:WorkflowViewState.IdRef>FlowStep_33</sap2010:WorkflowViewState.IdRef>
                     </FlowStep>
                   </FlowDecision.False>
-                  <sap2010:WorkflowViewState.IdRef>FlowDecision_16</sap2010:WorkflowViewState.IdRef>
                 </FlowDecision>
               </FlowStep.Next>
-              <sap2010:WorkflowViewState.IdRef>FlowStep_34</sap2010:WorkflowViewState.IdRef>
             </FlowStep>
           </Flowchart.StartNode>
           <x:Reference>__ReferenceID0</x:Reference>
           <x:Reference>__ReferenceID1</x:Reference>
           <x:Reference>__ReferenceID2</x:Reference>
-          <sap2010:WorkflowViewState.IdRef>Flowchart_10</sap2010:WorkflowViewState.IdRef>
         </Flowchart>
         <FlowStep.Next>
-          <FlowDecision x:Name="__ReferenceID47" DisplayName="Условие">
+          <FlowDecision x:Name="__ReferenceID47" DisplayName="Условие" sap2010:WorkflowViewState.IdRef="FlowDecision_18">
             <FlowDecision.Condition>
               <mca:CSharpValue x:TypeArguments="x:Boolean">outputStep == DocumentState.Agreement</mca:CSharpValue>
             </FlowDecision.Condition>
             <FlowDecision.True>
-              <FlowStep x:Name="__ReferenceID46">
-                <Flowchart DisplayName="Начальник управления">
+              <FlowStep x:Name="__ReferenceID46" sap2010:WorkflowViewState.IdRef="FlowStep_37">
+                <Flowchart DisplayName="Начальник управления" sap2010:WorkflowViewState.IdRef="Flowchart_11">
                   <Flowchart.StartNode>
-                    <FlowStep x:Name="__ReferenceID5">
-                      <local1:WFChooseUpManager _service="{x:Null}" executionStep="{x:Null}" noneSkip="{x:Null}" slaOffset="{x:Null}" DisplayName="Начальник управления" inputLevel="1" profileName="НУ" useManual="False">
+                    <FlowStep x:Name="__ReferenceID5" sap2010:WorkflowViewState.IdRef="FlowStep_36">
+                      <local1:WFChooseUpManager _service="{x:Null}" executionStep="{x:Null}" noneSkip="{x:Null}" slaOffset="{x:Null}" DisplayName="Начальник управления" sap2010:WorkflowViewState.IdRef="WFChooseUpManager_3" inputLevel="1" inputSystemName="Manager" profileName="НУ" useManual="False">
                         <local1:WFChooseUpManager.inputCurrentUser>
                           <InArgument x:TypeArguments="x:String">
                             <mca:CSharpValue x:TypeArguments="x:String">inputCurrentUser</mca:CSharpValue>
@@ -258,16 +253,15 @@
                             <mca:CSharpReference x:TypeArguments="local:DocumentState">outputStep</mca:CSharpReference>
                           </OutArgument>
                         </local1:WFChooseUpManager.outputStep>
-                        <sap2010:WorkflowViewState.IdRef>WFChooseUpManager_3</sap2010:WorkflowViewState.IdRef>
                       </local1:WFChooseUpManager>
                       <FlowStep.Next>
-                        <FlowDecision x:Name="__ReferenceID4" DisplayName="Статус текущего шага">
+                        <FlowDecision x:Name="__ReferenceID4" DisplayName="Статус текущего шага" sap2010:WorkflowViewState.IdRef="FlowDecision_17">
                           <FlowDecision.Condition>
                             <mca:CSharpValue x:TypeArguments="x:Boolean">outputSkipStep == true</mca:CSharpValue>
                           </FlowDecision.Condition>
                           <FlowDecision.False>
-                            <FlowStep x:Name="__ReferenceID3">
-                              <local1:WFWaitingPersonBookmark outputDocumentData="{x:Null}" DisplayName="Сохранение">
+                            <FlowStep x:Name="__ReferenceID3" sap2010:WorkflowViewState.IdRef="FlowStep_35">
+                              <local1:WFWaitingPersonBookmark outputDocumentData="{x:Null}" DisplayName="Сохранение" sap2010:WorkflowViewState.IdRef="WFWaitingPersonBookmark_10">
                                 <local1:WFWaitingPersonBookmark.inputBookmarkName>
                                   <InArgument x:TypeArguments="x:String">
                                     <mca:CSharpValue x:TypeArguments="x:String">bookmarkName</mca:CSharpValue>
@@ -288,21 +282,16 @@
                                     <mca:CSharpReference x:TypeArguments="local:DocumentState">outputStep</mca:CSharpReference>
                                   </OutArgument>
                                 </local1:WFWaitingPersonBookmark.outputStep>
-                                <sap2010:WorkflowViewState.IdRef>WFWaitingPersonBookmark_10</sap2010:WorkflowViewState.IdRef>
                               </local1:WFWaitingPersonBookmark>
-                              <sap2010:WorkflowViewState.IdRef>FlowStep_35</sap2010:WorkflowViewState.IdRef>
                             </FlowStep>
                           </FlowDecision.False>
-                          <sap2010:WorkflowViewState.IdRef>FlowDecision_17</sap2010:WorkflowViewState.IdRef>
                         </FlowDecision>
                       </FlowStep.Next>
-                      <sap2010:WorkflowViewState.IdRef>FlowStep_36</sap2010:WorkflowViewState.IdRef>
                     </FlowStep>
                   </Flowchart.StartNode>
                   <x:Reference>__ReferenceID3</x:Reference>
                   <x:Reference>__ReferenceID4</x:Reference>
                   <x:Reference>__ReferenceID5</x:Reference>
-                  <sap2010:WorkflowViewState.IdRef>Flowchart_11</sap2010:WorkflowViewState.IdRef>
                 </Flowchart>
                 <FlowStep.Next>
                   <FlowDecision x:Name="__ReferenceID27" DisplayName="Условие" sap2010:WorkflowViewState.IdRef="FlowDecision_13">
@@ -314,7 +303,7 @@
                         <Flowchart DisplayName="Начальник ЭС" sap2010:WorkflowViewState.IdRef="Flowchart_1">
                           <Flowchart.StartNode>
                             <FlowStep x:Name="__ReferenceID8" sap2010:WorkflowViewState.IdRef="FlowStep_4">
-                              <local1:WFChooseStaffStructure _service="{x:Null}" executionStep="{x:Null}" noneSkip="{x:Null}" slaOffset="{x:Null}" DisplayName="Начальник ЭС" sap2010:WorkflowViewState.IdRef="WFChooseStaffStructure_1" useManual="False">
+                              <local1:WFChooseStaffStructure _service="{x:Null}" executionStep="{x:Null}" noneSkip="{x:Null}" slaOffset="{x:Null}" DisplayName="Начальник ЭС" sap2010:WorkflowViewState.IdRef="WFChooseStaffStructure_1" inputSystemName="ManagerEC" useManual="False">
                                 <local1:WFChooseStaffStructure.inputCurrentUser>
                                   <InArgument x:TypeArguments="x:String">
                                     <mca:CSharpValue x:TypeArguments="x:String">inputCurrentUser</mca:CSharpValue>
@@ -400,7 +389,7 @@
                                 <Flowchart DisplayName="Начальник УТ" sap2010:WorkflowViewState.IdRef="Flowchart_2">
                                   <Flowchart.StartNode>
                                     <FlowStep x:Name="__ReferenceID11" sap2010:WorkflowViewState.IdRef="FlowStep_6">
-                                      <local1:WFChooseStaffStructure _service="{x:Null}" executionStep="{x:Null}" noneSkip="{x:Null}" slaOffset="{x:Null}" DisplayName="Начальник УТ" sap2010:WorkflowViewState.IdRef="WFChooseStaffStructure_2" useManual="False">
+                                      <local1:WFChooseStaffStructure _service="{x:Null}" executionStep="{x:Null}" noneSkip="{x:Null}" slaOffset="{x:Null}" DisplayName="Начальник УТ" sap2010:WorkflowViewState.IdRef="WFChooseStaffStructure_2" inputSystemName="ManagerYT" useManual="False">
                                         <local1:WFChooseStaffStructure.inputCurrentUser>
                                           <InArgument x:TypeArguments="x:String">
                                             <mca:CSharpValue x:TypeArguments="x:String">inputCurrentUser</mca:CSharpValue>
@@ -486,7 +475,7 @@
                                         <Flowchart DisplayName="ЦПТ" sap2010:WorkflowViewState.IdRef="Flowchart_9">
                                           <Flowchart.StartNode>
                                             <FlowStep x:Name="__ReferenceID14" sap2010:WorkflowViewState.IdRef="FlowStep_31">
-                                              <local1:WFChooseStaffStructure _service="{x:Null}" executionStep="{x:Null}" noneSkip="{x:Null}" slaOffset="{x:Null}" DisplayName="ЦПТ" sap2010:WorkflowViewState.IdRef="WFChooseStaffStructure_4" useManual="False">
+                                              <local1:WFChooseStaffStructure _service="{x:Null}" executionStep="{x:Null}" slaOffset="{x:Null}" DisplayName="ЦПТ" sap2010:WorkflowViewState.IdRef="WFChooseStaffStructure_4" inputSystemName="CPT" noneSkip="True" useManual="False">
                                                 <local1:WFChooseStaffStructure.inputCurrentUser>
                                                   <InArgument x:TypeArguments="x:String">
                                                     <mca:CSharpValue x:TypeArguments="x:String">inputCurrentUser</mca:CSharpValue>
@@ -572,7 +561,7 @@
                                                 <Flowchart DisplayName="Делопроизводитель" sap2010:WorkflowViewState.IdRef="Flowchart_4">
                                                   <Flowchart.StartNode>
                                                     <FlowStep x:Name="__ReferenceID16" sap2010:WorkflowViewState.IdRef="FlowStep_10">
-                                                      <local1:WFChooseRoleUser _service="{x:Null}" executionStep="{x:Null}" slaOffset="{x:Null}" DisplayName="Делопроизводитель" sap2010:WorkflowViewState.IdRef="WFChooseRoleUser_1" inputRoleName="ApproveYT_Clerk" noneSkip="True" useManual="False">
+                                                      <local1:WFChooseRoleUser _service="{x:Null}" executionStep="{x:Null}" slaOffset="{x:Null}" DisplayName="Делопроизводитель" sap2010:WorkflowViewState.IdRef="WFChooseRoleUser_1" inputRoleName="ApproveYT_Clerk" inputSystemName="Clerk" noneSkip="True" useManual="False">
                                                         <local1:WFChooseRoleUser.inputCurrentUser>
                                                           <InArgument x:TypeArguments="x:String">
                                                             <mca:CSharpValue x:TypeArguments="x:String">inputCurrentUser</mca:CSharpValue>
@@ -653,7 +642,7 @@
                                                         <Flowchart DisplayName="Оператор ГСМ" sap2010:WorkflowViewState.IdRef="Flowchart_5">
                                                           <Flowchart.StartNode>
                                                             <FlowStep x:Name="__ReferenceID19" sap2010:WorkflowViewState.IdRef="FlowStep_12">
-                                                              <local1:WFChooseRoleUser _service="{x:Null}" executionStep="{x:Null}" slaOffset="{x:Null}" DisplayName="Оператор ГСМ" sap2010:WorkflowViewState.IdRef="WFChooseRoleUser_2" inputRoleName="ApproveYT_OperGSM" noneSkip="True" useManual="False">
+                                                              <local1:WFChooseRoleUser _service="{x:Null}" executionStep="{x:Null}" slaOffset="{x:Null}" DisplayName="Оператор ГСМ" sap2010:WorkflowViewState.IdRef="WFChooseRoleUser_2" inputRoleName="ApproveYT_OperGSM" inputSystemName="OperatorGSM" noneSkip="True" useManual="False">
                                                                 <local1:WFChooseRoleUser.inputCurrentUser>
                                                                   <InArgument x:TypeArguments="x:String">
                                                                     <mca:CSharpValue x:TypeArguments="x:String">inputCurrentUser</mca:CSharpValue>
@@ -734,7 +723,7 @@
                                                                 <Flowchart DisplayName="Диспетчер УТ" sap2010:WorkflowViewState.IdRef="Flowchart_6">
                                                                   <Flowchart.StartNode>
                                                                     <FlowStep x:Name="__ReferenceID22" sap2010:WorkflowViewState.IdRef="FlowStep_14">
-                                                                      <local1:WFChooseRoleUser _service="{x:Null}" executionStep="{x:Null}" slaOffset="{x:Null}" DisplayName="Диспетчер УТ" sap2010:WorkflowViewState.IdRef="WFChooseRoleUser_3" inputRoleName="ApproveYT_DispetcherYT" noneSkip="True" useManual="False">
+                                                                      <local1:WFChooseRoleUser _service="{x:Null}" executionStep="{x:Null}" slaOffset="{x:Null}" DisplayName="Диспетчер УТ" sap2010:WorkflowViewState.IdRef="WFChooseRoleUser_3" inputRoleName="ApproveYT_DispetcherYT" inputSystemName="DispatcherYT" noneSkip="True" useManual="False">
                                                                         <local1:WFChooseRoleUser.inputCurrentUser>
                                                                           <InArgument x:TypeArguments="x:String">
                                                                             <mca:CSharpValue x:TypeArguments="x:String">inputCurrentUser</mca:CSharpValue>
@@ -964,12 +953,11 @@
                     </FlowDecision.False>
                   </FlowDecision>
                 </FlowStep.Next>
-                <sap2010:WorkflowViewState.IdRef>FlowStep_37</sap2010:WorkflowViewState.IdRef>
               </FlowStep>
             </FlowDecision.True>
             <FlowDecision.False>
-              <FlowStep x:Name="__ReferenceID45">
-                <Assign DisplayName="Выход">
+              <FlowStep x:Name="__ReferenceID45" sap2010:WorkflowViewState.IdRef="FlowStep_38">
+                <Assign DisplayName="Выход" sap2010:WorkflowViewState.IdRef="Assign_9">
                   <Assign.To>
                     <OutArgument x:TypeArguments="local:DocumentState">
                       <mca:CSharpReference x:TypeArguments="local:DocumentState">outputStep</mca:CSharpReference>
@@ -980,15 +968,11 @@
                       <mca:CSharpValue x:TypeArguments="local:DocumentState">outputStep</mca:CSharpValue>
                     </InArgument>
                   </Assign.Value>
-                  <sap2010:WorkflowViewState.IdRef>Assign_9</sap2010:WorkflowViewState.IdRef>
                 </Assign>
-                <sap2010:WorkflowViewState.IdRef>FlowStep_38</sap2010:WorkflowViewState.IdRef>
               </FlowStep>
             </FlowDecision.False>
-            <sap2010:WorkflowViewState.IdRef>FlowDecision_18</sap2010:WorkflowViewState.IdRef>
           </FlowDecision>
         </FlowStep.Next>
-        <sap2010:WorkflowViewState.IdRef>FlowStep_39</sap2010:WorkflowViewState.IdRef>
       </FlowStep>
     </Flowchart.StartNode>
     <x:Reference>__ReferenceID24</x:Reference>
@@ -1016,7 +1000,7 @@
     <x:Reference>__ReferenceID46</x:Reference>
     <x:Reference>__ReferenceID47</x:Reference>
     <x:Reference>__ReferenceID48</x:Reference>
-    <sads:DebugSymbol.Symbol>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</sads:DebugSymbol.Symbol>
+    <sads:DebugSymbol.Symbol>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</sads:DebugSymbol.Symbol>
   </Flowchart>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>
@@ -1043,13 +1027,13 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="FlowDecision_16" sap:VirtualizedContainerService.HintSize="128,87">
+      <sap2010:ViewStateData Id="FlowDecision_16" sap:VirtualizedContainerService.HintSize="126,87">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
             <av:Point x:Key="ShapeLocation">236,176.5</av:Point>
-            <av:Size x:Key="ShapeSize">128,87</av:Size>
-            <av:PointCollection x:Key="FalseConnector">364,220 480,220 480,309</av:PointCollection>
+            <av:Size x:Key="ShapeSize">126,87</av:Size>
+            <av:PointCollection x:Key="FalseConnector">362,220 480,220 480,309</av:PointCollection>
             <av:PointCollection x:Key="TrueConnector">438.5,314.96 416.75,314.96 416.75,491.46 506.75,491.46 506.75,521.46</av:PointCollection>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
@@ -1097,13 +1081,13 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="FlowDecision_17" sap:VirtualizedContainerService.HintSize="128,87">
+      <sap2010:ViewStateData Id="FlowDecision_17" sap:VirtualizedContainerService.HintSize="126,87">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
             <av:Point x:Key="ShapeLocation">256,196.5</av:Point>
-            <av:Size x:Key="ShapeSize">128,87</av:Size>
-            <av:PointCollection x:Key="FalseConnector">384,240 510,240 510,289</av:PointCollection>
+            <av:Size x:Key="ShapeSize">126,87</av:Size>
+            <av:PointCollection x:Key="FalseConnector">382,240 510,240 510,289</av:PointCollection>
             <av:PointCollection x:Key="TrueConnector">297.5,336.96 285.75,336.96 285.75,453.46 495.75,453.46 495.75,483.46</av:PointCollection>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
