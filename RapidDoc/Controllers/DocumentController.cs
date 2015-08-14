@@ -2006,7 +2006,10 @@ namespace RapidDoc.Controllers
                 errorList.AddRange(_CustomCheckDocument.CheckCustomDocumentCZ(type, actionModel, operationType));
             }
             else
-                errorList.AddRange(_CustomCheckDocument.CheckCustomPostDocument(type, actionModel, documentTable, isSign));
+            {
+                var current = _DocumentService.GetCurrentSignStep(documentTable.Id).ToList();
+                errorList.AddRange(_CustomCheckDocument.CheckCustomPostDocument(type, actionModel, documentTable, isSign, current));
+            }
 
             foreach(var error in errorList)
             {

@@ -14,7 +14,7 @@ namespace RapidDoc.Models.Services
         List<string> CheckCustomDocument(Type type, dynamic actionModel, OperationType operationType);
         List<string> CheckCustomDocumentHY(Type type, dynamic actionModel, OperationType operationType);
         List<string> CheckCustomDocumentCZ(Type type, dynamic actionModel, OperationType operationType);
-        List<string> CheckCustomPostDocument(Type type, dynamic actionModel, DocumentTable documentTable, bool isSign);
+        List<string> CheckCustomPostDocument(Type type, dynamic actionModel, DocumentTable documentTable, bool isSign, List<WFTrackerTable> currentStep);
         dynamic PreUpdateViewModel(Type type, dynamic actionModel);
         void UpdateDocumentData(DocumentTable document, IDictionary<string, object> documentData);
     }
@@ -932,7 +932,7 @@ namespace RapidDoc.Models.Services
         {
             List<string> errorList = new List<string>();
 
-            if (type == (new USR_OFM_UIT_OfficeMemo_View()).GetType() && operationType == OperationType.ApproveDocument)
+            if (type.IsSubclassOf(typeof(BasicDocumantOfficeMemoView)) && operationType == OperationType.ApproveDocument)
             {
                 if (String.IsNullOrEmpty(actionModel.DocumentWhom))
                 {
@@ -943,46 +943,13 @@ namespace RapidDoc.Models.Services
             return errorList;
         }
 
-        public List<string> CheckCustomPostDocument(Type type, dynamic actionModel, DocumentTable documentTable, bool isSign)
+        public List<string> CheckCustomPostDocument(Type type, dynamic actionModel, DocumentTable documentTable, bool isSign, List<WFTrackerTable> current)
         {
             List<string> errorList = new List<string>();
 
-            if (type == (new USR_REQ_HY_BookingRoom_View()).GetType())
-            {
-                if (documentTable.ActivityName == "Начальник ХУ" && isSign == true)
-                {
-                    if (actionModel.UserChooseManual1 == String.Empty)
-                    {
-                        errorList.Add("Необходимо указать Исполнителя");
-                    }
-                }
-            }
-
-            if (type == (new USR_REQ_HY_FindApartment_View()).GetType())
-            {
-                if (documentTable.ActivityName == "Начальник ХУ" && isSign == true)
-                {
-                    if (actionModel.UserChooseManual1 == String.Empty)
-                    {
-                        errorList.Add("Необходимо указать Исполнителя");
-                    }
-                }
-            }
-
-            if (type == (new USR_REQ_HY_RequestRepair_View()).GetType())
-            {
-                if (documentTable.ActivityName == "Начальник ХУ" && isSign == true)
-                {
-                    if (actionModel.UserChooseManual1 == String.Empty)
-                    {
-                        errorList.Add("Необходимо указать Исполнителя");
-                    }
-                }
-            }
-
             if (type == (new USR_REQ_HY_EmergencyPurposeTRU_View()).GetType())
             {
-                if ((documentTable.ActivityName == "СХО" || documentTable.ActivityName == "Начальник СХО") && isSign == true)
+                if (current.Any(x => x.ActivityName == "СХО" || x.ActivityName == "Начальник СХО" || x.SystemName == "CHO" || x.SystemName == "ManagerCHO") && isSign == true)
                 {
                     if (actionModel.ItemName1 != String.Empty && ((actionModel.Price1 == String.Empty && actionModel.Amount1 == String.Empty) || actionModel.AccountBZ1 == String.Empty))
                     {
@@ -1051,21 +1018,13 @@ namespace RapidDoc.Models.Services
                     if (actionModel.ItemName17 != String.Empty && ((actionModel.Price17 == String.Empty && actionModel.Amount17 == String.Empty) || actionModel.AccountBZ17 == String.Empty))
                     {
                         errorList.Add("В строке 17 не заполнены все необходимые поля");
-                    }
-                }
-
-                if (documentTable.ActivityName == "Начальник СХО" && isSign == true)
-                {
-                    if (String.IsNullOrEmpty(actionModel.UserChooseManual2))
-                    {
-                        errorList.Add("Нужно заполнить поле Исполнитель");
                     }
                 }
             }
 
             if ((type == (new USR_REQ_HY_RequestTRU_View()).GetType()) || (type == (new USR_REQ_IT_CTP_RequestTRU_View()).GetType()))
             {
-                if ((documentTable.ActivityName == "СХО" || documentTable.ActivityName == "Начальник СХО" || documentTable.ActivityName == "Заведующий складом СТП" || documentTable.ActivityName == "Заведующий складом СТП") && isSign == true)
+                if (current.Any(x => x.ActivityName == "СХО" || x.ActivityName == "Начальник СХО" || x.ActivityName == "Заведующий складом СТП" || x.SystemName == "CHO" || x.SystemName == "ManagerCHO" || x.SystemName == "ManagerWarehouseCTP") && isSign == true)
                 {
                     if (actionModel.ItemName1 != String.Empty && ((actionModel.Price1 == String.Empty && actionModel.Amount1 == String.Empty) || actionModel.AccountBZ1 == String.Empty))
                     {
@@ -1134,21 +1093,13 @@ namespace RapidDoc.Models.Services
                     if (actionModel.ItemName17 != String.Empty && ((actionModel.Price17 == String.Empty && actionModel.Amount17 == String.Empty) || actionModel.AccountBZ17 == String.Empty))
                     {
                         errorList.Add("В строке 17 не заполнены все необходимые поля");
-                    }
-                }
-
-                if (documentTable.ActivityName == "Начальник СХО" && isSign == true)
-                {
-                    if (String.IsNullOrEmpty(actionModel.UserChooseManual2))
-                    {
-                        errorList.Add("Нужно заполнить поле Исполнитель");
                     }
                 }
             }
 
             if (type == (new USR_REQ_HY_EmergencyRequestTRU_View()).GetType())
             {
-                if ((documentTable.ActivityName == "Начальник СХО") && isSign == true)
+                if (current.Any(x => x.ActivityName == "Начальник СХО" || x.SystemName == "ManagerCHO") && isSign == true)
                 {
                     if (actionModel.ItemName1 != String.Empty && ((actionModel.Price1 == String.Empty && actionModel.Amount1 == String.Empty) || actionModel.AccountBZ1 == String.Empty))
                     {
@@ -1218,28 +1169,12 @@ namespace RapidDoc.Models.Services
                     {
                         errorList.Add("В строке 17 не заполнены все необходимые поля");
                     }
-
-                    if (String.IsNullOrEmpty(actionModel.UserChooseManual1))
-                    {
-                        errorList.Add("Нужно заполнить поле Исполнитель");
-                    }
-                }
-            }
-
-            if (type == (new USR_REQ_URP_RequestForProvisionGraphVac_View()).GetType())
-            {
-                if ((documentTable.ActivityName == "Исполнитель") && isSign == true)
-                {
-                    if (String.IsNullOrEmpty(actionModel.UserChooseManual2))
-                    {
-                        errorList.Add("Нужно заполнить поле Исполнители");
-                    }
                 }
             }
 
             if (type.IsSubclassOf(typeof(BasicOrderView)))
             {
-                if ((documentTable.ActivityName == "Переводчик") && isSign == true)
+                if (current.Any(x => x.SystemName == "TranslatorORD") && isSign == true)
                 {
 
                     if (actionModel.NeedTranslate == true && String.IsNullOrEmpty(actionModel.MainField))
