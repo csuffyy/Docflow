@@ -685,7 +685,7 @@ namespace RapidDoc.Models.Services
 
         public List<Array> GetRequestTree(Activity activity, IDictionary<string, object> _documentData, string _parallel = "")
         {
-            string[] myIntArray = new string[3];
+            string[] myIntArray = new string[4];
             List<Array> allSteps = new List<Array>();
 
             if (activity.GetType() == typeof(WFChooseUpManager) ||
@@ -723,9 +723,12 @@ namespace RapidDoc.Models.Services
                 allSteps.Add(new string[3] { "Исполнитель", (++i).ToString(), "" });
                 _documentData.Add("endListUsers", endListUsers);
             }
+
             if (activity.GetType() == typeof(WFSetUsersForOrder))
             {
                 List<string> userList = (List<string>)_documentData["ListAgreement"];
+                var particularActivity = activity as WFSetUsersForOrder;
+                var particularActivityExpression = particularActivity.inputSystemName.Expression as System.Activities.Expressions.Literal<string>;
                 foreach(string userId in userList)
                 {
                     EmplTable empl = _EmplService.FirstOrDefault(x => x.ApplicationUserId == userId);
@@ -742,8 +745,10 @@ namespace RapidDoc.Models.Services
                     myIntArray.SetValue(activityName, 0);
                     myIntArray.SetValue(activity.Id + userId, 1);
                     myIntArray.SetValue(_parallel, 2);
+                    if (particularActivityExpression != null)
+                        myIntArray.SetValue(particularActivityExpression.Value, 3);
                     allSteps.Add(myIntArray);
-                    myIntArray = new string[3];
+                    myIntArray = new string[4];
                 }
             }
 
@@ -934,7 +939,9 @@ namespace RapidDoc.Models.Services
                 table.Columns.Add("ApplicationUserCreatedId", typeof(string));
                 table.Columns.Add("ApplicationUserModifiedId", typeof(string));
                 table.Columns.Add("StartDateSLA", typeof(DateTime));
+                table.Columns.Add("Comments", typeof(string));
                 table.Columns.Add("AdditionalText", typeof(string));
+                table.Columns.Add("SystemName", typeof(string));
 
                 int num = 0;
                 foreach (string item in result)
@@ -975,7 +982,9 @@ namespace RapidDoc.Models.Services
                     row["ApplicationUserCreatedId"] = currentUserId;
                     row["ApplicationUserModifiedId"] = currentUserId;
                     row["StartDateSLA"] = DBNull.Value;
+                    row["Comments"] = DBNull.Value;
                     row["AdditionalText"] = additionalText;
+                    row["SystemName"] = DBNull.Value;
 
                     table.Rows.Add(row);
                 }
