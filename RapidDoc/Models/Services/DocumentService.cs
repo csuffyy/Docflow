@@ -69,7 +69,7 @@ namespace RapidDoc.Models.Services
         string[] GetUserListFromStructure(string users);
         void UpdateProlongationDate(Guid refDocumentid, DateTime prolongationDate, string currentUserId);
         void ORDRegistration(Guid refDocumentid, string currentUserId, Guid? bookingNumberId);
-        SelectList RevocationORDList(Guid? id);
+        SelectList RevocationORDList(Guid? id, bool edit);
         Type GetTableType(string TableName);
         string ScrubHtml(string value);
     }
@@ -1187,29 +1187,35 @@ namespace RapidDoc.Models.Services
             }
         }
 
-        public SelectList RevocationORDList(Guid? id)
+        public SelectList RevocationORDList(Guid? id, bool edit)
         {
             List<USR_ORD_RevocationView> result = new List<USR_ORD_RevocationView>();
             result.Insert(0, new USR_ORD_RevocationView { Name = UIElementRes.UIElement.NoValue, Id = null });
 
-            result.AddRange(GetOrderList<USR_ORD_MainActivity_Table>());
-            result.AddRange(GetOrderList<USR_ORD_Staff_Table>());
-            result.AddRange(GetOrderList<USR_ORD_Reception_Table>());
-            result.AddRange(GetOrderList<USR_ORD_Dismissal_Table>());
-            result.AddRange(GetOrderList<USR_ORD_Transfer_Table>());
-            result.AddRange(GetOrderList<USR_ORD_Holiday_Table>());
-            result.AddRange(GetOrderList<USR_ORD_ChangeStaff_Table>());
-            result.AddRange(GetOrderList<USR_ORD_Sanction_Table>());
-            result.AddRange(GetOrderList<USR_ORD_BusinessTrip_Table>());
+            result.AddRange(GetOrderList<USR_ORD_MainActivity_Table>(id, edit));
+            result.AddRange(GetOrderList<USR_ORD_Staff_Table>(id, edit));
+            result.AddRange(GetOrderList<USR_ORD_Reception_Table>(id, edit));
+            result.AddRange(GetOrderList<USR_ORD_Dismissal_Table>(id, edit));
+            result.AddRange(GetOrderList<USR_ORD_Transfer_Table>(id, edit));
+            result.AddRange(GetOrderList<USR_ORD_Holiday_Table>(id, edit));
+            result.AddRange(GetOrderList<USR_ORD_ChangeStaff_Table>(id, edit));
+            result.AddRange(GetOrderList<USR_ORD_Sanction_Table>(id, edit));
+            result.AddRange(GetOrderList<USR_ORD_BusinessTrip_Table>(id, edit));
 
             return new SelectList(result, "Id", "Name", id);
         }
 
-        private List<USR_ORD_RevocationView> GetOrderList<T>() where T : BasicOrderTable
+        private List<USR_ORD_RevocationView> GetOrderList<T>(Guid? id, bool edit) where T : BasicOrderTable
         {
             List<USR_ORD_RevocationView> result = new List<USR_ORD_RevocationView>();
             IRepository<T> repo = _uow.GetRepository<T>();
-            var items = repo.FindAll(x => !String.IsNullOrEmpty(x.OrderNum) && x.DocumentTable.Cancel == false).ToList();
+            List<T> items = new List<T>();
+
+            if (edit == true)
+                items = repo.FindAll(x => !String.IsNullOrEmpty(x.OrderNum) && x.DocumentTable.Cancel == false).ToList();
+            else
+                items = repo.FindAll(x => x.DocumentTableId == id).ToList();
+
             foreach (var item in items)
             {
                 result.Add(new USR_ORD_RevocationView() { Name = item.OrderNum + ", " + item.OrderDate.Value.ToShortDateString(), Id = item.DocumentTableId });

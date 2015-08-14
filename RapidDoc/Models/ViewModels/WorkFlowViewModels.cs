@@ -149,6 +149,7 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Notify", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public bool IsNotified { get; set; }
         public bool Cancel { get; set; }
+        public Guid? CancelDocumentId { get; set; }
         public bool Executed { get; set; }
     }
 
