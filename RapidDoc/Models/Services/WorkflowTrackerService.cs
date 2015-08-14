@@ -242,6 +242,9 @@ namespace RapidDoc.Models.Services
                 table.Columns.Add("ApplicationUserCreatedId", typeof(string));
                 table.Columns.Add("ApplicationUserModifiedId", typeof(string));
                 table.Columns.Add("StartDateSLA", typeof(DateTime));
+                table.Columns.Add("Comments", typeof(string));
+                table.Columns.Add("AdditionalText", typeof(string));
+                table.Columns.Add("SystemName", typeof(string));
 
                 foreach (string[] step in allSteps)
                 {
@@ -264,6 +267,9 @@ namespace RapidDoc.Models.Services
                     row["ApplicationUserCreatedId"] = userid;
                     row["ApplicationUserModifiedId"] = userid;
                     row["StartDateSLA"] = DBNull.Value;
+                    row["Comments"] = DBNull.Value;
+                    row["AdditionalText"] = DBNull.Value;
+                    row["SystemName"] = (step[3] != null) ? step[3] : "";
 
                     table.Rows.Add(row);
                 }

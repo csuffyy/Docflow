@@ -228,19 +228,11 @@ namespace RapidDoc.Controllers
                     }
                     break;
                 case 8:
-                    Regex userGuid = new Regex(@"[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}", RegexOptions.Compiled);
-                    var workflowTracker = _WorkflowTrackerService.GetPartial(w => w.TrackerType == TrackerType.Waiting);
-                    foreach (var document in allDocument.Where(x => x.DocType == DocumentType.Order && x.DocumentState == DocumentState.Agreement && workflowTracker.Any(wf => wf.DocumentTableId == x.Id && userGuid.IsMatch(wf.ActivityID) == true)).ToList())
-                    {
-                        var sourceDocumentData = _Documentservice.GetDocumentView(document.RefDocumentId, document.ProcessTable.TableName);
-
-                        List<string> userList = _WorkflowService.GetUniqueUserList(document.Id, new Dictionary<string, object> { { "ListAgreement", sourceDocumentData.ListAgreement } }, "ListAgreement", true);
-                        var trackers = _WorkflowTrackerService.GetCurrentStep(x => x.DocumentTableId == document.Id && x.TrackerType == TrackerType.Waiting && x.SLAOffset > 0);
-                        var lastTracker = _WorkflowTrackerService.GetPartial(x => x.TrackerType == TrackerType.NonActive && x.DocumentTableId == document.Id && userList.Any(z => x.ActivityID.Contains(z))).ToList();
-
-                        if (trackers.Any(x => userList.Any(z => x.ActivityID.Contains(z)) && DateTime.Now > _Documentservice.GetSLAPerformDate(document.Id, x.StartDateSLA, x.SLAOffset)) && lastTracker.Count() > 0)
+                    foreach (var document in allDocument.Where(x => x.DocType == DocumentType.Order && x.DocumentState == DocumentState.Agreement).Join(_WorkflowTrackerService.GetPartial(w => w.TrackerType == TrackerType.Waiting && w.SystemName == "ORDCustomUserAssign"), x => x.Id, w => w.DocumentTableId, (x, w) => new { Doc = x, Tracker = w }).ToList())
+                    {                    
+                        if (DateTime.Now > _Documentservice.GetSLAPerformDate(document.Doc.Id, document.Tracker.StartDateSLA, document.Tracker.SLAOffset) && _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == document.Doc.Id && x.TrackerType == TrackerType.NonActive && x.SystemName == "ORDCustomUserAssign").ToList().Count() > 0)
                         {
-                            _WorkflowService.ActiveWorkflowApprove(document.Id, document.ProcessTable.TableName, document.WWFInstanceId, document.ProcessTableId, new Dictionary<string, object>(), trackers.First().Users.First().UserId);
+                            _WorkflowService.ActiveWorkflowApprove(document.Doc.Id, document.Doc.ProcessTable.TableName, document.Doc.WWFInstanceId, document.Doc.ProcessTableId, new Dictionary<string, object>(), document.Tracker.Users.First().UserId);
                         }
                         else
                             continue;
