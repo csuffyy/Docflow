@@ -153,7 +153,7 @@
                 </local1:WFChooseStaffStructure.inputDocumentId>
                 <local1:WFChooseStaffStructure.inputPredicate>
                   <InArgument x:TypeArguments="sle:Expression(s:Func(local2:EmplTable, x:Boolean))">
-                    <mca:CSharpValue x:TypeArguments="sle:Expression(s:Func(local2:EmplTable, x:Boolean))">x =&gt; x.DepartmentTable.DepartmentName == "Группа трейдов" &amp;&amp; x.TitleTable.TitleName == "Главный специалист по снабжению" &amp;&amp; x.CompanyTable.AliasCompanyName == "ATK"</mca:CSharpValue>
+                    <mca:CSharpValue x:TypeArguments="sle:Expression(s:Func(local2:EmplTable, x:Boolean))">x =&gt; x.DepartmentTable.DepartmentName == "Отдел планирования ТОиР" &amp;&amp; x.TitleTable.TitleName == "Начальник отдела" &amp;&amp; x.CompanyTable.AliasCompanyName == "ATK"</mca:CSharpValue>
                   </InArgument>
                 </local1:WFChooseStaffStructure.inputPredicate>
                 <local1:WFChooseStaffStructure.inputStep>
@@ -357,7 +357,7 @@
     <x:Reference>__ReferenceID9</x:Reference>
     <x:Reference>__ReferenceID10</x:Reference>
     <x:Reference>__ReferenceID11</x:Reference>
-    <sads:DebugSymbol.Symbol>d1lEOlxVc2Vyc1xndWtvemhcU291cmNlXFJlcG9zXERvY2Zsb3dcUmFwaWREb2NcQWN0aXZpdGllc1xVU1JfUkVRX1pJRl9SZXF1ZXN0Rm9ySXRlbXMueGFtbC8cBxxnAQMBlwEBnQEBAoYBA+kCDwIBAYwBCdoBFQMBrgHeAQ/eAXMDAaUBzwIR2gIaAwGSAeIBEaMCHQIBMacCF6cCewIBKLsCGcYCIgIBFasCGbYCIgIBAo8BD7MBLwMB3QG3ARW3AWoDAdQBuwEX0AE4AwGvAdcCF9cCagMBnAHSAhfSAnIDAZMB5QEXhAIxAgFXhwIbnAI8AgEywwIfwwJ/AgEfvgIfvgJ6AgEWswIfswJ8AgEMrgIfrgJ6AgEDoQEVoQFnAwGVAo8B6AGPAe8BAwGUAqsBFasBagMBiwKmARWmAWcDAYICsAEVsAFwAwH5AZcBFZcBYAMB8AGSARWSAWMDAecBnAEVnAG1AgMB3gHDAR3DAW8DAcsByAEdyAFzAwHCAb4BHb4BZwMBuQHNAR3NAXgDAbAB8gEd8gFvAwGJAeUB+QHlAYACAwGIAfwBHfwBcgIBf/cBHfcBbwIBduUBtgHlAbwBAgF1gQIdgQJ4AgFs5QHLAeUB3gECAWvlAegB5QHuAQIBau0BHe0BaAIBYegBHegBawIBWI8CIY8CcwIBTpQCIZQCdwIBRYoCIYoCawIBPJkCIZkCfAIBMw==</sads:DebugSymbol.Symbol>
+    <sads:DebugSymbol.Symbol>d1lEOlxVc2Vyc1xndWtvemhcU291cmNlXFJlcG9zXERvY2Zsb3dcUmFwaWREb2NcQWN0aXZpdGllc1xVU1JfUkVRX1pJRl9SZXF1ZXN0Rm9ySXRlbXMueGFtbC8cBxxnAQMBlwEBnQEBAoYBA+kCDwIBAYwBCdoBFQMBrgHeAQ/eAXMDAaUBzwIR2gIaAwGSAeIBEaMCHQIBMacCF6cCewIBKLsCGcYCIgIBFasCGbYCIgIBAo8BD7MBLwMB3QG3ARW3AWoDAdQBuwEX0AE4AwGvAdcCF9cCagMBnAHSAhfSAnIDAZMB5QEXhAIxAgFXhwIbnAI8AgEywwIfwwJ/AgEfvgIfvgJ6AgEWswIfswJ8AgEMrgIfrgJ6AgEDoQEVoQFnAwGVAo8B6AGPAe8BAwGUAqsBFasBagMBiwKmARWmAWcDAYICsAEVsAFwAwH5AZcBFZcBYAMB8AGSARWSAWMDAecBnAEVnAGvAgMB3gHDAR3DAW8DAcsByAEdyAFzAwHCAb4BHb4BZwMBuQHNAR3NAXgDAbAB8gEd8gFvAwGJAeUB+QHlAYACAwGIAfwBHfwBcgIBf/cBHfcBbwIBduUBtgHlAbwBAgF1gQIdgQJ4AgFs5QHLAeUB3gECAWvlAegB5QHuAQIBau0BHe0BaAIBYegBHegBawIBWI8CIY8CcwIBTpQCIZQCdwIBRYoCIYoCawIBPJkCIZkCfAIBMw==</sads:DebugSymbol.Symbol>
   </Flowchart>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>

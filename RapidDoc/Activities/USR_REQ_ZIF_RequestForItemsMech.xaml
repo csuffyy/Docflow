@@ -239,7 +239,7 @@
                         </local1:WFChooseStaffStructure.inputDocumentId>
                         <local1:WFChooseStaffStructure.inputPredicate>
                           <InArgument x:TypeArguments="sle:Expression(s:Func(local2:EmplTable, x:Boolean))">
-                            <mca:CSharpValue x:TypeArguments="sle:Expression(s:Func(local2:EmplTable, x:Boolean))">x =&gt; x.DepartmentTable.DepartmentName == "Группа трейдов" &amp;&amp; x.TitleTable.TitleName == "Главный специалист по снабжению" &amp;&amp; x.CompanyTable.AliasCompanyName == "ATK"</mca:CSharpValue>
+                            <mca:CSharpValue x:TypeArguments="sle:Expression(s:Func(local2:EmplTable, x:Boolean))">x =&gt; x.DepartmentTable.DepartmentName == "Отдел планирования ТОиР" &amp;&amp; x.TitleTable.TitleName == "Начальник отдела" &amp;&amp; x.CompanyTable.AliasCompanyName == "ATK"</mca:CSharpValue>
                           </InArgument>
                         </local1:WFChooseStaffStructure.inputPredicate>
                         <local1:WFChooseStaffStructure.inputStep>
@@ -466,7 +466,7 @@
     <x:Reference>__ReferenceID15</x:Reference>
     <x:Reference>__ReferenceID16</x:Reference>
     <x:Reference>__ReferenceID17</x:Reference>
-    <sads:DebugSymbol.Symbol>d11EOlxVc2Vyc1xndWtvemhcU291cmNlXFJlcG9zXERvY2Zsb3dcUmFwaWREb2NcQWN0aXZpdGllc1xVU1JfUkVRX1pJRl9SZXF1ZXN0Rm9ySXRlbXNNZWNoLnhhbWxDHAccZwEDAZ8BAaUBAQKGAQPWAw8CAQGMAQnaARUDAboC3gEP3gFzAwGxArkDEcQDGgMBngLiARGwAh0DAa4BtAIXtAJ7AwGlAaUDGbADIgMBkgG4Ahn5AiUCATH9Ah/9AoMBAgEokQMhnAMqAgEVgQMhjAMqAgECjwEPswEvAwHpArcBFbcBagMB4AK7ARfQATgDAbsCwQMXwQNqAwGoArwDF7wDcgMBnwLlAReJAjcDAd0BjQIdjQJyAwHUAZECH6YCQAMBrwGtAx+tA3IDAZwBqAMfqAN6AwGTAbsCH9oCOQIBV90CI/ICRAIBMpkDJ5kDhwECAR+UAyeUA4IBAgEWiQMniQOEAQIBDIQDJ4QDggECAQOhARWhAWcDAaEDjwHnAY8B7gEDAaADqwEVqwFqAwGXA6YBFaYBZwMBjgOwARWwAXADAYUDlwEVlwFgAwH8ApIBFZIBYwMB8wKcARWcAecDAwHqAsMBHcMBbwMB1wLIAR3IAXMDAc4CvgEdvgFnAwHFAs0BHc0BeAMBvAL3AR33AW8DAZUC5QHwAeUB9wEDAZQCgQIdgQJyAwGLAvwBHfwBbwMBggKGAh2GAngDAfkB7QEd7QFoAwHwAegBHegBawMB5wHyAR3yAb0CAwHeAZkCJZkCdwMBywGeAiWeAnsDAcIBlAIllAJvAwG5AaMCJaMCgAEDAbAByAIlyAJ3AwGJAbsCgQK7AogCAwGIAdICJdICegIBf80CJc0CdwIBdrsCvgG7AsQBAgF11wIl1wKAAQIBbLsC0wG7AuYBAgFruwLwAbsC9gECAWrDAiXDAnACAWG+AiW+AnMCAVjlAinlAnsCAU7qAinqAn8CAUXgAingAnMCATzvAinvAoQBAgEz</sads:DebugSymbol.Symbol>
+    <sads:DebugSymbol.Symbol>d11EOlxVc2Vyc1xndWtvemhcU291cmNlXFJlcG9zXERvY2Zsb3dcUmFwaWREb2NcQWN0aXZpdGllc1xVU1JfUkVRX1pJRl9SZXF1ZXN0Rm9ySXRlbXNNZWNoLnhhbWxDHAccZwEDAZ8BAaUBAQKGAQPWAw8CAQGMAQnaARUDAboC3gEP3gFzAwGxArkDEcQDGgMBngLiARGwAh0DAa4BtAIXtAJ7AwGlAaUDGbADIgMBkgG4Ahn5AiUCATH9Ah/9AoMBAgEokQMhnAMqAgEVgQMhjAMqAgECjwEPswEvAwHpArcBFbcBagMB4AK7ARfQATgDAbsCwQMXwQNqAwGoArwDF7wDcgMBnwLlAReJAjcDAd0BjQIdjQJyAwHUAZECH6YCQAMBrwGtAx+tA3IDAZwBqAMfqAN6AwGTAbsCH9oCOQIBV90CI/ICRAIBMpkDJ5kDhwECAR+UAyeUA4IBAgEWiQMniQOEAQIBDIQDJ4QDggECAQOhARWhAWcDAaEDjwHnAY8B7gEDAaADqwEVqwFqAwGXA6YBFaYBZwMBjgOwARWwAXADAYUDlwEVlwFgAwH8ApIBFZIBYwMB8wKcARWcAecDAwHqAsMBHcMBbwMB1wLIAR3IAXMDAc4CvgEdvgFnAwHFAs0BHc0BeAMBvAL3AR33AW8DAZUC5QHwAeUB9wEDAZQCgQIdgQJyAwGLAvwBHfwBbwMBggKGAh2GAngDAfkB7QEd7QFoAwHwAegBHegBawMB5wHyAR3yAbcCAwHeAZkCJZkCdwMBywGeAiWeAnsDAcIBlAIllAJvAwG5AaMCJaMCgAEDAbAByAIlyAJ3AwGJAbsCgQK7AogCAwGIAdICJdICegIBf80CJc0CdwIBdrsCvgG7AsQBAgF11wIl1wKAAQIBbLsC0wG7AuYBAgFruwLwAbsC9gECAWrDAiXDAnACAWG+AiW+AnMCAVjlAinlAnsCAU7qAinqAn8CAUXgAingAnMCATzvAinvAoQBAgEz</sads:DebugSymbol.Symbol>
   </Flowchart>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>
