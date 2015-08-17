@@ -269,7 +269,7 @@ namespace RapidDoc.Models.Services
                     row["StartDateSLA"] = DBNull.Value;
                     row["Comments"] = DBNull.Value;
                     row["AdditionalText"] = DBNull.Value;
-                    row["SystemName"] = (step[3] != null) ? step[3] : "";
+                    row["SystemName"] = (step.Length > 3) ? step[3] : "";
 
                     table.Rows.Add(row);
                 }
