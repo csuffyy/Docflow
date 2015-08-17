@@ -86,7 +86,9 @@ namespace RapidDoc.Models.Services
                                 DepartmentName = department.DepartmentName,
                                 UserName = empl.SecondName + " " + empl.FirstName + " " + empl.MiddleName,
                                 DocumentRefId = document.RefDocumentId,
-                                ProcessTableName = process.TableName
+                                ProcessTableName = process.TableName,
+                                Cancel = document.Cancel,
+                                Executed = document.Executed
                             }).ToList();
 
             }
@@ -136,7 +138,9 @@ namespace RapidDoc.Models.Services
                                 DepartmentName = department.DepartmentName,
                                 UserName = empl.SecondName + " " + empl.FirstName + " " + empl.MiddleName,
                                 DocumentRefId = document.RefDocumentId,
-                                ProcessTableName = process.TableName
+                                ProcessTableName = process.TableName,
+                                Cancel = document.Cancel,
+                                Executed = document.Executed
                             }).ToList();                       
             }
             switch (type)
@@ -165,6 +169,7 @@ namespace RapidDoc.Models.Services
                             if (!String.IsNullOrEmpty(documentView.OrderNum))
                                 item.OrderNumber = documentView.OrderNum;
                             item.DocumentTitle = documentView.Subject;
+                            item.Addition = documentView.Addition;
                             editedItems.Add(item);
                         }
                         return editedItems;

@@ -123,7 +123,7 @@ namespace RapidDoc.Controllers
 
         public ActionResult GetRevocationORD(Guid? id, bool edit)
         {
-            ViewBag.ORDRevocationList = _DocumentService.RevocationORDList(id);
+            ViewBag.ORDRevocationList = _DocumentService.RevocationORDList(id, edit);
             ViewBag.EditMode = edit;
             return PartialView("USR_ORD_Revocation");
         }

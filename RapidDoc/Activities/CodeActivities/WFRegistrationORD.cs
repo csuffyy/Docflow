@@ -69,20 +69,6 @@ namespace RapidDoc.Activities.CodeActivities
                     bookingNumberId = (Guid)documentData["NumberSeriesBookingTableId"];
             }
 
-            /*
-            if (documentData.ContainsKey("Addition"))
-            {
-                if ((bool)documentData["Addition"] == true)
-                {
-                    if (document != null)
-                    {
-                        document.Addition = true;
-                        _service.UpdateDocument(document, currentUserId);
-                    }
-                }
-            }
-            */
-
             if (documentData.ContainsKey("ControlUsers") && documentData.ContainsKey("ControlDate"))
             {
                 if(!String.IsNullOrEmpty((string)documentData["ControlUsers"]))
@@ -132,6 +118,7 @@ namespace RapidDoc.Activities.CodeActivities
                     if (documentCancel != null)
                     {
                         documentCancel.Cancel = true;
+                        documentCancel.CancelDocumentId = documentId;
                         _service.UpdateDocument(documentCancel, currentUserId);
                     }
                 }
