@@ -6,6 +6,7 @@
     ViewBag.Title = UIElementRes.UIElement.DocumentBase;
 }
 
+<h2>@UIElementRes.UIElement.OfficeMemoBase</h2>
 @using (Ajax.BeginForm("Search", "DocumentBase", new { documentType = DocumentType.OfficeMemo, filterType = (int)Model.FilterType, startDate = Model.StartDate, endDate = Model.EndDate }, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "GroupData" }))
 {
     <div class="form-group">

@@ -12,9 +12,12 @@
     }
     
     object dataTypeAttr = property.GetCustomAttributes(typeof(System.ComponentModel.DataAnnotations.DataTypeAttribute), false).FirstOrDefault();
-    <div class="editor-label">
-        @Html.Label((string)property.Name)
-    </div>
+    if(!String.IsNullOrEmpty(property.GetValue(Model, null).ToString()))
+    { 
+        <div class="editor-label">
+            @Html.Label((string)property.Name)
+        </div>
+    }
     
     @Html.Hidden((string)property.Name)
     if (property.PropertyType == typeof(string))

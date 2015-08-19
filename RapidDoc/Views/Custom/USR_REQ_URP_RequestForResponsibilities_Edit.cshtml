@@ -18,6 +18,12 @@
             @Html.TextBoxFor(model => Model.UsersOff, new { @class = "form-control", placeholder = "ФИО" })
         </div>
         <div class="editor-label">
+            @Html.LabelForRequired(model => Model.TitleOff)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => Model.TitleOff, new { @class = "form-control", placeholder = "Должность" })
+        </div>
+        <div class="editor-label">
             @Html.LabelForRequired(model => Model.DepartmentOff)
         </div>
         <div class="editor-field">
@@ -37,6 +43,12 @@
         </div>
         <div class="editor-field">
             @Html.TextBoxFor(model => Model.UsersOn, new { @class = "form-control", placeholder = "ФИО" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.TitleOn)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => Model.TitleOn, new { @class = "form-control", placeholder = "Должность" })
         </div>
         <div class="editor-label">
             @Html.LabelForRequired(model => Model.DepartmentOn)

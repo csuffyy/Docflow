@@ -22,6 +22,7 @@ namespace RapidDoc.Models.Services
     public interface IDocumentBaseService
     {
         List<DocumentBaseView> GetAllViewUserDocument(DocumentType type, DateTime? startDate, DateTime? endDate);
+        List<DocumentBaseView> GetAllViewUserDocumentWithExecutors(DocumentType type, DateTime? startDate, DateTime? endDate);
     }
 
     public class DocumentBaseService : IDocumentBaseService
@@ -55,8 +56,9 @@ namespace RapidDoc.Models.Services
             List<DocumentBaseView> items, editedItems = new List<DocumentBaseView>();
 
             ApplicationUser user = repoUser.GetById(HttpContext.Current.User.Identity.GetUserId());
+            var timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById(user.TimeZoneId);
             DateTime currentDate = DateTime.UtcNow;
-            
+
             ApplicationDbContext contextQuery = _uow.GetDbContext<ApplicationDbContext>();
 
             if (UserManager.IsInRole(user.Id, "Administrator"))
@@ -88,7 +90,8 @@ namespace RapidDoc.Models.Services
                                 DocumentRefId = document.RefDocumentId,
                                 ProcessTableName = process.TableName,
                                 Cancel = document.Cancel,
-                                Executed = document.Executed
+                                Executed = document.Executed,
+                                DocumentText = document.DocumentText
                             }).ToList();
 
             }
@@ -140,14 +143,18 @@ namespace RapidDoc.Models.Services
                                 DocumentRefId = document.RefDocumentId,
                                 ProcessTableName = process.TableName,
                                 Cancel = document.Cancel,
-                                Executed = document.Executed
+                                Executed = document.Executed,
+                                DocumentText = document.DocumentText
                             }).ToList();                       
             }
             switch (type)
 	        {
-		        case DocumentType.Request:                   
-                    return items;
-                                     
+		        case DocumentType.Request:
+                    foreach (var item in items)
+                    {
+                        item.CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(item.CreatedDate), timeZoneInfo);
+                    }
+                    return items;           
                 case DocumentType.OfficeMemo:
                         foreach (var item in items)
                         {                          
@@ -156,11 +163,16 @@ namespace RapidDoc.Models.Services
                             if (documentView.ItemCauseTableId != Guid.Empty && documentView.ItemCauseTableId != null)
                             item.ItemCaseName = _ItemCauseService.Find((Guid)documentView.ItemCauseTableId).CaseName;
                             item.DocumentTitle = documentView._DocumentTitle;
+                            item.CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(item.CreatedDate), timeZoneInfo);
                             editedItems.Add(item);
                         }
 
                         return editedItems;
                 case DocumentType.Task:
+                        foreach (var item in items)
+                        {
+                            item.CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(item.CreatedDate), timeZoneInfo);
+                        }
                         return items;
                 case DocumentType.Order:
                         foreach (var item in items)
@@ -170,12 +182,141 @@ namespace RapidDoc.Models.Services
                                 item.OrderNumber = documentView.OrderNum;
                             item.DocumentTitle = documentView.Subject;
                             item.Addition = documentView.Addition;
+                            item.CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(item.CreatedDate), timeZoneInfo);
                             editedItems.Add(item);
                         }
                         return editedItems;
              }
 
              return null;
+        }
+
+        public List<DocumentBaseView> GetAllViewUserDocumentWithExecutors(DocumentType type, DateTime? startDate, DateTime? endDate)
+        {
+            List<DocumentBaseView> items, editedItems = new List<DocumentBaseView>();
+
+            ApplicationUser user = repoUser.GetById(HttpContext.Current.User.Identity.GetUserId());
+            var timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById(user.TimeZoneId);
+            DateTime currentDate = DateTime.UtcNow;
+
+            ApplicationDbContext contextQuery = _uow.GetDbContext<ApplicationDbContext>();
+
+            if (UserManager.IsInRole(user.Id, "Administrator"))
+            {
+                items = (from document in contextQuery.DocumentTable
+                         join company in contextQuery.CompanyTable on document.CompanyTableId equals company.Id
+                         join process in contextQuery.ProcessTable on document.ProcessTableId equals process.Id
+                         join tracker in contextQuery.WFTrackerTable on document.Id equals tracker.DocumentTableId
+                         where document.DocType == type && (document.CreatedDate >= startDate && document.CreatedDate <= endDate)
+                         orderby document.ModifiedDate descending
+                         select new DocumentBaseView
+                         {
+                             ActivityName = document.ActivityName,
+                             ApplicationUserCreatedId = document.ApplicationUserCreatedId,
+                             ApplicationUserModifiedId = document.ApplicationUserModifiedId,
+                             CompanyTableId = document.CompanyTableId,
+                             CreatedDate = document.CreatedDate,
+                             Id = document.Id,
+                             DocumentNum = document.DocumentNum,
+                             DocumentState = document.DocumentState,
+                             ProcessName = process.ProcessName,
+                             Users = tracker.Users,
+                             WFTrackerType = tracker.TrackerType,
+                             ModifiedDate = document.ModifiedDate,
+                             ProcessTableId = document.ProcessTableId,
+                             AliasCompanyName = company.AliasCompanyName,
+                             DocumentRefId = document.RefDocumentId,
+                             ProcessTableName = process.TableName,
+                             Cancel = document.Cancel,
+                             Executed = document.Executed,
+                             DocumentText = document.DocumentText
+                         }).ToList();
+
             }
+            else
+            {
+                items = (from document in contextQuery.DocumentTable
+                         join company in contextQuery.CompanyTable on document.CompanyTableId equals company.Id
+                         join process in contextQuery.ProcessTable on document.ProcessTableId equals process.Id
+                         join tracker in contextQuery.WFTrackerTable on document.Id equals tracker.DocumentTableId
+                         where
+                             (document.ApplicationUserCreatedId == user.Id ||
+                                 contextQuery.ModificationUsersTable.Any(m => m.UserId == user.Id && m.DocumentTableId == document.Id && document.DocumentState == DocumentState.Created) ||
+                                 contextQuery.WFTrackerTable.Any(x => x.DocumentTableId == document.Id && ((x.SignUserId == null && x.TrackerType == TrackerType.Waiting) ||
+
+                                     (x.SignUserId == user.Id && (x.TrackerType == TrackerType.Approved || x.TrackerType == TrackerType.Cancelled))) && x.Users.Any(b => b.UserId == user.Id)) ||
+
+                                 ((contextQuery.DocumentReaderTable.Any(r => r.DocumentTableId == document.Id && r.UserId == user.Id) || (
+
+                                 contextQuery.DocumentReaderTable.Any(d => d.RoleId != null && d.DocumentTableId == document.Id && contextQuery.Roles.Where(r => r.Id == d.RoleId).ToList().Any(x => x.Users.ToList().Any(z => z.UserId == user.Id)))
+
+
+                                     )) && document.DocumentState != DocumentState.Created) ||
+                                 (contextQuery.DelegationTable.Any(d => d.EmplTableTo.ApplicationUserId == user.Id && d.DateFrom <= currentDate && d.DateTo >= currentDate && d.isArchive == false
+                                 && d.CompanyTableId == user.CompanyTableId
+                                 && (d.GroupProcessTableId == document.ProcessTable.Id || d.GroupProcessTableId == null)
+                                 && (d.ProcessTableId == document.ProcessTableId || d.ProcessTableId == null)
+                                 && contextQuery.WFTrackerTable.Any(w => w.DocumentTableId == document.Id && w.SignUserId == null && w.TrackerType == TrackerType.Waiting && w.Users.Any(b => b.UserId == d.EmplTableFrom.ApplicationUserId))
+                                 ))
+                             ) && document.DocType == type && (document.CreatedDate >= startDate && document.CreatedDate <= endDate)
+                         orderby String.IsNullOrEmpty(document.ActivityName), document.ModifiedDate descending
+                         select new DocumentBaseView
+                         {
+                             ActivityName = document.ActivityName,
+                             ApplicationUserCreatedId = document.ApplicationUserCreatedId,
+                             ApplicationUserModifiedId = document.ApplicationUserModifiedId,
+                             CompanyTableId = document.CompanyTableId,
+                             CreatedDate = document.CreatedDate,
+                             Id = document.Id,
+                             DocumentNum = document.DocumentNum,
+                             DocumentState = document.DocumentState,
+                             ProcessName = process.ProcessName,
+                             Users = tracker.Users,
+                             WFTrackerType = tracker.TrackerType,
+                             ModifiedDate = document.ModifiedDate,
+                             ProcessTableId = document.ProcessTableId,
+                             AliasCompanyName = company.AliasCompanyName,
+                             DocumentRefId = document.RefDocumentId,
+                             ProcessTableName = process.TableName,
+                             Cancel = document.Cancel,
+                             Executed = document.Executed,
+                             DocumentText = document.DocumentText
+                         }).ToList();
+            }
+
+            List<EmplTable> emplTables = contextQuery.EmplTable.ToList();
+
+            foreach(var item in items)
+            {
+                foreach(var itemUser in item.Users)
+                {
+                    EmplTable empl = emplTables.Where(p => p.ApplicationUserId == itemUser.UserId).OrderByDescending(p => p.Enable).FirstOrDefault();
+                    editedItems.Add(new DocumentBaseView
+                    {
+                        ActivityName = item.ActivityName,
+                        ApplicationUserCreatedId = item.ApplicationUserCreatedId,
+                        ApplicationUserModifiedId = item.ApplicationUserModifiedId,
+                        CompanyTableId = item.CompanyTableId,
+                        CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(item.CreatedDate), timeZoneInfo),
+                        Id = item.Id,
+                        DocumentNum = item.DocumentNum,
+                        DocumentState = item.DocumentState,
+                        ProcessName = item.ProcessName,
+                        WFTrackerType = item.WFTrackerType,
+                        ModifiedDate = item.ModifiedDate,
+                        ProcessTableId = item.ProcessTableId,
+                        AliasCompanyName = item.AliasCompanyName,
+                        DocumentRefId = item.DocumentRefId,
+                        ProcessTableName = item.ProcessTableName,
+                        Cancel = item.Cancel,
+                        Executed = item.Executed,
+                        UserName = empl.FullName,
+                        DocumentText = item.DocumentText
+                    });
+                }
+            }
+
+            return editedItems;
         }
     }
+}

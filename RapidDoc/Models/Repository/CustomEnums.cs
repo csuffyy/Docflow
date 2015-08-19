@@ -1094,7 +1094,10 @@ namespace RapidDoc.Models.Repository
         Initiator = 0,
 
         [Display(Name = "По подразделению")]
-        Department = 1
+        Department = 1,
+
+        [Display(Name = "По исполнителям")]
+        Executors = 2
     }
 
     public enum OrderFilterType : byte

@@ -4464,6 +4464,10 @@ namespace RapidDoc.Models.ViewModels
         public string UsersOff { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Должность")]
+        public string TitleOff { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         [Display(Name = "Управление/служба(отдел)")]
         public string DepartmentOff { get; set; }
 
@@ -4474,6 +4478,10 @@ namespace RapidDoc.Models.ViewModels
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         [Display(Name = "ФИО")]
         public string UsersOn { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Должность")]
+        public string TitleOn { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         [Display(Name = "Управление/служба(отдел)")]
@@ -4514,6 +4522,10 @@ namespace RapidDoc.Models.ViewModels
         public string UsersOff { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Должность")]
+        public string TitleOff { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         [Display(Name = "Управление/служба(отдел)")]
         public string DepartmentOff { get; set; }
 
@@ -4524,6 +4536,10 @@ namespace RapidDoc.Models.ViewModels
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         [Display(Name = "ФИО")]
         public string UsersOn { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Должность")]
+        public string TitleOn { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         [Display(Name = "Управление/служба(отдел)")]

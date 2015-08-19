@@ -84,18 +84,20 @@ namespace RapidDoc.Controllers
         [HttpPost]
         public ActionResult Search(DocumentType documentType, int filterType, DateTime? startDate, DateTime? endDate)
         {
-            var documentList = _Service.GetAllViewUserDocument(documentType, startDate, endDate).ToList();
             ViewBag.FilterType = filterType;
             switch (documentType)
             {
                 case DocumentType.Request:
-                    return View("_DocumentBaseRequest", documentList.ToList());
+                    return View("_DocumentBaseRequest", _Service.GetAllViewUserDocument(documentType, startDate, endDate));
                 case DocumentType.OfficeMemo:
-                    return View("_DocumentBaseOfficeMemo", documentList.ToList());
+                    return View("_DocumentBaseOfficeMemo", _Service.GetAllViewUserDocument(documentType, startDate, endDate));
                 case DocumentType.Task:
-                    return View("_DocumentBaseTask", documentList.ToList());
+                    if (filterType == (int)TaskFilterType.Executors)
+                        return View("_DocumentBaseTask", _Service.GetAllViewUserDocumentWithExecutors(documentType, startDate, endDate));
+                    else
+                        return View("_DocumentBaseTask", _Service.GetAllViewUserDocument(documentType, startDate, endDate));
                 case DocumentType.Order:
-                    return View("_DocumentBaseOrder", documentList.ToList());
+                    return View("_DocumentBaseOrder", _Service.GetAllViewUserDocument(documentType, startDate, endDate));
             }
             return new EmptyResult();
         }

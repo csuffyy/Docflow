@@ -21,11 +21,10 @@
                     </div>
                     <div class="panel-collapse collapse" id="collapseArea_@num">
                         <div class="panel-body">
-                            @foreach (var item in Model.Where(x => x.UserName == itemGroup.Key))
+                            @foreach (var item in Model.Where(x => x.UserName == itemGroup.Key).OrderByDescending(x => x.CreatedDate))
                             {
                                 <p>
-                                    @Html.ActionLink(item.DocumentNum + " - " + item.ProcessName + " (" + item.CreatedDate + ") => " + item.DocumentState.GetDescription()
-                                     , "ShowDocument", "Document", new { id = item.Id, isAfterView = true }, new { target = "_blank" })
+                                    <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins> - @item.ProcessName / @item.DocumentText (@item.CreatedDate) => @item.DocumentState.GetDescription()</a>
                                 </p>
                             }
                         </div>
@@ -43,9 +42,11 @@
                     </div>
                     <div class="collapse" id="collapseArea_@num">
                         <div class="panel-body">
-                            @foreach (var item in Model.Where(x => x.DepartmentName == itemGroup.Key))
+                            @foreach (var item in Model.Where(x => x.DepartmentName == itemGroup.Key).OrderByDescending(x => x.CreatedDate))
                             {
-                                <p>@Html.ActionLink(item.DocumentNum + "-" + item.ProcessName + " (" + item.CreatedDate + ")", "ShowDocument", "Document", new { id = item.Id, isAfterView = true }, new { target = "_blank" })</p>
+                                <p>
+                                    <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins> - @item.ProcessName / @item.DocumentText (@item.CreatedDate) => @item.DocumentState.GetDescription()</a>
+                                </p>
                             }
                         </div>
                     </div>

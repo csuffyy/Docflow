@@ -3321,6 +3321,9 @@ namespace RapidDoc.Models.DomainModels
         public string UsersOff { get; set; }
 
         [Required]
+        public string TitleOff { get; set; }
+
+        [Required]
         public string DepartmentOff { get; set; }
 
         [Required]
@@ -3328,6 +3331,9 @@ namespace RapidDoc.Models.DomainModels
 
         [Required]
         public string UsersOn { get; set; }
+
+        [Required]
+        public string TitleOn { get; set; }
 
         [Required]
         public string DepartmentOn { get; set; }
@@ -3356,6 +3362,9 @@ namespace RapidDoc.Models.DomainModels
         public string UsersOff { get; set; }
 
         [Required]
+        public string TitleOff { get; set; }
+
+        [Required]
         public string DepartmentOff { get; set; }
 
         [Required]
@@ -3363,6 +3372,9 @@ namespace RapidDoc.Models.DomainModels
 
         [Required]
         public string UsersOn { get; set; }
+
+        [Required]
+        public string TitleOn { get; set; }
 
         [Required]
         public string DepartmentOn { get; set; }

@@ -301,47 +301,20 @@ namespace RapidDoc.Models.ViewModels
 
     public class DocumentBaseView : BasicCompanyNullView
     {
-        [StringLength(256, ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisLong")]
-        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
-        [Display(Name = "DocumentNum", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public string DocumentNum { get; set; }
-
-        [Display(Name = "GroupProcesses", ResourceType = typeof(UIElementRes.UIElement))]
         public string GroupProcessName { get; set; }
-
-        [Display(Name = "Processes", ResourceType = typeof(UIElementRes.UIElement))]
         public string ProcessName { get; set; }
         public Guid? ProcessTableId { get; set; }
-
-        [Display(Name = "DocumentState", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public DocumentState DocumentState { get; set; }
-
-        [Display(Name = "CurrentActivityName", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public string ActivityName { get; set; }
-
         public DocumentType DocType { get; set; }
-
         public bool isNotReview { get; set; }
-
         public bool isArchive { get; set; }
-
         public bool isSign { get; set; }
-
         public bool isShow { get; set; }
-
-        [Display(Name = "FirstName", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public string FullName { get; set; }
-
-        [StringLength(256, ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisLong")]
-        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
-        [Display(Name = "TitleName", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public string TitleName { get; set; }
-
-        [StringLength(256, ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisLong")]
-        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
-        [Display(Name = "DepartmentName", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public string DepartmentName { get; set; }
-        [Display(Name = "Notify", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public bool IsNotified { get; set; }
         public bool Cancel { get; set; }
         public bool Addition { get; set; }
@@ -353,7 +326,8 @@ namespace RapidDoc.Models.ViewModels
         public Guid DocumentRefId { get; set; }
         public string ProcessTableName { get; set; }
         public string OrderNumber { get; set; }
-        
+        public List<WFTrackerUsersTable> Users { get; set; }
+        public TrackerType WFTrackerType { get; set; }
+        public string DocumentText { get; set; }
     }
-
 }

@@ -490,6 +490,14 @@
         $('#PrintTrip').removeAttr("disabled");
     })
 
+    $('.bs-reject-modal-sm').on('shown.bs.modal', function (e) {
+        $('#RejectCommentRequest').val($('#lastComment').val());
+    })
+
+    $('.bs-approve-modal-sm').on('shown.bs.modal', function (e) {
+        $('#ApproveCommentRequest').val($('#lastComment').val());
+    })
+
     function replaceFile(e) {
         var replaceFileId = $(e).closest('tr').find('.fileuploadtdid').text().trim();
         $('.fileuploadreplace').fileupload({
