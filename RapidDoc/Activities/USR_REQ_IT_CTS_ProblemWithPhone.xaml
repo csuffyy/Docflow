@@ -50,9 +50,13 @@
       <AssemblyReference>EntityFramework</AssemblyReference>
       <AssemblyReference>EntityFramework.SqlServer</AssemblyReference>
       <AssemblyReference>GridMvc</AssemblyReference>
+      <AssemblyReference>Microsoft.AspNet.Identity.Core</AssemblyReference>
+      <AssemblyReference>Microsoft.AspNet.Identity.EntityFramework</AssemblyReference>
+      <AssemblyReference>Microsoft.AspNet.Identity.Owin</AssemblyReference>
       <AssemblyReference>Microsoft.CSharp</AssemblyReference>
       <AssemblyReference>Microsoft.Data.Edm</AssemblyReference>
       <AssemblyReference>Microsoft.Data.OData</AssemblyReference>
+      <AssemblyReference>Microsoft.Office.Interop.Excel</AssemblyReference>
       <AssemblyReference>Microsoft.Owin</AssemblyReference>
       <AssemblyReference>Microsoft.Owin.Host.SystemWeb</AssemblyReference>
       <AssemblyReference>Microsoft.Owin.Security</AssemblyReference>
@@ -68,9 +72,11 @@
       <AssemblyReference>Ninject</AssemblyReference>
       <AssemblyReference>Ninject.Web.Common</AssemblyReference>
       <AssemblyReference>Ninject.Web.Mvc</AssemblyReference>
+      <AssemblyReference>Ninject.Web.WebApi</AssemblyReference>
       <AssemblyReference>PresentationCore</AssemblyReference>
       <AssemblyReference>PresentationFramework</AssemblyReference>
       <AssemblyReference>RazorEngine</AssemblyReference>
+      <AssemblyReference>Rotativa</AssemblyReference>
       <AssemblyReference>Simple.ImageResizer</AssemblyReference>
       <AssemblyReference>Simple.ImageResizer.MvcExtensions</AssemblyReference>
       <AssemblyReference>System</AssemblyReference>
@@ -89,6 +95,7 @@
       <AssemblyReference>System.ServiceModel</AssemblyReference>
       <AssemblyReference>System.ServiceModel.Activities</AssemblyReference>
       <AssemblyReference>System.Spatial</AssemblyReference>
+      <AssemblyReference>System.Transactions</AssemblyReference>
       <AssemblyReference>System.Web.DynamicData</AssemblyReference>
       <AssemblyReference>System.Web.Entity</AssemblyReference>
       <AssemblyReference>System.Web.ApplicationServices</AssemblyReference>
@@ -115,14 +122,10 @@
       <AssemblyReference>System.Net.Http</AssemblyReference>
       <AssemblyReference>System.Net.Http.WebRequest</AssemblyReference>
       <AssemblyReference>System.Xml.Linq</AssemblyReference>
-      <AssemblyReference>WebActivator</AssemblyReference>
       <AssemblyReference>WebActivatorEx</AssemblyReference>
       <AssemblyReference>WebGrease</AssemblyReference>
       <AssemblyReference>WindowsBase</AssemblyReference>
       <AssemblyReference>X.Scaffolding.Core</AssemblyReference>
-      <AssemblyReference>Microsoft.AspNet.Identity.Core</AssemblyReference>
-      <AssemblyReference>Microsoft.AspNet.Identity.Owin</AssemblyReference>
-      <AssemblyReference>Microsoft.AspNet.Identity.EntityFramework</AssemblyReference>
       <AssemblyReference>Owin</AssemblyReference>
       <AssemblyReference>System.Core</AssemblyReference>
       <AssemblyReference>mscorlib</AssemblyReference>
@@ -135,7 +138,7 @@
     </Flowchart.Variables>
     <Flowchart.StartNode>
       <FlowStep x:Name="__ReferenceID6" sap2010:WorkflowViewState.IdRef="FlowStep_7">
-        <local1:WFChooseStaffStructure _service="{x:Null}" executionStep="{x:Null}" noneSkip="{x:Null}" slaOffset="{x:Null}" DisplayName="Начальник ССТ" sap2010:WorkflowViewState.IdRef="WFChooseStaffStructure_1" useManual="False">
+        <local1:WFChooseStaffStructure _service="{x:Null}" executionStep="{x:Null}" inputSystemName="{x:Null}" noneSkip="{x:Null}" slaOffset="{x:Null}" DisplayName="Начальник ССТ" sap2010:WorkflowViewState.IdRef="WFChooseStaffStructure_1" useManual="False">
           <local1:WFChooseStaffStructure.inputCurrentUser>
             <InArgument x:TypeArguments="x:String">
               <mca:CSharpValue x:TypeArguments="x:String">inputCurrentUser</mca:CSharpValue>
@@ -184,7 +187,7 @@
                 </FlowDecision.Condition>
                 <FlowDecision.True>
                   <FlowStep x:Name="__ReferenceID9" sap2010:WorkflowViewState.IdRef="FlowStep_8">
-                    <local1:WFChooseRoleUser _service="{x:Null}" noneSkip="{x:Null}" DisplayName="Исполнитель" sap2010:WorkflowViewState.IdRef="WFChooseRoleUser_1" executionStep="True" inputRoleName="ExecutorCTS_PHONE" slaOffset="8" useManual="False">
+                    <local1:WFChooseRoleUser _service="{x:Null}" inputSystemName="{x:Null}" noneSkip="{x:Null}" DisplayName="Исполнитель" sap2010:WorkflowViewState.IdRef="WFChooseRoleUser_1" executionStep="True" inputRoleName="ExecutorCTS_PHONE" slaOffset="480" useManual="False">
                       <local1:WFChooseRoleUser.inputCurrentUser>
                         <InArgument x:TypeArguments="x:String">
                           <mca:CSharpValue x:TypeArguments="x:String">inputCurrentUser</mca:CSharpValue>
@@ -344,7 +347,7 @@
     <x:Reference>__ReferenceID7</x:Reference>
     <x:Reference>__ReferenceID8</x:Reference>
     <x:Reference>__ReferenceID9</x:Reference>
-    <sads:DebugSymbol.Symbol>d2VDOlxVc2Vyc1xpZ2RtaXRcRGVza3RvcFxEb2NmbG93UmVwb1xEb2NmbG93MVxSYXBpZERvY1xBY3Rpdml0aWVzXFVTUl9SRVFfSVRfQ1RTX1Byb2JsZW1XaXRoUGhvbmUueGFtbC0cBxxnAQMBnwEBpQEBAoQBA9wCDwIBAYoBCa4BKQMB2wGyAQ+yAWQDAdIBsgIRxwIyAwGtAbcBE7cBdwMBpAGgAhWrAh4DAZEBuwEV2gEvAgFW3QEZ8gE6AgEx9gEf9gGDAQIBKIoCIZUCKgIBFfoBIYUCKgIBApwBD5wBYQMBkwKKAd8BigHmAQMBkgKmAQ+mAWQDAYkCoQEPoQFhAwGAAqsBD6sBagMB9wGSAQ+SAVoDAe4BjQEPjQFdAwHlAZcBD5cB9gEDAdwBugIXugJpAwHJAb8CF78CbQMBwAG1Ahe1AmEDAbcBxAIXxAJyAwGuAagCG6gCbgMBmwGjAhujAnYDAZIByAEbyAFtAwGIAbsB9AG7AfsBAwGHAdIBG9IBcAIBfs0BG80BbQIBdbsBswG7AbkBAgF0uwHmAbsB6QECAXPXARvXAXYCAWq7AcgBuwHbAQIBacMBG8MBZgIBYL4BG74BaQIBV+UBH+UBcQIBTeoBH+oBdQIBROABH+ABaQIBO+8BH+8BegIBMpICJ5IChwECAR+NAieNAoIBAgEWggInggKEAQIBDP0BJ/0BggECAQM=</sads:DebugSymbol.Symbol>
+    <sads:DebugSymbol.Symbol>d3BDOlxVc2Vyc1xEbVNoa2EuQUxUWU5UQVVcRGVza3RvcFxHaXRIdWJcRG9jRmxvd1xEb2NmbG93XFJhcGlkRG9jXEFjdGl2aXRpZXNcVVNSX1JFUV9JVF9DVFNfUHJvYmxlbVdpdGhQaG9uZS54YW1sLRwHHGcBAwGfAQGlAQEChwED3wIPAgEBjQEJsQEpAwHbAbUBD7UBZAMB0gG1AhHKAjIDAa0BugETugF3AwGkAaMCFa4CHgMBkQG+ARXdAS8CAVbgARn1AToCATH5AR/5AYMBAgEojQIhmAIqAgEV/QEhiAIqAgECnwEPnwFhAwGTAo0B+gGNAYECAwGSAqkBD6kBZAMBiQKkAQ+kAWEDAYACrgEPrgFqAwH3AZUBD5UBWgMB7gGQAQ+QAV0DAeUBmgEPmgH2AQMB3AG9Ahe9AmkDAckBwgIXwgJtAwHAAbgCF7gCYQMBtwHHAhfHAnIDAa4BqwIbqwJuAwGbAaYCG6YCdgMBkgHLARvLAW0DAYgBvgGRAr4BmAIDAYcB1QEb1QFwAgF+0AEb0AFtAgF1vgHOAb4B1AECAXS+AYECvgGGAgIBc9oBG9oBdgIBar4B4wG+AfYBAgFpxgEbxgFmAgFgwQEbwQFpAgFX6AEf6AFxAgFN7QEf7QF1AgFE4wEf4wFpAgE78gEf8gF6AgEylQInlQKHAQIBH5ACJ5ACggECARaFAieFAoQBAgEMgAIngAKCAQIBAw==</sads:DebugSymbol.Symbol>
   </Flowchart>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>
@@ -399,16 +402,16 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="FlowDecision_1" sap:VirtualizedContainerService.HintSize="101,87">
+      <sap2010:ViewStateData Id="FlowDecision_1" sap:VirtualizedContainerService.HintSize="103,87">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
             <av:Point x:Key="ShapeLocation">428.5,646.5</av:Point>
-            <av:Size x:Key="ShapeSize">101,87</av:Size>
+            <av:Size x:Key="ShapeSize">103,87</av:Size>
             <x:String x:Key="FalseLabel">Cancelled</x:String>
             <x:String x:Key="TrueLabel">Agreement</x:String>
             <av:PointCollection x:Key="TrueConnector">428.5,690 290,690 290,769</av:PointCollection>
-            <av:PointCollection x:Key="FalseConnector">529.5,690 710,690 710,769</av:PointCollection>
+            <av:PointCollection x:Key="FalseConnector">531.5,690 710,690 710,769</av:PointCollection>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
@@ -445,15 +448,15 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="FlowDecision_2" sap:VirtualizedContainerService.HintSize="101,87">
+      <sap2010:ViewStateData Id="FlowDecision_2" sap:VirtualizedContainerService.HintSize="103,87">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
             <av:Point x:Key="ShapeLocation">438.5,406.5</av:Point>
-            <av:Size x:Key="ShapeSize">101,87</av:Size>
+            <av:Size x:Key="ShapeSize">103,87</av:Size>
             <x:String x:Key="FalseLabel">Cancelled</x:String>
             <x:String x:Key="TrueLabel">Agreement</x:String>
-            <av:PointCollection x:Key="FalseConnector">539.5,450 680,450 680,529</av:PointCollection>
+            <av:PointCollection x:Key="FalseConnector">541.5,450 680,450 680,529</av:PointCollection>
             <av:PointCollection x:Key="TrueConnector">438.5,450 290,450 290,529</av:PointCollection>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
@@ -474,13 +477,13 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="FlowDecision_4" sap:VirtualizedContainerService.HintSize="126,87">
+      <sap2010:ViewStateData Id="FlowDecision_4" sap:VirtualizedContainerService.HintSize="128,87">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
             <av:Point x:Key="ShapeLocation">206,186.5</av:Point>
-            <av:Size x:Key="ShapeSize">126,87</av:Size>
-            <av:PointCollection x:Key="FalseConnector">332,230 480,230 480,319</av:PointCollection>
+            <av:Size x:Key="ShapeSize">128,87</av:Size>
+            <av:PointCollection x:Key="FalseConnector">334,230 480,230 480,319</av:PointCollection>
             <av:PointCollection x:Key="TrueConnector">206,230 194.25,230 194.25,376.5 464.25,376.5 464.25,406.5</av:PointCollection>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>

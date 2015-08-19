@@ -72,6 +72,7 @@ namespace RapidDoc.Models.Services
         SelectList RevocationORDList(Guid? id, bool edit);
         Type GetTableType(string TableName);
         string ScrubHtml(string value);
+        double GetSLAHours(Guid documentId, DateTime? startDate, DateTime? endDate);
     }
 
     public class DocumentService : IDocumentService
@@ -921,9 +922,9 @@ namespace RapidDoc.Models.Services
                     if (scheduleTable != null)
                     {
                         CreatedDate = GetWorkStartDate(CreatedDate, scheduleTable);
-                        double SLAMinutes = (SLAOffset * 60);
+                        //double SLAMinutes = (SLAOffset * 60);
 
-                        return GetSLAAddOffset(scheduleTable, CreatedDate, SLAMinutes);
+                        return GetSLAAddOffset(scheduleTable, CreatedDate, SLAOffset);
                     }
                 }
             }
@@ -1164,6 +1165,13 @@ namespace RapidDoc.Models.Services
 
             document.ProlongationDate = prolongationDate;
             UpdateDocumentFields(document, processView);
+            var trackers = _WorkflowTrackerService.GetCurrentStep(x => x.DocumentTableId == documentTable.Id);
+            foreach (var item in trackers)
+            {
+                item.SLAOffset = Convert.ToInt32(GetSLAHours(refDocumentid, item.StartDateSLA, prolongationDate));
+                _WorkflowTrackerService.SaveDomain(item, currentUserId);
+            }
+            
         }
 
         public void ORDRegistration(Guid refDocumentid, string currentUserId, Guid? bookingNumberId)
@@ -1235,5 +1243,40 @@ namespace RapidDoc.Models.Services
             var step2 = Regex.Replace(step1, @"\s{2,}", " ");
             return step2;
         }
+
+
+        public double GetSLAHours(Guid documentId, DateTime? startDate, DateTime? endDate)
+        {
+            if (startDate != null && endDate != null)
+            {
+                DocumentTable documentTable = Find(documentId);
+
+                if (documentTable != null && documentTable.ProcessTable != null)
+                {
+                    WorkScheduleTable scheduleTable = _WorkScheduleService.Find(documentTable.ProcessTable.WorkScheduleTableId ?? Guid.Empty);
+                    if (scheduleTable != null)
+                    {
+                        startDate = GetWorkStartDate(startDate, scheduleTable);
+
+                        return GetSLAOffset(scheduleTable, startDate.Value, endDate.Value) - 1;
+                    }
+                }
+            }
+
+            return 0;
+        }
+
+        private double GetSLAOffset(WorkScheduleTable scheduleTable, DateTime createdDate, DateTime endDate)
+        {
+            double minutes = 0;
+            while (createdDate < endDate + scheduleTable.WorkEndTime)
+            {
+                minutes += Math.Round((scheduleTable.WorkEndTime - createdDate.TimeOfDay).TotalMinutes);
+                    
+                createdDate = GetWorkStartDate(createdDate.Date.AddDays(1), scheduleTable);
+            }
+            return Math.Round(minutes);
+        }
+
     }
 }

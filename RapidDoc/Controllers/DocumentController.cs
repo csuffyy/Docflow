@@ -580,9 +580,12 @@ namespace RapidDoc.Controllers
                     _WorkflowTrackerService.SaveTrackList(documentId, new List<Array> { new string[] { "Исполнитель", "", "" } });
                     users.ForEach(x => userList.Add(new WFTrackerUsersTable { UserId = x }));
 
+                    WFTrackerTable activeTrackerTable = _WorkflowTrackerService.FirstOrDefault(x => x.DocumentTableId == documentId && x.TrackerType == TrackerType.Waiting);
                     WFTrackerTable trackerTable = _WorkflowTrackerService.FirstOrDefault(x => x.DocumentTableId == documentId && x.TrackerType == TrackerType.NonActive);
                     trackerTable.Users = userList;
                     trackerTable.TrackerType = TrackerType.Waiting;
+                    trackerTable.StartDateSLA = activeTrackerTable.StartDateSLA;
+                    trackerTable.SLAOffset = activeTrackerTable.SLAOffset;
                     _WorkflowTrackerService.SaveDomain(trackerTable, currentUserId);
                 }   
 

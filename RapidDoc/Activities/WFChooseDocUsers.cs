@@ -46,9 +46,15 @@ namespace RapidDoc.Activities
 
         public InArgument<bool> noneSkip { get; set; }
 
+        public InArgument<Dictionary<String, Object>> inputDocumentData { get; set; }
+
         [Browsable(false)]
         [Inject]
         public IWorkflowService _service { get; set; }
+
+        [Browsable(false)]
+        [Inject]
+        public IDocumentService _documetnService { get; set; }
 
         protected override void Execute(CodeActivityContext context)
         {
@@ -60,13 +66,17 @@ namespace RapidDoc.Activities
             int slaOffset = context.GetValue(this.slaOffset);
             bool executionStep = context.GetValue(this.executionStep);
             bool noneSkipStep = context.GetValue(this.noneSkip);
+            Dictionary<String, Object> documentData = context.GetValue(this.inputDocumentData);
 
             _service = DependencyResolver.Current.GetService<IWorkflowService>();
+            _documetnService = DependencyResolver.Current.GetService<IDocumentService>();
+
             WFUserFunctionResult userFunctionResult = _service.WFUsersDocument(documentId, currentUserId);
+            DocumentTable docTable = _documetnService.Find(documentId);
 
             if (executionStep == true || noneSkipStep == true || userFunctionResult.Skip == false)
             {
-                _service.CreateTrackerRecord(systemName, documentStep, documentId, this.DisplayName, userFunctionResult.Users, currentUserId, this.Id, useManual, slaOffset, executionStep);
+                _service.CreateTrackerRecord(systemName, documentStep, documentId, this.DisplayName, userFunctionResult.Users, currentUserId, this.Id, useManual, docTable.DocType == DocumentType.Task ? Convert.ToInt32(_documetnService.GetSLAHours(documentId, DateTime.UtcNow, (DateTime)documentData["ExecutionDate"])) : slaOffset, executionStep);
                 outputSkipStep.Set(context, false);
             }
             else
