@@ -16,6 +16,7 @@ using RapidDoc.Models.Interfaces;
 using RapidDoc.Models.Repository;
 using RapidDoc.Models.ViewModels;
 using System.Text.RegularExpressions;
+using System.Data.Entity.Core.Objects;
 
 namespace RapidDoc.Models.Services
 {
@@ -700,7 +701,7 @@ namespace RapidDoc.Models.Services
                         {
                             return SLAStatusList.Disturbance;
                         }
-                        else if (date >= DateTime.UtcNow && date.Value.AddHours(-1) <= DateTime.UtcNow)
+                        else if (date >= DateTime.UtcNow && (100 * Convert.ToInt32((date.Value - DateTime.UtcNow).TotalMinutes)) / Convert.ToInt32((date.Value - item.ModifiedDate).TotalMinutes) > 20)
                         {
                             return SLAStatusList.Warning;
                         }
@@ -899,7 +900,8 @@ namespace RapidDoc.Models.Services
                             users.AddRange(item.Users);
                         }
 
-                        if (SLAStatusList.Warning == status && date >= DateTime.UtcNow && item.ModifiedDate.AddMinutes(2) < date.Value.AddHours(-1) && date.Value.AddHours(-1) <= DateTime.UtcNow)
+                        if (SLAStatusList.Warning == status && DateTime.UtcNow < date && (
+                            Convert.ToInt32((date.Value - DateTime.UtcNow).TotalDays) == 7 || Convert.ToInt32((date.Value - DateTime.UtcNow).TotalDays) < 4))
                         {
                             users.AddRange(item.Users);
                         }

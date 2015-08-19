@@ -69,7 +69,7 @@ namespace RapidDoc.Controllers
                         List<CheckSLAStatus> checkData = new List<CheckSLAStatus>();
 
                         foreach (var document in allDocument.Where(x => x.DocumentState == Models.Repository.DocumentState.Agreement
-                        || x.DocumentState == Models.Repository.DocumentState.Execution).ToList())
+                        || x.DocumentState == Models.Repository.DocumentState.Execution || x.DocumentState == Models.Repository.DocumentState.OnSign).ToList())
                         {
                             var checkUser = _Documentservice.GetUsersSLAStatus(document, SLAStatusList.Warning).ToList();
                             checkData.Add(new CheckSLAStatus(document, checkUser));
@@ -90,7 +90,7 @@ namespace RapidDoc.Controllers
                         List<CheckSLAStatus> checkData = new List<CheckSLAStatus>();
 
                         foreach (var document in allDocument.Where(x => x.DocumentState == Models.Repository.DocumentState.Agreement
-                        || x.DocumentState == Models.Repository.DocumentState.Execution).ToList())
+                        || x.DocumentState == Models.Repository.DocumentState.Execution || x.DocumentState == Models.Repository.DocumentState.OnSign).ToList())
                         {
                             var checkUser = _Documentservice.GetUsersSLAStatus(document, SLAStatusList.Disturbance).ToList();
                             checkData.Add(new CheckSLAStatus(document, checkUser));
@@ -167,7 +167,7 @@ namespace RapidDoc.Controllers
                         _Emailservice.SendFailedRoutesAdministrator(listProcesses.Where(x => x.Color == Color.LightPink).ToList());
                     }
                     break;
-                case 6:
+                /*case 6:
                     if (_WorkScheduleService.CheckWorkTime(null, DateTime.UtcNow))
                     {
                         var users = _AccountService.GetPartial(x => x.Email != null && x.Enable == true).ToList();
@@ -194,7 +194,7 @@ namespace RapidDoc.Controllers
                                 _Emailservice.SendReminderTasksEmail(user, userDocuments, listDocuments);
                         }
                     }
-                    break;
+                    break;*/
                 case 7:
                     if (_WorkScheduleService.CheckWorkTime(null, DateTime.UtcNow))
                     {
