@@ -1070,7 +1070,10 @@ namespace RapidDoc.Models.Repository
         Initiator = 0,
 
         [Display(Name = "По подразделению")]
-        Department = 1
+        Department = 1,
+
+        [Display(Name = "По процессу")]
+        ProcessName = 2
     }
 
     public enum OfficeMemoFilterType : byte
@@ -1085,7 +1088,10 @@ namespace RapidDoc.Models.Repository
         ItemCase = 2,
 
         [Display(Name = "По теме документа")]
-        Topic = 3
+        Topic = 3,
+
+        [Display(Name = "По процессу")]
+        ProcessName = 4
     }
 
     public enum TaskFilterType : byte
@@ -1112,7 +1118,10 @@ namespace RapidDoc.Models.Repository
         NumberOrder = 2,
 
         [Display(Name = "По теме документа")]
-        Topic = 3
+        Topic = 3,
+
+        [Display(Name = "По процессу")]
+        ProcessName = 4
     }
 
     public enum BusinessTripType : byte
