@@ -1085,7 +1085,10 @@ namespace RapidDoc.Models.Repository
         ItemCase = 2,
 
         [Display(Name = "По теме документа")]
-        Topic = 3
+        Topic = 3,
+
+        [Display(Name = "Папка")]
+        Folder = 4
     }
 
     public enum TaskFilterType : byte

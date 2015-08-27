@@ -35,7 +35,7 @@
         @Html.LabelFor(model => Model._DocumentTitle): @Html.DisplayTextFor(model => Model._DocumentTitle)
     </div>
 </div>
-<div class="row" style="background-color: #fff; border-bottom: 2px solid #bdc3c7; border-top: 2px solid #bdc3c7;">
+<div class="row" style="background-color: #fff; border-bottom: 1px solid #bdc3c7; border-top: 1px solid #bdc3c7;">
     <div class="col-xs-12">
         @Html.Raw(Model.MainField)
     </div>
@@ -103,9 +103,9 @@
             <div class="modal-body" style="min-height:250px;">
                 @Html.TextArea("RejectComment", new { @class = "form-control", @placeholder = "Обязательно укажите причину отмены" })
                 <br>
-                <div>
-                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal">@UIElementRes.UIElement.Cancel</button>
-                    <button type="submit" id="rejectCZ" class="btn btn-danger pull-right" name="action:RejectDocumentCZ">@UIElementRes.UIElement.Reject</button>
+                <div class="modal-footer">
+                    <button type="submit" id="rejectCZ" class="btn btn-danger" name="action:RejectDocumentCZ">@UIElementRes.UIElement.Reject</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">@UIElementRes.UIElement.Cancel</button>
                 </div>
             </div>
         </div>
@@ -121,9 +121,9 @@
             <div class="modal-body" style="min-height:200px;">
                 @Html.TextArea("ApproveComment", new { @class = "form-control", @placeholder = "Замечания" })
                 <br>
-                <div>
-                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal">@UIElementRes.UIElement.Cancel</button>
-                    <button type="submit" class="btn btn-success pull-right" name="action:ApproveDocumentCZ">@UIElementRes.UIElement.Approve</button>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success" name="action:ApproveDocumentCZ">@UIElementRes.UIElement.Approve</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">@UIElementRes.UIElement.Cancel</button>
                 </div>
             </div>
         </div>

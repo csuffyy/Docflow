@@ -56,7 +56,7 @@
         @Html.HiddenFor(model => model.fileId)
         @Html.Action("GetDocumentData", new { modelDoc = Model.docData, Model.ProcessView.TableName, viewType = "View" })
         <br class="hidden-print">
-        @if (Model.DocumentView.DocumentState != RapidDoc.Models.Repository.DocumentState.Closed && Model.DocumentView.DocumentState != RapidDoc.Models.Repository.DocumentState.Cancelled)
+        @if (Model.DocumentView.DocumentState != RapidDoc.Models.Repository.DocumentState.Closed && Model.DocumentView.DocumentState != RapidDoc.Models.Repository.DocumentState.Cancelled && Model.DocumentView.DocumentState != RapidDoc.Models.Repository.DocumentState.OnSign)
         {     
             <h4 class="hidden-print">@UIElementRes.UIElement.AttachedFiles
             <span class="btn btn-primary btn-xs fileinput-button">
@@ -147,10 +147,9 @@
         }
         else
         {
-            if (Model.DocumentView.isSign == false && (Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Closed ||
+            if ((Model.DocumentView.isSign == false && (Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Closed ||
                     Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Cancelled ||
-                    Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Created ||
-                    Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.OnSign))
+                    Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Created)) || Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.OnSign)
             {
                 <a href=@Url.Action("DocumentToArchive", new { id = Model.DocumentView.Id }) class="btn btn-primary btn-sm hidden-print">@UIElementRes.UIElement.ToArchive</a>
             }

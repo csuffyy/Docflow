@@ -95,6 +95,28 @@
                 </div>
             }
             break;
+
+        case RapidDoc.Models.Repository.OfficeMemoFilterType.Folder:
+            foreach (var itemGroup in Model.GroupBy(x => x.Folder))
+            {
+                num++;
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="heading@num">
+                        <p class="panel-title"><a href="#collapseArea_@num" data-toggle="collapse" data-target="#collapseArea_@num" aria-expanded="false" aria-controls="collapseArea_@num"><strong>@Html.EnumToDescription(itemGroup.Key)</strong></a></p>
+                    </div>
+                    <div class="collapse" id="collapseArea_@num">
+                        <div class="panel-body">
+                            @foreach (var item in Model.Where(x => x.Folder == itemGroup.Key).OrderByDescending(x => x.CreatedDate))
+                            {
+                                <p>
+                                    <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins> - @item.ProcessName - @item.DocumentTitle (@item.CreatedDate) => @item.DocumentState.GetDescription()</a>
+                                </p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+            break;
     }
 </div>
 

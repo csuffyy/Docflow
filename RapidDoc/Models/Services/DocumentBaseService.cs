@@ -164,6 +164,7 @@ namespace RapidDoc.Models.Services
                             item.ItemCaseName = _ItemCauseService.Find((Guid)documentView.ItemCauseTableId).CaseName;
                             item.DocumentTitle = documentView._DocumentTitle;
                             item.CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(item.CreatedDate), timeZoneInfo);
+                            item.Folder = documentView.Folder;
                             editedItems.Add(item);
                         }
 

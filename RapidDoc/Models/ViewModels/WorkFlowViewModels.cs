@@ -329,5 +329,6 @@ namespace RapidDoc.Models.ViewModels
         public List<WFTrackerUsersTable> Users { get; set; }
         public TrackerType WFTrackerType { get; set; }
         public string DocumentText { get; set; }
+        public Folder Folder { get; set; }
     }
 }
