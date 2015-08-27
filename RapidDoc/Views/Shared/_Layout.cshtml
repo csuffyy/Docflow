@@ -76,72 +76,74 @@
     <div class="container body-content">
         @RenderBody()
     </div>
+    <footer class="panel-footer hidden-print">
+        <p>&copy; @DateTime.Now.Year - DOCFLOW <a href="#top" class="topButton pull-right"><span class="fa fa-chevron-up fa-2x"></span></a></p>
+    </footer>
+        @if (IsSectionDefined("jsinit"))
+        {
+            <script type="text/javascript">
+                $.ajaxSetup({
+                    cache: false
+                });
+                @RenderSection("jsinit", required: false)
+            </script>
+        }
 
-    @if (IsSectionDefined("jsinit"))
-    {
+        @Scripts.Render("~/bundles/jqueryval")
+        @Scripts.Render("~/bundles/bootstrap")
+        @Scripts.Render("~/bundles/textareaResize")
+        @Scripts.Render("~/bundles/labelauty")
+        @Scripts.Render("~/bundles/main")
+        @RenderSection("scripts", required: false)
+
+        @if (IsSectionDefined("jslaunch"))
+        {
+            <script type="text/javascript">
+                $(document).on('invalid-form.validate', 'form', function () {
+                    var button = $(this).find('input[type="submit"]');
+                    setTimeout(function () {
+                        button.removeAttr('disabled');
+                    }, 1);
+                });
+                $(document).on('submit', 'form', function () {
+                    var buttons = $(this).find('input[type="submit"],button[type="submit"]');
+                    setTimeout(function () {
+                        buttons.attr('disabled', 'disabled');
+                    }, 0);
+                });
+            </script>
+            @RenderSection("jslaunch", required: false)
+        }
+
         <script type="text/javascript">
-            $.ajaxSetup({
-                cache: false
+            $(function () {
+                $.validator.addMethod("date",
+                    function (value, element) {
+                        var datetimebits = value.match(/^(0?[1-9]|[12][0-9]|3[0-1])[/., -](0?[1-9]|1[0-2])[/., -](19|20)?\d{2} \d{2}:\d{2}$/);
+                        if (datetimebits)
+                            return value.match(/^(0?[1-9]|[12][0-9]|3[0-1])[/., -](0?[1-9]|1[0-2])[/., -](19|20)?\d{2} \d{2}:\d{2}$/);
+                        else {
+                            var bits = value.match(/^(0?[1-9]|[12][0-9]|3[0-1])[/., -](0?[1-9]|1[0-2])[/., -](19|20)?\d{2}$/);
+                            if (bits)
+                                return value.match(/^(0?[1-9]|[12][0-9]|3[0-1])[/., -](0?[1-9]|1[0-2])[/., -](19|20)?\d{2}$/);
+                            else
+                                return this.optional(element) || false;
+                        }
+                    },
+                    "Please enter a date in the format!"
+                );
+                $("a[href='#top']").click(function () {
+                    $("html, body").animate({ scrollTop: 0 }, "slow");
+                    return false;
+                });
+
+                $('textarea').autosize();
+                $(':checkbox').labelauty({
+                    label: true,
+                    checked_label: '@UIElementRes.UIElement.Yes',
+                    unchecked_label: '@UIElementRes.UIElement.No'
+                });
             });
-            @RenderSection("jsinit", required: false)
         </script>
-    }
-
-    @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/textareaResize")
-    @Scripts.Render("~/bundles/labelauty")
-    @Scripts.Render("~/bundles/main")
-    @RenderSection("scripts", required: false)
-
-    @if (IsSectionDefined("jslaunch"))
-    {
-        <script type="text/javascript">
-            $(document).on('invalid-form.validate', 'form', function () {
-                var button = $(this).find('input[type="submit"]');
-                setTimeout(function () {
-                    button.removeAttr('disabled');
-                }, 1);
-            });
-            $(document).on('submit', 'form', function () {
-                var buttons = $(this).find('input[type="submit"],button[type="submit"]');
-                setTimeout(function () {
-                    buttons.attr('disabled', 'disabled');
-                }, 0);
-            });
-        </script>
-        @RenderSection("jslaunch", required: false)
-    }
-
-    <script type="text/javascript">
-        $(function () {
-            $.validator.addMethod("date",
-                function (value, element) {
-                    var datetimebits = value.match(/^(0?[1-9]|[12][0-9]|3[0-1])[/., -](0?[1-9]|1[0-2])[/., -](19|20)?\d{2} \d{2}:\d{2}$/);
-                    if (datetimebits)
-                        return value.match(/^(0?[1-9]|[12][0-9]|3[0-1])[/., -](0?[1-9]|1[0-2])[/., -](19|20)?\d{2} \d{2}:\d{2}$/);
-                    else {
-                        var bits = value.match(/^(0?[1-9]|[12][0-9]|3[0-1])[/., -](0?[1-9]|1[0-2])[/., -](19|20)?\d{2}$/);
-                        if (bits)
-                            return value.match(/^(0?[1-9]|[12][0-9]|3[0-1])[/., -](0?[1-9]|1[0-2])[/., -](19|20)?\d{2}$/);
-                        else
-                            return this.optional(element) || false;
-                    }
-                },
-                "Please enter a date in the format!"
-            );
-            $("a[href='#top']").click(function () {
-                $("html, body").animate({ scrollTop: 0 }, "slow");
-                return false;
-            });
-
-            $('textarea').autosize();
-            $(':checkbox').labelauty({
-                label: true,
-                checked_label: '@UIElementRes.UIElement.Yes',
-                unchecked_label: '@UIElementRes.UIElement.No'
-            });
-        });
-    </script>
 </body>
 </html>

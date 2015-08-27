@@ -27,7 +27,7 @@
 
 @helper DocumentState(RapidDoc.Models.ViewModels.DocumentView item)
 {
-    <a href="@String.Format("/{0}/Document/ShowDocument/{1}?isAfterView=true", item.AliasCompanyName, item.Id)">@item.DocumentState.GetDescription()</a>
+    <a href="@String.Format("/{0}/Document/ShowDocument/{1}?isAfterView=true", item.AliasCompanyName, item.Id)">@Html.EnumToDescription(item.DocumentState)</a>
 }
 
 @Html.Grid(Model).Named("ordersGrid").Columns(columns =>
@@ -61,4 +61,4 @@
         .RenderValueAs(o => DocumentState(o));
     columns.Add(o => o.CreatedDate).Titled(Html.DisplayNameFor(o => ((RapidDoc.Models.ViewModels.DocumentView)o.Columns).CreatedDate).ToHtmlString()).Sortable(true).Filterable(true);
     columns.Add(o => o.CreatedBy).Titled(Html.DisplayNameFor(o => ((RapidDoc.Models.ViewModels.DocumentView)o.Columns).CreatedBy).ToHtmlString()).Sortable(true).Filterable(true).Encoded(false).Sanitized(false).RenderValueAs(o => CreatedByFull(o));
-}).Selectable(true).SetLanguage(UIElementRes.UIElement.LangName).WithPaging(20).SetColCssClasses(o => o.isNotReview ? "" : "info allocation text-center empty")
+}).Selectable(true).SetLanguage(UIElementRes.UIElement.LangName).WithPaging(20).SetColCssClasses(o => o.isNotReview ? "" : "info allocation text-center empty").WithMultipleFilters()

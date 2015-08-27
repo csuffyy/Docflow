@@ -107,7 +107,8 @@ namespace RapidDoc.Controllers
                 case 3:
                     foreach (var document in allDocument.Where(x => x.DocumentState == Models.Repository.DocumentState.Closed
                         || x.DocumentState == Models.Repository.DocumentState.Cancelled
-                        || x.DocumentState == Models.Repository.DocumentState.Created).ToList())
+                        || x.DocumentState == Models.Repository.DocumentState.Created
+                        || x.DocumentState == Models.Repository.DocumentState.OnSign).ToList())
                     {
                         IEnumerable<ReviewDocLogTable> reviewDocuments = _ReviewDocLogService.GetPartial(x => x.DocumentTableId == document.Id && x.isArchive == false).ToList();
 
@@ -131,10 +132,21 @@ namespace RapidDoc.Controllers
                         List<ReminderUsers> checkData = new List<ReminderUsers>();
 
                         foreach (var document in allDocument.Where(x => x.DocumentState == Models.Repository.DocumentState.Agreement
-                        || x.DocumentState == Models.Repository.DocumentState.Execution).ToList())
+                        || x.DocumentState == Models.Repository.DocumentState.Execution 
+                        || x.DocumentState == Models.Repository.DocumentState.OnSign).ToList())
                         {
+                            List<ApplicationUser> result = new List<ApplicationUser>();
                             var usersReminder = _Documentservice.GetSignUsersDirect(document).ToList();
-                            checkData.Add(new ReminderUsers(document, usersReminder));
+
+                            foreach(var item in usersReminder)
+                            {
+                                if (_ReviewDocLogService.isArchive(document.Id, "", item) == false)
+                                {
+                                    result.Add(item);
+                                }
+                            }
+
+                            checkData.Add(new ReminderUsers(document, result));
                         }
 
                         foreach (var user in users)

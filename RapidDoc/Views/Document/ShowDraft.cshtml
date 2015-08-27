@@ -9,7 +9,7 @@
         <h5 class="hidden-print"><a href="@ViewBag.DocumentUrl" id="documenturl" target="_blank">#@Model.DocumentView.DocumentNum</a><strong> - @Model.ProcessView.ProcessName</strong></h5>
         <h5>
             <span class="visible-print-inline">@Model.DocumentView.DocumentNum - @Model.ProcessView.ProcessName</span>
-            <small class="">@Model.DocumentView.DocumentState.GetDescription()</small>
+            <small>@Html.EnumToDescription(Model.DocumentView.DocumentState)</small>
         </h5>
     </div>
     <div class="col-xs-6">

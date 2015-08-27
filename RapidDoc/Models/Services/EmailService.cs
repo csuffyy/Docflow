@@ -220,7 +220,7 @@ namespace RapidDoc.Models.Services
         public void SendExecutorEmail(Guid documentId, string additionalTextCZ = "")
         {
             var documentTable = _DocumentService.Find(documentId);
-            if (documentTable == null || (documentTable.DocumentState != DocumentState.Agreement && documentTable.DocumentState != DocumentState.Execution && documentTable.DocumentState != DocumentState.OnSign))
+            if (documentTable == null || (documentTable.DocumentState != DocumentState.Agreement && documentTable.DocumentState != DocumentState.Execution))
                 return;
 
             dynamic ViewBag = new DynamicViewBag();

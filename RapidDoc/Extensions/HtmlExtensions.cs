@@ -17,11 +17,15 @@ using Microsoft.AspNet.Identity;
 using RapidDoc.Models.DomainModels;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Web.Routing;
+using RapidDoc.Models.Repository;
+using System.Globalization;
 
 namespace RapidDoc.Extensions
 {
     public static class HtmlExtensions
     {
+        private static Dictionary<string, string> enumNameCache = new Dictionary<string, string>();
+
         public static MvcHtmlString EnumDropDownList(this HtmlHelper helper, string enumName, string fieldName, object htmlAttribute = null)
         {
             Type type = Type.GetType(enumName);
@@ -144,22 +148,6 @@ namespace RapidDoc.Extensions
             return new MvcHtmlString(convertedTime);
         }
 
-        public static string GetDescription(this Enum enumValue)
-        {
-            FieldInfo fi = enumValue.GetType().GetField(enumValue.ToString());
-
-            DescriptionAttribute[] attributes =
-                (DescriptionAttribute[])fi.GetCustomAttributes(
-                typeof(DescriptionAttribute),
-                false);
-
-            if (attributes != null &&
-                attributes.Length > 0)
-                return attributes[0].Description;
-            else
-                return enumValue.ToString();
-        }
-
         private static string GetWebApplicationUrl()
         {
             try
@@ -232,58 +220,85 @@ namespace RapidDoc.Extensions
 
         public static string EnumToDescription(this HtmlHelper html, Enum value)
         {
-            Type enumType = value.GetType();
-            var enumValue = Enum.GetName(enumType, value);
-            MemberInfo member = enumType.GetMember(enumValue)[0];
-            string outString = "";
-
-            var attrs = member.GetCustomAttributes(typeof(DisplayAttribute), false);
-            if (attrs.Any())
+            string result = "";
+            string key = String.Format("{0}/{1}", value.ToString(), CultureInfo.CurrentCulture);
+            if (enumNameCache.Any(x => x.Key == key))
             {
-                var displayAttr = ((DisplayAttribute)attrs[0]);
-
-                outString = displayAttr.Name;
-
-                if (displayAttr.ResourceType != null)
-                {
-                    outString = displayAttr.GetName();
-                }
+                result = enumNameCache.FirstOrDefault(x => x.Key == key).Value;
             }
             else
             {
-                outString = value.ToString();
+                Type enumType = value.GetType();
+                var enumValue = Enum.GetName(enumType, value);
+                MemberInfo member = enumType.GetMember(enumValue)[0];
+
+                var attrsDisplay = member.GetCustomAttributes(typeof(DisplayAttribute), false);
+                var attrsDescription = member.GetCustomAttributes(typeof(DescriptionAttribute), false);
+
+                if (attrsDisplay.Any())
+                {
+                    var displayAttr = ((DisplayAttribute)attrsDisplay[0]);
+                    result = displayAttr.Name;
+
+                    if (displayAttr.ResourceType != null)
+                    {
+                        result = displayAttr.GetName();
+                    }
+                }
+                else if (attrsDescription.Any())
+                {
+                    var displayAttr = ((DescriptionAttribute)attrsDescription[0]);
+                    result = displayAttr.Description;
+                }
+                else
+                    result = enumValue.ToString();
+
+                enumNameCache.Add(key, result);
             }
 
-            return outString;
+            return result;
         }
 
         public static string EnumToDescription(this HtmlHelper html, string enumName, string value)
         {
-            Type enumType = Type.GetType(enumName);
-            if (enumType != null)
+            string result = "";
+            string key = String.Format("{0}/{1}", value.ToString(), CultureInfo.CurrentCulture);
+            if (enumNameCache.Any(x => x.Key == key))
             {
-                MemberInfo member = enumType.GetMember(value)[0];
-                string outString = "";
-
-                var attrs = member.GetCustomAttributes(typeof(DisplayAttribute), false);
-                if (attrs.Any())
-                {
-                    var displayAttr = ((DisplayAttribute)attrs[0]);
-
-                    outString = displayAttr.Name;
-
-                    if (displayAttr.ResourceType != null)
-                    {
-                        outString = displayAttr.GetName();
-                    }
-                }
-                else
-                {
-                    outString = value.ToString();
-                }
-
-                return outString;
+                result = enumNameCache.FirstOrDefault(x => x.Key == key).Value;
             }
+            else
+            {
+                Type enumType = Type.GetType(enumName);
+                if (enumType != null)
+                {
+                    MemberInfo member = enumType.GetMember(value)[0];
+
+                    var attrsDisplay = member.GetCustomAttributes(typeof(DisplayAttribute), false);
+                    var attrsDescription = member.GetCustomAttributes(typeof(DescriptionAttribute), false);
+                    if (attrsDisplay.Any())
+                    {
+                        var displayAttr = ((DisplayAttribute)attrsDisplay[0]);
+
+                        result = displayAttr.Name;
+
+                        if (displayAttr.ResourceType != null)
+                        {
+                            result = displayAttr.GetName();
+                        }
+                    }
+                    else if (attrsDescription.Any())
+                    {
+                        var displayAttr = ((DescriptionAttribute)attrsDescription[0]);
+                        result = displayAttr.Description;
+                    }
+                    else
+                        result = value.ToString();
+
+                    enumNameCache.Add(key, result);
+                }
+            }
+
             return String.Empty;
         }
     }

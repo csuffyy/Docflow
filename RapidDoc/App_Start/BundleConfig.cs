@@ -43,7 +43,7 @@ namespace RapidDoc
                         "~/Scripts/bootstrap-datepicker.js",
                         "~/Scripts/locales/bootstrap-datepicker.ru.min.js",
                         "~/Scripts/locales/bootstrap-datepicker.kk.min.js",
-                        "~/Scripts/GridMvc/gridmvc.min.js",
+                        "~/Scripts/GridMvc/gridmvc.js",
                         "~/Scripts/GridMvc/gridmvc.lang.ru.js",
                         "~/Scripts/GridMvc/gridmvc.lang.kk.js"));
 
