@@ -27,7 +27,7 @@
 
 @helper DocumentState(RapidDoc.Models.ViewModels.DocumentView item)
 {
-    <a href="@String.Format("/{0}/Document/ShowDocument/{1}?isAfterView=true", item.AliasCompanyName, item.Id)">@item.DocumentState.GetDescription()</a>
+    <a href="@String.Format("/{0}/Document/ShowDocument/{1}?isAfterView=true", item.AliasCompanyName, item.Id)">@Html.EnumToDescription(item.DocumentState)</a>
 }
 
 @Html.Grid(Model).Named("ordersGrid").Columns(columns =>

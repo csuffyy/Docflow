@@ -7,7 +7,7 @@
 }
 
 <h2>@UIElementRes.UIElement.OrderBase</h2>
-@using (Ajax.BeginForm("Search", "DocumentBase", new { documentType = DocumentType.Order, filterType = (int)Model.FilterType, startDate = Model.StartDate, endDate = Model.EndDate }, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "GroupData" }))
+@using (Ajax.BeginForm("Search", "DocumentBase", new { documentType = DocumentType.Order, filterType = (int)Model.FilterType, startDate = Model.StartDate, endDate = Model.EndDate }, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "GroupData", LoadingElementId = "loading", LoadingElementDuration = 1000 }))
 {
     <div class="form-group">
         <div class="editor-label">
@@ -43,6 +43,9 @@
 <br />
 <br />
 
+<div id="loading" style="display:none;">
+    <img src="/Content/Custom/image-icon/autoload.gif" />
+</div>
 <div id="GroupData"></div>
 
 @section Scripts {

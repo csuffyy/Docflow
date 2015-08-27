@@ -33,8 +33,7 @@ namespace RapidDoc.Models.Services
         private IUnitOfWork _uow;
         private readonly IDocumentService _DocumentService;
         private readonly ISystemService _SystemService;
-        private readonly IItemCauseService _ItemCauseService;
-        
+        private readonly IItemCauseService _ItemCauseService;        
 
         protected UserManager<ApplicationUser> UserManager { get; private set; }
 
@@ -147,6 +146,7 @@ namespace RapidDoc.Models.Services
                                 DocumentText = document.DocumentText
                             }).ToList();                       
             }
+
             switch (type)
 	        {
 		        case DocumentType.Request:
