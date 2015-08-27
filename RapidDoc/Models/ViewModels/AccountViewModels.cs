@@ -87,6 +87,7 @@ namespace RapidDoc.Models.ViewModels
 
         public bool isUserRole { get; set; }
 
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         [Display(Name = "Description", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public string Description { get; set; }
 
