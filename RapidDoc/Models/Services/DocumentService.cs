@@ -74,6 +74,7 @@ namespace RapidDoc.Models.Services
         Type GetTableType(string TableName);
         string ScrubHtml(string value);
         double GetSLAHours(Guid documentId, DateTime? startDate, DateTime? endDate);
+        Guid DuplicateFile(FileTable fileTable, Guid? docFileId = null);
     }
 
     public class DocumentService : IDocumentService
@@ -1280,5 +1281,26 @@ namespace RapidDoc.Models.Services
             return Math.Round(minutes);
         }
 
+        public Guid DuplicateFile(FileTable fileTable, Guid? docFileId = null)
+        {
+            FileTable doc = new FileTable();
+
+            if (docFileId != null)
+                doc.DocumentFileId = (Guid)docFileId;
+            else
+                doc.DocumentFileId = Guid.NewGuid();
+
+            doc.FileName = fileTable.FileName;
+            doc.ContentType = fileTable.ContentType;
+            doc.ContentLength = fileTable.ContentLength;
+            doc.Data = fileTable.Data;
+            doc.Thumbnail = fileTable.Thumbnail;
+            doc.Version = "1";
+            doc.VersionName = "Version 1";
+
+            Guid Id = SaveFile(doc);
+
+            return doc.DocumentFileId;
+        }
     }
 }

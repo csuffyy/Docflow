@@ -291,6 +291,7 @@ namespace RapidDoc.Models.Infrastructure
         public DbSet<USR_ORD_Holiday_Table> USR_ORD_Holiday_Table { get; set; }
         public DbSet<USR_ORD_ChangeStaff_Table> USR_ORD_ChangeStaff_Table { get; set; }
         public DbSet<USR_ORD_Sanction_Table> USR_ORD_Sanction_Table { get; set; }
+        public DbSet<USR_IND_IncomingDocuments_Table> USR_IND_IncomingDocuments_Table { get; set; }
        
         protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder)
         {

@@ -168,4 +168,76 @@ namespace RapidDoc.Models.ViewModels
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         public string Subject { get; set; }
     }
+
+    public abstract class BasicIncomingDocumentsView : BasicDocumentView
+    {
+        [Display(Name = "Казахский")]
+        public bool Language_Kazakh { get; set; }
+        [Display(Name = "Русский")]
+        public bool Language_Russian { get; set; }
+        [Display(Name = "Английский")]
+        public bool Language_English { get; set; }
+        [Display(Name = "Китайский")]
+        public bool Language_Chinese { get; set; }
+        [Display(Name = "Французкий")]
+        public bool Language_French { get; set; }
+
+        [Display(Name = "Исходящий номер")]   
+        public string OutgoingNumber { get; set; }
+        [Display(Name = "Дата исходящего")]
+        public DateTime? OutgoingDate { get; set; }
+
+        [Display(Name = "Корреспондент")]
+        public Guid? OrganizationTableId { get; set; }
+
+        [Display(Name = "Забронированные номера")]
+        public Guid? NumberSeriesBookingTableId { get; set; }
+
+        [Display(Name = "Номер документа")]
+        public string IncomingDocNum { get; set; }
+
+        [Display(Name = "Дата регистрации")]
+        public DateTime? RegistrationDate { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Получатель")]
+        public string Receiver { get; set; }
+
+        [Display(Name = "Тип контроля")]
+        public ControlType ControlType { get; set; }
+        [Display(Name = "Приоритет")]
+        public ServiceIncidientPriority Priority { get; set; }
+
+        [Display(Name = "Срок исполнения")]
+        public DateTime? ExecutionDate { get; set; }
+
+        [Display(Name = "Характер вопроса")]
+        public NatureIncomingQuestion NatureQuestionType { get; set; }
+        [Display(Name = "Характер вопроса")]
+        public string NatureQuestion { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Количество листов")]
+        public string ListsCount { get; set; }
+        
+        [Display(Name = "Количество приложений")]
+        public string ApplicationsCount { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]  
+        [Display(Name = "Тема документа")]
+        public string DocumentSubject { get; set; }
+
+        [Display(Name = "Тип документа")]
+        public IncomingDocumentType DocumentType { get; set; }
+        [Display(Name = "Тип документа")]
+        public string DocumentTypeName { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Номенклатурное дело")]
+        public Guid? ItemCauseTableId { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Номенклатурное дело")]
+        public string ItemCauseNumber { get; set; }
+    }
 }

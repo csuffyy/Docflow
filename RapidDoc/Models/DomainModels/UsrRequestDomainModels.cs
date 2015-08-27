@@ -6690,5 +6690,14 @@ namespace RapidDoc.Models.DomainModels
 
     }
     #endregion
+
+    #region Входящие документы
+
+    public class USR_IND_IncomingDocuments_Table : BasicIncomingDocumentsTable
+    {
+            
+    }
+
+    #endregion
 }
     

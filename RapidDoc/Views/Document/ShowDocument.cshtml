@@ -124,7 +124,7 @@
 
         @if ((Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution || Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.OnSign) && Model.DocumentView.isSign)
         {
-            if (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Request || Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Order || (Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement && Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.OfficeMemo))
+            if (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Request || Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Order || Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.IncomingDoc || (Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement && Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.OfficeMemo))
             {
                 <button type="button" class="btn btn-success btn-lg hidden-print" data-toggle="modal" data-target=".bs-approve-modal-sm">@UIElementRes.UIElement.Approve</button>
                 <button type="button" class="btn btn-danger btn-lg hidden-print" data-toggle="modal" data-target=".bs-reject-modal-sm">@UIElementRes.UIElement.Reject</button>

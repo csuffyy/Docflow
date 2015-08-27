@@ -22,8 +22,9 @@ namespace RapidDoc.Controllers
         private readonly ITripSettingsService _TripSettingsService;
         private readonly ICountryService _CountryService;
         private readonly IOrganizationService _OrganizationService;
+        private readonly IProcessService _ProcessService;
 
-        public CustomController(IEmplService emplService, ISystemService systemService, IDocumentService documentService, IServiceIncidentService serviceIncidentService, ICompanyService companyService, IAccountService accountService, ITripSettingsService tripSettingsService, INumberSeqService numberSeqService, ICountryService countryService, IOrganizationService organizationService)
+        public CustomController(IEmplService emplService, ISystemService systemService, IDocumentService documentService, IServiceIncidentService serviceIncidentService, ICompanyService companyService, IAccountService accountService, ITripSettingsService tripSettingsService, INumberSeqService numberSeqService, ICountryService countryService, IOrganizationService organizationService, IProcessService processService)
             : base(companyService, accountService)
         {
             _EmplService = emplService;
@@ -34,6 +35,7 @@ namespace RapidDoc.Controllers
             _NumberSeqService = numberSeqService;
             _CountryService = countryService;
             _OrganizationService = organizationService;
+            _ProcessService = processService;
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
@@ -121,6 +123,13 @@ namespace RapidDoc.Controllers
             return PartialView("_Empty");
         }
 
+        public ActionResult GetBookingIncomingDoc(Type type)
+        {
+            var numberSeqTable = _NumberSeqService.FirstOrDefault(x => x.TableName == type.Name.Replace("_View", ""));
+            ViewBag.NumberSeqBookingList = _NumberSeqService.GetDropListNumberSeqBookingNull(numberSeqTable.Id, Guid.Empty);
+            return PartialView("USR_ORD_Registration");
+        }
+
         public ActionResult GetRevocationORD(Guid? id, bool edit)
         {
             ViewBag.ORDRevocationList = _DocumentService.RevocationORDList(id, edit);
@@ -140,6 +149,25 @@ namespace RapidDoc.Controllers
             ViewBag.Selected = selected;
             ViewBag.OrganizationList = selected == true ? _OrganizationService.GetDropListOrganization(id) :_OrganizationService.GetDropListOrganizationNull(id);
             return PartialView("USR_ORD_Organization");
+        }
+
+        public ActionResult GetIncomingDocuments(RapidDoc.Models.ViewModels.USR_IND_IncomingDocuments_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.SystemName == "RegIncoming"))
+                    {
+                        return PartialView("USR_IND_IncomingDocuments_Edit", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_IND_IncomingDocuments_View_Full", model);
         }
 
         public ActionResult GetManualRequest(RapidDoc.Models.ViewModels.USR_REQ_KD_RequestForCompetitonProc_View model)

@@ -1174,4 +1174,115 @@ namespace RapidDoc.Models.Repository
         [Display(Name = "Не оплачивается")]
         Element3 = 2,
     }
+
+    public enum ControlType : byte
+    {
+        [Display(Name = "Контроль")]
+        Element1 = 0,
+
+        [Display(Name = "Особый контроль")]
+        Element2 = 1,
+
+        [Display(Name = "Контроль отдела")]
+        Element3 = 2,
+
+        [Display(Name = "Для ознакомления")]
+        Element4 = 3,
+
+        [Display(Name = "Ответ на запрос")]
+        Element5 = 4
+    }
+
+    public enum NatureIncomingQuestion : byte
+    {
+        [Display(Name = "Нет")]
+        Element1 = 0,
+
+        [Display(Name = "Вопрос закупки")]
+        Element2= 1,
+
+        [Display(Name = "Для сведения")]
+        Element3 = 2,
+
+        [Display(Name = "Запрос информации")]
+        Element4 = 3,
+
+        [Display(Name = "Кадровый")]
+        Element5 = 4,
+
+        [Display(Name = "Коммерческое предложение")]
+        Element6 = 5,
+
+        [Display(Name = "Личный")]
+        Element7 = 6,
+
+        [Display(Name = "Повестка в суд")]
+        Element8 = 7,
+
+        [Display(Name = "Предоставление докуметов")]
+        Element9 = 8,
+
+        [Display(Name = "Претензия")]
+        Element10 = 9,
+
+        [Display(Name = "Приглашение")]
+        Element11 = 10,
+
+        [Display(Name = "Производственный")]
+        Element12 = 11,
+
+        [Display(Name = "Спонсорская помощь")]
+        Element13 = 12,
+
+        [Display(Name = "Технический")]
+        Element14 = 13,
+
+        [Display(Name = "Финансовый")]
+        Element15 = 14
+    }
+
+    public enum IncomingDocumentType : byte
+    {
+        [Display(Name = "Нет")]
+        Element1 = 0,
+
+        [Display(Name = "Акт")]
+        Element2 = 1,
+
+        [Display(Name = "Доверенность")]
+        Element3 = 2,
+
+        [Display(Name = "Накладная")]
+        Element4 = 3,
+
+        [Display(Name = "Переписка с акиматом")]
+        Element5 = 4,
+
+        [Display(Name = "Письмо")]
+        Element6 = 5,
+
+        [Display(Name = "Постановление")]
+        Element7 = 6,
+
+        [Display(Name = "Приказ")]
+        Element8 = 7,
+
+        [Display(Name = "Протокол")]
+        Element9 = 8,
+
+        [Display(Name = "Распоряжение")]
+        Element10 = 9,
+
+        [Display(Name = "Служебная записка")]
+        Element11 = 10,
+
+        [Display(Name = "Справки")]
+        Element12 = 11,
+
+        [Display(Name = "Телефонограмма")]
+        Element13 =12,
+
+        [Display(Name = "Уведоление")]
+        Element14 = 13
+    }
 }

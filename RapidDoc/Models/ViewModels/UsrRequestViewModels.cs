@@ -9076,4 +9076,13 @@ namespace RapidDoc.Models.ViewModels
 
     }
     #endregion
+
+    #region Входящие документы
+
+    public class USR_IND_IncomingDocuments_View : BasicIncomingDocumentsView
+    {
+
+    }
+
+    #endregion
 }

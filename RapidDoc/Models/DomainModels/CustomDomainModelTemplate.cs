@@ -135,4 +135,62 @@ namespace RapidDoc.Models.DomainModels
         [Required]
         public string Subject { get; set; }
     }
+
+    public abstract class BasicIncomingDocumentsTable : BasicDocumentTable
+    {
+        public bool Language_Kazakh { get; set; }
+        public bool Language_Russian { get; set; }
+        public bool Language_English { get; set; }
+        public bool Language_Chinese { get; set; }
+        public bool Language_French { get; set; }
+
+        public string OutgoingNumber { get; set; }
+        public DateTime? OutgoingDate { get; set; }
+
+        public Guid? OrganizationTableId { get; set; }
+        public virtual OrganizationTable OrganizationTable { get; set; }
+
+        public Guid? NumberSeriesBookingTableId { get; set; }
+        public virtual NumberSeriesBookingTable NumberSeriesBookingTable { get; set; }
+
+        public DateTime? RegistrationDate { get; set; }
+
+        [Required]
+        public string Receiver { get; set; }
+
+        public ControlType ControlType { get; set; }
+        public ServiceIncidientPriority Priority { get; set; }
+
+        public DateTime? ExecutionDate { get; set; }
+
+        public NatureIncomingQuestion NatureQuestionType { get; set; }
+        public string NatureQuestion { get; set; }
+
+        [Required]
+        public string ListsCount { get; set; }
+
+        public string ApplicationsCount { get; set; }
+        public string IncomingDocNum { get; set; }
+
+        [Required]
+        public string DocumentSubject { get; set; }
+
+        public IncomingDocumentType DocumentType { get; set; }
+        public string DocumentTypeName { get; set; }
+
+        [Required]
+        public Guid? ItemCauseTableId { get; set; }
+        public virtual ItemCauseTable ItemCauseTable { get; set; }
+
+        public string ItemCauseNumber
+        {
+            get
+            {
+                if (this.ItemCauseTable != null)
+                    return this.ItemCauseTable.CaseNumber + " - " + this.ItemCauseTable.CaseName;
+
+                return String.Empty;
+            }
+        }
+    }
 }

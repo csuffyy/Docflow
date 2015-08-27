@@ -6,6 +6,8 @@ using RapidDoc.Models.DomainModels;
 using RapidDoc.Models.Infrastructure;
 using RapidDoc.Models.Repository;
 using RapidDoc.Models.ViewModels;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace RapidDoc.Models.Services
 {
@@ -26,13 +28,16 @@ namespace RapidDoc.Models.Services
         private readonly IWorkflowTrackerService _WorkflowTrackerService;
         private readonly ISystemService _SystemService;
         private readonly IEmplService _EmplService;
+        private readonly IDocumentService _DocumentService;
+        private readonly INumberSeqService _NumberSeqService;
 
-        public CustomCheckDocument(IEmplService emplService, IWorkflowTrackerService workflowTrackerService, IServiceIncidentService serviceIncidentService, ITripSettingsService tripSettingsService, ISystemService systemService)
+        public CustomCheckDocument(IEmplService emplService, IWorkflowTrackerService workflowTrackerService, IServiceIncidentService serviceIncidentService, ITripSettingsService tripSettingsService, ISystemService systemService, IDocumentService documentService, INumberSeqService numberSeqService)
         {
             _WorkflowTrackerService = workflowTrackerService;
             _SystemService = systemService;
             _EmplService = emplService;
-
+            _DocumentService = documentService;
+            _NumberSeqService = numberSeqService;
             //Custom
             _ServiceIncidentService = serviceIncidentService;
             _TripSettingsService = tripSettingsService;
@@ -925,6 +930,19 @@ namespace RapidDoc.Models.Services
                 }
             }
 
+            if (type == (new USR_IND_IncomingDocuments_View()).GetType())
+            {
+                if (String.IsNullOrEmpty(actionModel.NatureQuestion) && actionModel.NatureQuestionType == NatureIncomingQuestion.Element1)
+                {
+                    errorList.Add("Необходимо заполнить характер вопроса ");
+                }
+
+                if (String.IsNullOrEmpty(actionModel.DocumentTypeName) && actionModel.DocumentType == IncomingDocumentType.Element1)
+                {
+                    errorList.Add("Необходимо заполнить тип документа ");
+                }
+            }
+
             return errorList;
         }
 
@@ -1189,6 +1207,22 @@ namespace RapidDoc.Models.Services
 
         public dynamic PreUpdateViewModel(Type type, dynamic actionModel)
         {
+            if (type == (new USR_IND_IncomingDocuments_View()).GetType())
+            {
+                if (String.IsNullOrEmpty(actionModel.IncomingDocNum))
+                {                                  
+                    NumberSeriesTable numberSeq = _NumberSeqService.FirstOrDefault(x => x.TableName == type.Name.Replace("_View", ""));
+
+                    if (numberSeq != null)
+                    {
+                        string number = String.Empty;
+                        number = _NumberSeqService.GetDocumentNumORD(numberSeq.Id, actionModel.NumberSeriesBookingTableId, HttpContext.Current.User.Identity.GetUserId());
+                        actionModel.IncomingDocNum = number;
+                    }
+                }               
+            }
+            
+
             if (type == (new USR_REQ_UBUO_RequestCalcDriveTrip_View()).GetType() || type == (new USR_REQ_TRIP_RegistrationBusinessTripKZ_View()).GetType() || type == (new USR_REQ_TRIP_RegistrationBusinessTripPP_View()).GetType() || type == (new USR_REQ_TRIP_RegistrationBusinessTripPTY_View()).GetType())
             {
                 if (actionModel.FIO1 != null)

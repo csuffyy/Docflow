@@ -115,6 +115,9 @@ namespace RapidDoc.Models.Repository
         Task = 2,
 
         [Display(Name = "Приказ")]
-        Order = 3
+        Order = 3,
+
+        [Display(Name = "Входящие сообщения")]
+        IncomingDoc = 4
     }
 }

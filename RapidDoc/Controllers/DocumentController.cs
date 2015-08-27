@@ -635,7 +635,7 @@ namespace RapidDoc.Controllers
                 Guid sourceDocumentId = Guid.Parse(collection["RefDocumentId"]);
                 DocumentTable documentSourceTable = _DocumentService.Find(sourceDocumentId);
 
-                if (documentSourceTable != null && documentSourceTable.DocType == DocumentType.Order && documentSourceTable.Executed == false)
+                if (documentSourceTable != null && documentSourceTable.DocType == DocumentType.Order && documentSourceTable.DocType == DocumentType.IncomingDoc && documentSourceTable.Executed == false)
                 {
                     var sourceDocumentData = _DocumentService.GetDocumentView(documentSourceTable.RefDocumentId, documentSourceTable.ProcessTable.TableName);
                     sourceDocumentData.Executed = true;
@@ -792,13 +792,20 @@ namespace RapidDoc.Controllers
         public ActionResult CopyDocument(Guid processId, Guid fileId,Guid documentId)
         {
             ApplicationUser userTable = _AccountService.Find(User.Identity.GetUserId());
+            DocumentTable docTable = _DocumentService.Find(documentId);
+
             if (userTable == null) return RedirectToAction("PageNotFound", "Error");
 
             EmplTable emplTable = _EmplService.FirstOrDefault(x => x.ApplicationUserId == userTable.Id && x.Enable == true);
             if (emplTable == null) return RedirectToAction("PageNotFound", "Error");
 
             ProcessView process = _ProcessService.FindView(processId);
-            var documentIdNew = _DocumentService.SaveDocument(_DocumentService.GetDocumentView(_DocumentService.Find(documentId).RefDocumentId, process.TableName), process.TableName, GuidNull2Guid(process.Id), fileId, userTable);
+
+            List<FileTable> docFile = _DocumentService.GetAllFilesDocument(docTable.FileId).ToList();
+            Guid newDocFileId = Guid.NewGuid();
+            docFile.ForEach(x => _DocumentService.DuplicateFile(x, newDocFileId));
+
+            var documentIdNew = _DocumentService.SaveDocument(_DocumentService.GetDocumentView(_DocumentService.Find(documentId).RefDocumentId, process.TableName), process.TableName, GuidNull2Guid(process.Id), newDocFileId, userTable);
 
             DateTime date = DateTime.UtcNow;
             DateTime startTime = new DateTime(date.Year, date.Month, date.Day) + process.StartWorkTime;

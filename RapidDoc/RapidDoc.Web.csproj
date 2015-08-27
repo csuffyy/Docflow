@@ -263,6 +263,7 @@
   <ItemGroup>
     <Compile Include="Activities\CodeActivities\WFChooseOfficeMemoSpecificUser.cs" />
     <Compile Include="Activities\CodeActivities\WFCreateDynamicTracker.cs" />
+    <Compile Include="Activities\CodeActivities\WFCreateTaskIND.cs" />
     <Compile Include="Activities\CodeActivities\WFRegistrationORD.cs" />
     <Compile Include="Activities\CodeActivities\WFSetUsersForOrder.cs" />
     <Compile Include="Activities\CodeActivities\WFSetUsersForTaskProlongation.cs" />
@@ -1686,6 +1687,9 @@
     <Content Include="Views\Custom\USR_REQ_OKS_RequestForTranslateZIF_Edit.cshtml" />
     <Content Include="Views\Custom\USR_REQ_OKS_RequestForTranslateZIF_View.cshtml" />
     <Content Include="Views\Custom\USR_ORD_Workers.cshtml" />
+    <Content Include="Views\Custom\USR_IND_IncomingDocuments_View.cshtml" />
+    <Content Include="Views\Custom\USR_IND_IncomingDocuments_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_IND_IncomingDocuments_View_Full.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -3160,6 +3164,12 @@
   </ItemGroup>
   <ItemGroup>
     <XamlAppDef Include="Activities\USR_REQ_OKS_RequestForTranslateZIF.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USR_IND_IncomingDocuments.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </XamlAppDef>
