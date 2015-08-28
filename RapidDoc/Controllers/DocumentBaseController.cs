@@ -53,32 +53,42 @@ namespace RapidDoc.Controllers
 
         public ActionResult IndexOfficeMemo()
         {
-            OfficeMemoBaseView requestBaseView = new OfficeMemoBaseView();
+            OfficeMemoBaseView officeMemoBaseView = new OfficeMemoBaseView();
 
-            requestBaseView.StartDate = new DateTime(DateTime.Now.Year, 1, 1);
-            requestBaseView.EndDate = new DateTime(DateTime.Now.Year, 12, 31);
+            officeMemoBaseView.StartDate = new DateTime(DateTime.Now.Year, 1, 1);
+            officeMemoBaseView.EndDate = new DateTime(DateTime.Now.Year, 12, 31);
 
-            return View(requestBaseView);
+            return View(officeMemoBaseView);
         }
 
         public ActionResult IndexTask()
         {
-            TaskBaseView requestBaseView = new TaskBaseView();
+            TaskBaseView tastBaseView = new TaskBaseView();
 
-            requestBaseView.StartDate = new DateTime(DateTime.Now.Year, 1, 1);
-            requestBaseView.EndDate = new DateTime(DateTime.Now.Year, 12, 31);
+            tastBaseView.StartDate = new DateTime(DateTime.Now.Year, 1, 1);
+            tastBaseView.EndDate = new DateTime(DateTime.Now.Year, 12, 31);
 
-            return View(requestBaseView);
+            return View(tastBaseView);
         }
 
         public ActionResult IndexOrder()
         {
-            OrderBaseView requestBaseView = new OrderBaseView();
+            OrderBaseView orderBaseView = new OrderBaseView();
 
-            requestBaseView.StartDate = new DateTime(DateTime.Now.Year, 1, 1);
-            requestBaseView.EndDate = new DateTime(DateTime.Now.Year, 12, 31);
+            orderBaseView.StartDate = new DateTime(DateTime.Now.Year, 1, 1);
+            orderBaseView.EndDate = new DateTime(DateTime.Now.Year, 12, 31);
 
-            return View(requestBaseView);
+            return View(orderBaseView);
+        }
+
+        public ActionResult IndexIncoming()
+        {
+            IncomingBaseView incomingBaseView = new IncomingBaseView();
+
+            incomingBaseView.StartDate = new DateTime(DateTime.Now.Year, 1, 1);
+            incomingBaseView.EndDate = new DateTime(DateTime.Now.Year, 12, 31);
+
+            return View(incomingBaseView);
         }
     
         [HttpPost]
@@ -98,6 +108,8 @@ namespace RapidDoc.Controllers
                         return View("_DocumentBaseTask", _Service.GetAllViewUserDocument(documentType, startDate, endDate));
                 case DocumentType.Order:
                     return View("_DocumentBaseOrder", _Service.GetAllViewUserDocument(documentType, startDate, endDate));
+                case DocumentType.IncomingDoc:
+                    return View("_DocumentBaseIncoming", _Service.GetAllViewUserDocument(documentType, startDate, endDate));
             }
             return new EmptyResult();
         }

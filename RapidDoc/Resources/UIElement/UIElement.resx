@@ -630,4 +630,7 @@
   <data name="TaskBase" xml:space="preserve">
     <value>Задачи</value>
   </data>
+  <data name="IncomingBase" xml:space="preserve">
+    <value>Входящие документы</value>
+  </data>
 </root>

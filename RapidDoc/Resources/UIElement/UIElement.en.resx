@@ -624,4 +624,7 @@
   <data name="TaskBase" xml:space="preserve">
     <value>Tasks</value>
   </data>
+  <data name="IncomingBase" xml:space="preserve">
+    <value>Incoming documents</value>
+  </data>
 </root>

@@ -1690,6 +1690,8 @@
     <Content Include="Views\Custom\USR_IND_IncomingDocuments_View.cshtml" />
     <Content Include="Views\Custom\USR_IND_IncomingDocuments_Edit.cshtml" />
     <Content Include="Views\Custom\USR_IND_IncomingDocuments_View_Full.cshtml" />
+    <Content Include="Views\DocumentBase\_DocumentBaseIncoming.cshtml" />
+    <Content Include="Views\DocumentBase\IndexIncoming.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

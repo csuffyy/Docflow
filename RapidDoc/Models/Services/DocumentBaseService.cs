@@ -187,6 +187,12 @@ namespace RapidDoc.Models.Services
                             editedItems.Add(item);
                         }
                         return editedItems;
+                case DocumentType.IncomingDoc:
+                    foreach (var item in items)
+                    {
+                        item.CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(item.CreatedDate), timeZoneInfo);
+                    }
+                    return items;
              }
 
              return null;

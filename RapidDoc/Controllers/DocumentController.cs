@@ -804,8 +804,14 @@ namespace RapidDoc.Controllers
             List<FileTable> docFile = _DocumentService.GetAllFilesDocument(docTable.FileId).ToList();
             Guid newDocFileId = Guid.NewGuid();
             docFile.ForEach(x => _DocumentService.DuplicateFile(x, newDocFileId));
+            var docView = _DocumentService.GetDocumentView(_DocumentService.Find(documentId).RefDocumentId, process.TableName);
+            if (docTable.DocType == DocumentType.Task)
+            {
+                docView.RefDocNum = null;
+                docView.RefDocumentId = null;
+            }
 
-            var documentIdNew = _DocumentService.SaveDocument(_DocumentService.GetDocumentView(_DocumentService.Find(documentId).RefDocumentId, process.TableName), process.TableName, GuidNull2Guid(process.Id), newDocFileId, userTable);
+            var documentIdNew = _DocumentService.SaveDocument(docView, process.TableName, GuidNull2Guid(process.Id), newDocFileId, userTable);
 
             DateTime date = DateTime.UtcNow;
             DateTime startTime = new DateTime(date.Year, date.Month, date.Day) + process.StartWorkTime;

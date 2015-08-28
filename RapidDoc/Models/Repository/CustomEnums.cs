@@ -1126,6 +1126,14 @@ namespace RapidDoc.Models.Repository
         [Display(Name = "По процессу")]
         ProcessName = 4
     }
+    public enum IncomingFilterType : byte
+    {
+        [Display(Name = "По инициатору")]
+        Initiator = 0,
+
+        [Display(Name = "По подразделению")]
+        Department = 1
+    }
 
     public enum BusinessTripType : byte
     {
