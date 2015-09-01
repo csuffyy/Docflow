@@ -1608,7 +1608,7 @@
     <Content Include="Views\NumberSeq\BookingDelete.cshtml" />
     <Content Include="Views\NumberSeq\BookingDetail.cshtml" />
     <Content Include="Views\NumberSeq\BookingEdit.cshtml" />
-    <Content Include="Views\Custom\USR_ORD_Registration.cshtml" />
+    <Content Include="Views\Custom\_BookingNumbers.cshtml" />
     <Content Include="Views\Custom\USR_ORD_Revocation.cshtml" />
     <Content Include="Views\Custom\USR_REQ_UB_RequestForExportAssetZIF_Edit.cshtml" />
     <Content Include="Views\Custom\USR_REQ_UB_RequestForExportAssetZIF_View.cshtml" />

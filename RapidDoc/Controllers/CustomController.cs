@@ -118,7 +118,7 @@ namespace RapidDoc.Controllers
             {
                 var numberSeqTable = _NumberSeqService.FirstOrDefault(x => x.TableName == document.ProcessTable.TableName);
                 ViewBag.NumberSeqBookingList = _NumberSeqService.GetDropListNumberSeqBookingNull(numberSeqTable.Id, Guid.Empty);
-                return PartialView("USR_ORD_Registration");
+                return PartialView("_BookingNumbers");
             }
             return PartialView("_Empty");
         }
@@ -127,7 +127,7 @@ namespace RapidDoc.Controllers
         {
             var numberSeqTable = _NumberSeqService.FirstOrDefault(x => x.TableName == type.Name.Replace("_View", ""));
             ViewBag.NumberSeqBookingList = _NumberSeqService.GetDropListNumberSeqBookingNull(numberSeqTable.Id, Guid.Empty);
-            return PartialView("USR_ORD_Registration");
+            return PartialView("_BookingNumbers");
         }
 
         public ActionResult GetRevocationORD(Guid? id, bool edit)

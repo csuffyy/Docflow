@@ -635,7 +635,7 @@ namespace RapidDoc.Controllers
                 Guid sourceDocumentId = Guid.Parse(collection["RefDocumentId"]);
                 DocumentTable documentSourceTable = _DocumentService.Find(sourceDocumentId);
 
-                if (documentSourceTable != null && documentSourceTable.DocType == DocumentType.Order && documentSourceTable.DocType == DocumentType.IncomingDoc && documentSourceTable.Executed == false)
+                if (documentSourceTable != null && (documentSourceTable.DocType == DocumentType.Order || documentSourceTable.DocType == DocumentType.IncomingDoc) && documentSourceTable.Executed == false)
                 {
                     var sourceDocumentData = _DocumentService.GetDocumentView(documentSourceTable.RefDocumentId, documentSourceTable.ProcessTable.TableName);
                     sourceDocumentData.Executed = true;
