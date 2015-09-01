@@ -6576,6 +6576,132 @@ namespace RapidDoc.Models.DomainModels
     {
 
     }
+
+    public class USR_OFM_VIP_OfficeMemo_Table : BasicDocumantOfficeMemoTable
+    {
+
+    }
+    public class USR_OFM_BMK_OfficeMemo_Table : BasicDocumantOfficeMemoTable
+    {
+
+    }
+    public class USR_OFM_BY_OfficeMemo_Table : BasicDocumantOfficeMemoTable
+    {
+
+    }
+    public class USR_OFM_GTEO_OfficeMemo_Table : BasicDocumantOfficeMemoTable
+    {
+
+    }
+    public class USR_OFM_DS_OfficeMemo_Table : BasicDocumantOfficeMemoTable
+    {
+
+    }
+    public class USR_OFM_ZIF_OfficeMemo_Table : BasicDocumantOfficeMemoTable
+    {
+
+    }
+    public class USR_OFM_OKS_OfficeMemo_Table : BasicDocumantOfficeMemoTable
+    {
+
+    }
+    public class USR_OFM_OTK_OfficeMemo_Table : BasicDocumantOfficeMemoTable
+    {
+
+    }
+    public class USR_OFM_PAL_OfficeMemo_Table : BasicDocumantOfficeMemoTable
+    {
+
+    }
+    public class USR_OFM_ProfKom_OfficeMemo_Table : BasicDocumantOfficeMemoTable
+    {
+
+    }
+    public class USR_OFM_PTO_OfficeMemo_Table : BasicDocumantOfficeMemoTable
+    {
+
+    }
+    public class USR_OFM_PTU_OfficeMemo_Table : BasicDocumantOfficeMemoTable
+    {
+
+    }
+    public class USR_OFM_ROGR_OfficeMemo_Table : BasicDocumantOfficeMemoTable
+    {
+
+    }
+    public class USR_OFM_SK_OfficeMemo_Table : BasicDocumantOfficeMemoTable
+    {
+
+    }
+    public class USR_OFM_SKS_OfficeMemo_Table : BasicDocumantOfficeMemoTable
+    {
+
+    }
+    public class USR_OFM_SM_OfficeMemo_Table : BasicDocumantOfficeMemoTable
+    {
+
+    }
+    public class USR_OFM_SFK_OfficeMemo_Table : BasicDocumantOfficeMemoTable
+    {
+
+    }
+    public class USR_OFM_UB_OfficeMemo_Table : BasicDocumantOfficeMemoTable
+    {
+
+    }
+    public class USR_OFM_UBUO_OfficeMemo_Table : BasicDocumantOfficeMemoTable
+    {
+
+    }
+    public class USR_OFM_UZL_OfficeMemo_Table : BasicDocumantOfficeMemoTable
+    {
+
+    }
+    public class USR_OFM_UKV_OfficeMemo_Table : BasicDocumantOfficeMemoTable
+    {
+
+    }
+    public class USR_OFM_UMM_OfficeMemo_Table : BasicDocumantOfficeMemoTable
+    {
+
+    }
+    public class USR_OFM_UPB_OfficeMemo_Table : BasicDocumantOfficeMemoTable
+    {
+
+    }
+    public class USR_OFM_URP_OfficeMemo_Table : BasicDocumantOfficeMemoTable
+    {
+
+    }
+    public class USR_OFM_USH_OfficeMemo_Table : BasicDocumantOfficeMemoTable
+    {
+
+    }
+    public class USR_OFM_UT_OfficeMemo_Table : BasicDocumantOfficeMemoTable
+    {
+
+    }
+    public class USR_OFM_UTOR_OfficeMemo_Table : BasicDocumantOfficeMemoTable
+    {
+
+    }
+    public class USR_OFM_UE_OfficeMemo_Table : BasicDocumantOfficeMemoTable
+    {
+
+    }
+    public class USR_OFM_FS_OfficeMemo_Table : BasicDocumantOfficeMemoTable
+    {
+
+    }
+    public class USR_OFM_HU_OfficeMemo_Table : BasicDocumantOfficeMemoTable
+    {
+
+    }
+    public class USR_OFM_JU_OfficeMemo_Table : BasicDocumantOfficeMemoTable
+    {
+
+    }
+           
     #endregion
 
     #region Задачи

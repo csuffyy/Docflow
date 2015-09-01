@@ -8921,6 +8921,132 @@ namespace RapidDoc.Models.ViewModels
     {
     
     }
+
+    public class USR_OFM_VIP_OfficeMemo_View : BasicDocumantOfficeMemoView
+    {
+
+    }
+    public class USR_OFM_BMK_OfficeMemo_View : BasicDocumantOfficeMemoView
+    {
+
+    }
+    public class USR_OFM_BY_OfficeMemo_View : BasicDocumantOfficeMemoView
+    {
+
+    }
+    public class USR_OFM_GTEO_OfficeMemo_View : BasicDocumantOfficeMemoView
+    {
+
+    }
+    public class USR_OFM_DS_OfficeMemo_View : BasicDocumantOfficeMemoView
+    {
+
+    }
+    public class USR_OFM_ZIF_OfficeMemo_View : BasicDocumantOfficeMemoView
+    {
+
+    }
+    public class USR_OFM_OKS_OfficeMemo_View : BasicDocumantOfficeMemoView
+    {
+
+    }
+    public class USR_OFM_OTK_OfficeMemo_View : BasicDocumantOfficeMemoView
+    {
+
+    }
+    public class USR_OFM_PAL_OfficeMemo_View : BasicDocumantOfficeMemoView
+    {
+
+    }
+    public class USR_OFM_ProfKom_OfficeMemo_View : BasicDocumantOfficeMemoView
+    {
+
+    }
+    public class USR_OFM_PTO_OfficeMemo_View : BasicDocumantOfficeMemoView
+    {
+
+    }
+    public class USR_OFM_PTU_OfficeMemo_View : BasicDocumantOfficeMemoView
+    {
+
+    }
+    public class USR_OFM_ROGR_OfficeMemo_View : BasicDocumantOfficeMemoView
+    {
+
+    }
+    public class USR_OFM_SK_OfficeMemo_View : BasicDocumantOfficeMemoView
+    {
+
+    }
+    public class USR_OFM_SKS_OfficeMemo_View : BasicDocumantOfficeMemoView
+    {
+
+    }
+    public class USR_OFM_SM_OfficeMemo_View : BasicDocumantOfficeMemoView
+    {
+
+    }
+    public class USR_OFM_SFK_OfficeMemo_View : BasicDocumantOfficeMemoView
+    {
+
+    }
+    public class USR_OFM_UB_OfficeMemo_View : BasicDocumantOfficeMemoView
+    {
+
+    }
+    public class USR_OFM_UBUO_OfficeMemo_View : BasicDocumantOfficeMemoView
+    {
+
+    }
+    public class USR_OFM_UZL_OfficeMemo_View : BasicDocumantOfficeMemoView
+    {
+
+    }
+    public class USR_OFM_UKV_OfficeMemo_View : BasicDocumantOfficeMemoView
+    {
+
+    }
+    public class USR_OFM_UMM_OfficeMemo_View : BasicDocumantOfficeMemoView
+    {
+
+    }
+    public class USR_OFM_UPB_OfficeMemo_View : BasicDocumantOfficeMemoView
+    {
+
+    }
+    public class USR_OFM_URP_OfficeMemo_View : BasicDocumantOfficeMemoView
+    {
+
+    }
+    public class USR_OFM_USH_OfficeMemo_View : BasicDocumantOfficeMemoView
+    {
+
+    }
+    public class USR_OFM_UT_OfficeMemo_View : BasicDocumantOfficeMemoView
+    {
+
+    }
+    public class USR_OFM_UTOR_OfficeMemo_View : BasicDocumantOfficeMemoView
+    {
+
+    }
+    public class USR_OFM_UE_OfficeMemo_View : BasicDocumantOfficeMemoView
+    {
+
+    }
+    public class USR_OFM_FS_OfficeMemo_View : BasicDocumantOfficeMemoView
+    {
+
+    }
+    public class USR_OFM_HU_OfficeMemo_View : BasicDocumantOfficeMemoView
+    {
+
+    }
+    public class USR_OFM_JU_OfficeMemo_View : BasicDocumantOfficeMemoView
+    {
+
+    }
+
     #endregion
 
     #region Задачи
