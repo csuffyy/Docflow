@@ -28,15 +28,13 @@ namespace RapidDoc.Models.Services
         private readonly IWorkflowTrackerService _WorkflowTrackerService;
         private readonly ISystemService _SystemService;
         private readonly IEmplService _EmplService;
-        private readonly IDocumentService _DocumentService;
         private readonly INumberSeqService _NumberSeqService;
 
-        public CustomCheckDocument(IEmplService emplService, IWorkflowTrackerService workflowTrackerService, IServiceIncidentService serviceIncidentService, ITripSettingsService tripSettingsService, ISystemService systemService, IDocumentService documentService, INumberSeqService numberSeqService)
+        public CustomCheckDocument(IEmplService emplService, IWorkflowTrackerService workflowTrackerService, IServiceIncidentService serviceIncidentService, ITripSettingsService tripSettingsService, ISystemService systemService, INumberSeqService numberSeqService)
         {
             _WorkflowTrackerService = workflowTrackerService;
             _SystemService = systemService;
             _EmplService = emplService;
-            _DocumentService = documentService;
             _NumberSeqService = numberSeqService;
             //Custom
             _ServiceIncidentService = serviceIncidentService;
