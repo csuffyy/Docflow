@@ -1,4 +1,4 @@
-﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="RapidDoc.Activities.USR_OFM_UIT_OfficeMemo" local1:USR_OFM_UIT_OfficeMemo.outputSkipStep="False"
+﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="RapidDoc.Activities.USR_OFM_UTOR_OfficeMemo" local1:USR_OFM_UTOR_OfficeMemo.outputSkipStep="False"
  xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
  xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
  xmlns:local="clr-namespace:RapidDoc.Models.Repository"
@@ -22,13 +22,13 @@
     <x:Property Name="outputSkipStep" Type="InArgument(x:Boolean)" />
     <x:Property Name="documentData" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
   </x:Members>
-  <local1:USR_OFM_UIT_OfficeMemo.inputStep>
+  <local1:USR_OFM_UTOR_OfficeMemo.inputStep>
     <InArgument x:TypeArguments="local:DocumentState">
       <mca:CSharpValue x:TypeArguments="local:DocumentState">DocumentState.Agreement</mca:CSharpValue>
     </InArgument>
-  </local1:USR_OFM_UIT_OfficeMemo.inputStep>
+  </local1:USR_OFM_UTOR_OfficeMemo.inputStep>
   <sap2010:ExpressionActivityEditor.ExpressionActivityEditor>C#</sap2010:ExpressionActivityEditor.ExpressionActivityEditor>
-  <sap2010:WorkflowViewState.IdRef>RapidDoc.Activities.USR_OFM_UIT_OfficeMemo_1</sap2010:WorkflowViewState.IdRef>
+  <sap2010:WorkflowViewState.IdRef>RapidDoc.Activities.USR_OFM_UTOR_OfficeMemo_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <sco:Collection x:TypeArguments="x:String">
       <x:String>System</x:String>
@@ -131,7 +131,7 @@
       <AssemblyReference>RapidDoc</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Flowchart DisplayName="Служебная записка UIT" sap2010:WorkflowViewState.IdRef="Flowchart_6">
+  <Flowchart DisplayName="Служебная записка UTOR" sap2010:WorkflowViewState.IdRef="Flowchart_6">
     <Flowchart.Variables>
       <Variable x:TypeArguments="x:String" Name="bookmarkName" />
       <Variable x:TypeArguments="scg:List(x:String)" Name="listOfPeople" />
@@ -708,7 +708,7 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="RapidDoc.Activities.USR_OFM_UIT_OfficeMemo_1" sap:VirtualizedContainerService.HintSize="984,877" />
+      <sap2010:ViewStateData Id="RapidDoc.Activities.USR_OFM_UTOR_OfficeMemo_1" sap:VirtualizedContainerService.HintSize="984,877" />
     </sap2010:ViewStateManager>
   </sap2010:WorkflowViewState.ViewStateManager>
 </Activity>

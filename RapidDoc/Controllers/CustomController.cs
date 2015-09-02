@@ -1618,7 +1618,7 @@ namespace RapidDoc.Controllers
 
             return PartialView("USR_REQ_HY_RequestTRU_View_Full", model);
         }
-        public ActionResult GetManualOfficeMemo(RapidDoc.Models.ViewModels.USR_OFM_UIT_OfficeMemo_View model)
+        public ActionResult GetManualOfficeMemoUIT(RapidDoc.Models.ViewModels.USR_OFM_UIT_OfficeMemo_View model)
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
 
@@ -1636,6 +1636,566 @@ namespace RapidDoc.Controllers
 
             return PartialView("USR_OFM_UIT_OfficeMemo_View_Full", model);
         }
+
+        public ActionResult GetManualOfficeMemoVIP(RapidDoc.Models.ViewModels.USR_OFM_VIP_OfficeMemo_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.SystemName == "MidManager" || x.SystemName == "Manager"))
+                    {
+                        return PartialView("USR_OFM_VIP_OfficeMemo_Edit_Part", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_OFM_VIP_OfficeMemo_View_Full", model);
+        }
+        public ActionResult GetManualOfficeMemoBMK(RapidDoc.Models.ViewModels.USR_OFM_BMK_OfficeMemo_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.SystemName == "MidManager" || x.SystemName == "Manager"))
+                    {
+                        return PartialView("USR_OFM_BMK_OfficeMemo_Edit_Part", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_OFM_BMK_OfficeMemo_View_Full", model);
+        }
+        public ActionResult GetManualOfficeMemoBY(RapidDoc.Models.ViewModels.USR_OFM_BY_OfficeMemo_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.SystemName == "MidManager" || x.SystemName == "Manager"))
+                    {
+                        return PartialView("USR_OFM_BY_OfficeMemo_Edit_Part", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_OFM_BY_OfficeMemo_View_Full", model);
+        }
+        public ActionResult GetManualOfficeMemoGTEO(RapidDoc.Models.ViewModels.USR_OFM_GTEO_OfficeMemo_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.SystemName == "MidManager" || x.SystemName == "Manager"))
+                    {
+                        return PartialView("USR_OFM_GTEO_OfficeMemo_Edit_Part", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_OFM_GTEO_OfficeMemo_View_Full", model);
+        }
+        public ActionResult GetManualOfficeMemoDS(RapidDoc.Models.ViewModels.USR_OFM_DS_OfficeMemo_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.SystemName == "MidManager" || x.SystemName == "Manager"))
+                    {
+                        return PartialView("USR_OFM_DS_OfficeMemo_Edit_Part", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_OFM_DS_OfficeMemo_View_Full", model);
+        }
+        public ActionResult GetManualOfficeMemoZIF(RapidDoc.Models.ViewModels.USR_OFM_ZIF_OfficeMemo_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.SystemName == "MidManager" || x.SystemName == "Manager"))
+                    {
+                        return PartialView("USR_OFM_ZIF_OfficeMemo_Edit_Part", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_OFM_ZIF_OfficeMemo_View_Full", model);
+        }
+        public ActionResult GetManualOfficeMemoOKS(RapidDoc.Models.ViewModels.USR_OFM_OKS_OfficeMemo_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.SystemName == "MidManager" || x.SystemName == "Manager"))
+                    {
+                        return PartialView("USR_OFM_OKS_OfficeMemo_Edit_Part", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_OFM_OKS_OfficeMemo_View_Full", model);
+        }
+        public ActionResult GetManualOfficeMemoOTK(RapidDoc.Models.ViewModels.USR_OFM_OTK_OfficeMemo_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.SystemName == "MidManager" || x.SystemName == "Manager"))
+                    {
+                        return PartialView("USR_OFM_OTK_OfficeMemo_Edit_Part", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_OFM_OTK_OfficeMemo_View_Full", model);
+        }
+        public ActionResult GetManualOfficeMemoPAL(RapidDoc.Models.ViewModels.USR_OFM_PAL_OfficeMemo_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.SystemName == "MidManager" || x.SystemName == "Manager"))
+                    {
+                        return PartialView("USR_OFM_PAL_OfficeMemo_Edit_Part", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_OFM_PAL_OfficeMemo_View_Full", model);
+        }
+        public ActionResult GetManualOfficeMemoProfKom(RapidDoc.Models.ViewModels.USR_OFM_ProfKom_OfficeMemo_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.SystemName == "MidManager" || x.SystemName == "Manager"))
+                    {
+                        return PartialView("USR_OFM_ProfKom_OfficeMemo_Edit_Part", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_OFM_ProfKom_OfficeMemo_View_Full", model);
+        }
+        public ActionResult GetManualOfficeMemoPTO(RapidDoc.Models.ViewModels.USR_OFM_PTO_OfficeMemo_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.SystemName == "MidManager" || x.SystemName == "Manager"))
+                    {
+                        return PartialView("USR_OFM_PTO_OfficeMemo_Edit_Part", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_OFM_PTO_OfficeMemo_View_Full", model);
+        }
+        public ActionResult GetManualOfficeMemoPTU(RapidDoc.Models.ViewModels.USR_OFM_PTU_OfficeMemo_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.SystemName == "MidManager" || x.SystemName == "Manager"))
+                    {
+                        return PartialView("USR_OFM_PTU_OfficeMemo_Edit_Part", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_OFM_PTU_OfficeMemo_View_Full", model);
+        }
+        public ActionResult GetManualOfficeMemoROGR(RapidDoc.Models.ViewModels.USR_OFM_ROGR_OfficeMemo_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.SystemName == "MidManager" || x.SystemName == "Manager"))
+                    {
+                        return PartialView("USR_OFM_ROGR_OfficeMemo_Edit_Part", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_OFM_ROGR_OfficeMemo_View_Full", model);
+        }
+        public ActionResult GetManualOfficeMemoSK(RapidDoc.Models.ViewModels.USR_OFM_SK_OfficeMemo_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.SystemName == "MidManager" || x.SystemName == "Manager"))
+                    {
+                        return PartialView("USR_OFM_SK_OfficeMemo_Edit_Part", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_OFM_SK_OfficeMemo_View_Full", model);
+        }
+        public ActionResult GetManualOfficeMemoSKS(RapidDoc.Models.ViewModels.USR_OFM_SKS_OfficeMemo_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.SystemName == "MidManager" || x.SystemName == "Manager"))
+                    {
+                        return PartialView("USR_OFM_SKS_OfficeMemo_Edit_Part", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_OFM_SKS_OfficeMemo_View_Full", model);
+        }
+        public ActionResult GetManualOfficeMemoSM(RapidDoc.Models.ViewModels.USR_OFM_SM_OfficeMemo_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.SystemName == "MidManager" || x.SystemName == "Manager"))
+                    {
+                        return PartialView("USR_OFM_SM_OfficeMemo_Edit_Part", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_OFM_SM_OfficeMemo_View_Full", model);
+        }
+        public ActionResult GetManualOfficeMemoSFK(RapidDoc.Models.ViewModels.USR_OFM_SFK_OfficeMemo_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.SystemName == "MidManager" || x.SystemName == "Manager"))
+                    {
+                        return PartialView("USR_OFM_SFK_OfficeMemo_Edit_Part", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_OFM_SFK_OfficeMemo_View_Full", model);
+        }
+        public ActionResult GetManualOfficeMemoUB(RapidDoc.Models.ViewModels.USR_OFM_UB_OfficeMemo_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.SystemName == "MidManager" || x.SystemName == "Manager"))
+                    {
+                        return PartialView("USR_OFM_UB_OfficeMemo_Edit_Part", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_OFM_UB_OfficeMemo_View_Full", model);
+        }
+        public ActionResult GetManualOfficeMemoUBUO(RapidDoc.Models.ViewModels.USR_OFM_UBUO_OfficeMemo_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.SystemName == "MidManager" || x.SystemName == "Manager"))
+                    {
+                        return PartialView("USR_OFM_UBUO_OfficeMemo_Edit_Part", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_OFM_UBUO_OfficeMemo_View_Full", model);
+        }
+        public ActionResult GetManualOfficeMemoUZL(RapidDoc.Models.ViewModels.USR_OFM_UZL_OfficeMemo_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.SystemName == "MidManager" || x.SystemName == "Manager"))
+                    {
+                        return PartialView("USR_OFM_UZL_OfficeMemo_Edit_Part", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_OFM_UZL_OfficeMemo_View_Full", model);
+        }
+        public ActionResult GetManualOfficeMemoUKV(RapidDoc.Models.ViewModels.USR_OFM_UKV_OfficeMemo_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.SystemName == "MidManager" || x.SystemName == "Manager"))
+                    {
+                        return PartialView("USR_OFM_UKV_OfficeMemo_Edit_Part", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_OFM_UKV_OfficeMemo_View_Full", model);
+        }
+        public ActionResult GetManualOfficeMemoUMM(RapidDoc.Models.ViewModels.USR_OFM_UMM_OfficeMemo_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.SystemName == "MidManager" || x.SystemName == "Manager"))
+                    {
+                        return PartialView("USR_OFM_UMM_OfficeMemo_Edit_Part", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_OFM_UMM_OfficeMemo_View_Full", model);
+        }
+        public ActionResult GetManualOfficeMemoUPB(RapidDoc.Models.ViewModels.USR_OFM_UPB_OfficeMemo_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.SystemName == "MidManager" || x.SystemName == "Manager"))
+                    {
+                        return PartialView("USR_OFM_UPB_OfficeMemo_Edit_Part", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_OFM_UPB_OfficeMemo_View_Full", model);
+        }
+        public ActionResult GetManualOfficeMemoURP(RapidDoc.Models.ViewModels.USR_OFM_URP_OfficeMemo_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.SystemName == "MidManager" || x.SystemName == "Manager"))
+                    {
+                        return PartialView("USR_OFM_URP_OfficeMemo_Edit_Part", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_OFM_URP_OfficeMemo_View_Full", model);
+        }
+        public ActionResult GetManualOfficeMemoUSH(RapidDoc.Models.ViewModels.USR_OFM_USH_OfficeMemo_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.SystemName == "MidManager" || x.SystemName == "Manager"))
+                    {
+                        return PartialView("USR_OFM_USH_OfficeMemo_Edit_Part", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_OFM_USH_OfficeMemo_View_Full", model);
+        }
+        public ActionResult GetManualOfficeMemoUT(RapidDoc.Models.ViewModels.USR_OFM_UT_OfficeMemo_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.SystemName == "MidManager" || x.SystemName == "Manager"))
+                    {
+                        return PartialView("USR_OFM_UT_OfficeMemo_Edit_Part", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_OFM_UT_OfficeMemo_View_Full", model);
+        }
+        public ActionResult GetManualOfficeMemoUTOR(RapidDoc.Models.ViewModels.USR_OFM_UTOR_OfficeMemo_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.SystemName == "MidManager" || x.SystemName == "Manager"))
+                    {
+                        return PartialView("USR_OFM_UTOR_OfficeMemo_Edit_Part", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_OFM_UTOR_OfficeMemo_View_Full", model);
+        }
+        public ActionResult GetManualOfficeMemoUE(RapidDoc.Models.ViewModels.USR_OFM_UE_OfficeMemo_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.SystemName == "MidManager" || x.SystemName == "Manager"))
+                    {
+                        return PartialView("USR_OFM_UE_OfficeMemo_Edit_Part", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_OFM_UE_OfficeMemo_View_Full", model);
+        }
+        public ActionResult GetManualOfficeMemoFS(RapidDoc.Models.ViewModels.USR_OFM_FS_OfficeMemo_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.SystemName == "MidManager" || x.SystemName == "Manager"))
+                    {
+                        return PartialView("USR_OFM_FS_OfficeMemo_Edit_Part", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_OFM_FS_OfficeMemo_View_Full", model);
+        }
+        public ActionResult GetManualOfficeMemoHU(RapidDoc.Models.ViewModels.USR_OFM_HU_OfficeMemo_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.SystemName == "MidManager" || x.SystemName == "Manager"))
+                    {
+                        return PartialView("USR_OFM_HU_OfficeMemo_Edit_Part", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_OFM_HU_OfficeMemo_View_Full", model);
+        }
+        public ActionResult GetManualOfficeMemoJU(RapidDoc.Models.ViewModels.USR_OFM_JU_OfficeMemo_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.SystemName == "MidManager" || x.SystemName == "Manager"))
+                    {
+                        return PartialView("USR_OFM_JU_OfficeMemo_Edit_Part", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_OFM_JU_OfficeMemo_View_Full", model);
+        }
+
 
         public ActionResult GetManualORDMainActivity(RapidDoc.Models.ViewModels.USR_ORD_MainActivity_View model)
         {

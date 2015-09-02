@@ -1802,7 +1802,7 @@ namespace RapidDoc.Controllers
             {
                 Guid documentGuidId = GuidNull2Guid(documentId);
                 string approveCommentRequest = collection["ApproveCommentRequest"].ToString();
-                if (actionModelName == "USR_OFM_UIT_OfficeMemo")
+                if (actionModelName.GetType().IsSubclassOf(typeof(BasicDocumantOfficeMemoView)))
                 {
                     var trackers = _WorkflowTrackerService.GetCurrentStep(x => x.DocumentTableId == documentGuidId && x.TrackerType == TrackerType.Waiting);
                     foreach (var tracker in trackers)
@@ -1833,7 +1833,7 @@ namespace RapidDoc.Controllers
             {
                 Guid documentGuidId = GuidNull2Guid(documentId);
                 string rejectCommentRequest = collection["RejectComment"].ToString();
-                if (actionModelName == "USR_OFM_UIT_OfficeMemo")
+                if (actionModelName.GetType().IsSubclassOf(typeof(BasicDocumantOfficeMemoView)))
                 {
                     var trackers = _WorkflowTrackerService.GetCurrentStep(x => x.DocumentTableId == documentGuidId && x.TrackerType == TrackerType.Waiting);
                     foreach (var tracker in trackers)

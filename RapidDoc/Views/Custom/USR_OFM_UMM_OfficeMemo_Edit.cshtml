@@ -1,0 +1,141 @@
+﻿@model RapidDoc.Models.ViewModels.USR_OFM_UMM_OfficeMemo_View
+@{
+    Model.Parallel = true;
+}
+@using RapidDoc.Extensions;
+@Html.ValidationSummary(true)
+<div class="row">
+    <div class="col-xs-4">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Folder)
+        </div>
+        <div class="editor-field">
+            @Html.EnumDropDownListFor(model => model.Folder, new { @class = "selectpickerfull" })
+        </div>
+    </div>
+    <div class="col-xs-8">
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ItemCauseNumber)
+        </div>
+        <div class="row">
+            <div class="col-xs-2">
+                <div class="editor-field">
+                    <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target=".itemcause-modal">@UIElementRes.UIElement.Choose...</button>
+                </div>
+            </div>
+            <div class="col-xs-10">
+                @Html.HiddenFor(model => Model.ItemCauseTableId)
+                <span id="ItemCauseNumber">@Html.DisplayTextFor(model => Model.ItemCauseNumber)</span>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<div class="form-group">
+    <div class="input-group">
+        <span class="input-group-addon">
+            <a href="#" class="hidden-print" data-toggle="modal" data-target=".documentwhom-modal"><span class="fa fa-users fa-lg" aria-hidden="false"></span></a>
+        </span>
+        <span class="input-group-addon checkbox-inline">
+            @Html.CheckBoxFor(model => Model.Parallel, new { @data_labelauty = "Параллельно|Параллельно" })
+        </span>
+        @Html.TextBoxFor(model => Model.DocumentWhom, new { @class = "form-control", @data_role = "tagsinputGroup2", @size = 256, @maxlength = 256, placeholder = "Маршрут согласования" })
+    </div>
+</div>
+<a data-toggle="collapse" href="#collapseSettings" aria-expanded="false" aria-controls="collapseSettings">Добавить сопроводительный текст</a>
+<div class="collapse" id="collapseSettings">
+    <div class="editor-field">
+        @Html.TextAreaFor(model => Model.AdditionalText, new { @class = "form-control" })
+    </div>
+</div>
+<br />
+<br />
+<div class="panel panel-default">
+    <table class="table-bordered">
+        <tbody>
+            <tr>
+                <td><span class="input-group-addon" id="sizing-addon1" style="height:43px; width:100px;border-width:0px; text-align:left;"><strong>Кому:</strong></span></td>
+                <td>@Html.TextBoxFor(model => Model.Whom, new { @class = "form-control", @size = 256, @maxlength = 256, placeholder = "Кому", aria_describedby = "sizing-addon3", @style = "border-width:0px" })</td>
+            </tr>
+            <tr>
+                <td><span class="input-group-addon" id="sizing-addon1" style="height: 43px;width:100px;border-width:0px; text-align:left;"><strong>Копия:</strong></span></td>
+                <td>@Html.TextBoxFor(model => Model.DocumentCopy, new { @class = "form-control", @size = 256, @maxlength = 256, placeholder = "Копия", aria_describedby = "sizing-addon3", @style = "border-width:0px" })</td>
+            </tr>
+            <tr>
+                <td><span class="input-group-addon" id="sizing-addon1" style="height:43px;width:100px;border-width:0px; text-align:left;"><strong>От кого:<span class="required">*</span></strong></span></td>
+                <td>@Html.TextBoxFor(model => Model.FromWhom, new { @class = "form-control", @size = 256, @maxlength = 256, placeholder = "От кого", aria_describedby = "sizing-addon3", @style = "border-width:0px" })</td>
+            </tr>
+            <tr>
+                <td><span class="input-group-addon" id="sizing-addon1" style="height:43px;width:100px;border-width:0px; text-align:left;"><strong>Тема:<span class="required">*</span></strong></span></td>
+                <td>@Html.TextBoxFor(model => Model._DocumentTitle, new { @class = "form-control", @size = 256, @maxlength = 256, placeholder = "Тема", aria_describedby = "sizing-addon3", @style = "border-width:0px" })</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="editor-field">
+    @Html.TextAreaFor(model => Model.MainField, new { @class = "form-control summernote" })
+</div>
+<div class="modal fade itemcause-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sidebar">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">@CustomRes.Custom.ItemCause</h4>
+            </div>
+            <div class="modal-body" style="min-height:700px;">
+                @Html.Action("ItemCausesListLookup", "ItemCause")
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade documentwhom-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sidebar">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">@UIElementRes.UIElement.DistributionGroup</h4>
+            </div>
+            <div class="modal-body" style="min-height:700px;">
+                @Html.Action("RoleLookup", "Role", new { prefix = "whom" })
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade documentcopy-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sidebar">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">@UIElementRes.UIElement.DistributionGroup - Поле Копия</h4>
+            </div>
+            <div class="modal-body" style="min-height:700px;">
+                @Html.Action("RoleLookup", "Role", new { prefix = "copy" })
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        if ($('#MainField').val() == '') {
+            $('#MainField').val("<div style=\"line-height: 21.4285717010498px; margin-left: 25px;\">Текст служебной записки ...</div>");
+        }
+
+        $('.itemcauseslink').click(function (event) {
+            var element = $(event.target);
+            $('#ItemCauseTableId').val(element.attr('data-itemid'));
+            $('#ItemCauseNumber').text(element.text());
+        });
+
+        $('.distributiongrouplink_whom').click(function (event) {
+            var element = $(event.target);
+            var tagId = element.attr('data-itemid') + ', ' + element.attr('data-rolename');
+            $('input[data-role=tagsinputGroup2]').tagsinput('add', { value: tagId, text: element.text() });
+        });
+
+        $('.distributiongrouplink_copy').click(function (event) {
+            var element = $(event.target);
+            var tagId = element.attr('data-itemid') + ', ' + element.attr('data-rolename');
+            $('input[data-role=tagsinputGroup]').tagsinput('add', { value: tagId, text: element.text() });
+        });
+    });
+</script>

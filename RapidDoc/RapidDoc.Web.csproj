@@ -1692,7 +1692,130 @@
     <Content Include="Views\Custom\USR_IND_IncomingDocuments_View_Full.cshtml" />
     <Content Include="Views\DocumentBase\_DocumentBaseIncoming.cshtml" />
     <Content Include="Views\DocumentBase\IndexIncoming.cshtml" />
-    <Content Include="Views\Role\AddUsersManual.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_VIP_OfficeMemo_View.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_VIP_OfficeMemo_View_Full.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_VIP_OfficeMemo_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_VIP_OfficeMemo_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_BMK_OfficeMemo_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_BMK_OfficeMemo_Part.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_BMK_OfficeMemo_View.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_BMK_OfficeMemo_View_Full.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_BY_OfficeMemo_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_BY_OfficeMemo_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_BY_OfficeMemo_View.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_BY_OfficeMemo_View_Full.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_DS_OfficeMemo_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_DS_OfficeMemo_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_DS_OfficeMemo_View.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_DS_OfficeMemo_View_Full.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_FS_OfficeMemo_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_FS_OfficeMemo_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_FS_OfficeMemo_View.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_FS_OfficeMemo_View_Full.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_GTEO_OfficeMemo_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_GTEO_OfficeMemo_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_GTEO_OfficeMemo_View.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_GTEO_OfficeMemo_View_Full.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_HU_OfficeMemo_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_HU_OfficeMemo_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_HU_OfficeMemo_View.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_HU_OfficeMemo_View_Full.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_JU_OfficeMemo_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_JU_OfficeMemo_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_JU_OfficeMemo_View.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_JU_OfficeMemo_View_Full.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_OKS_OfficeMemo_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_OKS_OfficeMemo_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_OKS_OfficeMemo_View.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_OKS_OfficeMemo_View_Full.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_OTK_OfficeMemo_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_OTK_OfficeMemo_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_OTK_OfficeMemo_View.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_OTK_OfficeMemo_View_Full.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_PAL_OfficeMemo_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_PAL_OfficeMemo_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_PAL_OfficeMemo_View.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_PAL_OfficeMemo_View_Full.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_ProfKom_OfficeMemo_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_ProfKom_OfficeMemo_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_ProfKom_OfficeMemo_View.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_ProfKom_OfficeMemo_View_Full.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_PTO_OfficeMemo_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_PTO_OfficeMemo_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_PTO_OfficeMemo_View.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_PTO_OfficeMemo_View_Full.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_PTU_OfficeMemo_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_PTU_OfficeMemo_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_PTU_OfficeMemo_View.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_PTU_OfficeMemo_View_Full.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_ROGR_OfficeMemo_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_ROGR_OfficeMemo_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_ROGR_OfficeMemo_View.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_ROGR_OfficeMemo_View_Full.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_SFK_OfficeMemo_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_SFK_OfficeMemo_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_SFK_OfficeMemo_View.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_SFK_OfficeMemo_View_Full.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_SKS_OfficeMemo_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_SKS_OfficeMemo_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_SKS_OfficeMemo_View.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_SKS_OfficeMemo_View_Full.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_SK_OfficeMemo_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_SK_OfficeMemo_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_SK_OfficeMemo_View.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_SK_OfficeMemo_View_Full.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_SM_OfficeMemo_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_SM_OfficeMemo_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_SM_OfficeMemo_View.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_SM_OfficeMemo_View_Full.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_UBUO_OfficeMemo_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_UBUO_OfficeMemo_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_UBUO_OfficeMemo_View.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_UBUO_OfficeMemo_View_Full.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_UB_OfficeMemo_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_UB_OfficeMemo_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_UB_OfficeMemo_View.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_UB_OfficeMemo_View_Full.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_UE_OfficeMemo_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_UE_OfficeMemo_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_UE_OfficeMemo_View.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_UE_OfficeMemo_View_Full.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_UKV_OfficeMemo_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_UKV_OfficeMemo_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_UKV_OfficeMemo_View.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_UKV_OfficeMemo_View_Full.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_UMM_OfficeMemo_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_UMM_OfficeMemo_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_UMM_OfficeMemo_View.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_UMM_OfficeMemo_View_Full.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_UPB_OfficeMemo_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_UPB_OfficeMemo_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_UPB_OfficeMemo_View.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_UPB_OfficeMemo_View_Full.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_URP_OfficeMemo_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_URP_OfficeMemo_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_URP_OfficeMemo_View.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_URP_OfficeMemo_View_Full.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_USH_OfficeMemo_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_USH_OfficeMemo_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_USH_OfficeMemo_View.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_USH_OfficeMemo_View_Full.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_UTOR_OfficeMemo_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_UTOR_OfficeMemo_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_UTOR_OfficeMemo_View.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_UTOR_OfficeMemo_View_Full.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_UT_OfficeMemo_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_UT_OfficeMemo_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_UT_OfficeMemo_View.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_UT_OfficeMemo_View_Full.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_UZL_OfficeMemo_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_UZL_OfficeMemo_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_UZL_OfficeMemo_View.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_UZL_OfficeMemo_View_Full.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_ZIF_OfficeMemo_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_ZIF_OfficeMemo_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_ZIF_OfficeMemo_View.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_ZIF_OfficeMemo_View_Full.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -3173,6 +3296,134 @@
   </ItemGroup>
   <ItemGroup>
     <XamlAppDef Include="Activities\USR_IND_IncomingDocuments.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USR_OFM_BMK_OfficeMemo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+    <XamlAppDef Include="Activities\USR_OFM_BY_OfficeMemo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+    <XamlAppDef Include="Activities\USR_OFM_DS_OfficeMemo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+    <XamlAppDef Include="Activities\USR_OFM_FS_OfficeMemo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+    <XamlAppDef Include="Activities\USR_OFM_GTEO_OfficeMemo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+    <XamlAppDef Include="Activities\USR_OFM_HU_OfficeMemo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+    <XamlAppDef Include="Activities\USR_OFM_JU_OfficeMemo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+    <XamlAppDef Include="Activities\USR_OFM_OKS_OfficeMemo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+    <XamlAppDef Include="Activities\USR_OFM_OTK_OfficeMemo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+    <XamlAppDef Include="Activities\USR_OFM_PAL_OfficeMemo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+    <XamlAppDef Include="Activities\USR_OFM_ProfKom_OfficeMemo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+    <XamlAppDef Include="Activities\USR_OFM_PTO_OfficeMemo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+    <XamlAppDef Include="Activities\USR_OFM_PTU_OfficeMemo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+    <XamlAppDef Include="Activities\USR_OFM_ROGR_OfficeMemo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+    <XamlAppDef Include="Activities\USR_OFM_SFK_OfficeMemo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+    <XamlAppDef Include="Activities\USR_OFM_SKS_OfficeMemo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+    <XamlAppDef Include="Activities\USR_OFM_SK_OfficeMemo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+    <XamlAppDef Include="Activities\USR_OFM_SM_OfficeMemo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+    <XamlAppDef Include="Activities\USR_OFM_UBUO_OfficeMemo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+    <XamlAppDef Include="Activities\USR_OFM_UB_OfficeMemo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+    <XamlAppDef Include="Activities\USR_OFM_UE_OfficeMemo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+    <XamlAppDef Include="Activities\USR_OFM_UKV_OfficeMemo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+    <XamlAppDef Include="Activities\USR_OFM_UMM_OfficeMemo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+    <XamlAppDef Include="Activities\USR_OFM_UPB_OfficeMemo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+    <XamlAppDef Include="Activities\USR_OFM_URP_OfficeMemo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+    <XamlAppDef Include="Activities\USR_OFM_USH_OfficeMemo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+    <XamlAppDef Include="Activities\USR_OFM_UTOR_OfficeMemo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+    <XamlAppDef Include="Activities\USR_OFM_UT_OfficeMemo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+    <XamlAppDef Include="Activities\USR_OFM_UZL_OfficeMemo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+    <XamlAppDef Include="Activities\USR_OFM_ZIF_OfficeMemo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USR_OFM_VIP_OfficeMemo.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </XamlAppDef>
