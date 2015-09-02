@@ -1816,6 +1816,7 @@
     <Content Include="Views\Custom\USR_OFM_ZIF_OfficeMemo_Edit_Part.cshtml" />
     <Content Include="Views\Custom\USR_OFM_ZIF_OfficeMemo_View.cshtml" />
     <Content Include="Views\Custom\USR_OFM_ZIF_OfficeMemo_View_Full.cshtml" />
+    <Content Include="Views\Role\AddUsersManual.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
