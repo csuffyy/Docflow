@@ -19,12 +19,14 @@ namespace RapidDoc.Controllers
     [Authorize(Roles = "Administrator, SetupAdministrator")]
     public class RoleController : BasicController
     {
+        private readonly ISystemService _SystemService;
         public UserManager<ApplicationUser> UserManager { get; private set; }
         public RoleManager<ApplicationRole> RoleManager { get; private set; }
 
-        public RoleController(ICompanyService companyService, IAccountService accountService)
+        public RoleController(ISystemService systemService, ICompanyService companyService, IAccountService accountService)
             : base(companyService, accountService)
         {
+            _SystemService = systemService;
             ApplicationDbContext dbContext = new ApplicationDbContext();
             UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(dbContext));
             RoleManager = new RoleManager<ApplicationRole>(new RoleStore<ApplicationRole>(dbContext));
@@ -144,7 +146,29 @@ namespace RapidDoc.Controllers
                 }
             }
 
+            ViewBag.RoleId = id;
             return View(users);
+        }
+
+        public async Task<ActionResult> AddUsersManual(string id)
+        {
+            var roleTable = await RoleManager.FindByIdAsync(id);
+            if (roleTable == null)
+            {
+                return HttpNotFound();
+            }
+
+            string usersManual = String.Empty;
+            var roleUsers = roleTable.Users.Where(x => x.RoleId == id);
+            foreach(var item in roleUsers)
+            {
+                var user = UserManager.FindById(item.UserId);
+                usersManual += String.Format("{0},{1} ( {2} ),", user.Id, user.UserName, user.Email);
+            }
+
+            ViewBag.RoleId = id;
+            ViewBag.Users = usersManual;
+            return View();
         }
 
         [HttpPost]
@@ -184,10 +208,56 @@ namespace RapidDoc.Controllers
             return Json(new { result = "Redirect", url = Url.Action("Index") });
         }
 
+        [HttpPost]
+        public async Task<ActionResult> AddUsersManual(string id, string Users)
+        {
+            var roleTable = await RoleManager.FindByIdAsync(id);
+
+            if (roleTable == null)
+            {
+                return HttpNotFound();
+            }
+
+            var allUsers = Mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<UserViewModel>>(UserManager.Users);
+
+            foreach (var user in allUsers)
+            {
+                UserManager.RemoveFromRole(user.Id, roleTable.Name);
+            }
+
+            if(!String.IsNullOrEmpty(Users))
+            {
+                string[] listdata = _SystemService.GuidsFromText(Users);
+
+                foreach (string userId in listdata)
+                {
+                    var userTable = await UserManager.FindByIdAsync(userId);
+                    if (userTable == null)
+                    {
+                        return HttpNotFound();
+                    }
+
+                    UserManager.AddToRole(userTable.Id, roleTable.Name);
+                }
+            }
+
+            string usersManual = String.Empty;
+            var roleUsers = roleTable.Users.Where(x => x.RoleId == id);
+            foreach (var item in roleUsers)
+            {
+                var user = UserManager.FindById(item.UserId);
+                usersManual += String.Format("{0},{1} ({2}),", user.Id, user.UserName, user.Email);
+            }
+
+            ViewBag.RoleId = id;
+            ViewBag.Users = usersManual;
+            return View();
+        }
+
         [AllowAnonymous]
         public ActionResult RoleLookup(string prefix)
         {
-            var items = Mapper.Map<IEnumerable<ApplicationRole>, IEnumerable<RoleViewModel>>(RoleManager.Roles.Where(x => x.RoleType == Models.Repository.RoleType.Group));
+            var items = Mapper.Map<IEnumerable<ApplicationRole>, IEnumerable<RoleViewModel>>(RoleManager.Roles.Where(x => x.RoleType == Models.Repository.RoleType.Group || x.RoleType == Models.Repository.RoleType.GroupOrder));
             ViewBag.PrefixOfficeMemo = prefix;
             return PartialView("_RoleLookup", items);
         }

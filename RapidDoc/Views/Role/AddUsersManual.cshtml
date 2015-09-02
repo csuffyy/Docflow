@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = UIElementRes.UIElement.AddUsers;
+}
+
+<h2>@UIElementRes.UIElement.AddUsers</h2>
+
+@using (Html.BeginForm("AddUsersManual", "Role", FormMethod.Post))
+{
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend></legend>
+        
+        <div class="editor-field">
+            <input class="form-control" data-role="tagsinputEmpl" data-val="true" data-val-required="Поле Пользователи должно быть заполнено" id="Users" name="Users" placeholder="Имя Фамилия" type="text" value="@ViewBag.Users" />
+        </div>
+
+        <br>
+        @{Html.RenderPartial("SaveBackBtn");}
+    </fieldset>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/editentity")
+}
+@section jslaunch {
+<script type="text/javascript">
+$(function () {
+    custom_tagsinputEmpl_init("@Url.Action("JsonUsers", "Custom")");
+});
+</script>
+}

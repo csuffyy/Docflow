@@ -39,6 +39,7 @@ namespace RapidDoc.Models.Services
         SelectList GetDropListCurrentEmplNull(Guid? id);
         object GetJsonEmpl();
         object GetJsonTripEmpl();
+        object GetJsonUsers();
         object GetJsonGroup();
         object GetJsonEmplIntercompany();
         object GetJsonRoles();
@@ -200,6 +201,19 @@ namespace RapidDoc.Models.Services
 
             return jsondata;
         }
+
+        public object GetJsonUsers()
+        {
+            var jsondata = from c in repoUser.All().Where(x => x.Enable == true)
+                           select new
+                           {
+                               value = string.Format("{0},{1} ( {2} )", c.Id, c.UserName, c.Email),
+                               text = string.Format("{0} ( {1} )", c.UserName, c.Email)
+                           };
+
+            return jsondata;
+        }
+
         public object GetJsonEmplIntercompany()
         {
             var jsondata = from c in GetPartialIntercompany(x => x.Enable == true)
@@ -220,7 +234,7 @@ namespace RapidDoc.Models.Services
                                 value = string.Format("{0},({1}) {2} - {3}", c.Id, c.AliasCompanyName, c.FullName, c.TitleName),
                                 text = string.Format("({0}) {1} - {2}", c.AliasCompanyName, c.FullName, c.TitleName)
                             }).Union(from x in RoleManager.Roles.AsEnumerable()
-                                     where x.RoleType == RoleType.Group
+                                     where (x.RoleType == RoleType.Group || x.RoleType == RoleType.GroupOrder)
                                      select new 
                                      {
                                         value = string.Format("{0}, {1}", x.Id, x.Description.Replace(",", " ")),
@@ -233,7 +247,7 @@ namespace RapidDoc.Models.Services
         public object GetJsonOnlyGroup()
         {
             var jsondata = (from x in RoleManager.Roles.AsEnumerable()
-                            where x.RoleType == RoleType.Group
+                            where (x.RoleType == RoleType.Group || x.RoleType == RoleType.GroupOrder)
                             select new
                             {
                                 value = string.Format("{0}, {1}", x.Id, x.Description.Replace(",", " ")),

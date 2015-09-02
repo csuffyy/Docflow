@@ -8,7 +8,14 @@
 
 @helper AddUsersField(RapidDoc.Models.ViewModels.RoleViewModel item)
 {
-    <a href=@Url.Action("AddUsers", new { id = item.Id })><span class="fa fa-plus fa-lg"></span></a>
+    if(item.RoleType == RapidDoc.Models.Repository.RoleType.GroupOrder)
+    { 
+        <a href=@Url.Action("AddUsersManual", new { id = item.Id })><span class="fa fa-plus fa-lg"></span></a>
+    }
+    else
+    {
+        <a href=@Url.Action("AddUsers", new { id = item.Id })><span class="fa fa-plus fa-lg"></span></a>
+    }
 }
 
 @Html.Grid(Model).Named("ordersGrid").Columns(columns =>

@@ -1236,7 +1236,7 @@ namespace RapidDoc.Controllers
                 ApplicationUserId = m.ApplicationUserId,
                 isActiveDualList = _DocumentReaderService.Contains(x => x.DocumentTableId == id && x.UserId == m.ApplicationUserId && x.RoleId == null)
             }).Union(from x in RoleManager.Roles.AsEnumerable()
-                        where x.RoleType == RoleType.Group
+                        where (x.RoleType == RoleType.Group || x.RoleType == RoleType.GroupOrder)
                         select new EmplDualListView
                         {
                             AliasCompanyName = UIElementRes.UIElement.Group,

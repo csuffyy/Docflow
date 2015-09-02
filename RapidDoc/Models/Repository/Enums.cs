@@ -100,7 +100,8 @@ namespace RapidDoc.Models.Repository
         System = 1,
         Workflow = 2,
         Reader = 3,
-        Group = 4
+        Group = 4,
+        GroupOrder = 5
     }
 
     public enum DocumentType : byte
