@@ -631,6 +631,6 @@
     <value>Задачи</value>
   </data>
   <data name="IncomingBase" xml:space="preserve">
-    <value>Входящие документы</value>
+    <value>Входящая корреспонденция</value>
   </data>
 </root>
