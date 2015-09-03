@@ -625,6 +625,6 @@
     <value>Tasks</value>
   </data>
   <data name="IncomingBase" xml:space="preserve">
-    <value>Incoming documents</value>
+    <value>Incoming correspondence</value>
   </data>
 </root>

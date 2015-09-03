@@ -101,7 +101,6 @@ namespace RapidDoc.Controllers
         public FileContentResult GenerateDetail(ReportParametersBasicView model)
         {
             EmailParameterTable emailParameter = _EmailService.FirstOrDefault(x => x.SmtpServer != String.Empty);
-
             WrapperImpersonationContext contextImpersonation = new WrapperImpersonationContext(emailParameter.ReportAdminDomain, emailParameter.ReportAdminUser, emailParameter.ReportAdminPassword);
             contextImpersonation.Enter();
 
@@ -119,13 +118,8 @@ namespace RapidDoc.Controllers
             var detailData = (from wfTracker in context.WFTrackerTable
                               join document in context.DocumentTable on wfTracker.DocumentTableId equals document.Id
                               join process in context.ProcessTable on document.ProcessTableId equals process.Id
-                         /*     join emplAuthor in context.EmplTable on document.ApplicationUserCreatedId equals emplAuthor.ApplicationUserId
-
-                              join emplExecutor in context.EmplTable on wfTracker.SignUserId equals emplExecutor.ApplicationUserId into eA
-                              from emplExecutor in eA.DefaultIfEmpty()*/
-
                               where wfTracker.CreatedDate >= model.StartDate && wfTracker.CreatedDate <= model.EndDate
-                             // && (document.DocumentNum == "RD0004724" || document.DocumentNum == "RDK000270")
+                              //&& (document.DocumentNum == "RD0008280" || document.DocumentNum == "RDK000270")
                               select new DetailReportModel
                               {
                                   GroupProcessName = process.GroupProcessTable.GroupProcessName,
@@ -141,12 +135,6 @@ namespace RapidDoc.Controllers
                                   DocumentId = wfTracker.DocumentTableId,
                                   Date = wfTracker.StartDateSLA
                               }).ToList();
-
-
-            foreach (var item in detailData.Where(x => x.SLAOffset > 0))
-            {
-                item.PerformDate = _DocumentService.GetSLAPerformDate(item.DocumentId, item.Date, item.SLAOffset);
-            }
 
             excelAppl = new Excel.Application();
             excelAppl.Visible = false;
@@ -209,26 +197,31 @@ namespace RapidDoc.Controllers
             {
                 rowCount++;
 
-                EmplTable emplAuthor = _EmplService.FirstOrDefault(x => x.ApplicationUserId == line.Author);
+                if(line.SLAOffset > 0)
+                    line.PerformDate = _DocumentService.GetSLAPerformDate(line.DocumentId, line.Date, line.SLAOffset);
+
+                EmplTable emplAuthor = _EmplService.GetEmployer(line.Author, user.CompanyTableId);
                 excelWorksheet.Cells[rowCount, 4] = emplAuthor.SecondName + " " + emplAuthor.FirstName + " " + emplAuthor.MiddleName;
+                excelWorksheet.Cells[rowCount, 5] = emplAuthor.TitleName;
+                excelWorksheet.Cells[rowCount, 6] = emplAuthor.DepartmentName;
 
                 if (line.UserExecuteName == String.Empty)
-                    excelWorksheet.Cells[rowCount, 8] = "";
+                    excelWorksheet.Cells[rowCount, 10] = "";
                 else
                 {
                     EmplTable emplExecutor = _EmplService.FirstOrDefault(x => x.ApplicationUserId == line.UserExecuteName);
-                    excelWorksheet.Cells[rowCount, 8] = emplExecutor.SecondName + " " + emplExecutor.FirstName + " " + emplExecutor.MiddleName;
+                    excelWorksheet.Cells[rowCount, 10] = emplExecutor.SecondName + " " + emplExecutor.FirstName + " " + emplExecutor.MiddleName;
                 }
                 excelWorksheet.Cells[rowCount, 1] = line.GroupProcessName.ToString();
                 excelWorksheet.Cells[rowCount, 2] = line.ProcessName.ToString();
                 excelWorksheet.Cells[rowCount, 3] = line.DocumentNumber.ToString();
-                excelWorksheet.Cells[rowCount, 5] = line.CreateDate.ToString() == "" ? "" : TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(line.CreateDate), timeZoneInfo).ToString();
-                excelWorksheet.Cells[rowCount, 6] = line.TrackerType.ToString();
-                excelWorksheet.Cells[rowCount, 7] = line.ActivityName.ToString();
-                excelWorksheet.Cells[rowCount, 9] = line.Date.ToString() == "" ? "" : TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(line.Date), timeZoneInfo).ToString();
-                excelWorksheet.Cells[rowCount, 10] = line.SignDate.ToString() == "" ? "" : TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(line.SignDate), timeZoneInfo).ToString();
-                excelWorksheet.Cells[rowCount, 11] = line.PerformDate.ToString() == "" ? "" : TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(line.PerformDate), timeZoneInfo).ToString();
-                excelWorksheet.Cells[rowCount, 12] = line.Minutes.ToString() == "" ? "" : line.Minutes.ToString();
+                excelWorksheet.Cells[rowCount, 7] = line.CreateDate.ToString() == "" ? "" : TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(line.CreateDate), timeZoneInfo).ToString();
+                excelWorksheet.Cells[rowCount, 8] = line.TrackerType.ToString();
+                excelWorksheet.Cells[rowCount, 9] = line.ActivityName.ToString();
+                excelWorksheet.Cells[rowCount, 11] = line.Date.ToString() == "" ? "" : TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(line.Date), timeZoneInfo).ToString();
+                excelWorksheet.Cells[rowCount, 12] = line.SignDate.ToString() == "" ? "" : TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(line.SignDate), timeZoneInfo).ToString();
+                excelWorksheet.Cells[rowCount, 13] = line.PerformDate.ToString() == "" ? "" : TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(line.PerformDate), timeZoneInfo).ToString();
+                excelWorksheet.Cells[rowCount, 14] = line.Minutes.ToString() == "" ? "" : line.Minutes.ToString();
             }
 
             object misValue = System.Reflection.Missing.Value;
@@ -503,6 +496,7 @@ namespace RapidDoc.Controllers
         public Guid DocumentId { get; set; }
         public DateTime? Date { get; set; }
         public int? Minutes { get; set; }
+        public string DepartmentName { get; set; }
     }
   /*  public class PdfReport
     {
