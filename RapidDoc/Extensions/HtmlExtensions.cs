@@ -221,7 +221,7 @@ namespace RapidDoc.Extensions
         public static string EnumToDescription(this HtmlHelper html, Enum value)
         {
             string result = "";
-            string key = String.Format("{0}/{1}", value.ToString(), CultureInfo.CurrentCulture);
+            string key = String.Format("{0}/{1}/{2}", value.GetType().ToString(), value.ToString(), CultureInfo.CurrentCulture);
             if (enumNameCache.Any(x => x.Key == key))
             {
                 result = enumNameCache.FirstOrDefault(x => x.Key == key).Value;
@@ -262,7 +262,7 @@ namespace RapidDoc.Extensions
         public static string EnumToDescription(this HtmlHelper html, string enumName, string value)
         {
             string result = "";
-            string key = String.Format("{0}/{1}", value.ToString(), CultureInfo.CurrentCulture);
+            string key = String.Format("{0}/{1}/{2}", enumName, value.ToString(), CultureInfo.CurrentCulture);
             if (enumNameCache.Any(x => x.Key == key))
             {
                 result = enumNameCache.FirstOrDefault(x => x.Key == key).Value;
@@ -299,7 +299,7 @@ namespace RapidDoc.Extensions
                 }
             }
 
-            return String.Empty;
+            return result;
         }
     }
 }
