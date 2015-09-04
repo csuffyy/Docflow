@@ -100,9 +100,13 @@ namespace RapidDoc.Controllers
         [HttpPost]
         public FileContentResult GenerateDetail(ReportParametersBasicView model)
         {
+            List<string> listdepartmentId = new List<string>();
             EmailParameterTable emailParameter = _EmailService.FirstOrDefault(x => x.SmtpServer != String.Empty);
             WrapperImpersonationContext contextImpersonation = new WrapperImpersonationContext(emailParameter.ReportAdminDomain, emailParameter.ReportAdminUser, emailParameter.ReportAdminPassword);
             contextImpersonation.Enter();
+
+            List<DepartmentTable> departmentTableList = _DepartmentService.GetPartial(x => x.Id == model.DepartmentTableId).ToList();
+            listdepartmentId = _ReportService.GetParentListDepartment(departmentTableList);
 
             ApplicationDbContext context = new ApplicationDbContext();
 
@@ -118,6 +122,9 @@ namespace RapidDoc.Controllers
             var detailData = (from wfTracker in context.WFTrackerTable
                               join document in context.DocumentTable on wfTracker.DocumentTableId equals document.Id
                               join process in context.ProcessTable on document.ProcessTableId equals process.Id
+                              join empl in context.EmplTable on document.ApplicationUserCreatedId equals empl.ApplicationUserId
+                              join title in context.TitleTable on empl.TitleTableId equals title.Id
+                              join department in context.DepartmentTable.Where(x => listdepartmentId.Contains(x.DepartmentName)) on empl.DepartmentTableId equals department.Id
                               where wfTracker.CreatedDate >= model.StartDate && wfTracker.CreatedDate <= model.EndDate
                               //&& (document.DocumentNum == "RD0008280" || document.DocumentNum == "RDK000270")
                               select new DetailReportModel
@@ -133,7 +140,10 @@ namespace RapidDoc.Controllers
                                   SignDate = wfTracker.SignDate,
                                   SLAOffset = wfTracker.SLAOffset,
                                   DocumentId = wfTracker.DocumentTableId,
-                                  Date = wfTracker.StartDateSLA
+                                  Date = wfTracker.StartDateSLA,
+                                  DepartmentName = department.DepartmentName,
+                                  FullName = empl.SecondName + " " + empl.FirstName + " " + empl.MiddleName,
+                                  TitleName = title.TitleName
                               }).ToList();
 
             excelAppl = new Excel.Application();
@@ -200,10 +210,10 @@ namespace RapidDoc.Controllers
                 if(line.SLAOffset > 0)
                     line.PerformDate = _DocumentService.GetSLAPerformDate(line.DocumentId, line.Date, line.SLAOffset);
 
-                EmplTable emplAuthor = _EmplService.GetEmployer(line.Author, user.CompanyTableId);
-                excelWorksheet.Cells[rowCount, 4] = emplAuthor.SecondName + " " + emplAuthor.FirstName + " " + emplAuthor.MiddleName;
-                excelWorksheet.Cells[rowCount, 5] = emplAuthor.TitleName;
-                excelWorksheet.Cells[rowCount, 6] = emplAuthor.DepartmentName;
+                //EmplTable emplAuthor = _EmplService.GetEmployer(line.Author, user.CompanyTableId);
+                excelWorksheet.Cells[rowCount, 4] = line.FullName;
+                excelWorksheet.Cells[rowCount, 5] = line.TitleName;
+                excelWorksheet.Cells[rowCount, 6] = line.DepartmentName;
 
                 if (line.UserExecuteName == String.Empty)
                     excelWorksheet.Cells[rowCount, 10] = "";
@@ -497,6 +507,8 @@ namespace RapidDoc.Controllers
         public DateTime? Date { get; set; }
         public int? Minutes { get; set; }
         public string DepartmentName { get; set; }
+        public string TitleName { get; set; }
+        public string FullName { get; set; }
     }
   /*  public class PdfReport
     {
