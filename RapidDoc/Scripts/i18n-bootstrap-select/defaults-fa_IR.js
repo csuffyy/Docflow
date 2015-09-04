@@ -22,15 +22,15 @@
 }(this, function (jQuery) {
 
 (function ($) {
-  $.fn.selectpicker.defaults = {
-    noneSelectedText: 'Nic nie zaznaczono',
-    noneResultsText: 'Brak wyników wyszukiwania {0}',
-    countSelectedText: 'Zaznaczono {0} z {1}',
-    maxOptionsText: ['Osiągnięto limit ({n} {var} max)', 'Limit grupy osiągnięty ({n} {var} max)', ['elementy', 'element']],
-    selectAll: 'Zaznacz wszystkie',
-    deselectAll: 'Odznacz wszystkie',
-    multipleSeparator: ', '
-  };
+    $.fn.selectpicker.defaults = {
+        noneSelectedText: 'چیزی انتخاب نشده است',
+        noneResultsText: 'هیج مشابهی برای {0} پیدا نشد',
+        countSelectedText: "{0} از {1} مورد انتخاب شده",
+        maxOptionsText: ['بیشتر ممکن نیست {حداکثر {n} عدد}', 'بیشتر ممکن نیست {حداکثر {n} عدد}'],
+        selectAllText: 'انتخاب همه',
+        deselectAllText: 'انتخاب هیچ کدام',
+        multipleSeparator: ', '
+    };
 })(jQuery);
 
 

@@ -23,12 +23,19 @@
 
 (function ($) {
   $.fn.selectpicker.defaults = {
-    noneSelectedText: 'Nic nie zaznaczono',
-    noneResultsText: 'Brak wyników wyszukiwania {0}',
-    countSelectedText: 'Zaznaczono {0} z {1}',
-    maxOptionsText: ['Osiągnięto limit ({n} {var} max)', 'Limit grupy osiągnięty ({n} {var} max)', ['elementy', 'element']],
-    selectAll: 'Zaznacz wszystkie',
-    deselectAll: 'Odznacz wszystkie',
+    noneSelectedText: 'Válasszon!',
+    noneResultsText: 'Nincs találat {0}',
+    countSelectedText: function (numSelected, numTotal) {
+      return '{0} elem kiválasztva';
+    },
+    maxOptionsText: function (numAll, numGroup) {
+      return [
+        'Legfeljebb {n} elem választható',
+        'A csoportban legfeljebb {n} elem választható'
+      ];
+    },
+    selectAllText: 'Mind',
+    deselectAllText: 'Egyik sem',
     multipleSeparator: ', '
   };
 })(jQuery);

@@ -11,6 +11,6 @@
     }
     else
     {
-        @Html.DropDownList("OrganizationTableId", (IEnumerable<SelectListItem>)ViewBag.OrganizationList, new { @class = "selectpickerfull", @data_live_search = "true", @data_size = "10" })
+        @Html.DropDownList("OrganizationTableId", OrganizationListFull, new { @class = "selectpickerfull", @data_live_search = "true", @data_size = "10" })
     }
 </div>

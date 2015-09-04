@@ -23,12 +23,12 @@
 
 (function ($) {
   $.fn.selectpicker.defaults = {
-    noneSelectedText: 'Nic nie zaznaczono',
-    noneResultsText: 'Brak wyników wyszukiwania {0}',
-    countSelectedText: 'Zaznaczono {0} z {1}',
-    maxOptionsText: ['Osiągnięto limit ({n} {var} max)', 'Limit grupy osiągnięty ({n} {var} max)', ['elementy', 'element']],
-    selectAll: 'Zaznacz wszystkie',
-    deselectAll: 'Odznacz wszystkie',
+    noneSelectedText: 'Vyberte zo zoznamu',
+    noneResultsText: 'Pre výraz {0} neboli nájdené žiadne výsledky',
+    countSelectedText: 'Vybrané {0} z {1}',
+    maxOptionsText: ['Limit prekročený ({n} {var} max)', 'Limit skupiny prekročený ({n} {var} max)', ['položiek', 'položka']],
+    selectAllText: 'Vybrať všetky',
+    deselectAllText: 'Zrušiť výber',
     multipleSeparator: ', '
   };
 })(jQuery);

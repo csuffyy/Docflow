@@ -23,12 +23,19 @@
 
 (function ($) {
   $.fn.selectpicker.defaults = {
-    noneSelectedText: 'Nic nie zaznaczono',
-    noneResultsText: 'Brak wyników wyszukiwania {0}',
-    countSelectedText: 'Zaznaczono {0} z {1}',
-    maxOptionsText: ['Osiągnięto limit ({n} {var} max)', 'Limit grupy osiągnięty ({n} {var} max)', ['elementy', 'element']],
-    selectAll: 'Zaznacz wszystkie',
-    deselectAll: 'Odznacz wszystkie',
+    noneSelectedText: 'Intet valgt',
+    noneResultsText: 'Ingen resultater fundet {0}',
+    countSelectedText: function (numSelected, numTotal) {
+      return (numSelected == 1) ? "{0} valgt" : "{0} valgt";
+    },
+    maxOptionsText: function (numAll, numGroup) {
+      return [
+        (numAll == 1) ? 'Begrænsning nået (max {n} valgt)' : 'Begrænsning nået (max {n} valgte)',
+        (numGroup == 1) ? 'Gruppe-begrænsning nået (max {n} valgt)' : 'Gruppe-begrænsning nået (max {n} valgte)'
+      ];
+    },
+    selectAllText: 'Markér alle',
+    deselectAllText: 'Afmarkér alle',
     multipleSeparator: ', '
   };
 })(jQuery);
