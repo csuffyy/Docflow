@@ -19,6 +19,7 @@ using System.Text.RegularExpressions;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
+
 namespace RapidDoc.Controllers
 {
     public class BatchController : ApiController
@@ -219,6 +220,14 @@ namespace RapidDoc.Controllers
                         {
                             DepartmentTable rolesDepartment = this.getParentDepartment(user.DepartmentTableId);
 
+                            var itemsRole = roleManager.Roles.Where(x => x.RoleType == Models.Repository.RoleType.CreatingAccess);
+                            foreach (var item in itemsRole)
+                            {
+                                if (userManager.IsInRole(user.ApplicationUserId, item.Name))
+                                    userManager.RemoveFromRole(user.ApplicationUserId, item.Name); 
+                            }
+                            
+
                             if (rolesDepartment != null)
                             {
                                 string[] arrayTempStructrue = rolesDepartment.RequiredRoles.Split(',');
@@ -227,12 +236,8 @@ namespace RapidDoc.Controllers
 
                                 foreach (var role in arrayStructure)
                                 {
-                                    string roleName = roleManager.FindById(role).Name;
-
-                                    if (!userManager.IsInRole(user.ApplicationUserId, roleName))
-                                    {
-                                        userManager.AddToRole(user.ApplicationUserId, roleName);
-                                    }
+                                    string roleName = roleManager.FindById(role).Name; 
+                                    userManager.AddToRole(user.ApplicationUserId, roleName);
                                 }
                             }
 
