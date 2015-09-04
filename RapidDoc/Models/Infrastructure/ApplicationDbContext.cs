@@ -296,7 +296,7 @@ namespace RapidDoc.Models.Infrastructure
         public DbSet<USR_OFM_VIP_OfficeMemo_Table> USR_OFM_VIP_OfficeMemo_Table { get; set; }
         public DbSet<USR_OFM_BMK_OfficeMemo_Table> USR_OFM_BMK_OfficeMemo_Table { get; set; }
         public DbSet<USR_OFM_BY_OfficeMemo_Table> USR_OFM_BY_OfficeMemo_Table { get; set; }
-        public DbSet<USR_OFM_GTEO_OfficeMemo_Table> USR_OFM_GTEO_OfficeMemo_Table { get; set; }
+        public DbSet<USR_OFM_UKR_OfficeMemo_Table> USR_OFM_GTEO_OfficeMemo_Table { get; set; }
         public DbSet<USR_OFM_DS_OfficeMemo_Table> USR_OFM_DS_OfficeMemo_Table { get; set; }
         public DbSet<USR_OFM_ZIF_OfficeMemo_Table> USR_OFM_ZIF_OfficeMemo_Table { get; set; }
         public DbSet<USR_OFM_OKS_OfficeMemo_Table> USR_OFM_OKS_OfficeMemo_Table { get; set; }

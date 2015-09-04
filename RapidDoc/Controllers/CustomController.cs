@@ -1698,7 +1698,7 @@ namespace RapidDoc.Controllers
 
             return PartialView("USR_OFM_BY_OfficeMemo_View_Full", model);
         }
-        public ActionResult GetManualOfficeMemoGTEO(RapidDoc.Models.ViewModels.USR_OFM_GTEO_OfficeMemo_View model)
+        public ActionResult GetManualOfficeMemoUKR(RapidDoc.Models.ViewModels.USR_OFM_UKR_OfficeMemo_View model)
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
 
@@ -1709,12 +1709,12 @@ namespace RapidDoc.Controllers
                 {
                     if (current.Any(x => x.SystemName == "MidManager" || x.SystemName == "Manager"))
                     {
-                        return PartialView("USR_OFM_GTEO_OfficeMemo_Edit_Part", model);
+                        return PartialView("USR_OFM_UKR_OfficeMemo_Edit_Part", model);
                     }
                 }
             }
 
-            return PartialView("USR_OFM_GTEO_OfficeMemo_View_Full", model);
+            return PartialView("USR_OFM_UKR_OfficeMemo_View_Full", model);
         }
         public ActionResult GetManualOfficeMemoDS(RapidDoc.Models.ViewModels.USR_OFM_DS_OfficeMemo_View model)
         {

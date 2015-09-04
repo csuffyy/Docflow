@@ -6589,7 +6589,7 @@ namespace RapidDoc.Models.DomainModels
     {
 
     }
-    public class USR_OFM_GTEO_OfficeMemo_Table : BasicDocumantOfficeMemoTable
+    public class USR_OFM_UKR_OfficeMemo_Table : BasicDocumantOfficeMemoTable
     {
 
     }

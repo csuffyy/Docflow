@@ -1732,10 +1732,10 @@
     <Content Include="Views\Custom\USR_OFM_FS_OfficeMemo_Edit_Part.cshtml" />
     <Content Include="Views\Custom\USR_OFM_FS_OfficeMemo_View.cshtml" />
     <Content Include="Views\Custom\USR_OFM_FS_OfficeMemo_View_Full.cshtml" />
-    <Content Include="Views\Custom\USR_OFM_GTEO_OfficeMemo_Edit.cshtml" />
-    <Content Include="Views\Custom\USR_OFM_GTEO_OfficeMemo_Edit_Part.cshtml" />
-    <Content Include="Views\Custom\USR_OFM_GTEO_OfficeMemo_View.cshtml" />
-    <Content Include="Views\Custom\USR_OFM_GTEO_OfficeMemo_View_Full.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_UKR_OfficeMemo_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_UKR_OfficeMemo_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_UKR_OfficeMemo_View.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_UKR_OfficeMemo_View_Full.cshtml" />
     <Content Include="Views\Custom\USR_OFM_HU_OfficeMemo_Edit.cshtml" />
     <Content Include="Views\Custom\USR_OFM_HU_OfficeMemo_Edit_Part.cshtml" />
     <Content Include="Views\Custom\USR_OFM_HU_OfficeMemo_View.cshtml" />
@@ -1913,6 +1913,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <XamlAppDef Include="Activities\USR_OFM_OKS_OfficeMemo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </XamlAppDef>
     <XamlAppDef Include="Activities\USR_OFM_UIT_OfficeMemo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -3338,19 +3342,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </XamlAppDef>
-    <XamlAppDef Include="Activities\USR_OFM_GTEO_OfficeMemo.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </XamlAppDef>
     <XamlAppDef Include="Activities\USR_OFM_HU_OfficeMemo.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </XamlAppDef>
     <XamlAppDef Include="Activities\USR_OFM_JU_OfficeMemo.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </XamlAppDef>
-    <XamlAppDef Include="Activities\USR_OFM_OKS_OfficeMemo.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </XamlAppDef>
@@ -3445,6 +3441,12 @@
   </ItemGroup>
   <ItemGroup>
     <XamlAppDef Include="Activities\USR_OFM_VIP_OfficeMemo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USR_OFM_UKR_OfficeMemo.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </XamlAppDef>

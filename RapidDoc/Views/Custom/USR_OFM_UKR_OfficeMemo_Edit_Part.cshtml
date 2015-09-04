@@ -1,8 +1,12 @@
-﻿@model RapidDoc.Models.ViewModels.USR_OFM_GTEO_OfficeMemo_View
+﻿@model RapidDoc.Models.ViewModels.USR_OFM_UKR_OfficeMemo_View
 @using RapidDoc.Extensions;
 
-@Html.HiddenFor(model => Model.DocumentWhom)
-@Html.HiddenFor(model => Model.AdditionalText)
+@Html.HiddenFor(model => model.Id)
+@Html.HiddenFor(model => model.DocumentTableId)
+@Html.HiddenFor(model => model.ItemCauseTableId)
+@Html.HiddenFor(model => model.DocumentWhom)
+@Html.HiddenFor(model => model.Parallel)
+@Html.HiddenFor(model => model.AdditionalText)
 <div class="row">
     <div class="col-xs-12">
         <div>
@@ -10,37 +14,32 @@
         </div>
     </div>
 </div>
-
-<div class="row">
-    <div class="col-xs-12">
-        @Html.LabelFor(model => Model.Whom): @Html.DisplayTextFor(model => Model.Whom)
-    </div>
+<br />
+<div class="panel panel-default">
+    <table class="table-bordered">
+        <tbody>
+            <tr>
+                <td><span class="input-group-addon" id="sizing-addon1" style="height:43px; width:100px;border-width:0px; text-align:left;"><strong>Кому:</strong></span></td>
+                <td>@Html.TextBoxFor(model => Model.Whom, new { @class = "form-control", @size = 256, @maxlength = 256, placeholder = "Кому", aria_describedby = "sizing-addon3", @style = "border-width:0px" })</td>
+            </tr>
+            <tr>
+                <td><span class="input-group-addon" id="sizing-addon1" style="height: 43px;width:100px;border-width:0px; text-align:left;"><strong>Копия:</strong></span></td>
+                <td>@Html.TextBoxFor(model => Model.DocumentCopy, new { @class = "form-control", @size = 256, @maxlength = 256, placeholder = "Копия", aria_describedby = "sizing-addon3", @style = "border-width:0px" })</td>
+            </tr>
+            <tr>
+                <td><span class="input-group-addon" id="sizing-addon1" style="height:43px;width:100px;border-width:0px; text-align:left;"><strong>От кого:<span class="required">*</span></strong></span></td>
+                <td>@Html.TextBoxFor(model => Model.FromWhom, new { @class = "form-control", @size = 256, @maxlength = 256, placeholder = "От кого", aria_describedby = "sizing-addon3", @style = "border-width:0px" })</td>
+            </tr>
+            <tr>
+                <td><span class="input-group-addon" id="sizing-addon1" style="height:43px;width:100px;border-width:0px; text-align:left;"><strong>Тема:<span class="required">*</span></strong></span></td>
+                <td>@Html.TextBoxFor(model => Model._DocumentTitle, new { @class = "form-control", @size = 256, @maxlength = 256, placeholder = "Тема", aria_describedby = "sizing-addon3", @style = "border-width:0px" })</td>
+            </tr>
+        </tbody>
+    </table>
 </div>
-@if (!String.IsNullOrEmpty(Model.DocumentCopy))
-{
-    <div class="row">
-        <div class="col-xs-12">
-            @Html.LabelFor(model => Model.DocumentCopy): @Html.DisplayTextFor(model => Model.DocumentCopy)
-        </div>
-    </div>
-}
-<div class="row">
-    <div class="col-xs-12">
-        @Html.LabelFor(model => Model.FromWhom): @Html.DisplayTextFor(model => Model.FromWhom)
-    </div>
+<div class="editor-field">
+    @Html.TextAreaFor(model => Model.MainField, new { @class = "form-control summernote" })
 </div>
-
-<div class="row">
-    <div class="col-xs-12">
-        @Html.LabelFor(model => Model._DocumentTitle): @Html.DisplayTextFor(model => Model._DocumentTitle)
-    </div>
-</div>
-<div class="row" style="background-color: #fff; border-bottom: 1px solid #bdc3c7; border-top: 1px solid #bdc3c7;">
-    <div class="col-xs-12">
-        @Html.Raw(Model.MainField)
-    </div>
-</div>
-
 <div class="modal fade addusers-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content modal-lg">
@@ -59,7 +58,6 @@
                 <span>
                     @Html.CheckBox("IsParallel", true, new { @data_labelauty = "Параллельно|Параллельно" })
                 </span>
-
                 <a data-toggle="collapse" href="#collapseSettings" aria-expanded="false" aria-controls="collapseSettings">Добавить сопроводительный текст</a>
                 <div class="collapse" id="collapseSettings">
                     <div class="editor-field">
@@ -69,7 +67,7 @@
                 <br /><br />
                 <h4 class="modal-title">@FieldNameRes.FieldNameResource.Notify</h4>
                 <div class="editor-field">
-                    @Html.CheckBox("IsNotifyCZ", false)
+                    @Html.CheckBox("IsNotifyCZ", true)
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary" name="action:AddUsersDocumentCZ">@UIElementRes.UIElement.AddUsers</button>
@@ -103,9 +101,9 @@
             <div class="modal-body" style="min-height:250px;">
                 @Html.TextArea("RejectComment", new { @class = "form-control", @placeholder = "Обязательно укажите причину отмены" })
                 <br>
-                <div class="modal-footer">
-                    <button type="submit" id="rejectCZ" class="btn btn-danger" name="action:RejectDocumentCZ">@UIElementRes.UIElement.Reject</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">@UIElementRes.UIElement.Cancel</button>
+                <div>
+                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal">@UIElementRes.UIElement.Cancel</button>
+                    <button type="submit" id="rejectCZ" class="btn btn-danger pull-right" name="action:RejectDocumentCZ">@UIElementRes.UIElement.Reject</button>
                 </div>
             </div>
         </div>
@@ -121,15 +119,14 @@
             <div class="modal-body" style="min-height:200px;">
                 @Html.TextArea("ApproveComment", new { @class = "form-control", @placeholder = "Замечания" })
                 <br>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-success" name="action:ApproveDocumentCZ">@UIElementRes.UIElement.Approve</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">@UIElementRes.UIElement.Cancel</button>
+                <div>
+                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal">@UIElementRes.UIElement.Cancel</button>
+                    <button type="submit" class="btn btn-success pull-right" name="action:ApproveDocumentCZ">@UIElementRes.UIElement.Approve</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 <script type="text/javascript">
     $(function () {
         bootstrap_alert = function () { }
@@ -152,5 +149,3 @@
         });
     });
 </script>
-
-

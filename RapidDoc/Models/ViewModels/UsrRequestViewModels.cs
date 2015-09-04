@@ -8934,7 +8934,7 @@ namespace RapidDoc.Models.ViewModels
     {
 
     }
-    public class USR_OFM_GTEO_OfficeMemo_View : BasicDocumantOfficeMemoView
+    public class USR_OFM_UKR_OfficeMemo_View : BasicDocumantOfficeMemoView
     {
 
     }
