@@ -33,6 +33,8 @@ namespace RapidDoc.Models.Services
         DepartmentView FindView(Guid id);
         SelectList GetDropListDepartmentNull(Guid? id);
         SelectList GetDropListDepartment(Guid? id);
+
+        DepartmentTable getParentDepartment(Guid? id, Guid companyId);
     }
 
     public class DepartmentService : IDepartmentService
@@ -160,6 +162,18 @@ namespace RapidDoc.Models.Services
             else
             {
                 return repoUser.GetById(HttpContext.Current.User.Identity.GetUserId());
+            }
+        }
+
+        public DepartmentTable getParentDepartment(Guid? id, Guid companyId)
+        {
+            DepartmentTable childDepartment = FirstOrDefault(x => x.Id == id && x.CompanyTableId == companyId);
+            if (childDepartment != null && childDepartment.RequiredRoles != null)
+                return childDepartment;
+            else
+            {
+
+                return childDepartment != null && childDepartment.ParentDepartmentId != null ? this.getParentDepartment(childDepartment.ParentDepartmentId, companyId) : null;
             }
         }
     }

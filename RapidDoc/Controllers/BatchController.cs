@@ -223,7 +223,7 @@ namespace RapidDoc.Controllers
 
                         foreach (var user in users)
                         {
-                            DepartmentTable rolesDepartment = this.getParentDepartment(user.DepartmentTableId, company.Id);
+                            DepartmentTable rolesDepartment = _DepartmentService.getParentDepartment(user.DepartmentTableId, company.Id);
 
                             if (rolesDepartment != null)
                             {
@@ -253,19 +253,7 @@ namespace RapidDoc.Controllers
                     }
                     break;
             }      
-        }
-
-        public DepartmentTable getParentDepartment(Guid? id, Guid companyId)
-        {
-            DepartmentTable childDepartment = _DepartmentService.FirstOrDefault(x => x.Id == id && x.CompanyTableId == companyId);
-            if (childDepartment != null && childDepartment.RequiredRoles != null)
-                return childDepartment;
-            else
-            {
-
-                return childDepartment != null && childDepartment.ParentDepartmentId != null ? this.getParentDepartment(childDepartment.ParentDepartmentId, companyId) : null;
-            }
-        }
+        }      
     }
     public class CheckSLAStatus
     {
