@@ -29,6 +29,7 @@
             //
 
             context.OrganizationTable.AddOrUpdate(
+                p => p.OrgName,
                 new RapidDoc.Models.DomainModels.OrganizationTable { OrgName = "ENGINEERING DOBERSEK GMBH", CreatedDate = DateTime.UtcNow, ModifiedDate = DateTime.UtcNow },
 new RapidDoc.Models.DomainModels.OrganizationTable { OrgName = "FLSMIDTH LTD", CreatedDate = DateTime.UtcNow, ModifiedDate = DateTime.UtcNow },
 new RapidDoc.Models.DomainModels.OrganizationTable { OrgName = "GLENCORE INTERNATIONAL", CreatedDate = DateTime.UtcNow, ModifiedDate = DateTime.UtcNow },

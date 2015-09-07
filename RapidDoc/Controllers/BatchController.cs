@@ -34,9 +34,11 @@ namespace RapidDoc.Controllers
         protected readonly IReportService _ReportService;
         protected readonly IDepartmentService _DepartmentService;
         protected readonly IWorkflowTrackerService _WorkflowTrackerService;
-        private readonly IWorkflowService _WorkflowService;
+        protected readonly IWorkflowService _WorkflowService;
+        protected readonly ICompanyService _CompanyService;
+        protected readonly ISystemService _SystemService;
 
-        public BatchController(IEmplService emplService, IWorkScheduleService workScheduleService,
+        public BatchController(IEmplService emplService, IWorkScheduleService workScheduleService, ICompanyService companyService, ISystemService systemService,
             IEmailService emailservice, IDocumentService documentservice, IReviewDocLogService reviewDocLogService,
             IAccountService accountService, IProcessService processService, IReportService reportService, IDepartmentService departmentService, IWorkflowTrackerService workflowtrackerService, IWorkflowService workflowService)
         {
@@ -51,12 +53,15 @@ namespace RapidDoc.Controllers
             _DepartmentService = departmentService;
             _WorkflowTrackerService = workflowtrackerService;
             _WorkflowService = workflowService;
+            _CompanyService = companyService;
+            _SystemService = systemService;
         }
 
         // GET api/<controller>
         public void Get(int id, string companyId)
         {
-            var allDocument = _Documentservice.GetPartial(x => x.CompanyTable.AliasCompanyName == companyId).ToList();
+            CompanyTable company = _CompanyService.FirstOrDefault(x => x.AliasCompanyName == companyId);
+            var allDocument = _Documentservice.GetPartial(x => x.CompanyTableId == company.Id).ToList();
 
             if (allDocument == null)
                 return;
@@ -211,20 +216,18 @@ namespace RapidDoc.Controllers
                 case 7:
                     if (_WorkScheduleService.CheckWorkTime(null, DateTime.UtcNow))
                     {
-                        var users = _EmplService.GetPartial(x => x.Enable == true).ToList();
+                        var users = _EmplService.GetPartialIntercompany(x => x.Enable == true && x.CompanyTableId == company.Id).ToList();
 
                         UserManager<ApplicationUser>  userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
                         RoleManager<ApplicationRole> roleManager = new RoleManager<ApplicationRole>(new RoleStore<ApplicationRole>(new ApplicationDbContext()));
 
                         foreach (var user in users)
                         {
-                            DepartmentTable rolesDepartment = this.getParentDepartment(user.DepartmentTableId);
+                            DepartmentTable rolesDepartment = this.getParentDepartment(user.DepartmentTableId, company.Id);
 
                             if (rolesDepartment != null)
                             {
-                                string[] arrayTempStructrue = rolesDepartment.RequiredRoles.Split(',');
-                                Regex isGuid = new Regex(@"^(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}$", RegexOptions.Compiled);
-                                string[] arrayStructure = arrayTempStructrue.Where(a => isGuid.IsMatch(a) == true).ToArray();
+                                string[] arrayStructure = _SystemService.GuidsFromText(rolesDepartment.RequiredRoles);
 
                                 foreach (var role in arrayStructure)
                                 {
@@ -252,15 +255,15 @@ namespace RapidDoc.Controllers
             }      
         }
 
-        public DepartmentTable getParentDepartment(Guid? id)
+        public DepartmentTable getParentDepartment(Guid? id, Guid companyId)
         {
-            DepartmentTable childDepartment = _DepartmentService.FirstOrDefault(x => x.Id == id);
+            DepartmentTable childDepartment = _DepartmentService.FirstOrDefault(x => x.Id == id && x.CompanyTableId == companyId);
             if (childDepartment != null && childDepartment.RequiredRoles != null)
                 return childDepartment;
             else
             {
 
-                return childDepartment != null && childDepartment.ParentDepartmentId != null ? this.getParentDepartment(childDepartment.ParentDepartmentId) : null;
+                return childDepartment != null && childDepartment.ParentDepartmentId != null ? this.getParentDepartment(childDepartment.ParentDepartmentId, companyId) : null;
             }
         }
     }

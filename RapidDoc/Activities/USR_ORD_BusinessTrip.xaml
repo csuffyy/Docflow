@@ -452,7 +452,7 @@
                                         <Flowchart DisplayName="Цензор 2" sap2010:WorkflowViewState.IdRef="Flowchart_3">
                                           <Flowchart.StartNode>
                                             <FlowStep x:Name="__ReferenceID7" sap2010:WorkflowViewState.IdRef="FlowStep_6">
-                                              <local1:WFChooseRoleUser _service="{x:Null}" executionStep="{x:Null}" slaOffset="{x:Null}" DisplayName="Цензор 2" sap2010:WorkflowViewState.IdRef="WFChooseRoleUser_2" inputRoleName="BusinessTripORD_Censor2" inputSystemName="Censor2" noneSkip="True" useManual="False">
+                                              <local1:WFChooseRoleUser _service="{x:Null}" executionStep="{x:Null}" slaOffset="{x:Null}" DisplayName="Цензор 2" sap2010:WorkflowViewState.IdRef="WFChooseRoleUser_2" inputRoleName="ORD_Censor2" inputSystemName="Censor2" noneSkip="True" useManual="False">
                                                 <local1:WFChooseRoleUser.inputCurrentUser>
                                                   <InArgument x:TypeArguments="x:String">
                                                     <mca:CSharpValue x:TypeArguments="x:String">inputCurrentUser</mca:CSharpValue>
@@ -987,7 +987,7 @@
     <x:Reference>__ReferenceID39</x:Reference>
     <x:Reference>__ReferenceID40</x:Reference>
     <x:Reference>__ReferenceID41</x:Reference>
-    <sads:DebugSymbol.Symbol>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</sads:DebugSymbol.Symbol>
+    <sads:DebugSymbol.Symbol>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</sads:DebugSymbol.Symbol>
   </Flowchart>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>
@@ -1021,13 +1021,13 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="FlowDecision_1" sap:VirtualizedContainerService.HintSize="128,87">
+      <sap2010:ViewStateData Id="FlowDecision_1" sap:VirtualizedContainerService.HintSize="126,87">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
             <av:Point x:Key="ShapeLocation">186,201</av:Point>
-            <av:Size x:Key="ShapeSize">128,87</av:Size>
-            <av:PointCollection x:Key="FalseConnector">314,244.5 344,244.5 344,250 440,250</av:PointCollection>
+            <av:Size x:Key="ShapeSize">126,87</av:Size>
+            <av:PointCollection x:Key="FalseConnector">312,244.5 342,244.5 342,250 440,250</av:PointCollection>
             <av:PointCollection x:Key="TrueConnector">299,427.42 277.25,427.42 277.25,543.92 547.25,543.92 547.25,573.92</av:PointCollection>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
@@ -1071,7 +1071,7 @@
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
       <sap2010:ViewStateData Id="If_2" sap:VirtualizedContainerService.HintSize="656,610" />
-      <sap2010:ViewStateData Id="ForEach`1_1" sap:VirtualizedContainerService.HintSize="686,760" />
+      <sap2010:ViewStateData Id="ForEach`1_1" sap:VirtualizedContainerService.HintSize="200,51" />
       <sap2010:ViewStateData Id="WFChooseUpManager_1" sap:VirtualizedContainerService.HintSize="200,22">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -1149,13 +1149,13 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="FlowDecision_3" sap:VirtualizedContainerService.HintSize="128,87">
+      <sap2010:ViewStateData Id="FlowDecision_3" sap:VirtualizedContainerService.HintSize="126,87">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
             <av:Point x:Key="ShapeLocation">186,201</av:Point>
-            <av:Size x:Key="ShapeSize">128,87</av:Size>
-            <av:PointCollection x:Key="FalseConnector">314,244.5 344,244.5 344,250 440,250</av:PointCollection>
+            <av:Size x:Key="ShapeSize">126,87</av:Size>
+            <av:PointCollection x:Key="FalseConnector">312,244.5 342,244.5 342,250 440,250</av:PointCollection>
             <av:PointCollection x:Key="TrueConnector">299,427.42 277.25,427.42 277.25,543.92 547.25,543.92 547.25,573.92</av:PointCollection>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
@@ -1246,13 +1246,13 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="FlowDecision_4" sap:VirtualizedContainerService.HintSize="128,87">
+      <sap2010:ViewStateData Id="FlowDecision_4" sap:VirtualizedContainerService.HintSize="126,87">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
             <av:Point x:Key="ShapeLocation">186,201</av:Point>
-            <av:Size x:Key="ShapeSize">128,87</av:Size>
-            <av:PointCollection x:Key="FalseConnector">314,244.5 344,244.5 344,250 440,250</av:PointCollection>
+            <av:Size x:Key="ShapeSize">126,87</av:Size>
+            <av:PointCollection x:Key="FalseConnector">312,244.5 342,244.5 342,250 440,250</av:PointCollection>
             <av:PointCollection x:Key="TrueConnector">299,427.42 277.25,427.42 277.25,543.92 547.25,543.92 547.25,573.92</av:PointCollection>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>

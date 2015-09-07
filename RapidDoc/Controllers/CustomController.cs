@@ -67,13 +67,6 @@ namespace RapidDoc.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public JsonResult JsonCreatingAccessRoles()
-        {
-            var jsondata = _EmplService.GetJsonCreatingAccessRoles();
-            return Json(jsondata, JsonRequestBehavior.AllowGet);
-        }
-
-        [AcceptVerbs(HttpVerbs.Get)]
         public JsonResult GetJsonOnlyGroup()
         {
             var jsondata = _EmplService.GetJsonOnlyGroup();
