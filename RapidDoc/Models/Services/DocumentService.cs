@@ -1118,7 +1118,7 @@ namespace RapidDoc.Models.Services
                 {
                     foreach (var item in trackerSeq)
                     {
-                        var nextstep = _WorkflowTrackerService.FirstOrDefault(x => x.TrackerType == TrackerType.NonActive && x.LineNum > item.LineNum && x.ActivityID == item.ActivityID);
+                        var nextstep = _WorkflowTrackerService.GetPartial(y => y.TrackerType == TrackerType.NonActive && y.LineNum > item.LineNum && y.ActivityID == item.ActivityID).OrderBy(o => o.LineNum).FirstOrDefault();
                         if (nextstep != null)
                         {
                             nextstep.TrackerType = TrackerType.Waiting;
