@@ -257,7 +257,7 @@ namespace RapidDoc.Controllers
         [AllowAnonymous]
         public ActionResult RoleLookup(string prefix)
         {
-            var items = Mapper.Map<IEnumerable<ApplicationRole>, IEnumerable<RoleViewModel>>(RoleManager.Roles.Where(x => x.RoleType == Models.Repository.RoleType.Group || x.RoleType == Models.Repository.RoleType.GroupOrder));
+            var items = Mapper.Map<IEnumerable<ApplicationRole>, IEnumerable<RoleViewModel>>(RoleManager.Roles.Where(x => x.RoleType == Models.Repository.RoleType.Group || x.RoleType == Models.Repository.RoleType.GroupOrder).OrderBy(x => x.Name));
             ViewBag.PrefixOfficeMemo = prefix;
             return PartialView("_RoleLookup", items);
         }

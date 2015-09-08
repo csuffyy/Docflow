@@ -12,8 +12,8 @@
     }
     
     object dataTypeAttr = property.GetCustomAttributes(typeof(System.ComponentModel.DataAnnotations.DataTypeAttribute), false).FirstOrDefault();
-    if(!String.IsNullOrEmpty(property.GetValue(Model, null).ToString()))
-    { 
+    if(property.GetValue(Model, null) != null && !String.IsNullOrEmpty(property.GetValue(Model, null).ToString()))
+    {
         <div class="editor-label">
             @Html.Label((string)property.Name)
         </div>

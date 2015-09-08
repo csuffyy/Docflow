@@ -1144,7 +1144,7 @@ namespace RapidDoc.Controllers
                 }
             }
 
-            return RedirectToAction("ShowDocument", new { id = id, isAfterView = true });
+            return RedirectToAction("Index");
         }
 
         public ActionResult DocumentFromArchive(Guid id)
