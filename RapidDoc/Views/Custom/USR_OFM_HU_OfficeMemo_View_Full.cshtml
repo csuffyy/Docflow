@@ -10,29 +10,41 @@
         </div>
     </div>
 </div>
-
+<br class="visible-print" />
 <div class="row">
-    <div class="col-xs-12">
-        @Html.LabelFor(model => Model.Whom): @Html.DisplayTextFor(model => Model.Whom)
+    <div class="col-xs-1">
+        @Html.LabelFor(model => Model.Whom)
+    </div>
+    <div class="col-xs-11">
+        <span style="white-space: pre-line">@Model.Whom</span>
     </div>
 </div>
 @if (!String.IsNullOrEmpty(Model.DocumentCopy))
 {
     <div class="row">
-        <div class="col-xs-12">
-            @Html.LabelFor(model => Model.DocumentCopy): @Html.DisplayTextFor(model => Model.DocumentCopy)
+        <div class="col-xs-1">
+            @Html.LabelFor(model => Model.DocumentCopy)
+        </div>
+        <div class="col-xs-11">
+            <span style="white-space: pre-line">@Model.DocumentCopy</span>
         </div>
     </div>
 }
 <div class="row">
-    <div class="col-xs-12">
-        @Html.LabelFor(model => Model.FromWhom): @Html.DisplayTextFor(model => Model.FromWhom)
+    <div class="col-xs-1">
+        @Html.LabelFor(model => Model.FromWhom)
+    </div>
+    <div class="col-xs-11">
+        @Html.DisplayTextFor(model => Model.FromWhom)
     </div>
 </div>
 
 <div class="row">
-    <div class="col-xs-12">
-        @Html.LabelFor(model => Model._DocumentTitle): @Html.DisplayTextFor(model => Model._DocumentTitle)
+    <div class="col-xs-1">
+        @Html.LabelFor(model => Model._DocumentTitle)
+    </div>
+    <div class="col-xs-11">
+        @Html.DisplayTextFor(model => Model._DocumentTitle)
     </div>
 </div>
 <div class="row" style="background-color: #fff; border-bottom: 1px solid #bdc3c7; border-top: 1px solid #bdc3c7;">
