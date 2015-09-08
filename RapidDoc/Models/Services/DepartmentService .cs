@@ -35,6 +35,7 @@ namespace RapidDoc.Models.Services
         SelectList GetDropListDepartment(Guid? id);
 
         DepartmentTable getParentDepartment(Guid? id, Guid companyId);
+        bool checkParentDepartment(string groupName, string userId);
     }
 
     public class DepartmentService : IDepartmentService
@@ -175,6 +176,14 @@ namespace RapidDoc.Models.Services
 
                 return childDepartment != null && childDepartment.ParentDepartmentId != null ? this.getParentDepartment(childDepartment.ParentDepartmentId, companyId) : null;
             }
+        }
+
+
+        public bool checkParentDepartment(string groupName, string userId)
+        {
+            UserManager<ApplicationUser>  userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+
+            return userManager.IsInRole(userId, groupName);
         }
     }
 }
