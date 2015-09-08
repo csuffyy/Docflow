@@ -233,7 +233,7 @@ namespace RapidDoc.Controllers
                                 {
                                     string roleName = roleManager.FindById(role).Name;
 
-                                    if (!userManager.IsInRole(user.ApplicationUserId, roleName))
+                                    if (user.ApplicationUserId != null && !userManager.IsInRole(user.ApplicationUserId, roleName))
                                     {
                                         userManager.AddToRole(user.ApplicationUserId, roleName);
                                     }
