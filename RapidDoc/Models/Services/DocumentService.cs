@@ -27,6 +27,7 @@ namespace RapidDoc.Models.Services
         IQueryable<DocumentView> GetAllView();
         IQueryable<DocumentView> GetArchiveView();
         IQueryable<DocumentView> GetMyDocumentView();
+        IQueryable<DocumentTaskView> GetTaskDocumentView();
         IEnumerable<DocumentTable> GetPartial(Expression<Func<DocumentTable, bool>> predicate);
         DocumentTable FirstOrDefault(Expression<Func<DocumentTable, bool>> predicate);
         DocumentView FirstOrDefaultView(Expression<Func<DocumentTable, bool>> predicate);
@@ -446,6 +447,53 @@ namespace RapidDoc.Models.Services
             return items.AsQueryable();
         }
 
+        public IQueryable<DocumentTaskView> GetTaskDocumentView()
+        {
+            ApplicationUser user = getCurrentUserId();
+            DateTime currentDate = DateTime.UtcNow;
+            ApplicationDbContext contextQuery = _uow.GetDbContext<ApplicationDbContext>();
+
+            var items = from document in contextQuery.DocumentTable
+                        where (contextQuery.ProcessTable.Any(p => p.Id == document.ProcessTableId && contextQuery.Roles.Where(pr => pr.Id == p.StartReaderRoleId).ToList().Any(x => x.Users.ToList().Any(z => z.UserId == user.Id)))
+                                    ||
+                                    contextQuery.WFTrackerTable.Any(x => x.DocumentTableId == document.Id && x.SignUserId == null && x.TrackerType == TrackerType.Waiting && x.Users.Any(b => b.UserId == user.Id)) ||
+                                    (contextQuery.DelegationTable.Any(d => d.EmplTableTo.ApplicationUserId == user.Id && d.DateFrom <= currentDate && d.DateTo >= currentDate && d.isArchive == false
+                                    && d.CompanyTableId == user.CompanyTableId
+                                    && (d.GroupProcessTableId == document.ProcessTable.Id || d.GroupProcessTableId == null)
+                                    && (d.ProcessTableId == document.ProcessTableId || d.ProcessTableId == null)
+                                    && contextQuery.WFTrackerTable.Any(w => w.DocumentTableId == document.Id && w.SignUserId == null && w.TrackerType == TrackerType.Waiting && w.Users.Any(b => b.UserId == d.EmplTableFrom.ApplicationUserId))
+                                    ))
+                                )
+                                &&
+                                !(contextQuery.ReviewDocLogTable.Any(x => x.ApplicationUserCreatedId == user.Id && x.DocumentTableId == document.Id && x.isArchive == true))
+                        join company in contextQuery.CompanyTable on document.CompanyTableId equals company.Id
+                        join process in contextQuery.ProcessTable on document.ProcessTableId equals process.Id
+                        join documentData in contextQuery.USR_TAS_DailyTasks_Table on document.Id equals documentData.DocumentTableId
+                        let empl = contextQuery.EmplTable.Where(p => p.ApplicationUserId == document.ApplicationUserCreatedId).OrderByDescending(p => p.Enable).FirstOrDefault()
+                        where process.DocType == DocumentType.Task
+                        orderby document.CreatedDate descending
+                        select new DocumentTaskView
+                        {
+                            ActivityName = document.ActivityName,
+                            ApplicationUserCreatedId = document.ApplicationUserCreatedId,
+                            ApplicationUserModifiedId = document.ApplicationUserModifiedId,
+                            CompanyTableId = document.CompanyTableId,
+                            CreatedDate = document.CreatedDate,
+                            DocumentNum = document.DocumentNum,
+                            DocumentState = document.DocumentState,
+                            DocumentText = document.DocumentText,
+                            Id = document.Id,
+                            ModifiedDate = document.ModifiedDate,
+                            ProcessTableId = document.ProcessTableId,
+                            AliasCompanyName = company.AliasCompanyName,
+                            ProcessName = process.ProcessName,
+                            CreatedBy = empl.SecondName + " " + empl.FirstName,
+                            ExecutionDate = documentData.ProlongationDate == null ? documentData.ExecutionDate : documentData.ProlongationDate
+                        };
+
+            return items.AsQueryable();
+        }
+
         public IEnumerable<DocumentTable> GetPartial(Expression<Func<DocumentTable, bool>> predicate)
         {
             return repoDocument.FindAll(predicate);
@@ -696,13 +744,13 @@ namespace RapidDoc.Models.Services
                     WFTrackerTable item = items.FirstOrDefault();
                     DateTime? date = GetSLAPerformDate(documentId, item.StartDateSLA, item.SLAOffset);
 
-                    if (date != null)
+                    if (date != null && item.StartDateSLA != null)
                     {
                         if (date < DateTime.UtcNow)
                         {
                             return SLAStatusList.Disturbance;
                         }
-                        else if (date >= DateTime.UtcNow && (100 * Convert.ToInt32((date.Value - DateTime.UtcNow).TotalMinutes)) / Convert.ToInt32((date.Value - item.ModifiedDate).TotalMinutes) > 20)
+                        else if (date >= DateTime.UtcNow && (100 * Convert.ToInt32((date.Value - DateTime.UtcNow).TotalMinutes)) / Convert.ToInt32(((DateTime)date.Value - (DateTime)item.StartDateSLA).TotalMinutes) <= 20)
                         {
                             return SLAStatusList.Warning;
                         }

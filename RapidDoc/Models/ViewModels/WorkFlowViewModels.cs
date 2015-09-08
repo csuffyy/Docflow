@@ -153,6 +153,59 @@ namespace RapidDoc.Models.ViewModels
         public bool Executed { get; set; }
     }
 
+    public class DocumentTaskView : BasicCompanyNullView
+    {
+        [StringLength(256, ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisLong")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "DocumentNum", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public string DocumentNum { get; set; }
+
+        [Display(Name = "GroupProcesses", ResourceType = typeof(UIElementRes.UIElement))]
+        public string GroupProcessName { get; set; }
+
+        [Display(Name = "Processes", ResourceType = typeof(UIElementRes.UIElement))]
+        public string ProcessName { get; set; }
+        public Guid? ProcessTableId { get; set; }
+
+        [Display(Name = "DocumentState", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public DocumentState DocumentState { get; set; }
+
+        [Display(Name = "CurrentActivityName", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public string ActivityName { get; set; }
+
+        public DocumentType DocType { get; set; }
+
+        [Display(Name = "DocumentText", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public string DocumentText { get; set; }
+
+        public SLAStatusList SLAStatus { get; set; }
+
+        public bool isNotReview { get; set; }
+
+        public bool isArchive { get; set; }
+
+        public bool isSign { get; set; }
+
+        public bool isShow { get; set; }
+
+        [Display(Name = "FirstName", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public string FullName { get; set; }
+
+        [StringLength(256, ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisLong")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "TitleName", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public string TitleName { get; set; }
+
+        [StringLength(256, ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisLong")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "DepartmentName", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public string DepartmentName { get; set; }
+
+        [DataType(DataType.Date)]
+        [Display(Name = "Дата исполнения")]
+        public DateTime? ExecutionDate { get; set; }
+    }
+
     public class WFTrackerListView : BasicCompanyNullView
     {
         public int RowNum { get; set; }

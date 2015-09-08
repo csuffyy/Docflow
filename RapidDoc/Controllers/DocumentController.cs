@@ -103,6 +103,11 @@ namespace RapidDoc.Controllers
             return View();
         }
 
+        public ActionResult MyTasks()
+        {
+            return View();
+        }
+
         public ActionResult GetAllDocument()
         {
             var grid = new DocumentAjaxPagingGrid(_DocumentService.GetAllView(), 1, false, _ReviewDocLogService, _DocumentService, _AccountService, _SearchService, _EmplService);
@@ -125,6 +130,12 @@ namespace RapidDoc.Controllers
         {
             var grid = new MyDocumentAjaxPagingGrid(_DocumentService.GetMyDocumentView(), 1, false, _ReviewDocLogService, _DocumentService, _AccountService, _SearchService, _EmplService);
             return PartialView("~/Views/Document/DocumentList.cshtml", grid);
+        }
+
+        public ActionResult GetMyTaskDocument()
+        {
+            var grid = new MyTaskAjaxPagingGrid(_DocumentService.GetTaskDocumentView(), 1, false, _ReviewDocLogService, _DocumentService, _AccountService, _SearchService, _EmplService);
+            return PartialView("~/Views/Document/DocumentTaskList.cshtml", grid);
         }
 
         public JsonResult GetDocumentList(int page)
@@ -167,6 +178,17 @@ namespace RapidDoc.Controllers
             return Json(new
             {
                 Html = RenderPartialViewToString("DocumentList", grid),
+                HasItems = grid.DisplayingItemsCount >= grid.Pager.PageSize
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetMyTaskList(int page)
+        {
+            var grid = new MyTaskAjaxPagingGrid(_DocumentService.GetTaskDocumentView(), page, true, _ReviewDocLogService, _DocumentService, _AccountService, _SearchService, _EmplService);
+
+            return Json(new
+            {
+                Html = RenderPartialViewToString("DocumentTaskList", grid),
                 HasItems = grid.DisplayingItemsCount >= grid.Pager.PageSize
             }, JsonRequestBehavior.AllowGet);
         }

@@ -29,18 +29,18 @@
         <div class="editor-label">
             @Html.LabelForRequired(model => model.WorkStartTime)
         </div>
-        <div class="bootstrap-timepicker input-group editor-field">
-            @Html.TextBoxFor(model => model.WorkStartTime, new { @class = "timepicker", @data_minute_step = "15" })
-            <span class="input-group-btn"><span class="glyphicon glyphicon-time"></span></span>
+        <div class="bootstrap-timepicker editor-field">
+            @Html.TextBoxFor(model => model.WorkStartTime, new { @class = "timepicker" })
+            <span class="add-on"><span class="glyphicon glyphicon-time"></span></span>
             @Html.ValidationMessageFor(model => model.WorkStartTime)
         </div>
 
         <div class="editor-label">
             @Html.LabelForRequired(model => model.WorkEndTime)
         </div>
-        <div class="bootstrap-timepicker input-group editor-field">
-            @Html.TextBoxFor(model => model.WorkEndTime, new { @class = "timepicker", @data_minute_step="15" })
-            <span class="input-group-btn"><span class="glyphicon glyphicon-time"></span></span>
+        <div class="bootstrap-timepicker editor-field">
+            @Html.TextBoxFor(model => model.WorkEndTime, new { @class = "timepicker" })
+            <span class="add-on"><span class="glyphicon glyphicon-time"></span></span>
             @Html.ValidationMessageFor(model => model.WorkEndTime)
         </div>
 
