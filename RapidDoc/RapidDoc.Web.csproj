@@ -335,6 +335,7 @@
     <Compile Include="Models\DomainModels\CustomDomainModelTemplate.cs" />
     <Compile Include="Models\DomainModels\UsrRequestDomainModels.cs" />
     <Compile Include="Models\Grids\CountryAjaxPagingGrid.cs" />
+    <Compile Include="Models\Grids\MyTaskAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\MyDocumentAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\AjaxGridPager.cs" />
     <Compile Include="Models\Grids\AgreedDocumentAjaxPagingGrid.cs" />
@@ -1837,6 +1838,8 @@
     <Content Include="Views\Custom\USR_OFM_ZIF_OfficeMemo_View.cshtml" />
     <Content Include="Views\Custom\USR_OFM_ZIF_OfficeMemo_View_Full.cshtml" />
     <Content Include="Views\Role\AddUsersManual.cshtml" />
+    <Content Include="Views\Document\DocumentTaskList.cshtml" />
+    <Content Include="Views\Document\MyTasks.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
