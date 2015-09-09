@@ -208,8 +208,8 @@ namespace RapidDoc.Models.Services
                     {
                         outString = enumValue;
                     }
-
-                    allStringData = allStringData + outString + "|";
+                    if (allStringData.IndexOf(outString) < 0)
+                        allStringData = allStringData + outString + "|";
                 }
                 else if (property.PropertyType == typeof(string))
                 {
@@ -237,7 +237,8 @@ namespace RapidDoc.Models.Services
                             stringWithoutTags = stringWithoutTags.Replace("\r", "").Replace("\n", "").Trim();
                             if (!String.IsNullOrEmpty(stringWithoutTags))
                             {
-                                allStringData = allStringData + stringWithoutTags + "|";
+                                if (allStringData.IndexOf(stringWithoutTags) < 0)
+                                    allStringData = allStringData + stringWithoutTags + "|";
                             }
                         }
                     }
