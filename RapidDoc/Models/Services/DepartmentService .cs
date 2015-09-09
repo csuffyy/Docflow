@@ -169,13 +169,13 @@ namespace RapidDoc.Models.Services
         public DepartmentTable getParentDepartment(Guid? id, Guid companyId)
         {
             DepartmentTable childDepartment = FirstOrDefault(x => x.Id == id && x.CompanyTableId == companyId);
-            if (childDepartment != null && childDepartment.RequiredRoles != null)
+            //if (childDepartment != null && childDepartment.RequiredRoles != null)
                 return childDepartment;
-            else
+            /*else
             {
 
                 return childDepartment != null && childDepartment.ParentDepartmentId != null ? this.getParentDepartment(childDepartment.ParentDepartmentId, companyId) : null;
-            }
+            }*/
         }
 
 
