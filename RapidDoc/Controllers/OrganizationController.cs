@@ -110,7 +110,7 @@ namespace RapidDoc.Controllers
         {
             var model = _Service.FindView(id);
 
-            if (model == null)
+            if (model == null || User.IsInRole("DirectoryAdministrator"))
             {
                 return HttpNotFound();
             }
@@ -122,8 +122,11 @@ namespace RapidDoc.Controllers
         {
             try
             {
-                _Service.Delete(id);
-                return RedirectToAction("Index");
+                if (!User.IsInRole("DirectoryAdministrator"))
+                {
+                    _Service.Delete(id);
+                    return RedirectToAction("Index");
+                }
             }
             catch (Exception e)
             {

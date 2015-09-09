@@ -13,7 +13,10 @@
 
 @helper DeleteField(RapidDoc.Models.ViewModels.CountryView item)
 {
-    <a href=@Url.Action("Delete", new { id=item.Id })><span class="fa fa-trash-o fa-lg"></span></a>
+    if (User.IsInRole("Administrator") || User.IsInRole("SetupAdministrator"))
+    { 
+        <a href=@Url.Action("Delete", new { id=item.Id })><span class="fa fa-trash-o fa-lg"></span></a>
+    }
 }
 
 @Html.Grid(Model).Named("ordersGrid").Columns(columns =>

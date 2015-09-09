@@ -74,9 +74,9 @@
             <div class="modal-body" style="min-height:250px;">
                 @Html.TextArea("RejectCommentTask", new { @class = "form-control", @placeholder = "Обязательно укажите причину отмены" })
                 <br>
-                <div>
-                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal">@UIElementRes.UIElement.Cancel</button>
-                    <button type="submit" id="rejectTask" class="btn btn-danger pull-right" name="action:RejectDocumentTask">@UIElementRes.UIElement.Reject</button>
+                <div class="modal-footer">
+                    <button type="submit" id="rejectTask" class="btn btn-danger" name="action:RejectDocumentTask">@UIElementRes.UIElement.Reject</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">@UIElementRes.UIElement.Cancel</button>
                 </div>
             </div>
         </div>
@@ -93,9 +93,9 @@
             <div class="modal-body" style="min-height:200px;">
                 @Html.TextArea("ApproveCommentTask", new { @class = "form-control", @placeholder = "Отчет" })
                 <br>
-                <div>
-                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal">@UIElementRes.UIElement.Cancel</button>
-                    <button type="submit" id="approveTask" class="btn btn-success pull-right" name="action:ApproveDocumentTask">@UIElementRes.UIElement.Approve</button>
+                <div class="modal-footer">
+                    <button type="submit" id="approveTask" class="btn btn-success" name="action:ApproveDocumentTask">@UIElementRes.UIElement.Approve</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">@UIElementRes.UIElement.Cancel</button>
                 </div>
             </div>
         </div>
