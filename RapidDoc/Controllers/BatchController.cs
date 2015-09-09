@@ -223,9 +223,9 @@ namespace RapidDoc.Controllers
 
                         foreach (var user in users)
                         {
-                            DepartmentTable rolesDepartment = _DepartmentService.getParentDepartment(user.DepartmentTableId, company.Id);
+                            DepartmentTable rolesDepartment = _DepartmentService.FirstOrDefault(x => x.Id == user.DepartmentTableId);
 
-                            if (rolesDepartment != null)
+                            if (rolesDepartment != null && !String.IsNullOrEmpty(rolesDepartment.RequiredRoles))
                             {
                                 string[] arrayStructure = _SystemService.GuidsFromText(rolesDepartment.RequiredRoles);
 
