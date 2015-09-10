@@ -1124,7 +1124,10 @@ namespace RapidDoc.Models.Repository
         Topic = 3,
 
         [Display(Name = "По процессу")]
-        ProcessName = 4
+        ProcessName = 4,
+
+        [Display(Name = "По дате приказа")]
+        OrderDate = 5
     }
     public enum IncomingFilterType : byte
     {

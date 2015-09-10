@@ -391,6 +391,7 @@ namespace RapidDoc.Models.ViewModels
         public Guid DocumentRefId { get; set; }
         public string ProcessTableName { get; set; }
         public string OrderNumber { get; set; }
+        public DateTime? OrderDate { get; set; }
         public List<WFTrackerUsersTable> Users { get; set; }
         public TrackerType WFTrackerType { get; set; }
         public string DocumentText { get; set; }

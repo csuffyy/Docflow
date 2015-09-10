@@ -63,7 +63,7 @@ namespace RapidDoc.Models.Services
             if (UserManager.IsInRole(user.Id, "Administrator"))
             {
                 items = (from document in contextQuery.DocumentTable
-                            where document.DocType == type && (document.CreatedDate >= startDate && document.CreatedDate <= endDate)
+                         where document.DocType == type && (document.CreatedDate >= startDate && document.CreatedDate <= endDate) && document.DocumentState != DocumentState.Created
                             join company in contextQuery.CompanyTable on document.CompanyTableId equals company.Id
                             join process in contextQuery.ProcessTable on document.ProcessTableId equals process.Id
                             let empl = contextQuery.EmplTable.Where(p => p.ApplicationUserId == document.ApplicationUserCreatedId).OrderByDescending(p => p.Enable).FirstOrDefault()
@@ -98,8 +98,7 @@ namespace RapidDoc.Models.Services
             {
                     items = (from document in contextQuery.DocumentTable
                             where
-                                (document.ApplicationUserCreatedId == user.Id ||
-                                    contextQuery.ModificationUsersTable.Any(m => m.UserId == user.Id && m.DocumentTableId == document.Id && document.DocumentState == DocumentState.Created) ||
+                                (document.ApplicationUserCreatedId == user.Id  ||
                                     contextQuery.WFTrackerTable.Any(x => x.DocumentTableId == document.Id && ((x.SignUserId == null && x.TrackerType == TrackerType.Waiting) ||
  
                                         (x.SignUserId == user.Id && (x.TrackerType == TrackerType.Approved || x.TrackerType == TrackerType.Cancelled))) && x.Users.Any(b => b.UserId == user.Id)) ||
@@ -116,7 +115,7 @@ namespace RapidDoc.Models.Services
                                     && (d.ProcessTableId == document.ProcessTableId || d.ProcessTableId == null)
                                     && contextQuery.WFTrackerTable.Any(w => w.DocumentTableId == document.Id && w.SignUserId == null && w.TrackerType == TrackerType.Waiting && w.Users.Any(b => b.UserId == d.EmplTableFrom.ApplicationUserId))
                                     ))
-                                ) && document.DocType == type && (document.CreatedDate >= startDate && document.CreatedDate <= endDate)
+                                ) && document.DocType == type && (document.CreatedDate >= startDate && document.CreatedDate <= endDate) && document.DocumentState != DocumentState.Created
                             join company in contextQuery.CompanyTable on document.CompanyTableId equals company.Id
                             join process in contextQuery.ProcessTable on document.ProcessTableId equals process.Id
                             let empl = contextQuery.EmplTable.Where(p => p.ApplicationUserId == document.ApplicationUserCreatedId).OrderByDescending(p => p.Enable).FirstOrDefault()
@@ -183,6 +182,7 @@ namespace RapidDoc.Models.Services
                                 item.OrderNumber = documentView.OrderNum;
                             item.DocumentTitle = documentView.Subject;
                             item.Addition = documentView.Addition;
+                            item.OrderDate = documentView.OrderDate;
                             item.CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(item.CreatedDate), timeZoneInfo);
                             editedItems.Add(item);
                         }
@@ -211,6 +211,7 @@ namespace RapidDoc.Models.Services
             if (UserManager.IsInRole(user.Id, "Administrator"))
             {
                 items = (from document in contextQuery.DocumentTable
+                         where document.DocumentState != DocumentState.Created
                          join company in contextQuery.CompanyTable on document.CompanyTableId equals company.Id
                          join process in contextQuery.ProcessTable on document.ProcessTableId equals process.Id
                          join tracker in contextQuery.WFTrackerTable on document.Id equals tracker.DocumentTableId
@@ -247,8 +248,7 @@ namespace RapidDoc.Models.Services
                          join process in contextQuery.ProcessTable on document.ProcessTableId equals process.Id
                          join tracker in contextQuery.WFTrackerTable on document.Id equals tracker.DocumentTableId
                          where
-                             (document.ApplicationUserCreatedId == user.Id ||
-                                 contextQuery.ModificationUsersTable.Any(m => m.UserId == user.Id && m.DocumentTableId == document.Id && document.DocumentState == DocumentState.Created) ||
+                             (document.ApplicationUserCreatedId == user.Id  ||
                                  contextQuery.WFTrackerTable.Any(x => x.DocumentTableId == document.Id && ((x.SignUserId == null && x.TrackerType == TrackerType.Waiting) ||
 
                                      (x.SignUserId == user.Id && (x.TrackerType == TrackerType.Approved || x.TrackerType == TrackerType.Cancelled))) && x.Users.Any(b => b.UserId == user.Id)) ||
@@ -265,7 +265,7 @@ namespace RapidDoc.Models.Services
                                  && (d.ProcessTableId == document.ProcessTableId || d.ProcessTableId == null)
                                  && contextQuery.WFTrackerTable.Any(w => w.DocumentTableId == document.Id && w.SignUserId == null && w.TrackerType == TrackerType.Waiting && w.Users.Any(b => b.UserId == d.EmplTableFrom.ApplicationUserId))
                                  ))
-                             ) && document.DocType == type && (document.CreatedDate >= startDate && document.CreatedDate <= endDate)
+                             ) && document.DocType == type && (document.CreatedDate >= startDate && document.CreatedDate <= endDate) && document.DocumentState != DocumentState.Created
                          orderby String.IsNullOrEmpty(document.ActivityName), document.ModifiedDate descending
                          select new DocumentBaseView
                          {
