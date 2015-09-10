@@ -148,6 +148,8 @@ namespace RapidDoc.Models.ViewModels
         public string DepartmentName { get; set; }
         [Display(Name = "Notify", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public bool IsNotified { get; set; }
+        [Display(Name = "Share", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public bool Share { get; set; }
         public bool Cancel { get; set; }
         public Guid? CancelDocumentId { get; set; }
         public bool Executed { get; set; }

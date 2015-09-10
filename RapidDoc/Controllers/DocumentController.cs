@@ -1069,7 +1069,7 @@ namespace RapidDoc.Controllers
                 }
                 //Save Document
                 ApplicationUser user = _AccountService.Find(User.Identity.GetUserId());
-                var documentId = _DocumentService.SaveDocument(docModel, processView.TableName, GuidNull2Guid(processView.Id), fileId, user, documentData.ContainsKey("IsNotified") ? (bool)documentData["IsNotified"] : false);
+                var documentId = _DocumentService.SaveDocument(docModel, processView.TableName, GuidNull2Guid(processView.Id), fileId, user, documentData.ContainsKey("IsNotified") ? (bool)documentData["IsNotified"] : false, documentData.ContainsKey("Share") ? (bool)documentData["Share"] : false);
                 DocumentTable documentTable = _DocumentService.Find(documentId);
 
                 Task.Run(() =>
@@ -1815,6 +1815,9 @@ namespace RapidDoc.Controllers
             if (collection.AllKeys.Contains("DocumentView.IsNotified"))
                 documentData.Add("IsNotified", collection["DocumentView.IsNotified"].ToLower().Contains("true"));
 
+            if (collection.AllKeys.Contains("DocumentView.Share"))
+                documentData.Add("Share", collection["DocumentView.Share"].ToLower().Contains("true"));
+
             ProcessView processView = _ProcessService.FindView(processId);
             if (processView == null)
                 return RedirectToAction("PageNotFound", "Error");
@@ -2094,7 +2097,7 @@ namespace RapidDoc.Controllers
         private void CreateSeparateTasks(ProcessView processView, OperationType operationType, dynamic docModel, Guid fileId, String actionModelName, IDictionary<string, object> documentData)
         {
             ApplicationUser user = _AccountService.Find(User.Identity.GetUserId());
-            var documentId = _DocumentService.SaveDocument(docModel, processView.TableName, GuidNull2Guid(processView.Id), fileId, user, documentData.ContainsKey("IsNotified") ? (bool)documentData["IsNotified"] : false);
+            var documentId = _DocumentService.SaveDocument(docModel, processView.TableName, GuidNull2Guid(processView.Id), fileId, user, documentData.ContainsKey("IsNotified") ? (bool)documentData["IsNotified"] : false, documentData.ContainsKey("Share") ? (bool)documentData["Share"] : false);
             DocumentTable documentTable = _DocumentService.Find(documentId);
 
             Task.Run(() =>

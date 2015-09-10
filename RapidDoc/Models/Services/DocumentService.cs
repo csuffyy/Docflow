@@ -22,7 +22,7 @@ namespace RapidDoc.Models.Services
 {
     public interface IDocumentService
     {
-        Guid SaveDocument(dynamic viewTable, string tableName, Guid processId, Guid fileId, ApplicationUser user, bool isNotify = false);
+        Guid SaveDocument(dynamic viewTable, string tableName, Guid processId, Guid fileId, ApplicationUser user, bool isNotify = false, bool share = false);
         IEnumerable<DocumentTable> GetAll();
         IQueryable<DocumentView> GetAllView();
         IQueryable<DocumentView> GetArchiveView();
@@ -122,7 +122,7 @@ namespace RapidDoc.Models.Services
             RoleManager = new RoleManager<ApplicationRole>(new RoleStore<ApplicationRole>(_uow.GetDbContext<ApplicationDbContext>()));
         }
 
-        public Guid SaveDocument(dynamic viewTable, string tableName, Guid processId, Guid fileId, ApplicationUser user, bool isNotify = false)
+        public Guid SaveDocument(dynamic viewTable, string tableName, Guid processId, Guid fileId, ApplicationUser user, bool isNotify = false, bool share = false)
         {
             var docuTable = new DocumentTable();
             docuTable.ProcessTableId = processId;
@@ -135,6 +135,7 @@ namespace RapidDoc.Models.Services
             docuTable.ApplicationUserModifiedId = user.Id;
             docuTable.DocType = _ProcessService.Find(processId, user.Id).DocType;
             docuTable.IsNotified = isNotify;
+            docuTable.Share = share;
 
             Guid numberSeqId = _ProcessService.Find(processId, user.Id).GroupProcessTable.NumberSeriesTableId ?? Guid.Empty;
             docuTable.DocumentNum = _NumberSeqService.GetDocumentNum(numberSeqId, user.Id);
@@ -597,6 +598,11 @@ namespace RapidDoc.Models.Services
         public bool isShowDocument(DocumentTable documentTable, ApplicationUser user, bool isAfterView = false)
         {
             if (user.Id == documentTable.ApplicationUserCreatedId)
+            {
+                return true;
+            }
+
+            if(documentTable.Share == true)
             {
                 return true;
             }
