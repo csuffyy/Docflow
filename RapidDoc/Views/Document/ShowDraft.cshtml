@@ -64,13 +64,29 @@
         }
         <table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
 
-        <div class="editor-label hidden-print">
-            @Html.LabelFor(model => model.DocumentView.IsNotified)
-            <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="@UIElementRes.UIElement.TooltipAboutReading"></i>
-        </div>
-        <div class="editor-field hidden-print">
-            @Html.CheckBoxFor(model => model.DocumentView.IsNotified)
-            @Html.ValidationMessageFor(model => model.DocumentView.IsNotified)
+        <div class="row">
+            <div class="col-xs-4">
+                <div class="editor-label hidden-print">
+                    @Html.LabelFor(model => model.DocumentView.IsNotified)
+                    <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="@UIElementRes.UIElement.TooltipAboutReading"></i>
+                </div>
+                <div class="editor-field hidden-print">
+                    @Html.CheckBoxFor(model => model.DocumentView.IsNotified)
+                    @Html.ValidationMessageFor(model => model.DocumentView.IsNotified)
+                </div>
+            </div>
+            <div class="col-xs-4">
+                @if (Model.ProcessView.DocType == RapidDoc.Models.Repository.DocumentType.OfficeMemo)
+                {
+                    <div class="editor-label hidden-print">
+                        @Html.LabelFor(model => model.DocumentView.Share)
+                    </div>
+                    <div class="editor-field hidden-print">
+                        @Html.CheckBoxFor(model => model.DocumentView.Share)
+                        @Html.ValidationMessageFor(model => model.DocumentView.Share)
+                    </div>
+                }
+            </div>
         </div>
         <br class="hidden-print">
         <div class="hidden-print">

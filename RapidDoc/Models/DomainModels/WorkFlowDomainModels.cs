@@ -119,6 +119,7 @@ namespace RapidDoc.Models.DomainModels
         public string ActivityName { get; set; }
         public DocumentType DocType { get; set; }
         public bool IsNotified { get; set; }
+        public bool Share { get; set; }
         public bool Cancel { get; set; }
         public Guid? CancelDocumentId { get; set; }
         public bool Executed { get; set; }

@@ -14,6 +14,10 @@
             {
                 <span class="fa fa-archive"></span>
             }
+            @if (Model.DocumentView.Share == true)
+            {
+                <span class="fa fa-unlock"></span>
+            }
             @if (Model.DocumentView.Cancel == true)
             {
                 <span class="fa fa-times text-danger">(@Html.ActionLink(UIElementRes.UIElement.LinkToDocument, "ShowDocument", "Document", new { id = Model.DocumentView.CancelDocumentId, isAfterView = true }, new { target = "_blank" }))</span>

@@ -27,7 +27,7 @@
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
-
+            /*
             context.OrganizationTable.AddOrUpdate(
                 p => p.OrgName,
                 new RapidDoc.Models.DomainModels.OrganizationTable { OrgName = "ENGINEERING DOBERSEK GMBH", CreatedDate = DateTime.UtcNow, ModifiedDate = DateTime.UtcNow },
@@ -2670,6 +2670,7 @@ new RapidDoc.Models.DomainModels.OrganizationTable { OrgName = "«КЛУБ ЛИ�
 new RapidDoc.Models.DomainModels.OrganizationTable { OrgName = "«САНДВИК МАЙНИНГ ЭНД КОНСТРАКШН КАЗАХСТАН ЛТД»", CreatedDate = DateTime.UtcNow, ModifiedDate = DateTime.UtcNow },
 new RapidDoc.Models.DomainModels.OrganizationTable { OrgName = "ҰЛТТЫҚ БИЗНЕС-РЕЙТИНГ", CreatedDate = DateTime.UtcNow, ModifiedDate = DateTime.UtcNow }
                 );
+             */
         }
     }
 }

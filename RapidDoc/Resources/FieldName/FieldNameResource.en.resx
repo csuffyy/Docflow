@@ -369,4 +369,7 @@
   <data name="Grouping" xml:space="preserve">
     <value>Groupings</value>
   </data>
+  <data name="Share" xml:space="preserve">
+    <value>Share</value>
+  </data>
 </root>
