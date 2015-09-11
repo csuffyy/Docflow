@@ -638,11 +638,10 @@ namespace RapidDoc.Controllers
             ProcessView process = _ProcessService.FindView(processId);
 
             _DocumentService.SignTaskDocument(documentId, TrackerType.Approved);
-
+            var documentIdNew = _DocumentService.GetDocumentView(_DocumentService.Find(documentId).RefDocumentId, process.TableName);
             if (!String.IsNullOrEmpty(collection["ApproveCommentTask"]))
             {
-                string approveCommentRequest = collection["ApproveCommentTask"].ToString(); 
-                var documentIdNew = _DocumentService.GetDocumentView(_DocumentService.Find(documentId).RefDocumentId, process.TableName);
+                string approveCommentRequest = collection["ApproveCommentTask"].ToString();                
                 documentIdNew.ReportText = approveCommentRequest;
                 _DocumentService.UpdateDocumentFields(documentIdNew, process);
             }
@@ -670,8 +669,10 @@ namespace RapidDoc.Controllers
             }
 
             _HistoryUserService.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = Models.Repository.HistoryType.ApproveDocument }, User.Identity.GetUserId());
-
-            _EmailService.SendInitiatorClosedEmail(documentTable.Id);
+            if (documentTable.RefDocumentId != null)
+                _EmailService.SendUsersClosedEmail(documentTable.Id, new List<string> { documentTable.ApplicationUserCreatedId, _DocumentService.Find(documentIdNew.RefDocumentId).ApplicationUserCreatedId });
+            else
+                _EmailService.SendInitiatorClosedEmail(documentTable.Id);
 
             return RedirectToAction("ShowDocument", new { id = documentId, isAfterView = true });
         }
