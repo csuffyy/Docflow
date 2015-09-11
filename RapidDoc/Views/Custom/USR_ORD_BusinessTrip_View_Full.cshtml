@@ -190,17 +190,28 @@ else
                 @Html.CheckBoxFor(model => model.Addition, new { @disabled = true })
             </div>
         </div>
-    }
-    @if (Model.CancelOrder == true)
-    {
         <div class="col-xs-6">
-            <h5>
-                Аннулировать приказ:
-                @Html.Action("GetRevocationORD", "Custom", new { id = Model.CancelDocumentId, edit = false })
-            </h5>
+            <div class="editor-label">
+                @Html.LabelForRequired(model => model.AdditionText)
+            </div>
+            <div class="editor-field">
+                @Html.DisplayTextFor(model => model.AdditionText)
+            </div>
         </div>
     }
 </div>
+
+@if (Model.CancelOrder == true)
+{
+<div class="row">
+    <div class="col-xs-12">
+        <h5>
+            Аннулировать приказ:
+            @Html.Action("GetRevocationORD", "Custom", new { id = Model.CancelDocumentId, edit = false })
+        </h5>
+    </div>
+</div>
+}
 
 <div class="modal fade deliveryOrder-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog">

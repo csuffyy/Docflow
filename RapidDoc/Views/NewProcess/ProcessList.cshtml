@@ -33,7 +33,7 @@
         </table>
     }
 }
-else
+else if (Model.Count() <= 12 && Model.Count() > 0)
 {
     foreach (var item in Model)
     {
@@ -48,4 +48,8 @@ else
             </a>
         </div>
     }
+}
+else
+{
+    <h1 class="text-center">Требуется доступ? Запустите <a href="http://df.altyntau.com/ATK/Document/Create/8d42f5f4-c101-e411-846a-082e5f0c35c2">заявку</a>.</h1>
 }

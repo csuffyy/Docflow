@@ -32,6 +32,14 @@
             @Html.TextBoxFor(model => model.OrderDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", data_date_format = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.ToLower(), placeholder = "Дата приказа", startDate = "" })
         </div>
     </div>
+    <div class="col-xs-3">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.NumberSeriesBookingTableId)
+        </div>
+        <div class="editor-field">
+            @Html.Action("GetBookingNumberORD", "Custom", new { documentId = Model.DocumentTableId })
+        </div>
+    </div>
     <div class="col-xs-2">
         <div class="editor-label">
             @Html.LabelForRequired(model => Model.Addition)
@@ -40,12 +48,12 @@
             @Html.CheckBoxFor(model => model.Addition)
         </div>
     </div>
-    <div class="col-xs-3">
+    <div id="additiontextid" class="col-xs-5" style="visibility: hidden">
         <div class="editor-label">
-            @Html.LabelForRequired(model => Model.NumberSeriesBookingTableId)
+            @Html.LabelForRequired(model => Model.AdditionText)
         </div>
         <div class="editor-field">
-            @Html.Action("GetBookingNumberORD", "Custom", new { documentId = Model.DocumentTableId })
+            @Html.TextBoxFor(model => model.AdditionText, new { @class = "form-control", @size = 256, @maxlength = 256 })
         </div>
     </div>
 </div>
@@ -132,6 +140,16 @@
 
 <script type="text/javascript">
     $(function () {
+        var buttonadditionorderstatus = true;
+        $('#Addition').click(function (event) {
+            buttonadditionorderstatus = !buttonadditionorderstatus;
+            if (buttonadditionorderstatus) {
+                document.getElementById('additiontextid').style.visibility = 'hidden';
+            } else {
+                document.getElementById('additiontextid').style.visibility = 'visible';
+            }
+        });
+
         $('.distributiongrouplink_listsubcription').click(function (event) {
             var element = $(event.target);
             var tagId = element.attr('data-itemid') + ', ' + element.attr('data-rolename');

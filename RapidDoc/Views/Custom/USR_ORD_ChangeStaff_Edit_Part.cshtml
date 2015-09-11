@@ -86,6 +86,12 @@
 <div class="editor-field">
     @Html.TextBoxFor(model => Model.Sign, new { @class = "form-control", @data_role = "tagsinputEmplOne", @size = 256, @maxlength = 256, placeholder = "Подпись" })
 </div>
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.SignTitle)
+</div>
+<div class="editor-field">
+    @Html.TextBoxFor(model => Model.SignTitle, new { @class = "form-control", @size = 256, @maxlength = 256, placeholder = "Подпись должность" })
+</div>
 
 <div class="modal fade itemcause-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sidebar">

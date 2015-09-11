@@ -262,7 +262,7 @@
     {
         <a href=@Url.Action("PdfReport", "Report", new { id = Model.DocumentView.Id, processId = Model.ProcessView.Id }) class="btn btn-default btn-sm hidden-print" target="_blank">@UIElementRes.UIElement.PrintOrder</a>
     }
-    @if (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Order && Model.docData.GetType() == typeof(RapidDoc.Models.ViewModels.USR_ORD_BusinessTrip_View))
+    @if (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Order && Model.docData.GetType() == typeof(RapidDoc.Models.ViewModels.USR_ORD_BusinessTrip_View) && Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Closed)
     {
         <a href="#" class="btn btn-default btn-sm hidden-print" data-toggle="modal" data-target=".pdfreporttrip-modal">@UIElementRes.UIElement.PrintPdfTrip</a>
     }
@@ -273,7 +273,7 @@
 
     @if(Model.DocumentView.DocType != RapidDoc.Models.Repository.DocumentType.OfficeMemo)
 {
-<p>
+    <p>
         <h4 class="text-right hidden-print">@UIElementRes.UIElement.AddComment</h4>
         @using (Ajax.BeginForm("GetAllComment", new { documentId = Model.DocumentView.Id }, new AjaxOptions { UpdateTargetId = "comments", OnComplete = "clearTextAreaComment" }, new { name = "commentForm" }))
     {

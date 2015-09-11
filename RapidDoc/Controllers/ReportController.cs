@@ -84,11 +84,22 @@ namespace RapidDoc.Controllers
                 managerName = _EmplService.GetEmployer(trackerManager.SignUserId, process.CompanyTableId).ShortFullNameType2;
             }
 
-            ViewBag.ListFiles = _DocumentService.GetAllFilesDocument(docTable.FileId).ToList();
+            List<FileTable> filesResult = new List<FileTable>();
+            var files = _DocumentService.GetAllFilesDocument(docTable.FileId).ToList();
+            foreach(var item in files)
+            {
+                if(!_DocumentService.FileReplaceContains(item.Id))
+                {
+                    filesResult.Add(item);
+                }
+            }
+
+            ViewBag.ListFiles = filesResult;
             ViewBag.ListUsers = emplList;
             ViewBag.Department = emplTable.DepartmentName;
             ViewBag.DocState = docTable.DocumentState;
             ViewBag.ManagerName = managerName;
+            ViewBag.TableName = docTable.ProcessTable.TableName;
 
             return new ViewAsPdf("PdfReport", documentView)
             {

@@ -10,7 +10,16 @@
     <title>PdfReport</title>
 </head>
 <body>
-    <div> 
+    <div>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br /> 
         <h4 align ="center">
             <strong>
                 <font size="4" face="Arial">
@@ -29,7 +38,7 @@
         <font size="4" face="Arial">
             @Html.Raw(@Model.MainFieldTranslate)
         </font>
-        <br/>
+        <br />
         <br />
         <table width="800">
             <tr>
@@ -53,6 +62,10 @@
                     <br />
                 </td>
             </tr>
+            @if (((string)ViewBag.TableName) == "USR_ORD_Staff" || ((string)ViewBag.TableName) == "USR_ORD_Reception"
+                || ((string)ViewBag.TableName) == "USR_ORD_Dismissal" || ((string)ViewBag.TableName) == "USR_ORD_Transfer"
+                || ((string)ViewBag.TableName) == "USR_ORD_Holiday" || ((string)ViewBag.TableName) == "USR_ORD_Sanction")
+            { 
             <tr>
                 <td align="left">
                     <font size="4" face="Arial">
@@ -67,6 +80,7 @@
                     </font>
                 </td>
             </tr>
+            }
             <tr>
                 <td>
                     <br />

@@ -1272,10 +1272,13 @@ namespace RapidDoc.Models.Services
                         EmplTable empl = _EmplService.Find(guidId);
                         if (empl != null && empl.TitleTable != null)
                         {
-                            if (String.IsNullOrEmpty(empl.TitleTable.TitleNameKZ))
-                                actionModel.SignTitle = empl.TitleTable.TitleName;
-                            else
-                                actionModel.SignTitle = empl.TitleTable.TitleNameKZ;
+                            if (String.IsNullOrEmpty(actionModel.SignTitle))
+                            {
+                                if (String.IsNullOrEmpty(empl.TitleTable.TitleNameKZ))
+                                    actionModel.SignTitle = empl.TitleTable.TitleName;
+                                else
+                                    actionModel.SignTitle = empl.TitleTable.TitleNameKZ;
+                            }
 
                             actionModel.SignName = empl.ShortFullNameType3;
                         }

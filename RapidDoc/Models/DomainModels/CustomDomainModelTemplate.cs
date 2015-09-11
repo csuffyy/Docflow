@@ -96,6 +96,7 @@ namespace RapidDoc.Models.DomainModels
 
         public string MainField { get; set; }
         public bool Addition { get; set; }
+        public string AdditionText { get; set; }
         public bool Executed { get; set; }      
 
         [Required]

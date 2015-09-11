@@ -124,6 +124,9 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Дополнение")]
         public bool Addition { get; set; }
 
+        [Display(Name = "Текст дополнение")]
+        public string AdditionText { get; set; }
+
         [Display(Name = "Исполнен")]
         public bool Executed { get; set; }
 

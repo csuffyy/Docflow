@@ -20,6 +20,7 @@
 {
     columns.Add(o => o.Id).Css("hidden");
     columns.Add(o => o.TitleName).Titled(Html.DisplayNameFor(o => ((RapidDoc.Models.ViewModels.TitleView)o.Columns).TitleName).ToHtmlString()).Sortable(true).Filterable(true);
+    columns.Add(o => o.TitleNameKZ).Titled(Html.DisplayNameFor(o => ((RapidDoc.Models.ViewModels.TitleView)o.Columns).TitleNameKZ).ToHtmlString()).Sortable(true).Filterable(true);
     columns.Add(o => o.ProfileName).Titled(Html.DisplayNameFor(o => ((RapidDoc.Models.ViewModels.TitleView)o.Columns).ProfileName).ToHtmlString()).Sortable(true).Filterable(true);
     columns.Add()
         .Encoded(false)
