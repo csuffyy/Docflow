@@ -62,7 +62,7 @@
     </div>
     <div class="col-xs-4">
         <div class="editor-label">
-            @Html.LabelFor(model => Model.OutgoingNumber)
+            @Html.LabelFor(model => Model.OutgoingDate)
         </div>
         <div class="editor-field">
             @Html.FormatValue(Model.OutgoingDate, "{0:dd.MM.yyyy}")
@@ -78,14 +78,6 @@
 </div>
 
 <div class="row">
-    <div class="col-xs-4">
-        <div class="editor-label">
-            @Html.LabelFor(model => Model.NumberSeriesBookingTableId)
-        </div>
-        <div class="editor-field">
-            @Html.DisplayTextFor(model => Model.NumberSeriesBookingTableId)
-        </div>
-    </div>
     <div class="col-xs-4">
         <div class="editor-label">
             @Html.LabelFor(model => Model.RegistrationDate)
