@@ -1,6 +1,20 @@
 ﻿@model RapidDoc.Models.ViewModels.USR_IND_IncomingDocuments_View
 @using RapidDoc.Extensions;
 
+<div class="row">
+    <div class="col-xs-2 col-xs-offset-11">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => model.Executed)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.Executed, new { @disabled = true })
+        </div>
+    </div> 
+</div>  
+
+
+
+
 <h4 class="text-center">№: @Model.IncomingDocNum</h4>
 <div class="row">
     <div class="col-xs-12">
