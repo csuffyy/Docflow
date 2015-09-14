@@ -13,7 +13,7 @@ namespace RapidDoc.Models.DomainModels
 {
     public class GroupProcessTable : BasicCompanyNullTable
     {
-        [StringLength(50)] 
+        [StringLength(40)] 
         [Required]
         public string GroupProcessName { get; set; }
 
