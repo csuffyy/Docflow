@@ -62,7 +62,6 @@ namespace RapidDoc.Models.ViewModels
         public string NumberSeriesName { get; set; }
 
         [StringLength(5, ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisLong")]
-        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         [Display(Name = "NumberSeriesPrefix", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public string Prefix { get; set; }
 

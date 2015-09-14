@@ -63,7 +63,6 @@ namespace RapidDoc.Models.DomainModels
         public string NumberSeriesName { get; set; }
 
         [StringLength(5)]
-        [Required]
         public string Prefix { get; set; }
 
         [StringLength(256)]

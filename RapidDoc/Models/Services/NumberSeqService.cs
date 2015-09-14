@@ -240,7 +240,11 @@ namespace RapidDoc.Models.Services
                     numberSeq = Find(id);
                     numberSeq.LastNum++;
                     SaveDomain(numberSeq, currentUserId);
-                    string num = numberSeq.Prefix + numberSeq.LastNum.ToString("D" + numberSeq.Size.ToString());
+                    string num = String.Empty;
+                    if (String.IsNullOrEmpty(numberSeq.Prefix))
+                        num = numberSeq.LastNum.ToString();
+                    else
+                        num = numberSeq.Prefix + numberSeq.LastNum.ToString("D" + numberSeq.Size.ToString());
                     return num;
                 }
                 catch (DbUpdateConcurrencyException ex)

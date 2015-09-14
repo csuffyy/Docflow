@@ -61,14 +61,29 @@
             @Html.TextBoxFor(model => Model.OutgoingNumber, new { @class = "form-control", placeholder = "Исходящий номер" })
         </div>
     </div>
-    <div class="col-xs-4">
-        <div class="editor-label">
-            @Html.LabelForRequired(model => Model.OutgoingDate)
+    @if (Model.IncomingDocNum != null)
+    {
+        @Html.HiddenFor(model => model.IncomingDocNum)
+        <div class="col-xs-4">
+            <div class="editor-label">
+                @Html.LabelForRequired(model => Model.IncomingDocNum)
+            </div>
+            <div class="editor-field">
+                @Html.DisplayTextFor(model => Model.IncomingDocNum)
+            </div>
         </div>
-        <div class="editor-field">
-            @Html.TextBoxFor(model => Model.OutgoingDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", startDate = "" })
+    }
+    else
+    {
+        <div class="col-xs-4">
+            <div class="editor-label">
+                @Html.LabelForRequired(model => Model.NumberSeriesBookingTableId)
+            </div>
+            <div class="editor-field">
+                @Html.Action("GetBookingIncomingDoc", "Custom", new { type = Model.GetType() })
+            </div>
         </div>
-    </div>
+    }
 </div>
 
 <div class="row">
@@ -83,29 +98,14 @@
 </div>
 
 <div class="row">
-    @if (Model.IncomingDocNum != null)
-    {
-        @Html.HiddenFor(model => model.IncomingDocNum)
-        <div class="col-xs-4">       
-            <div class="editor-label">
-                @Html.LabelForRequired(model => Model.IncomingDocNum)
-            </div>
-            <div class="editor-field">
-                @Html.DisplayTextFor(model => Model.IncomingDocNum)
-            </div>       
+    <div class="col-xs-4">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.OutgoingDate)
         </div>
-    }
-    else
-    {
-        <div class="col-xs-4">
-            <div class="editor-label">
-                @Html.LabelForRequired(model => Model.NumberSeriesBookingTableId)
-            </div>
-            <div class="editor-field">
-                @Html.Action("GetBookingIncomingDoc", "Custom", new { type = Model.GetType() })
-            </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => Model.OutgoingDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", startDate = "" })
         </div>
-    }
+    </div>
     <div class="col-xs-4">
         <div class="editor-label">
             @Html.LabelForRequired(model => Model.RegistrationDate)
