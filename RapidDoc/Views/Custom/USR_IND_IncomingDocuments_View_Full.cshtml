@@ -7,8 +7,7 @@
             @Html.LabelForRequired(model => model.Executed)
         </div>
         <div class="editor-field">
-            @Html.CheckBoxFor(model => model.Executed, new { @disabled = true })
-            Контролирует: @Html.HtmlDisplayTagsFor(model => model.ControlUsers), @Model.ControlDate.Value.ToShortDateString()
+            @Html.CheckBoxFor(model => model.Executed, new { @disabled = true })           
         </div>
     </div>
 </div>
