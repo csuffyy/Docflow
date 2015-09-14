@@ -242,5 +242,8 @@ namespace RapidDoc.Models.ViewModels
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         [Display(Name = "Номенклатурное дело")]
         public string ItemCauseNumber { get; set; }
+
+        [Display(Name = "Исполнен")]
+        public bool Executed { get; set; }
     }
 }

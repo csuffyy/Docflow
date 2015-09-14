@@ -178,6 +178,7 @@ namespace RapidDoc.Models.DomainModels
 
         public IncomingDocumentType DocumentType { get; set; }
         public string DocumentTypeName { get; set; }
+        public bool Executed { get; set; }
 
         [Required]
         public Guid? ItemCauseTableId { get; set; }
