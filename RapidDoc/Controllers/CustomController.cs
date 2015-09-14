@@ -158,25 +158,6 @@ namespace RapidDoc.Controllers
             return PartialView("USR_ORD_Organization");
         }
 
-        public ActionResult GetIncomingDocuments(RapidDoc.Models.ViewModels.USR_IND_IncomingDocuments_View model)
-        {
-            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
-
-            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
-            {
-                var current = _DocumentService.GetCurrentSignStep(document.Id);
-                if (current != null)
-                {
-                    if (current.Any(x => x.SystemName == "RegIncoming"))
-                    {
-                        return PartialView("USR_IND_IncomingDocuments_Edit", model);
-                    }
-                }
-            }
-
-            return PartialView("USR_IND_IncomingDocuments_View_Full", model);
-        }
-
         public ActionResult GetManualRequest(RapidDoc.Models.ViewModels.USR_REQ_KD_RequestForCompetitonProc_View model)
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);

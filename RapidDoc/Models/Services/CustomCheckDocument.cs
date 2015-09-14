@@ -939,6 +939,10 @@ namespace RapidDoc.Models.Services
                 {
                     errorList.Add("Необходимо заполнить тип документа ");
                 }
+                if (actionModel.OrganizationTableId == null || (Guid?)actionModel.OrganizationTableId == Guid.Empty)
+                {
+                    errorList.Add("Необходимо выбрать Корреспондента");
+                }
             }
 
             return errorList;
