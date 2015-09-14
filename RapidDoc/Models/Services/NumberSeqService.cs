@@ -264,6 +264,7 @@ namespace RapidDoc.Models.Services
         public string GetDocumentNumORD(Guid id, Guid? bookingNumberId, string currentUserId = "")
         {
             var numberSeq = Find(id);
+            string num = String.Empty;
             do
             {
                 try
@@ -275,7 +276,11 @@ namespace RapidDoc.Models.Services
                         NumberSeriesBookingTable numberSeqBookingTable = FirstOrDefaultBooking(x => x.Id == bookingNumberId);
                         numberSeqBookingTable.Enable = false;
                         SaveDomainBooking(numberSeqBookingTable, currentUserId);
-                        return numberSeqBookingTable.LastNum + "-" + numberSeqBookingTable.Prefix;
+                        if (String.IsNullOrEmpty(numberSeqBookingTable.Prefix))
+                            num = numberSeqBookingTable.LastNum.ToString();
+                        else
+                            num = numberSeqBookingTable.LastNum + "-" + numberSeqBookingTable.Prefix;
+                        return num;
                     }
                     else
                     {
@@ -286,7 +291,12 @@ namespace RapidDoc.Models.Services
                         while (BookingContains(x => x.LastNum == numberSeq.LastNum && x.NumberSeriesTableId == numberSeq.Id));
                         
                         SaveDomain(numberSeq, currentUserId);
-                        string num = numberSeq.LastNum + "-" + numberSeq.Prefix;
+
+                        if (String.IsNullOrEmpty(numberSeq.Prefix))
+                            num = numberSeq.LastNum.ToString();
+                        else
+                            num = numberSeq.LastNum + "-" + numberSeq.Prefix;
+
                         return num;
                     }
                 }

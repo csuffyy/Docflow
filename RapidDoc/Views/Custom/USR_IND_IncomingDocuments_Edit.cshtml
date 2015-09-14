@@ -7,6 +7,24 @@
     Model.ExecutionDate = DateTime.Today.AddMonths(1);
 }
 
+<div class="row">
+    <div class="col-xs-8">
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ItemCauseNumber)
+        </div>
+        <div class="row">
+            <div class="col-xs-2">
+                <div class="editor-field">
+                    <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target=".itemcause-modal">@UIElementRes.UIElement.Choose...</button>
+                </div>
+            </div>
+            <div class="col-xs-10">
+                @Html.HiddenFor(model => Model.ItemCauseTableId)
+                <span id="ItemCauseNumber">@Html.DisplayTextFor(model => Model.ItemCauseNumber)</span>
+            </div>
+        </div>
+    </div>
+</div>
 <h4>Язык обращения:</h4>
 <div class="row">
     <div class="col-xs-2">
@@ -53,14 +71,6 @@
 
 <br />
 <div class="row">
-    <div class="col-xs-4">
-        <div class="editor-label">
-            @Html.LabelForRequired(model => Model.OutgoingNumber)
-        </div>
-        <div class="editor-field">
-            @Html.TextBoxFor(model => Model.OutgoingNumber, new { @class = "form-control", placeholder = "Исходящий номер" })
-        </div>
-    </div>
     @if (Model.IncomingDocNum != null)
     {
         @Html.HiddenFor(model => model.IncomingDocNum)
@@ -98,6 +108,14 @@
 </div>
 
 <div class="row">
+    <div class="col-xs-4">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.OutgoingNumber)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => Model.OutgoingNumber, new { @class = "form-control", placeholder = "Исходящий номер" })
+        </div>
+    </div>
     <div class="col-xs-4">
         <div class="editor-label">
             @Html.LabelForRequired(model => Model.OutgoingDate)
@@ -151,13 +169,30 @@
         </div>
     </div>
     <div class="col-xs-3">
-        <div class="editor-field" style="width: 800px">
-            @Html.EnumDropDownListFor(model => Model.NatureQuestionType, new { @class = "selectpicker"})           
+        <div class="editor-field">
+            @Html.EnumDropDownListFor(model => Model.NatureQuestionType, new { @class = "selectpickerfull"})           
         </div>
     </div>
     <div class="col-xs-4">
         <div class="editor-field">
-            @Html.TextBoxFor(model => Model.NatureQuestion, new { @class = "form-control" })
+            @Html.TextBoxFor(model => Model.NatureQuestion, new { @class = "form-control", placeholder = "Опционально" })
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.DocumentType):
+        </div>
+    </div>
+    <div class="col-xs-3">
+        <div class="editor-field">
+            @Html.EnumDropDownListFor(model => Model.DocumentType, new { @class = "selectpickerfull" })
+        </div>
+    </div>
+    <div class="col-xs-4">
+        <div class="editor-field">
+            @Html.TextBoxFor(model => Model.DocumentTypeName, new { @class = "form-control", placeholder = "Опционально" })
         </div>
     </div>
 </div>
@@ -182,43 +217,6 @@
 </div>
 <div class="editor-field">
     @Html.TextBoxFor(model => Model.DocumentSubject, new { @class = "form-control", placeholder = "Тема документа" })
-</div>
-
-<br />
-<div class="row">
-    <div class="col-xs-2">
-        <div class="editor-label">
-            @Html.LabelForRequired(model => Model.DocumentType):
-        </div>
-    </div>
-    <div class="col-xs-3">
-        <div class="editor-field" style="width: 800px">
-            @Html.EnumDropDownListFor(model => Model.DocumentType, new { @class = "selectpicker" })
-        </div>
-    </div>
-    <div class="col-xs-4">
-        <div class="editor-field">
-            @Html.TextBoxFor(model => Model.DocumentTypeName, new { @class = "form-control" })
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-xs-8">
-        <div class="editor-label">
-            @Html.LabelFor(model => model.ItemCauseNumber)
-        </div>
-        <div class="row">
-            <div class="col-xs-2">
-                <div class="editor-field">
-                    <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target=".itemcause-modal">@UIElementRes.UIElement.Choose...</button>
-                </div>
-            </div>
-            <div class="col-xs-10">
-                @Html.HiddenFor(model => Model.ItemCauseTableId)
-                <span id="ItemCauseNumber">@Html.DisplayTextFor(model => Model.ItemCauseNumber)</span>
-            </div>
-        </div>
-    </div>
 </div>
 
 <div class="modal fade itemcause-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">

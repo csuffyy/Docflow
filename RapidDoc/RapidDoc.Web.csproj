@@ -1711,7 +1711,6 @@
     <Content Include="Views\Custom\USR_ORD_Workers.cshtml" />
     <Content Include="Views\Custom\USR_IND_IncomingDocuments_View.cshtml" />
     <Content Include="Views\Custom\USR_IND_IncomingDocuments_Edit.cshtml" />
-    <Content Include="Views\Custom\USR_IND_IncomingDocuments_View_Full.cshtml" />
     <Content Include="Views\DocumentBase\_DocumentBaseIncoming.cshtml" />
     <Content Include="Views\DocumentBase\IndexIncoming.cshtml" />
     <Content Include="Views\Custom\USR_OFM_VIP_OfficeMemo_View.cshtml" />
