@@ -10,7 +10,7 @@ namespace RapidDoc.Models.ViewModels
 {
     public class GroupProcessView : BasicCompanyNullView
     {
-        [StringLength(40, ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisLong")]
+        [StringLength(50, ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisLong")]
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         [Display(Name = "GroupProcessName", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public string GroupProcessName { get; set; }
