@@ -214,33 +214,30 @@ namespace RapidDoc.Controllers
                     }
                     break;*/
                 case 7:
-                    if (_WorkScheduleService.CheckWorkTime(null, DateTime.UtcNow))
+                    var userlist = _EmplService.GetPartialIntercompany(x => x.Enable == true && x.CompanyTableId == company.Id).ToList();
+
+                    UserManager<ApplicationUser>  userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+                    RoleManager<ApplicationRole> roleManager = new RoleManager<ApplicationRole>(new RoleStore<ApplicationRole>(new ApplicationDbContext()));
+
+                    foreach (var user in userlist)
                     {
-                        var users = _EmplService.GetPartialIntercompany(x => x.Enable == true && x.CompanyTableId == company.Id).ToList();
+                        DepartmentTable rolesDepartment = _DepartmentService.FirstOrDefault(x => x.Id == user.DepartmentTableId && x.CompanyTableId == company.Id);
 
-                        UserManager<ApplicationUser>  userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
-                        RoleManager<ApplicationRole> roleManager = new RoleManager<ApplicationRole>(new RoleStore<ApplicationRole>(new ApplicationDbContext()));
-
-                        foreach (var user in users)
+                        if (rolesDepartment != null && !String.IsNullOrEmpty(rolesDepartment.RequiredRoles))
                         {
-                            DepartmentTable rolesDepartment = _DepartmentService.FirstOrDefault(x => x.Id == user.DepartmentTableId);
+                            string[] arrayStructure = _SystemService.GuidsFromText(rolesDepartment.RequiredRoles);
 
-                            if (rolesDepartment != null && !String.IsNullOrEmpty(rolesDepartment.RequiredRoles))
+                            foreach (var role in arrayStructure)
                             {
-                                string[] arrayStructure = _SystemService.GuidsFromText(rolesDepartment.RequiredRoles);
+                                string roleName = roleManager.FindById(role).Name;
 
-                                foreach (var role in arrayStructure)
+                                if (user.ApplicationUserId != null && !userManager.IsInRole(user.ApplicationUserId, roleName))
                                 {
-                                    string roleName = roleManager.FindById(role).Name;
-
-                                    if (user.ApplicationUserId != null && !userManager.IsInRole(user.ApplicationUserId, roleName))
-                                    {
-                                        userManager.AddToRole(user.ApplicationUserId, roleName);
-                                    }
+                                    userManager.AddToRole(user.ApplicationUserId, roleName);
                                 }
                             }
-
                         }
+
                     }
                     break;
                 case 8:

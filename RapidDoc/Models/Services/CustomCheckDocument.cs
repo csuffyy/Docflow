@@ -1288,6 +1288,20 @@ namespace RapidDoc.Models.Services
                         }
                     }
                 }
+
+                if (!String.IsNullOrEmpty(actionModel.MainField))
+                    actionModel.MainField = _SystemService.RemoveColorFromText(((string)actionModel.MainField));
+
+                if (!String.IsNullOrEmpty(actionModel.MainFieldTranslate))
+                    actionModel.MainFieldTranslate = _SystemService.RemoveColorFromText(((string)actionModel.MainFieldTranslate));
+            }
+
+            if (type.IsSubclassOf(typeof(BasicDocumantOfficeMemoView)))
+            {
+                if (!String.IsNullOrEmpty(actionModel.MainField))
+                {
+                    actionModel.MainField = _SystemService.RemoveColorFromText(((string)actionModel.MainField));
+                }
             }
 
             return actionModel;

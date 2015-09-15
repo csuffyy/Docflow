@@ -14,6 +14,7 @@ namespace RapidDoc.Models.Services
         DateTime ConvertDateTimeToLocal(ApplicationUser userTable, DateTime value);
         bool IsGUID(string expression);
         string[] GuidsFromText(string text);
+        string RemoveColorFromText(string text);
     }
 
     public class SystemService : ISystemService
@@ -42,6 +43,12 @@ namespace RapidDoc.Models.Services
             Regex isGuid = new Regex(@"^(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}$", RegexOptions.Compiled);
             string[] arrayStructure = arrayTempStructrue.Where(a => isGuid.IsMatch(a) == true).ToArray();
             return arrayStructure;
+        }
+
+        public string RemoveColorFromText(string text)
+        {
+            Regex rgx = new Regex(@"color: rgb([(])\d+, \d+, \d+([)]);", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            return rgx.Replace(text, "");
         }
     }
 }
