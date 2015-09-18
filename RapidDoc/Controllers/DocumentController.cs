@@ -750,7 +750,7 @@ namespace RapidDoc.Controllers
             ApplicationUser userTable = _AccountService.Find(User.Identity.GetUserId());
             DocumentTable docTable = _DocumentService.Find(documentId);
             var  refDocument = _DocumentService.GetDocument(docTable.RefDocumentId, docTable.ProcessTable.TableName);
-            if (userTable == null) return RedirectToAction("PageNotFound", "Error");
+            if (userTable == null || (refDocument.ExecutionDate < DateTime.UtcNow && (refDocument.ProlongationDate == null || refDocument.ProlongationDate < DateTime.UtcNow))) return RedirectToAction("PageNotFound", "Error");
 
             EmplTable emplTable = _EmplService.FirstOrDefault(x => x.ApplicationUserId == userTable.Id && x.Enable == true);
             if (emplTable == null) return RedirectToAction("PageNotFound", "Error");

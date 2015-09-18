@@ -189,9 +189,12 @@
                     <li>
                         <a href="#" data-toggle="modal" data-target=".delegatetask-modal-sm">@UIElementRes.UIElement.Delegate</a>
                     </li>
+                    if (Model.docData.ExecutionDate > DateTime.UtcNow || Model.docData.ProlongationDate > DateTime.UtcNow)
+                    { 
                     <li>
                         <a href=@Url.Action("ProlongDocumentTask", new { tableName = Model.ProcessView.TableName, documentId = Model.DocumentView.Id })>@UIElementRes.UIElement.Prolong</a>
                     </li>
+                    }
                 }
                 @if (Model.DocumentView.DocType != RapidDoc.Models.Repository.DocumentType.Task &&
                     Model.DocumentView.DocumentState != RapidDoc.Models.Repository.DocumentState.Created)
@@ -266,7 +269,14 @@
     {
         <a href="#" class="btn btn-default btn-sm hidden-print" data-toggle="modal" data-target=".pdfreporttrip-modal">@UIElementRes.UIElement.PrintPdfTrip</a>
     }
+    @if (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.OfficeMemo)
+    {
+        <a href=@Url.Action("PdfReportCZ", "Report", new { id = Model.DocumentView.Id, processId = Model.ProcessView.Id }) class="btn btn-default btn-sm hidden-print" target="_blank">@UIElementRes.UIElement.Print</a>
+    }
+    else
+    { 
         <a href="javascript:window.print()" class="btn btn-default btn-sm hidden-print">@UIElementRes.UIElement.Print</a>
+    }
         <a href=@Url.Action("Index", "Document") class="btn btn-default btn-sm hidden-print" role="button">@UIElementRes.UIElement.Close</a>
 </fieldset>
     }

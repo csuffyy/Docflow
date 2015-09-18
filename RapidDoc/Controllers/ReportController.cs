@@ -108,6 +108,43 @@ namespace RapidDoc.Controllers
             };
         }
 
+        public ActionResult PdfReportCZ(Guid id, Guid? processId)
+        {
+            ApplicationUser user = _AccountService.Find(User.Identity.GetUserId());
+            var timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById(user.TimeZoneId);
+            DocumentTable docTable = _DocumentService.FirstOrDefault(x => x.Id == id);
+            ProcessTable process = _ProcessService.FirstOrDefault(x => x.Id == processId);
+            var documentView = _DocumentService.GetDocumentView(docTable.RefDocumentId, process.TableName);
+            EmplTable emplTable = _EmplService.GetEmployer(docTable.ApplicationUserCreatedId, process.CompanyTableId);
+            var trackersAssign = _WorkflowTrackerService.GetPartialView(x => x.DocumentTableId == id && (x.TrackerType == TrackerType.Approved || x.TrackerType == TrackerType.Cancelled), timeZoneInfo, docTable.DocType);
+
+            List<FileTable> filesResult = new List<FileTable>();
+            var files = _DocumentService.GetAllFilesDocument(docTable.FileId).ToList();
+            foreach (var item in files)
+            {
+                if (!_DocumentService.FileReplaceContains(item.Id))
+                {
+                    filesResult.Add(item);
+                }
+            }
+
+            ViewBag.ListFiles = filesResult;
+            ViewBag.Tracker = trackersAssign;
+            ViewBag.UserCreated = emplTable;
+            ViewBag.DocState = docTable.DocumentState;
+            ViewBag.TableName = docTable.ProcessTable.TableName;
+            ViewBag.DocumentNum = docTable.DocumentNum;
+            ViewBag.AliasCompanyName = docTable.AliasCompanyName;
+            ViewBag.Id = docTable.Id;
+            ViewBag.Process = process;
+
+            return new ViewAsPdf("PdfReportCZ", documentView)
+            {
+                PageSize = Size.A4,
+                FileName = String.Format("{0}.pdf", docTable.DocumentNum)
+            };
+        }
+
         [HttpPost]
         public FileContentResult GenerateDetail(ReportParametersBasicView model)
         {

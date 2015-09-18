@@ -1042,13 +1042,13 @@ namespace RapidDoc.Models.Repository
 
     public enum Folder: byte
     {
-        [Display(Name = "Служебные записки")]
+        [Display(Name = "Служебная записка")]
         Element1 = 0,
 
-        [Display(Name = "Заявления")]
+        [Display(Name = "Заявление")]
         Element4 = 3,
 
-        [Display(Name = "Объяснительные записки")]
+        [Display(Name = "Объяснительная записка")]
         Element5 = 4
     }
 

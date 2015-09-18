@@ -265,6 +265,8 @@ namespace RapidDoc.Models.Services
         {
             var numberSeq = Find(id);
             string num = String.Empty;
+            string lastnum = String.Empty;
+
             do
             {
                 try
@@ -276,10 +278,15 @@ namespace RapidDoc.Models.Services
                         NumberSeriesBookingTable numberSeqBookingTable = FirstOrDefaultBooking(x => x.Id == bookingNumberId);
                         numberSeqBookingTable.Enable = false;
                         SaveDomainBooking(numberSeqBookingTable, currentUserId);
-                        if (String.IsNullOrEmpty(numberSeqBookingTable.Prefix))
-                            num = numberSeqBookingTable.LastNum.ToString();
+                        if (numberSeqBookingTable.LastNum < 9)
+                            lastnum = numberSeqBookingTable.LastNum.ToString("D" + 2.ToString());
                         else
-                            num = numberSeqBookingTable.LastNum + "-" + numberSeqBookingTable.Prefix;
+                            lastnum = numberSeqBookingTable.LastNum.ToString();
+
+                        if (String.IsNullOrEmpty(numberSeqBookingTable.Prefix))
+                            num = lastnum;
+                        else
+                            num = lastnum + "-" + numberSeqBookingTable.Prefix;
                         return num;
                     }
                     else
@@ -291,11 +298,15 @@ namespace RapidDoc.Models.Services
                         while (BookingContains(x => x.LastNum == numberSeq.LastNum && x.NumberSeriesTableId == numberSeq.Id));
                         
                         SaveDomain(numberSeq, currentUserId);
+                        if (numberSeq.LastNum < 9)
+                            lastnum = numberSeq.LastNum.ToString("D" + 2.ToString());
+                        else
+                            lastnum = numberSeq.LastNum.ToString();
 
                         if (String.IsNullOrEmpty(numberSeq.Prefix))
-                            num = numberSeq.LastNum.ToString();
+                            num = lastnum;
                         else
-                            num = numberSeq.LastNum + "-" + numberSeq.Prefix;
+                            num = lastnum + "-" + numberSeq.Prefix;
 
                         return num;
                     }

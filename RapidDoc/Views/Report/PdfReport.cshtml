@@ -12,19 +12,20 @@
 <body>
     <div>
         <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
+        <table width="900">
+            <tr>
+                <td align="right">
+                    <img src="@Url.Content("~/Content/Custom/image-icon/Logo.png")">
+                </td>
+            </tr>
+        </table>
         <br />
         <br /> 
         <h4 align ="center">
             <strong>
                 <font size="4" face="Arial">
                     БҰЙРЫҚ<br />
-                    № @Model.OrderNum от:@Model.OrderDate.ToShortDateString() г.<br />
+                    № @Model.OrderNum от @Model.OrderDate.ToShortDateString() г.<br />
                 </font>
             </strong>
             <font size="4" face="Arial">

@@ -1840,6 +1840,7 @@
     <Content Include="Views\Role\AddUsersManual.cshtml" />
     <Content Include="Views\Document\DocumentTaskList.cshtml" />
     <Content Include="Views\Document\MyTasks.cshtml" />
+    <Content Include="Views\Report\PdfReportCZ.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
