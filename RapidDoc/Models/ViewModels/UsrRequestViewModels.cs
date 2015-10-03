@@ -9084,7 +9084,7 @@ namespace RapidDoc.Models.ViewModels
 
     #region Приказы
 
-    public class USR_ORD_RevocationView
+    public class USR_ORD_SelectListView
     {
         public Guid? Id { get; set; }
         public string Name { get; set; }
@@ -9205,7 +9205,37 @@ namespace RapidDoc.Models.ViewModels
 
     #region Входящие документы
 
+    public class USR_IND_IncomingDocList
+    {
+        public Guid? Id { get; set; }
+        public string Name { get; set; }
+    }
+
     public class USR_IND_IncomingDocuments_View : BasicIncomingDocumentsView
+    {
+
+    }
+
+    #endregion
+
+    #region Исходящие документы
+
+    public class USR_OND_OutcomingDocList
+    {
+        public Guid? Id { get; set; }
+        public string Name { get; set; }
+    }
+
+    public class USR_OND_OutcomingDocuments_View : BasicOutcomingDocumentsView
+    {
+
+    }
+
+    #endregion
+
+    #region Обращения граждан
+
+    public class USR_APP_AppealDocuments_View : BasicAppealDocumentsView
     {
 
     }

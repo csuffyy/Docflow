@@ -22,9 +22,12 @@ namespace RapidDoc.Controllers
         private readonly ITripSettingsService _TripSettingsService;
         private readonly ICountryService _CountryService;
         private readonly IOrganizationService _OrganizationService;
+        private readonly IReasonRequestService _ReasonRequestService;
+        private readonly IQuestionRequestService _QuestionRequestService;
         private readonly IProcessService _ProcessService;
 
-        public CustomController(IEmplService emplService, ISystemService systemService, IDocumentService documentService, IServiceIncidentService serviceIncidentService, ICompanyService companyService, IAccountService accountService, ITripSettingsService tripSettingsService, INumberSeqService numberSeqService, ICountryService countryService, IOrganizationService organizationService, IProcessService processService)
+        public CustomController(IEmplService emplService, ISystemService systemService, IDocumentService documentService, IServiceIncidentService serviceIncidentService, ICompanyService companyService, IAccountService accountService, ITripSettingsService tripSettingsService, INumberSeqService numberSeqService, ICountryService countryService, IOrganizationService organizationService, IProcessService processService,
+            IReasonRequestService reasonRequestService, IQuestionRequestService questionRequestService)
             : base(companyService, accountService)
         {
             _EmplService = emplService;
@@ -36,6 +39,8 @@ namespace RapidDoc.Controllers
             _CountryService = countryService;
             _OrganizationService = organizationService;
             _ProcessService = processService;
+            _ReasonRequestService = reasonRequestService;
+            _QuestionRequestService = questionRequestService;
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
@@ -144,6 +149,13 @@ namespace RapidDoc.Controllers
             return PartialView("USR_ORD_Revocation");
         }
 
+        public ActionResult GetAdditionORD(Guid? id, bool edit)
+        {
+            ViewBag.ORDAdditionList = _DocumentService.AdditionORDList(id, edit);
+            ViewBag.EditMode = edit;
+            return PartialView("USR_ORD_Addition");
+        }
+
         public ActionResult GetCountryORD(Guid? id = null, bool selected = false)
         {
             ViewBag.Selected = selected;
@@ -156,6 +168,31 @@ namespace RapidDoc.Controllers
             ViewBag.Selected = selected;
             ViewBag.OrganizationList = selected == true ? _OrganizationService.GetDropListOrganization(id) :_OrganizationService.GetDropListOrganizationNull(id);
             return PartialView("USR_ORD_Organization");
+        }
+
+        public ActionResult GetReasonRequest(Guid? id = null, bool selected = false)
+        {
+            ViewBag.Selected = selected;
+            ViewBag.ReasonRequestList = selected == true ? _ReasonRequestService.GetDropListReasonRequest(id) : _ReasonRequestService.GetDropListReasonRequestNull(id);
+            return PartialView("_ReasonRequest");
+        }
+
+        public ActionResult GetQuestionRequest(Guid? id = null, bool selected = false)
+        {
+            ViewBag.Selected = selected;
+            ViewBag.QuestionRequestList = selected == true ? _QuestionRequestService.GetDropListQuestionRequest(id) : _QuestionRequestService.GetDropListQuestionRequestNull(id);
+            return PartialView("_QuestionRequest");
+        }
+
+        public ActionResult GetIncomingDoc()
+        {
+            ViewBag.IncomingDocList = _DocumentService.IncomingDocList();
+            return PartialView("USR_IND_IncomingDocList");
+        }
+        public ActionResult GetOutcomingDoc()
+        {
+            ViewBag.OutcomingDocList = _DocumentService.OutcomingDocList();
+            return PartialView("USR_OND_OutcomingDocList");
         }
 
         public ActionResult GetManualRequest(RapidDoc.Models.ViewModels.USR_REQ_KD_RequestForCompetitonProc_View model)
@@ -2462,6 +2499,25 @@ namespace RapidDoc.Controllers
             }
 
             return PartialView("USR_REQ_HY_EmergencyRequestTRU_View_Full", model);
+        }
+
+        public ActionResult GetOutcomingDocuments(RapidDoc.Models.ViewModels.USR_OND_OutcomingDocuments_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.SystemName == "ONDRegistration"))
+                    {
+                        return PartialView("USR_OND_OutcomingDocuments_Registration", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_OND_OutcomingDocuments_View_Full", model);
         }
 
         [HttpPost]

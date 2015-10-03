@@ -253,7 +253,14 @@ namespace RapidDoc.Extensions
                 else
                     result = enumValue.ToString();
 
-                enumNameCache.Add(key, result);
+                try
+                {
+                    enumNameCache.Add(key, result);
+                }
+                catch
+                {
+                    return result;
+                }
             }
 
             return result;
@@ -294,8 +301,14 @@ namespace RapidDoc.Extensions
                     }
                     else
                         result = value.ToString();
-
-                    enumNameCache.Add(key, result);
+                    try
+                    {
+                        enumNameCache.Add(key, result);
+                    }
+                    catch
+                    {
+                        return result;
+                    }
                 }
             }
 

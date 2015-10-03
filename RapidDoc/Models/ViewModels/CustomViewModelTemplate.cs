@@ -123,6 +123,7 @@ namespace RapidDoc.Models.ViewModels
 
         [Display(Name = "Дополнение")]
         public bool Addition { get; set; }
+        public Guid? AdditionDocumentId { get; set; }
 
         [Display(Name = "Текст дополнение")]
         public string AdditionText { get; set; }
@@ -155,6 +156,8 @@ namespace RapidDoc.Models.ViewModels
 
         [Display(Name = "Забронированные номера")]
         public Guid? NumberSeriesBookingTableId { get; set; }
+
+        public int AdditionCount { get; set; }
     }
 
     public abstract class BasicOrderDefaultView : BasicOrderView
@@ -184,6 +187,10 @@ namespace RapidDoc.Models.ViewModels
         public bool Language_Chinese { get; set; }
         [Display(Name = "Французкий")]
         public bool Language_French { get; set; }
+
+        [Display(Name = "Ответ на исходящий")]
+        public Guid? OutcomingNumberDocId { get; set; }
+        public string OutcomingNumber { get; set; }
 
         [Display(Name = "Исходящий номер")]   
         public string OutgoingNumber { get; set; }
@@ -244,6 +251,193 @@ namespace RapidDoc.Models.ViewModels
         public string ItemCauseNumber { get; set; }
 
         [Display(Name = "Исполнен")]
+        public bool Executed { get; set; }
+    }
+
+    public abstract class BasicOutcomingDocumentsView : BasicDocumentView
+    {
+        [Display(Name = "Казахский")]
+        public bool Language_Kazakh { get; set; }
+        [Display(Name = "Русский")]
+        public bool Language_Russian { get; set; }
+        [Display(Name = "Английский")]
+        public bool Language_English { get; set; }
+        [Display(Name = "Китайский")]
+        public bool Language_Chinese { get; set; }
+        [Display(Name = "Французкий")]
+        public bool Language_French { get; set; }
+
+        [Display(Name = "Вид отправки")]
+        public OutcomingDispatchType OutcomingDispatchType { get; set; }
+        [Display(Name = "Вид отправки")]
+        public string DispatchType { get; set; }
+
+        [Display(Name = "Номер документа")]
+        public string OutcomingDocNum { get; set; }
+
+        [Display(Name = "Дата исходящего")]
+        public DateTime? OutgoingDate { get; set; }
+
+        [Display(Name = "Получатель")]
+        public Guid? OrganizationTableId { get; set; }
+
+        [Display(Name = "Забронированные номера")]
+        public Guid? NumberSeriesBookingTableId { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "За подписью")]
+        public string Signer { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Список согласования")]
+        public string ListAgreement { get; set; }
+
+        [Display(Name = "Тип контроля")]
+        public ControlType ControlType { get; set; }
+        [Display(Name = "Приоритет")]
+        public ServiceIncidientPriority Priority { get; set; }
+
+        [Display(Name = "Номер бланка")]
+        public string BlankNumber { get; set; }
+
+        [Display(Name = "Ответ на входящий")]
+        public Guid? IncomingNumberDocId { get; set; }
+        public string IncomingNumber { get; set; }
+        public DateTime? IncomingDate { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Количество листов")]
+        public string ListsCount { get; set; }
+
+        [Display(Name = "Количество приложений")]
+        public string ApplicationsCount { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Тема документа")]
+        public string DocumentSubject { get; set; }
+
+        [Display(Name = "Тип документа")]
+        public IncomingDocumentType DocumentType { get; set; }
+        [Display(Name = "Тип документа")]
+        public string DocumentTypeName { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Номенклатурное дело")]
+        public Guid? ItemCauseTableId { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Номенклатурное дело")]
+        public string ItemCauseNumber { get; set; }
+
+        [Display(Name = "Номенклатурное дело")]
+        public string ItemCauseNumberCode { get; set; }
+    }
+
+    public abstract class BasicAppealDocumentsView : BasicDocumentView
+    {
+        [Display(Name = "Казахский")]
+        public bool Language_Kazakh { get; set; }
+        [Display(Name = "Русский")]
+        public bool Language_Russian { get; set; }
+        [Display(Name = "Английский")]
+        public bool Language_English { get; set; }
+        [Display(Name = "Китайский")]
+        public bool Language_Chinese { get; set; }
+        [Display(Name = "Французкий")]
+        public bool Language_French { get; set; }
+
+        [Display(Name = "Категория лица")]
+        public CategoryPerson CategoryPerson { get; set; }
+
+        [Display(Name = "ИИН\\БИН")]
+        public string IdentificatorNumber { get; set; }
+
+        [Display(Name = "Поступило из")]
+        public Guid? OrganizationTableId { get; set; }
+
+        [Display(Name = "Статус обративщегося лица")]
+        public StatusPerson StatusPerson { get; set; }
+
+        [Required]
+        [Display(Name = "ФИО заявителя")]
+        public string Name { get; set; }
+
+        [Required]
+        [Display(Name = "Адрес заявителя")]
+        public string Address { get; set; }
+
+        [Display(Name = "Регион")]
+        public Guid? CountryTableId { get; set; }
+
+        [Display(Name = "Регистрационный номер")]
+        public string RegistrationNum { get; set; }
+
+        [Display(Name = "Дата регистрации")]
+        public DateTime RegistrationDate { get; set; }
+
+        [Required]
+        [Display(Name = "Адресован")]
+        public string Whom { get; set; }
+
+        [Display(Name = "Форма обращения")]
+        public FormAppeal FormAppeal { get; set; }
+
+        [Display(Name = "Вид обращения")]
+        public TypeAppeal TypeAppeal { get; set; }
+
+        [Display(Name = "Вид обращения")]
+        public string TypeAppealAddition { get; set; }
+
+        [Display(Name = "Характер обращения")]
+        public CharacterAppeal CharacterAppeal { get; set; }
+
+        [Display(Name = "Характер вопроса")]
+        public CharacterQuestion CharacterQuestion { get; set; }
+
+        [Display(Name = "Характер вопроса")]
+        public string CharacterQuestionAddition { get; set; }
+
+        [Required]
+        [Display(Name = "Количество листов")]
+        public string ListsCount { get; set; }
+
+        [Display(Name = "Количество приложений")]
+        public string ApplicationsCount { get; set; }
+
+        [Required]
+        [Display(Name = "Тема документа")]
+        public string Subject { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Номенклатурное дело")]
+        public Guid? ItemCauseTableId { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Номенклатурное дело")]
+        public string ItemCauseNumber { get; set; }
+
+        [Display(Name = "Номенклатурное дело")]
+        public string ItemCauseNumberCode { get; set; }
+
+        [Display(Name = "Содержание")]
+        public string Content { get; set; }
+
+        [Display(Name = "Причина обращения")]
+        public Guid? ReasonRequestTableId { get; set; }
+
+        [Display(Name = "Вопрос обращения")]
+        public Guid? QuestionRequestTableId { get; set; }
+
+        [Display(Name = "Тип контроля")]
+        public ControlType ControlType { get; set; }
+
+        [Display(Name = "Приоритет")]
+        public ServiceIncidientPriority Priority { get; set; }
+
+        [Display(Name = "Срок исполнения")]
+        public DateTime? ExecutionDate { get; set; }
+
+        [Display(Name = "Исполнено")]
         public bool Executed { get; set; }
     }
 }

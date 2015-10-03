@@ -17,8 +17,8 @@
             </div>
         </div>
     }
-    @if(Model.Addition == true)
-    { 
+    @if (Model.Addition == true)
+    {
         <div class="col-xs-2">
             <div class="editor-label">
                 @Html.LabelForRequired(model => model.Addition)
@@ -27,14 +27,28 @@
                 @Html.CheckBoxFor(model => model.Addition, new { @disabled = true })
             </div>
         </div>
-        <div class="col-xs-6">
-            <div class="editor-label">
-                @Html.LabelForRequired(model => model.AdditionText)
+        if (Model.AdditionDocumentId != null)
+        {
+            <div class="col-xs-3">
+                <div class="editor-label">
+                    @Html.LabelForRequired(model => model.Addition)
+                </div>
+                <div class="editor-field">
+                    @Html.Action("GetAdditionORD", "Custom", new { id = Model.AdditionDocumentId, edit = false })
+                </div>
             </div>
-            <div class="editor-field">
-                @Html.DisplayTextFor(model => model.AdditionText)
+        }
+        if (!String.IsNullOrEmpty(Model.AdditionText))
+        {
+            <div class="col-xs-3">
+                <div class="editor-label">
+                    @Html.LabelForRequired(model => model.AdditionText)
+                </div>
+                <div class="editor-field">
+                    @Html.DisplayTextFor(model => model.AdditionText)
+                </div>
             </div>
-        </div>
+        }
     }
 </div>
 @if (Model.CancelOrder == true)

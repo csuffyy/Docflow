@@ -2,7 +2,7 @@
 @using RapidDoc.Extensions;
 
 <div class="editor-label">
-    @Html.LabelForRequired(model => Model.RefDocNum)
+    @Html.LabelFor(model => Model.RefDocNum)
 </div>
 @Html.ActionLink(Model.RefDocNum.ToString(), "ShowDocument", "Document", new { id = Model.RefDocumentId, isAfterView = true }, null)
 
@@ -11,7 +11,5 @@
 
 @Html.HiddenFor(model => model.RefDocumentId)
 <br />
-
-
 @Html.Partial("_DocumentViewFields", Model, new ViewDataDictionary(ViewData) { { "FieldName", "ProlongationDate" } })
 @Html.Partial("_DocumentViewFields", Model, new ViewDataDictionary(ViewData) { { "FieldName", "Reason" } })

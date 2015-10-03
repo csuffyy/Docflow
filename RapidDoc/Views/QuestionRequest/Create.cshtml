@@ -1,0 +1,35 @@
+﻿@model RapidDoc.Models.ViewModels.QuestionRequestView
+@using RapidDoc.Extensions;
+@{
+    ViewBag.Title = "Новый вопрос обращения";
+}
+<h2>@CustomRes.Custom.QuestionRequest</h2>
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend></legend>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => model.Code)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Code, new { @class = "form-control", @size = 10, @maxlength = 10, placeholder = "10", @autofocus = "required", @x_webkit_speech = "" })
+            @Html.ValidationMessageFor(model => model.Code)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelForRequired(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Name, new { @class = "form-control", placeholder = "Вопрос", @autofocus = "required", @x_webkit_speech = "" })
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+       
+        @{Html.RenderPartial("SaveBackBtn");}
+    </fieldset>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/editentity")
+}
+

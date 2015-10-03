@@ -17,7 +17,7 @@
                 num++;
                 <div class="panel panel-default">
                     <div class="panel-heading" role="tab" id="heading@num">
-                        <p class="panel-title"><a href="#collapseArea_@num" data-toggle="collapse" data-target="#collapseArea_@num" aria-expanded="false" aria-controls="collapseArea_@num"><strong>@itemGroup.Key</strong></a></p>
+                        <p class="panel-title"><a href="#collapseArea_@num" data-toggle="collapse" data-target="#collapseArea_@num" aria-expanded="false" aria-controls="collapseArea_@num"><strong>@itemGroup.Key (@Model.Where(x => x.UserName == itemGroup.Key).Count())</strong></a></p>
                     </div>
                     <div class="collapse" id="collapseArea_@num">
                         <div class="panel-body">
@@ -38,7 +38,7 @@
                 num++;
                 <div class="panel panel-default">
                     <div class="panel-heading" role="tab" id="heading@num">
-                        <p class="panel-title"><a href="#collapseArea_@num" data-toggle="collapse" data-target="#collapseArea_@num" aria-expanded="false" aria-controls="collapseArea_@num"><strong>@itemGroup.Key</strong></a></p>
+                        <p class="panel-title"><a href="#collapseArea_@num" data-toggle="collapse" data-target="#collapseArea_@num" aria-expanded="false" aria-controls="collapseArea_@num"><strong>@itemGroup.Key (@Model.Where(x => x.DepartmentName == itemGroup.Key).Count())</strong></a></p>
                     </div>
                     <div class="collapse" id="collapseArea_@num">
                         <div class="panel-body">
@@ -59,7 +59,7 @@
                 num++;
                 <div class="panel panel-default">
                     <div class="panel-heading" role="tab" id="heading@num">
-                        <p class="panel-title"><a href="#collapseArea_@num" data-toggle="collapse" data-target="#collapseArea_@num" aria-expanded="false" aria-controls="collapseArea_@num"><strong>@itemGroup.Key.ItemCaseNumber - @itemGroup.Key.ItemCaseName</strong></a></p>
+                        <p class="panel-title"><a href="#collapseArea_@num" data-toggle="collapse" data-target="#collapseArea_@num" aria-expanded="false" aria-controls="collapseArea_@num"><strong>@itemGroup.Key.ItemCaseNumber - @itemGroup.Key.ItemCaseName (@Model.Where(x => x.ItemCaseNumber == itemGroup.Key.ItemCaseNumber).Count())</strong></a></p>
                     </div>
                     <div class="collapse" id="collapseArea_@num">
                         <div class="panel-body">
@@ -103,7 +103,7 @@
                 num++;
                 <div class="panel panel-default">
                     <div class="panel-heading" role="tab" id="heading@num">
-                        <p class="panel-title"><a href="#collapseArea_@num" data-toggle="collapse" data-target="#collapseArea_@num" aria-expanded="false" aria-controls="collapseArea_@num"><strong>@itemGroup.Key</strong></a></p>
+                        <p class="panel-title"><a href="#collapseArea_@num" data-toggle="collapse" data-target="#collapseArea_@num" aria-expanded="false" aria-controls="collapseArea_@num"><strong>@itemGroup.Key (@Model.Where(x => x.ProcessName == itemGroup.Key).Count())</strong></a></p>
                     </div>
                     <div class="collapse" id="collapseArea_@num">
                         <div class="panel-body">
@@ -125,7 +125,7 @@
                 num++;
                 <div class="panel panel-default">
                     <div class="panel-heading" role="tab" id="heading@num">
-                        <p class="panel-title"><a href="#collapseArea_@num" data-toggle="collapse" data-target="#collapseArea_@num" aria-expanded="false" aria-controls="collapseArea_@num"><strong>@Html.EnumToDescription(itemGroup.Key)</strong></a></p>
+                        <p class="panel-title"><a href="#collapseArea_@num" data-toggle="collapse" data-target="#collapseArea_@num" aria-expanded="false" aria-controls="collapseArea_@num"><strong>@Html.EnumToDescription(itemGroup.Key) (@Model.Where(x => x.Folder == itemGroup.Key).Count())</strong></a></p>
                     </div>
                     <div class="collapse" id="collapseArea_@num">
                         <div class="panel-body">

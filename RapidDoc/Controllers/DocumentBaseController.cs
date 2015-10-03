@@ -90,6 +90,26 @@ namespace RapidDoc.Controllers
 
             return View(incomingBaseView);
         }
+
+        public ActionResult IndexOutcoming()
+        {
+            OutcomingBaseView outcomingBaseView = new OutcomingBaseView();
+
+            outcomingBaseView.StartDate = new DateTime(DateTime.Now.Year, 1, 1);
+            outcomingBaseView.EndDate = new DateTime(DateTime.Now.Year, 12, 31);
+
+            return View(outcomingBaseView);
+        }
+
+        public ActionResult IndexAppeal()
+        {
+            AppealBaseView appealBaseView = new AppealBaseView();
+
+            appealBaseView.StartDate = new DateTime(DateTime.Now.Year, 1, 1);
+            appealBaseView.EndDate = new DateTime(DateTime.Now.Year, 12, 31);
+
+            return View(appealBaseView);
+        }
     
         [HttpPost]
         public ActionResult Search(DocumentType documentType, int filterType, DateTime? startDate, DateTime? endDate)
@@ -110,6 +130,10 @@ namespace RapidDoc.Controllers
                     return View("_DocumentBaseOrder", _Service.GetAllViewUserDocument(documentType, startDate, endDate));
                 case DocumentType.IncomingDoc:
                     return View("_DocumentBaseIncoming", _Service.GetAllViewUserDocument(documentType, startDate, endDate));
+                case DocumentType.OutcomingDoc:
+                    return View("_DocumentBaseOutcoming", _Service.GetAllViewUserDocument(documentType, startDate, endDate));
+                case DocumentType.AppealDoc:
+                    return View("_DocumentBaseAppeal", _Service.GetAllViewUserDocument(documentType, startDate, endDate));
             }
             return new EmptyResult();
         }

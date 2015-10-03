@@ -17,9 +17,11 @@ $(function () {
     $('#ajaxUploadForm').fileupload({
 		autoUpload: true,
 		dataType: 'json',
+        pasteZone: null,
 		limitMultiFileUploads: 1,
 		fileInput: $("input[type='file'][name='files']"),
-		url: urlFileUpload
+		url: urlFileUpload,
+       
     }).bind('fileuploaddestroy', function (e, data) {
         location.reload();
     });

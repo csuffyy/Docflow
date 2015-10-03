@@ -6,7 +6,7 @@
 
 <div class="row">
     <div class="col-xs-6">
-        <h5 class="hidden-print"><a href="@ViewBag.DocumentUrl" id="documenturl" target="_blank">#@Model.DocumentView.DocumentNum</a><strong> - @Model.ProcessView.ProcessName</strong></h5>
+        <h5 class="hidden-print"><a href="@ViewBag.DocumentUrl" class="documenturl" target="_blank">&equiv;</a><strong><a href="@ViewBag.DocumentUrl" class="documenturl" target="_blank"> @Model.DocumentView.DocumentNum</a> - @Model.ProcessView.ProcessName</strong></h5>
         <h5>
             <span class="visible-print-inline">@Model.DocumentView.DocumentNum - @Model.ProcessView.ProcessName</span>
             <small>@Html.EnumToDescription(Model.DocumentView.DocumentState)</small>
@@ -68,7 +68,7 @@
             <div class="col-xs-4">
                 <div class="editor-label hidden-print">
                     @Html.LabelFor(model => model.DocumentView.IsNotified)
-                    <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="@UIElementRes.UIElement.TooltipAboutReading"></i>
+                    <i class="fa fa-question-circle visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-toggle="tooltip" data-placement="top" title="@UIElementRes.UIElement.TooltipAboutReading"></i>
                 </div>
                 <div class="editor-field hidden-print">
                     @Html.CheckBoxFor(model => model.DocumentView.IsNotified)
@@ -133,16 +133,16 @@
             }
             else
             {
-                <button type="submit" class="btn btn-success btn-lg" name="action:ApproveDocument">@UIElementRes.UIElement.Approve</button>
+                <button type="submit" class="btn btn-success btn-lg" name="action:ApproveDocument"><span class="visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">@UIElementRes.UIElement.Approve</span><span class="visible-xs-inline-block glyphicon glyphicon-ok-circle"></span></button>
                 <button type="submit" class="btn btn-default btn-sm" name="action:SaveDraft">@UIElementRes.UIElement.SaveDraft</button>
-                <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target=".rework-modal-sm">@UIElementRes.UIElement.OnRework</button>
+                <button type="button" class="btn btn-default btn-sm visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-toggle="modal" data-target=".rework-modal-sm">@UIElementRes.UIElement.OnRework</button>
             }    
                                  
             @if (Model.DocumentView.CreatedBy == User.Identity.Name || User.IsInRole("Administrator"))
             {
                 <button type="button" class="btn btn-danger btn-sm bg-danger hidden-print" data-toggle="modal" data-target=".bs-delete-modal-sm">@UIElementRes.UIElement.Delete</button>
             }
-            <a href="@Url.Action("Index", "Document")" class="btn btn-default btn-sm" role="button">@UIElementRes.UIElement.Cancel</a>
+            <a href="@Url.Action("Index", "Document")" class="btn btn-default btn-sm visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" role="button">@UIElementRes.UIElement.Cancel</a>
 </p>
 
         <div class="modal bs-delete-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
@@ -244,13 +244,13 @@
             {% } %}
         </td>
         <td>
-            <span class="size">{%=o.formatFileSize(file.size)%}</span>
+            <span class="size visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">{%=o.formatFileSize(file.size)%}</span>
         </td>
         <td>
-            {%=file.createdUser%}
+            <span class="visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">{%=file.createdUser%}</span>
         </td>
         <td>
-            {%=file.createdDate%}
+            <span class="visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">{%=file.createdDate%}</span>
         </td>
         <td>
             {%=file.versionName%}
@@ -306,7 +306,7 @@
         custom_tagsinputOnlyGroup_init("@Url.Action("GetJsonOnlyGroup", "Custom")");
         popover_init();
 
-        $('#documenturl').click(function (e) {
+        $('.documenturl').click(function (e) {
             var doc = document;
             var text = this;
 

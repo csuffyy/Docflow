@@ -1017,7 +1017,10 @@ namespace RapidDoc.Models.Repository
         Element5 = 4,
 
         [Display(Name = "Altyntau Kokshetau")]
-        Element6 = 5
+        Element6 = 5,
+
+        [Display(Name = "Gleencore")]
+        Element7 = 6
     }
 
     public enum PurposeAuxiliaryTransportTrip : byte
@@ -1135,7 +1138,52 @@ namespace RapidDoc.Models.Repository
         Initiator = 0,
 
         [Display(Name = "По подразделению")]
-        Department = 1
+        Department = 1,
+
+        [Display(Name = "По теме документа")]
+        Topic = 2,
+
+        [Display(Name = "По регистрационному номеру")]
+        RegistrationNumber = 3,
+
+        [Display(Name = "По дате регистрации")]
+        RegistrationDate = 4
+    }
+
+    public enum OutcomingFilterType : byte
+    {
+        [Display(Name = "По инициатору")]
+        Initiator = 0,
+
+        [Display(Name = "По подразделению")]
+        Department = 1,
+
+        [Display(Name = "По теме документа")]
+        Topic = 2,
+
+        [Display(Name = "По регистрационному номеру")]
+        RegistrationNumber = 3,
+
+        [Display(Name = "По дате исходящего")]
+        RegistrationDate = 4
+    }
+
+    public enum AppealFilterType : byte
+    {
+        [Display(Name = "По инициатору")]
+        Initiator = 0,
+
+        [Display(Name = "По регистрационному номеру")]
+        RegistrationNumber = 1,
+
+        [Display(Name = "По дате регистрации")]
+        RegistrationDate = 2,
+
+        [Display(Name = "По теме документа")]
+        Topic = 3,
+
+        [Display(Name = "По категории лица")]
+        CategoryPerson = 4
     }
 
     public enum BusinessTripType : byte
@@ -1290,7 +1338,7 @@ namespace RapidDoc.Models.Repository
         [Display(Name = "Служебная записка")]
         Element11 = 10,
 
-        [Display(Name = "Справки")]
+        [Display(Name = "Справка")]
         Element12 = 11,
 
         [Display(Name = "Телефонограмма")]
@@ -1298,5 +1346,164 @@ namespace RapidDoc.Models.Repository
 
         [Display(Name = "Уведоление")]
         Element14 = 13
+    }
+
+    public enum OutcomingDispatchType : byte
+    {
+        [Display(Name = "Нет")]
+        Element1 = 0,
+
+        [Display(Name = "Заказное письмо (с уведомлением)")]
+        Element2 = 1,
+
+        [Display(Name = "На руки")]
+        Element3 = 2,
+
+        [Display(Name = "Нарочно (в журнале)")]
+        Element4 = 3,
+
+        [Display(Name = "Письмо")]
+        Element5 = 4,
+
+        [Display(Name = "По системе документооборота")]
+        Element6 = 5,
+
+        [Display(Name = "Почта DHL")]
+        Element7 = 6,
+
+        [Display(Name = "Почта спецсвязи")]
+        Element8 = 7,
+
+        [Display(Name = "Телеграмма")]
+        Element9 = 8,
+
+        [Display(Name = "Факс")]
+        Element10 = 9,
+
+        [Display(Name = "Фельдсвязь")]
+        Element11 = 10
+    }
+
+    public enum CategoryPerson : byte
+    {
+        [Display(Name = "Физическое лицо")]
+        Element1 = 0,
+
+        [Display(Name = "Юридическое лицо")]
+        Element2 = 1
+    }
+
+    public enum StatusPerson : byte
+    {
+        [Display(Name = "Гражданин")]
+        Element1 = 0,
+
+        [Display(Name = "Пенсионер")]
+        Element2 = 1,
+
+        [Display(Name = "Сотрудник")]
+        Element3 = 2
+    }
+
+    public enum FormAppeal : byte
+    {
+        [Display(Name = "Бумажная")]
+        Element1 = 0,
+
+        [Display(Name = "Электронная")]
+        Element2 = 1,
+
+        [Display(Name = "Устная")]
+        Element3 = 2,
+
+        [Display(Name = "На личном приеме")]
+        Element4 = 3
+    }
+
+    public enum TypeAppeal : byte
+    {
+        [Display(Name = "Не выбрано")]
+        Element1 = 0,
+
+        [Display(Name = "Жалоба")]
+        Element2 = 1,
+
+        [Display(Name = "Заявление")]
+        Element3 = 2,
+
+        [Display(Name = "Коммерческое предложение")]
+        Element4 = 3,
+
+        [Display(Name = "Материальная помощь")]
+        Element5 = 4,
+
+        [Display(Name = "О предоставлении справки")]
+        Element6 = 5,
+
+        [Display(Name = "Обращение")]
+        Element7 = 6,
+
+        [Display(Name = "Претензия")]
+        Element8 = 7,
+
+        [Display(Name = "Спонсорская помощь")]
+        Element9 = 8
+    }
+
+    public enum CharacterAppeal : byte
+    {
+        [Display(Name = "Коллективное")]
+        Element1 = 0,
+
+        [Display(Name = "Индивидуальное")]
+        Element2 = 1
+    }
+
+    public enum CharacterQuestion : byte
+    {
+        [Display(Name = "Не выбрано")]
+        Element1 = 0,
+
+        [Display(Name = "Вопрос закупки")]
+        Element2 = 1,
+
+        [Display(Name = "Для сведения")]
+        Element3 = 2,
+
+        [Display(Name = "Запрос информации")]
+        Element4 = 3,
+
+        [Display(Name = "Кадровый")]
+        Element5 = 4,
+
+        [Display(Name = "Коммерческое предложение")]
+        Element6 = 5,
+
+        [Display(Name = "Личный")]
+        Element7 = 6,
+
+        [Display(Name = "Повестка в суд")]
+        Element8 = 7,
+
+        [Display(Name = "Предоставление документов")]
+        Element9 = 8,
+
+        [Display(Name = "Претензия")]
+        Element10 = 9,
+
+        [Display(Name = "Приглашение")]
+        Element11 = 10,
+
+        [Display(Name = "Производственный")]
+        Element12 = 11,
+
+        [Display(Name = "Спонсорская помощь")]
+        Element13 = 12,
+
+        [Display(Name = "Технический")]
+        Element14 = 13,
+
+        [Display(Name = "Финансовый")]
+        Element15 = 14
     }
 }

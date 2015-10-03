@@ -61,6 +61,7 @@ namespace RapidDoc.Activities.CodeActivities
             string currentUserId = context.GetValue(this.inputCurrentUser);
             Guid? bookingNumberId = Guid.Empty;
             Guid? cancelDocumentId = Guid.Empty;
+            Guid? additionDocumentId = Guid.Empty;
             var document = _service.Find(documentId);
 
             if(documentData.ContainsKey("NumberSeriesBookingTableId"))
@@ -120,6 +121,22 @@ namespace RapidDoc.Activities.CodeActivities
                         documentCancel.Cancel = true;
                         documentCancel.CancelDocumentId = documentId;
                         _service.UpdateDocument(documentCancel, currentUserId);
+                    }
+                }
+            }
+
+            if (documentData.ContainsKey("AdditionDocumentId") && documentData.ContainsKey("Addition"))
+            {
+                if ((bool)documentData["Addition"] == true && (Guid?)documentData["AdditionDocumentId"] != null)
+                {
+                    additionDocumentId = (Guid)documentData["AdditionDocumentId"];
+                    var documentAddition = _service.Find(additionDocumentId);
+                    if (documentAddition != null)
+                    {
+                        ProcessView processView = _serviceProcess.FindView(documentAddition.ProcessTableId, currentUserId);
+                        var documentRef = _service.GetDocumentView(documentAddition.RefDocumentId, processView.TableName);
+                        documentRef.AdditionCount++;
+                        _service.UpdateDocumentFields(documentRef, processView);
                     }
                 }
             }

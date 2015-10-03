@@ -131,13 +131,13 @@
       <AssemblyReference>RapidDoc</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Flowchart DisplayName="Запрос на снижение ежемесячной премии/стимулирование за нарушения ТБ" sap2010:WorkflowViewState.IdRef="Flowchart_2">
+  <Flowchart DisplayName="Входящая корреспонденция" sap2010:WorkflowViewState.IdRef="Flowchart_2">
     <Flowchart.Variables>
       <Variable x:TypeArguments="x:String" Name="bookmarkName" />
     </Flowchart.Variables>
     <Flowchart.StartNode>
       <FlowStep x:Name="__ReferenceID1" sap2010:WorkflowViewState.IdRef="FlowStep_8">
-        <local1:WFCreateTaskIND _service="{x:Null}" _serviceAccount="{x:Null}" _serviceProcess="{x:Null}" _serviceSearch="{x:Null}" _serviceWorkflow="{x:Null}" DisplayName="Создание задачи" sap2010:WorkflowViewState.IdRef="WFCreateTaskIND_1">
+        <local1:WFCreateTaskIND _service="{x:Null}" _serviceAccount="{x:Null}" _serviceDocumentReader="{x:Null}" _serviceProcess="{x:Null}" _serviceSearch="{x:Null}" _serviceSystem="{x:Null}" _serviceWorkflow="{x:Null}" DisplayName="Создание задачи" sap2010:WorkflowViewState.IdRef="WFCreateTaskIND_1">
           <local1:WFCreateTaskIND.inputCurrentUser>
             <InArgument x:TypeArguments="x:String">
               <mca:CSharpValue x:TypeArguments="x:String">inputCurrentUser</mca:CSharpValue>
@@ -174,7 +174,7 @@
     </Flowchart.StartNode>
     <x:Reference>__ReferenceID0</x:Reference>
     <x:Reference>__ReferenceID1</x:Reference>
-    <sads:DebugSymbol.Symbol>d2pDOlxVc2Vyc1xEbVNoa2EuQUxUWU5UQVVcRGVza3RvcFxHaXRIdWJcRG9jRmxvd1xEb2NmbG93XFJhcGlkRG9jXEFjdGl2aXRpZXNcVVNSX0lORF9JbmNvbWluZ0RvY3VtZW50cy54YW1sChsHG2cBAwGRAQGXAQEChgEDsgEPAgEBjAEJnAEiAgEVnwENqgEWAgECmQEPmQFaAgEojwEPjwFdAgEflAEPlAFzAgEWpwETpwFwAgEMogETogFuAgED</sads:DebugSymbol.Symbol>
+    <sads:DebugSymbol.Symbol>d1tDOlxVc2Vyc1xpZ2RtaXRcU291cmNlXFJlcG9zXERvY2Zsb3dSZXBvXFJhcGlkRG9jXEFjdGl2aXRpZXNcVVNSX0lORF9JbmNvbWluZ0RvY3VtZW50cy54YW1sChsHG2cBAwGRAQGXAQEChgEDsgEPAgEBjAEJnAEiAgEVnwENqgEWAgECmQEPmQFaAgEojwEPjwFdAgEflAEPlAFzAgEWpwETpwFwAgEMogETogFuAgED</sads:DebugSymbol.Symbol>
   </Flowchart>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>

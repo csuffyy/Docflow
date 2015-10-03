@@ -786,6 +786,7 @@ namespace RapidDoc.Models.Services
                 case DocumentType.Task:
                     allSteps = this.GetRequestTree(activity, documentData);
                     break;
+                case DocumentType.OutcomingDoc:
                 case DocumentType.Order:
                     List<string> usersOrder = this.GetUniqueUserList(documentId, documentData, "ListAgreement");
                     documentData["ListAgreement"] = usersOrder;
@@ -981,7 +982,12 @@ namespace RapidDoc.Models.Services
                     row["ModifiedDate"] = createdDate;
                     row["ApplicationUserCreatedId"] = currentUserId;
                     row["ApplicationUserModifiedId"] = currentUserId;
-                    row["StartDateSLA"] = DBNull.Value;
+
+                    if (num == 1 || parallel == true)
+                        row["StartDateSLA"] = createdDate;
+                    else
+                        row["StartDateSLA"] = DBNull.Value;
+
                     row["Comments"] = DBNull.Value;
                     row["AdditionalText"] = additionalText;
                     row["SystemName"] = DBNull.Value;

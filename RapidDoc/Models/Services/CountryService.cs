@@ -38,7 +38,6 @@ namespace RapidDoc.Models.Services
     {
         private IRepository<CountryTable> repo;
         private IRepository<ApplicationUser> repoUser;
-        private IRepository<DepartmentTable> repoDepartment;
         private IUnitOfWork uow;
 
         public CountryService(IUnitOfWork _uow)
@@ -46,7 +45,6 @@ namespace RapidDoc.Models.Services
             uow = _uow;
             repo = uow.GetRepository<CountryTable>();
             repoUser = uow.GetRepository<ApplicationUser>();
-            repoDepartment = uow.GetRepository<DepartmentTable>();
         }
 
         public IEnumerable<CountryTable> GetAll()

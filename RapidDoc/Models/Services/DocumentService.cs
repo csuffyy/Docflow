@@ -71,7 +71,13 @@ namespace RapidDoc.Models.Services
         string[] GetUserListFromStructure(string users);
         void UpdateProlongationDate(Guid refDocumentid, DateTime prolongationDate, string currentUserId);
         void ORDRegistration(Guid refDocumentid, string currentUserId, Guid? bookingNumberId);
+        void INDRegistration(Guid refDocumentid, string currentUserId, Guid? bookingNumberId);
+        void OUTRegistration(Guid refDocumentid, string currentUserId, Guid? bookingNumberId);
+        void APPRegistration(Guid refDocumentid, string currentUserId);
         SelectList RevocationORDList(Guid? id, bool edit);
+        SelectList AdditionORDList(Guid? id, bool edit);
+        SelectList IncomingDocList();
+        SelectList OutcomingDocList();
         Type GetTableType(string TableName);
         string ScrubHtml(string value);
         double GetSLAHours(Guid documentId, DateTime? startDate, DateTime? endDate);
@@ -806,17 +812,19 @@ namespace RapidDoc.Models.Services
                         signStep.Add(trackerTable);
                     }
                 }
-            }
-            var delegations = _DelegationService.GetDelegationUsers(document, user, trackerTables);
 
-            foreach (var delegation in delegations)
-            {
-                if(!signStep.Any(x => x.Id == delegation.Id))
+                var delegations = _DelegationService.GetDelegationUsers(document, user, trackerTables);
+
+                foreach (var delegation in delegations)
                 {
-                    signStep.Add(delegation);
+                    if (!signStep.Any(x => x.Id == delegation.Id))
+                    {
+                        signStep.Add(delegation);
+                    }
+
                 }
-    
             }
+
             return signStep;
         }
 
@@ -1192,13 +1200,32 @@ namespace RapidDoc.Models.Services
             ApplicationUser currentUser = repoUser.GetById(HttpContext.Current.User.Identity.GetUserId());
 
             var  taskList= _uow.GetDbContext<ApplicationDbContext>().USR_TAS_DailyTasks_Table.Where(x => x.RefDocumentId == documentId).ToList();
-
             taskList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName }));
 
             var  prolongationsList= _uow.GetDbContext<ApplicationDbContext>().USR_TAS_DailyTasksProlongation_Table.Where(x => x.RefDocumentId == documentId).ToList();
             prolongationsList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName }));
 
-             return taskDelegationList;
+            //Orders
+            var mainActivityList = _uow.GetDbContext<ApplicationDbContext>().USR_ORD_MainActivity_Table.Where(x => x.AdditionDocumentId == documentId).ToList();
+            mainActivityList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName }));
+            var businessTripList = _uow.GetDbContext<ApplicationDbContext>().USR_ORD_BusinessTrip_Table.Where(x => x.AdditionDocumentId == documentId).ToList();
+            businessTripList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName }));
+            var staffList = _uow.GetDbContext<ApplicationDbContext>().USR_ORD_Staff_Table.Where(x => x.AdditionDocumentId == documentId).ToList();
+            staffList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName }));
+            var receptionList = _uow.GetDbContext<ApplicationDbContext>().USR_ORD_Reception_Table.Where(x => x.AdditionDocumentId == documentId).ToList();
+            receptionList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName }));
+            var dismissalList = _uow.GetDbContext<ApplicationDbContext>().USR_ORD_Dismissal_Table.Where(x => x.AdditionDocumentId == documentId).ToList();
+            dismissalList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName }));
+            var transferList = _uow.GetDbContext<ApplicationDbContext>().USR_ORD_Transfer_Table.Where(x => x.AdditionDocumentId == documentId).ToList();
+            transferList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName }));
+            var holidayList = _uow.GetDbContext<ApplicationDbContext>().USR_ORD_Holiday_Table.Where(x => x.AdditionDocumentId == documentId).ToList();
+            holidayList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName }));
+            var changeStaffList = _uow.GetDbContext<ApplicationDbContext>().USR_ORD_ChangeStaff_Table.Where(x => x.AdditionDocumentId == documentId).ToList();
+            changeStaffList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName }));
+            var sanctionList = _uow.GetDbContext<ApplicationDbContext>().USR_ORD_Sanction_Table.Where(x => x.AdditionDocumentId == documentId).ToList();
+            sanctionList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName }));
+
+            return taskDelegationList;
         }
 
 
@@ -1252,10 +1279,90 @@ namespace RapidDoc.Models.Services
             }
         }
 
+        public void INDRegistration(Guid refDocumentid, string currentUserId, Guid? bookingNumberId)
+        {
+            DocumentTable documentTable = Find(refDocumentid);
+            ProcessView processView = _ProcessService.FindView(documentTable.ProcessTableId, currentUserId);
+            var document = GetDocumentView(documentTable.RefDocumentId, processView.TableName);
+
+            if (document.OutcomingNumberDocId != null)
+            {
+                IRepository<USR_OND_OutcomingDocuments_Table> repoOUT = _uow.GetRepository<USR_OND_OutcomingDocuments_Table>();
+                Guid outcomingNumber = (Guid)document.OutcomingNumberDocId;
+                USR_OND_OutcomingDocuments_Table item = repoOUT.Find(x => x.DocumentTableId == outcomingNumber);
+                document.OutcomingNumber = item.OutcomingDocNum;
+            }
+
+            NumberSeriesTable numberSeq = _NumberSeqService.FirstOrDefault(x => x.TableName == processView.TableName);
+            
+            if (numberSeq == null)
+                return;
+
+            string number = String.Empty;
+            number = _NumberSeqService.GetDocumentNumORD(numberSeq.Id, bookingNumberId, currentUserId);
+
+            if (!String.IsNullOrEmpty(number))
+            {
+                document.IncomingDocNum = number;
+                UpdateDocumentFields(document, processView);
+            }
+        }
+
+        public void APPRegistration(Guid refDocumentid, string currentUserId)
+        {
+            DocumentTable documentTable = Find(refDocumentid);
+            ProcessView processView = _ProcessService.FindView(documentTable.ProcessTableId, currentUserId);
+            var document = GetDocumentView(documentTable.RefDocumentId, processView.TableName);
+
+            NumberSeriesTable numberSeq = _NumberSeqService.FirstOrDefault(x => x.TableName == processView.TableName);
+
+            if (numberSeq == null)
+                return;
+
+            string number = String.Empty;
+            number = _NumberSeqService.GetDocumentNumORD(numberSeq.Id, null, currentUserId);
+
+            if (!String.IsNullOrEmpty(number))
+            {
+                document.RegistrationNum = number;
+                UpdateDocumentFields(document, processView);
+            }
+        }
+
+        public void OUTRegistration(Guid refDocumentid, string currentUserId, Guid? bookingNumberId)
+        {
+            DocumentTable documentTable = Find(refDocumentid);
+            ProcessView processView = _ProcessService.FindView(documentTable.ProcessTableId, currentUserId);
+            var document = GetDocumentView(documentTable.RefDocumentId, processView.TableName);
+
+            if (document.IncomingNumberDocId != null)
+            {
+                IRepository<USR_IND_IncomingDocuments_Table> repoIND = _uow.GetRepository<USR_IND_IncomingDocuments_Table>();
+                Guid incomingNumber = (Guid)document.IncomingNumberDocId;
+                USR_IND_IncomingDocuments_Table item = repoIND.Find(x => x.DocumentTableId == incomingNumber);
+                document.IncomingNumber = item.IncomingDocNum;
+                document.IncomingDate = item.RegistrationDate;
+            }
+
+            NumberSeriesTable numberSeq = _NumberSeqService.FirstOrDefault(x => x.TableName == processView.TableName);
+
+            if (numberSeq == null)
+                return;
+
+            string number = String.Empty;
+            number = _NumberSeqService.GetDocumentNumORD(numberSeq.Id, bookingNumberId, currentUserId);
+
+            if (!String.IsNullOrEmpty(number))
+            {
+                document.OutcomingDocNum = number;
+                UpdateDocumentFields(document, processView);
+            }
+        }
+
         public SelectList RevocationORDList(Guid? id, bool edit)
         {
-            List<USR_ORD_RevocationView> result = new List<USR_ORD_RevocationView>();
-            result.Insert(0, new USR_ORD_RevocationView { Name = UIElementRes.UIElement.NoValue, Id = null });
+            List<USR_ORD_SelectListView> result = new List<USR_ORD_SelectListView>();
+            result.Insert(0, new USR_ORD_SelectListView { Name = UIElementRes.UIElement.NoValue, Id = null });
 
             result.AddRange(GetOrderList<USR_ORD_MainActivity_Table>(id, edit));
             result.AddRange(GetOrderList<USR_ORD_Staff_Table>(id, edit));
@@ -1270,24 +1377,70 @@ namespace RapidDoc.Models.Services
             return new SelectList(result, "Id", "Name", id);
         }
 
-        private List<USR_ORD_RevocationView> GetOrderList<T>(Guid? id, bool edit) where T : BasicOrderTable
+        public SelectList AdditionORDList(Guid? id, bool edit)
         {
-            List<USR_ORD_RevocationView> result = new List<USR_ORD_RevocationView>();
+            List<USR_ORD_SelectListView> result = new List<USR_ORD_SelectListView>();
+            result.Insert(0, new USR_ORD_SelectListView { Name = UIElementRes.UIElement.NoValue, Id = null });
+
+            result.AddRange(GetOrderList<USR_ORD_MainActivity_Table>(id, edit, true));
+            result.AddRange(GetOrderList<USR_ORD_Staff_Table>(id, edit, true));
+            result.AddRange(GetOrderList<USR_ORD_Reception_Table>(id, edit, true));
+            result.AddRange(GetOrderList<USR_ORD_Dismissal_Table>(id, edit, true));
+            result.AddRange(GetOrderList<USR_ORD_Transfer_Table>(id, edit, true));
+            result.AddRange(GetOrderList<USR_ORD_Holiday_Table>(id, edit, true));
+            result.AddRange(GetOrderList<USR_ORD_ChangeStaff_Table>(id, edit, true));
+            result.AddRange(GetOrderList<USR_ORD_Sanction_Table>(id, edit, true));
+            result.AddRange(GetOrderList<USR_ORD_BusinessTrip_Table>(id, edit, true));
+
+            return new SelectList(result, "Id", "Name", id);
+        }
+
+        public SelectList IncomingDocList()
+        {
+            List<USR_IND_IncomingDocList> result = new List<USR_IND_IncomingDocList>();
+            result.Insert(0, new USR_IND_IncomingDocList { Name = UIElementRes.UIElement.NoValue, Id = null });
+
+            IRepository<USR_IND_IncomingDocuments_Table> repo = _uow.GetRepository<USR_IND_IncomingDocuments_Table>();
+            List<USR_IND_IncomingDocuments_Table> items = repo.FindAll(x => !String.IsNullOrEmpty(x.IncomingDocNum) && x.Executed == true).ToList();
+
+            items.ForEach(x => result.Add(new USR_IND_IncomingDocList() { Name = x.IncomingDocNum + "/" + x.RegistrationDate.Value.ToShortDateString(), Id = x.DocumentTableId }));
+
+            return new SelectList(result, "Id", "Name", null);
+        }
+
+        public SelectList OutcomingDocList()
+        {
+            List<USR_OND_OutcomingDocList> result = new List<USR_OND_OutcomingDocList>();
+            result.Insert(0, new USR_OND_OutcomingDocList { Name = UIElementRes.UIElement.NoValue, Id = null });
+
+            IRepository<USR_OND_OutcomingDocuments_Table> repo = _uow.GetRepository<USR_OND_OutcomingDocuments_Table>();
+            List<USR_OND_OutcomingDocuments_Table> items = repo.FindAll(x => !String.IsNullOrEmpty(x.OutcomingDocNum)).ToList();
+
+            items.ForEach(x => result.Add(new USR_OND_OutcomingDocList() { Name = x.OutcomingDocNum, Id = x.DocumentTableId }));
+
+            return new SelectList(result, "Id", "Name", null);
+        }
+
+        private List<USR_ORD_SelectListView> GetOrderList<T>(Guid? id, bool edit, bool addition = false) where T : BasicOrderTable
+        {
+            List<USR_ORD_SelectListView> result = new List<USR_ORD_SelectListView>();
             IRepository<T> repo = _uow.GetRepository<T>();
             List<T> items = new List<T>();
 
             if (edit == true)
-                items = repo.FindAll(x => !String.IsNullOrEmpty(x.OrderNum) && x.DocumentTable.Cancel == false).ToList();
+                if (addition)
+                    items = repo.FindAll(x => !String.IsNullOrEmpty(x.OrderNum) && x.DocumentTable.Cancel == false && x.Addition == false && x.AdditionCount < 4).ToList();
+                else
+                    items = repo.FindAll(x => !String.IsNullOrEmpty(x.OrderNum) && x.DocumentTable.Cancel == false).ToList();
             else
                 items = repo.FindAll(x => x.DocumentTableId == id).ToList();
 
             foreach (var item in items)
             {
-                result.Add(new USR_ORD_RevocationView() { Name = item.OrderNum + ", " + item.OrderDate.Value.ToShortDateString(), Id = item.DocumentTableId });
+                result.Add(new USR_ORD_SelectListView() { Name = item.OrderNum + ", " + item.OrderDate.Value.ToShortDateString(), Id = item.DocumentTableId });
             }
             return result;
         }
-
 
         public Type GetTableType(string TableName)
         {

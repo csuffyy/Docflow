@@ -1,0 +1,16 @@
+﻿<div class="editor-field">
+    @{
+        IEnumerable<SelectListItem> ReasonRequestListFull = ViewBag.ReasonRequestList;
+    }
+    @if (ViewBag.Selected == true)
+    {
+        foreach (var item in ReasonRequestListFull.Where(x => x.Selected == true))
+        {
+            @item.Text
+        }
+    }
+    else
+    {
+        @Html.DropDownList("ReasonRequestTableId", ReasonRequestListFull, new { @class = "selectpickerfull", @data_live_search = "true", @data_size = "10" })
+    }
+</div>

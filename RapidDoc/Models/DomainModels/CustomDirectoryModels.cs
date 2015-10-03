@@ -70,4 +70,16 @@ namespace RapidDoc.Models.DomainModels
     {
         public string OrgName { get; set; }
     }
+
+    public class ReasonRequestTable : BasicCompanyNullTable
+    {
+        public string Code { get; set; }
+        public string Name { get; set; }
+    }
+
+    public class QuestionRequestTable : BasicCompanyNullTable
+    {
+        public string Code { get; set; }
+        public string Name { get; set; }
+    }
 }

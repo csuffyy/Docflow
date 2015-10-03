@@ -6,8 +6,8 @@
 }
 
 <div class="row hidden-print">
-    <div class="col-xs-6"> 
-        <h5><a href="@ViewBag.DocumentUrl" id="documenturl" target="_blank">#@Model.DocumentView.DocumentNum</a><strong> - @Model.ProcessView.ProcessName</strong></h5>
+    <div class="col-xs-6">
+        <h5><a href="@ViewBag.DocumentUrl" class="documenturl" target="_blank">&equiv;</a><strong><a href="@ViewBag.DocumentUrl" class="documenturl" target="_blank"> @Model.DocumentView.DocumentNum</a> - @Model.ProcessView.ProcessName</strong></h5>
         <h5>
             <small class="">@documentState</small>
             @if (Model.DocumentView.isArchive == true)
@@ -61,19 +61,22 @@
         @Html.HiddenFor(model => model.fileId)
         @Html.Action("GetDocumentData", new { modelDoc = Model.docData, Model.ProcessView.TableName, viewType = "View" })
         <br class="hidden-print">
-        @if (Model.DocumentView.DocumentState != RapidDoc.Models.Repository.DocumentState.Closed && Model.DocumentView.DocumentState != RapidDoc.Models.Repository.DocumentState.Cancelled && Model.DocumentView.DocumentState != RapidDoc.Models.Repository.DocumentState.OnSign)
-        {     
-            <h4 class="hidden-print">@UIElementRes.UIElement.AttachedFiles
-            <span class="btn btn-primary btn-xs fileinput-button">
-                <i class="glyphicon glyphicon-plus"></i>
-                <span>@UIElementRes.UIElement.AddFiles</span>
-                <input type="file" name="files" multiple>
-            </span>
-            </h4>
-            if (!String.IsNullOrEmpty(Model.ProcessView.MandatoryFileTypes))
-            {
+        @if (Model.DocumentView.DocumentState != RapidDoc.Models.Repository.DocumentState.Closed && Model.DocumentView.DocumentState != RapidDoc.Models.Repository.DocumentState.Cancelled)
+        {
+            <div class="visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+                <h4 class="hidden-print">
+                    @UIElementRes.UIElement.AttachedFiles
+                    <span class="btn btn-primary btn-xs fileinput-button">
+                        <i class="glyphicon glyphicon-plus"></i>
+                        <span>@UIElementRes.UIElement.AddFiles</span>
+                        <input type="file" name="files" multiple>
+                    </span>
+                </h4>
+                @if (!String.IsNullOrEmpty(Model.ProcessView.MandatoryFileTypes))
+                {
                 <h5 class="text-danger hidden-print">@UIElementRes.UIElement.SupportFileTypes: @Model.ProcessView.MandatoryFileTypes</h5>
-            }
+                }
+            </div>
         }
         <table role="presentation" class="table table-striped table-condensed"><tbody class="files"></tbody></table>
         <h4 class="hidden-print">@UIElementRes.UIElement.ProgressWork</h4>
@@ -129,15 +132,19 @@
 
         @if ((Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution || Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.OnSign) && Model.DocumentView.isSign)
         {
-            if (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Request || Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Order || Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.IncomingDoc || (Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement && Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.OfficeMemo))
+            if (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Request || Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Order 
+                || Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.IncomingDoc
+                || Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.OutcomingDoc
+                || Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.AppealDoc 
+                || (Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement && Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.OfficeMemo))
             {
-                <button type="button" class="btn btn-success btn-lg hidden-print" data-toggle="modal" data-target=".bs-approve-modal-sm">@UIElementRes.UIElement.Approve</button>
-                <button type="button" class="btn btn-danger btn-lg hidden-print" data-toggle="modal" data-target=".bs-reject-modal-sm">@UIElementRes.UIElement.Reject</button>
+                <button type="button" class="btn btn-success btn-lg hidden-print" data-toggle="modal" data-target=".bs-approve-modal-sm"><span class="visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">@UIElementRes.UIElement.Approve</span><span class="visible-xs-inline-block glyphicon glyphicon-ok-circle"></span></button>
+                <button type="button" class="btn btn-danger btn-lg hidden-print" data-toggle="modal" data-target=".bs-reject-modal-sm"><span class="visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">@UIElementRes.UIElement.Reject</span><span class="visible-xs-inline-block glyphicon glyphicon-remove-circle"></span></button>
             }
             else
             {
-                <button type="button" class="btn btn-success btn-lg hidden-print" data-toggle="modal" data-target=".approvecz-modal-sm">@UIElementRes.UIElement.Approve</button>
-                <button type="button" class="btn btn-danger btn-lg hidden-print" data-toggle="modal" data-target=".rejectcz-modal-sm">@UIElementRes.UIElement.Reject</button>
+                <button type="button" class="btn btn-success btn-lg hidden-print" data-toggle="modal" data-target=".approvecz-modal-sm"><span class="visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">@UIElementRes.UIElement.Approve</span><span class="visible-xs-inline-block glyphicon glyphicon-ok-circle"></span></button>
+                <button type="button" class="btn btn-danger btn-lg hidden-print" data-toggle="modal" data-target=".rejectcz-modal-sm"><span class="visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">@UIElementRes.UIElement.Reject</span><span class="visible-xs-inline-block glyphicon glyphicon-remove-circle"></span></button>
             }
         }
 
@@ -162,7 +169,7 @@
 
         <div class="btn-group hidden-print">
             <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
-                @UIElementRes.UIElement.Create <span class="caret"></span>
+                <span class="visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">@UIElementRes.UIElement.Create</span> <span class="glyphicon glyphicon-cog visible-xs-inline-block"></span> <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" role="menu">
                 <li><a href=@Url.Action("AddReader", new { id = Model.DocumentView.Id })>@UIElementRes.UIElement.Reader</a></li>
@@ -263,21 +270,22 @@
 
     @if (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Order)
     {
-        <a href=@Url.Action("PdfReport", "Report", new { id = Model.DocumentView.Id, processId = Model.ProcessView.Id }) class="btn btn-default btn-sm hidden-print" target="_blank">@UIElementRes.UIElement.PrintOrder</a>
+        <a href=@Url.Action("PdfReport", "Report", new { id = Model.DocumentView.Id, processId = Model.ProcessView.Id }) class="btn btn-default btn-sm hidden-print visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" target="_blank">@UIElementRes.UIElement.PrintOrder</a>
+
+        if (Model.docData.GetType() == typeof(RapidDoc.Models.ViewModels.USR_ORD_BusinessTrip_View) && Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Closed)
+        {
+            <a href="#" class="btn btn-default btn-sm hidden-print visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-toggle="modal" data-target=".pdfreporttrip-modal">@UIElementRes.UIElement.PrintPdfTrip</a>
+        }
     }
-    @if (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Order && Model.docData.GetType() == typeof(RapidDoc.Models.ViewModels.USR_ORD_BusinessTrip_View) && Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Closed)
+    else if (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.OfficeMemo)
     {
-        <a href="#" class="btn btn-default btn-sm hidden-print" data-toggle="modal" data-target=".pdfreporttrip-modal">@UIElementRes.UIElement.PrintPdfTrip</a>
-    }
-    @if (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.OfficeMemo)
-    {
-        <a href=@Url.Action("PdfReportCZ", "Report", new { id = Model.DocumentView.Id, processId = Model.ProcessView.Id }) class="btn btn-default btn-sm hidden-print" target="_blank">@UIElementRes.UIElement.Print</a>
+        <a href=@Url.Action("PdfReportCZ", "Report", new { id = Model.DocumentView.Id, processId = Model.ProcessView.Id }) class="btn btn-default btn-sm hidden-print visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" target="_blank">@UIElementRes.UIElement.Print</a>
     }
     else
-    { 
-        <a href="javascript:window.print()" class="btn btn-default btn-sm hidden-print">@UIElementRes.UIElement.Print</a>
+    {
+        <a href="javascript:window.print()" class="btn btn-default btn-sm hidden-print visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">@UIElementRes.UIElement.Print</a>
     }
-        <a href=@Url.Action("Index", "Document") class="btn btn-default btn-sm hidden-print" role="button">@UIElementRes.UIElement.Close</a>
+    <a href=@Url.Action("Index", "Document") class="btn btn-default btn-sm hidden-print visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" role="button">@UIElementRes.UIElement.Close</a>
 </fieldset>
     }
 
@@ -359,13 +367,13 @@
             {% } %}
         </td>
         <td>
-            <span class="size">{%=o.formatFileSize(file.size)%}</span>
+            <span class="size visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">{%=o.formatFileSize(file.size)%}</span>
         </td>
         <td>
-            {%=file.createdUser%}
+            <span class="visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">{%=file.createdUser%}</span>
         </td>
         <td>
-            {%=file.createdDate%}
+            <span class="visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">{%=file.createdDate%}</span>
         </td>
         <td>
             {%=file.versionName%}
@@ -467,7 +475,7 @@
             }
         });
 
-        $('#documenturl').click(function (e) {
+        $('.documenturl').click(function (e) {
             var doc = document;
             var text = this;
 

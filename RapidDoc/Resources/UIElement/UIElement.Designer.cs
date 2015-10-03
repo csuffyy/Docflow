@@ -133,6 +133,15 @@ namespace UIElementRes {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Обращения граждан.
+        /// </summary>
+        public static string AppealBase {
+            get {
+                return ResourceManager.GetString("AppealBase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Применить.
         /// </summary>
         public static string Apply {
@@ -966,6 +975,15 @@ namespace UIElementRes {
         public static string OrderBase {
             get {
                 return ResourceManager.GetString("OrderBase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Исходящая корреспонденция.
+        /// </summary>
+        public static string OutcomingBase {
+            get {
+                return ResourceManager.GetString("OutcomingBase", resourceCulture);
             }
         }
         

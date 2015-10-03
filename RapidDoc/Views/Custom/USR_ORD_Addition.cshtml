@@ -1,0 +1,17 @@
+﻿@{
+    var listItem = ((IEnumerable<SelectListItem>)ViewBag.ORDAdditionList).FirstOrDefault(x => x.Selected == true);
+}
+
+@if ((bool)ViewBag.EditMode == true)
+{
+    <div class="editor-field">
+        @Html.DropDownList("AdditionDocumentId", (IEnumerable<SelectListItem>)ViewBag.ORDAdditionList, new { @class = "selectpickerfull", @data_live_search = "true", @data_size = "10" })
+    </div>
+}
+else
+{
+    if (listItem != null)
+    {
+        @Html.ActionLink(listItem.Text, "ShowDocument", "Document", new { id = listItem.Value, isAfterView = true }, new { target = "_blank" })
+    }
+}

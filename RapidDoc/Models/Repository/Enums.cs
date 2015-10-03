@@ -119,6 +119,12 @@ namespace RapidDoc.Models.Repository
         Order = 3,
 
         [Display(Name = "Входящие сообщения")]
-        IncomingDoc = 4
+        IncomingDoc = 4,
+
+        [Display(Name = "Исходящие сообщения")]
+        OutcomingDoc = 5,
+
+        [Display(Name = "Обращения граждан")]
+        AppealDoc = 6
     }
 }

@@ -627,4 +627,10 @@
   <data name="IncomingBase" xml:space="preserve">
     <value>Incoming correspondence</value>
   </data>
+  <data name="AppealBase" xml:space="preserve">
+    <value>Applications of citizens</value>
+  </data>
+  <data name="OutcomingBase" xml:space="preserve">
+    <value>Outcoming correspondence</value>
+  </data>
 </root>

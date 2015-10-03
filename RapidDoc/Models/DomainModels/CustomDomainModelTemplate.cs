@@ -96,6 +96,7 @@ namespace RapidDoc.Models.DomainModels
 
         public string MainField { get; set; }
         public bool Addition { get; set; }
+        public Guid? AdditionDocumentId { get; set; }
         public string AdditionText { get; set; }
         public bool Executed { get; set; }      
 
@@ -114,6 +115,8 @@ namespace RapidDoc.Models.DomainModels
 
         public Guid? NumberSeriesBookingTableId { get; set; }
         public virtual NumberSeriesBookingTable NumberSeriesBookingTable { get; set; }
+
+        public int AdditionCount { get; set; }
     }
 
     public abstract class BasicOrderDefaultTable : BasicOrderTable
@@ -144,6 +147,9 @@ namespace RapidDoc.Models.DomainModels
         public bool Language_English { get; set; }
         public bool Language_Chinese { get; set; }
         public bool Language_French { get; set; }
+
+        public Guid? OutcomingNumberDocId { get; set; }
+        public string OutcomingNumber { get; set; }
 
         public string OutgoingNumber { get; set; }
         public DateTime? OutgoingDate { get; set; }
@@ -194,5 +200,167 @@ namespace RapidDoc.Models.DomainModels
                 return String.Empty;
             }
         }
+    }
+
+    public abstract class BasicOutcomingDocumentsTable : BasicDocumentTable
+    {
+        public bool Language_Kazakh { get; set; }
+        public bool Language_Russian { get; set; }
+        public bool Language_English { get; set; }
+        public bool Language_Chinese { get; set; }
+        public bool Language_French { get; set; }
+
+        public DateTime? OutgoingDate { get; set; }
+        public OutcomingDispatchType OutcomingDispatchType { get; set; }
+        public string DispatchType { get; set; }
+
+        public Guid? OrganizationTableId { get; set; }
+        public virtual OrganizationTable OrganizationTable { get; set; }
+
+        public Guid? NumberSeriesBookingTableId { get; set; }
+        public virtual NumberSeriesBookingTable NumberSeriesBookingTable { get; set; }
+
+        [Required]
+        public string Signer { get; set; }
+
+        public ControlType ControlType { get; set; }
+        public ServiceIncidientPriority Priority { get; set; }
+        public string BlankNumber { get; set; }
+
+        public Guid? IncomingNumberDocId { get; set; }
+        public string IncomingNumber { get; set; }
+        public DateTime? IncomingDate { get; set; }
+
+        [Required]
+        public string ListsCount { get; set; }
+
+        public string ApplicationsCount { get; set; }
+        public string OutcomingDocNum { get; set; }
+
+        [Required]
+        public string DocumentSubject { get; set; }
+
+        public IncomingDocumentType DocumentType { get; set; }
+        public string DocumentTypeName { get; set; }
+
+        [Required]
+        public string ListAgreement { get; set; }
+
+        [Required]
+        public Guid? ItemCauseTableId { get; set; }
+        public virtual ItemCauseTable ItemCauseTable { get; set; }
+
+        public string ItemCauseNumber
+        {
+            get
+            {
+                if (this.ItemCauseTable != null)
+                    return this.ItemCauseTable.CaseNumber + " - " + this.ItemCauseTable.CaseName;
+
+                return String.Empty;
+            }
+        }
+
+        public string ItemCauseNumberCode
+        {
+            get
+            {
+                if (this.ItemCauseTable != null)
+                    return this.ItemCauseTable.CaseNumber;
+
+                return String.Empty;
+            }
+        }
+    }
+
+    public abstract class BasicAppealDocumentsTable : BasicDocumentTable
+    {
+        public bool Language_Kazakh { get; set; }
+        public bool Language_Russian { get; set; }
+        public bool Language_English { get; set; }
+        public bool Language_Chinese { get; set; }
+        public bool Language_French { get; set; }
+
+        public CategoryPerson CategoryPerson { get; set; }
+
+        public string IdentificatorNumber { get; set; }
+
+        public Guid? OrganizationTableId { get; set; }
+        public virtual OrganizationTable OrganizationTable { get; set; }
+
+        public StatusPerson StatusPerson { get; set; }
+
+        [Required]
+        public string Name { get; set; }
+
+        [Required]
+        public string Address { get; set; }
+
+        public Guid? CountryTableId { get; set; }
+        public virtual CountryTable CountryTable { get; set; }
+
+        public string RegistrationNum { get; set; }
+        public DateTime RegistrationDate { get; set; }
+
+        [Required]
+        public string Whom { get; set; }
+
+        public FormAppeal FormAppeal { get; set; }
+
+        public TypeAppeal TypeAppeal { get; set; }
+        public string TypeAppealAddition { get; set; }
+
+        public CharacterAppeal CharacterAppeal { get; set; }
+
+        public CharacterQuestion CharacterQuestion { get; set; }
+        public string CharacterQuestionAddition { get; set; }
+
+        [Required]
+        public string ListsCount { get; set; }
+        public string ApplicationsCount { get; set; }
+
+        [Required]
+        public string Subject { get; set; }
+
+        [Required]
+        public Guid? ItemCauseTableId { get; set; }
+        public virtual ItemCauseTable ItemCauseTable { get; set; }
+
+        public string ItemCauseNumber
+        {
+            get
+            {
+                if (this.ItemCauseTable != null)
+                    return this.ItemCauseTable.CaseNumber + " - " + this.ItemCauseTable.CaseName;
+
+                return String.Empty;
+            }
+        }
+
+        public string ItemCauseNumberCode
+        {
+            get
+            {
+                if (this.ItemCauseTable != null)
+                    return this.ItemCauseTable.CaseNumber;
+
+                return String.Empty;
+            }
+        }
+
+        public string Content { get; set; }
+
+        public Guid? ReasonRequestTableId { get; set; }
+        public virtual ReasonRequestTable ReasonRequestTable { get; set; }
+
+        public Guid? QuestionRequestTableId { get; set; }
+        public virtual QuestionRequestTable QuestionRequestTable { get; set; }
+
+        public ControlType ControlType { get; set; }
+
+        public ServiceIncidientPriority Priority { get; set; }
+        public DateTime? ExecutionDate { get; set; }
+
+        public bool Executed { get; set; }
     }
 }

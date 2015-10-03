@@ -190,6 +190,34 @@ namespace RapidDoc.Models.Services
                 case DocumentType.IncomingDoc:
                     foreach (var item in items)
                     {
+                        var documentView = _DocumentService.GetDocumentView(item.DocumentRefId, item.ProcessTableName);
+                        if (!String.IsNullOrEmpty(documentView.IncomingDocNum))
+                            item.OrderNumber = documentView.IncomingDocNum;
+                        item.OrderDate = documentView.RegistrationDate;
+                        item.DocumentTitle = documentView.DocumentSubject;
+                        item.CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(item.CreatedDate), timeZoneInfo);
+                    }
+                    return items;
+                case DocumentType.OutcomingDoc:
+                    foreach (var item in items)
+                    {
+                        var documentView = _DocumentService.GetDocumentView(item.DocumentRefId, item.ProcessTableName);
+                        if (!String.IsNullOrEmpty(documentView.OutcomingDocNum))
+                            item.OrderNumber = documentView.OutcomingDocNum;
+                        item.OrderDate = documentView.OutgoingDate;
+                        item.DocumentTitle = documentView.DocumentSubject;
+                        item.CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(item.CreatedDate), timeZoneInfo);
+                    }
+                    return items;
+                case DocumentType.AppealDoc:
+                    foreach (var item in items)
+                    {
+                        var documentView = _DocumentService.GetDocumentView(item.DocumentRefId, item.ProcessTableName);
+                        if (!String.IsNullOrEmpty(documentView.RegistrationNum))
+                            item.OrderNumber = documentView.RegistrationNum;
+                        item.OrderDate = documentView.RegistrationDate;
+                        item.DocumentTitle = documentView.Subject;
+                        item.CategoryPerson = documentView.CategoryPerson;
                         item.CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(item.CreatedDate), timeZoneInfo);
                     }
                     return items;

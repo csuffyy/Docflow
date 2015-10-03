@@ -27,6 +27,10 @@
                         {
                             <p>@item.StartWorkTime.Add((TimeSpan)ViewBag.CurrentTimeZoneOffset) - @item.EndWorkTime.Add((TimeSpan)ViewBag.CurrentTimeZoneOffset)</p>
                         }
+                        @if (User.IsInRole("Administrator") || User.IsInRole("SetupAdministrator"))
+                        {
+                            <p><small>@item.TableName [@item.DocType]</small></p>
+                        }
                     </a>
                 </th>
             </tr>
@@ -45,11 +49,11 @@ else if (Model.Count() <= 12 && Model.Count() > 0)
                 {
                     <p>@item.StartWorkTime.Add((TimeSpan)ViewBag.CurrentTimeZoneOffset) - @item.EndWorkTime.Add((TimeSpan)ViewBag.CurrentTimeZoneOffset)</p>
                 }
+                @if (User.IsInRole("Administrator") || User.IsInRole("SetupAdministrator"))
+                { 
+                    <p>@item.TableName [@item.DocType]</p>
+                }
             </a>
         </div>
     }
-}
-else
-{
-    <h1 class="text-center">Требуется доступ? Запустите <a href="http://df.altyntau.com/ATK/Document/Create/8d42f5f4-c101-e411-846a-082e5f0c35c2">заявку</a>.</h1>
 }

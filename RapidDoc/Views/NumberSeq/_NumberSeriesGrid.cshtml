@@ -28,6 +28,7 @@
     columns.Add(o => o.Prefix).Titled(Html.DisplayNameFor(o => ((RapidDoc.Models.ViewModels.NumberSeriesView)o.Columns).Prefix).ToHtmlString()).Sortable(true).Filterable(true);
     columns.Add(o => o.Size).Titled(Html.DisplayNameFor(o => ((RapidDoc.Models.ViewModels.NumberSeriesView)o.Columns).Size).ToHtmlString()).Sortable(true).Filterable(true);
     columns.Add(o => o.LastNum).Titled(Html.DisplayNameFor(o => ((RapidDoc.Models.ViewModels.NumberSeriesView)o.Columns).LastNum).ToHtmlString()).Sortable(true).Filterable(true);
+    columns.Add(o => o.TableName).Titled(Html.DisplayNameFor(o => ((RapidDoc.Models.ViewModels.NumberSeriesView)o.Columns).TableName).ToHtmlString()).Sortable(true).Filterable(true);
     columns.Add()
         .Encoded(false)
         .Sanitized(false)

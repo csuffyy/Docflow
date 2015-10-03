@@ -10,6 +10,7 @@ using RapidDoc.Models.DomainModels;
 using RapidDoc.Models.Services;
 using RapidDoc.Models.ViewModels;
 using System.ComponentModel;
+using RapidDoc.Models.Repository;
 
 namespace RapidDoc.Activities.CodeActivities
 {
@@ -36,6 +37,14 @@ namespace RapidDoc.Activities.CodeActivities
         [Inject]
         public IWorkflowService _serviceWorkflow { get; set; }
 
+        [Browsable(false)]
+        [Inject]
+        public IDocumentReaderService _serviceDocumentReader { get; set; }
+
+        [Browsable(false)]
+        [Inject]
+        public ISystemService _serviceSystem { get; set; }
+
         [RequiredArgument]
         public InArgument<Dictionary<string, Object>> inputDocumentData { get; set; }
 
@@ -58,17 +67,27 @@ namespace RapidDoc.Activities.CodeActivities
             string currentUserId = context.GetValue(this.inputCurrentUser);
             var document = _service.Find(documentId);
 
+            Guid? bookingNumberId = Guid.Empty;
+
+            if (documentData.ContainsKey("NumberSeriesBookingTableId"))
+            {
+                if ((Guid?)documentData["NumberSeriesBookingTableId"] != null)
+                    bookingNumberId = (Guid)documentData["NumberSeriesBookingTableId"];
+            }
+
+            _service.INDRegistration(documentId, currentUserId, bookingNumberId);
+
             if (documentData.ContainsKey("Receiver") && documentData.ContainsKey("ExecutionDate"))
             {
                 if (!String.IsNullOrEmpty((string)documentData["Receiver"]))
                 {
                     USR_TAS_DailyTasks_View docModel = new USR_TAS_DailyTasks_View();
-                    docModel.MainField = (string)documentData["DocumentSubject"];
+                    docModel.MainField = document.DocumentText;
 
                     DateTime? controlDate = (DateTime?)documentData["ExecutionDate"];
                     if (controlDate == null)
                     {
-                        controlDate = DateTime.Now.Date.AddDays(2);
+                        controlDate = DateTime.Now.Date.AddMonths(1);
                     }
 
                     docModel.ExecutionDate = controlDate;

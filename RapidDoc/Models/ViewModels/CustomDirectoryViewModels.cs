@@ -104,4 +104,28 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Организация")]
         public string OrgName { get; set; }
     }
+
+    public class ReasonRequestView : BasicCompanyNullView
+    {
+        [StringLength(10, ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisLong")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Код")]
+        public string Code { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Наименование")]
+        public string Name { get; set; }
+    }
+
+    public class QuestionRequestView : BasicCompanyNullView
+    {
+        [StringLength(10, ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisLong")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Код")]
+        public string Code { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Наименование")]
+        public string Name { get; set; }
+    }
 }

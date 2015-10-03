@@ -126,6 +126,12 @@
   <data name="Organization" xml:space="preserve">
     <value>-</value>
   </data>
+  <data name="QuestionRequest" xml:space="preserve">
+    <value>-</value>
+  </data>
+  <data name="ReasonRequest" xml:space="preserve">
+    <value>-</value>
+  </data>
   <data name="RequestText" xml:space="preserve">
     <value>Cұраныс мәтіні</value>
   </data>

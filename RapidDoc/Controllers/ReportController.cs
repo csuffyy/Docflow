@@ -170,11 +170,10 @@ namespace RapidDoc.Controllers
             var detailData = (from wfTracker in context.WFTrackerTable
                               join document in context.DocumentTable on wfTracker.DocumentTableId equals document.Id
                               join process in context.ProcessTable on document.ProcessTableId equals process.Id
-                              join empl in context.EmplTable on document.ApplicationUserCreatedId equals empl.ApplicationUserId
+                              let empl = context.EmplTable.Where(p => p.ApplicationUserId == document.ApplicationUserCreatedId).OrderByDescending(p => p.Enable).FirstOrDefault()
                               join title in context.TitleTable on empl.TitleTableId equals title.Id
-                              join department in context.DepartmentTable.Where(x => listdepartmentId.Contains(x.DepartmentName)) on empl.DepartmentTableId equals department.Id
+                              join department in context.DepartmentTable.Where(x => listdepartmentId.Contains(x.DepartmentName) || listdepartmentId.Count == 0) on empl.DepartmentTableId equals department.Id
                               where wfTracker.CreatedDate >= model.StartDate && wfTracker.CreatedDate <= model.EndDate
-                              //&& (document.DocumentNum == "RD0008280" || document.DocumentNum == "RDK000270")
                               select new DetailReportModel
                               {
                                   GroupProcessName = process.GroupProcessTable.GroupProcessName,
@@ -325,9 +324,9 @@ namespace RapidDoc.Controllers
             model.EndDate = model.EndDate.AddDays(1);
             var flatData = (from wfTracker in context.WFTrackerTable
                        join user in context.Users on wfTracker.SignUserId equals user.Id
-                       join empl in context.EmplTable on user.Id equals empl.ApplicationUserId
+                       let empl = context.EmplTable.Where(p => p.ApplicationUserId == user.Id).OrderByDescending(p => p.Enable).FirstOrDefault()
                        join title in context.TitleTable on empl.TitleTableId equals title.Id
-                       join department in context.DepartmentTable.Where(x => listdepartmentId.Contains(x.DepartmentName)) on empl.DepartmentTableId equals department.Id
+                            join department in context.DepartmentTable.Where(x => listdepartmentId.Contains(x.DepartmentName) || listdepartmentId.Count == 0) on empl.DepartmentTableId equals department.Id
                        join document in context.DocumentTable on wfTracker.DocumentTableId equals document.Id
                        join process in context.ProcessTable on document.ProcessTableId equals process.Id
                        where wfTracker.ExecutionStep == true && wfTracker.SignUserId != null

@@ -5,7 +5,7 @@
 @if (Model.RefDocumentId.HasValue && Model.RefDocumentId != Guid.Empty)
 {
     <div class="editor-label">
-        @Html.LabelForRequired(model => Model.RefDocNum)
+        @Html.LabelFor(model => Model.RefDocNum)
     </div>
     @Html.ActionLink(Model.RefDocNum.ToString(), "ShowDocument", "Document", new { id = Model.RefDocumentId, isAfterView = true }, null)
 

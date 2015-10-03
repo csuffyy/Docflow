@@ -205,7 +205,7 @@ namespace ValidationRes {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Необходимо обладать правами для работы с группами.
+        ///   Looks up a localized string similar to Отсутствуют права для работы с группами.
         /// </summary>
         public static string ErrorRoleMailingGroup {
             get {

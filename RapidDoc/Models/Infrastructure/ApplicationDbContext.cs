@@ -46,6 +46,8 @@ namespace RapidDoc.Models.Infrastructure
         public DbSet<NotificationUsersTable> NotificationUsersTable { get; set; }
         public DbSet<OrganizationTable> OrganizationTable { get; set; }
         public DbSet<CountryTable> CountryTable { get; set; }
+        public DbSet<ReasonRequestTable> ReasonRequestTable { get; set; }
+        public DbSet<QuestionRequestTable> QuestionRequestTable { get; set; }
 
         //Custom Requests
         public DbSet<USR_REQ_IT_CTS_DeliveryOfPinCode_Table> USR_REQ_IT_CTS_DeliveryOfPinCode_Table { get; set; }
@@ -292,6 +294,8 @@ namespace RapidDoc.Models.Infrastructure
         public DbSet<USR_ORD_ChangeStaff_Table> USR_ORD_ChangeStaff_Table { get; set; }
         public DbSet<USR_ORD_Sanction_Table> USR_ORD_Sanction_Table { get; set; }
         public DbSet<USR_IND_IncomingDocuments_Table> USR_IND_IncomingDocuments_Table { get; set; }
+        public DbSet<USR_OND_OutcomingDocuments_Table> USR_OND_OutcomingDocuments_Table { get; set; }
+        public DbSet<USR_APP_AppealDocuments_Table> USR_APP_AppealDocuments_Table { get; set; }
 
         public DbSet<USR_OFM_VIP_OfficeMemo_Table> USR_OFM_VIP_OfficeMemo_Table { get; set; }
         public DbSet<USR_OFM_BMK_OfficeMemo_Table> USR_OFM_BMK_OfficeMemo_Table { get; set; }

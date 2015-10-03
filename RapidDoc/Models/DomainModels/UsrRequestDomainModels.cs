@@ -6825,5 +6825,23 @@ namespace RapidDoc.Models.DomainModels
     }
 
     #endregion
+
+    #region Исходящие документы
+
+    public class USR_OND_OutcomingDocuments_Table : BasicOutcomingDocumentsTable
+    {
+
+    }
+
+    #endregion
+
+    #region Обращения граждан
+
+    public class USR_APP_AppealDocuments_Table : BasicAppealDocumentsTable
+    {
+
+    }
+
+    #endregion
 }
     

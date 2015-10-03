@@ -656,7 +656,7 @@ namespace RapidDoc.Controllers
                 Guid sourceDocumentId = Guid.Parse(collection["RefDocumentId"]);
                 DocumentTable documentSourceTable = _DocumentService.Find(sourceDocumentId);
 
-                if (documentSourceTable != null && (documentSourceTable.DocType == DocumentType.Order || documentSourceTable.DocType == DocumentType.IncomingDoc) && documentSourceTable.Executed == false)
+                if (documentSourceTable != null && (documentSourceTable.DocType == DocumentType.Order || documentSourceTable.DocType == DocumentType.IncomingDoc || documentSourceTable.DocType == DocumentType.AppealDoc) && documentSourceTable.Executed == false)
                 {
                     var sourceDocumentData = _DocumentService.GetDocumentView(documentSourceTable.RefDocumentId, documentSourceTable.ProcessTable.TableName);
                     sourceDocumentData.Executed = true;
@@ -912,7 +912,7 @@ namespace RapidDoc.Controllers
             viewModel.ProcessTemplates = _DocumentService.GetAllTemplatesDocument(documentTable.ProcessTableId);
 
             ViewBag.CreatedDate = _SystemService.ConvertDateTimeToLocal(currentUser, docuView.CreatedDate);
-            ViewBag.DocumentUrl = "http://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + docuView.AliasCompanyName + "/Document/ShowDraft/" + docuView.Id + "?isAfterView=true";
+            ViewBag.DocumentUrl = "http://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + docuView.AliasCompanyName + "/Document/ShowDocument/" + docuView.Id + "?isAfterView=true";
             if (emplTable != null)
             {
                 ViewBag.Initiator = emplTable.ApplicationUserId != null ? emplTable.FullName : docuView.ApplicationUserCreatedId;

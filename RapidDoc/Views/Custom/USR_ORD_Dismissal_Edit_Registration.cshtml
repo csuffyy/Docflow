@@ -40,6 +40,8 @@
             @Html.Action("GetBookingNumberORD", "Custom", new { documentId = Model.DocumentTableId })
         </div>
     </div>
+</div>
+<div class="row">
     <div class="col-xs-2">
         <div class="editor-label">
             @Html.LabelForRequired(model => Model.Addition)
@@ -48,12 +50,20 @@
             @Html.CheckBoxFor(model => model.Addition)
         </div>
     </div>
-    <div id="additiontextid" class="col-xs-5" style="visibility: hidden">
-        <div class="editor-label">
-            @Html.LabelForRequired(model => Model.AdditionText)
+    <div id="additiontextid" style="visibility: hidden">
+        <div class="col-xs-5">
+            <div class="editor-label">
+                @Html.LabelForRequired(model => Model.Addition)
+            </div>
+            @Html.Action("GetAdditionORD", "Custom", new { id = Model.AdditionDocumentId, edit = true })
         </div>
-        <div class="editor-field">
-            @Html.TextBoxFor(model => model.AdditionText, new { @class = "form-control", @size = 256, @maxlength = 256 })
+        <div class="col-xs-5">
+            <div class="editor-label">
+                @Html.LabelForRequired(model => Model.AdditionText)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.AdditionText, new { @class = "form-control", @size = 256, @maxlength = 256, placeholder = "Опционально" })
+            </div>
         </div>
     </div>
 </div>
@@ -154,6 +164,16 @@
             var element = $(event.target);
             var tagId = element.attr('data-itemid') + ', ' + element.attr('data-rolename');
             $('input[data-role=tagsinputGroup2]').tagsinput('add', { value: tagId, text: element.text() });
+        });
+
+        $('#AdditionDocumentId').change(function (event) {
+            if ($('#AdditionDocumentId').val() == '') {
+                $('#AdditionText')[0].disabled = false;
+            }
+            else {
+                $('#AdditionText')[0].disabled = true;
+                $('#AdditionText').val('');
+            }
         });
     });
 </script>

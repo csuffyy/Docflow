@@ -366,6 +366,30 @@ namespace RapidDoc.Models.ViewModels
         public DateTime? EndDate { get; set; }
     }
 
+    public class OutcomingBaseView
+    {
+        [Display(Name = "Grouping", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public OutcomingFilterType FilterType { get; set; }
+
+        [Display(Name = "StartDate", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public DateTime? StartDate { get; set; }
+
+        [Display(Name = "EndDate", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public DateTime? EndDate { get; set; }
+    }
+
+    public class AppealBaseView
+    {
+        [Display(Name = "Grouping", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public AppealFilterType FilterType { get; set; }
+
+        [Display(Name = "StartDate", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public DateTime? StartDate { get; set; }
+
+        [Display(Name = "EndDate", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public DateTime? EndDate { get; set; }
+    }
+
     public class DocumentBaseView : BasicCompanyNullView
     {
         public string DocumentNum { get; set; }
@@ -398,5 +422,6 @@ namespace RapidDoc.Models.ViewModels
         public TrackerType WFTrackerType { get; set; }
         public string DocumentText { get; set; }
         public Folder Folder { get; set; }
+        public CategoryPerson CategoryPerson { get; set; }
     }
 }

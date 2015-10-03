@@ -105,6 +105,14 @@
             @Html.Action("GetOrganizationORD", "Custom", new { @id = Model.OrganizationTableId })
         </div>
     </div>
+    <div class="col-xs-8">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Receiver)
+        </div>
+        <div>
+            @Html.TextBoxFor(model => Model.Receiver, new { @class = "form-control", @data_role = "tagsinputEmpl", @size = 256, @maxlength = 256, placeholder = "Получатель" })
+        </div>
+    </div>
 </div>
 
 <div class="row">
@@ -123,24 +131,15 @@
         <div class="editor-field">
             @Html.TextBoxFor(model => Model.OutgoingDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", startDate = "" })
         </div>
-    </div>
-    <div class="col-xs-4">
-        <div class="editor-label">
-            @Html.LabelForRequired(model => Model.RegistrationDate)
-        </div>
-        <div class="editor-field">
-            @Html.TextBoxFor(model => Model.RegistrationDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", startDate = "" })
-        </div>
-    </div>    
+    </div> 
 </div>
 
 <div class="editor-label">
-    @Html.LabelForRequired(model => Model.Receiver)
+    @Html.LabelForRequired(model => Model.RegistrationDate)
 </div>
-<div>
-    @Html.TextBoxFor(model => Model.Receiver, new { @class = "form-control", @data_role = "tagsinputEmpl", @size = 256, @maxlength = 256, placeholder = "Получатель" })
+<div class="editor-field">
+    @Html.TextBoxFor(model => Model.RegistrationDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control form-control-date", startDate = "" })
 </div>
-
 <hr />
 
 <div class="editor-label">
@@ -160,6 +159,13 @@
 </div>
 <div class="editor-field">
     @Html.TextBoxFor(model => Model.ExecutionDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control form-control-date", startDate = "" })
+</div>
+<br />
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.OutcomingNumberDocId)
+</div>
+<div class="editor-field">
+    @Html.Action("GetOutcomingDoc", "Custom")
 </div>
 <br />
 <div class="row">

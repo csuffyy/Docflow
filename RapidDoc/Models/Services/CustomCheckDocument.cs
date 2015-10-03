@@ -934,7 +934,6 @@ namespace RapidDoc.Models.Services
                 {
                     errorList.Add("Необходимо заполнить характер вопроса ");
                 }
-
                 if (String.IsNullOrEmpty(actionModel.DocumentTypeName) && actionModel.DocumentType == IncomingDocumentType.Element1)
                 {
                     errorList.Add("Необходимо заполнить тип документа ");
@@ -942,6 +941,46 @@ namespace RapidDoc.Models.Services
                 if (actionModel.OrganizationTableId == null || (Guid?)actionModel.OrganizationTableId == Guid.Empty)
                 {
                     errorList.Add("Необходимо выбрать Корреспондента");
+                }
+                if (actionModel.Language_Kazakh == false && actionModel.Language_Russian == false && actionModel.Language_English == false && actionModel.Language_Chinese == false && actionModel.Language_French == false)
+                {
+                    errorList.Add("Необходимо выбрать язык общения");
+                }
+            }
+
+            if (type == (new USR_OND_OutcomingDocuments_View()).GetType())
+            {
+                if (String.IsNullOrEmpty(actionModel.DispatchType) && actionModel.OutcomingDispatchType == OutcomingDispatchType.Element1)
+                {
+                    errorList.Add("Необходимо заполнить тип документа ");
+                }
+                if (String.IsNullOrEmpty(actionModel.DocumentTypeName) && actionModel.DocumentType == IncomingDocumentType.Element1)
+                {
+                    errorList.Add("Необходимо заполнить тип документа ");
+                }
+                if (actionModel.OrganizationTableId == null || (Guid?)actionModel.OrganizationTableId == Guid.Empty)
+                {
+                    errorList.Add("Необходимо выбрать Получателя");
+                }
+                if(actionModel.Language_Kazakh == false && actionModel.Language_Russian == false && actionModel.Language_English == false && actionModel.Language_Chinese == false && actionModel.Language_French == false)
+                {
+                    errorList.Add("Необходимо выбрать язык общения");
+                }
+            }
+
+            if (type == (new USR_APP_AppealDocuments_View()).GetType())
+            {
+                if (String.IsNullOrEmpty(actionModel.TypeAppealAddition) && actionModel.TypeAppeal == TypeAppeal.Element1)
+                {
+                    errorList.Add("Необходимо заполнить вид обращения");
+                }
+                if (String.IsNullOrEmpty(actionModel.CharacterQuestionAddition) && actionModel.CharacterQuestion == CharacterQuestion.Element1)
+                {
+                    errorList.Add("Необходимо заполнить характер вопроса");
+                }
+                if (actionModel.Language_Kazakh == false && actionModel.Language_Russian == false && actionModel.Language_English == false && actionModel.Language_Chinese == false && actionModel.Language_French == false)
+                {
+                    errorList.Add("Необходимо выбрать язык общения");
                 }
             }
 
@@ -1222,8 +1261,7 @@ namespace RapidDoc.Models.Services
                         actionModel.IncomingDocNum = number;
                     }
                 }               
-            }
-            
+            }         
 
             if (type == (new USR_REQ_UBUO_RequestCalcDriveTrip_View()).GetType() || type == (new USR_REQ_TRIP_RegistrationBusinessTripKZ_View()).GetType() || type == (new USR_REQ_TRIP_RegistrationBusinessTripPP_View()).GetType() || type == (new USR_REQ_TRIP_RegistrationBusinessTripPTY_View()).GetType())
             {
