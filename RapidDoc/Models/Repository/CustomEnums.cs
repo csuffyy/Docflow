@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using RapidDoc.Attributes;
 
 namespace RapidDoc.Models.Repository
 {
@@ -1004,6 +1005,7 @@ namespace RapidDoc.Models.Repository
         [Display(Name = "Kazzinc Holding")]
         Element1 = 0,
 
+        [Disabled]
         [Display(Name = "ATV")]
         Element2 = 1,
 

@@ -419,6 +419,15 @@ namespace RapidDoc.Controllers
             }
         }
 
+        public string GetProcessName(Guid? id)
+        {
+            DocumentTable document = _DocumentService.FirstOrDefault(x => x.Id == id);
+            if (document != null)
+                return document.ProcessName;
+
+            return String.Empty;
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing && RoleManager != null)

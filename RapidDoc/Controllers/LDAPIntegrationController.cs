@@ -382,7 +382,16 @@ namespace RapidDoc.Controllers
                 _DepartmentService.SaveDomain(new DepartmentTable() { DepartmentName = _department, ParentDepartmentId = guid, CompanyTableId = _companyId }, "Admin", _companyId);
             }
 
-            guid = _DepartmentService.FirstOrDefault(x => x.DepartmentName == _department && x.CompanyTableId == _companyId).Id;
+            DepartmentTable department = _DepartmentService.FirstOrDefault(x => x.DepartmentName == _department && x.CompanyTableId == _companyId);
+
+            if (department != null && department.ParentDepartmentName != _parentDepartmentName)
+            {
+                Guid parentGuid = _DepartmentService.FirstOrDefault(x => x.CompanyTableId == _companyId && x.DepartmentName == _parentDepartmentName).Id;
+                department.ParentDepartmentId = parentGuid;
+                _DepartmentService.SaveDomain(department, "Admin", _companyId);
+            }
+
+            guid = department.Id;
             return guid == null ? Guid.Empty : (Guid)guid;
         }
 

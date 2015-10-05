@@ -19,6 +19,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System.Web.Routing;
 using RapidDoc.Models.Repository;
 using System.Globalization;
+using RapidDoc.Attributes;
 
 namespace RapidDoc.Extensions
 {
@@ -31,16 +32,27 @@ namespace RapidDoc.Extensions
             Type type = Type.GetType(enumName);
             if (type != null)
             {
+                List<SelectListItem> items = new List<SelectListItem>();
                 var enumsList = System.Web.Mvc.Html.EnumHelper.GetSelectList(type);
-
-                IEnumerable<SelectListItem> items =
-                    from value in enumsList
-                    select new SelectListItem
+                var enumArr = Enum.GetValues(type);
+                int num = 0;
+                foreach (var value in enumsList)
+                {
+                    FieldInfo fi = type.GetField(enumArr.GetValue(num).ToString());
+                    var attribute = fi.GetCustomAttributes(typeof(DisabledAttribute), false).FirstOrDefault();
+                    if (attribute == null)
                     {
-                        Text = value.Text,
-                        Value = value.Value,
-                        Selected = value.Selected
-                    };
+                        var listItem = new SelectListItem
+                        {
+                            Text = value.Text,
+                            Value = value.Value,
+                            Selected = value.Selected
+                        };
+
+                        items.Add(listItem);
+                    }
+                    num++;
+                }
 
                 return helper.DropDownList(fieldName, items, htmlAttribute);
             }
