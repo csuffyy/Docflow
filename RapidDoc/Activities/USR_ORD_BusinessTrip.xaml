@@ -454,8 +454,8 @@
                                       <FlowStep x:Name="__ReferenceID26" sap2010:WorkflowViewState.IdRef="FlowStep_18">
                                         <Flowchart DisplayName="Цензор" sap2010:WorkflowViewState.IdRef="Flowchart_3">
                                           <Flowchart.StartNode>
-                                            <FlowStep x:Name="__ReferenceID9" sap2010:WorkflowViewState.IdRef="FlowStep_30">
-                                              <local2:WFCheckParentDepartment _service="{x:Null}" _serviceDepartment="{x:Null}" DisplayName="Проверка подразделения" sap2010:WorkflowViewState.IdRef="WFCheckParentDepartment_1" inputGroupName="ATK_YT">
+                                            <FlowStep x:Name="__ReferenceID10" sap2010:WorkflowViewState.IdRef="FlowStep_30">
+                                              <local2:WFCheckParentDepartment _service="{x:Null}" _serviceDepartment="{x:Null}" DisplayName="Проверка подразделения" sap2010:WorkflowViewState.IdRef="WFCheckParentDepartment_1">
                                                 <local2:WFCheckParentDepartment.Result>
                                                   <OutArgument x:TypeArguments="x:Boolean">
                                                     <mca:CSharpReference x:TypeArguments="x:Boolean">outputSkipStep</mca:CSharpReference>
@@ -466,9 +466,14 @@
                                                     <mca:CSharpValue x:TypeArguments="s:Guid">inputDocumentId</mca:CSharpValue>
                                                   </InArgument>
                                                 </local2:WFCheckParentDepartment.inputDocumentId>
+                                                <local2:WFCheckParentDepartment.inputGroupName>
+                                                  <InArgument x:TypeArguments="scg:List(x:String)">
+                                                    <mca:CSharpValue x:TypeArguments="scg:List(x:String)">new List&lt;string&gt;{"ATK_YT"}</mca:CSharpValue>
+                                                  </InArgument>
+                                                </local2:WFCheckParentDepartment.inputGroupName>
                                               </local2:WFCheckParentDepartment>
                                               <FlowStep.Next>
-                                                <FlowDecision x:Name="__ReferenceID10" DisplayName="Статус текущего шага" sap2010:WorkflowViewState.IdRef="FlowDecision_14">
+                                                <FlowDecision x:Name="__ReferenceID9" DisplayName="Статус текущего шага" sap2010:WorkflowViewState.IdRef="FlowDecision_14">
                                                   <FlowDecision.Condition>
                                                     <mca:CSharpValue x:TypeArguments="x:Boolean">outputSkipStep == true</mca:CSharpValue>
                                                   </FlowDecision.Condition>
@@ -908,7 +913,7 @@
     <x:Reference>__ReferenceID35</x:Reference>
     <x:Reference>__ReferenceID36</x:Reference>
     <x:Reference>__ReferenceID37</x:Reference>
-    <sads:DebugSymbol.Symbol>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</sads:DebugSymbol.Symbol>
+    <sads:DebugSymbol.Symbol>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</sads:DebugSymbol.Symbol>
   </Flowchart>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>
@@ -1113,7 +1118,7 @@
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <av:Point x:Key="ShapeLocation">30,119</av:Point>
             <av:Size x:Key="ShapeSize">200,22</av:Size>
-            <av:PointCollection x:Key="ConnectorLocation">130,141 130,176.5</av:PointCollection>
+            <av:PointCollection x:Key="ConnectorLocation">130,141 130,171 129,171 129,176.5</av:PointCollection>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>

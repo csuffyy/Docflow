@@ -26,7 +26,7 @@ namespace RapidDoc.Activities.CodeActivities
         public IDepartmentService _serviceDepartment { get; set; }
 
         [RequiredArgument]
-        public InArgument<string> inputGroupName { get; set; }
+        public InArgument<List<string>> inputGroupName { get; set; }
 
         [RequiredArgument]
         public InArgument<Guid> inputDocumentId { get; set; }
@@ -37,7 +37,7 @@ namespace RapidDoc.Activities.CodeActivities
             _serviceDepartment = DependencyResolver.Current.GetService<IDepartmentService>();
 
             Guid documentId = context.GetValue(this.inputDocumentId);
-            string groupName = context.GetValue(this.inputGroupName);
+            List<string> groupName = context.GetValue(this.inputGroupName);
 
             DocumentTable docTable = _service.Find(documentId);
 
