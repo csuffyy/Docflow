@@ -131,7 +131,7 @@
       <AssemblyReference>RapidDoc</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Flowchart DisplayName="Запрос на перенос отпуска рабочих(БЛОК ОБОГОЩЕНИЯ, ФИНАНСОВЫЙ БЛОК, АДМИНИСТРАТИВНЫЙ БЛОК)" sap2010:WorkflowViewState.IdRef="Flowchart_5">
+  <Flowchart DisplayName="Запрос на перенос отпуска рабочих" sap2010:WorkflowViewState.IdRef="Flowchart_5">
     <Flowchart.Variables>
       <Variable x:TypeArguments="x:String" Name="bookmarkName" />
     </Flowchart.Variables>
