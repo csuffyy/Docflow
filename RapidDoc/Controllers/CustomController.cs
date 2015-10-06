@@ -1640,12 +1640,16 @@ namespace RapidDoc.Controllers
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
 
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_OFM_UIT_OfficeMemo_Edit_Part", model);
+
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.SystemName == "MidManager" || x.SystemName == "Manager"))
+
+                    if (current.Any(x => x.SystemName == "MidManager" || x.SystemName == "Manager") )
                     {
                         return PartialView("USR_OFM_UIT_OfficeMemo_Edit_Part", model);
                     }
@@ -1658,6 +1662,9 @@ namespace RapidDoc.Controllers
         public ActionResult GetManualOfficeMemoVIP(RapidDoc.Models.ViewModels.USR_OFM_VIP_OfficeMemo_View model)
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_OFM_VIP_OfficeMemo_Edit_Part", model);
 
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
@@ -1677,6 +1684,9 @@ namespace RapidDoc.Controllers
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
 
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_OFM_BMK_OfficeMemo_Edit_Part", model);
+
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
@@ -1694,6 +1704,9 @@ namespace RapidDoc.Controllers
         public ActionResult GetManualOfficeMemoBY(RapidDoc.Models.ViewModels.USR_OFM_BY_OfficeMemo_View model)
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_OFM_BY_OfficeMemo_Edit_Part", model);
 
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
@@ -1713,6 +1726,9 @@ namespace RapidDoc.Controllers
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
 
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_OFM_UKR_OfficeMemo_Edit_Part", model);
+
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
@@ -1730,6 +1746,9 @@ namespace RapidDoc.Controllers
         public ActionResult GetManualOfficeMemoDS(RapidDoc.Models.ViewModels.USR_OFM_DS_OfficeMemo_View model)
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_OFM_DS_OfficeMemo_Edit_Part", model);
 
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
@@ -1749,6 +1768,9 @@ namespace RapidDoc.Controllers
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
 
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_OFM_ZIF_OfficeMemo_Edit_Part", model);
+
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
@@ -1766,6 +1788,9 @@ namespace RapidDoc.Controllers
         public ActionResult GetManualOfficeMemoOKS(RapidDoc.Models.ViewModels.USR_OFM_OKS_OfficeMemo_View model)
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_OFM_OKS_OfficeMemo_Edit_Part", model);
 
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
@@ -1785,6 +1810,9 @@ namespace RapidDoc.Controllers
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
 
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_OFM_OTK_OfficeMemo_Edit_Part", model);
+
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
@@ -1802,6 +1830,9 @@ namespace RapidDoc.Controllers
         public ActionResult GetManualOfficeMemoPAL(RapidDoc.Models.ViewModels.USR_OFM_PAL_OfficeMemo_View model)
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_OFM_PAL_OfficeMemo_Edit_Part", model);
 
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
@@ -1821,6 +1852,9 @@ namespace RapidDoc.Controllers
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
 
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_OFM_ProfKom_OfficeMemo_Edit_Part", model);
+
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
@@ -1838,6 +1872,9 @@ namespace RapidDoc.Controllers
         public ActionResult GetManualOfficeMemoPTO(RapidDoc.Models.ViewModels.USR_OFM_PTO_OfficeMemo_View model)
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_OFM_PTO_OfficeMemo_Edit_Part", model);
 
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
@@ -1857,6 +1894,9 @@ namespace RapidDoc.Controllers
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
 
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_OFM_PTU_OfficeMemo_Edit_Part", model);
+
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
@@ -1874,6 +1914,9 @@ namespace RapidDoc.Controllers
         public ActionResult GetManualOfficeMemoROGR(RapidDoc.Models.ViewModels.USR_OFM_ROGR_OfficeMemo_View model)
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_OFM_ROGR_OfficeMemo_Edit_Part", model);
 
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
@@ -1893,6 +1936,9 @@ namespace RapidDoc.Controllers
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
 
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_OFM_SK_OfficeMemo_Edit_Part", model);
+
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
@@ -1910,6 +1956,9 @@ namespace RapidDoc.Controllers
         public ActionResult GetManualOfficeMemoSKS(RapidDoc.Models.ViewModels.USR_OFM_SKS_OfficeMemo_View model)
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_OFM_SKS_OfficeMemo_Edit_Part", model);
 
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
@@ -1929,6 +1978,9 @@ namespace RapidDoc.Controllers
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
 
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_OFM_SM_OfficeMemo_Edit_Part", model);
+
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
@@ -1946,6 +1998,9 @@ namespace RapidDoc.Controllers
         public ActionResult GetManualOfficeMemoSFK(RapidDoc.Models.ViewModels.USR_OFM_SFK_OfficeMemo_View model)
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_OFM_SFK_OfficeMemo_Edit_Part", model);
 
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
@@ -1965,6 +2020,9 @@ namespace RapidDoc.Controllers
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
 
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_OFM_UB_OfficeMemo_Edit_Part", model);
+
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
@@ -1982,6 +2040,9 @@ namespace RapidDoc.Controllers
         public ActionResult GetManualOfficeMemoUBUO(RapidDoc.Models.ViewModels.USR_OFM_UBUO_OfficeMemo_View model)
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_OFM_UBUO_OfficeMemo_Edit_Part", model);
 
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
@@ -2001,6 +2062,9 @@ namespace RapidDoc.Controllers
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
 
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_OFM_UZL_OfficeMemo_Edit_Part", model);
+
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
@@ -2018,6 +2082,9 @@ namespace RapidDoc.Controllers
         public ActionResult GetManualOfficeMemoUKV(RapidDoc.Models.ViewModels.USR_OFM_UKV_OfficeMemo_View model)
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_OFM_UKV_OfficeMemo_Edit_Part", model);
 
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
@@ -2037,6 +2104,9 @@ namespace RapidDoc.Controllers
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
 
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_OFM_UMM_OfficeMemo_Edit_Part", model);
+
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
@@ -2054,6 +2124,9 @@ namespace RapidDoc.Controllers
         public ActionResult GetManualOfficeMemoUPB(RapidDoc.Models.ViewModels.USR_OFM_UPB_OfficeMemo_View model)
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_OFM_UPB_OfficeMemo_Edit_Part", model);
 
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
@@ -2073,6 +2146,9 @@ namespace RapidDoc.Controllers
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
 
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_OFM_URP_OfficeMemo_Edit_Part", model);
+
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
@@ -2090,6 +2166,9 @@ namespace RapidDoc.Controllers
         public ActionResult GetManualOfficeMemoUSH(RapidDoc.Models.ViewModels.USR_OFM_USH_OfficeMemo_View model)
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_OFM_USH_OfficeMemo_Edit_Part", model);
 
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
@@ -2109,6 +2188,9 @@ namespace RapidDoc.Controllers
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
 
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_OFM_UT_OfficeMemo_Edit_Part", model);
+
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
@@ -2126,6 +2208,9 @@ namespace RapidDoc.Controllers
         public ActionResult GetManualOfficeMemoUTOR(RapidDoc.Models.ViewModels.USR_OFM_UTOR_OfficeMemo_View model)
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_OFM_UTOR_OfficeMemo_Edit_Part", model);
 
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
@@ -2145,6 +2230,9 @@ namespace RapidDoc.Controllers
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
 
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_OFM_UE_OfficeMemo_Edit_Part", model);
+
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
@@ -2162,6 +2250,9 @@ namespace RapidDoc.Controllers
         public ActionResult GetManualOfficeMemoFS(RapidDoc.Models.ViewModels.USR_OFM_FS_OfficeMemo_View model)
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_OFM_FS_OfficeMemo_Edit_Part", model);
 
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
@@ -2181,6 +2272,9 @@ namespace RapidDoc.Controllers
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
 
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_OFM_HU_OfficeMemo_Edit_Part", model);
+
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
@@ -2198,6 +2292,9 @@ namespace RapidDoc.Controllers
         public ActionResult GetManualOfficeMemoJU(RapidDoc.Models.ViewModels.USR_OFM_JU_OfficeMemo_View model)
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_OFM_JU_OfficeMemo_Edit_Part", model);
 
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {

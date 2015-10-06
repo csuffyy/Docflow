@@ -146,6 +146,11 @@
                 <button type="button" class="btn btn-success btn-lg hidden-print" data-toggle="modal" data-target=".approvecz-modal-sm"><span class="visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">@UIElementRes.UIElement.Approve</span><span class="visible-xs-inline-block glyphicon glyphicon-ok-circle"></span></button>
                 <button type="button" class="btn btn-danger btn-lg hidden-print" data-toggle="modal" data-target=".rejectcz-modal-sm"><span class="visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">@UIElementRes.UIElement.Reject</span><span class="visible-xs-inline-block glyphicon glyphicon-remove-circle"></span></button>
             }
+
+            if (User.IsInRole("Administrator") && Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.OfficeMemo)
+            {
+                <button type="submit" id="saveChanges" class="btn btn-default" name="action:SaveChanges">@UIElementRes.UIElement.Save</button>
+            }
         }
 
         @if ((Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && Model.DocumentView.CreatedBy == User.Identity.Name)
@@ -279,7 +284,7 @@
     }
     else if (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.OfficeMemo)
     {
-        <a href=@Url.Action("PdfReportCZ", "Report", new { id = Model.DocumentView.Id, processId = Model.ProcessView.Id }) class="btn btn-default btn-sm hidden-print visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" target="_blank">@UIElementRes.UIElement.Print</a>
+        <a href=@Url.Action("PdfReportCZ", "Report", new { id = Model.DocumentView.Id, processId = Model.ProcessView.Id }) class="btn btn-default btn-sm hidden-print visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" target="_blank">@UIElementRes.UIElement.Print</a>      
     }
     else
     {
