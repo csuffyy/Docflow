@@ -870,6 +870,7 @@
     <Content Include="Scripts\URI.js" />
     <Content Include="Scripts\modernizr-2.6.2-respond-1.1.0.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Custom\USR_APP_AppealDocuments_View.cshtml" />
     <Content Include="Views\EmailTemplate\ORDEmailTemplate.cshtml">
       <SubType>Code</SubType>
     </Content>
@@ -1872,7 +1873,6 @@
     <Content Include="Views\Custom\USR_APP_AppealDocuments_Edit.cshtml" />
     <Content Include="Views\Custom\_ReasonRequest.cshtml" />
     <Content Include="Views\Custom\_QuestionRequest.cshtml" />
-    <Content Include="Views\Custom\USR_APP_AppealDocuments_View.cshtml" />
     <Content Include="Views\DocumentBase\_DocumentBaseOutcoming.cshtml" />
     <Content Include="Views\DocumentBase\IndexOutcoming.cshtml" />
     <Content Include="Views\DocumentBase\IndexAppeal.cshtml" />
