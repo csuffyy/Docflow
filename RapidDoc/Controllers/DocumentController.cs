@@ -2129,6 +2129,112 @@ namespace RapidDoc.Controllers
                 }*/
                 _WorkflowService.RunWorkflow(documentTable, processView.TableName, documentData);
             }
-        }       
+        }
+
+        [HttpPost]
+        [MultipleButton(Name = "action", Argument = "SaveChanges")]
+        public ActionResult SaveChanges(Guid processId, int type, Guid fileId, FormCollection collection, string actionModelName, Guid documentId)
+        {
+            IDictionary<string, object> documentData = new Dictionary<string, object>();
+            Type typeActionModel = Type.GetType("RapidDoc.Models.ViewModels." + actionModelName + "_View");
+            var actionModel = Activator.CreateInstance(typeActionModel);
+            var processSourceView = _ProcessService.FindView(processId);
+
+            foreach (var key in collection.AllKeys.OrderBy(x => x))
+            {
+                System.Reflection.PropertyInfo propertyInfo = typeActionModel.GetProperty(key);
+
+                if (propertyInfo != null)
+                {
+                    if (propertyInfo.PropertyType.IsEnum)
+                    {
+                        var valueEnum = Enum.Parse(propertyInfo.PropertyType, collection[key].ToString(), true);
+                        propertyInfo.SetValue(actionModel, valueEnum, null);
+                        documentData.Add(key, valueEnum);
+                    }
+                    else if (propertyInfo.PropertyType == typeof(bool))
+                    {
+                        bool valueBool = collection[key].ToLower().Contains("true");
+                        propertyInfo.SetValue(actionModel, valueBool, null);
+                        documentData.Add(key, valueBool);
+                    }
+                    else if (propertyInfo.PropertyType == typeof(DateTime?))
+                    {
+                        HttpCookie cultureCookie = HttpContext.Request.Cookies["lang"];
+                        DateTime? valueDate = null;
+
+                        bool isRequired = propertyInfo
+                                .GetCustomAttributes(typeof(RequiredAttribute), false)
+                                .Length == 1;
+
+                        if (cultureCookie != null)
+                        {
+                            System.Globalization.CultureInfo cultureinfo = new System.Globalization.CultureInfo(cultureCookie.Value);
+                            valueDate = collection[key] == "" ? null : (DateTime?)DateTime.Parse(collection[key], cultureinfo);
+                        }
+                        else
+                        {
+                            valueDate = collection[key] == "" ? null : (DateTime?)DateTime.Parse(collection[key]);
+                        }
+
+                        if ((isRequired == true && valueDate != null) || (isRequired == false))
+                        {
+                            propertyInfo.SetValue(actionModel, valueDate, null);
+                            documentData.Add(key, valueDate);
+                        }
+                        else
+                            ModelState.AddModelError(string.Empty, String.Format(ValidationRes.ValidationResource.ErrorFieldisNull, GetAttributeDisplayName(propertyInfo)));
+                    }
+                    else if (propertyInfo.PropertyType == typeof(Guid?))
+                    {
+                        bool isRequired = propertyInfo
+                                .GetCustomAttributes(typeof(RequiredAttribute), false)
+                                .Length == 1;
+
+                        Guid? valueNotGuid = collection[key] == "" ? null : (Guid?)Guid.Parse(collection[key]);
+
+                        if ((isRequired == true && valueNotGuid != null) || (isRequired == false))
+                        {
+                            propertyInfo.SetValue(actionModel, valueNotGuid, null);
+                            documentData.Add(key, valueNotGuid);
+                        }
+                        else
+                            ModelState.AddModelError(string.Empty, String.Format(ValidationRes.ValidationResource.ErrorFieldisNull, GetAttributeDisplayName(propertyInfo)));
+                    }
+                    else if (propertyInfo.PropertyType == typeof(Guid))
+                    {
+                        Guid valueGuid = Guid.Parse(collection[key]);
+                        propertyInfo.SetValue(actionModel, valueGuid, null);
+                        documentData.Add(key, valueGuid);
+                    }
+                    else if (propertyInfo.PropertyType == typeof(TimeSpan))
+                    {
+                        TimeSpan valueTimeSpan = TimeSpan.Parse(collection[key]);
+                        propertyInfo.SetValue(actionModel, valueTimeSpan, null);
+                        documentData.Add(key, valueTimeSpan);
+                    }
+                    else
+                    {
+                        bool isRequired = propertyInfo
+                                .GetCustomAttributes(typeof(RequiredAttribute), false)
+                                .Length == 1;
+
+                        if ((isRequired == true && !String.IsNullOrEmpty(collection[key]) && !String.IsNullOrWhiteSpace(collection[key]) && collection[key] != "<p><br></p>") || (isRequired == false))
+                        {
+                            var value = Convert.ChangeType(collection[key], propertyInfo.PropertyType);
+                            propertyInfo.SetValue(actionModel, value, null);
+                            documentData.Add(key, value);
+                        }
+                        else
+                            ModelState.AddModelError(string.Empty, String.Format(ValidationRes.ValidationResource.ErrorFieldisNull, GetAttributeDisplayName(propertyInfo)));
+                    }
+                }
+            }
+
+            _DocumentService.UpdateDocumentFields(actionModel, processSourceView);
+
+            return RedirectToAction("Index", "Document");
+        }
+        
 	}
 }

@@ -1640,12 +1640,16 @@ namespace RapidDoc.Controllers
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
 
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_OFM_UIT_OfficeMemo_Edit_Part", model);
+
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.SystemName == "MidManager" || x.SystemName == "Manager"))
+
+                    if (current.Any(x => x.SystemName == "MidManager" || x.SystemName == "Manager") )
                     {
                         return PartialView("USR_OFM_UIT_OfficeMemo_Edit_Part", model);
                     }
