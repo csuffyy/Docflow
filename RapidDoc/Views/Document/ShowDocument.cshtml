@@ -124,11 +124,8 @@
         }
         </div>
            
-        @if (Model.DocumentView.DocType != RapidDoc.Models.Repository.DocumentType.OfficeMemo)
-        { 
-            @Html.Action("GetAllComment", "Document", new { documentId = Model.DocumentView.Id })
-            <hr />
-        }
+        @Html.Action("GetAllComment", "Document", new { documentId = Model.DocumentView.Id })
+        <hr />
 
         @if ((Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution || Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.OnSign) && Model.DocumentView.isSign)
         {
@@ -294,8 +291,6 @@
 </fieldset>
     }
 
-    @if(Model.DocumentView.DocType != RapidDoc.Models.Repository.DocumentType.OfficeMemo)
-{
     <p>
         <h4 class="text-right hidden-print">@UIElementRes.UIElement.AddComment</h4>
         @using (Ajax.BeginForm("GetAllComment", new { documentId = Model.DocumentView.Id }, new AjaxOptions { UpdateTargetId = "comments", OnComplete = "clearTextAreaComment" }, new { name = "commentForm" }))
@@ -310,7 +305,6 @@
         <br class="hidden-print">
     }
     </p>
-}
 
     <!-- The template to display files available for upload -->
     <script id="template-upload" type="text/x-tmpl">
