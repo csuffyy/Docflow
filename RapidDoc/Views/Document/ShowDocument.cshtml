@@ -227,7 +227,7 @@
                         <h4 class="modal-title">Отмена документа</h4>
                     </div>
                     <div class="modal-body" style="min-height:250px;">
-                        @Html.TextArea("RejectCommentRequest", new { @class = "form-control", @placeholder = "Обязательно укажите причину отмены" })
+                        @Html.TextArea("RejectCommentRequest", new { @class = "form-control summernotemin", @placeholder = "Обязательно укажите причину отмены" })
                         <div class="modal-footer">
                             <button type="submit" id="rejectRequest" class="btn btn-danger" name="action:RejectDocument">@UIElementRes.UIElement.Reject</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal">@UIElementRes.UIElement.Cancel</button>
@@ -245,7 +245,7 @@
                         <h4 class="modal-title">Утверждение документа</h4>
                     </div>
                     <div class="modal-body" style="min-height:200px;">
-                        @Html.TextArea("ApproveCommentRequest", new { @class = "form-control", @placeholder = "Замечания" })
+                        @Html.TextArea("ApproveCommentRequest", new { @class = "form-control summernotemin", @placeholder = "Замечания" })
                         <div class="modal-footer">
                             <button type="submit" id="approveRequest" class="btn btn-success" name="action:ApproveDocument">@UIElementRes.UIElement.Approve</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal">@UIElementRes.UIElement.Cancel</button>
@@ -420,13 +420,6 @@
             button.removeAttr("disabled");
         }, 0);
     }
-
-    function saveLastComment() {
-        var lastComment = $('#lastComment').val();
-        if (lastComment) {
-            document.getElementById('saveCommentBtn').click();
-        }
-    }
 </script>
 
 @section Scripts {
@@ -465,8 +458,8 @@
         }
 
         $('#rejectRequest').click(function (event) {
-            var comment = $('#RejectCommentRequest').val();
-            if (comment == "") {
+            var comment = $('#RejectCommentRequest').code();
+            if (comment == "" || comment == '<p><br></p>') {
                 bootstrap_alert.warning('Необходимо заполнить причину отклонения');
                 event.preventDefault();
                 return false;
@@ -519,11 +512,11 @@
     })
 
     $('.bs-reject-modal-sm').on('shown.bs.modal', function (e) {
-        $('#RejectCommentRequest').val($('#lastComment').val());
+        $('#RejectCommentRequest').code($('#lastComment').code());
     })
 
     $('.bs-approve-modal-sm').on('shown.bs.modal', function (e) {
-        $('#ApproveCommentRequest').val($('#lastComment').val());
+        $('#ApproveCommentRequest').code($('#lastComment').code());
     })
 
     function replaceFile(e) {

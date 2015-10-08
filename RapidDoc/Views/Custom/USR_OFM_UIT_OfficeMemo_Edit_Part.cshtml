@@ -146,8 +146,8 @@
         });
 
         $('#rejectCZ').click(function (event) {
-            var comment = $('#RejectComment').val();
-            if (comment == "") {
+            var comment = $('#RejectComment').code();
+            if (comment == "" || comment == '<p><br></p>') {
                 bootstrap_alert.warning('Необходимо заполнить причину отмены');
                 event.preventDefault();
                 return false;

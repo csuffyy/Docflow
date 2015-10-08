@@ -172,9 +172,9 @@
     <value>Максимум 20 қызметкер қосуға болады</value>
   </data>
   <data name="ErrorRoleMailingGroup" xml:space="preserve">
-    <value>-</value>
+    <value>Топпен жұмыс істеу үшін арнайы құқық болу керек</value>
   </data>
   <data name="ErrorDocCount" xml:space="preserve">
-    <value>-</value>
+    <value>Файлдардың максималды ұйғарынды саны 20</value>
   </data>
 </root>

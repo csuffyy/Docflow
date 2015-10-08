@@ -187,7 +187,7 @@
     <value>Сақтауға?</value>
   </data>
   <data name="RoleName" xml:space="preserve">
-    <value>-</value>
+    <value>Рөл (Кіруге рұқсат)</value>
   </data>
   <data name="SecondName" xml:space="preserve">
     <value>Тегі</value>
@@ -340,36 +340,36 @@
     <value>Файлдарды міндетті түрде қосудың күні</value>
   </data>
   <data name="AfterEndRoleName" xml:space="preserve">
-    <value>-</value>
+    <value>Рөл (Жабу кезінде оқырмандарды қосу)</value>
   </data>
   <data name="StartReaderRoleName" xml:space="preserve">
-    <value>-</value>
+    <value>Толық қарап шығу</value>
   </data>
   <data name="Type" xml:space="preserve">
-    <value>-</value>
+    <value>Тип</value>
   </data>
   <data name="DocumentType" xml:space="preserve">
-    <value>-</value>
+    <value>Құжат түрі</value>
   </data>
   <data name="ReportAdminDomain" xml:space="preserve">
-    <value>-</value>
+    <value>Есеп-қисап доменының аты</value>
   </data>
   <data name="ReportAdminPassword" xml:space="preserve">
-    <value>-</value>
+    <value>Есеп-қисап пайдаланушының құпиясөзі</value>
   </data>
   <data name="ReportAdminUser" xml:space="preserve">
-    <value>-</value>
+    <value>Есеп-қисап пайдаланушысы</value>
   </data>
   <data name="Notify" xml:space="preserve">
-    <value>-</value>
+    <value>Оқылғаны туралы хабарлама</value>
   </data>
   <data name="TitleNameKZ" xml:space="preserve">
     <value>Лауазымы KZ</value>
   </data>
   <data name="Grouping" xml:space="preserve">
-    <value>-</value>
+    <value>Топтама</value>
   </data>
   <data name="Share" xml:space="preserve">
-    <value>-</value>
+    <value>Жалпы рұқсат</value>
   </data>
 </root>

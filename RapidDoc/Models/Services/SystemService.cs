@@ -15,6 +15,7 @@ namespace RapidDoc.Models.Services
         bool IsGUID(string expression);
         string[] GuidsFromText(string text);
         string RemoveColorFromText(string text);
+        string DeleteAllTags(string text);
     }
 
     public class SystemService : ISystemService
@@ -49,6 +50,11 @@ namespace RapidDoc.Models.Services
         {
             Regex rgx = new Regex(@"color: rgb([(])\d+, \d+, \d+([)]);", RegexOptions.Compiled | RegexOptions.IgnoreCase);
             return rgx.Replace(text, "");
+        }
+
+        public string DeleteAllTags(string text)
+        {
+            return Regex.Replace(text, @"<[^>]*>", String.Empty);
         }
     }
 }

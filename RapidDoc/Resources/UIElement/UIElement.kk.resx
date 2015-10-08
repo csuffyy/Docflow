@@ -529,108 +529,108 @@
     <value>Күту</value>
   </data>
   <data name="DetailReport" xml:space="preserve">
-    <value>-</value>
+    <value>Толық есеп-қисап</value>
   </data>
   <data name="Replace" xml:space="preserve">
-    <value>-</value>
+    <value>Ауыстыру</value>
   </data>
   <data name="Copy" xml:space="preserve">
-    <value>-</value>
+    <value>Көшірмені</value>
   </data>
   <data name="LinkToDocument" xml:space="preserve">
-    <value>-</value>
+    <value>Құжатқа сілтеме</value>
   </data>
   <data name="LinkToDocumentText" xml:space="preserve">
-    <value>-</value>
+    <value>Көшірме жасау үшін Ctrl+C басыңыз</value>
   </data>
   <data name="DistributionGroup" xml:space="preserve">
-    <value>-</value>
+    <value>Топтар</value>
   </data>
   <data name="SendBookmark" xml:space="preserve">
-    <value>-</value>
+    <value>Бағыт</value>
   </data>
   <data name="Group" xml:space="preserve">
-    <value>-</value>
+    <value>Топ</value>
   </data>
   <data name="AddingNewDocEmail" xml:space="preserve">
-    <value>-</value>
+    <value>Жаңа құжат қосылған</value>
   </data>
   <data name="AddonSettings" xml:space="preserve">
-    <value>-</value>
+    <value>Қосымша орнатулар</value>
   </data>
   <data name="Delegate" xml:space="preserve">
-    <value>-</value>
+    <value>Құқық беру</value>
   </data>
   <data name="Prolong" xml:space="preserve">
-    <value>-</value>
+    <value>Мерзімді ұзарту</value>
   </data>
   <data name="CreateTask" xml:space="preserve">
-    <value>-</value>
+    <value>Тапсырма құру</value>
   </data>
   <data name="RelatedTasks" xml:space="preserve">
-    <value>-</value>
+    <value>Байланыстырылған құжаттар</value>
   </data>
   <data name="CopyDocumentHistory" xml:space="preserve">
-    <value>-</value>
+    <value>Құжат көшіріп алынған</value>
   </data>
   <data name="DelegateTaskHistory" xml:space="preserve">
-    <value>-</value>
+    <value>Тапсырмаға құқық берілген</value>
   </data>
   <data name="OnRework" xml:space="preserve">
-    <value>-</value>
+    <value>Өңдеуге</value>
   </data>
   <data name="SendModificationUserEmail" xml:space="preserve">
-    <value>-</value>
+    <value>Өңдеуге жіберілген құжаттар</value>
   </data>
   <data name="ModifiedDocumentHistory" xml:space="preserve">
-    <value>-</value>
+    <value>Құжат тыңғылықталған</value>
   </data>
   <data name="MyDocument" xml:space="preserve">
-    <value>-</value>
+    <value>Менің құжаттарым</value>
   </data>
   <data name="TooltipAboutReading" xml:space="preserve">
-    <value>-</value>
+    <value>Келісу бағыты бойынша жүрген құжаттың оқылғаны туралы хабарлама</value>
   </data>
   <data name="Booking" xml:space="preserve">
-    <value>-</value>
+    <value>Броньдау</value>
   </data>
   <data name="Revocation" xml:space="preserve">
-    <value>-</value>
+    <value>Жою</value>
   </data>
   <data name="Delivery" xml:space="preserve">
-    <value>-</value>
+    <value>Таратуды</value>
   </data>
   <data name="Dispatch" xml:space="preserve">
-    <value>-</value>
+    <value>Жіберу</value>
   </data>
   <data name="PrintOrder" xml:space="preserve">
-    <value>-</value>
+    <value>Бұйрықты басып шығару (PDF)</value>
   </data>
   <data name="PrintPdfTrip" xml:space="preserve">
-    <value>-</value>
+    <value>Куәлікті басып шығару</value>
   </data>
   <data name="DocumentBase" xml:space="preserve">
-    <value>-</value>
+    <value>Құжаттар базасы</value>
   </data>
   <data name="RequestBase" xml:space="preserve">
-    <value>-</value>
+    <value>Өтінім</value>
   </data>
   <data name="OfficeMemoBase" xml:space="preserve">
-    <value>-</value>
+    <value>Қызметтік жазбалар</value>
   </data>
   <data name="OrderBase" xml:space="preserve">
-    <value>-</value>
+    <value>Бұйрықтар</value>
   </data>
   <data name="TaskBase" xml:space="preserve">
-    <value>-</value>
+    <value>Тапсырмалар</value>
   </data>
   <data name="IncomingBase" xml:space="preserve">
-    <value>-</value>
+    <value>Кіріс корреспонденциясы</value>
   </data>
   <data name="AppealBase" xml:space="preserve">
-    <value>-</value>
+    <value>Азаматтардың жолданымдары</value>
   </data>
   <data name="OutcomingBase" xml:space="preserve">
-    <value>-</value>
+    <value>Шығыс корреспонденциясы</value>
   </data>
 </root>

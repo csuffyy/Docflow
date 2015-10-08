@@ -519,7 +519,7 @@ namespace RapidDoc.Controllers
         public ActionResult ApproveDocumentCZ(Guid processId, int type, Guid fileId, FormCollection collection, string actionModelName, Guid documentId)
         {
             var users = _DocumentService.SignDocumentCZ(documentId,  TrackerType.Approved,
-                (collection["ApproveComment"] != null | collection["ApproveComment"] != string.Empty) ? (string)collection["ApproveComment"] : "");
+                (collection["ApproveComment"] != null && collection["ApproveComment"] != string.Empty && collection["ApproveComment"] != "<p><br></p>") ? (string)collection["ApproveComment"] : "");
 
             DocumentTable documentTable = _DocumentService.Find(documentId);
             _DocumentService.UpdateDocument(documentTable, User.Identity.GetUserId());
@@ -541,7 +541,7 @@ namespace RapidDoc.Controllers
             ApplicationUser user = _AccountService.Find(User.Identity.GetUserId());
 
             var users = _DocumentService.SignDocumentCZ(documentId, TrackerType.Cancelled,
-                (collection["RejectComment"] != null | collection["RejectComment"] != string.Empty) ? (string)collection["RejectComment"] : "");         
+                (collection["RejectComment"] != null && collection["RejectComment"] != string.Empty && collection["RejectComment"] != "<p><br></p>") ? (string)collection["RejectComment"] : "");         
 
             var timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById(user.TimeZoneId);
             DocumentTable documentTable = _DocumentService.Find(documentId);
@@ -639,7 +639,7 @@ namespace RapidDoc.Controllers
 
             _DocumentService.SignTaskDocument(documentId, TrackerType.Approved);
             var documentIdNew = _DocumentService.GetDocumentView(_DocumentService.Find(documentId).RefDocumentId, process.TableName);
-            if (!String.IsNullOrEmpty(collection["ApproveCommentTask"]))
+            if (!String.IsNullOrEmpty(collection["ApproveCommentTask"]) && collection["ApproveCommentTask"] != "<p><br></p>")
             {
                 string approveCommentRequest = collection["ApproveCommentTask"].ToString();                
                 documentIdNew.ReportText = approveCommentRequest;
@@ -669,7 +669,7 @@ namespace RapidDoc.Controllers
             }
 
             _HistoryUserService.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = Models.Repository.HistoryType.ApproveDocument }, User.Identity.GetUserId());
-            if (documentTable.RefDocumentId != null)
+            if (documentIdNew.RefDocumentId != null)
                 _EmailService.SendUsersClosedEmail(documentTable.Id, new List<string> { documentTable.ApplicationUserCreatedId, _DocumentService.Find(documentIdNew.RefDocumentId).ApplicationUserCreatedId });
             else
                 _EmailService.SendInitiatorClosedEmail(documentTable.Id);
@@ -683,7 +683,7 @@ namespace RapidDoc.Controllers
         {
             string currentUserId = User.Identity.GetUserId();
 
-            if (!String.IsNullOrEmpty(collection["RejectCommentTask"]))
+            if (!String.IsNullOrEmpty(collection["RejectCommentTask"]) && collection["RejectCommentTask"] != "<p><br></p>")
             {
                 string rejectCommentRequest = collection["RejectCommentTask"].ToString();
                 SaveComment(GuidNull2Guid(documentId), rejectCommentRequest);
@@ -695,12 +695,9 @@ namespace RapidDoc.Controllers
             documentTable.ActivityName = String.Empty;
 
             _DocumentService.UpdateDocument(documentTable, User.Identity.GetUserId());
-
             _DocumentService.SaveSignData(_DocumentService.GetCurrentSignStep(documentId, currentUserId).ToList(), TrackerType.Cancelled);
-
             _HistoryUserService.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = Models.Repository.HistoryType.CancelledDocument }, User.Identity.GetUserId());
-
-            _EmailService.SendInitiatorClosedEmail(documentTable.Id);
+            _EmailService.SendInitiatorRejectEmail(documentTable.Id);
 
             return RedirectToAction("Index", "Document");         
         }
@@ -1023,11 +1020,7 @@ namespace RapidDoc.Controllers
 
         public ActionResult GetAllComment(Guid documentId, string lastComment = "")
         {
-            if(lastComment != String.Empty)
-            {
-                SaveComment(documentId, lastComment);
-            }
-
+            SaveComment(documentId, lastComment);
             var model = _CommentService.GetPartialView(x => x.DocumentTableId == documentId);
             return PartialView("~/Views/Shared/_Comments.cshtml", model);
         }
@@ -1035,7 +1028,7 @@ namespace RapidDoc.Controllers
         [HttpPost]
         public void SaveComment(Guid id, string lastComment)
         {
-            if (lastComment != "")
+            if (lastComment != "" && lastComment != "<p><br></p>")
             {
                 _CommentService.SaveDomain(new CommentTable { Comment = lastComment, DocumentTableId = id });
                 _HistoryUserService.SaveDomain(new HistoryUserTable { DocumentTableId = id, HistoryType = Models.Repository.HistoryType.NewComment }, User.Identity.GetUserId());
@@ -1828,11 +1821,12 @@ namespace RapidDoc.Controllers
             {
                 Guid documentGuidId = GuidNull2Guid(documentId);
                 string approveCommentRequest = collection["ApproveCommentRequest"].ToString();
-                if (actionModelName.GetType().IsSubclassOf(typeof(BasicDocumantOfficeMemoView)))
+                if (actionModel.GetType().IsSubclassOf(typeof(BasicDocumantOfficeMemoView)))
                 {
                     var trackers = _WorkflowTrackerService.GetCurrentStep(x => x.DocumentTableId == documentGuidId && x.TrackerType == TrackerType.Waiting);
                     foreach (var tracker in trackers)
                     {
+                        approveCommentRequest = _SystemService.DeleteAllTags(approveCommentRequest);
                         tracker.Comments = approveCommentRequest;
                         _WorkflowTrackerService.SaveDomain(tracker);
                     }
@@ -1842,7 +1836,7 @@ namespace RapidDoc.Controllers
                     SaveComment(GuidNull2Guid(documentId), approveCommentRequest);
                 }
             }
-            if (!String.IsNullOrEmpty(collection["RejectCommentRequest"]))
+            if (!String.IsNullOrEmpty(collection["RejectCommentRequest"]) && collection["RejectCommentRequest"] != "<p><br></p>")
             {
                 Guid documentGuidId = GuidNull2Guid(documentId);
                 string rejectCommentRequest = collection["RejectCommentRequest"].ToString();
@@ -1855,11 +1849,11 @@ namespace RapidDoc.Controllers
                 }
                 SaveComment(documentGuidId, rejectCommentRequest);
             }
-            else if (!String.IsNullOrEmpty(collection["RejectComment"]))
+            else if (!String.IsNullOrEmpty(collection["RejectComment"]) && collection["RejectComment"] != "<p><br></p>")
             {
                 Guid documentGuidId = GuidNull2Guid(documentId);
                 string rejectCommentRequest = collection["RejectComment"].ToString();
-                if (actionModelName.GetType().IsSubclassOf(typeof(BasicDocumantOfficeMemoView)))
+                if (actionModel.GetType().IsSubclassOf(typeof(BasicDocumantOfficeMemoView)))
                 {
                     var trackers = _WorkflowTrackerService.GetCurrentStep(x => x.DocumentTableId == documentGuidId && x.TrackerType == TrackerType.Waiting);
                     foreach (var tracker in trackers)

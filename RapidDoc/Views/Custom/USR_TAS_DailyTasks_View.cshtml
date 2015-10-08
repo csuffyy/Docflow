@@ -74,7 +74,7 @@
                 <h4 class="modal-title">Отмена документа</h4>
             </div>
             <div class="modal-body" style="min-height:250px;">
-                @Html.TextArea("RejectCommentTask", new { @class = "form-control", @placeholder = "Обязательно укажите причину отмены" })
+                @Html.TextArea("RejectCommentTask", new { @class = "form-control summernotemin", @placeholder = "Обязательно укажите причину отмены" })
                 <br>
                 <div class="modal-footer">
                     <button type="submit" id="rejectTask" class="btn btn-danger" name="action:RejectDocumentTask">@UIElementRes.UIElement.Reject</button>
@@ -93,7 +93,7 @@
                 <h4 class="modal-title">Закрытие документа</h4>
             </div>
             <div class="modal-body" style="min-height:200px;">
-                @Html.TextArea("ApproveCommentTask", new { @class = "form-control", @placeholder = "Отчет" })
+                @Html.TextArea("ApproveCommentTask", new { @class = "form-control summernotemin", @placeholder = "Отчет" })
                 <br>
                 <div class="modal-footer">
                     <button type="submit" id="approveTask" class="btn btn-success" name="action:ApproveDocumentTask">@UIElementRes.UIElement.Approve</button>
@@ -110,8 +110,8 @@
         $('#alert_placeholderReport').html('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><span class="sr-only">Error:</span>' + message + '</div>')
     }
     $('#approveTask').click(function (event) {
-        var comment = $('#ApproveCommentTask').val();
-        if (comment == "") {
+        var comment = $('#ApproveCommentTask').code();
+        if (comment == "" || comment == '<p><br></p>') {
             bootstrap_alertReport.warning('Необходимо заполнить отчет о закрытии');
             event.preventDefault();
             return false;
@@ -119,11 +119,19 @@
     });
 
     $('#rejectTask').click(function (event) {
-        var comment = $('#RejectCommentTask').val();
-        if (comment == "") {
+        var comment = $('#RejectCommentTask').code();
+        if (comment == "" || comment == '<p><br></p>') {
             bootstrap_alert.warning('Необходимо заполнить причину отклонения');
             event.preventDefault();
             return false;
         }
     });
+
+    $('.rejectcz-modal-sm').on('shown.bs.modal', function (e) {
+        $('#RejectCommentTask').code($('#lastComment').code());
+    })
+
+    $('.approvecz-modal-sm').on('shown.bs.modal', function (e) {
+        $('#ApproveCommentTask').code($('#lastComment').code());
+    })
 </script>
