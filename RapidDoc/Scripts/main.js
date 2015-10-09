@@ -113,6 +113,13 @@ function datetimepicker_init(lang) {
     });
 }
 
+function checkTextExists(text) {
+    var prepare = text.replace(/<([^>]+?)([^>]*?)>(.*?)<\/\1>/ig, "");
+    prepare = prepare.replace(/[^\w\s]/gi, '');
+    prepare = prepare.trim();
+    return prepare !== "";
+}
+
 function qrcode_init() {
     var qrcode = new QRCode(document.getElementById("qrcode"), {
         width: 100,
@@ -138,7 +145,7 @@ function summernote_init(lang) {
             defaultFontName: 'Arial',
             toolbar: [
                 ['style', ['style']], // no style button
-                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['style', ['bold', 'italic', 'clear']],
                 //['fontsize', ['fontsize']],
                 //['color', ['color']],
                 ['para', ['ul', 'ol', 'paragraph']],
@@ -148,7 +155,20 @@ function summernote_init(lang) {
                 ['misc', ['undo', 'redo']]
                 //['help', ['help']] //no help button
             ],
-            styleTags: ['p', 'h4', 'h6']
+            styleTags: ['p', 'h6'],
+            onPaste: function (e) {
+                var thisNote = $(this);
+                var updatePastedText = function (someNote) {
+                    var original = someNote.code();
+                    var regex = new RegExp('<table border="0"', 'gi');
+                    var cleaned = original.replace(regex, '<table class="table table-bordered table-condensed"');
+                    someNote.code(cleaned);
+                };
+
+                setTimeout(function () {
+                    updatePastedText(thisNote);
+                }, 10);
+            }
         });
     }
 }

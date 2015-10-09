@@ -111,7 +111,7 @@
     }
     $('#approveTask').click(function (event) {
         var comment = $('#ApproveCommentTask').code();
-        if (comment == "" || comment == '<p><br></p>') {
+        if (checkTextExists(comment) == false) {
             bootstrap_alertReport.warning('Необходимо заполнить отчет о закрытии');
             event.preventDefault();
             return false;
@@ -120,7 +120,7 @@
 
     $('#rejectTask').click(function (event) {
         var comment = $('#RejectCommentTask').code();
-        if (comment == "" || comment == '<p><br></p>') {
+        if (checkTextExists(comment) == false) {
             bootstrap_alert.warning('Необходимо заполнить причину отклонения');
             event.preventDefault();
             return false;

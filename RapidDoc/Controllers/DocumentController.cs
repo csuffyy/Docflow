@@ -518,8 +518,13 @@ namespace RapidDoc.Controllers
         [MultipleButton(Name = "action", Argument = "ApproveDocumentCZ")]
         public ActionResult ApproveDocumentCZ(Guid processId, int type, Guid fileId, FormCollection collection, string actionModelName, Guid documentId)
         {
-            var users = _DocumentService.SignDocumentCZ(documentId,  TrackerType.Approved,
-                (collection["ApproveComment"] != null && collection["ApproveComment"] != string.Empty && collection["ApproveComment"] != "<p><br></p>") ? (string)collection["ApproveComment"] : "");
+            string comment = String.Empty;
+            if(collection["ApproveComment"] != null && _SystemService.CheckTextExists(collection["ApproveComment"]))
+            {
+                comment = collection["ApproveComment"];
+            }
+
+            var users = _DocumentService.SignDocumentCZ(documentId, TrackerType.Approved, comment);
 
             DocumentTable documentTable = _DocumentService.Find(documentId);
             _DocumentService.UpdateDocument(documentTable, User.Identity.GetUserId());
@@ -540,8 +545,17 @@ namespace RapidDoc.Controllers
         {
             ApplicationUser user = _AccountService.Find(User.Identity.GetUserId());
 
-            var users = _DocumentService.SignDocumentCZ(documentId, TrackerType.Cancelled,
-                (collection["RejectComment"] != null && collection["RejectComment"] != string.Empty && collection["RejectComment"] != "<p><br></p>") ? (string)collection["RejectComment"] : "");         
+            string comment = String.Empty;
+            if (collection["RejectComment"] != null && _SystemService.CheckTextExists(collection["RejectComment"]))
+            {
+                comment = collection["RejectComment"];
+            }
+            else
+            {
+                return RedirectToAction("PageNotFound", "Error");
+            }
+
+            var users = _DocumentService.SignDocumentCZ(documentId, TrackerType.Cancelled, comment);         
 
             var timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById(user.TimeZoneId);
             DocumentTable documentTable = _DocumentService.Find(documentId);
@@ -639,11 +653,15 @@ namespace RapidDoc.Controllers
 
             _DocumentService.SignTaskDocument(documentId, TrackerType.Approved);
             var documentIdNew = _DocumentService.GetDocumentView(_DocumentService.Find(documentId).RefDocumentId, process.TableName);
-            if (!String.IsNullOrEmpty(collection["ApproveCommentTask"]) && collection["ApproveCommentTask"] != "<p><br></p>")
+            if (collection["ApproveCommentTask"] != null && _SystemService.CheckTextExists(collection["ApproveCommentTask"]))
             {
                 string approveCommentRequest = collection["ApproveCommentTask"].ToString();                
                 documentIdNew.ReportText = approveCommentRequest;
                 _DocumentService.UpdateDocumentFields(documentIdNew, process);
+            }
+            else
+            {
+                return RedirectToAction("PageNotFound", "Error");
             }
 
             string userId = User.Identity.GetUserId();
@@ -683,10 +701,14 @@ namespace RapidDoc.Controllers
         {
             string currentUserId = User.Identity.GetUserId();
 
-            if (!String.IsNullOrEmpty(collection["RejectCommentTask"]) && collection["RejectCommentTask"] != "<p><br></p>")
+            if (collection["RejectCommentTask"] != null && _SystemService.CheckTextExists(collection["RejectCommentTask"]))
             {
                 string rejectCommentRequest = collection["RejectCommentTask"].ToString();
                 SaveComment(GuidNull2Guid(documentId), rejectCommentRequest);
+            }
+            else
+            {
+                return RedirectToAction("PageNotFound", "Error");
             }
 
             DocumentTable documentTable = _DocumentService.Find(documentId);
@@ -1028,7 +1050,7 @@ namespace RapidDoc.Controllers
         [HttpPost]
         public void SaveComment(Guid id, string lastComment)
         {
-            if (lastComment != "" && lastComment != "<p><br></p>")
+            if (_SystemService.CheckTextExists(lastComment))
             {
                 _CommentService.SaveDomain(new CommentTable { Comment = lastComment, DocumentTableId = id });
                 _HistoryUserService.SaveDomain(new HistoryUserTable { DocumentTableId = id, HistoryType = Models.Repository.HistoryType.NewComment }, User.Identity.GetUserId());
@@ -1817,7 +1839,7 @@ namespace RapidDoc.Controllers
                 return RedirectToAction("PageNotFound", "Error");
 
             //---------------------------------------------------------------------------
-            if (!String.IsNullOrEmpty(collection["ApproveCommentRequest"]))
+            if (collection["ApproveCommentRequest"] != null && _SystemService.CheckTextExists(collection["ApproveCommentRequest"]))
             {
                 Guid documentGuidId = GuidNull2Guid(documentId);
                 string approveCommentRequest = collection["ApproveCommentRequest"].ToString();
@@ -1836,7 +1858,7 @@ namespace RapidDoc.Controllers
                     SaveComment(GuidNull2Guid(documentId), approveCommentRequest);
                 }
             }
-            if (!String.IsNullOrEmpty(collection["RejectCommentRequest"]) && collection["RejectCommentRequest"] != "<p><br></p>")
+            if (collection["RejectCommentRequest"] != null && _SystemService.CheckTextExists(collection["RejectCommentRequest"]))
             {
                 Guid documentGuidId = GuidNull2Guid(documentId);
                 string rejectCommentRequest = collection["RejectCommentRequest"].ToString();
@@ -1849,7 +1871,7 @@ namespace RapidDoc.Controllers
                 }
                 SaveComment(documentGuidId, rejectCommentRequest);
             }
-            else if (!String.IsNullOrEmpty(collection["RejectComment"]) && collection["RejectComment"] != "<p><br></p>")
+            else if (collection["RejectComment"] != null && _SystemService.CheckTextExists(collection["RejectComment"]))
             {
                 Guid documentGuidId = GuidNull2Guid(documentId);
                 string rejectCommentRequest = collection["RejectComment"].ToString();
@@ -1950,7 +1972,7 @@ namespace RapidDoc.Controllers
                                 .GetCustomAttributes(typeof(RequiredAttribute), false)
                                 .Length == 1;
 
-                        if ((isRequired == true && !String.IsNullOrEmpty(collection[key]) && !String.IsNullOrWhiteSpace(collection[key]) && collection[key] != "<p><br></p>") || (isRequired == false))
+                        if ((isRequired == true && !String.IsNullOrEmpty(collection[key]) && !String.IsNullOrWhiteSpace(collection[key]) && _SystemService.CheckTextExists(collection[key])) || (isRequired == false))
                         {
                             var value = Convert.ChangeType(collection[key], propertyInfo.PropertyType);
                             propertyInfo.SetValue(actionModel, value, null);
@@ -2214,7 +2236,7 @@ namespace RapidDoc.Controllers
                                 .GetCustomAttributes(typeof(RequiredAttribute), false)
                                 .Length == 1;
 
-                        if ((isRequired == true && !String.IsNullOrEmpty(collection[key]) && !String.IsNullOrWhiteSpace(collection[key]) && collection[key] != "<p><br></p>") || (isRequired == false))
+                        if ((isRequired == true && !String.IsNullOrEmpty(collection[key]) && !String.IsNullOrWhiteSpace(collection[key]) && _SystemService.CheckTextExists(collection[key])) || (isRequired == false))
                         {
                             var value = Convert.ChangeType(collection[key], propertyInfo.PropertyType);
                             propertyInfo.SetValue(actionModel, value, null);

@@ -147,7 +147,7 @@
 
         $('#rejectCZ').click(function (event) {
             var comment = $('#RejectComment').code();
-            if (comment == "" || comment == '<p><br></p>') {
+            if (checkTextExists(comment) == false) {
                 bootstrap_alert.warning('Необходимо заполнить причину отмены');
                 event.preventDefault();
                 return false;

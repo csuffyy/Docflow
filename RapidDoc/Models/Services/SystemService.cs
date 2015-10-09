@@ -16,6 +16,8 @@ namespace RapidDoc.Models.Services
         string[] GuidsFromText(string text);
         string RemoveColorFromText(string text);
         string DeleteAllTags(string text);
+        string DeleteAllSpecialCharacters(string text);
+        bool CheckTextExists(string text);
     }
 
     public class SystemService : ISystemService
@@ -54,7 +56,23 @@ namespace RapidDoc.Models.Services
 
         public string DeleteAllTags(string text)
         {
-            return Regex.Replace(text, @"<[^>]*>", String.Empty);
+            return Regex.Replace(text, @"<[^>]*>", String.Empty, RegexOptions.Compiled);
+        }
+
+        public string DeleteAllSpecialCharacters(string text)
+        {
+            return Regex.Replace(text, @"&\w+;", String.Empty, RegexOptions.Compiled);
+        }
+
+        public bool CheckTextExists(string text)
+        {
+            string prepare = DeleteAllTags(text);
+            prepare = DeleteAllSpecialCharacters(prepare);
+            prepare = prepare.Trim();
+            if (String.IsNullOrEmpty(prepare) || String.IsNullOrWhiteSpace(prepare))
+                return false;
+
+            return true;
         }
     }
 }

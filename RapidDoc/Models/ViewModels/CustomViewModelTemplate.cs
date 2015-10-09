@@ -56,7 +56,7 @@ namespace RapidDoc.Models.ViewModels
         public string _DocumentTitle { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
-        [Display(Name = "Основное поле")]
+        [Display(Name = "Текст СЗ")]
         public string MainField { get; set; }
 
         [Display(Name = "Параллельно")]
