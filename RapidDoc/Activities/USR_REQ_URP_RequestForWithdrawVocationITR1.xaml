@@ -319,7 +319,7 @@
                                 </local2:WFCheckParentDepartment.inputDocumentId>
                                 <local2:WFCheckParentDepartment.inputGroupName>
                                   <InArgument x:TypeArguments="scg:List(x:String)">
-                                    <mca:CSharpValue x:TypeArguments="scg:List(x:String)">new List&lt;string&gt; { "ATK_ROGR", "ATK_PTY", "ATK_PAL"}</mca:CSharpValue>
+                                    <mca:CSharpValue x:TypeArguments="scg:List(x:String)">new List&lt;string&gt; { "ATK_ROGR", "ATK_PTY", "ATK_PAL", "ATK_PTO"}</mca:CSharpValue>
                                   </InArgument>
                                 </local2:WFCheckParentDepartment.inputGroupName>
                               </local2:WFCheckParentDepartment>
@@ -558,7 +558,7 @@
                                                 </local2:WFCheckParentDepartment.inputDocumentId>
                                                 <local2:WFCheckParentDepartment.inputGroupName>
                                                   <InArgument x:TypeArguments="scg:List(x:String)">
-                                                    <mca:CSharpValue x:TypeArguments="scg:List(x:String)">new List&lt;string&gt; { "ATK_ROGR", "ATK_PTY", "ATK_PAL"}</mca:CSharpValue>
+                                                    <mca:CSharpValue x:TypeArguments="scg:List(x:String)">new List&lt;string&gt; { "ATK_ROGR", "ATK_PTY", "ATK_PAL", "ATK_PTO" }</mca:CSharpValue>
                                                   </InArgument>
                                                 </local2:WFCheckParentDepartment.inputGroupName>
                                               </local2:WFCheckParentDepartment>
@@ -813,7 +813,7 @@
     <x:Reference>__ReferenceID35</x:Reference>
     <x:Reference>__ReferenceID36</x:Reference>
     <x:Reference>__ReferenceID37</x:Reference>
-    <sads:DebugSymbol.Symbol>d1VEOlxHaXRIdWJcRG9jRmxvd1xSYXBpZERvY1xBY3Rpdml0aWVzXFVTUl9SRVFfVVJQX1JlcXVlc3RGb3JXaXRoZHJhd1ZvY2F0aW9uSVRSMS54YW1shgEbBxtnAQMBtQEBuwEBAoYBA7EGDwIBAYwBCdUBFQMBkgbZAQ/ZAXMDAYkGjgYRmQYaAwH2Bd0BEaYCHQMBjQWqAheqAnsDAYQF+gUZhQYiAwHxBK4CGb8DJQMBoQPDAx/DA4MBAwGYA+YFIfEFKgMBhQPHAyGVBC0DAZMCmQQnmQSLAQMBigLSBSndBTIDAfcBnQQppgU1AgExqgUvqgWTAQIBKL4FMckFOgIBFa4FMbkFOgIBAo8BD64BKgMBwQayARWyAWoDAbgGtgEXywE4AwGTBpYGF5YGagMBgAaRBheRBnIDAfcF4AEX/wEyAwG8BYMCHYMCcgMBswWHAh+cAkADAY4FggYfggZyAwH7BP0FH/0FegMB8gS1Ah/FAkADAc8EyQIlyQJ7AwHEBN4CJ+cCMAMBtwTqAiuOA0UDAecDkgMxkgOGAQMB3AOWAzOrA1QDAa8DzQIn1gIwAwGiA+4FJ+4FegMBjwPpBSfpBYIBAwGGA8oDJ+4DSAMBwgLyAy3yA4IBAwG5AvYDL4sEUAMBlALaBS/aBYIBAwGBAtUFL9UFigEDAfgBpAQvtARQAwHVAbgENbgEiwEDAcoBzQQ31gRAAwG9AdkEO/0EVQIBbIAFP5UFYAIBP7wEN8UEQAIBMsYFN8YFlwECAR/BBTfBBZIBAgEWtgU3tgWUAQIBDLEFN7EFkgECAQOcARWcAWcDAfIGjwGZAo8BoAIDAfEGpgEVpgFqAwHoBqEBFaEBZwMB3waPAYoCjwGOAgMB3garARWrAXADAdUGjwH6AY8B/QEDAdQGlwEVlwFgAwHLBpIBFZIBYwMBwga+AR2+AW8DAa8GwwEdwwFzAwGmBrkBHbkBZwMBnQbIAR3IAXgDAZQG7QEd7QFvAwHtBeABpQLgAawCAwHsBfcBHfcBcgMB4wXyAR3yAW8DAdoF4AGWAuABmgIDAdkF/AEd/AF4AwHQBeABhgLgAYkCAwHPBegBHegBaAMBxgXjAR3jAWsDAb0FjwIljwJ3AwGqBZQCJZQCewMBoQWKAiWKAm8DAZgFmQIlmQKAAQMBjwW4AiW4AnsDAeYEvQIlvQJwAwHbBMICJcICpwEDAdAE5QJS5QJjAwHDBOECLeEChgEDAbgE/AIx/AKDAQMBrATqAowC6gKTAgMBqwSGAzGGA4YBAwGgBIEDMYEDgwEDAZUEiwMxiwOMAQMBigT3AjH3AoIBAwH/A+oC+wHqAoECAwH+A/ICMfICfAMB8wPtAjHtAn8DAegDngM5ngOLAQMB0QOjAzmjA48BAwHGA5kDOZkDgwEDAbsDqAM5qAOUAQMBsAPUAlLUAmYDAa4D0AIt0AKGAQMBowPcAy3cA38DAfwCygOGAsoDmQIDAfsCygO0AsoDuwIDAfoC5gMt5gOCAQMB8QLhAy3hA38DAegC6wMt6wOIAQMB3wLKA6MCygOpAgMB3gLXAy3XA3gDAdUCzQMtzQN7AwHMAtIDLdIDkQEDAcMC/gM1/gOHAQMBsAKDBDWDBIsBAwGnAvkDNfkDfwMBngKIBDWIBJABAwGVAqcENacEiwEDAewBrAQ1rASAAQMB4QGxBDWxBLcBAwHWAdQEYtQEcwMByQHQBD3QBJYBAwG+AesEQesEkwEDAbIB2QSWAtkEnQIDAbEB9QRB9QSWAQMBpgHwBEHwBJMBAwGbAdkE9QHZBPsBAwGaAfoEQfoEnAEDAY8B5gRB5gSSAQMBhAHZBIUC2QSLAgMBgwHhBEHhBIwBAgF43ARB3ASPAQIBbYgFRYgFlwECAWGNBUWNBZsBAgFWgwVFgwWPAQIBS5IFRZIFoAECAUDDBGLDBHYCAT6/BD2/BJYBAgEz</sads:DebugSymbol.Symbol>
+    <sads:DebugSymbol.Symbol>d1VEOlxHaXRIdWJcRG9jRmxvd1xSYXBpZERvY1xBY3Rpdml0aWVzXFVTUl9SRVFfVVJQX1JlcXVlc3RGb3JXaXRoZHJhd1ZvY2F0aW9uSVRSMS54YW1shgEbBxtnAQMBtQEBuwEBAoYBA7EGDwIBAYwBCdUBFQMBkgbZAQ/ZAXMDAYkGjgYRmQYaAwH2Bd0BEaYCHQMBjQWqAheqAnsDAYQF+gUZhQYiAwHxBK4CGb8DJQMBoQPDAx/DA4MBAwGYA+YFIfEFKgMBhQPHAyGVBC0DAZMCmQQnmQSLAQMBigLSBSndBTIDAfcBnQQppgU1AgExqgUvqgWTAQIBKL4FMckFOgIBFa4FMbkFOgIBAo8BD64BKgMBwQayARWyAWoDAbgGtgEXywE4AwGTBpYGF5YGagMBgAaRBheRBnIDAfcF4AEX/wEyAwG8BYMCHYMCcgMBswWHAh+cAkADAY4FggYfggZyAwH7BP0FH/0FegMB8gS1Ah/FAkADAc8EyQIlyQJ7AwHEBN4CJ+cCMAMBtwTqAiuOA0UDAecDkgMxkgOGAQMB3AOWAzOrA1QDAa8DzQIn1gIwAwGiA+4FJ+4FegMBjwPpBSfpBYIBAwGGA8oDJ+4DSAMBwgLyAy3yA4IBAwG5AvYDL4sEUAMBlALaBS/aBYIBAwGBAtUFL9UFigEDAfgBpAQvtARQAwHVAbgENbgEiwEDAcoBzQQ31gRAAwG9AdkEO/0EVQIBbIAFP5UFYAIBP7wEN8UEQAIBMsYFN8YFlwECAR/BBTfBBZIBAgEWtgU3tgWUAQIBDLEFN7EFkgECAQOcARWcAWcDAfIGjwGZAo8BoAIDAfEGpgEVpgFqAwHoBqEBFaEBZwMB3waPAYoCjwGOAgMB3garARWrAXADAdUGjwH6AY8B/QEDAdQGlwEVlwFgAwHLBpIBFZIBYwMBwga+AR2+AW8DAa8GwwEdwwFzAwGmBrkBHbkBZwMBnQbIAR3IAXgDAZQG7QEd7QFvAwHtBeABpQLgAawCAwHsBfcBHfcBcgMB4wXyAR3yAW8DAdoF4AGWAuABmgIDAdkF/AEd/AF4AwHQBeABhgLgAYkCAwHPBegBHegBaAMBxgXjAR3jAWsDAb0FjwIljwJ3AwGqBZQCJZQCewMBoQWKAiWKAm8DAZgFmQIlmQKAAQMBjwW4AiW4AnsDAeYEvQIlvQJwAwHbBMICJcICsgEDAdAE5QJS5QJjAwHDBOECLeEChgEDAbgE/AIx/AKDAQMBrATqAowC6gKTAgMBqwSGAzGGA4YBAwGgBIEDMYEDgwEDAZUEiwMxiwOMAQMBigT3AjH3AoIBAwH/A+oC+wHqAoECAwH+A/ICMfICfAMB8wPtAjHtAn8DAegDngM5ngOLAQMB0QOjAzmjA48BAwHGA5kDOZkDgwEDAbsDqAM5qAOUAQMBsAPUAlLUAmYDAa4D0AIt0AKGAQMBowPcAy3cA38DAfwCygOGAsoDmQIDAfsCygO0AsoDuwIDAfoC5gMt5gOCAQMB8QLhAy3hA38DAegC6wMt6wOIAQMB3wLKA6MCygOpAgMB3gLXAy3XA3gDAdUCzQMtzQN7AwHMAtIDLdIDkQEDAcMC/gM1/gOHAQMBsAKDBDWDBIsBAwGnAvkDNfkDfwMBngKIBDWIBJABAwGVAqcENacEiwEDAewBrAQ1rASAAQMB4QGxBDWxBMMBAwHWAdQEYtQEcwMByQHQBD3QBJYBAwG+AesEQesEkwEDAbIB2QSWAtkEnQIDAbEB9QRB9QSWAQMBpgHwBEHwBJMBAwGbAdkE9QHZBPsBAwGaAfoEQfoEnAEDAY8B5gRB5gSSAQMBhAHZBIUC2QSLAgMBgwHhBEHhBIwBAgF43ARB3ASPAQIBbYgFRYgFlwECAWGNBUWNBZsBAgFWgwVFgwWPAQIBS5IFRZIFoAECAUDDBGLDBHYCAT6/BD2/BJYBAgEz</sads:DebugSymbol.Symbol>
   </Flowchart>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>
@@ -1027,7 +1027,7 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="Flowchart_2" sap:VirtualizedContainerService.HintSize="908,636">
+      <sap2010:ViewStateData Id="Flowchart_2" sap:VirtualizedContainerService.HintSize="200,51">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
