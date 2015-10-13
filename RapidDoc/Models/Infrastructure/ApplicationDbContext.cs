@@ -328,7 +328,14 @@ namespace RapidDoc.Models.Infrastructure
         public DbSet<USR_OFM_FS_OfficeMemo_Table> USR_OFM_FS_OfficeMemo_Table { get; set; }
         public DbSet<USR_OFM_HU_OfficeMemo_Table> USR_OFM_HU_OfficeMemo_Table { get; set; }
         public DbSet<USR_OFM_JU_OfficeMemo_Table> USR_OFM_JU_OfficeMemo_Table { get; set; }
-
+        public DbSet<USR_REQ_ROGR_RequestForOpenCompetition_Table> USR_REQ_ROGR_RequestForOpenCompetition_Table { get; set; }
+        public DbSet<USR_REQ_ROGR_RequestForPriceOffers_Table> USR_REQ_ROGR_RequestForPriceOffers_Table { get; set; }
+        public DbSet<USR_REQ_ROGR_RequestForOneSource_Table> USR_REQ_ROGR_RequestForOneSource_Table { get; set; }
+        public DbSet<USR_REQ_UZL_RequestForOpenCompetition_Table> USR_REQ_UZL_RequestForOpenCompetition_Table { get; set; }
+        public DbSet<USR_REQ_UZL_RequestForPriceOffers_Table> USR_REQ_UZL_RequestForPriceOffers_Table { get; set; }
+        public DbSet<USR_REQ_UZL_RequestForOneSource_Table> USR_REQ_UZL_RequestForOneSource_Table { get; set; }
+        public DbSet<USR_REQ_UZL_RequestForElectronicTrading_Table> USR_REQ_UZL_RequestForElectronicTrading_Table { get; set; }
+        public DbSet<USR_REQ_UZL_RequestForVoiceBids_Table> USR_REQ_UZL_RequestForVoiceBids_Table { get; set; }
 
         protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder)
         {

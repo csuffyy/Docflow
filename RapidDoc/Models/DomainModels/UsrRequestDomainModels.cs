@@ -1389,6 +1389,61 @@ namespace RapidDoc.Models.DomainModels
         public string VehicleType { get; set; }
     }
 
+    public class USR_REQ_ROGR_RequestForOpenCompetition_Table : BasicDocumentTable
+    {
+        [Required]
+        public string NamePurchase { get; set; }
+
+        [Required]
+        public string BudgetArticle { get; set; }
+
+        [Required]
+        public string Amount { get; set; }
+
+        [Required]
+        public string Circumstance { get; set; }
+
+        [Required]
+        public string Destination { get; set; }
+    }
+
+    public class USR_REQ_ROGR_RequestForPriceOffers_Table : BasicDocumentTable
+    {
+        [Required]
+        public string NamePurchase { get; set; }
+
+        [Required]
+        public string BudgetArticle { get; set; }
+
+        [Required]
+        public string Amount { get; set; }
+
+        [Required]
+        public string Circumstance { get; set; }
+
+        [Required]
+        public string Destination { get; set; }
+
+    }
+
+    public class USR_REQ_ROGR_RequestForOneSource_Table : BasicDocumentTable
+    {
+        [Required]
+        public string NamePurchase { get; set; }
+
+        [Required]
+        public string BudgetArticle { get; set; }
+
+        [Required]
+        public string Amount { get; set; }
+
+        [Required]
+        public string Circumstance { get; set; }
+
+        [Required]
+        public string Destination { get; set; }
+    }
+
     #endregion
 
     #region СГЭ ЗИФ
@@ -3241,6 +3296,103 @@ namespace RapidDoc.Models.DomainModels
         public string Purpose { get; set; }
 
     }
+
+    public class USR_REQ_UZL_RequestForOpenCompetition_Table : BasicDocumentTable
+    {
+        [Required]
+        public string NamePurchase { get; set; }
+
+        [Required]
+        public string BudgetArticle { get; set; }
+
+        [Required]
+        public string Amount { get; set; }
+
+        [Required]
+        public string Circumstance { get; set; }
+
+        [Required]
+        public string Destination { get; set; }
+
+        public string UserChooseManual1 { get; set; }
+    }
+    public class USR_REQ_UZL_RequestForPriceOffers_Table : BasicDocumentTable
+    {
+        [Required]
+        public string NamePurchase { get; set; }
+
+        [Required]
+        public string BudgetArticle { get; set; }
+
+        [Required]
+        public string Amount { get; set; }
+
+        [Required]
+        public string Circumstance { get; set; }
+
+        [Required]
+        public string Destination { get; set; }
+
+        public string UserChooseManual1 { get; set; }
+    }
+    public class USR_REQ_UZL_RequestForOneSource_Table : BasicDocumentTable
+    {
+        [Required]
+        public string NamePurchase { get; set; }
+
+        [Required]
+        public string BudgetArticle { get; set; }
+
+        [Required]
+        public string Amount { get; set; }
+
+        [Required]
+        public string Circumstance { get; set; }
+
+        [Required]
+        public string Destination { get; set; }
+
+        public string UserChooseManual1 { get; set; }
+    }
+    public class USR_REQ_UZL_RequestForElectronicTrading_Table : BasicDocumentTable
+    {
+        [Required]
+        public string NamePurchase { get; set; }
+
+        [Required]
+        public string BudgetArticle { get; set; }
+
+        [Required]
+        public string Amount { get; set; }
+
+        [Required]
+        public string Circumstance { get; set; }
+
+        [Required]
+        public string Destination { get; set; }
+
+        public string UserChooseManual1 { get; set; }
+    }
+    public class USR_REQ_UZL_RequestForVoiceBids_Table : BasicDocumentTable
+    {
+        [Required]
+        public string NamePurchase { get; set; }
+
+        [Required]
+        public string BudgetArticle { get; set; }
+
+        [Required]
+        public string Amount { get; set; }
+
+        [Required]
+        public string Circumstance { get; set; }
+
+        [Required]
+        public string Destination { get; set; }
+
+        public string UserChooseManual1 { get; set; }
+    }
+
     #endregion
 
     #region УКР

@@ -1877,6 +1877,27 @@
     <Content Include="Views\DocumentBase\IndexOutcoming.cshtml" />
     <Content Include="Views\DocumentBase\IndexAppeal.cshtml" />
     <Content Include="Views\DocumentBase\_DocumentBaseAppeal.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_ROGR_RequestForOpenCompetition_View.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_ROGR_RequestForOpenCompetition_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_ROGR_RequestForPriceOffers_View.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_ROGR_RequestForPriceOffers_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_ROGR_RequestForOneSource_View.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_ROGR_RequestForOneSource_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UZL_RequestForOpenCompetition_Edit_Manual.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UZL_RequestForOpenCompetition_View.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UZL_RequestForOpenCompetition_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UZL_RequestForPriceOffers_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UZL_RequestForPriceOffers_View.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UZL_RequestForPriceOffers_Edit_Manual.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UZL_RequestForOneSource_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UZL_RequestForOneSource_View.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UZL_RequestForOneSource_Edit_Manual.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UZL_RequestForElectronicTrading_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UZL_RequestForElectronicTrading_View.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UZL_RequestForElectronicTrading_Edit_Manual.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UZL_RequestForVoiceBids_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UZL_RequestForVoiceBids_View.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UZL_RequestForVoiceBids_Edit_Manual.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -3497,6 +3518,54 @@
   </ItemGroup>
   <ItemGroup>
     <XamlAppDef Include="Activities\USR_APP_AppealDocuments.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USR_REQ_ROGR_RequestForOpenCompetition.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USR_REQ_ROGR_RequestForPriceOffers.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USR_REQ_ROGR_RequestForOneSource.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USR_REQ_UZL_RequestForElectronicTrading.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USR_REQ_UZL_RequestForOpenCompetition.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USR_REQ_UZL_RequestForPriceOffers.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USR_REQ_UZL_RequestForOneSource.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USR_REQ_UZL_RequestForVoiceBids.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </XamlAppDef>

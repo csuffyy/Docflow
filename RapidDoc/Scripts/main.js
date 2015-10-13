@@ -113,8 +113,9 @@ function datetimepicker_init(lang) {
     });
 }
 
-function checkTextExists(text) {
-    var prepare = text.replace(/<([^>]+?)([^>]*?)>(.*?)<\/\1>/ig, "");
+function checkTextExists(text) { 
+    //var prepare = text.replace(/<([^>]+?)([^>]*?)>(.*?)<\/\1>/ig, "");
+    var prepare = text.replace(/(<([^>]+)>)/ig, "");
     prepare = prepare.replace(/[^\w\s]/gi, '');
     prepare = prepare.trim();
     return prepare !== "";

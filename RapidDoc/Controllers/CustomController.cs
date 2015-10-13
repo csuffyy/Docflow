@@ -270,6 +270,100 @@ namespace RapidDoc.Controllers
 
             return PartialView("_Empty");
         }
+        public ActionResult GetRequestForOpenCompetition(RapidDoc.Models.ViewModels.USR_REQ_UZL_RequestForOpenCompetition_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.ActivityName == "Начальник УЗЛ" || x.SystemName == "UZL"))
+                    {
+                        return PartialView("USR_REQ_UZL_RequestForOpenCompetition_Edit_Manual", model);
+                    }
+                }
+            }
+
+            return PartialView("_Empty");
+        }
+
+        public ActionResult GetRequestForPriceOffers(RapidDoc.Models.ViewModels.USR_REQ_UZL_RequestForPriceOffers_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.ActivityName == "Начальник УЗЛ" || x.SystemName == "UZL"))
+                    {
+                        return PartialView("USR_REQ_UZL_RequestForPriceOffers_Edit_Manual", model);
+                    }
+                }
+            }
+
+            return PartialView("_Empty");
+        }
+
+        public ActionResult GetRequestForOneSource(RapidDoc.Models.ViewModels.USR_REQ_UZL_RequestForOneSource_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.ActivityName == "Начальник УЗЛ" || x.SystemName == "UZL"))
+                    {
+                        return PartialView("USR_REQ_UZL_RequestForOneSource_Edit_Manual", model);
+                    }
+                }
+            }
+
+            return PartialView("_Empty");
+        }
+
+        public ActionResult GetRequestForElectronicTrading(RapidDoc.Models.ViewModels.USR_REQ_UZL_RequestForElectronicTrading_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.ActivityName == "Начальник УЗЛ" || x.SystemName == "UZL"))
+                    {
+                        return PartialView("USR_REQ_UZL_RequestForElectronicTrading_Edit_Manual", model);
+                    }
+                }
+            }
+
+            return PartialView("_Empty");
+        }
+
+        public ActionResult GetRequestForVoiceBids(RapidDoc.Models.ViewModels.USR_REQ_UZL_RequestForVoiceBids_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.ActivityName == "Начальник УЗЛ" || x.SystemName == "UZL"))
+                    {
+                        return PartialView("USR_REQ_UZL_RequestForVoiceBids_Edit_Manual", model);
+                    }
+                }
+            }
+
+            return PartialView("_Empty");
+        }
 
         public ActionResult GetReissueComputerData(RapidDoc.Models.ViewModels.USR_REQ_IT_CTP_ReissueComputer_View model)
         {
