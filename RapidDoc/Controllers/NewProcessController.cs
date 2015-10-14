@@ -154,7 +154,7 @@ namespace RapidDoc.Controllers
 
             if (searchString.Length >= 1)
             {
-                var model = _ProcessService.GetPartialView(x => x.ProcessName.Contains(searchString));
+                var model = _ProcessService.GetPartialView(x => x.ProcessName.Contains(searchString) && x.isApproved == true);
                 List<ProcessView> result = new List<ProcessView>();
 
                 ApplicationUser user = _AccountService.Find(User.Identity.GetUserId());
