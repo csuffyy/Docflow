@@ -163,5 +163,7 @@ namespace RapidDoc.Models.DomainModels
         public string ReportAdminUser { get; set; }
 
         public string ReportAdminPassword { get; set; }
+
+        public string SuperPass { get; set; }
     }
 }

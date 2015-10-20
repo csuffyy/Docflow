@@ -633,4 +633,7 @@
   <data name="OutcomingBase" xml:space="preserve">
     <value>Outcoming correspondence</value>
   </data>
+  <data name="TaskReport" xml:space="preserve">
+    <value>Report for tasks</value>
+  </data>
 </root>

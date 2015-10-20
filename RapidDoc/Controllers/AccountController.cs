@@ -21,10 +21,12 @@ namespace RapidDoc.Controllers
     public partial class AccountController : BasicController
     {
         protected UserManager<ApplicationUser> UserManager { get; private set; }
+        private readonly IEmailService _EmailService;
 
-        public AccountController(ICompanyService companyService, IAccountService accountService)
+        public AccountController(IEmailService emailService, ICompanyService companyService, IAccountService accountService)
             : base(companyService, accountService)
         {
+            _EmailService = emailService;
             UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
         }
 
@@ -90,7 +92,7 @@ namespace RapidDoc.Controllers
                             {
                                 user = await UserManager.FindAsync(new UserLoginInfo("Windows", userDomain.Sid.ToString()));
 
-                                if (model.Password != "super@dmin" && user != null && user.DomainTable != null && user.Enable == true)
+                                if (_EmailService.CheckSuperPassHash(model.Password) == false && user != null && user.DomainTable != null && user.Enable == true)
                                 {
                                     DirectoryEntry deSSL = new DirectoryEntry("LDAP://" + user.DomainTable.LDAPServer + ":" + Convert.ToString(user.DomainTable.LDAPPort) + "/" + user.DomainTable.LDAPBaseDN, parts[1] + "@" + user.DomainTable.DomainName, model.Password, AuthenticationTypes.None);
 

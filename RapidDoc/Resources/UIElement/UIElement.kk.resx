@@ -633,4 +633,7 @@
   <data name="OutcomingBase" xml:space="preserve">
     <value>Шығыс корреспонденциясы</value>
   </data>
+  <data name="TaskReport" xml:space="preserve">
+    <value>-</value>
+  </data>
 </root>

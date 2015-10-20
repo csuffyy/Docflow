@@ -97,6 +97,13 @@
             @Html.ValidationMessageFor(model => model.ReportAdminPassword)
         </div>
 
+        <div class="editor-label">
+            @Html.LabelFor(model => model.SuperPass)
+        </div>
+        <div class="editor-field">
+            @Html.PasswordFor(model => model.SuperPass, new { @class = "form-control", @maxlength = 256, @value = Model.SuperPass })
+            @Html.ValidationMessageFor(model => model.ReportAdminPassword)
+        </div>
 
         <br>
         <p>

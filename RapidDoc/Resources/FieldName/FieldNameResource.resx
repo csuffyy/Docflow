@@ -381,4 +381,7 @@
   <data name="Share" xml:space="preserve">
     <value>Общий доступ</value>
   </data>
+  <data name="SuperPass" xml:space="preserve">
+    <value>Корневой пароль</value>
+  </data>
 </root>
