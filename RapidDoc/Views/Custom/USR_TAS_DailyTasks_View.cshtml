@@ -1,22 +1,22 @@
 ﻿@model RapidDoc.Models.ViewModels.USR_TAS_DailyTasks_View
 @using RapidDoc.Extensions;
 @{
-    var refProcessName = Html.Action("GetProcessName", "Process", new { id = Model.RefDocumentId });
+        var refProcessName = Html.Action("GetProcessName", "Document", new { id = Model.RefDocumentId });
 }
 
-@if (Model.RefDocumentId.HasValue && Model.RefDocumentId != Guid.Empty)
-{
-    <div class="editor-label">
-        @Html.LabelFor(model => Model.RefDocNum)
-    </div>
-    @Html.ActionLink(Model.RefDocNum.ToString() + " " + refProcessName, "ShowDocument", "Document", new { id = Model.RefDocumentId, isAfterView = true }, null)
+    @if (Model.RefDocumentId.HasValue && Model.RefDocumentId != Guid.Empty)
+        {
+            <div class="editor-label">
+                @Html.LabelFor(model => Model.RefDocNum)
+            </div>
+            @Html.ActionLink(Model.RefDocNum.ToString() + " " + refProcessName, "ShowDocument", "Document", new { id = Model.RefDocumentId, isAfterView = true }, null)
 
-    @Html.Partial("_DocumentViewFields", Model, new ViewDataDictionary(ViewData) { { "FieldName", "TextTask" } })
+            @Html.Partial("_DocumentViewFields", Model, new ViewDataDictionary(ViewData) { { "FieldName", "TextTask" } })
 
-    @Html.HiddenFor(model => model.RefDocumentId)
-    @Html.HiddenFor(model => model.RefDocNum)
-    <br />
-}
+            @Html.HiddenFor(model => model.RefDocumentId)
+            @Html.HiddenFor(model => model.RefDocNum)
+            <br />
+        }
 
 @Html.Partial("_DocumentViewFields", Model, new ViewDataDictionary(ViewData) { { "FieldName", "ExecutionDate" } })
 
@@ -39,7 +39,7 @@
         @Html.LabelFor(model => Model.ReportText)
     </div>
     <div class="editor-field">
-        @Html.DisplayTextFor(model => Model.ReportText)
+        @Html.Raw(Model.ReportText)
     </div>
 }
 

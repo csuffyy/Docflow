@@ -161,6 +161,9 @@ namespace RapidDoc.Models.ViewModels
         [DataType(DataType.Password)]
         [Display(Name = "ReportAdminPassword", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public string ReportAdminPassword { get; set; }
+
+        [Display(Name = "SuperPass")]
+        public string SuperPass { get; set; }
         
     }
 

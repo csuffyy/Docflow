@@ -56,6 +56,8 @@ namespace RapidDoc.Models.Services
         void SendNotificationForUserEmail(Guid documentId, string userId, string additionalTextCZ = "");
         void SendORDForUserEmail(Guid documentId, List<string> users, dynamic model);
         void SendUsersClosedEmail(Guid documentId, List<string> users);
+        string CryptStringSHA256(string pass);
+        bool CheckSuperPassHash(string pass);
     }
 
     public class EmailService : IEmailService
@@ -1058,6 +1060,20 @@ namespace RapidDoc.Models.Services
                     }).Start();
                 }
             }         
+        }
+
+        public string CryptStringSHA256(string pass)
+        {
+            byte[] data = System.Text.Encoding.ASCII.GetBytes(pass);
+            data = new System.Security.Cryptography.SHA256Managed().ComputeHash(data);
+            String hashPass = System.Text.Encoding.ASCII.GetString(data);
+
+            return hashPass;
+        }
+
+        public bool CheckSuperPassHash(string pass)
+        {
+            return String.Compare(CryptStringSHA256(pass), FirstOrDefault(x => x.SuperPass != String.Empty).SuperPass) == 0 ? true : false;
         }
     }
 }

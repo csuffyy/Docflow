@@ -2252,6 +2252,14 @@ namespace RapidDoc.Controllers
 
             return RedirectToAction("Index", "Document");
         }
-        
+
+        public string GetProcessName(Guid? id)
+        {
+            DocumentTable document = _DocumentService.FirstOrDefault(x => x.Id == id);
+            if (document != null)
+                return document.ProcessName;
+
+            return String.Empty;
+        }
 	}
 }

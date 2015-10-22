@@ -639,4 +639,7 @@
   <data name="OutcomingBase" xml:space="preserve">
     <value>Исходящая корреспонденция</value>
   </data>
+  <data name="TaskReport" xml:space="preserve">
+    <value>Отчет по задачам</value>
+  </data>
 </root>

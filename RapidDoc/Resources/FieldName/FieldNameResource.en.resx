@@ -372,4 +372,7 @@
   <data name="Share" xml:space="preserve">
     <value>Share</value>
   </data>
+  <data name="SuperPass" xml:space="preserve">
+    <value>Root password</value>
+  </data>
 </root>
