@@ -1898,6 +1898,7 @@
     <Content Include="Views\Custom\USR_REQ_UZL_RequestForVoiceBids_Edit.cshtml" />
     <Content Include="Views\Custom\USR_REQ_UZL_RequestForVoiceBids_View.cshtml" />
     <Content Include="Views\Custom\USR_REQ_UZL_RequestForVoiceBids_Edit_Manual.cshtml" />
+    <Content Include="Views\Report\TaskReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

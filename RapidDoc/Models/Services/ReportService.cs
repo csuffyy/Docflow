@@ -13,9 +13,11 @@ using RapidDoc.Models.ViewModels;
 using RapidDoc.Models.DomainModels;
 using RapidDoc.Models.Infrastructure;
 using RapidDoc.Models.Repository;
+using RapidDoc.Controllers;
 using RapidDoc.Activities;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Excel = Microsoft.Office.Interop.Excel;
 
 
 namespace RapidDoc.Models.Services
@@ -26,6 +28,8 @@ namespace RapidDoc.Models.Services
         List<ReportProcessesView> GetActivityStages(Dictionary<Type, int> codeActivitiesTypes, Activity activity,
             ProcessTable processTable);
         List<string> GetParentListDepartment(List<DepartmentTable> departmentList);
+        int GetDepartmentTaskReport(List<DepartmentTable> departmentTable, Dictionary<string, int> blockDepartment,
+            List<TaskReportModel> taskReportModel, Excel.Worksheet excelWorksheet, int rowCount);
     }
     
     public class ReportService: IReportService
@@ -35,14 +39,16 @@ namespace RapidDoc.Models.Services
         private readonly IDepartmentService _DepartmentService;
         private readonly IEmplService _EmplService;
         private readonly IAccountService _AccountService;
+        private readonly ISystemService _SystemService;
 
-        public ReportService(IUnitOfWork uow, IDocumentService documentService, IDepartmentService departmentService, IEmplService emplService, IAccountService accountService)
+        public ReportService(IUnitOfWork uow, IDocumentService documentService, IDepartmentService departmentService, IEmplService emplService, IAccountService accountService, ISystemService systemService)
         {
             _Uow = uow;
             _DocumentService = documentService;
             _DepartmentService = departmentService;
             _EmplService = emplService;
             _AccountService = accountService;
+            _SystemService = systemService; 
         }
         
         public Activity GetActivity(ProcessTable processTable)
@@ -199,6 +205,102 @@ namespace RapidDoc.Models.Services
             }
 
             return processesList;
+        }
+
+
+        public int GetDepartmentTaskReport(List<DepartmentTable> departmentTable, Dictionary<string, int> blockDepartment, List<TaskReportModel> taskReportModel, Excel.Worksheet excelWorksheet, int rowCount)
+        {
+            int item , i= 0;
+            
+            List<DepartmentTable> childDepartment = new List<DepartmentTable>();
+
+            foreach (var department in departmentTable)
+            {
+                i = 0;
+
+                if (blockDepartment.TryGetValue(department.DepartmentName, out item))
+                {
+                    Excel.Range range = excelWorksheet.Range[excelWorksheet.Cells[rowCount, 2], excelWorksheet.Cells[rowCount, 10]];
+                    this.AllBordersBlock(range.Borders);
+                    range.Interior.Color = System.Drawing.ColorTranslator.ToOle(Color.FromArgb(204, 255, 204));
+                    range.Merge();
+                    excelWorksheet.Cells[rowCount, 2] = department.DepartmentName;
+                    rowCount++;
+                }
+                else if (taskReportModel.Where(x => x.Department.Contains(department.Id.ToString())).Count() > 0)
+                {
+                    Excel.Range range = excelWorksheet.Range[excelWorksheet.Cells[rowCount, 2], excelWorksheet.Cells[rowCount, 10]];
+                    this.AllBordersBlock(range.Borders);
+                    range.Interior.Color = System.Drawing.ColorTranslator.ToOle(Color.FromArgb(253, 233, 217));
+                    range.Merge();
+                    excelWorksheet.Cells[rowCount, 2] = department.DepartmentName;
+                    rowCount++;
+                }
+
+                if (taskReportModel.Where(x => x.Department.Contains(department.Id.ToString())).Count() > 0)
+                {
+                    int startRowBlock = rowCount;                 
+                    foreach (var task in taskReportModel.Where(x => x.Department.Contains(department.Id.ToString())))
+                    {
+                        excelWorksheet.Cells[rowCount, 2] = i++;
+                        excelWorksheet.Cells[rowCount, 3] = task.CardNumber;
+                        excelWorksheet.Cells[rowCount, 4] = _SystemService.DeleteAllTags(task.TaskDescription);
+                        excelWorksheet.Cells[rowCount, 5] = task.PlaneDate.ToString() == "" ? "" : task.PlaneDate.ToShortDateString();
+
+                        if (task.Factdate != null)
+                        {
+                            DateTime factDate =  (DateTime)task.Factdate;
+                            excelWorksheet.Cells[rowCount, 6] = factDate.ToShortDateString();
+                        }
+
+                        excelWorksheet.Cells[rowCount, 7] = task.Executor;
+                        excelWorksheet.Cells[rowCount, 8] = task.Delegation;
+                        excelWorksheet.Cells[rowCount, 9] = task.Status == true ? "исполнено" : "нет";
+                        excelWorksheet.Cells[rowCount, 10] = _SystemService.DeleteAllTags(task.Text);
+                        rowCount++;
+                    }
+                    Excel.Range range = excelWorksheet.Range[excelWorksheet.Cells[startRowBlock, 2], excelWorksheet.Cells[rowCount - 1, 10]];
+                    this.AllBordersBlockTasks(range.Borders);
+                    range.HorizontalAlignment = Excel.Constants.xlCenter;
+                    range.VerticalAlignment = Excel.Constants.xlCenter;
+                }
+
+                childDepartment = _DepartmentService.GetPartial(x => x.ParentDepartmentId == department.Id).ToList();
+                if (childDepartment.Count() > 0)
+                    rowCount = this.GetDepartmentTaskReport(childDepartment, blockDepartment, taskReportModel, excelWorksheet, rowCount);
+            }
+            return rowCount;
+            
+        }
+
+        private void AllBordersBlock(Excel.Borders _borders)
+        {
+            _borders[Excel.XlBordersIndex.xlEdgeLeft].LineStyle = Excel.XlLineStyle.xlContinuous;
+            _borders[Excel.XlBordersIndex.xlEdgeLeft].Weight = Excel.XlBorderWeight.xlMedium;
+            _borders[Excel.XlBordersIndex.xlEdgeTop].LineStyle = Excel.XlLineStyle.xlContinuous;
+            _borders[Excel.XlBordersIndex.xlEdgeTop].Weight = Excel.XlBorderWeight.xlMedium;
+            _borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
+            _borders[Excel.XlBordersIndex.xlEdgeBottom].Weight = Excel.XlBorderWeight.xlMedium;
+            _borders[Excel.XlBordersIndex.xlEdgeRight].LineStyle = Excel.XlLineStyle.xlContinuous;
+            _borders[Excel.XlBordersIndex.xlEdgeRight].Weight = Excel.XlBorderWeight.xlMedium;
+            //_borders.Color = Color.Black;
+        }
+        private void AllBordersBlockTasks(Excel.Borders _borders)
+        {          
+            _borders[Excel.XlBordersIndex.xlEdgeLeft].LineStyle = Excel.XlLineStyle.xlContinuous;
+            _borders[Excel.XlBordersIndex.xlEdgeRight].LineStyle = Excel.XlLineStyle.xlContinuous;
+            _borders[Excel.XlBordersIndex.xlEdgeTop].LineStyle = Excel.XlLineStyle.xlContinuous;
+            _borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
+            _borders[Excel.XlBordersIndex.xlEdgeLeft].Weight = Excel.XlBorderWeight.xlMedium;
+            _borders[Excel.XlBordersIndex.xlEdgeRight].Weight = Excel.XlBorderWeight.xlMedium;
+            _borders[Excel.XlBordersIndex.xlEdgeTop].Weight = Excel.XlBorderWeight.xlMedium;
+            _borders[Excel.XlBordersIndex.xlEdgeBottom].Weight = Excel.XlBorderWeight.xlMedium;
+
+            _borders[Excel.XlBordersIndex.xlInsideHorizontal].LineStyle = Excel.XlLineStyle.xlContinuous;
+            _borders[Excel.XlBordersIndex.xlInsideVertical].LineStyle = Excel.XlLineStyle.xlContinuous;
+            _borders[Excel.XlBordersIndex.xlInsideVertical].Weight = Excel.XlBorderWeight.xlThin;
+            _borders[Excel.XlBordersIndex.xlInsideHorizontal].Weight = Excel.XlBorderWeight.xlThin;
+           // _borders.Color = Color.Black;
         }
     }
 }

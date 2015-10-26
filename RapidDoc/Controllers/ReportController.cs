@@ -60,6 +60,11 @@ namespace RapidDoc.Controllers
             return View();
         }
 
+        public ActionResult TaskReport()
+        {       
+            return View();
+        }
+
         public ActionResult ReportOfRoutes()
         {
             ViewBag.ProcessList = _ProcessService.GetDropListProcessNull(null);
@@ -144,6 +149,121 @@ namespace RapidDoc.Controllers
                 FileName = String.Format("{0}.pdf", docTable.DocumentNum)
             };
         }
+
+        [HttpPost]
+        public FileContentResult GenerateTaskReport(ReportParametersBasicView model)
+        {
+            int i = 0;
+            List<TaskReportModel> detailTasksList = new List<TaskReportModel>();
+
+            EmailParameterTable emailParameter = _EmailService.FirstOrDefault(x => x.SmtpServer != String.Empty);
+            WrapperImpersonationContext contextImpersonation = new WrapperImpersonationContext(emailParameter.ReportAdminDomain, emailParameter.ReportAdminUser, emailParameter.ReportAdminPassword);
+            contextImpersonation.Enter();
+            ApplicationDbContext context = new ApplicationDbContext();         
+
+            Excel.Application excelAppl;
+            Excel.Workbook excelWorkbook;
+            Excel.Worksheet excelWorksheet;
+            int rowCount = 6;
+            
+            excelAppl = new Excel.Application();
+            excelAppl.Visible = false;
+            excelAppl.DisplayAlerts = false;
+            excelWorkbook = excelAppl.Workbooks.Add(@"C:\Template\TaskReport.xlsx");
+            //excelAppl.Visible = true;
+            Dictionary<string, int> blockDepartment = new Dictionary<string, int>();
+            blockDepartment.Add("VIP", 1);
+            blockDepartment.Add("Заместитель Генерального директора по производству", 2);
+            blockDepartment.Add("Производственно-техническое управление", 3);
+            blockDepartment.Add("Блок горного производства", 4);
+            blockDepartment.Add("Блок промышленной безопасности и вспомогательного производства", 5);
+            blockDepartment.Add("Финансовый блок", 6);
+            blockDepartment.Add("Золотоизвлекательная фабрика", 7);
+            blockDepartment.Add("Административный блок", 8);
+            blockDepartment.Add("Заместитель исполнительного директора по ПБиВП", 9);
+            List<DepartmentTable> firstDepartment = _DepartmentService.GetPartial(x => x.DepartmentName == "ATK").ToList();
+            int templateSheets = 1;
+            while (templateSheets <= excelAppl.Worksheets.Count)
+            {
+
+                var alltTasksList = (from document in context.DocumentTable
+                                     join detailDoc in context.USR_TAS_DailyTasks_Table
+                                     on document.Id equals detailDoc.DocumentTableId
+                                     join documentRef in context.DocumentTable
+                                     on detailDoc.RefDocumentId equals documentRef.Id
+                                     where document.DocType == DocumentType.Task &&
+                                         detailDoc.RefDocumentId != null &&
+                                         ((documentRef.DocType == DocumentType.Order && templateSheets == 1)  ||
+                                         (documentRef.DocType == DocumentType.IncomingDoc && templateSheets == 2))
+                                     select document).ToList();
+
+                foreach (var item in alltTasksList)
+                {
+                    var docTracker = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == item.Id).OrderBy(y => y.CreatedDate);
+                    DateTime? closeDate = item.DocumentState == DocumentState.Closed ? docTracker.FirstOrDefault(x => x.SignDate != null).SignDate : null;
+                    USR_TAS_DailyTasks_Table taskDoc = context.USR_TAS_DailyTasks_Table.FirstOrDefault(x => x.DocumentTableId == item.Id);
+                    foreach (var tracker in docTracker)
+                    {
+                        i++;
+                        string executor = "";
+                        string delegation = "";
+                        string department = "";
+                        foreach (var user in tracker.Users)
+                        {
+                            EmplTable empl = _EmplService.FirstOrDefault(x => x.ApplicationUserId == user.UserId);
+                            executor += empl.ShortFullNameType2 + "\n";
+                            department += empl.DepartmentTableId.ToString();
+
+                            var delegationTracker = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == item.Id && x.ApplicationUserCreatedId == empl.ApplicationUserId && x.CreatedDate > tracker.CreatedDate);
+                            foreach (var delegationUser in delegationTracker)
+                            {
+                                delegationUser.Users.ForEach(x => delegation += _EmplService.FirstOrDefault(z => z.ApplicationUserId == x.UserId).ShortFullNameType2 + "\n");
+                            }
+                        }
+                        if (i - 1 != 0)
+                            executor += "(делегировал " + _EmplService.FirstOrDefault(x => x.ApplicationUserId == tracker.ApplicationUserCreatedId).ShortFullNameType2 + ")\n";
+
+                        detailTasksList.Add(new TaskReportModel
+                        {
+                            CardNumber = "01",
+                            TaskDescription = taskDoc.MainField,
+                            PlaneDate = taskDoc.ProlongationDate != null ? (DateTime)taskDoc.ProlongationDate : taskDoc.ExecutionDate,
+                            Factdate = item.DocumentState == DocumentState.Closed ? closeDate : null,
+                            Executor = executor,
+                            Delegation = delegation,
+                            Status = item.DocumentState == DocumentState.Closed ? true : false,
+                            Text = item.DocumentState == DocumentState.Closed ? taskDoc.ReportText : "",
+                            Department = department,
+                            DocType = item.DocType
+                        });
+
+                    }
+                    i = 0;
+                }
+                excelWorksheet = (Worksheet)excelAppl.Worksheets[templateSheets];           
+                _ReportService.GetDepartmentTaskReport(firstDepartment, blockDepartment, detailTasksList, excelWorksheet, rowCount);
+                templateSheets++;
+            }    
+            object misValue = System.Reflection.Missing.Value;
+            string path = @"C:\Template\Result\" + Guid.NewGuid().ToString() + ".xlsx";
+            excelWorkbook.SaveAs(path, Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookNormal, misValue,
+                misValue, misValue, misValue, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlExclusive, misValue,
+                misValue, misValue, misValue, misValue);
+            excelWorkbook.Close(true, misValue, misValue);
+            excelAppl.Quit();
+            FileInfo file = new FileInfo(path);
+
+            byte[] buff = null;
+            FileStream fs = new FileStream(file.FullName, FileMode.Open, FileAccess.Read);
+            BinaryReader br = new BinaryReader(fs);
+            long numBytes = new FileInfo(file.FullName).Length;
+            buff = br.ReadBytes((int)numBytes);
+
+            contextImpersonation.Leave();
+
+            return File(buff, "application/vnd.ms-excel", "TaskReport.xls");
+        }
+
 
         [HttpPost]
         public FileContentResult GenerateDetail(ReportParametersBasicView model)
@@ -556,6 +676,20 @@ namespace RapidDoc.Controllers
         public string DepartmentName { get; set; }
         public string TitleName { get; set; }
         public string FullName { get; set; }
+    }
+
+    public class TaskReportModel
+    {
+        public string CardNumber { get; set; }
+        public string TaskDescription { get; set; }
+        public DateTime PlaneDate { get; set; }
+        public DateTime? Factdate { get; set; }
+        public string Executor { get; set; }
+        public string Delegation { get; set; }
+        public bool Status { get; set; }
+        public string Text { get; set; }
+        public string Department { get; set; }
+        public DocumentType DocType { get; set; }
     }
   /*  public class PdfReport
     {
