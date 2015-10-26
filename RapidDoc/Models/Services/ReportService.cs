@@ -210,13 +210,13 @@ namespace RapidDoc.Models.Services
 
         public int GetDepartmentTaskReport(List<DepartmentTable> departmentTable, Dictionary<string, int> blockDepartment, List<TaskReportModel> taskReportModel, Excel.Worksheet excelWorksheet, int rowCount)
         {
-            int item , i= 0;
+            int item , i= 1;
             
             List<DepartmentTable> childDepartment = new List<DepartmentTable>();
 
             foreach (var department in departmentTable)
             {
-                i = 0;
+                i = 1;
 
                 if (blockDepartment.TryGetValue(department.DepartmentName, out item))
                 {

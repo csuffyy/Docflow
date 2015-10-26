@@ -2037,7 +2037,7 @@ namespace RapidDoc.Models.ViewModels
         public string SchemeConnection { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
-        [Display(Name = "Степерь защиты (IP)")]
+        [Display(Name = "Степень защиты (IP)")]
         public string RateDefense { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
@@ -8681,6 +8681,7 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Примечание")]
         public string Description { get; set; }
 
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         [Display(Name = "ФИО")]
         public string FIO1 { get; set; }
 
@@ -8816,6 +8817,7 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Примечание")]
         public string Description { get; set; }
 
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         [Display(Name = "ФИО")]
         public string FIO1 { get; set; }
 
@@ -8951,6 +8953,7 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Примечание")]
         public string Description { get; set; }
 
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         [Display(Name = "ФИО")]
         public string FIO1 { get; set; }
 

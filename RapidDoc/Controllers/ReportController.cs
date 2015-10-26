@@ -225,7 +225,7 @@ namespace RapidDoc.Controllers
 
                         detailTasksList.Add(new TaskReportModel
                         {
-                            CardNumber = "01",
+                            CardNumber = item.DocumentNum,
                             TaskDescription = taskDoc.MainField,
                             PlaneDate = taskDoc.ProlongationDate != null ? (DateTime)taskDoc.ProlongationDate : taskDoc.ExecutionDate,
                             Factdate = item.DocumentState == DocumentState.Closed ? closeDate : null,

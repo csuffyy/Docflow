@@ -6521,6 +6521,7 @@ namespace RapidDoc.Models.DomainModels
 
         public string Description { get; set; }
 
+        [Required]
         public string FIO1 { get; set; }
         public string FIO2 { get; set; }
         public string FIO3 { get; set; }
@@ -6594,6 +6595,7 @@ namespace RapidDoc.Models.DomainModels
 
         public string Description { get; set; }
 
+        [Required]
         public string FIO1 { get; set; }
         public string FIO2 { get; set; }
         public string FIO3 { get; set; }
@@ -6667,6 +6669,7 @@ namespace RapidDoc.Models.DomainModels
 
         public string Description { get; set; }
 
+        [Required]
         public string FIO1 { get; set; }
         public string FIO2 { get; set; }
         public string FIO3 { get; set; }
