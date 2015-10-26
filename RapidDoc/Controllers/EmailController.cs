@@ -48,8 +48,7 @@ namespace RapidDoc.Controllers
             {
                 try
                 {
-                    if (String.Compare(model.SuperPass, _Service.FirstOrDefault(x => x.SuperPass != String.Empty).SuperPass) != 0)      model.SuperPass = _Service.CryptStringSHA256(model.SuperPass);
-    
+                    model.SuperPass = _Service.CryptStringSHA256(model.SuperPass);
                     _Service.Save(model);
                     return RedirectToAction("Index", "Document");
                 }
