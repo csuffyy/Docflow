@@ -6,21 +6,25 @@ using RapidDoc.Models.Interfaces;
 
 namespace RapidDoc.Models.ViewModels
 {
-    public abstract class BasicView
+    public abstract class EntityView
     {
         public Guid? Id { get; set; }
-
-        [Display(Name = "CreatedBy", ResourceType = typeof(FieldNameRes.FieldNameResource))]
-        public string CreatedBy { get; set; }
 
         [Display(Name = "CreatedDate", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public DateTime CreatedDate { get; set; }
 
-        [Display(Name = "ModifiedBy", ResourceType = typeof(FieldNameRes.FieldNameResource))]
-        public string ModifiedBy { get; set; }
-
         [Display(Name = "ModifiedDate", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public DateTime ModifiedDate { get; set; }
+    }
+
+    public abstract class BasicView : EntityView
+    {
+
+        [Display(Name = "CreatedBy", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public string CreatedBy { get; set; }
+
+        [Display(Name = "ModifiedBy", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public string ModifiedBy { get; set; }
 
         public string ApplicationUserCreatedId { get; set; }
         public string ApplicationUserModifiedId { get; set; }

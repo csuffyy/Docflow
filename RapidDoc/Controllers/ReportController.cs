@@ -310,7 +310,8 @@ namespace RapidDoc.Controllers
                                   Date = wfTracker.StartDateSLA,
                                   DepartmentName = department.DepartmentName,
                                   FullName = empl.SecondName + " " + empl.FirstName + " " + empl.MiddleName,
-                                  TitleName = title.TitleName
+                                  TitleName = title.TitleName,
+                                  DocumentText = document.DocumentText
                               }).ToList();
 
             excelAppl = new Excel.Application();
@@ -399,6 +400,7 @@ namespace RapidDoc.Controllers
                 excelWorksheet.Cells[rowCount, 12] = line.SignDate.ToString() == "" ? "" : TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(line.SignDate), timeZoneInfo).ToString();
                 excelWorksheet.Cells[rowCount, 13] = line.PerformDate.ToString() == "" ? "" : TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(line.PerformDate), timeZoneInfo).ToString();
                 excelWorksheet.Cells[rowCount, 14] = line.Minutes.ToString() == "" ? "" : line.Minutes.ToString();
+                excelWorksheet.Cells[rowCount, 15] = line.DocumentText;
             }
 
             object misValue = System.Reflection.Missing.Value;
@@ -676,6 +678,7 @@ namespace RapidDoc.Controllers
         public string DepartmentName { get; set; }
         public string TitleName { get; set; }
         public string FullName { get; set; }
+        public string DocumentText { get; set; }
     }
 
     public class TaskReportModel

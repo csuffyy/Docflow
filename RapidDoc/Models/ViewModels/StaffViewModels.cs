@@ -152,7 +152,7 @@ namespace RapidDoc.Models.ViewModels
         [DataType(DataType.Date)]
         public DateTime? DateFrom { get; set; }
 
-        [Display(Name = "DateTo", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        [Display(Name = "DateUpTo", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         [DataType(DataType.Date)]
         public DateTime? DateTo { get; set; }
 

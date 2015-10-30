@@ -16,15 +16,11 @@ namespace RapidDoc.Mappers
         {
             Mapper.CreateMap<DomainTable, DomainView>();
             Mapper.CreateMap<DomainView, DomainTable>()
-                .ForMember(x => x.ApplicationUserCreatedId, opt => opt.Ignore())
-                .ForMember(x => x.ApplicationUserModifiedId, opt => opt.Ignore())
                 .ForMember(x => x.CreatedDate, opt => opt.Ignore())
                 .ForMember(x => x.ModifiedDate, opt => opt.Ignore());
 
             Mapper.CreateMap<CompanyTable, CompanyView>();
             Mapper.CreateMap<CompanyView, CompanyTable>()
-                .ForMember(x => x.ApplicationUserCreatedId, opt => opt.Ignore())
-                .ForMember(x => x.ApplicationUserModifiedId, opt => opt.Ignore())
                 .ForMember(x => x.CreatedDate, opt => opt.Ignore())
                 .ForMember(x => x.ModifiedDate, opt => opt.Ignore());
 

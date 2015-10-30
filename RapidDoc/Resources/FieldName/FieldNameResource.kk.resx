@@ -375,4 +375,7 @@
   <data name="SuperPass" xml:space="preserve">
     <value>-</value>
   </data>
+  <data name="DateUpTo" xml:space="preserve">
+    <value>Қай күнге дейін</value>
+  </data>
 </root>

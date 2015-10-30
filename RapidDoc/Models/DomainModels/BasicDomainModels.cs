@@ -6,7 +6,7 @@ using RapidDoc.Models.Interfaces;
 
 namespace RapidDoc.Models.DomainModels
 {
-    public abstract class BasicTable : IEntity
+    public abstract class EntityTable : IEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -17,6 +17,10 @@ namespace RapidDoc.Models.DomainModels
         public Byte[] TimeStamp { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }
+    }
+
+    public abstract class BasicTable : EntityTable
+    {
         public string ApplicationUserCreatedId { get; set; }
         public virtual ApplicationUser ApplicationUserCreated { get; set; }
         public string ApplicationUserModifiedId { get; set; }

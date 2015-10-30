@@ -384,4 +384,7 @@
   <data name="SuperPass" xml:space="preserve">
     <value>Корневой пароль</value>
   </data>
+  <data name="DateUpTo" xml:space="preserve">
+    <value>Дата до</value>
+  </data>
 </root>

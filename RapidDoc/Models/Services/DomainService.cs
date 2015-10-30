@@ -97,14 +97,11 @@ namespace RapidDoc.Models.Services
             {
                 domainTable.CreatedDate = DateTime.UtcNow;
                 domainTable.ModifiedDate = domainTable.CreatedDate;
-                domainTable.ApplicationUserCreatedId = userId;
-                domainTable.ApplicationUserModifiedId = userId;
                 repo.Add(domainTable);
             }
             else
             {
                 domainTable.ModifiedDate = DateTime.UtcNow;
-                domainTable.ApplicationUserModifiedId = userId;
                 repo.Update(domainTable);
             }
             _uow.Commit();

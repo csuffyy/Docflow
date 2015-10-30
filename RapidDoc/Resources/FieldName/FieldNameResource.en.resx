@@ -375,4 +375,7 @@
   <data name="SuperPass" xml:space="preserve">
     <value>Root password</value>
   </data>
+  <data name="DateUpTo" xml:space="preserve">
+    <value>Date to</value>
+  </data>
 </root>

@@ -6,7 +6,7 @@ using RapidDoc.Attributes.Validation;
 
 namespace RapidDoc.Models.ViewModels
 {
-    public class CompanyView : BasicView
+    public class CompanyView : EntityView
     {
         [StringLength(20, ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisLong")]
         [Display(Name = "AliasCompanyName", ResourceType = typeof(FieldNameRes.FieldNameResource))]
@@ -24,7 +24,7 @@ namespace RapidDoc.Models.ViewModels
         public Guid? DomainTableId { get; set; }
     }
 
-    public class DomainView : BasicView
+    public class DomainView : EntityView
     {
         [StringLength(20, ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisLong")]
         [Display(Name = "DomainName", ResourceType = typeof(FieldNameRes.FieldNameResource))]

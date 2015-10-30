@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RapidDoc.Models.DomainModels
 {
-    public class CompanyTable : BasicTable
+    public class CompanyTable : EntityTable
     {
         [StringLength(20)]
         [Required]
@@ -32,7 +32,7 @@ namespace RapidDoc.Models.DomainModels
         }
     }
 
-    public class DomainTable : BasicTable
+    public class DomainTable : EntityTable
     {
         [StringLength(20)]
         [Required]
