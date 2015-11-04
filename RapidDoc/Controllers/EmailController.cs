@@ -48,7 +48,9 @@ namespace RapidDoc.Controllers
             {
                 try
                 {
-                    model.SuperPass = _Service.CryptStringSHA256(model.SuperPass);
+                    EmailParameterTable emailTable = _Service.FirstOrDefault(x => x.Id != null);
+                    if (emailTable.SuperPass != model.SuperPass)
+                        model.SuperPass = _Service.CryptStringSHA256(model.SuperPass);
                     _Service.Save(model);
                     return RedirectToAction("Index", "Document");
                 }

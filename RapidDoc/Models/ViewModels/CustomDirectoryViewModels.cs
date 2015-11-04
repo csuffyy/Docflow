@@ -51,7 +51,7 @@ namespace RapidDoc.Models.ViewModels
         public int ResidenceRate { get; set; }
     }
 
-    public class ItemCauseView: BasicCompanyNullView
+    public class ItemCauseView : BasicCompanyNullView
     {
         [Display(Name = "№ дела")]
         public string CaseNumber { get; set; }
@@ -127,5 +127,22 @@ namespace RapidDoc.Models.ViewModels
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         [Display(Name = "Наименование")]
         public string Name { get; set; }
+    }
+
+    public class ProtocolFoldersView : BasicCompanyNullView
+    {
+        [Display(Name = "Наименование")]
+        public string ProtocolFolderName { get; set; }
+
+        public Guid? ProcessTableId { get; set; }
+
+        [Display(Name = "Наименование процесса")]
+        public string ProcessName { get; set; }
+
+        public Guid? ProtocolFoldersParentId { get; set; }
+
+        [Display(Name = "Ссылка на родительскую папку")]
+        public string ParentProtocolFolderName{ get; set; }
+
     }
 }

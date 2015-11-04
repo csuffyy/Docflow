@@ -126,6 +126,9 @@
   <data name="Organization" xml:space="preserve">
     <value>Мекемелер</value>
   </data>
+  <data name="ProtocolFolders" xml:space="preserve">
+    <value>-</value>
+  </data>
   <data name="QuestionRequest" xml:space="preserve">
     <value>Өтініш мәселесі</value>
   </data>

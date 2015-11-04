@@ -1,0 +1,49 @@
+﻿@model RapidDoc.Models.ViewModels.ProtocolFoldersView
+@using RapidDoc.Extensions;
+@{
+    ViewBag.Title = "Новая протокольная папка";
+}
+<h2>@CustomRes.Custom.ProtocolFolders</h2>
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend></legend>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => model.ProtocolFolderName)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.ProtocolFolderName, new { @class = "form-control", @size = 256, @maxlength = 256, placeholder = "Наименование", @x_webkit_speech = "" })
+            @Html.ValidationMessageFor(model => model.ProtocolFolderName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ParentProtocolFolderName)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("ProtocolFoldersParentId", (IEnumerable<SelectListItem>)ViewBag.ProtocolFoldersParentList, new { @class = "selectpicker", @data_live_search = "true", @data_size = "10" })
+            @Html.ValidationMessageFor(model => model.ProtocolFoldersParentId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ProcessName)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("ProcessTableId", (IEnumerable<SelectListItem>)ViewBag.ProcessList, new { @class = "selectpicker", @data_live_search = "true", @data_size = "10" })
+            @Html.ValidationMessageFor(model => model.ProcessTableId)
+        </div>
+
+        @{Html.RenderPartial("SaveBackBtn");}
+    </fieldset>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/editentity")
+}
+@section jslaunch {
+    <script type="text/javascript">
+$(function () {
+    selectpicker_init();
+});
+    </script>
+}

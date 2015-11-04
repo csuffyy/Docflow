@@ -100,6 +100,7 @@ namespace RapidDoc.App_Start
             kernel.Bind<ICountryService>().To<CountryService>();
             kernel.Bind<IReasonRequestService>().To<ReasonRequestService>();
             kernel.Bind<IQuestionRequestService>().To<QuestionRequestService>();
+            kernel.Bind<IProtocolFoldersService>().To<ProtocolFoldersService>();
         }        
     }
 }

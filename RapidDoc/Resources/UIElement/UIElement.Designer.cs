@@ -1114,6 +1114,15 @@ namespace UIElementRes {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Протокольные папки.
+        /// </summary>
+        public static string ProtocolFolders {
+            get {
+                return ResourceManager.GetString("ProtocolFolders", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Читателя.
         /// </summary>
         public static string Reader {

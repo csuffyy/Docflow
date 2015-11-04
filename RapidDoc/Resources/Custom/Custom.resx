@@ -126,6 +126,9 @@
   <data name="Organization" xml:space="preserve">
     <value>Организации</value>
   </data>
+  <data name="ProtocolFolders" xml:space="preserve">
+    <value>Протокольные папки</value>
+  </data>
   <data name="QuestionRequest" xml:space="preserve">
     <value>Вопрос обращения</value>
   </data>

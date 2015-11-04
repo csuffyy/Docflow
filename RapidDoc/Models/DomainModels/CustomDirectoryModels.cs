@@ -38,7 +38,7 @@ namespace RapidDoc.Models.DomainModels
         public int ResidenceRate { get; set; }
     }
 
-    public class ItemCauseTable: BasicCompanyNullTable
+    public class ItemCauseTable : BasicCompanyNullTable
     {
         public string CaseNumber { get; set; }
         public string CaseName { get; set; }
@@ -81,5 +81,37 @@ namespace RapidDoc.Models.DomainModels
     {
         public string Code { get; set; }
         public string Name { get; set; }
+    }
+   
+    public class ProtocolFoldersTable : BasicCompanyNullTable
+    {
+        public string ProtocolFolderName { get; set; }
+
+        public Guid? ProcessTableId { get; set; }
+        public virtual ProcessTable ProcessTable { get; set; }
+        public string ProcessName
+        {
+            get
+            {
+                if (this.ProcessTable != null)
+                    return this.ProcessTable.ProcessName;
+
+                return String.Empty;
+            }
+        }
+
+        [ForeignKey("ProtocolFoldersTableParent")]
+        public Guid? ProtocolFoldersParentId { get; set; }
+        public virtual ProtocolFoldersTable ProtocolFoldersTableParent { get; set; }
+        public string ParentProtocolFolderName
+        {
+            get
+            {
+                if (this.ProtocolFoldersTableParent != null)
+                    return this.ProtocolFoldersTableParent.ProtocolFolderName;
+
+                return string.Empty;
+            }
+        }
     }
 }

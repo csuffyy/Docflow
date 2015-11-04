@@ -636,4 +636,7 @@
   <data name="TaskReport" xml:space="preserve">
     <value>-</value>
   </data>
+  <data name="ProtocolFolders" xml:space="preserve">
+    <value>-</value>
+  </data>
 </root>

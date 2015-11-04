@@ -302,6 +302,7 @@
     <Compile Include="Controllers\DelegationController.cs" />
     <Compile Include="Controllers\DocumentController.cs" />
     <Compile Include="Controllers\MonitoringController.cs" />
+    <Compile Include="Controllers\ProtocolFoldersController.cs" />
     <Compile Include="Controllers\QuestionRequestController.cs" />
     <Compile Include="Controllers\ReasonRequestController.cs" />
     <Compile Include="Controllers\OrganizationController.cs" />
@@ -351,6 +352,7 @@
     <Compile Include="Models\Grids\GroupProcessAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\ItemCauseAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\NumberSeriesBookingAjaxPagingGrid.cs" />
+    <Compile Include="Models\Grids\ProtocolFoldersAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\QuestionRequestAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\ReasonRequestAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\OrganizationAjaxPagingGrid.cs" />
@@ -376,6 +378,7 @@
     <Compile Include="Models\Interfaces\IDbContext.cs" />
     <Compile Include="Models\Interfaces\IUnitOfWork.cs" />
     <Compile Include="Models\Repository\CompanyConstraint.cs" />
+    <Compile Include="Models\Services\ProtocolFoldersService.cs" />
     <Compile Include="Models\Services\QuestionRequestService.cs" />
     <Compile Include="Models\Services\ReasonRequestService.cs" />
     <Compile Include="Models\Services\CountryService.cs" />
@@ -1899,6 +1902,12 @@
     <Content Include="Views\Custom\USR_REQ_UZL_RequestForVoiceBids_View.cshtml" />
     <Content Include="Views\Custom\USR_REQ_UZL_RequestForVoiceBids_Edit_Manual.cshtml" />
     <Content Include="Views\Report\TaskReport.cshtml" />
+    <Content Include="Views\ProtocolFolders\Index.cshtml" />
+    <Content Include="Views\ProtocolFolders\Create.cshtml" />
+    <Content Include="Views\ProtocolFolders\Edit.cshtml" />
+    <Content Include="Views\ProtocolFolders\Detail.cshtml" />
+    <Content Include="Views\ProtocolFolders\Delete.cshtml" />
+    <Content Include="Views\ProtocolFolders\_ProtocolFoldersGrid.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -3571,6 +3580,7 @@
       <SubType>Designer</SubType>
     </XamlAppDef>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

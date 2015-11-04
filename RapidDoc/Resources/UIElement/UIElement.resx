@@ -642,4 +642,7 @@
   <data name="TaskReport" xml:space="preserve">
     <value>Отчет по задачам</value>
   </data>
+  <data name="ProtocolFolders" xml:space="preserve">
+    <value>Протокольные папки</value>
+  </data>
 </root>
