@@ -3393,6 +3393,52 @@ namespace RapidDoc.Models.DomainModels
         public string UserChooseManual1 { get; set; }
     }
 
+    public class USR_REQ_UZL_RequestForAdditionalOB_Table : BasicDocumentTable
+    {
+        [Required]
+        public string Reason { get; set; }
+
+        [Required]
+        public string ReasonAbsent { get; set; }
+
+        [Required]
+        public string FinancialSource { get; set; }
+
+        [Required]
+        public DateTime? FromDate { get; set; }
+
+        [Required]
+        public DateTime? ToDate { get; set; }
+
+        [Required]
+        public string Amount { get; set; }
+
+        public string UserChooseManual1 { get; set; }
+    }
+
+    public class USR_REQ_UZL_RequestForUrgentOB_Table : BasicDocumentTable
+    {
+        [Required]
+        public string Reason { get; set; }
+
+        [Required]
+        public string ReasonAbsent { get; set; }
+
+        [Required]
+        public string FinancialSource { get; set; }
+
+        [Required]
+        public DateTime? FromDate { get; set; }
+
+        [Required]
+        public DateTime? ToDate { get; set; }
+
+        [Required]
+        public string Amount { get; set; }
+
+        public string UserChooseManual1 { get; set; }
+    }
+
     #endregion
 
     #region УКР

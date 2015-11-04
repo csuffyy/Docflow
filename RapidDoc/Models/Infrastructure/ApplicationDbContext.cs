@@ -338,6 +338,8 @@ namespace RapidDoc.Models.Infrastructure
         public DbSet<USR_REQ_UZL_RequestForOneSource_Table> USR_REQ_UZL_RequestForOneSource_Table { get; set; }
         public DbSet<USR_REQ_UZL_RequestForElectronicTrading_Table> USR_REQ_UZL_RequestForElectronicTrading_Table { get; set; }
         public DbSet<USR_REQ_UZL_RequestForVoiceBids_Table> USR_REQ_UZL_RequestForVoiceBids_Table { get; set; }
+        public DbSet<USR_REQ_UZL_RequestForAdditionalOB_Table> USR_REQ_UZL_RequestForAdditionalOB_Table { get; set; }
+        public DbSet<USR_REQ_UZL_RequestForUrgentOB_Table> USR_REQ_UZL_RequestForUrgentOB_Table { get; set; }
 
         protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder)
         {

@@ -1908,6 +1908,10 @@
     <Content Include="Views\ProtocolFolders\Detail.cshtml" />
     <Content Include="Views\ProtocolFolders\Delete.cshtml" />
     <Content Include="Views\ProtocolFolders\_ProtocolFoldersGrid.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UZL_RequestForAdditionalOB_View.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UZL_RequestForAdditionalOB_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UZL_RequestForUrgentOB_View.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UZL_RequestForUrgentOB_Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -3580,7 +3584,18 @@
       <SubType>Designer</SubType>
     </XamlAppDef>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USR_REQ_UZL_RequestForAdditionalOB.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USR_REQ_UZL_RequestForUrgentOB.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
