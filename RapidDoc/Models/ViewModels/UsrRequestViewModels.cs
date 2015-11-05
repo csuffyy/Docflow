@@ -4633,6 +4633,67 @@ namespace RapidDoc.Models.ViewModels
         public string UserChooseManual1 { get; set; }
     }
 
+    public class USR_REQ_UZL_RequestForAdditionalIB_View : BasicDocumentView
+    {
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Обоснование")]
+        public string Reason { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Причина отсутствия в ОБ\\БКВ")]
+        public string ReasonAbsent { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Источник финансирования")]
+        public string FinancialSource { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "C даты")]
+        [DataType(DataType.Date)]
+        public DateTime? FromDate { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "По дату")]
+        [DataType(DataType.Date)]
+        public DateTime? ToDate { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Сумма заявки")]
+        public string Amount { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Исполнительный директор")]
+        public string UserChooseManual1 { get; set; }
+    }
+
+    public class USR_REQ_UZL_RequestForUrgentIB_View : BasicDocumentView
+    {
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Обоснование")]
+        public string Reason { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Причина отсутствия в ОБ\\БКВ")]
+        public string ReasonAbsent { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Источник финансирования")]
+        public string FinancialSource { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "C даты")]
+        [DataType(DataType.Date)]
+        public DateTime? FromDate { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "По дату")]
+        [DataType(DataType.Date)]
+        public DateTime? ToDate { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Сумма заявки")]
+        public string Amount { get; set; }
+    }
     #endregion
 
     #region УКР

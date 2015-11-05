@@ -1912,6 +1912,10 @@
     <Content Include="Views\Custom\USR_REQ_UZL_RequestForAdditionalOB_Edit.cshtml" />
     <Content Include="Views\Custom\USR_REQ_UZL_RequestForUrgentOB_View.cshtml" />
     <Content Include="Views\Custom\USR_REQ_UZL_RequestForUrgentOB_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UZL_RequestForAdditionalIB_View.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UZL_RequestForAdditionalIB_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UZL_RequestForUrgentIB_View.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UZL_RequestForUrgentIB_Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -2375,6 +2379,10 @@
       <Generator>MSBuild:Compile</Generator>
     </XamlAppDef>
     <XamlAppDef Include="Activities\USR_REQ_UZL_RequestForUnscheduledOB.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </XamlAppDef>
+    <XamlAppDef Include="Activities\USR_REQ_UZL_RequestForUrgentIB.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </XamlAppDef>
@@ -3592,6 +3600,12 @@
   </ItemGroup>
   <ItemGroup>
     <XamlAppDef Include="Activities\USR_REQ_UZL_RequestForUrgentOB.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USR_REQ_UZL_RequestForAdditionalIB.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </XamlAppDef>
