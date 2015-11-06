@@ -363,4 +363,23 @@ namespace RapidDoc.Models.DomainModels
 
         public bool Executed { get; set; }
     }
+
+    public abstract class BasicProtocolDocumentsTable : BasicDocumentTable
+    {
+        [Required]
+        public string Code { get; set; }
+
+        public Guid? ProtocolFoldersTableId { get; set; }
+        public virtual ProtocolFoldersTable ProtocolFoldersTable { get; set; }
+
+        [Required]
+        public string Subject { get; set; }
+
+        public string Location { get; set; }
+
+        [Required]
+        public string Agenda { get; set; }
+
+        public virtual List<PRT_QuestionList_Table> QuestionList { get; set; }
+    }
 }

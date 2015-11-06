@@ -833,3 +833,28 @@ function custom_tagsinputEmplOne1_init(url_json) {
         }
     }
 }
+
+function custom_tagsinputEmplDynamic_init(url_json) {
+    $('input[data-role=tagsinputEmplDynamic]').each(function (e) {
+        elt = $(this);
+
+        elt.tagsinput({
+            itemValue: 'value',
+            itemText: 'text',
+            tagClass: function (item) {
+                return 'label label-primary bts-tags';
+            }
+        });
+
+        elt.tagsinput('input').typeahead({
+            valueKey: 'text',
+            prefetch: url_json,
+            template: '<p>{{text}}</p>',
+            engine: Hogan
+
+        }).bind('typeahead:selected', $.proxy(function (obj, datum) {
+            this.tagsinput('add', datum);
+            this.tagsinput('input').typeahead('setQuery', '');
+        }, elt));
+    });
+}

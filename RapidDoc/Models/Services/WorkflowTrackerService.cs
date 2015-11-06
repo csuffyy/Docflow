@@ -150,7 +150,8 @@ namespace RapidDoc.Models.Services
                         || documentType == DocumentType.Order
                         || documentType == DocumentType.IncomingDoc
                         || documentType == DocumentType.OutcomingDoc
-                        || documentType == DocumentType.AppealDoc 
+                        || documentType == DocumentType.AppealDoc
+                        || documentType == DocumentType.Protocol 
                         || (documentType == DocumentType.Task && item.TrackerType != TrackerType.NonActive) 
                         || (!trackerViewItems.Any(x => x.SignUserId == item.SignUserId) && documentType == DocumentType.OfficeMemo))
                         trackerViewItems.Add(model);

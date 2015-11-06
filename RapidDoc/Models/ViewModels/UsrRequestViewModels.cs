@@ -9516,4 +9516,13 @@ namespace RapidDoc.Models.ViewModels
     }
 
     #endregion
+
+    #region Протоколы
+
+    public class USR_PRT_ProtocolDocuments_View : BasicProtocolDocumentsView
+    {
+
+    }
+
+    #endregion
 }

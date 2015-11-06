@@ -134,6 +134,8 @@ namespace RapidDoc.Controllers
                     return View("_DocumentBaseOutcoming", _Service.GetAllViewUserDocument(documentType, startDate, endDate));
                 case DocumentType.AppealDoc:
                     return View("_DocumentBaseAppeal", _Service.GetAllViewUserDocument(documentType, startDate, endDate));
+                case DocumentType.Protocol:
+                    return View("_DocumentProtocol", _Service.GetAllViewUserDocument(documentType, startDate, endDate));
             }
             return new EmptyResult();
         }

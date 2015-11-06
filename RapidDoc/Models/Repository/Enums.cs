@@ -125,6 +125,9 @@ namespace RapidDoc.Models.Repository
         OutcomingDoc = 5,
 
         [Display(Name = "Обращения граждан")]
-        AppealDoc = 6
+        AppealDoc = 6,
+
+        [Display(Name = "Протокол")]
+        Protocol = 7
     }
 }

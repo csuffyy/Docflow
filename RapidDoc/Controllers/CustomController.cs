@@ -2764,6 +2764,19 @@ namespace RapidDoc.Controllers
             ViewBag.WorkerSearchList = new SelectList(workersList);
             return PartialView("USR_ORD_Workers");
         }
-        
+
+        public ViewResult CreateNewQuestionProtocol()
+        {
+            var model = new PRT_QuestionList_Table() { DecisionList = new List<PRT_DecisionList_Table>() };
+            model.DecisionList.Add(new PRT_DecisionList_Table());
+            ViewData["counter"] = Guid.NewGuid().ToString("N");
+            return View("_QuestionList", model);
+        }
+
+        public ViewResult CreateNewDecisionProtocol(string counter)
+        {
+            ViewData["counter"] = counter;
+            return View("_DecisionList", new PRT_DecisionList_Table());
+        }
 	}
 }

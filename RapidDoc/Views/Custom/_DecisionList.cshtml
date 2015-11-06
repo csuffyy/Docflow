@@ -1,0 +1,15 @@
+﻿@model RapidDoc.Models.DomainModels.PRT_DecisionList_Table
+@using RapidDoc.Extensions;
+@{
+    Layout = "";
+    string index = ViewData["counter"].ToString();
+}
+
+@using (Html.BeginCollectionItem("PRT_DecisionList_Table__DecisionList"))
+{
+    <div id="decisionRow_@index" class="decisionRow">
+        @Html.TextAreaFor(model => Model.Decision, new { @class = "form-control", placeholder = "Решение" })
+        @Html.TextBoxFor(model => Model.Users, new { @class = "form-control", @data_role = "tagsinputEmplDynamic", placeholder = "Исполнители" })
+        @Html.TextBoxFor(model => Model.ControlDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", startDate = "" })
+    </div>
+}

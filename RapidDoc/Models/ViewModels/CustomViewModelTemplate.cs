@@ -358,11 +358,11 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Статус обративщегося лица")]
         public StatusPerson StatusPerson { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         [Display(Name = "ФИО заявителя")]
         public string Name { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         [Display(Name = "Адрес заявителя")]
         public string Address { get; set; }
 
@@ -375,7 +375,7 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Дата регистрации")]
         public DateTime RegistrationDate { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         [Display(Name = "Адресован")]
         public string Whom { get; set; }
 
@@ -397,14 +397,14 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Характер вопроса")]
         public string CharacterQuestionAddition { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         [Display(Name = "Количество листов")]
         public string ListsCount { get; set; }
 
         [Display(Name = "Количество приложений")]
         public string ApplicationsCount { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         [Display(Name = "Тема документа")]
         public string Subject { get; set; }
 
@@ -439,5 +439,28 @@ namespace RapidDoc.Models.ViewModels
 
         [Display(Name = "Исполнено")]
         public bool Executed { get; set; }
+    }
+
+    public abstract class BasicProtocolDocumentsView : BasicDocumentView
+    {
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Код")]
+        public string Code { get; set; }
+
+        [Display(Name = "Папка")]
+        public Guid? ProtocolFoldersTableId { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Тема документа")]
+        public string Subject { get; set; }
+
+        [Display(Name = "Место проведения")]
+        public string Location { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Повестка")]
+        public string Agenda { get; set; }
+
+        public List<RapidDoc.Models.DomainModels.PRT_QuestionList_Table> QuestionList { get; set; }
     }
 }

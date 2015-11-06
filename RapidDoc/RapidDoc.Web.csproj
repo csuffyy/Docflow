@@ -54,6 +54,10 @@
     <Reference Include="AutoMapper.Net4">
       <HintPath>..\packages\AutoMapper.3.0.0\lib\net40\AutoMapper.Net4.dll</HintPath>
     </Reference>
+    <Reference Include="BeginCollectionItem, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\BeginCollectionItem.1.2.1.0\lib\net35\BeginCollectionItem.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
@@ -886,7 +890,9 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Document\Index.cshtml" />
@@ -1912,12 +1918,18 @@
     <Content Include="Views\Custom\USR_REQ_UZL_RequestForAdditionalOB_Edit.cshtml" />
     <Content Include="Views\Custom\USR_REQ_UZL_RequestForUrgentOB_View.cshtml" />
     <Content Include="Views\Custom\USR_REQ_UZL_RequestForUrgentOB_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_PRT_ProtocolDocuments_Edit.cshtml" />
+    <Content Include="Views\Custom\_QuestionList.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Collection.cshtml" />
+    <Content Include="Views\Custom\_DecisionList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
@@ -3592,6 +3604,12 @@
   </ItemGroup>
   <ItemGroup>
     <XamlAppDef Include="Activities\USR_REQ_UZL_RequestForUrgentOB.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USR_PRT_ProtocolDocuments.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </XamlAppDef>

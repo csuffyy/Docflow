@@ -1,0 +1,80 @@
+﻿@model RapidDoc.Models.ViewModels.USR_PRT_ProtocolDocuments_View
+@using RapidDoc.Extensions;
+@{
+    Model.QuestionList = new List<RapidDoc.Models.DomainModels.PRT_QuestionList_Table>();
+    Model.QuestionList.Add(new RapidDoc.Models.DomainModels.PRT_QuestionList_Table() { DecisionList = new List<RapidDoc.Models.DomainModels.PRT_DecisionList_Table>() });
+    Model.QuestionList.FirstOrDefault().DecisionList.Add(new RapidDoc.Models.DomainModels.PRT_DecisionList_Table());
+}
+
+@Html.ValidationSummary(true)
+<div class="row">
+    <div class="col-xs-12">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Code)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => Model.Code, new { @class = "form-control", placeholder = "Код" })
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Subject)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => Model.Subject, new { @class = "form-control", placeholder = "Тема документа" })
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Agenda)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => Model.Agenda, new { @class = "form-control", placeholder = "Повестка совещания" })
+        </div>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-xs-12">
+        @if (Model.QuestionList != null && Model.QuestionList.Count() > 0)
+        {
+            foreach (var question in Model.QuestionList)
+            {
+                Html.RenderPartial("~/Views/Custom/_QuestionList.cshtml", question, new ViewDataDictionary { { "counter", Guid.NewGuid().ToString("N") } });
+            }
+        }
+        @Html.ActionLink("Add new", "CreateNewQuestionProtocol", "Custom", null, new { id = "addItemQuestion" })
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $("#addItemQuestion").click(function () {
+            $.ajax({
+                url: this.href,
+                cache: false,
+                success: function (html) {
+                    $("#questionRow").append(html);
+                    datepicker_init("@UIElementRes.UIElement.LangName");
+                    custom_tagsinputEmplDynamic_init("@Url.Action("JsonEmpl", "Custom")");
+                }
+            });
+            return false;
+        });
+    });
+
+    $(document).on('click', '.addItemDecision', function () {
+        var itemdecisionid = event.target.id;
+        itemdecisionid = itemdecisionid.replace("addItemDecision_", "decisionRow_");
+
+        $.ajax({
+            url: this.href,
+            cache: false,
+            success: function (html) {
+                $("#" + itemdecisionid).append(html);
+                datepicker_init("@UIElementRes.UIElement.LangName");
+                custom_tagsinputEmplDynamic_init("@Url.Action("JsonEmpl", "Custom")");
+            }
+        });
+        return false;
+    });
+</script>
+

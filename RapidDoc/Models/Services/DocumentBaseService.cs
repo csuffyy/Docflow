@@ -221,6 +221,12 @@ namespace RapidDoc.Models.Services
                         item.CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(item.CreatedDate), timeZoneInfo);
                     }
                     return items;
+                case DocumentType.Protocol:
+                    foreach (var item in items)
+                    {
+                        item.CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(item.CreatedDate), timeZoneInfo);
+                    }
+                    return items; 
              }
 
              return null;

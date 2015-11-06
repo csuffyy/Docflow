@@ -7044,5 +7044,29 @@ namespace RapidDoc.Models.DomainModels
     }
 
     #endregion
+
+    #region Протоколы
+    public class PRT_QuestionList_Table : EntityTable
+    {
+        [Required]
+        public string Question { get; set; }
+
+        public virtual List<PRT_DecisionList_Table> DecisionList { get; set; }
+    }
+
+    public class PRT_DecisionList_Table : EntityTable
+    {
+        [Required]
+        public string Decision { get; set; }
+        public string Users { get; set; }
+        public DateTime? ControlDate { get; set; }
+    }
+
+    public class USR_PRT_ProtocolDocuments_Table : BasicProtocolDocumentsTable
+    {
+
+    }
+
+    #endregion
 }
     
