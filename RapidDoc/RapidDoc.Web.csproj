@@ -3619,9 +3619,10 @@
     </XamlAppDef>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Activities\USR_REQ_UZL_RequestForAdditionalIB.xaml">
+    <XamlAppDef Include="Activities\USR_REQ_UZL_RequestForAdditionalIB.xaml">
       <Generator>MSBuild:Compile</Generator>
-    </Page>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
