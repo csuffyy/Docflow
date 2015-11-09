@@ -96,6 +96,15 @@ namespace RapidDoc.Controllers
         [HttpPost]
         public ActionResult Create(DelegationView model)
         {
+            if (model.DateFrom >= model.DateTo)
+            {
+                ModelState.AddModelError(string.Empty, ValidationRes.ValidationResource.ErrorDelegationDate);
+            }
+            if(model.EmplTableFromId == model.EmplTableToId)
+            {
+                ModelState.AddModelError(string.Empty, ValidationRes.ValidationResource.ErrorDelegationUser);
+            }
+
             if (ModelState.IsValid)
             {
                 model.DateFrom = model.DateFrom.HasValue ? model.DateFrom : model.DateFrom = DateTime.UtcNow;
@@ -151,6 +160,15 @@ namespace RapidDoc.Controllers
         [HttpPost]
         public ActionResult Edit(DelegationView model)
         {
+            if (model.DateFrom >= model.DateTo)
+            {
+                ModelState.AddModelError(string.Empty, ValidationRes.ValidationResource.ErrorDelegationDate);
+            }
+            if (model.EmplTableFromId == model.EmplTableToId)
+            {
+                ModelState.AddModelError(string.Empty, ValidationRes.ValidationResource.ErrorDelegationUser);
+            }
+
             if (ModelState.IsValid)
             {
                 try

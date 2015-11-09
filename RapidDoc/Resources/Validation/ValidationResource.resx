@@ -177,4 +177,10 @@
   <data name="ErrorDocCount" xml:space="preserve">
     <value>Максимально допустимое количество файлов 20</value>
   </data>
+  <data name="ErrorDelegationDate" xml:space="preserve">
+    <value>Дата начала должна быть меньше даты до</value>
+  </data>
+  <data name="ErrorDelegationUser" xml:space="preserve">
+    <value>Сотрудники должны отличаться</value>
+  </data>
 </root>

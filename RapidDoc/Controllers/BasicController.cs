@@ -140,11 +140,19 @@ namespace RapidDoc.Controllers
 
         protected string GetAttributeDisplayName(PropertyInfo property)
         {
+            string result = String.Empty;
             var atts = property.GetCustomAttributes(
                 typeof(DisplayAttribute), true);
             if (atts.Length == 0)
-                return null;
-            return (atts[0] as DisplayAttribute).Name;
+                return result;
+
+            var displayAttr = ((DisplayAttribute)atts[0]);
+            result = displayAttr.Name;
+
+            if (displayAttr.ResourceType != null)
+                result = displayAttr.GetName();
+
+            return result;
         }
 
         public Guid GuidNull2Guid(Guid? value)

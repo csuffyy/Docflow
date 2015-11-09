@@ -177,4 +177,10 @@
   <data name="ErrorDocCount" xml:space="preserve">
     <value>The maximum count of documents is 20</value>
   </data>
+  <data name="ErrorDelegationDate" xml:space="preserve">
+    <value>Start date must be less than date end</value>
+  </data>
+  <data name="ErrorDelegationUser" xml:space="preserve">
+    <value>Employees should be different</value>
+  </data>
 </root>
