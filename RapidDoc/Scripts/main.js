@@ -174,6 +174,34 @@ function summernote_init(lang) {
     }
 }
 
+function summernotelight_init(lang) {
+    if ((lang == "") || (lang == "")) {
+        lang = 'en-US';
+    }
+
+    if ($(".summernotelight")[0]) {
+        $('.summernotelight').summernote({
+            height: 150,
+            focus: false,
+            lang: lang,
+            defaultFontName: 'Arial',
+            toolbar: [
+                ['style', ['style']], // no style button
+                ['style', ['bold', 'italic', 'clear']],
+                //['fontsize', ['fontsize']],
+                //['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                //['height', ['height']],
+                //['insert', ['link']], // no insert buttons
+                //['table', ['table']], // no table button
+                ['misc', ['undo', 'redo']]
+                //['help', ['help']] //no help button
+            ],
+            styleTags: ['p', 'h6']
+        });
+    }
+}
+
 function summernotemin_init(lang) {
     if ((lang == "") || (lang == "")) {
         lang = 'en-US';

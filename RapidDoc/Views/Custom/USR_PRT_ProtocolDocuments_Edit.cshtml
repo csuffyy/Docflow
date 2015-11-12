@@ -41,12 +41,14 @@
                 Html.RenderPartial("~/Views/Custom/_QuestionList.cshtml", question, new ViewDataDictionary { { "counter", Guid.NewGuid().ToString("N") } });
             }
         }
-        @Html.ActionLink("Add new", "CreateNewQuestionProtocol", "Custom", null, new { id = "addItemQuestion" })
+        @Html.ActionLink("Добавить вопрос", "CreateNewQuestionProtocol", "Custom", null, new { id = "addItemQuestion" })
     </div>
 </div>
 
 <script type="text/javascript">
     $(function () {
+        numberQuestion();
+        numberDecision();
         $("#addItemQuestion").click(function () {
             $.ajax({
                 url: this.href,
@@ -55,6 +57,9 @@
                     $("#questionRow").append(html);
                     datepicker_init("@UIElementRes.UIElement.LangName");
                     custom_tagsinputEmplDynamic_init("@Url.Action("JsonEmpl", "Custom")");
+                    summernotelight_init("@UIElementRes.UIElement.LangFullName");
+                    numberQuestion();
+                    numberDecision();
                 }
             });
             return false;
@@ -72,9 +77,32 @@
                 $("#" + itemdecisionid).append(html);
                 datepicker_init("@UIElementRes.UIElement.LangName");
                 custom_tagsinputEmplDynamic_init("@Url.Action("JsonEmpl", "Custom")");
+                summernotelight_init("@UIElementRes.UIElement.LangFullName");
+                numberDecision();
             }
         });
         return false;
     });
+
+    function numberQuestion() {
+        var prtQuestionNumber = 0;
+        $('.questionNumber').each(function (i) {
+            prtQuestionNumber = i + 1;
+            $(this).text(prtQuestionNumber);
+        });
+    }
+    function numberDecision() {
+        var prtDecisionNumber = 0;
+        var oldQuestion = '';
+        $('.decisionNumber').each(function (i) {
+            if (oldQuestion == '' || oldQuestion != this.id) {
+                oldQuestion = this.id;
+                prtDecisionNumber = 0;
+            }
+
+            prtDecisionNumber = prtDecisionNumber + 1;
+            $(this).text(prtDecisionNumber);
+        });
+    }
 </script>
 
