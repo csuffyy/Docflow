@@ -1826,9 +1826,12 @@ namespace RapidDoc.Controllers
         public ActionResult PostDocument(Guid processId, int type, OperationType operationType, Guid? documentId, Guid fileId, FormCollection collection, string actionModelName)
         {
             IDictionary<string, object> documentData = new Dictionary<string, object>();
+            IDictionary<string, IList> listData = new Dictionary<string, IList>();
             Type typeActionModel = Type.GetType("RapidDoc.Models.ViewModels." + actionModelName + "_View");
             var actionModel = Activator.CreateInstance(typeActionModel);
 
+            Regex isList = new Regex(@"[A-Za-z0-9\-]+_[A-Za-z0-9\-]+_Table__[A-Za-z0-9\-]+[*]+[A-Za-z0-9\-]+[[A-Za-z0-9\-]+].[A-Za-z0-9\-]+", RegexOptions.Compiled); 
+                          
             if (collection.AllKeys.Contains("DocumentView.IsNotified"))
                 documentData.Add("IsNotified", collection["DocumentView.IsNotified"].ToLower().Contains("true"));
 
@@ -1893,95 +1896,23 @@ namespace RapidDoc.Controllers
                     ModelState.AddModelError(string.Empty, UIElementRes.UIElement.RejectReason);
             }
             //---------------------------------------------------------------------------
-
-            foreach (var key in collection.AllKeys.OrderBy(x => x))
+            foreach (var key in collection.AllKeys)
             {
-                System.Reflection.PropertyInfo propertyInfo = typeActionModel.GetProperty(key);
-
-                if (propertyInfo != null)
+                if (isList.IsMatch(key) && listData.Count() == 0)
                 {
-                    if (propertyInfo.PropertyType.IsEnum)
+                    listData = GetChildrenBranch(collection);
+                    foreach (var item in listData)
                     {
-                        var valueEnum = Enum.Parse(propertyInfo.PropertyType, collection[key].ToString(), true);
-                        propertyInfo.SetValue(actionModel, valueEnum, null);
-                        documentData.Add(key, valueEnum);
-                    }
-                    else if (propertyInfo.PropertyType == typeof(bool))
-                    {
-                        bool valueBool = collection[key].ToLower().Contains("true");
-                        propertyInfo.SetValue(actionModel, valueBool, null);
-                        documentData.Add(key, valueBool);
-                    }
-                    else if (propertyInfo.PropertyType == typeof(DateTime?))
-                    {
-                        HttpCookie cultureCookie = HttpContext.Request.Cookies["lang"];
-                        DateTime? valueDate = null;
-
-                        bool isRequired = propertyInfo
-                                .GetCustomAttributes(typeof(RequiredAttribute), false)
-                                .Length == 1;
-
-                        if (cultureCookie != null)
+                        System.Reflection.PropertyInfo propertyInfo = typeActionModel.GetProperty(item.Key);
+                        if (propertyInfo != null)
                         {
-                            System.Globalization.CultureInfo cultureinfo = new System.Globalization.CultureInfo(cultureCookie.Value);
-                            valueDate = collection[key] == "" ? null : (DateTime?)DateTime.Parse(collection[key], cultureinfo);
+                            propertyInfo.SetValue(actionModel, item.Value, null);
                         }
-                        else
-                        {
-                            valueDate = collection[key] == "" ? null : (DateTime?)DateTime.Parse(collection[key]);
-                        }
-
-                        if ((isRequired == true && valueDate != null) || (isRequired == false))
-                        {
-                            propertyInfo.SetValue(actionModel, valueDate, null);
-                            documentData.Add(key, valueDate);
-                        }
-                        else
-                            ModelState.AddModelError(string.Empty, String.Format(ValidationRes.ValidationResource.ErrorFieldisNull, GetAttributeDisplayName(propertyInfo)));
-                    }
-                    else if (propertyInfo.PropertyType == typeof(Guid?))
-                    {
-                        bool isRequired = propertyInfo
-                                .GetCustomAttributes(typeof(RequiredAttribute), false)
-                                .Length == 1;
-
-                        Guid? valueNotGuid = collection[key] == "" ? null : (Guid?)Guid.Parse(collection[key]);
-
-                        if ((isRequired == true && valueNotGuid != null) || (isRequired == false))
-                        {
-                            propertyInfo.SetValue(actionModel, valueNotGuid, null);
-                            documentData.Add(key, valueNotGuid);
-                        }
-                        else
-                            ModelState.AddModelError(string.Empty, String.Format(ValidationRes.ValidationResource.ErrorFieldisNull, GetAttributeDisplayName(propertyInfo)));
-                    }
-                    else if (propertyInfo.PropertyType == typeof(Guid))
-                    {
-                        Guid valueGuid = Guid.Parse(collection[key]);
-                        propertyInfo.SetValue(actionModel, valueGuid, null);
-                        documentData.Add(key, valueGuid);
-                    }
-                    else if (propertyInfo.PropertyType == typeof(TimeSpan))
-                    {
-                        TimeSpan valueTimeSpan = TimeSpan.Parse(collection[key]);
-                        propertyInfo.SetValue(actionModel, valueTimeSpan, null);
-                        documentData.Add(key, valueTimeSpan);
-                    }
-                    else
-                    {
-                        bool isRequired = propertyInfo
-                                .GetCustomAttributes(typeof(RequiredAttribute), false)
-                                .Length == 1;
-
-                        if ((isRequired == true && !String.IsNullOrEmpty(collection[key]) && !String.IsNullOrWhiteSpace(collection[key]) && _SystemService.CheckTextExists(collection[key])) || (isRequired == false))
-                        {
-                            var value = Convert.ChangeType(collection[key], propertyInfo.PropertyType);
-                            propertyInfo.SetValue(actionModel, value, null);
-                            documentData.Add(key, value);
-                        }
-                        else
-                            ModelState.AddModelError(string.Empty, String.Format(ValidationRes.ValidationResource.ErrorFieldisNull, GetAttributeDisplayName(propertyInfo)));
-                    }
+                    }                  
+                }
+                else
+                {
+                    MappingModelFields(key, key, ref actionModel, typeActionModel, collection, ref documentData);                
                 }
             }
 
@@ -1999,16 +1930,17 @@ namespace RapidDoc.Controllers
             return view;
         }
 
+
         public Tuple<object, IDictionary<string, object>> MappingModel(object actionModel, Type typeActionModel, string actionModelName, FormCollection collection, List<string> complexModelListPrepared)
         {
             //List<string> complexModelListPrepared = new List<string>();
             //var tuple = MappingModel(actionModel, typeActionModel, actionModelName, collection, complexModelListPrepared);
             //actionModel = tuple.Item1;
             //documentData = tuple.Item2;
+            Regex isGuid = new Regex(@"^(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}$", RegexOptions.Compiled);
 
             IDictionary<string, object> documentData = new Dictionary<string, object>();
-
-            //Complex structure
+      
             Regex isList = new Regex(@"[A-Za-z0-9\-]+_[A-Za-z0-9\-]+_Table__[A-Za-z0-9\-]+[[A-Za-z0-9\-]+].[A-Za-z0-9\-]+", RegexOptions.Compiled);
             Regex regListModelName = new Regex(@"[A-Za-z0-9\-]+_[A-Za-z0-9\-]+_Table", RegexOptions.Compiled);
             Regex regListFieldName = new Regex(@"].[A-Za-z0-9\-]+", RegexOptions.Compiled);
@@ -2350,93 +2282,7 @@ namespace RapidDoc.Controllers
 
             foreach (var key in collection.AllKeys.OrderBy(x => x))
             {
-                System.Reflection.PropertyInfo propertyInfo = typeActionModel.GetProperty(key);
-
-                if (propertyInfo != null)
-                {
-                    if (propertyInfo.PropertyType.IsEnum)
-                    {
-                        var valueEnum = Enum.Parse(propertyInfo.PropertyType, collection[key].ToString(), true);
-                        propertyInfo.SetValue(actionModel, valueEnum, null);
-                        documentData.Add(key, valueEnum);
-                    }
-                    else if (propertyInfo.PropertyType == typeof(bool))
-                    {
-                        bool valueBool = collection[key].ToLower().Contains("true");
-                        propertyInfo.SetValue(actionModel, valueBool, null);
-                        documentData.Add(key, valueBool);
-                    }
-                    else if (propertyInfo.PropertyType == typeof(DateTime?))
-                    {
-                        HttpCookie cultureCookie = HttpContext.Request.Cookies["lang"];
-                        DateTime? valueDate = null;
-
-                        bool isRequired = propertyInfo
-                                .GetCustomAttributes(typeof(RequiredAttribute), false)
-                                .Length == 1;
-
-                        if (cultureCookie != null)
-                        {
-                            System.Globalization.CultureInfo cultureinfo = new System.Globalization.CultureInfo(cultureCookie.Value);
-                            valueDate = collection[key] == "" ? null : (DateTime?)DateTime.Parse(collection[key], cultureinfo);
-                        }
-                        else
-                        {
-                            valueDate = collection[key] == "" ? null : (DateTime?)DateTime.Parse(collection[key]);
-                        }
-
-                        if ((isRequired == true && valueDate != null) || (isRequired == false))
-                        {
-                            propertyInfo.SetValue(actionModel, valueDate, null);
-                            documentData.Add(key, valueDate);
-                        }
-                        else
-                            ModelState.AddModelError(string.Empty, String.Format(ValidationRes.ValidationResource.ErrorFieldisNull, GetAttributeDisplayName(propertyInfo)));
-                    }
-                    else if (propertyInfo.PropertyType == typeof(Guid?))
-                    {
-                        bool isRequired = propertyInfo
-                                .GetCustomAttributes(typeof(RequiredAttribute), false)
-                                .Length == 1;
-
-                        Guid? valueNotGuid = collection[key] == "" ? null : (Guid?)Guid.Parse(collection[key]);
-
-                        if ((isRequired == true && valueNotGuid != null) || (isRequired == false))
-                        {
-                            propertyInfo.SetValue(actionModel, valueNotGuid, null);
-                            documentData.Add(key, valueNotGuid);
-                        }
-                        else
-                            ModelState.AddModelError(string.Empty, String.Format(ValidationRes.ValidationResource.ErrorFieldisNull, GetAttributeDisplayName(propertyInfo)));
-                    }
-                    else if (propertyInfo.PropertyType == typeof(Guid))
-                    {
-                        Guid valueGuid = Guid.Parse(collection[key]);
-                        propertyInfo.SetValue(actionModel, valueGuid, null);
-                        documentData.Add(key, valueGuid);
-                    }
-                    else if (propertyInfo.PropertyType == typeof(TimeSpan))
-                    {
-                        TimeSpan valueTimeSpan = TimeSpan.Parse(collection[key]);
-                        propertyInfo.SetValue(actionModel, valueTimeSpan, null);
-                        documentData.Add(key, valueTimeSpan);
-                    }
-                    else
-                    {
-                        bool isRequired = propertyInfo
-                                .GetCustomAttributes(typeof(RequiredAttribute), false)
-                                .Length == 1;
-
-                        if ((isRequired == true && !String.IsNullOrEmpty(collection[key]) && !String.IsNullOrWhiteSpace(collection[key]) && _SystemService.CheckTextExists(collection[key])) || (isRequired == false))
-                        {
-                            var value = Convert.ChangeType(collection[key], propertyInfo.PropertyType);
-                            propertyInfo.SetValue(actionModel, value, null);
-                            documentData.Add(key, value);
-                        }
-                        else
-                            ModelState.AddModelError(string.Empty, String.Format(ValidationRes.ValidationResource.ErrorFieldisNull, GetAttributeDisplayName(propertyInfo)));
-                    }
-                }
+                MappingModelFields(key, key, ref actionModel, typeActionModel, collection, ref documentData);               
             }
 
             _DocumentService.UpdateDocumentFields(actionModel, processSourceView);
@@ -2451,6 +2297,191 @@ namespace RapidDoc.Controllers
                 return document.ProcessName;
 
             return String.Empty;
+        }
+
+        public void MappingModelFields(string keyCollection, string field, ref object actionModel, Type type,  FormCollection collection, ref IDictionary<string, object> documentData)
+        {
+            System.Reflection.PropertyInfo propertyInfo = type.GetProperty(field);
+
+            if (propertyInfo != null)
+            {
+                if (propertyInfo.PropertyType.IsEnum)
+                {
+                    var valueEnum = Enum.Parse(propertyInfo.PropertyType, collection[keyCollection].ToString(), true);
+                    propertyInfo.SetValue(actionModel, valueEnum, null);
+                    documentData.Add(field, valueEnum);
+                }
+                else if (propertyInfo.PropertyType == typeof(bool))
+                {
+                    bool valueBool = collection[keyCollection].ToLower().Contains("true");
+                    propertyInfo.SetValue(actionModel, valueBool, null);
+                    documentData.Add(field, valueBool);
+                }
+                else if (propertyInfo.PropertyType == typeof(DateTime?))
+                {
+                    HttpCookie cultureCookie = HttpContext.Request.Cookies["lang"];
+                    DateTime? valueDate = null;
+
+                    bool isRequired = propertyInfo
+                            .GetCustomAttributes(typeof(RequiredAttribute), false)
+                            .Length == 1;
+
+                    if (cultureCookie != null)
+                    {
+                        System.Globalization.CultureInfo cultureinfo = new System.Globalization.CultureInfo(cultureCookie.Value);
+                        valueDate = collection[keyCollection] == "" ? null : (DateTime?)DateTime.Parse(collection[keyCollection], cultureinfo);
+                    }
+                    else
+                    {
+                        valueDate = collection[keyCollection] == "" ? null : (DateTime?)DateTime.Parse(collection[keyCollection]);
+                    }
+
+                    if ((isRequired == true && valueDate != null) || (isRequired == false))
+                    {
+                        propertyInfo.SetValue(actionModel, valueDate, null);
+                        documentData.Add(field, valueDate);
+                    }
+                    else
+                        ModelState.AddModelError(string.Empty, String.Format(ValidationRes.ValidationResource.ErrorFieldisNull, GetAttributeDisplayName(propertyInfo)));
+                }
+                else if (propertyInfo.PropertyType == typeof(Guid?))
+                {
+                    bool isRequired = propertyInfo
+                            .GetCustomAttributes(typeof(RequiredAttribute), false)
+                            .Length == 1;
+
+                    Guid? valueNotGuid = collection[keyCollection] == "" ? null : (Guid?)Guid.Parse(collection[keyCollection]);
+
+                    if ((isRequired == true && valueNotGuid != null) || (isRequired == false))
+                    {
+                        propertyInfo.SetValue(actionModel, valueNotGuid, null);
+                        documentData.Add(field, valueNotGuid);
+                    }
+                    else
+                        ModelState.AddModelError(string.Empty, String.Format(ValidationRes.ValidationResource.ErrorFieldisNull, GetAttributeDisplayName(propertyInfo)));
+                }
+                else if (propertyInfo.PropertyType == typeof(Guid))
+                {
+                    Guid valueGuid = Guid.Parse(collection[keyCollection]);
+                    propertyInfo.SetValue(actionModel, valueGuid, null);
+                    documentData.Add(field, valueGuid);
+                }
+                else if (propertyInfo.PropertyType == typeof(TimeSpan))
+                {
+                    TimeSpan valueTimeSpan = TimeSpan.Parse(collection[keyCollection]);
+                    propertyInfo.SetValue(actionModel, valueTimeSpan, null);
+                    documentData.Add(field, valueTimeSpan);
+                }
+                else
+                {
+                    bool isRequired = propertyInfo
+                            .GetCustomAttributes(typeof(RequiredAttribute), false)
+                            .Length == 1;
+
+                    if ((isRequired == true && !String.IsNullOrEmpty(collection[keyCollection]) && !String.IsNullOrWhiteSpace(collection[keyCollection]) && _SystemService.CheckTextExists(collection[keyCollection])) || (isRequired == false))
+                    {
+                        var value = Convert.ChangeType(collection[keyCollection], propertyInfo.PropertyType);
+                        propertyInfo.SetValue(actionModel, value, null);
+                        documentData.Add(field, value);
+                    }
+                    else
+                        ModelState.AddModelError(string.Empty, String.Format(ValidationRes.ValidationResource.ErrorFieldisNull, GetAttributeDisplayName(propertyInfo)));
+                }
+            }
+        }
+
+        public IDictionary<string, IList> GetChildrenBranch(FormCollection formCollection)
+        {
+            IDictionary<string, object> documentData = new Dictionary<string, object>();
+            IDictionary<string, IList> rootList = new Dictionary<string, IList>();
+            IDictionary<Type, IList> allList = new Dictionary<Type, IList>();
+
+            object[] cachePreList = new object[2];
+            string modelListName = "", parIdName = "", relField = "", parentGuid = "";
+
+            Regex isList = new Regex(@"[A-Za-z0-9\-]+_[A-Za-z0-9\-]+_Table__[A-Za-z0-9\-]+[*]+[A-Za-z0-9\-]+[[A-Za-z0-9\-]+].[A-Za-z0-9\-]+", RegexOptions.Compiled);  
+            Regex takeModelName = new Regex(@"[A-Za-z0-9\-]+_[A-Za-z0-9\-]+_Table", RegexOptions.Compiled);
+            Regex takeFieldName = new Regex(@"].[A-Za-z0-9\-]+", RegexOptions.Compiled);
+            Regex takeParticularFieldName = new Regex(@"[[]+[A-Za-z0-9\-]+[]].", RegexOptions.Compiled);
+            Regex takeRelNameField = new Regex(@"_[A-Za-z0-9\-]+_", RegexOptions.Compiled);
+            Regex takeParentGuid = new Regex(@"[*]+[A-Za-z0-9]+", RegexOptions.Compiled);
+            
+
+            foreach (var collectionList in formCollection.AllKeys.Where(x => isList.IsMatch(x) == true))
+            {
+                if (parentGuid != takeParentGuid.Match(collectionList).Value.Remove(0, 1))
+                {
+                    parentGuid = takeParentGuid.Match(collectionList).Value.Remove(0, 1);
+
+                    Regex takeChilBranch = new Regex(@"[*]" + parentGuid + @"[[A-Za-z0-9\-]+].[A-Za-z0-9\-]+", RegexOptions.Compiled);
+
+                    cachePreList[0] = null;
+                    cachePreList[1] = null;
+                    allList.Clear();
+
+                    foreach (var keyComplex in formCollection.AllKeys.Where(x => takeChilBranch.IsMatch(x) == true).Reverse())
+                    {
+                        if (modelListName != takeModelName.Match(keyComplex).Value)
+                        {
+                            modelListName = takeModelName.Match(keyComplex).Value;
+                            relField = takeRelNameField.Match(modelListName).Value.Trim('_');
+
+                            Type typeComplexModel = Type.GetType("RapidDoc.Models.DomainModels." + modelListName);
+                            var typeList = typeof(List<>);
+                            var constructedListType = typeList.MakeGenericType(typeComplexModel);
+                            var resultComplexList = (IList)Activator.CreateInstance(constructedListType);
+
+                            Regex takeParListFields = new Regex(modelListName + @"__[A-Za-z0-9\-]+[*]" + parentGuid + @"[[A-Za-z0-9\-]+].[A-Za-z0-9\-]+", RegexOptions.Compiled);
+                            foreach (var keyParField in formCollection.AllKeys.Where(x => takeParListFields.IsMatch(x) == true))
+                            {
+                                if (parIdName != takeParticularFieldName.Match(keyParField).Value.TrimEnd('.'))
+                                {
+                                    parIdName = takeParticularFieldName.Match(keyParField).Value.TrimEnd('.');
+
+                                    var complexModel = Activator.CreateInstance(typeComplexModel);
+
+                                    typeComplexModel.GetProperty("CreatedDate").SetValue(complexModel, DateTime.UtcNow, null);
+
+                                    typeComplexModel.GetProperty("ModifiedDate").SetValue(complexModel, DateTime.UtcNow, null);
+                                    foreach (var keyField in formCollection.AllKeys.Where(x => takeParListFields.IsMatch(x) == true && x.Contains(parIdName)))
+                                    {
+                                        string modelListFieldName = takeFieldName.Match(keyField).Value;
+                                        if (!String.IsNullOrEmpty(modelListFieldName))
+                                        {
+                                            modelListFieldName = modelListFieldName.Remove(0, 2);
+                                            MappingModelFields(keyField.ToString(), modelListFieldName, ref complexModel, typeComplexModel, formCollection, ref documentData);
+                               
+                                        }
+                                        if (cachePreList[1] != null)
+                                        {
+                                             typeComplexModel.GetProperty(cachePreList[1].ToString()).SetValue(complexModel, cachePreList[0], null);
+                                        }
+                                    }                        
+                                    resultComplexList.Add(complexModel);                      
+                                }                       
+                                
+                                documentData.Clear();
+                            }                         
+
+                            if (cachePreList[1] != null)
+                                allList.Add(typeComplexModel, resultComplexList);
+                            cachePreList[0] = resultComplexList;
+                            cachePreList[1] = relField;
+                        }
+                    }
+                    if (rootList.ContainsKey(relField))
+                    {
+                        foreach (var item in allList.FirstOrDefault(x => x.Key != null).Value)
+	                    {
+                            rootList[relField].Add(item);
+	                    }                                              
+                    }
+                    else
+                        rootList.Add(relField, allList.FirstOrDefault(x => x.Key != null).Value);
+                }
+            }
+
+            return rootList;
         }
 	}
 }
