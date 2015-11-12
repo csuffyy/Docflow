@@ -5,7 +5,7 @@
     string index = ViewData["counter"].ToString();
 }
 
-@using (Html.BeginCollectionItem("PRT_DecisionList_Table__DecisionList"))
+@using (Html.BeginCollectionItem("PRT_DecisionList_Table__DecisionList" + "*" + index))
 {
     <div id="decisionRow_@index" class="decisionRow">
         @Html.TextAreaFor(model => Model.Decision, new { @class = "form-control", placeholder = "Решение" })
