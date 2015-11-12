@@ -177,4 +177,10 @@
   <data name="ErrorDocCount" xml:space="preserve">
     <value>Файлдардың максималды ұйғарынды саны 20</value>
   </data>
+  <data name="ErrorDelegationDate" xml:space="preserve">
+    <value>-</value>
+  </data>
+  <data name="ErrorDelegationUser" xml:space="preserve">
+    <value>-</value>
+  </data>
 </root>

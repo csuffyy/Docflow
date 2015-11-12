@@ -61,6 +61,24 @@ namespace ValidationRes {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Дата начала должна быть меньше даты до.
+        /// </summary>
+        public static string ErrorDelegationDate {
+            get {
+                return ResourceManager.GetString("ErrorDelegationDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Сотрудники должны отличаться.
+        /// </summary>
+        public static string ErrorDelegationUser {
+            get {
+                return ResourceManager.GetString("ErrorDelegationUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Максимально допустимое количество файлов 20.
         /// </summary>
         public static string ErrorDocCount {
