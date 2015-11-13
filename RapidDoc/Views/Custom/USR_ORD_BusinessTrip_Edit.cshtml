@@ -10,7 +10,7 @@
 <h4>Ввод работников:</h4>
 
 <div id="CompanyW">
-    @Html.TextBox("CompanyWorker", "", new { @class = "form-control", @data_role = "tagsinputEmplOne1", @size = 256, @maxlength = 256, placeholder = "Работник" })
+    @Html.TextBox("CompanyWorker", "", new { @class = "form-control", @data_role = "tagsinputEmplOne1", @size = 256, placeholder = "Работник" })
 </div>
 <br />
 <div id="CustomW">
@@ -265,7 +265,7 @@
                 <span class="input-group-addon">
                     <a href="#" class="hidden-print" data-toggle="modal" data-target=".listagreement-modal"><span class="fa fa-users fa-lg" aria-hidden="false"></span></a>
                 </span>
-                @Html.TextBoxFor(model => Model.ListAgreement, new { @class = "form-control", @data_role = "tagsinputGroup", @size = 256, @maxlength = 256, placeholder = "Список согласования" })
+                @Html.TextBoxFor(model => Model.ListAgreement, new { @class = "form-control", @data_role = "tagsinputGroup", @size = 256, placeholder = "Список согласования" })
             </div>
         </div>
 
@@ -274,7 +274,7 @@
                 <span class="input-group-addon">
                     <a href="#" class="hidden-print" data-toggle="modal" data-target=".listsubcription-modal"><span class="fa fa-users fa-lg" aria-hidden="false"></span></a>
                 </span>
-                @Html.TextBoxFor(model => Model.ListSubcription, new { @class = "form-control", @data_role = "tagsinputGroup2", @size = 256, @maxlength = 256, placeholder = "Список рассылки" })
+                @Html.TextBoxFor(model => Model.ListSubcription, new { @class = "form-control", @data_role = "tagsinputGroup2", @size = 256, placeholder = "Список рассылки" })
             </div>
         </div>
 
@@ -283,7 +283,7 @@
                 <span class="input-group-addon">
                     <a href="#" class="hidden-print"><span class="fa fa-pencil-square-o fa-lg" aria-hidden="false"></span></a>
                 </span>
-                @Html.TextBoxFor(model => Model.Sign, new { @class = "form-control", @data_role = "tagsinputEmplOne", @size = 256, @maxlength = 256, placeholder = "Подпись" })
+                @Html.TextBoxFor(model => Model.Sign, new { @class = "form-control", @data_role = "tagsinputEmplOne", @size = 256, placeholder = "Подпись" })
             </div>
         </div>
     </div>

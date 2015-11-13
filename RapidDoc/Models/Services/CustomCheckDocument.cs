@@ -16,6 +16,7 @@ namespace RapidDoc.Models.Services
         List<string> CheckCustomDocument(Type type, dynamic actionModel, OperationType operationType);
         List<string> CheckCustomDocumentHY(Type type, dynamic actionModel, OperationType operationType);
         List<string> CheckCustomDocumentCZ(Type type, dynamic actionModel, OperationType operationType);
+        List<string> CheckCustomDocumentPRT(Type type, dynamic actionModel, OperationType operationType);
         List<string> CheckCustomPostDocument(Type type, dynamic actionModel, DocumentTable documentTable, bool isSign, List<WFTrackerTable> currentStep);
         dynamic PreUpdateViewModel(Type type, dynamic actionModel);
         void UpdateDocumentData(DocumentTable document, IDictionary<string, object> documentData);
@@ -996,6 +997,30 @@ namespace RapidDoc.Models.Services
                 if (String.IsNullOrEmpty(actionModel.DocumentWhom))
                 {
                     errorList.Add("Для утверждения СЗ необходимо указать маршрут согласования");
+                }
+            }
+
+            return errorList;
+        }
+
+        public List<string> CheckCustomDocumentPRT(Type type, dynamic actionModel, OperationType operationType)
+        {
+            List<string> errorList = new List<string>();
+
+            if (type.IsSubclassOf(typeof(BasicProtocolDocumentsView)) && operationType == OperationType.ApproveDocument)
+            {
+                if(actionModel.QuestionList != null)
+                {
+                    foreach (PRT_QuestionList_Table question in actionModel.QuestionList)
+                    {
+                        foreach(var decision in question.DecisionList)
+                        {
+                            if(!String.IsNullOrEmpty(decision.Users) && decision.ControlDate == null)
+                            {
+                                errorList.Add(String.Format("Для решения {0} необходимо указать дату исполнения", _SystemService.DeleteAllTags(decision.Decision)));
+                            }
+                        }
+                    }
                 }
             }
 

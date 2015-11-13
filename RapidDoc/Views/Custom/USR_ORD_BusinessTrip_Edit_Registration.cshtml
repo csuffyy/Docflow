@@ -249,7 +249,7 @@
                 @Html.LabelForRequired(model => Model.AdditionText)
             </div>
             <div class="editor-field">
-                @Html.TextBoxFor(model => model.AdditionText, new { @class = "form-control", @size = 256, @maxlength = 256, placeholder = "Опционально" })
+                @Html.TextBoxFor(model => model.AdditionText, new { @class = "form-control", @size = 256, placeholder = "Опционально" })
             </div>
         </div>
     </div>
@@ -272,7 +272,7 @@
                     @Html.LabelForRequired(model => Model.ControlUsers)
                 </div>
                 <div class="editor-field">
-                    @Html.TextBoxFor(model => model.ControlUsers, new { @class = "form-control", @data_role = "tagsinputEmplOne", @size = 256, @maxlength = 256, placeholder = "ФИО сотрудника" })
+                    @Html.TextBoxFor(model => model.ControlUsers, new { @class = "form-control", @data_role = "tagsinputEmplOne", @size = 256, placeholder = "ФИО сотрудника" })
                 </div>
             </div>
         </div>
@@ -315,7 +315,7 @@
                 <span class="input-group-addon">
                     <a href="#" class="hidden-print" data-toggle="modal" data-target=".listsubcription-modal"><span class="fa fa-users fa-lg" aria-hidden="false"></span></a>
                 </span>
-                @Html.TextBoxFor(model => Model.ListSubcription, new { @class = "form-control", @data_role = "tagsinputGroup2", @size = 256, @maxlength = 256, placeholder = "Список рассылки" })
+                @Html.TextBoxFor(model => Model.ListSubcription, new { @class = "form-control", @data_role = "tagsinputGroup2", @size = 256, placeholder = "Список рассылки" })
             </div>
         </div>
     </div>

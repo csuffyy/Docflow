@@ -1,0 +1,17 @@
+﻿@model RapidDoc.Models.DomainModels.PRT_QuestionList_Table
+@using RapidDoc.Extensions;
+@{
+    Layout = "";
+}
+<div>
+    <p>@Html.Raw(Model.Question)</p>
+
+    @if (Model.DecisionList != null && Model.DecisionList.Count() > 0)
+    {
+        <h5><strong>РЕШЕНИЯ:</strong></h5>
+        foreach (var decision in Model.DecisionList)
+        {
+            Html.RenderPartial("~/Views/Custom/_DecisionListView.cshtml", decision);
+        }
+    }
+</div>

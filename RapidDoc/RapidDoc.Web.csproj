@@ -1926,6 +1926,9 @@
     <Content Include="Views\Custom\USR_REQ_UZL_RequestForAdditionalIB_View.cshtml" />
     <Content Include="Views\Custom\USR_REQ_UZL_RequestForUrgentIB_Edit.cshtml" />
     <Content Include="Views\Custom\USR_REQ_UZL_RequestForUrgentIB_View.cshtml" />
+    <Content Include="Views\Custom\USR_PRT_ProtocolDocuments_View.cshtml" />
+    <Content Include="Views\Custom\_QuestionListView.cshtml" />
+    <Content Include="Views\Custom\_DecisionListView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

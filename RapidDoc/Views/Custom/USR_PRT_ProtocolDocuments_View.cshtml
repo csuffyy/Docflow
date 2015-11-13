@@ -1,0 +1,54 @@
+﻿@model RapidDoc.Models.ViewModels.USR_PRT_ProtocolDocuments_View
+@using RapidDoc.Extensions;
+
+<h4 class="text-center"><strong>ПРОТОКОЛ: @Html.DisplayTextFor(x => x.Code)</strong></h4>
+<h4 class="text-center">Тема: @Html.DisplayTextFor(x => x.Subject)</h4>
+<br />
+<div class="row">
+    <div class="col-xs-6">
+        <div class="editor-label">
+            
+        </div>
+    </div>
+    <div class="col-xs-6">
+        
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-xs-6">
+        <div class="editor-label">
+
+        </div>
+    </div>
+    <div class="col-xs-6">
+        
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelFor(x => x.Agenda):
+        </div>
+    </div>
+    <div class="col-xs-10">
+        <div class="editor-label">
+            <p><strong><span style="white-space: pre-line">@Html.Raw(Model.Agenda)</span></strong></p>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-2">
+        <strong>Список вопросов:</strong>
+    </div>
+    <div class="col-xs-10">
+        @if (Model.QuestionList != null && Model.QuestionList.Count() > 0)
+        {
+            foreach (var question in Model.QuestionList)
+            {
+                Html.RenderPartial("~/Views/Custom/_QuestionListView.cshtml", question);
+            }
+        }
+    </div>
+</div>

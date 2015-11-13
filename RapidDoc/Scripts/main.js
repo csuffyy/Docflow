@@ -181,23 +181,34 @@ function summernotelight_init(lang) {
 
     if ($(".summernotelight")[0]) {
         $('.summernotelight').summernote({
-            height: 150,
             focus: false,
             lang: lang,
             defaultFontName: 'Arial',
             toolbar: [
-                ['style', ['style']], // no style button
-                ['style', ['bold', 'italic', 'clear']],
+                //['style', ['style']], // no style button
+                ['style', ['bold', 'clear']],
                 //['fontsize', ['fontsize']],
                 //['color', ['color']],
-                ['para', ['ul', 'ol', 'paragraph']],
+                //['para', ['ul', 'ol', 'paragraph']],
                 //['height', ['height']],
                 //['insert', ['link']], // no insert buttons
                 //['table', ['table']], // no table button
                 ['misc', ['undo', 'redo']]
                 //['help', ['help']] //no help button
             ],
-            styleTags: ['p', 'h6']
+            onPaste: function (e) {
+                var thisNote = $(this);
+                var updatePastedText = function (someNote) {
+                    var original = someNote.code();
+                    var regex = new RegExp('<table border="0"', 'gi');
+                    var cleaned = original.replace(regex, '<table class="table table-bordered table-condensed"');
+                    someNote.code(cleaned);
+                };
+
+                setTimeout(function () {
+                    updatePastedText(thisNote);
+                }, 10);
+            }
         });
     }
 }

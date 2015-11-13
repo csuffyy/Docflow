@@ -8,8 +8,16 @@
 @using (Html.BeginCollectionItem("PRT_DecisionList_Table__DecisionList" + "*" + index))
 {
     <div id="decisionRow_@index" class="decisionRow">
-        @Html.TextAreaFor(model => Model.Decision, new { @class = "form-control", placeholder = "Решение" })
-        @Html.TextBoxFor(model => Model.Users, new { @class = "form-control", @data_role = "tagsinputEmplDynamic", placeholder = "Исполнители" })
-        @Html.TextBoxFor(model => Model.ControlDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", startDate = "" })
+        <h6><strong>Решение <span id="decisionNumber_@index" class="decisionNumber"></span></strong></h6>
+        @Html.TextAreaFor(model => Model.Decision, new { @class = "form-control summernotelight", placeholder = "Решение" })
+        <div class="row">
+            <div class="col-xs-10">
+                @Html.TextBoxFor(model => Model.Users, new { @class = "form-control", @data_role = "tagsinputEmplDynamic", placeholder = "Исполнители" })
+            </div>
+            <div class="col-xs-2">
+                @Html.TextBoxFor(model => Model.ControlDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", startDate = "" })
+            </div>
+        </div>
+        <br />
     </div>
 }

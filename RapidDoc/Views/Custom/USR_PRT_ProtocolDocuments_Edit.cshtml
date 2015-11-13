@@ -1,9 +1,12 @@
 ﻿@model RapidDoc.Models.ViewModels.USR_PRT_ProtocolDocuments_View
 @using RapidDoc.Extensions;
 @{
-    Model.QuestionList = new List<RapidDoc.Models.DomainModels.PRT_QuestionList_Table>();
-    Model.QuestionList.Add(new RapidDoc.Models.DomainModels.PRT_QuestionList_Table() { DecisionList = new List<RapidDoc.Models.DomainModels.PRT_DecisionList_Table>() });
-    Model.QuestionList.FirstOrDefault().DecisionList.Add(new RapidDoc.Models.DomainModels.PRT_DecisionList_Table());
+    if(Model.QuestionList == null)
+    { 
+        Model.QuestionList = new List<RapidDoc.Models.DomainModels.PRT_QuestionList_Table>();
+        Model.QuestionList.Add(new RapidDoc.Models.DomainModels.PRT_QuestionList_Table() { DecisionList = new List<RapidDoc.Models.DomainModels.PRT_DecisionList_Table>() });
+        Model.QuestionList.FirstOrDefault().DecisionList.Add(new RapidDoc.Models.DomainModels.PRT_DecisionList_Table());
+    }
 }
 
 @Html.ValidationSummary(true)
@@ -27,7 +30,7 @@
             @Html.LabelForRequired(model => Model.Agenda)
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(model => Model.Agenda, new { @class = "form-control", placeholder = "Повестка совещания" })
+            @Html.TextAreaFor(model => Model.Agenda, new { @class = "form-control", placeholder = "Повестка совещания" })
         </div>
     </div>
 </div>
