@@ -31,7 +31,7 @@
         @Html.HiddenFor(model => model.ProcessView.Id)
         @Html.HiddenFor(model => model.DocumentView.Id)
         @Html.HiddenFor(model => model.fileId)
-        @Html.Action("GetDocumentData", new { modelDoc = Model.docData, Model.ProcessView.TableName, viewType = "Edit" })
+        @Html.Action("GetDocumentData", new { modelDoc = Model.docData, Model.ProcessView.TableName, viewType = "Edit", processId = Model.ProcessView.Id })
         <br>
         @Html.Action("GetModificationsList", "Document", new { documentId = Model.DocumentView.Id })
 

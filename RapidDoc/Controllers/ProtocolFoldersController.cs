@@ -34,7 +34,6 @@ namespace RapidDoc.Controllers
         
         public ActionResult Index()
         {
-            ViewBag.Example = _Service.GetDropListProtocolFoldersFullPath(null);
             return View();
         }
 

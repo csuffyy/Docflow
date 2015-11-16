@@ -1036,8 +1036,9 @@ namespace RapidDoc.Controllers
             return View("ShowDraft", viewModel);
         }
 
-        public ActionResult GetDocumentData(dynamic modelDoc, string tableName, string viewType)
+        public ActionResult GetDocumentData(dynamic modelDoc, string tableName, string viewType, Guid processId)
         {
+            ViewBag.ProcessId = processId;
             return PartialView("~/Views/Custom/" + tableName + "_" + viewType + ".cshtml", modelDoc);
         }
 

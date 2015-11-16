@@ -20,6 +20,13 @@
         </div>
 
         <div class="editor-label">
+            @Html.LabelForRequired(model => Model.ProtocolFoldersTableId)
+        </div>
+        <div class="editor-field">
+            @Html.Action("GetPRTFolderORD", "Custom", new { @processId = ViewBag.ProcessId, id = Model.ProtocolFoldersTableId })
+        </div>
+
+        <div class="editor-label">
             @Html.LabelForRequired(model => Model.Subject)
         </div>
         <div class="editor-field">
@@ -27,10 +34,24 @@
         </div>
 
         <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Location)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => Model.Location, new { @class = "form-control", placeholder = "Место проведения" })
+        </div>
+
+        <div class="editor-label">
             @Html.LabelForRequired(model => Model.Agenda)
         </div>
         <div class="editor-field">
             @Html.TextAreaFor(model => Model.Agenda, new { @class = "form-control", placeholder = "Повестка совещания" })
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Introduction)
+        </div>
+        <div class="editor-field">
+            @Html.TextAreaFor(model => Model.Introduction, new { @class = "form-control", placeholder = "Вступительное слово" })
         </div>
     </div>
 </div>

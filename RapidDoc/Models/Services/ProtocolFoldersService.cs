@@ -32,7 +32,7 @@ namespace RapidDoc.Models.Services
         ProtocolFoldersView FindView(Guid id);
         SelectList GetDropListProtocolFolders(Guid? id);
         SelectList GetDropListProtocolFoldersNull(Guid? id);
-        SelectList GetDropListProtocolFoldersFullPath(Guid? id);
+        SelectList GetDropListProtocolFoldersFullPath(Guid processId, Guid? id);
     }
 
     public class ProtocolFoldersService: IProtocolFoldersService
@@ -165,10 +165,9 @@ namespace RapidDoc.Models.Services
         }
 
 
-        public SelectList GetDropListProtocolFoldersFullPath(Guid? id)
+        public SelectList GetDropListProtocolFoldersFullPath(Guid processId, Guid? id)
         {
-            List<ProtocolFoldersView> items = this.GetFullPathItems(GetAllView().Where(x => x.ProtocolFoldersParentId == null).ToList());
-            
+            List<ProtocolFoldersView> items = this.GetFullPathItems(GetPartialView(x => x.ProcessTableId == processId && x.ProtocolFoldersParentId == null).ToList());
             return new SelectList(items, "Id", "ProtocolFolderName", id);
         }
 

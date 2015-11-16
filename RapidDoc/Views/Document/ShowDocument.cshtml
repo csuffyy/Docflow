@@ -59,7 +59,7 @@
     <fieldset>
         @Html.HiddenFor(model => model.ProcessView.Id)
         @Html.HiddenFor(model => model.fileId)
-        @Html.Action("GetDocumentData", new { modelDoc = Model.docData, Model.ProcessView.TableName, viewType = "View" })
+        @Html.Action("GetDocumentData", new { modelDoc = Model.docData, Model.ProcessView.TableName, viewType = "View", processId = Model.ProcessView.Id })
         <br class="hidden-print">
         @if (Model.DocumentView.DocumentState != RapidDoc.Models.Repository.DocumentState.Closed && Model.DocumentView.DocumentState != RapidDoc.Models.Repository.DocumentState.Cancelled)
         {

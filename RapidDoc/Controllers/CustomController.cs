@@ -24,10 +24,11 @@ namespace RapidDoc.Controllers
         private readonly IOrganizationService _OrganizationService;
         private readonly IReasonRequestService _ReasonRequestService;
         private readonly IQuestionRequestService _QuestionRequestService;
+        private readonly IProtocolFoldersService _ProtocolFoldersService;
         private readonly IProcessService _ProcessService;
 
         public CustomController(IEmplService emplService, ISystemService systemService, IDocumentService documentService, IServiceIncidentService serviceIncidentService, ICompanyService companyService, IAccountService accountService, ITripSettingsService tripSettingsService, INumberSeqService numberSeqService, ICountryService countryService, IOrganizationService organizationService, IProcessService processService,
-            IReasonRequestService reasonRequestService, IQuestionRequestService questionRequestService)
+            IReasonRequestService reasonRequestService, IQuestionRequestService questionRequestService, IProtocolFoldersService protocolFoldersService)
             : base(companyService, accountService)
         {
             _EmplService = emplService;
@@ -41,6 +42,7 @@ namespace RapidDoc.Controllers
             _ProcessService = processService;
             _ReasonRequestService = reasonRequestService;
             _QuestionRequestService = questionRequestService;
+            _ProtocolFoldersService = protocolFoldersService;
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
@@ -193,6 +195,13 @@ namespace RapidDoc.Controllers
         {
             ViewBag.OutcomingDocList = _DocumentService.OutcomingDocList();
             return PartialView("USR_OND_OutcomingDocList");
+        }
+
+        public ActionResult GetPRTFolderORD(Guid processId, Guid? id = null, bool selected = false)
+        {
+            ViewBag.Selected = selected;
+            ViewBag.PRTFolderList = _ProtocolFoldersService.GetDropListProtocolFoldersFullPath(processId, id);
+            return PartialView("USR_PRT_FolderList");
         }
 
         public ActionResult GetManualRequest(RapidDoc.Models.ViewModels.USR_REQ_KD_RequestForCompetitonProc_View model)

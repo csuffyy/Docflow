@@ -377,6 +377,8 @@ namespace RapidDoc.Models.DomainModels
 
         public string Location { get; set; }
 
+        public string Introduction { get; set; }
+
         [Required]
         public string Agenda { get; set; }
 
