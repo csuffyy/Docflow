@@ -284,8 +284,8 @@
     <Compile Include="Activities\WFChooseUpManager.cs" />
     <Compile Include="Activities\WFTrackingParticipant.cs" />
     <Compile Include="Activities\WFWaitingPersonBookmark.cs" />
-    <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\AppMvcRouteHandler.cs" />
+    <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />

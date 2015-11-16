@@ -1706,6 +1706,39 @@ namespace RapidDoc.Controllers
             return result;
         }
 
+        [HttpPost]
+        public JsonResult UploadFile()
+        {
+            String result = String.Empty;
+            HttpPostedFileBase file = Request.Files["fileInput"];
+
+            if (file != null && file.ContentLength > 0 && !string.IsNullOrEmpty(file.FileName))
+            {
+                string contentType;
+                BinaryReader binaryReader = new BinaryReader(file.InputStream);
+                byte[] data = binaryReader.ReadBytes(file.ContentLength);
+
+                var thumbnail = new byte[] { };
+                contentType = file.ContentType.ToString().ToUpper();
+                thumbnail = GetThumbnail(data, contentType);
+
+                FileTable doc = new FileTable();
+                doc.DocumentFileId = Guid.NewGuid();
+                doc.FileName = file.FileName;
+                doc.ContentType = contentType;
+                doc.ContentLength = file.ContentLength;
+                doc.Data = data;
+                doc.Thumbnail = thumbnail;
+                doc.Version = "1";
+                doc.VersionName = "Version 1";
+
+                Guid Id = _DocumentService.SaveFile(doc);
+                result = @"/Document/DownloadFile/" + Id.ToString();
+            }
+
+            return Json(result);
+        }
+
         private bool CheсkFileRightDelete(FileTable fileTable, ApplicationUser user, DocumentTable document)
         {
             if(UserManager.IsInRole(user.Id, "Administrator"))

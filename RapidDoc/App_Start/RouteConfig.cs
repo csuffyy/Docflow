@@ -41,6 +41,12 @@ namespace RapidDoc
             ).RouteHandler = new DefaultMvcRouteHandler();
 
             routes.MapRoute(
+                name: "UploadFile",
+                url: "Document/UploadFile",
+                defaults: new { controller = "Document", action = "UploadFile" }
+            ).RouteHandler = new DefaultMvcRouteHandler();
+
+            routes.MapRoute(
                 name: "DocumentDelete",
                 url: "Document/DeleteFile/{id}",
                 defaults: new { controller = "Document", action = "DeleteFile", id = UrlParameter.Optional }
