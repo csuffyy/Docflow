@@ -55,6 +55,35 @@
         </div>
     </div>
 </div>
+
+<br />
+<div class="panel panel-default">
+    <div class="editor-label">
+        @Html.LabelForRequired(model => Model.Attended)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(model => Model.Attended, new { @class = "form-control", @data_role = "tagsinputEmplBothOpt", placeholder = "Присутствовали" })
+    </div>
+    <div class="editor-label">
+        @Html.LabelForRequired(model => Model.Invited)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(model => Model.Invited, new { @class = "form-control", @data_role = "tagsinputEmplBothOpt1", placeholder = "Приглашенные" })
+    </div>
+    <div class="editor-label">
+        @Html.LabelForRequired(model => Model.Absent)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(model => Model.Absent, new { @class = "form-control", @data_role = "tagsinputEmplBothOpt2", placeholder = "Отсутствовали" })
+    </div>
+    <div class="editor-label">
+        @Html.LabelForRequired(model => Model.Chairman)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(model => Model.Chairman, new { @class = "form-control", @data_role = "tagsinputEmplOne", placeholder = "Председатель"})
+    </div>
+
+    </div>
 <hr />
 <div class="row">
     <div class="col-xs-12">

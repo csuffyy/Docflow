@@ -495,7 +495,7 @@ function custom_tagsinputEmpl_init(url_json) {
             }
         }
     }
-    catch (e) { 
+    catch (e) {
     }
 }
 
@@ -1039,4 +1039,70 @@ function custom_tagsinputEmplDynamic_init(url_json) {
             this.tagsinput('input').typeahead('setQuery', '');
         }, elt));
     });
+}
+
+function custom_tagsinputEmplBothOpt_init(url_json) {
+    try {
+        elt = $('input[data-role=tagsinputEmplBothOpt]');
+        elt.tagsinput({
+        });
+
+        elt.tagsinput('input').typeahead({
+            valueKey: 'text',
+            prefetch: url_json,
+            template: '<p>{{text}}</p>',
+            engine: Hogan
+
+        }).bind('typeahead:selected', $.proxy(function (obj, datum) {
+            this.tagsinput('add', datum["text"]);
+            this.tagsinput('input').typeahead('setQuery', '');
+        }, elt));
+
+    }
+    catch (e) {
+    }
+}
+
+function custom_tagsinputEmplBothOpt1_init(url_json) {
+    try {
+        elt = $('input[data-role=tagsinputEmplBothOpt1]');
+        elt.tagsinput({
+        });
+
+        elt.tagsinput('input').typeahead({
+            valueKey: 'text',
+            prefetch: url_json,
+            template: '<p>{{text}}</p>',
+            engine: Hogan
+
+        }).bind('typeahead:selected', $.proxy(function (obj, datum) {
+            this.tagsinput('add', datum["text"]);
+            this.tagsinput('input').typeahead('setQuery', '');
+        }, elt));
+
+    }
+    catch (e) {
+    }
+}
+
+function custom_tagsinputEmplBothOpt2_init(url_json) {
+    try {
+        elt = $('input[data-role=tagsinputEmplBothOpt2]');
+        elt.tagsinput({
+        });
+
+        elt.tagsinput('input').typeahead({
+            valueKey: 'text',
+            prefetch: url_json,
+            template: '<p>{{text}}</p>',
+            engine: Hogan
+
+        }).bind('typeahead:selected', $.proxy(function (obj, datum) {
+            this.tagsinput('add', datum["text"]);
+            this.tagsinput('input').typeahead('setQuery', '');
+        }, elt));
+
+    }
+    catch (e) {
+    }
 }

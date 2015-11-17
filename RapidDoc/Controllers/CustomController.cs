@@ -93,6 +93,13 @@ namespace RapidDoc.Controllers
             var jsondata = _EmplService.GetJsonUsers();
             return Json(jsondata, JsonRequestBehavior.AllowGet);
         }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public JsonResult JsonEmplBothOption()
+        {
+            var jsondata = _EmplService.GetJsonEmplBothOption();
+            return Json(jsondata, JsonRequestBehavior.AllowGet);
+        }
         
 
         //Custom

@@ -382,6 +382,18 @@ namespace RapidDoc.Models.DomainModels
         [Required]
         public string Agenda { get; set; }
 
+        [Required]
+        public string Attended { get; set; }
+
+        [Required]
+        public string Invited { get; set; }
+
+        [Required]
+        public string Absent { get; set; }
+
+        [Required]
+        public string Chairman { get; set; }
+
         public virtual List<PRT_QuestionList_Table> QuestionList { get; set; }
     }
 }

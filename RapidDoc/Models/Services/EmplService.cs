@@ -38,6 +38,7 @@ namespace RapidDoc.Models.Services
         SelectList GetDropListEmplActiveNull(Guid? id);
         SelectList GetDropListCurrentEmplNull(Guid? id);
         object GetJsonEmpl();
+        object GetJsonEmplBothOption();
         object GetJsonTripEmpl();
         object GetJsonUsers();
         object GetJsonGroup();
@@ -201,6 +202,18 @@ namespace RapidDoc.Models.Services
 
             return jsondata;
         }
+
+        public object GetJsonEmplBothOption()
+        {
+            var jsondata = from c in GetPartial(x => x.FirstName.Length > 0 && x.MiddleName.Length > 0)
+                           select new
+                           {
+                               text = string.Format("{0}", c.ShortFullNameType2)
+                           };
+
+            return jsondata;
+        }
+
 
         public object GetJsonUsers()
         {
