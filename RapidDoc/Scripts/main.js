@@ -1057,7 +1057,6 @@ function custom_tagsinputEmplBothOpt_init(url_json) {
             this.tagsinput('add', datum["text"]);
             this.tagsinput('input').typeahead('setQuery', '');
         }, elt)).blur(function () {
-            elt.tagsinput('add', $(this).val());
             $(this).val('')
         });
 
@@ -1082,7 +1081,6 @@ function custom_tagsinputEmplBothOpt1_init(url_json) {
             this.tagsinput('add', datum["text"]);
             this.tagsinput('input').typeahead('setQuery', '');
         }, elt1)).blur(function () {
-            elt1.tagsinput('add', $(this).val());
             $(this).val('')
         });
 
@@ -1107,7 +1105,6 @@ function custom_tagsinputEmplBothOpt2_init(url_json) {
             this.tagsinput('add', datum["text"]);
             this.tagsinput('input').typeahead('setQuery', '');
         }, elt2)).blur(function () {
-            elt2.tagsinput('add', $(this).val());
             $(this).val('')
         });
 

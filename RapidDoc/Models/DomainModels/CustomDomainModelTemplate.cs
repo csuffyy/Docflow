@@ -385,10 +385,8 @@ namespace RapidDoc.Models.DomainModels
         [Required]
         public string Attended { get; set; }
 
-        [Required]
         public string Invited { get; set; }
 
-        [Required]
         public string Absent { get; set; }
 
         [Required]

@@ -468,11 +468,9 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Присутствовали")]
         public string Attended { get; set; }
 
-        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         [Display(Name = "Приглашенные")]
         public string Invited { get; set; }
 
-        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         [Display(Name = "Отсутствовали")]
         public string Absent { get; set; }
 
