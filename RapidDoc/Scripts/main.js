@@ -1056,7 +1056,10 @@ function custom_tagsinputEmplBothOpt_init(url_json) {
         }).bind('typeahead:selected', $.proxy(function (obj, datum) {
             this.tagsinput('add', datum["text"]);
             this.tagsinput('input').typeahead('setQuery', '');
-        }, elt));
+        }, elt)).blur(function () {
+            elt.tagsinput('add', $(this).val());
+            $(this).val('')
+        });
 
     }
     catch (e) {
@@ -1065,11 +1068,11 @@ function custom_tagsinputEmplBothOpt_init(url_json) {
 
 function custom_tagsinputEmplBothOpt1_init(url_json) {
     try {
-        elt = $('input[data-role=tagsinputEmplBothOpt1]');
-        elt.tagsinput({
+        elt1 = $('input[data-role=tagsinputEmplBothOpt1]');
+        elt1.tagsinput({
         });
 
-        elt.tagsinput('input').typeahead({
+        elt1.tagsinput('input').typeahead({
             valueKey: 'text',
             prefetch: url_json,
             template: '<p>{{text}}</p>',
@@ -1078,7 +1081,10 @@ function custom_tagsinputEmplBothOpt1_init(url_json) {
         }).bind('typeahead:selected', $.proxy(function (obj, datum) {
             this.tagsinput('add', datum["text"]);
             this.tagsinput('input').typeahead('setQuery', '');
-        }, elt));
+        }, elt1)).blur(function () {
+            elt1.tagsinput('add', $(this).val());
+            $(this).val('')
+        });
 
     }
     catch (e) {
@@ -1087,11 +1093,11 @@ function custom_tagsinputEmplBothOpt1_init(url_json) {
 
 function custom_tagsinputEmplBothOpt2_init(url_json) {
     try {
-        elt = $('input[data-role=tagsinputEmplBothOpt2]');
-        elt.tagsinput({
+        elt2 = $('input[data-role=tagsinputEmplBothOpt2]');
+        elt2.tagsinput({
         });
 
-        elt.tagsinput('input').typeahead({
+        elt2.tagsinput('input').typeahead({
             valueKey: 'text',
             prefetch: url_json,
             template: '<p>{{text}}</p>',
@@ -1100,7 +1106,10 @@ function custom_tagsinputEmplBothOpt2_init(url_json) {
         }).bind('typeahead:selected', $.proxy(function (obj, datum) {
             this.tagsinput('add', datum["text"]);
             this.tagsinput('input').typeahead('setQuery', '');
-        }, elt));
+        }, elt2)).blur(function () {
+            elt2.tagsinput('add', $(this).val());
+            $(this).val('')
+        });
 
     }
     catch (e) {
