@@ -116,17 +116,7 @@
                     datepicker_init("@UIElementRes.UIElement.LangName");
                     custom_tagsinputEmplDynamic_init("@Url.Action("JsonEmpl", "Custom")");
                     summernotelight_init("@UIElementRes.UIElement.LangFullName");
-
-                    $(':checkbox').each(function (e) {
-                        if ($(this).attr("class") != 'labelauty') {
-                            $(this).labelauty({
-                                label: true,
-                                checked_label: '@UIElementRes.UIElement.Yes',
-                                unchecked_label: '@UIElementRes.UIElement.No'
-                            });
-                        }
-                    });
-
+                    checkbox_init('@UIElementRes.UIElement.Yes', '@UIElementRes.UIElement.No');
                     numberQuestion();
                     numberDecision();
                 }
@@ -147,17 +137,7 @@
                 datepicker_init("@UIElementRes.UIElement.LangName");
                 custom_tagsinputEmplDynamic_init("@Url.Action("JsonEmpl", "Custom")");
                 summernotelight_init("@UIElementRes.UIElement.LangFullName");
-
-                $(':checkbox').each(function (e) {
-                    if ($(this).attr("class") != 'labelauty') {
-                        $(this).labelauty({
-                            label: true,
-                            checked_label: '@UIElementRes.UIElement.Yes',
-                            unchecked_label: '@UIElementRes.UIElement.No'
-                        });
-                    }
-                });
-
+                checkbox_init('@UIElementRes.UIElement.Yes', '@UIElementRes.UIElement.No');
                 numberDecision();
             }
         });
