@@ -65,8 +65,8 @@ namespace RapidDoc.Activities.CodeActivities
 
             Dictionary<string, Object> documentData = context.GetValue(this.inputDocumentData);
             Guid documentId = context.GetValue(this.inputDocumentId);
-            string currentUserId = context.GetValue(this.inputCurrentUser);
             var document = _service.Find(documentId);
+            string currentUserId = document.ApplicationUserCreatedId;
 
             DocumentTable documentTable = _service.Find(documentId);
             ProcessTable processTable = _serviceProcess.FirstOrDefault(x => x.Id == documentTable.ProcessTableId);
