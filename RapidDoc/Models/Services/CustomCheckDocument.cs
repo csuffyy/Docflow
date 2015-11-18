@@ -1019,6 +1019,11 @@ namespace RapidDoc.Models.Services
                             {
                                 errorList.Add(String.Format("Для решения {0} необходимо указать дату исполнения", _SystemService.DeleteAllTags(decision.Decision)));
                             }
+
+                            if (!String.IsNullOrEmpty(decision.Users) && decision.ControlDate != null && decision.ControlDate <= DateTime.UtcNow)
+                            {
+                                errorList.Add(String.Format("Для решения {0} необходимо указать дату исполнения больше текущей", _SystemService.DeleteAllTags(decision.Decision)));
+                            }
                         }
                     }
                 }
