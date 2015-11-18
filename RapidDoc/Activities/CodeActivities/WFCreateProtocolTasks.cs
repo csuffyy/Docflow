@@ -11,6 +11,7 @@ using RapidDoc.Models.Services;
 using RapidDoc.Models.ViewModels;
 using System.ComponentModel;
 using RapidDoc.Models.Repository;
+using System.Text.RegularExpressions;
 
 namespace RapidDoc.Activities.CodeActivities
 {
@@ -81,37 +82,58 @@ namespace RapidDoc.Activities.CodeActivities
                     if ((decision.Decision != null && decision.Decision != String.Empty) &&
                         (decision.Users != null && decision.Users != String.Empty))
                     {
-                        USR_TAS_DailyTasks_View docModel = new USR_TAS_DailyTasks_View();
-                        docModel.MainField = questionText + "\n" + decision.Decision;
-
-                        DateTime? controlDate = decision.ControlDate != null ? decision.ControlDate : DateTime.Now;
-
-                        docModel.ExecutionDate = controlDate;
-                        docModel.Users = decision.Users;
-                        docModel.RefDocumentId = documentId;
-                        docModel.RefDocNum = document.DocumentNum;
-                        ApplicationUser user = _serviceAccount.Find(currentUserId);
-                        processTable = _serviceProcess.FirstOrDefault(x => x.TableName == "USR_TAS_DailyTasks");
-                        var taskDocumentId = _service.SaveDocument(docModel, "USR_TAS_DailyTasks", processTable.Id, document.FileId, user, false, false);
-                        documentTable = _service.Find(taskDocumentId);
-
-                        Task.Run(() =>
+                        if (decision.Separated == true)
                         {
-                            IReviewDocLogService _ReviewDocLogServiceTask = DependencyResolver.Current.GetService<IReviewDocLogService>();
-                            IHistoryUserService _HistoryUserServiceTask = DependencyResolver.Current.GetService<IHistoryUserService>();
-                            _ReviewDocLogServiceTask.SaveDomain(new ReviewDocLogTable { DocumentTableId = documentId }, "", user);
-                            _HistoryUserServiceTask.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = Models.Repository.HistoryType.NewDocument }, user.Id);
-                        });
+                            string initailStructure = decision.Users;
+                            string[] arrayTempStructrue = initailStructure.Split(',');
 
-                        _serviceSearch.SaveSearchData(taskDocumentId, docModel, "USR_TAS_DailyTasks", currentUserId);
-                        Dictionary<string, object> taskDocumentData = new Dictionary<string, object>();
-                        taskDocumentData.Add("ExecutionDate", docModel.ExecutionDate);
-                        taskDocumentData.Add("MainField", docModel.MainField);
-                        taskDocumentData.Add("Users", docModel.Users);
-                        _serviceWorkflow.RunWorkflow(documentTable, "USR_TAS_DailyTasks", taskDocumentData, currentUserId);
+                            Regex isGuid = new Regex(@"^(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}$", RegexOptions.Compiled);
+                            string[] arrayStructure = arrayTempStructrue.Where(a => isGuid.IsMatch(a) == true).ToArray();
+
+                            foreach (var item in arrayStructure)
+                            {
+                                string seprateUser = item + "," + arrayTempStructrue[Array.IndexOf(arrayTempStructrue, item) + 1];
+                                CreateTask(seprateUser, decision, question, documentTable, questionText, documentId, currentUserId);
+
+                            }
+                        }
+                        else
+                            CreateTask(decision.Users, decision, question, documentTable, questionText, documentId, currentUserId);
                     }
                 }
             }
+        }
+
+        void CreateTask(string users, PRT_DecisionList_Table decision, PRT_QuestionList_Table question, DocumentTable documentTable, string questionText, Guid documentId, string currentUserId)
+        {
+            USR_TAS_DailyTasks_View docModel = new USR_TAS_DailyTasks_View();
+            docModel.MainField = questionText + "\n" + decision.Decision;
+
+            DateTime? controlDate = decision.ControlDate != null ? decision.ControlDate : DateTime.Now;
+
+            docModel.ExecutionDate = controlDate;
+            docModel.Users = users;
+            docModel.RefDocumentId = documentId;
+            docModel.RefDocNum = documentTable.DocumentNum;
+            ApplicationUser user = _serviceAccount.Find(currentUserId);
+            ProcessTable processTable = _serviceProcess.FirstOrDefault(x => x.TableName == "USR_TAS_DailyTasks");
+            var taskDocumentId = _service.SaveDocument(docModel, "USR_TAS_DailyTasks", processTable.Id, documentTable.FileId, user, false, false);
+            documentTable = _service.Find(taskDocumentId);
+
+            Task.Run(() =>
+            {
+                IReviewDocLogService _ReviewDocLogServiceTask = DependencyResolver.Current.GetService<IReviewDocLogService>();
+                IHistoryUserService _HistoryUserServiceTask = DependencyResolver.Current.GetService<IHistoryUserService>();
+                _ReviewDocLogServiceTask.SaveDomain(new ReviewDocLogTable { DocumentTableId = documentId }, "", user);
+                _HistoryUserServiceTask.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = Models.Repository.HistoryType.NewDocument }, user.Id);
+            });
+
+            _serviceSearch.SaveSearchData(taskDocumentId, docModel, "USR_TAS_DailyTasks", currentUserId);
+            Dictionary<string, object> taskDocumentData = new Dictionary<string, object>();
+            taskDocumentData.Add("ExecutionDate", docModel.ExecutionDate);
+            taskDocumentData.Add("MainField", docModel.MainField);
+            taskDocumentData.Add("Users", docModel.Users);
+            _serviceWorkflow.RunWorkflow(documentTable, "USR_TAS_DailyTasks", taskDocumentData, currentUserId);
         }
     }
 }

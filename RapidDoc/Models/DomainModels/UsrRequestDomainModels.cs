@@ -7105,6 +7105,7 @@ namespace RapidDoc.Models.DomainModels
         public string Decision { get; set; }
         public string Users { get; set; }
         public DateTime? ControlDate { get; set; }
+        public bool Separated { get; set; }
     }
 
     public class USR_PRT_ProtocolDocuments_Table : BasicProtocolDocumentsTable

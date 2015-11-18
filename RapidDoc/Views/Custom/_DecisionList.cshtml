@@ -13,10 +13,15 @@
         <div class="row">
             <div class="col-xs-10">
                 @Html.TextBoxFor(model => Model.Users, new { @class = "form-control", @data_role = "tagsinputEmplDynamic", placeholder = "Исполнители" })
-            </div>
+            </div>          
             <div class="col-xs-2">
                 @Html.TextBoxFor(model => Model.ControlDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", startDate = "" })
             </div>
+        </div>
+
+        <h6><strong>Отдельная карточка каждому исполнителю</strong></h6>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => Model.Separated)
         </div>
         <br />
     </div>
