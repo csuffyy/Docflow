@@ -694,14 +694,5 @@ namespace RapidDoc.Controllers
         public string Department { get; set; }
         public DocumentType DocType { get; set; }
     }
-  /*  public class PdfReport
-    {
-        public string OrderNum { get; set; }
-        public DateTime? OrderDate { get; set; }
-        public string Subject { get; set; }
-        public string MainField { get; set; }
-        public string MainFieldTranslate { get; set; }
-        public string SignTitle { get; set; }
-        public string SignName { get; set; }
-    }*/
+   
 }
