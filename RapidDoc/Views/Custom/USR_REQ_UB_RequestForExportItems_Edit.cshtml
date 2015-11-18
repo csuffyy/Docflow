@@ -5,7 +5,7 @@
     @Html.LabelForRequired(model => Model.ItemName)
 </div>
 <div class="editor-field">
-    @Html.TextBoxFor(model => Model.ItemName, new { @class = "form-control", placeholder = "Наименование ТМЦ", @autofocus = "required" })
+    @Html.TextAreaFor(model => Model.ItemName, new { @class = "form-control", placeholder = "Наименование ТМЦ", @autofocus = "required" })
 </div>
 
 <div class="editor-label">

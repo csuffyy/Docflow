@@ -7,7 +7,7 @@
             @Html.LabelFor(model => Model.Name)
         </div>
         <div class="editor-field">
-            @Html.DisplayTextFor(model => Model.Name)
+            <p><span style="white-space: pre-line">@Html.Raw(Model.ItemName)</span></p>
         </div>
 
         <div class="editor-label">

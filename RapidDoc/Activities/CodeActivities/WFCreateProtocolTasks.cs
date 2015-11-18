@@ -106,34 +106,34 @@ namespace RapidDoc.Activities.CodeActivities
 
         void CreateTask(string users, PRT_DecisionList_Table decision, PRT_QuestionList_Table question, DocumentTable documentTable, string questionText, Guid documentId, string currentUserId)
         {
-            USR_TAS_DailyTasks_View docModel = new USR_TAS_DailyTasks_View();
-            docModel.MainField = questionText + "\n" + decision.Decision;
+                        USR_TAS_DailyTasks_View docModel = new USR_TAS_DailyTasks_View();
+                        docModel.MainField = questionText + "\n" + decision.Decision;
 
-            DateTime? controlDate = decision.ControlDate != null ? decision.ControlDate : DateTime.Now;
+                        DateTime? controlDate = decision.ControlDate != null ? decision.ControlDate : DateTime.Now;
 
-            docModel.ExecutionDate = controlDate;
+                        docModel.ExecutionDate = controlDate;
             docModel.Users = users;
-            docModel.RefDocumentId = documentId;
+                        docModel.RefDocumentId = documentId;
             docModel.RefDocNum = documentTable.DocumentNum;
             ApplicationUser user = _serviceAccount.Find(currentUserId);
             ProcessTable processTable = _serviceProcess.FirstOrDefault(x => x.TableName == "USR_TAS_DailyTasks");
             var taskDocumentId = _service.SaveDocument(docModel, "USR_TAS_DailyTasks", processTable.Id, documentTable.FileId, user, false, false);
-            documentTable = _service.Find(taskDocumentId);
+                        documentTable = _service.Find(taskDocumentId);
 
-            Task.Run(() =>
-            {
-                IReviewDocLogService _ReviewDocLogServiceTask = DependencyResolver.Current.GetService<IReviewDocLogService>();
-                IHistoryUserService _HistoryUserServiceTask = DependencyResolver.Current.GetService<IHistoryUserService>();
-                _ReviewDocLogServiceTask.SaveDomain(new ReviewDocLogTable { DocumentTableId = documentId }, "", user);
-                _HistoryUserServiceTask.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = Models.Repository.HistoryType.NewDocument }, user.Id);
-            });
+                        Task.Run(() =>
+                        {
+                            IReviewDocLogService _ReviewDocLogServiceTask = DependencyResolver.Current.GetService<IReviewDocLogService>();
+                            IHistoryUserService _HistoryUserServiceTask = DependencyResolver.Current.GetService<IHistoryUserService>();
+                            _ReviewDocLogServiceTask.SaveDomain(new ReviewDocLogTable { DocumentTableId = documentId }, "", user);
+                            _HistoryUserServiceTask.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = Models.Repository.HistoryType.NewDocument }, user.Id);
+                        });
 
-            _serviceSearch.SaveSearchData(taskDocumentId, docModel, "USR_TAS_DailyTasks", currentUserId);
-            Dictionary<string, object> taskDocumentData = new Dictionary<string, object>();
-            taskDocumentData.Add("ExecutionDate", docModel.ExecutionDate);
-            taskDocumentData.Add("MainField", docModel.MainField);
-            taskDocumentData.Add("Users", docModel.Users);
-            _serviceWorkflow.RunWorkflow(documentTable, "USR_TAS_DailyTasks", taskDocumentData, currentUserId);
-        }
-    }
-}
+                        _serviceSearch.SaveSearchData(taskDocumentId, docModel, "USR_TAS_DailyTasks", currentUserId);
+                        Dictionary<string, object> taskDocumentData = new Dictionary<string, object>();
+                        taskDocumentData.Add("ExecutionDate", docModel.ExecutionDate);
+                        taskDocumentData.Add("MainField", docModel.MainField);
+                        taskDocumentData.Add("Users", docModel.Users);
+                        _serviceWorkflow.RunWorkflow(documentTable, "USR_TAS_DailyTasks", taskDocumentData, currentUserId);
+                    }
+                }
+            }

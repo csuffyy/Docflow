@@ -1216,6 +1216,24 @@ namespace RapidDoc.Models.DomainModels
     {
 
     }
+
+    public class USR_REQ_ZIF_RequestForRepairVentilation_Table : BasicDocumentTable
+    {
+        [Required]
+        public string Name { get; set; }
+
+        [Required]
+        public string Department { get; set; }
+
+        [Required]
+        public string Location { get; set; }
+
+        [Required]
+        public string Reason { get; set; }
+
+        [Required]
+        public string Material { get; set; }
+    }
     #endregion
 
     #region ОКС

@@ -1932,6 +1932,8 @@
     <Content Include="Views\Custom\_QuestionListView.cshtml" />
     <Content Include="Views\Custom\_DecisionListView.cshtml" />
     <Content Include="Views\Custom\USR_PRT_FolderList.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_ZIF_RequestForRepairVentilation_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_ZIF_RequestForRepairVentilation_View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -3626,6 +3628,12 @@
   </ItemGroup>
   <ItemGroup>
     <XamlAppDef Include="Activities\USR_REQ_UZL_RequestForAdditionalIB.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USR_REQ_ZIF_RequestForRepairVentilation.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </XamlAppDef>

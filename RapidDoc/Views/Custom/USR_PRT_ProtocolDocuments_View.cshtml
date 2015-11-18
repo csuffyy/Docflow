@@ -34,22 +34,26 @@
         <div class="editor-field">
             @Html.DisplayTextFor(model => Model.Attended)
         </div>
-
+        @if(!String.IsNullOrEmpty(Model.Invited))
+        { 
         <div class="editor-label">
             @Html.LabelFor(x => x.Invited):
         </div>
         <div class="editor-field">
             @Html.DisplayTextFor(model => Model.Invited)
         </div>
+        }
     </div>
     <div class="col-xs-6">
+        @if(!String.IsNullOrEmpty(Model.Absent))
+        {
         <div class="editor-label">
             @Html.LabelFor(x => x.Absent):
         </div>
         <div class="editor-field">
             @Html.DisplayTextFor(model => Model.Absent)
         </div>
-
+        }
         <div class="editor-label">
             @Html.LabelFor(x => x.Chairman):
         </div>
@@ -87,7 +91,7 @@
     </div>
 </div>
 }
-
+<hr />
 <div class="row">
     <div class="col-xs-2">
         <strong>Список вопросов:</strong>

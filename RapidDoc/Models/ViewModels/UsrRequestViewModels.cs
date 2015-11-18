@@ -1272,6 +1272,7 @@ namespace RapidDoc.Models.ViewModels
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         public string Department { get; set; }
 
+        [DataType(DataType.Date)]
         [Display(Name = "Действует до")]
         public DateTime? ToDate { get; set; }
 
@@ -1581,7 +1582,7 @@ namespace RapidDoc.Models.ViewModels
     }
     #endregion
 
-    #region Зиф
+    #region ЗИФ
     public class USR_REQ_ZIF_RequestForFuel_View : BasicDocumentView
     {
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
@@ -1648,6 +1649,31 @@ namespace RapidDoc.Models.ViewModels
     public class USR_REQ_ZIF_RequestForCreatingItemsJDE_View : BasicDocumentView
     {
 
+    }
+
+    public class USR_REQ_ZIF_RequestForRepairVentilation_View : BasicDocumentView
+    {
+        [Display(Name = "Наименование позиции")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string Name { get; set; }
+
+        [Display(Name = "Подразделение")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string Department { get; set; }
+
+        [Display(Name = "Место нахождение оборудования")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string Location { get; set; }
+
+        [DataType(DataType.MultilineText)]
+        [Display(Name = "Описание причины выхода из строя и характер дефекта")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string Reason { get; set; }
+
+        [DataType(DataType.MultilineText)]
+        [Display(Name = "Наличие необходимых материалов для проведения работ")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string Material { get; set; }
     }
     #endregion
 
