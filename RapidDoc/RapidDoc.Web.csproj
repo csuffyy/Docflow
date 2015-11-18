@@ -268,11 +268,13 @@
     <Compile Include="Activities\CodeActivities\WFCheckParentDepartment.cs" />
     <Compile Include="Activities\CodeActivities\WFChooseOfficeMemoSpecificUser.cs" />
     <Compile Include="Activities\CodeActivities\WFCreateDynamicTracker.cs" />
+    <Compile Include="Activities\CodeActivities\WFCreateProtocolTasks.cs" />
     <Compile Include="Activities\CodeActivities\WFRegistrationAPP.cs" />
     <Compile Include="Activities\CodeActivities\WFRegistrationOUT.cs" />
     <Compile Include="Activities\CodeActivities\WFCreateTaskIND.cs" />
     <Compile Include="Activities\CodeActivities\WFRegistrationORD.cs" />
     <Compile Include="Activities\CodeActivities\WFSetUsersForOrder.cs" />
+    <Compile Include="Activities\CodeActivities\WFSetUsersForProtocol.cs" />
     <Compile Include="Activities\CodeActivities\WFSetUsersForTaskProlongation.cs" />
     <Compile Include="Activities\CodeActivities\WFUpdateProlongationDate.cs" />
     <Compile Include="Activities\WFChooseCreatedUser.cs" />

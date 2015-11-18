@@ -132,7 +132,8 @@
             if (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Request || Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Order 
                 || Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.IncomingDoc
                 || Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.OutcomingDoc
-                || Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.AppealDoc 
+                || Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.AppealDoc
+                || Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Protocol 
                 || (Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement && Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.OfficeMemo))
             {
                 <button type="button" class="btn btn-success btn-lg hidden-print" data-toggle="modal" data-target=".bs-approve-modal-sm"><span class="visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">@UIElementRes.UIElement.Approve</span><span class="visible-xs-inline-block glyphicon glyphicon-ok-circle"></span></button>

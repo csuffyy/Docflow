@@ -82,7 +82,12 @@
     <div class="editor-field">
         @Html.TextBoxFor(model => Model.Chairman, new { @class = "form-control", @data_role = "tagsinputEmplOne", placeholder = "Председатель"})
     </div>
-
+    <div class="editor-label">
+        @Html.LabelForRequired(model => Model.ListAgreement)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(model => Model.ListAgreement, new { @class = "form-control", @data_role = "tagsinputEmpl", placeholder = "Маршрут согласования" })
+    </div>
     </div>
 <hr />
 <div class="row">

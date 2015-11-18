@@ -34,4 +34,12 @@ namespace RapidDoc.Models.ViewModels
         public List<EmplTable> Names { get; set; }
 
     }
+
+    public class ProtocolTaskListView
+    {
+        public string Question { get; set; }
+        public string Decision { get; set; }
+        public string Users { get; set; }
+        public DateTime? ControlDate { get; set; }
+    }
 }

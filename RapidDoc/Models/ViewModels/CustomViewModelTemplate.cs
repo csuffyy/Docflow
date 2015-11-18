@@ -478,6 +478,10 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Председатель")]
         public string Chairman { get; set; }
 
+        [Display(Name = "Список согласования")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string ListAgreement { get; set; }
+
         public List<RapidDoc.Models.DomainModels.PRT_QuestionList_Table> QuestionList { get; set; }
     }
 }

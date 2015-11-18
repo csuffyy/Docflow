@@ -51,7 +51,8 @@ namespace RapidDoc.Models.Services
         List<Array> GetTrackerList(Guid documentId, Activity activity, IDictionary<string, object> documentData, DocumentType documentType);
         List<string> GetUniqueUserList(Guid documentId, IDictionary<string, object> documentData, string nameField, bool getAll = false);
         List<string> EmplAndRolesToUserList(string[] list);
-        void CreateDynamicTracker(List<string> users, Guid documentId, string currentUserId, bool parallel, string additionalText = "");     
+        void CreateDynamicTracker(List<string> users, Guid documentId, string currentUserId, bool parallel, string additionalText = "");
+        //List<ProtocolTaskListView> GetProtocolTasks(Guid documentId);
     }
 
     public class WorkflowService : IWorkflowService
@@ -724,10 +725,16 @@ namespace RapidDoc.Models.Services
                 _documentData.Add("endListUsers", endListUsers);
             }
 
-            if (activity.GetType() == typeof(WFSetUsersForOrder))
+            if (activity.GetType() == typeof(WFSetUsersForOrder) || activity.GetType() == typeof(WFSetUsersForProtocol))
             {
                 List<string> userList = (List<string>)_documentData["ListAgreement"];
-                var particularActivity = activity as WFSetUsersForOrder;
+                dynamic particularActivity;
+
+                if (activity.GetType() == typeof(WFSetUsersForProtocol))               
+                    particularActivity = activity as WFSetUsersForProtocol;              
+                else            
+                    particularActivity = activity as WFSetUsersForOrder;
+                
                 var particularActivityExpression = particularActivity.inputSystemName.Expression as System.Activities.Expressions.Literal<string>;
                 foreach(string userId in userList)
                 {
@@ -752,7 +759,7 @@ namespace RapidDoc.Models.Services
                 }
             }
 
-            if ((activity is Parallel))
+            if ((activity is Parallel) || (activity is ParallelForEach<string>))
                 _parallel = activity.Id;
 
             IEnumerator<Activity> list = WorkflowInspectionServices.GetActivities(activity).Where(x => x.GetType() != typeof(EnvironmentLocationReference<List<String>>)).GetEnumerator();
@@ -790,6 +797,12 @@ namespace RapidDoc.Models.Services
                 case DocumentType.Order:
                     List<string> usersOrder = this.GetUniqueUserList(documentId, documentData, "ListAgreement");
                     documentData["ListAgreement"] = usersOrder;
+                    allSteps = this.GetRequestTree(activity, documentData);
+                    break;
+                case DocumentType.Protocol:
+                    List<string> usersProtocol = this.GetUniqueUserList(documentId, documentData, "ListAgreement");
+                    documentData["ListAgreement"] = usersProtocol;
+                    //documentData["ProtocolTasks"] = GetProtocolTasks(documentId);
                     allSteps = this.GetRequestTree(activity, documentData);
                     break;
                 default:
@@ -1043,5 +1056,13 @@ namespace RapidDoc.Models.Services
                 return HttpContext.Current.User.Identity.GetUserId();
             }
         }
+
+
+        //public List<ProtocolTaskListView> GetProtocolTasks(Guid documentId)
+        //{
+        //    ApplicationDbContext context = new ApplicationDbContext(); 
+        //    context
+        //    throw new NotImplementedException();
+        //}
     }
 }

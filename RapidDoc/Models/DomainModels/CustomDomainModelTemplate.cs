@@ -392,6 +392,9 @@ namespace RapidDoc.Models.DomainModels
         [Required]
         public string Chairman { get; set; }
 
+        [Required]
+        public string ListAgreement { get; set; }
+
         public virtual List<PRT_QuestionList_Table> QuestionList { get; set; }
     }
 }
