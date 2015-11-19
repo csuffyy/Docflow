@@ -132,6 +132,18 @@ function qrcode_init() {
     qrcode.makeCode(document.location.href+'?isAfterView=true');
 }
 
+function checkbox_init(checked, unchecked) {
+    $(':checkbox').each(function (e) {
+        if ($(this).attr("class") != 'labelauty') {
+            $(this).labelauty({
+                label: true,
+                checked_label: checked,
+                unchecked_label: unchecked
+            });
+        }
+    });
+}
+
 function summernote_init(lang) {
     if ((lang == "") || (lang == ""))
     {
@@ -1112,3 +1124,4 @@ function custom_tagsinputEmplBothOpt2_init(url_json) {
     catch (e) {
     }
 }
+

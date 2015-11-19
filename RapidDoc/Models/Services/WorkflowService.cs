@@ -52,7 +52,6 @@ namespace RapidDoc.Models.Services
         List<string> GetUniqueUserList(Guid documentId, IDictionary<string, object> documentData, string nameField, bool getAll = false);
         List<string> EmplAndRolesToUserList(string[] list);
         void CreateDynamicTracker(List<string> users, Guid documentId, string currentUserId, bool parallel, string additionalText = "");
-        //List<ProtocolTaskListView> GetProtocolTasks(Guid documentId);
     }
 
     public class WorkflowService : IWorkflowService
@@ -801,8 +800,8 @@ namespace RapidDoc.Models.Services
                     break;
                 case DocumentType.Protocol:
                     List<string> usersProtocol = this.GetUniqueUserList(documentId, documentData, "ListAgreement");
-                    documentData["ListAgreement"] = usersProtocol;
-                    //documentData["ProtocolTasks"] = GetProtocolTasks(documentId);
+                    List<string> chairmanProtocol = this.GetUniqueUserList(documentId, documentData, "Chairman");
+                    documentData["ListAgreement"] = usersProtocol.Concat(chairmanProtocol).Distinct().ToList();
                     allSteps = this.GetRequestTree(activity, documentData);
                     break;
                 default:
@@ -1057,12 +1056,5 @@ namespace RapidDoc.Models.Services
             }
         }
 
-
-        //public List<ProtocolTaskListView> GetProtocolTasks(Guid documentId)
-        //{
-        //    ApplicationDbContext context = new ApplicationDbContext(); 
-        //    context
-        //    throw new NotImplementedException();
-        //}
     }
 }

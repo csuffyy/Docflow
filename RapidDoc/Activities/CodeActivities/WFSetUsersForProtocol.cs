@@ -73,10 +73,10 @@ namespace RapidDoc.Activities.CodeActivities
 
             List<WFTrackerUsersTable> userList = new List<WFTrackerUsersTable>();
             userList.Add(new WFTrackerUsersTable { UserId = userid });
-            _service.CreateTrackerRecord(systemName, documentStep, documentId, this.DisplayName + index.ToString(), userList, currentUserId, this.Id + userid, useManual, slaOffset, executionStep);
+            _service.CreateTrackerRecord(systemName, documentStep, documentId, this.DisplayName + " " + index.ToString(), userList, currentUserId, this.Id + userid, useManual, slaOffset, executionStep);
 
             outputSkipStep.Set(context, false);
-            outputBookmark.Set(context, this.DisplayName + index.ToString());
+            outputBookmark.Set(context, this.DisplayName + " " + index.ToString());
             outputStep.Set(context, documentStep);
         }
     }

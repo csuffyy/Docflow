@@ -11,6 +11,7 @@ using RapidDoc.Models.Services;
 using RapidDoc.Models.ViewModels;
 using System.ComponentModel;
 using RapidDoc.Models.Repository;
+using System.Text.RegularExpressions;
 
 namespace RapidDoc.Activities.CodeActivities
 {
@@ -64,8 +65,8 @@ namespace RapidDoc.Activities.CodeActivities
 
             Dictionary<string, Object> documentData = context.GetValue(this.inputDocumentData);
             Guid documentId = context.GetValue(this.inputDocumentId);
-            string currentUserId = context.GetValue(this.inputCurrentUser);
             var document = _service.Find(documentId);
+            string currentUserId = document.ApplicationUserCreatedId;
 
             DocumentTable documentTable = _service.Find(documentId);
             ProcessTable processTable = _serviceProcess.FirstOrDefault(x => x.Id == documentTable.ProcessTableId);
@@ -81,18 +82,42 @@ namespace RapidDoc.Activities.CodeActivities
                     if ((decision.Decision != null && decision.Decision != String.Empty) &&
                         (decision.Users != null && decision.Users != String.Empty))
                     {
+                        if (decision.Separated == true)
+                        {
+                            string initailStructure = decision.Users;
+                            string[] arrayTempStructrue = initailStructure.Split(',');
+
+                            Regex isGuid = new Regex(@"^(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}$", RegexOptions.Compiled);
+                            string[] arrayStructure = arrayTempStructrue.Where(a => isGuid.IsMatch(a) == true).ToArray();
+
+                            foreach (var item in arrayStructure)
+                            {
+                                string seprateUser = item + "," + arrayTempStructrue[Array.IndexOf(arrayTempStructrue, item) + 1];
+                                CreateTask(seprateUser, decision, question, documentTable, questionText, documentId, currentUserId);
+
+                            }
+                        }
+                        else
+                            CreateTask(decision.Users, decision, question, documentTable, questionText, documentId, currentUserId);
+                    }
+                }
+            }
+        }
+
+        void CreateTask(string users, PRT_DecisionList_Table decision, PRT_QuestionList_Table question, DocumentTable documentTable, string questionText, Guid documentId, string currentUserId)
+        {
                         USR_TAS_DailyTasks_View docModel = new USR_TAS_DailyTasks_View();
                         docModel.MainField = questionText + "\n" + decision.Decision;
 
                         DateTime? controlDate = decision.ControlDate != null ? decision.ControlDate : DateTime.Now;
 
                         docModel.ExecutionDate = controlDate;
-                        docModel.Users = decision.Users;
+            docModel.Users = users;
                         docModel.RefDocumentId = documentId;
-                        docModel.RefDocNum = document.DocumentNum;
-                        ApplicationUser user = _serviceAccount.Find(document.ApplicationUserCreatedId);
-                        processTable = _serviceProcess.FirstOrDefault(x => x.TableName == "USR_TAS_DailyTasks");
-                        var taskDocumentId = _service.SaveDocument(docModel, "USR_TAS_DailyTasks", processTable.Id, document.FileId, user, false, false);
+            docModel.RefDocNum = documentTable.DocumentNum;
+            ApplicationUser user = _serviceAccount.Find(currentUserId);
+            ProcessTable processTable = _serviceProcess.FirstOrDefault(x => x.TableName == "USR_TAS_DailyTasks");
+            var taskDocumentId = _service.SaveDocument(docModel, "USR_TAS_DailyTasks", processTable.Id, documentTable.FileId, user, false, false);
                         documentTable = _service.Find(taskDocumentId);
 
                         Task.Run(() =>
@@ -112,6 +137,3 @@ namespace RapidDoc.Activities.CodeActivities
                     }
                 }
             }
-        }
-    }
-}
