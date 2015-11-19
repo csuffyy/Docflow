@@ -300,10 +300,10 @@
                     </FlowDecision.Condition>
                     <FlowDecision.True>
                       <FlowStep x:Name="__ReferenceID45" sap2010:WorkflowViewState.IdRef="FlowStep_29">
-                        <Flowchart DisplayName="Начальник ЭС" sap2010:WorkflowViewState.IdRef="Flowchart_1">
+                        <Flowchart DisplayName="Начальник БУ" sap2010:WorkflowViewState.IdRef="Flowchart_1">
                           <Flowchart.StartNode>
                             <FlowStep x:Name="__ReferenceID8" sap2010:WorkflowViewState.IdRef="FlowStep_4">
-                              <local1:WFChooseStaffStructure _service="{x:Null}" executionStep="{x:Null}" noneSkip="{x:Null}" slaOffset="{x:Null}" DisplayName="Начальник ЭС" sap2010:WorkflowViewState.IdRef="WFChooseStaffStructure_1" inputSystemName="ManagerEC" useManual="False">
+                              <local1:WFChooseStaffStructure _service="{x:Null}" executionStep="{x:Null}" noneSkip="{x:Null}" slaOffset="{x:Null}" DisplayName="Начальник БУ" sap2010:WorkflowViewState.IdRef="WFChooseStaffStructure_1" inputSystemName="ManagerEC" useManual="False">
                                 <local1:WFChooseStaffStructure.inputCurrentUser>
                                   <InArgument x:TypeArguments="x:String">
                                     <mca:CSharpValue x:TypeArguments="x:String">inputCurrentUser</mca:CSharpValue>
@@ -316,7 +316,7 @@
                                 </local1:WFChooseStaffStructure.inputDocumentId>
                                 <local1:WFChooseStaffStructure.inputPredicate>
                                   <InArgument x:TypeArguments="sle:Expression(s:Func(local2:EmplTable, x:Boolean))">
-                                    <mca:CSharpValue x:TypeArguments="sle:Expression(s:Func(local2:EmplTable, x:Boolean))">x =&gt; x.DepartmentTable.DepartmentName == "Бюджетное управление" &amp;&amp; x.TitleTable.TitleName == "Начальник управления" &amp;&amp; x.CompanyTable.AliasCompanyName == "ATK"</mca:CSharpValue>
+                                    <mca:CSharpValue x:TypeArguments="sle:Expression(s:Func(local2:EmplTable, x:Boolean))">x =&gt; x.DepartmentTable.DepartmentName == "Бюджетное управление" &amp;&amp; (x.TitleTable.TitleName == "Начальник управления" || x.TitleTable.TitleName == "И.о. начальника управления") &amp;&amp; x.CompanyTable.AliasCompanyName == "ATK"</mca:CSharpValue>
                                   </InArgument>
                                 </local1:WFChooseStaffStructure.inputPredicate>
                                 <local1:WFChooseStaffStructure.inputStep>
@@ -1104,7 +1104,7 @@
     <x:Reference>__ReferenceID52</x:Reference>
     <x:Reference>__ReferenceID53</x:Reference>
     <x:Reference>__ReferenceID54</x:Reference>
-    <sads:DebugSymbol.Symbol>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</sads:DebugSymbol.Symbol>
+    <sads:DebugSymbol.Symbol>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</sads:DebugSymbol.Symbol>
   </Flowchart>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>
@@ -1239,13 +1239,13 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="FlowDecision_2" sap:VirtualizedContainerService.HintSize="126,87">
+      <sap2010:ViewStateData Id="FlowDecision_2" sap:VirtualizedContainerService.HintSize="128,87">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
             <av:Point x:Key="ShapeLocation">256,196.5</av:Point>
-            <av:Size x:Key="ShapeSize">126,87</av:Size>
-            <av:PointCollection x:Key="FalseConnector">382,240 510,240 510,289</av:PointCollection>
+            <av:Size x:Key="ShapeSize">128,87</av:Size>
+            <av:PointCollection x:Key="FalseConnector">384,240 510,240 510,289</av:PointCollection>
             <av:PointCollection x:Key="TrueConnector">297.5,336.96 285.75,336.96 285.75,453.46 495.75,453.46 495.75,483.46</av:PointCollection>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
@@ -1259,7 +1259,7 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="Flowchart_1" sap:VirtualizedContainerService.HintSize="200,51">
+      <sap2010:ViewStateData Id="Flowchart_1" sap:VirtualizedContainerService.HintSize="666,636">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -1583,7 +1583,7 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="Flowchart_7" sap:VirtualizedContainerService.HintSize="660,636">
+      <sap2010:ViewStateData Id="Flowchart_7" sap:VirtualizedContainerService.HintSize="200,51">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
