@@ -39,20 +39,6 @@
         <div class="editor-field">
             @Html.TextBoxFor(model => Model.Location, new { @class = "form-control", placeholder = "Место проведения" })
         </div>
-
-        <div class="editor-label">
-            @Html.LabelForRequired(model => Model.Agenda)
-        </div>
-        <div class="editor-field">
-            @Html.TextAreaFor(model => Model.Agenda, new { @class = "form-control", placeholder = "Повестка совещания" })
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelForRequired(model => Model.Introduction)
-        </div>
-        <div class="editor-field">
-            @Html.TextAreaFor(model => Model.Introduction, new { @class = "form-control", placeholder = "Вступительное слово" })
-        </div>
     </div>
 </div>
 
@@ -89,15 +75,36 @@
         @Html.TextBoxFor(model => Model.ListAgreement, new { @class = "form-control", @data_role = "tagsinputEmpl", placeholder = "Маршрут согласования" })
     </div>
     </div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Agenda)
+        </div>
+        <div class="editor-field">
+            @Html.TextAreaFor(model => Model.Agenda, new { @class = "form-control", placeholder = "Повестка совещания" })
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Introduction)
+        </div>
+        <div class="editor-field">
+            @Html.TextAreaFor(model => Model.Introduction, new { @class = "form-control", placeholder = "Вступительное слово" })
+        </div>
+    </div>
+</div>
+
 <hr />
 <div class="row">
     <div class="col-xs-12">
         @if (Model.QuestionList != null && Model.QuestionList.Count() > 0)
         {
-            foreach (var question in Model.QuestionList)
+            <div id="questionRow" class="questionRow">
+            @foreach (var question in Model.QuestionList)
             {
                 Html.RenderPartial("~/Views/Custom/_QuestionList.cshtml", question, new ViewDataDictionary { { "counter", Guid.NewGuid().ToString("N") } });
             }
+            </div>
         }
         @Html.ActionLink("Добавить вопрос", "CreateNewQuestionProtocol", "Custom", null, new { id = "addItemQuestion" })
     </div>

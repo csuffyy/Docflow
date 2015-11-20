@@ -227,7 +227,7 @@ namespace RapidDoc.Controllers
                         {
                             CardNumber = item.DocumentNum,
                             TaskDescription = taskDoc.MainField,
-                            PlaneDate = taskDoc.ProlongationDate != null ? (DateTime)taskDoc.ProlongationDate : taskDoc.ExecutionDate,
+                            PlaneDate = taskDoc.ProlongationDate != null ? (DateTime)taskDoc.ProlongationDate : (DateTime)taskDoc.ExecutionDate,
                             Factdate = item.DocumentState == DocumentState.Closed ? closeDate : null,
                             Executor = executor,
                             Delegation = delegation,

@@ -17,10 +17,7 @@ namespace RapidDoc.Models.DomainModels
 
     public abstract class BasicDocumentRequestTable : BasicDocumentTable
     {
-        [Required]
         public string RequestText { get; set; }
-
-        [Required]
         public string Users { get; set; }
     }
 
@@ -28,7 +25,6 @@ namespace RapidDoc.Models.DomainModels
     {
         public Folder Folder { get; set; }
 
-        [Required]
         public Guid? ItemCauseTableId { get; set; }
         public virtual ItemCauseTable ItemCauseTable { get; set; }
      
@@ -43,52 +39,31 @@ namespace RapidDoc.Models.DomainModels
         }
 
         public string DocumentWhom { get; set; }
-
         public string Whom { get; set; }
-
         public string DocumentCopy { get; set; }
-
-        [Required]
         public string FromWhom { get; set; }
-
-        [Required]
         public string _DocumentTitle { get; set; }
-
-        [Required]
         public string MainField { get; set; }
         public bool Parallel { get; set; }
-
         public string AdditionalText { get; set; } 
     }
 
     public abstract class BasicDailyTasksTable : BasicDocumentTable
     {
-        [Required]
         public string MainField { get; set; }
-
-        [Required]
         public string Users { get; set; }
-
-        [Required]
-        public DateTime ExecutionDate { get; set; }
-
+        public DateTime? ExecutionDate { get; set; }
         public DateTime? ProlongationDate { get; set; }
-
         public string ReportText { get; set; }
-       
         public Guid? RefDocumentId { get; set; }
-      
         public string RefDocNum { get; set; }
-
         public bool Separated { get; set; }
     }
 
     public abstract class BasicOrderTable : BasicDocumentTable
     {
         public string OrderNum { get; set; }
-        public DateTime? OrderDate { get; set; }
-
-        [Required]       
+        public DateTime? OrderDate { get; set; }   
         public string MainFieldTranslate { get; set; }
         public bool NeedTranslate { get; set; }
         public bool CancelOrder { get; set; }
@@ -100,7 +75,6 @@ namespace RapidDoc.Models.DomainModels
         public string AdditionText { get; set; }
         public bool Executed { get; set; }      
 
-        [Required]
         public string ListAgreement { get; set; }
             
         public string ControlUsers { get; set; }
@@ -108,7 +82,6 @@ namespace RapidDoc.Models.DomainModels
 
         public string ListSubcription { get; set; } 
 
-        [Required]
         public string Sign { get; set; }
         public string SignName { get; set; }
         public string SignTitle { get; set; }
@@ -121,7 +94,6 @@ namespace RapidDoc.Models.DomainModels
 
     public abstract class BasicOrderDefaultTable : BasicOrderTable
     {
-        [Required]
         public Guid? ItemCauseTableId { get; set; }
         public virtual ItemCauseTable ItemCauseTable { get; set; }
 
@@ -136,7 +108,6 @@ namespace RapidDoc.Models.DomainModels
             }
         }
 
-        [Required]
         public string Subject { get; set; }
     }
 
@@ -162,7 +133,6 @@ namespace RapidDoc.Models.DomainModels
 
         public DateTime? RegistrationDate { get; set; }
 
-        [Required]
         public string Receiver { get; set; }
 
         public ControlType ControlType { get; set; }
@@ -173,20 +143,16 @@ namespace RapidDoc.Models.DomainModels
         public NatureIncomingQuestion NatureQuestionType { get; set; }
         public string NatureQuestion { get; set; }
 
-        [Required]
         public string ListsCount { get; set; }
 
         public string ApplicationsCount { get; set; }
         public string IncomingDocNum { get; set; }
-
-        [Required]
         public string DocumentSubject { get; set; }
 
         public IncomingDocumentType DocumentType { get; set; }
         public string DocumentTypeName { get; set; }
         public bool Executed { get; set; }
 
-        [Required]
         public Guid? ItemCauseTableId { get; set; }
         public virtual ItemCauseTable ItemCauseTable { get; set; }
 
@@ -220,7 +186,6 @@ namespace RapidDoc.Models.DomainModels
         public Guid? NumberSeriesBookingTableId { get; set; }
         public virtual NumberSeriesBookingTable NumberSeriesBookingTable { get; set; }
 
-        [Required]
         public string Signer { get; set; }
 
         public ControlType ControlType { get; set; }
@@ -231,22 +196,15 @@ namespace RapidDoc.Models.DomainModels
         public string IncomingNumber { get; set; }
         public DateTime? IncomingDate { get; set; }
 
-        [Required]
         public string ListsCount { get; set; }
-
         public string ApplicationsCount { get; set; }
         public string OutcomingDocNum { get; set; }
-
-        [Required]
         public string DocumentSubject { get; set; }
 
         public IncomingDocumentType DocumentType { get; set; }
         public string DocumentTypeName { get; set; }
-
-        [Required]
         public string ListAgreement { get; set; }
 
-        [Required]
         public Guid? ItemCauseTableId { get; set; }
         public virtual ItemCauseTable ItemCauseTable { get; set; }
 
@@ -290,39 +248,26 @@ namespace RapidDoc.Models.DomainModels
 
         public StatusPerson StatusPerson { get; set; }
 
-        [Required]
         public string Name { get; set; }
-
-        [Required]
         public string Address { get; set; }
 
         public Guid? CountryTableId { get; set; }
         public virtual CountryTable CountryTable { get; set; }
 
         public string RegistrationNum { get; set; }
-        public DateTime RegistrationDate { get; set; }
+        public DateTime? RegistrationDate { get; set; }
 
-        [Required]
         public string Whom { get; set; }
-
         public FormAppeal FormAppeal { get; set; }
-
         public TypeAppeal TypeAppeal { get; set; }
         public string TypeAppealAddition { get; set; }
-
         public CharacterAppeal CharacterAppeal { get; set; }
-
         public CharacterQuestion CharacterQuestion { get; set; }
         public string CharacterQuestionAddition { get; set; }
-
-        [Required]
         public string ListsCount { get; set; }
         public string ApplicationsCount { get; set; }
-
-        [Required]
         public string Subject { get; set; }
 
-        [Required]
         public Guid? ItemCauseTableId { get; set; }
         public virtual ItemCauseTable ItemCauseTable { get; set; }
 
@@ -357,42 +302,26 @@ namespace RapidDoc.Models.DomainModels
         public virtual QuestionRequestTable QuestionRequestTable { get; set; }
 
         public ControlType ControlType { get; set; }
-
         public ServiceIncidientPriority Priority { get; set; }
         public DateTime? ExecutionDate { get; set; }
-
         public bool Executed { get; set; }
     }
 
     public abstract class BasicProtocolDocumentsTable : BasicDocumentTable
     {
-        [Required]
         public string Code { get; set; }
 
         public Guid? ProtocolFoldersTableId { get; set; }
         public virtual ProtocolFoldersTable ProtocolFoldersTable { get; set; }
 
-        [Required]
         public string Subject { get; set; }
-
         public string Location { get; set; }
-
         public string Introduction { get; set; }
-
-        [Required]
         public string Agenda { get; set; }
-
-        [Required]
         public string Attended { get; set; }
-
         public string Invited { get; set; }
-
         public string Absent { get; set; }
-
-        [Required]
         public string Chairman { get; set; }
-
-        [Required]
         public string ListAgreement { get; set; }
 
         public virtual List<PRT_QuestionList_Table> QuestionList { get; set; }

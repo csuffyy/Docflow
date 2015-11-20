@@ -205,10 +205,10 @@ namespace RapidDoc.Models.Services
 
         public object GetJsonEmplBothOption()
         {
-            var jsondata = from c in GetPartial(x => x.FirstName.Length > 0 && x.MiddleName.Length > 0)
+            var jsondata = from c in GetPartial(x => x.Enable == true)
                            select new
                            {
-                               text = string.Format("{0}", c.ShortFullNameType2)
+                               text = string.Format("{0} {1}", c.ShortFullNameType2, c.TitleName)
                            };
 
             return jsondata;

@@ -10,9 +10,7 @@ namespace RapidDoc.Models.DomainModels
     #region Заявки Связи
     public class USR_REQ_IT_CTS_DeliveryOfPinCode_Table : BasicDocumentRequestTable
     {
-        [Required]
         public string Phone { get; set; }
-
         public bool International { get; set; }
     }
 
@@ -29,8 +27,6 @@ namespace RapidDoc.Models.DomainModels
     public class USR_REQ_IT_CTS_DisassemblingOfWS_Table : BasicDocumentRequestTable
     {
         public WSType WSType { get; set; }
-
-        [Required]
         public string Reason { get; set; }
     }
 
@@ -38,50 +34,30 @@ namespace RapidDoc.Models.DomainModels
     {
         public PhoneType FromPhoneType { get; set; }
         public PhoneType ToPhoneType { get; set; }
-
-        [Required]
         public string Reason { get; set; }
-
-        [Required]
         public string Phone { get; set; }
     }
 
     public class USR_REQ_IT_CTS_ReplacementWorkPlace_Table : BasicDocumentTable
     {
         public WorkPlaceMovement WorkPlaceMovementType { get; set; }
-        
-        [Required]
         public string FromPlace { get; set; }
-
-        [Required]
         public string ToPlace { get; set; }
-
-        [Required]
         public string Users { get; set; }
-
-        [Required]
         public string Phone { get; set; }
     }
 
     public class USR_REQ_IT_CTS_ReregistrationUserInPhoneSystem_Table : BasicDocumentTable
     {
-        [Required]
         public string Phone { get; set; }
-
-        [Required]
         public string Users { get; set; }
     }
 
     public class USR_REQ_IT_CTS_DeleteRezervationNumber_Table : BasicDocumentTable
     {
-        [Required]
         public string Phone { get; set; }
         public ActionsPhone ActionsPhone { get; set; }
-
-        [Required]
         public string PeriodTime { get; set; }
-
-        [Required]
         public string Reason { get; set; }
     }
 
@@ -94,14 +70,8 @@ namespace RapidDoc.Models.DomainModels
     public class USR_REQ_IT_CTS_ProblemWithPhone_Table : BasicDocumentTable
     {
         public ProblemTypeCTS ProblemType { get; set; }
-
-        [Required]
         public string Problem { get; set; }
-
-        [Required]
         public string Users { get; set; }
-
-        [Required]
         public string Phone { get; set; }
     }
 
@@ -110,19 +80,13 @@ namespace RapidDoc.Models.DomainModels
         public ForwardType ForwardType { get; set; }
         public string ForwardPhone { get; set; }
         public int ForwardNumber { get; set; }
-
-        [Required]
         public string Users { get; set; }
-
-        [Required]
         public string Phone { get; set; }
     }
 
     public class USR_REQ_IT_CTS_DeliveryOfService_Table : BasicDocumentTable
     {
         public CTS_ServiceList ServiceList { get; set; }
-
-        [Required]
         public string RequestText { get; set; }
     }
 
@@ -163,11 +127,7 @@ namespace RapidDoc.Models.DomainModels
         public string TextButtonNo16 { get; set; }
 
         public string RequestText { get; set; }
-
-        [Required]
         public string Users { get; set; }
-
-        [Required]
         public string Phone { get; set; }
     }
     #endregion
@@ -231,8 +191,6 @@ namespace RapidDoc.Models.DomainModels
         public AccessRightBasic AccessRight23 { get; set; }
         public AccessRightBasic AccessRight24 { get; set; }
         public AccessRightBasic AccessRight25 { get; set; }
-
-        [Required]
         public string Users { get; set; }
     }
 
@@ -248,9 +206,7 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_REQ_IT_ERP_ModificationDAX_Table : BasicDocumentTable
     {
-        [Required]
         public string RequestText { get; set; }
-
         public bool Treasury { get; set; }
         public bool Purchases { get; set; }
         public bool Finance { get; set; }
@@ -269,115 +225,72 @@ namespace RapidDoc.Models.DomainModels
     #region Заявки СТП
     public class USR_REQ_IT_CTP_EquipmentInstallation_Table : BasicDocumentTable
     {
-        [Required]
         public string NameEquipment { get; set; }
-
         public int NumberEquipment { get; set; }
-
-        [Required]
         public string Location { get; set; }
-
         public string Description { get; set; }
     }
 
     public class USR_REQ_IT_CTP_InstallNewComputer_Table : BasicDocumentTable
     {
-        [Required]
         public string Location { get; set; }
-
-        [Required]
         public string Users { get; set; }
     }
 
     public class USR_REQ_IT_CTP_InstallSoftware_Table : BasicDocumentTable
     {
-        [Required]
         public string Software { get; set; }
-
-        [Required]
         public string Users { get; set; }
     }
 
     public class USR_REQ_IT_CTP_RecoverySimCard_Table : BasicDocumentTable
     {
-        [Required]
         public string Users { get; set; }
-
-        [Required]
         public string Pnone { get; set; }
-
-        [Required]
         public string Reason { get; set; }
     }
 
     public class USR_REQ_IT_CTP_IssueSimCard_Table : BasicDocumentTable
     {
-        [Required]
         public string Users { get; set; }
-
         public int Limit { get; set; }
     }
 
     public class USR_REQ_IT_CTP_IssueMaterial_Table : BasicDocumentTable
     {
-        [Required]
         public string Users { get; set; }
-
-        [Required]
         public string ItemId { get; set; }
-
-        [Required]
         public string ItemName { get; set; }
-
         public int Qty { get; set; }
-
-        [Required]
         public string Reason { get; set; }
     }
 
     public class USR_REQ_IT_CTP_IssueStorage_Table : BasicDocumentTable
     {
-        [Required]
         public string Users { get; set; }
-
         public StorageType StorageType { get; set; }
         public StorageVolume StorageVolume { get; set; }
-
         public int Qty { get; set; }
-
-        [Required]
         public string Reason { get; set; }
     }
 
     public class USR_REQ_IT_CTP_ReplaceCartridge_Table : BasicDocumentTable
     {
-        [Required]
         public string ModelPrinter { get; set; }
-
-        [Required]
         public string RassetId { get; set; }
-
         public int Qty { get; set; }
-
-        [Required]
         public string Location { get; set; }
     }
 
     public class USR_REQ_IT_CTP_ReplaceComputer_Table : BasicDocumentTable
     {
-        [Required]
         public string Users { get; set; }
-
-        [Required]
         public string Reason { get; set; }
     }
 
     public class USR_REQ_IT_CTP_RequestEquipment_Table : BasicDocumentTable
     {
-        [Required]
         public string Users { get; set; }
-
-        [Required]
         public string CopmputerName { get; set; }
 
         public string SystemUnitModel { get; set; }
@@ -398,13 +311,8 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_REQ_IT_CTP_ReissueComputer_Table : BasicDocumentTable
     {
-        [Required]
         public string FromUsers { get; set; }
-
-        [Required]
         public string ToUsers { get; set; }
-
-        [Required]
         public string CopmputerName { get; set; }
 
         public string SystemUnitModel { get; set; }
@@ -430,9 +338,7 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_REQ_IT_CTP_IncidentIT_Table : BasicDocumentRequestTable
     {
-        [Required]
         public string Phone { get; set; }
-
         public string ServiceName { get; set; }
         public ServiceIncidientPriority ServiceIncidientPriority { get; set; }
         public ServiceIncidientLevel ServiceIncidientLevel { get; set; }
@@ -442,8 +348,6 @@ namespace RapidDoc.Models.DomainModels
     public class USR_REQ_IT_CTP_RequestTRU_Table : BasicDocumentTable
     {
         public string UserChooseManual1 { get; set; }
-
-        [Required]
         public string Department { get; set; }
 
         public string ItemName1 { get; set; }
@@ -632,72 +536,42 @@ namespace RapidDoc.Models.DomainModels
     public class USR_REQ_IT_CAP_RemoveSignLotus_Table : BasicDocumentTable
     {
         public DeleteSignLotus DeleteSignLotus { get; set; }
-
-        [Required]
         public string AuthorDocument { get; set; }
-
-        [Required]
         public string DocumentName { get; set; }
-
-        [Required]
         public string DocumentBase { get; set; }
-
-        public DateTime DocumentDate { get; set; }
-
-        [Required]
+        public DateTime? DocumentDate { get; set; }
         public string SignName { get; set; }
-
-        [Required]
         public string Reason { get; set; }
     }
 
     public class USR_REQ_IT_CAP_CreateSubscription_Table : BasicDocumentTable
     {
-        [Required]
         public string Users { get; set; }
-
-        [Required]
         public string GroupName { get; set; }
-
-        [Required]
         public string GroupUsers { get; set; }
-
-        [Required]
         public string Reason { get; set; }
     }
 
     public class USR_REQ_IT_CAP_CreateNetworkFolder_Table : BasicDocumentTable
     {
-        [Required]
         public string Users { get; set; }
-
-        [Required]
         public string NetworkFolder { get; set; }
-
-        [Required]
         public string Path { get; set; }
-
         public AccessRightBasic AccessRight { get; set; }
     }
 
     public class USR_REQ_IT_CAP_DelegationExchServ_Table : BasicDocumentTable
     {
-        [Required]
         public string FromUsers { get; set; }
-
-        [Required]
         public string ToUsers { get; set; }
-
-        [Required]
         public string Reason { get; set; }
 
-        public DateTime FromDate { get; set; }
-        public DateTime ToDate { get; set; }
+        public DateTime? FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
     }
 
     public class USR_REQ_IT_CAP_AddUserSubscription_Table : BasicDocumentTable
     {
-        [Required]
         public string Users { get; set; }
 
         public bool RTDUET_GMO { get; set; }
@@ -732,49 +606,32 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_REQ_IT_CAP_ChangePassAD_Table : BasicDocumentTable
     {
-        [Required]
         public string Users { get; set; }
-
-        [Required]
         public string Reason { get; set; }
-
-        [Required]
         public string ContactPhone { get; set; }
     }
 
     public class USR_REQ_IT_CAP_ChangePassLotus_Table : BasicDocumentTable
     {
-        [Required]
         public string Users { get; set; }
-
-        [Required]
         public string Reason { get; set; }
     }
 
     public class USR_REQ_IT_CAP_UnlockUserAD_Table : BasicDocumentTable
     {
-        [Required]
         public string Users { get; set; }
-
-        [Required]
         public string Reason { get; set; }
-
-        [Required]
         public string ContactPhone { get; set; }
     }
 
     public class USR_REQ_IT_CAP_AccessRightParagraf_Table : BasicDocumentTable
     {
-        [Required]
         public string Users { get; set; }
-
-        [Required]
         public string IP { get; set; }
     }
 
     public class USR_REQ_IT_CAP_AccessRightLotus_Table : BasicDocumentTable
     {
-        [Required]
         public string Users { get; set; }
 
         public bool Request { get; set; }
@@ -816,7 +673,6 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_REQ_IT_CAP_AccessSendLotus_Table : BasicDocumentTable
     {
-        [Required]
         public string Users { get; set; }
 
         public bool AllATKEmployees { get; set; }
@@ -842,69 +698,44 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_REQ_IT_CAP_AccessRightFTP_Table : BasicDocumentTable
     {
-        [Required]
         public string Users { get; set; }
-
-        [Required]
         public string FTP { get; set; }
     }
 
     public class USR_REQ_IT_CAP_AccessRightNetworkFolder_Table : BasicDocumentTable
     {
-        [Required]
         public string Users { get; set; }
-
-        [Required]
         public string Path { get; set; }
-
         public AccessRightBasic AccessRight { get; set; }
-
-        [Required]
         public string Reason { get; set; }
     }
 
     public class USR_REQ_IT_CAP_AccessRightInternet_Table : BasicDocumentTable
     {
-        [Required]
         public string Users { get; set; }
-
-        [Required]
         public string Reason { get; set; }
     }
 
     public class USR_REQ_IT_CAP_AccessRightInternetZIF_Table : BasicDocumentTable
     {
-        [Required]
         public string Users { get; set; }
-
-        [Required]
         public string Reason { get; set; }
     }
 
     public class USR_REQ_IT_CAP_AccessRightInternetBGP_Table : BasicDocumentTable
     {
-        [Required]
         public string Users { get; set; }
-
-        [Required]
         public string Reason { get; set; }
     }
 
     public class USR_REQ_IT_CAP_DelegationDocflow_Table : BasicDocumentTable
     {
-        [Required]
         public string FromUsers { get; set; }
-
-        [Required]
         public string ToUsers { get; set; }
 
-        public DateTime FromDate { get; set; }
-        public DateTime ToDate { get; set; }
-
-        [Required]
+        public DateTime? FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
         public string Reason { get; set; }
-
-        [Required]
         public string DocumentName { get; set; }
     }
 
@@ -912,249 +743,135 @@ namespace RapidDoc.Models.DomainModels
     {
         public bool ActiveDirectory { get; set; }
         public bool Exchange { get; set; }
-
-        [Required]
         public string Name { get; set; }
-
-        public DateTime BirthDay { get; set; }
-
-        [Required]
+        public DateTime? BirthDay { get; set; }
         public string Title { get; set; }
-
-        [Required]
         public string Users { get; set; }
-
         public BlocksATK BlocksATK { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
         public DateTime? ToDate { get; set; }
-
-        [Required]
         public string Contact { get; set; }
-
-        [Required]
         public string Description { get; set; }
     }
 
     public class USR_REQ_IT_CAP_CreateUserADFreelance_Table : BasicDocumentTable
     {
         public bool ActiveDirectory { get; set; }
-
-        [Required]
         public string Name { get; set; }
-
-        public DateTime BirthDay { get; set; }
-
-        [Required]
+        public DateTime? BirthDay { get; set; }
         public string Title { get; set; }
-
-        [Required]
         public string Users { get; set; }
-
         public BlocksATK BlocksATK { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        public DateTime ToDate { get; set; }
-
-        [Required]
+        public DateTime? ToDate { get; set; }
         public string Contact { get; set; }
     }
 
     public class USR_REQ_IT_CAP_RecoveryData_Table : BasicDocumentTable
     {
-        [Required]
         public string PathFile { get; set; }
-
-        [Required]
         public string FileName { get; set; }
-
-        public DateTime LastDate { get; set; }
-
-        [Required]
+        public DateTime? LastDate { get; set; }
         public string Contact { get; set; }
     }
 
     public class USR_REQ_IT_CAP_ArchiveMail_Table : BasicDocumentTable
     {
-        [Required]
         public string Users { get; set; }
-
-        [Required]
         public string Description { get; set; }
     }
 
     public class USR_REQ_IT_CAP_CreateUserLync_Table : BasicDocumentTable
     {
-        [Required]
         public string Users { get; set; }
-
-        [Required]
         public string InternalPhone { get; set; }
     }
 
     public class USR_REQ_IT_CAP_CreateUserExchange_Table : BasicDocumentTable
     {
-        [Required]
         public string Name { get; set; }
-
-        [Required]
         public string Email { get; set; }
-
-        [Required]
         public string CompanyName { get; set; }
-
-        [Required]
         public string Title { get; set; }
-
-        [Required]
         public string Contact { get; set; }
     }
 
     public class USR_REQ_IT_CAP_CreateUserAutograf_Table : BasicDocumentTable
     {
-        [Required]
         public string Users { get; set; }
-
-        [Required]
         public string Contact { get; set; }
-
-        [Required]
         public string Reason { get; set; }
     }
 
     public class USR_REQ_IT_CAP_NoLinkInternet_Table : BasicDocumentTable
     {
-        [Required]
         public string Users { get; set; }
-
-        [Required]
         public string Problem { get; set; }
-
-        [Required]
         public string Site { get; set; }
     }
 
     public class USR_REQ_IT_CAP_CapacityMail_Table : BasicDocumentTable
     {
-        [Required]
         public string Users { get; set; }
-
-        [Required]
         public string Reason { get; set; }
     }
 
     public class USR_REQ_IT_CAP_HardSoftwareMaintenance_Table : BasicDocumentTable
     {
         public HardSoftwareMaintenance HardSoftwareMaintenance { get; set; }
-
-        [Required]
         public string Description { get; set; }
     }
 
     public class USR_REQ_IT_CAP_ChangeRoute_Table : BasicDocumentTable
     {
-        [Required]
         public string Name { get; set; }
-
-        [Required]
         public string OldRoute { get; set; }
-
-        [Required]
         public string NewRoute { get; set; }
-
-        [Required]
         public string Reason { get; set; }
-
-        [Required]
         public string Contact { get; set; }
     }
 
     public class USR_REQ_IT_CAP_CreateUserLotus_Table : BasicDocumentTable
     {
-        [Required]
         public string Name { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string Title { get; set; }
-
         public string Description { get; set; }
     }
 
     public class USR_REQ_IT_CAP_AddOrChangeTemplate_Table : BasicDocumentTable
     {
         public AddOrChange ActionType { get; set; }
-
-        [Required]
         public string Path { get; set; }
-
-        [Required]
         public string Name { get; set; }
-
-        [Required]
         public string Contact { get; set; }
-
         public string Description { get; set; }
     }
 
     public class USR_REQ_IT_CAP_ChangeOrder_Table : BasicDocumentTable
     {
-        [Required]
         public string OrderNum { get; set; }
-
-        [Required]
-        public DateTime OrderDate { get; set; }
-
-        [Required]
+        public DateTime? OrderDate { get; set; }
         public string Subject { get; set; }
-
-        [Required]
         public string Description { get; set; }
-
-        [Required]
         public string Reason { get; set; }
-
-        [Required]
         public string Contact { get; set; }
     }
 
     public class USR_REQ_IT_CAP_ChangeOrderWage_Table : BasicDocumentTable
     {
-        [Required]
         public string OrderNum { get; set; }
-
-        [Required]
-        public DateTime OrderDate { get; set; }
-
-        [Required]
+        public DateTime? OrderDate { get; set; }
         public string Subject { get; set; }
-
-        [Required]
         public string Description { get; set; }
-
-        [Required]
         public string Reason { get; set; }
-
-        [Required]
         public string Contact { get; set; }
     }
     public class USR_REQ_IT_CAP_RequestForITWeekend_Table : BasicDocumentTable
     {
-        [Required]
         public string Reason { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string Period { get; set; }
-
         public string UserChooseManual1 { get; set; }
     }
     #endregion
@@ -1163,52 +880,39 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_REQ_ZIF_RequestForFuel_Table : BasicDocumentTable
     {
-        [Required]
         public string Department { get; set; }
     }
 
     public class USR_REQ_ZIF_RequestForSIZ_Table : BasicDocumentTable
     {
-        [Required]
         public string Department { get; set; }
     }
 
     public class USR_REQ_ZIF_RequestForItems_Table : BasicDocumentTable
     {
-        [Required]
         public string Department { get; set; }
     }
 
     public class USR_REQ_ZIF_RequestForItemsMech_Table : BasicDocumentTable
     {
-        [Required]
         public string Department { get; set; }
     }
 
     public class USR_REQ_ZIF_RequestForItemsEnerg_Table : BasicDocumentTable
     {
-        [Required]
         public string Department { get; set; }
     }
 
     public class USR_REQ_ZIF_RequestForItemsASYTP_Table : BasicDocumentTable
     {
-        [Required]
         public string Department { get; set; }
     }
 
     public class USR_REQ_ZIF_RequestForCarpenterWork_Table : BasicDocumentTable
     {
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string Contact { get; set; }
-
-        [Required]
         public string Reason { get; set; }
-
-        [Required]
         public string Available { get; set; }
     }
 
@@ -1219,19 +923,10 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_REQ_ZIF_RequestForRepairVentilation_Table : BasicDocumentTable
     {
-        [Required]
         public string Name { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string Location { get; set; }
-
-        [Required]
         public string Reason { get; set; }
-
-        [Required]
         public string Material { get; set; }
     }
     #endregion
@@ -1240,146 +935,88 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_REQ_OKS_RequestForTranslate_Table : BasicDocumentTable
     {
-        [Required]
         public string Department { get; set; }
-        [Required]
         public string  Contact{ get; set; }
-        [Required]
         public string Purpose { get; set; }
-        [Required]
         public TranslateDirection Direction { get; set; }
-        [Required]
         public int CountPage { get; set; }
-        [Required]
         public ServiceIncidientPriority Priority { get; set; }
-        [Required]
         public string ExplanationPriority { get; set; }
-        [Required]
         public string Users { get; set; }
     }
 
     public class USR_REQ_OKS_RequestForTranslateZIF_Table : BasicDocumentTable
     {
-        [Required]
         public string Department { get; set; }
-        [Required]
         public string Contact { get; set; }
-        [Required]
         public string Purpose { get; set; }
-        [Required]
         public TranslateDirection Direction { get; set; }
-        [Required]
         public int CountPage { get; set; }
-        [Required]
         public ServiceIncidientPriority Priority { get; set; }
-        [Required]
         public string ExplanationPriority { get; set; }
-        [Required]
         public string Users { get; set; }
     }
 
     public class USR_REQ_OKS_RequestForTranslateKAZ_Table : BasicDocumentTable
     {
-        [Required]
         public string Department { get; set; }
-        [Required]
         public string Contact { get; set; }
-        [Required]
         public string Purpose { get; set; }
-        [Required]
         public TranslateDirectionKAZ Direction { get; set; }
-        [Required]
         public int CountPage { get; set; }
-        [Required]
         public ServiceIncidientPriority Priority { get; set; }
-        [Required]
         public string ExplanationPriority { get; set; }
-        [Required]
         public string Users { get; set; }
     }
 
     public class USR_REQ_OKS_RequestForPrintBlank_Table : BasicDocumentTable
     {
-        [Required]
         public string DateAndNumber { get; set; }
-        [Required]
         public string Purpose { get; set; }
     }
 
     public class USR_REQ_OKS_RequestForArchive_Table : BasicDocumentTable
     {
-        [Required]
         public string DataDoument { get; set; }
-        [Required]
         public string Period { get; set; }
-        [Required]
         public string Reason { get; set; }
     }
     public class USR_REQ_OKS_RequestForVisa_Table : BasicDocumentTable
     {
-        [Required]
         public string Users { get; set; }
-
-        [Required]
         public string Country { get; set; }
-        [Required]
-        public DateTime FromDate { get; set; }
-        [Required]
-        public DateTime ToDate { get; set; }
+        public DateTime? FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
     }
 
     public class USR_REQ_OKS_RequestForTicket_Table : BasicDocumentTable
     {
-        [Required]
         public string NameRus { get; set; }
-        [Required]
         public string NameEng { get; set; }
-        [Required]
         public string Title { get; set; }
-        [Required]
-        public DateTime DateBirth { get; set; }
-        [Required]
+        public DateTime? DateBirth { get; set; }
         public string PassportNumber { get; set; }
-        [Required]
         public string Validity { get; set; }
-        [Required]
         public string Route { get; set; }
-        [Required]
         public string Date { get; set; }
-        [Required]
         public string TimeDeparture { get; set; }
-        [Required]
         public string Category { get; set; }
-        [Required]
         public string Reason { get; set; }
-        [Required]
         public PayType PayType { get; set; }
     }
     public class USR_REQ_OKS_RequestForTicketPermission_Table : BasicDocumentTable
     {
-        [Required]
         public string NameRus { get; set; }
-        [Required]
         public string NameEng { get; set; }
-        [Required]
         public string Title { get; set; }
-        [Required]
-        public DateTime DateBirth { get; set; }
-        [Required]
+        public DateTime? DateBirth { get; set; }
         public string PassportNumber { get; set; }
-        [Required]
         public string Validity { get; set; }
-        [Required]
         public string Route { get; set; }
-        [Required]
         public string Date { get; set; }
-        [Required]
         public string TimeDeparture { get; set; }
-        [Required]
         public string Category { get; set; }
-        [Required]
         public string Reason { get; set; }
-        [Required]
         public PayType PayType { get; set; }
     }
     #endregion
@@ -1388,77 +1025,39 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_REQ_ROGR_RequestForMiningVehicle_Table : BasicDocumentTable
     {
-        [Required]
         public string Users { get; set; }
-
-        [Required]
-        public DateTime Date { get; set; }
-
-        [Required]
+        public DateTime? Date { get; set; }
         public string Reason { get; set; }
-
-        [Required]
         public string Volume { get; set; }
-
-        [Required]
         public string Person { get; set; }
-
-        [Required]
         public string VehicleType { get; set; }
     }
 
     public class USR_REQ_ROGR_RequestForOpenCompetition_Table : BasicDocumentTable
     {
-        [Required]
         public string NamePurchase { get; set; }
-
-        [Required]
         public string BudgetArticle { get; set; }
-
-        [Required]
         public string Amount { get; set; }
-
-        [Required]
         public string Circumstance { get; set; }
-
-        [Required]
         public string Destination { get; set; }
     }
 
     public class USR_REQ_ROGR_RequestForPriceOffers_Table : BasicDocumentTable
     {
-        [Required]
         public string NamePurchase { get; set; }
-
-        [Required]
         public string BudgetArticle { get; set; }
-
-        [Required]
         public string Amount { get; set; }
-
-        [Required]
         public string Circumstance { get; set; }
-
-        [Required]
         public string Destination { get; set; }
 
     }
 
     public class USR_REQ_ROGR_RequestForOneSource_Table : BasicDocumentTable
     {
-        [Required]
         public string NamePurchase { get; set; }
-
-        [Required]
         public string BudgetArticle { get; set; }
-
-        [Required]
         public string Amount { get; set; }
-
-        [Required]
         public string Circumstance { get; set; }
-
-        [Required]
         public string Destination { get; set; }
     }
 
@@ -1468,49 +1067,20 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_REQ_SGMZIF_RequestForRepair_Table : BasicDocumentTable
     {
-        [Required]
         public DateTime? Date { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string Contact { get; set; }
-
-        [Required]
         public string Telephone { get; set; }
-
-        [Required]
         public string Equipment { get; set; }
-
-        [Required]
         public string DescriptionFail { get; set; }
-
-        [Required]
         public string TypeEngine { get; set; }
-
-        [Required]
         public string PowerEngine { get; set; }
-
-        [Required]
         public string Speed { get; set; }
-
-        [Required]
         public string Current { get; set; }
-
-        [Required]
         public string Voltage { get; set; }
-
-        [Required]
         public string SchemeConnection { get; set; }
-
-        [Required]
         public string RateDefense { get; set; }
-
-        [Required]
         public string InstallPerformance { get; set; }
-
-        [Required]
         public string SerialNumber { get; set; }
     }
 
@@ -1520,141 +1090,69 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_REQ_JU_RequestForAssurance_Table : BasicDocumentTable
     {
-        [Required]
         public string Users { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string FullName { get; set; }
-
-        [Required]
         public DateTime? DateAssurance { get; set; }
-
-        [Required]
         public string AimAssurance { get; set; }
-
-        [Required]
         public string WhereAndWhom { get; set; }
-
-        [Required]
         public int CountExamples { get; set; }
     }
 
     public class USR_REQ_JU_RequestForProxyDoc_Table : BasicDocumentTable
     {
-        [Required]
         public string Users { get; set; }
-
-        [Required]
         public string Telephone { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string JuName { get; set; }
-
-        [Required]
         public string PhyName { get; set; }
-
-        [Required]
-        public DateTime Date { get; set; }
-
-        [Required]
+        public DateTime? Date { get; set; }
         public string Term { get; set; }
     }
 
     public class USR_REQ_JU_RequestForArchiveContract_Table : BasicDocumentTable
     {
-        [Required]
         public string Users { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string NumberContract { get; set; }
-
-        [Required]
-        public DateTime DateContract { get; set; }
-
-        [Required]
+        public DateTime? DateContract { get; set; }
         public string NameClient { get; set; }
-
-        [Required]
         public string Purpose { get; set; }
-
-        [Required]
         public TypeJUDocument TypeDocument { get; set; }
     }
 
     public class USR_REQ_JU_RequestForApproveDoc_Table : BasicDocumentTable
     {
-        [Required]
         public string Users { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string FullName { get; set; }
-
-        [Required]
-        public DateTime DateApprove { get; set; }
-
-        [Required]
+        public DateTime? DateApprove { get; set; }
         public string Purpose { get; set; }
-
-        [Required]
         public string Destination { get; set; }
-
-        [Required]
         public int CountExamples { get; set; }
     }
 
     public class USR_REQ_JU_RequestForNPA_Table : BasicDocumentTable
     {
-        [Required]
         public string Users { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string NormalAct { get; set; }
-
-        [Required]
-        public DateTime NPADate { get; set; }
-
-        [Required]
+        public DateTime? NPADate { get; set; }
         public string FullName { get; set; }
     }
 
     public class USR_REQ_JU_RequestForExplanationNormalAct_Table : BasicDocumentTable
     {
-        [Required]
         public string Users { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string NumberDoc { get; set; }
-
-        [Required]
-        public DateTime Date { get; set; }
-
-        [Required]
+        public DateTime? Date { get; set; }
         public string FullName { get; set; }
-
         public string OwnMind { get; set; }
     }
 
     public class USR_REQ_JU_RequestForExpertise_Table : BasicDocumentTable
     {
-        [Required]
         public string Department { get; set; }
     }
     #endregion
@@ -1663,37 +1161,19 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_REQ_FEU_RequestForFinExpertise_Table : BasicDocumentTable
     {
-        [Required]
         public string Department { get; set; }
     }
 
     public class USR_REQ_FEU_RequestForCorrectCalendar_Table : BasicDocumentTable
     {
-        [Required]
         public string Provider { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string Foundation { get; set; }
-
-        [Required]
         public string NumberDate { get; set; }
-
-        [Required]
         public string Appointment { get; set; }
-
-        [Required]
         public string Amount { get; set; }
-
-        [Required]
         public string Currency { get; set; }
-
-        [Required]
         public string Article { get; set; }
-
-        [Required]
         public string Reason { get; set; }
     }
 
@@ -1703,95 +1183,45 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_REQ_UE_RequestForOutputElectricalEqu_Table : BasicDocumentTable
     {
-        [Required]
         public string Equipment { get; set; }
-
-        [Required]
         public string Consumers { get; set; }
-
-        [Required]
         public string ConsumersOff { get; set; }
-
-        [Required]
         public string Value { get; set; }
-
-        [Required]
-        public DateTime BeginDate { get; set; }
-
-        [Required]
-        public DateTime EndDate { get; set; }
-
-        [Required]
+        public DateTime? BeginDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public string AccidentTime { get; set; }
-
-        [Required]
         public string Responsible { get; set; }
     }
 
     public class USR_REQ_UE_RequestForDismantling_Table : BasicDocumentTable
     {
-        [Required]
-        public DateTime Date { get; set; }
-
-        [Required]
+        public DateTime? Date { get; set; }
         public string Description { get; set; }
-
-        [Required]
         public string AvailableEqu { get; set; }
-
-        [Required]
         public string Telephone { get; set; }
-
-        [Required]
         public string Person { get; set; }
     }
 
     public class USR_REQ_UE_RequestForForecastWater_Table : BasicDocumentTable
     { 
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public PipeName Pipe { get; set; }
-
-        [Required]
         public string Value { get; set; }
-
-        [Required]
-        public DateTime BeginDate { get; set; }
-
-        [Required]
-        public DateTime EndDate { get; set; }
-
-        [Required]
+        public DateTime? BeginDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public string Explanation { get; set; }
         
     }
 
     public class USR_REQ_UE_RequestForElectricRepairs_Table : BasicDocumentTable
     {
-        [Required]
-        public DateTime Date { get; set; }
-
-        [Required]
+        public DateTime? Date { get; set; }
         public string Department { get; set; }
-
-        [Required]
         public string ContactPerson { get; set; }
-
-        [Required]
         public string Telephone { get; set; }
-
-        [Required]
         public string NameEqu { get; set; }
-
-        [Required]
         public string Description { get; set; }
-
-        [Required]
         public string Availability { get; set; }
-
-        [Required]
         public string Person { get; set; }
     }
 
@@ -1801,7 +1231,6 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_REQ_USH_RequestForReclassification_Table : BasicDocumentTable
     {
-        [Required]
         public string Explanation { get; set; }
     }
 
@@ -1919,19 +1348,13 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_REQ_UBP_RequestForGetConclusion_Table : BasicDocumentTable
     {
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string Explanation { get; set; }
     }
 
     public class USR_REQ_UBP_RequestForInstructionBIOT_Table : BasicDocumentTable
     {
-        [Required]
         public string Department { get; set; }
-
-        
         public string UserChooseManual1 { get; set; }
     }
     #endregion
@@ -1939,89 +1362,45 @@ namespace RapidDoc.Models.DomainModels
     #region КД
     public class USR_REQ_KD_RequestForCompetitonProc_Table : BasicDocumentTable
     {
-        [Required]
         public string NamePurchase { get; set; }
-
-        [Required]
         public string BudgetArticle { get; set; }
-
         public string Project { get; set; }
-
-        [Required]
         public string Amount { get; set; }
-
-        [Required]
         public string Circumstance { get; set; }
-
-        [Required]
         public string Destination { get; set; }
-
         public string UserChooseManual1 { get; set; }
     }
 
     public class USR_REQ_KD_RequestForCompetitonProcUZL_Table : BasicDocumentTable
     {
-        [Required]
         public string NamePurchase { get; set; }
-
-        [Required]
         public string BudgetArticle { get; set; }
-
         public string Project { get; set; }
-
-        [Required]
         public string Amount { get; set; }
-
-        [Required]
         public string Circumstance { get; set; }
-
-        [Required]
         public string Destination { get; set; }
-
         public string UserChooseManual1 { get; set; }
     }
 
     public class USR_REQ_KD_RequestForCompetitonProcServices_Table : BasicDocumentTable
     {
-        [Required]
         public string NamePurchase { get; set; }
-
-        [Required]
         public string BudgetArticle { get; set; }
-
         public string Project { get; set; }
-
-        [Required]
         public string Amount { get; set; }
-
-        [Required]
         public string Circumstance { get; set; }
-
-        [Required]
         public string Destination { get; set; }
-
         public string UserChooseManual1 { get; set; }
     }
 
     public class USR_REQ_KD_RequestForCompetitonProcServicesBGP_Table : BasicDocumentTable
     {
-        [Required]
         public string NamePurchase { get; set; }
-
-        [Required]
         public string BudgetArticle { get; set; }
-
         public string Project { get; set; }
-
-        [Required]
         public string Amount { get; set; }
-
-        [Required]
         public string Circumstance { get; set; }
-
-        [Required]
         public string Destination { get; set; }
-
         public string UserChooseManual1 { get; set; }
     }
     #endregion
@@ -2030,26 +1409,12 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_REQ_SK_RequestForRegContactNonresident_Table : BasicDocumentTable
     {
-
-        [Required]
         public string Users { get; set; }
-
-        [Required]
-        public DateTime OrderDate { get; set; }
-
-        [Required]
+        public DateTime? OrderDate { get; set; }
         public string  Department { get; set; }
-
-        [Required]
         public ContragentType ContragentType { get; set; }
-
-        [Required]
         public string ContragentName { get; set; }
-
-        [Required]
         public string DataMainContract { get; set; }
-
-        [Required]
         public string DataAdditionalContract { get; set; }
     }
 
@@ -2059,28 +1424,13 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_REQ_UB_RequestForImportTMCZIF_Table : BasicDocumentTable
     {
-        [Required]
         public string Name { get; set; }
-
-        [Required]
         public string Count { get; set; }
-
-        [Required]
         public string DeparturePlace { get; set; }
-
-        [Required]
         public string DestinationPlace { get; set; }
-
-        [Required]
         public string CarBrand { get; set; }
-
-        [Required]
         public string NamesPeople { get; set; }
-
-        [Required]
         public string Aim { get; set; }
-
-        [Required]
         public string Date { get; set; }
 
         public bool Post1 { get; set; }
@@ -2094,28 +1444,13 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_REQ_UB_RequestForImportORZZIF_Table : BasicDocumentTable
     {
-        [Required]
         public string Name { get; set; }
-
-        [Required]
         public string Count { get; set; }
-
-        [Required]
         public string DeparturePlace { get; set; }
-
-        [Required]
         public string DestinationPlace { get; set; }
-
-        [Required]
         public string CarBrand { get; set; }
-
-        [Required]
         public string NamesPeople { get; set; }
-
-        [Required]
         public string Aim { get; set; }
-
-        [Required]
         public string Date { get; set; }
 
         public bool Post1 { get; set; }
@@ -2129,28 +1464,13 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_REQ_UB_RequestForImportTMCNoneZIF_Table : BasicDocumentTable
     {
-        [Required]
         public string Name { get; set; }
-
-        [Required]
         public string Count { get; set; }
-
-        [Required]
         public string DeparturePlace { get; set; }
-
-        [Required]
         public string DestinationPlace { get; set; }
-
-        [Required]
         public string CarBrand { get; set; }
-
-        [Required]
         public string NamesPeople { get; set; }
-
-        [Required]
         public string Aim { get; set; }
-
-        [Required]
         public string Date { get; set; }
 
         public bool Post1 { get; set; }
@@ -2164,28 +1484,13 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_REQ_UB_RequestForImportTMCUZL_Table : BasicDocumentTable
     {
-        [Required]
         public string Name { get; set; }
-
-        [Required]
         public string Count { get; set; }
-
-        [Required]
         public string DeparturePlace { get; set; }
-
-        [Required]
         public string DestinationPlace { get; set; }
-
-        [Required]
         public string CarBrand { get; set; }
-
-        [Required]
         public string NamesPeople { get; set; }
-
-        [Required]
         public string Aim { get; set; }
-
-        [Required]
         public string Date { get; set; }
 
         public bool Post1 { get; set; }
@@ -2200,82 +1505,37 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_REQ_UB_RequestForInOutNotebook_Table : BasicDocumentTable
     {
-        [Required]
         public string Organization { get; set; }
-
-        [Required]
         public string Model { get; set; }
-
-        [Required]
         public string Name { get; set; }
-
-        [Required]
         public ObjectAccess ObjectAccess { get; set; }
-
-        [Required]
         public string Aim { get; set; }
-
-        [Required]
-        public DateTime FromDate { get; set; }
-
-        [Required]
-        public DateTime ToDate { get; set; }
+        public DateTime? FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
     }
 
     public class USR_REQ_UB_RequestForCarAccess_Table : BasicDocumentTable
     {
-        [Required]
         public string Name { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string Position { get; set; }
-
-        [Required]
-        public DateTime FromDate { get; set; }
-
-        [Required]
-        public DateTime ToDate { get; set; }
+        public DateTime? FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
     }
 
     public class USR_REQ_UB_RequestForExportAsset_Table : BasicDocumentTable
     {
-        [Required]
         public string Name { get; set; }
-
-        [Required]
         public string Number { get; set; }
-
-        [Required]
         public string Count { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string UserChooseManual1 { get; set; }
-
-        [Required]
         public string DeparturePlace { get; set; }
-
-        [Required]
         public string DestinationPlace { get; set; }
-
-        [Required]
         public string CarBrand { get; set; }
-
-        [Required]
         public string NamesPeople { get; set; }
-
-        [Required]
         public string Aim { get; set; }
-
-        [Required]
         public string Date { get; set; }
-
-        [Required]
         public string DateReturnOC { get; set; }
 
         public bool Post1 { get; set; }
@@ -2290,40 +1550,17 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_REQ_UB_RequestForExportAssetZIF_Table : BasicDocumentTable
     {
-        [Required]
         public string Name { get; set; }
-
-        [Required]
         public string Number { get; set; }
-
-        [Required]
         public string Count { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string UserChooseManual1 { get; set; }
-
-        [Required]
         public string DeparturePlace { get; set; }
-
-        [Required]
         public string DestinationPlace { get; set; }
-
-        [Required]
         public string CarBrand { get; set; }
-
-        [Required]
         public string NamesPeople { get; set; }
-
-        [Required]
         public string Aim { get; set; }
-
-        [Required]
         public string Date { get; set; }
-
-        [Required]
         public string DateReturnOC { get; set; }
 
         public bool Post1 { get; set; }
@@ -2338,22 +1575,11 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_REQ_UB_RequestForExportZIFOre_Table : BasicDocumentTable
     {
-        [Required]
         public string Count { get; set; }
-
-        [Required]
         public string DestinationPlace { get; set; }
-
-        [Required]
         public string CarBrand { get; set; }
-
-        [Required]
         public string NamesPeople { get; set; }
-
-        [Required]
         public string Aim { get; set; }
-
-        [Required]
         public string Date { get; set; }
 
         public bool Post1 { get; set; }
@@ -2367,28 +1593,13 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_REQ_UB_RequestForExportOSPVHZIF_Table : BasicDocumentTable
     {
-        [Required]
         public string Name { get; set; }
-
-        [Required]
         public string Count { get; set; }
-
-        [Required]
         public string DeparturePlace { get; set; }
-
-        [Required]
         public string DestinationPlace { get; set; }
-
-        [Required]
         public string CarBrand { get; set; }
-
-        [Required]
         public string NamesPeople { get; set; }
-
-        [Required]
         public string Aim { get; set; }
-
-        [Required]
         public string Date { get; set; }
 
         public bool Post1 { get; set; }
@@ -2403,43 +1614,18 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_REQ_UB_RequestForExportItems_Table : BasicDocumentTable
     {
-        [Required]
         public string ItemName { get; set; }
-
-        [Required]
         public string ItemNumber { get; set; }
-
-        [Required]
         public string DeparturePlace { get; set; }
-
-        [Required]
         public Warehouse Warehouse { get; set; }
-
-        [Required]
         public string Count { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string NamesMOL { get; set; }
-
-        [Required]
         public string DestinationPlace { get; set; }
-
-        [Required]
         public string CarBrand { get; set; }
-
-        [Required]
         public string NamesPeople { get; set; }
-
-        [Required]
         public string Aim { get; set; }
-
-        [Required]
         public string Date { get; set; }
-
-        [Required]
         public string DateReturnOC { get; set; }
         
         public bool Post1 { get; set; }  
@@ -2453,40 +1639,17 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_REQ_UB_RequestForHU_Table : BasicDocumentTable
     {
-        [Required]
         public string ItemName { get; set; }
-
-        [Required]
         public string DeparturePlace { get; set; }
-
-        [Required]
         public Warehouse Warehouse { get; set; }
-
-        [Required]
         public string Count { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string NamesMOL { get; set; }
-
-        [Required]
         public string DestinationPlace { get; set; }
-
-        [Required]
         public string CarBrand { get; set; }
-
-        [Required]
         public string NamesPeople { get; set; }
-
-        [Required]
         public string Aim { get; set; }
-
-        [Required]
         public string Date { get; set; }
-
-        [Required]
         public string DateReturnOC { get; set; }
 
         public bool Post1 { get; set; }
@@ -2500,43 +1663,18 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_REQ_UB_RequestForMovementItems_Table : BasicDocumentTable
     {
-        [Required]
         public string ItemName { get; set; }
-
-        [Required]
         public string ItemNumber { get; set; }
-
-        [Required]
         public string DeparturePlace { get; set; }
-
-        [Required]
         public Warehouse Warehouse { get; set; }
-
-        [Required]
         public string Count { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string UserChooseManual1 { get; set; }
-
-        [Required]
         public string DestinationPlace { get; set; }
-
-        [Required]
         public string CarBrand { get; set; }
-
-        [Required]
         public string NamesPeople { get; set; }
-
-        [Required]
         public string Aim { get; set; }
-
-        [Required]
         public string Date { get; set; }
-
-        [Required]
         public string DateReturnOC { get; set; }
 
         public bool Post1 { get; set; }
@@ -2550,40 +1688,17 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_REQ_UB_RequestForMovementAssets_Table : BasicDocumentTable
     {
-        [Required]
         public string Name { get; set; }
-
-        [Required]
         public string Number { get; set; }
-
-        [Required]
         public string Count { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string UserChooseManual1 { get; set; }
-
-        [Required]
         public string DeparturePlace { get; set; }
-
-        [Required]
         public string DestinationPlace { get; set; }
-
-        [Required]
         public string CarBrand { get; set; }
-
-        [Required]
         public string NamesPeople { get; set; }
-
-        [Required]
         public string Aim { get; set; }
-
-        [Required]
         public string Date { get; set; }
-
-        [Required]
         public string DateReturnOC { get; set; }
 
         public bool Post1 { get; set; }
@@ -2597,79 +1712,37 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_REQ_UB_RequestForTemporaryORZ_Table : BasicDocumentTable
     {
-        [Required]
         public string Aim { get; set; }
-
-        [Required]
         public string Name { get; set; }
-
-        [Required]
         public string Position { get; set; }
-
-        [Required]
         public string Company { get; set; }
-
-        [Required]
-        public DateTime FromDate { get; set; }
-
-        [Required]
-        public DateTime ToDate { get; set; }
-
-        [Required]
+        public DateTime? FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
         public string Time { get; set; }
     }
 
     public class USR_REQ_UB_RequestForTemporaryAccess_Table : BasicDocumentTable
     {
-        [Required]
         public ObjectAccess ObjectAccess { get; set; }
-        
-        [Required]
         public string Aim { get; set; }
-
-        [Required]
         public string Name { get; set; }
-
-        [Required]
         public string Position { get; set; }
-
-        [Required]
         public string Company { get; set; }
-
-        [Required]
-        public DateTime FromDate { get; set; }
-
-        [Required]
-        public DateTime ToDate { get; set; }
+        public DateTime? FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
 
     }
 
     public class USR_REQ_UB_RequestForExportItemFromZIF_Table : BasicDocumentTable
     {
-        [Required]
         public string ItemName { get; set; }
-
-        [Required]
         public string ItemNumber { get; set; }
-
-        [Required]
         public string DeparturePlace { get; set; }
-
-        [Required]
         public string DestinationPlace { get; set; }
-
-        [Required]
         public string CarBrand { get; set; }
-
-        [Required]
         public string NamesPeople { get; set; }
-
-        [Required]
         public string Aim { get; set; }
-
-        [Required]
         public string Date { get; set; }
-
 
         public bool Post1 { get; set; }
         public bool Post2 { get; set; }
@@ -2682,28 +1755,13 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_REQ_UB_RequestForExportItemFromORZ_Table : BasicDocumentTable
     {
-        [Required]
         public string ItemName { get; set; }
-
-        [Required]
         public string ItemNumber { get; set; }
-
-        [Required]
         public string DeparturePlace { get; set; }
-
-        [Required]
         public string DestinationPlace { get; set; }
-
-        [Required]
         public string CarBrand { get; set; }
-
-        [Required]
         public string NamesPeople { get; set; }
-
-        [Required]
         public string Aim { get; set; }
-
-        [Required]
         public string Date { get; set; }
 
         public bool Post1 { get; set; }
@@ -2717,31 +1775,14 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_REQ_UB_RequestForPhotoRealization_Table : BasicDocumentTable
     {
-        [Required]
-        public DateTime FromPhotoDate { get; set; }
-
-        [Required]
-        public DateTime ToPhotoDate { get; set; }
-
-        [Required]
+        public DateTime? FromPhotoDate { get; set; }
+        public DateTime? ToPhotoDate { get; set; }
         public PhotoType PhotoType { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string Place { get; set; }
-
-        [Required]
         public string Target { get; set; }
-
-        [Required]
         public string Purpose { get; set; }
-
-        [Required]
         public string Name { get; set; }
-
-        [Required]
         public string Equipment { get; set; }
     }
     #endregion 
@@ -2760,43 +1801,21 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_REQ_UBUO_RequestForClearenceLetter_Table : BasicDocumentTable
     {
-        [Required]
         public string User { get; set; }
-
-        [Required]
         public string Number { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string FullName { get; set; }
-
-        [Required]
         public string Contract { get; set; }
-
-        [Required]
         public string NameItem { get; set; }
-
-        [Required]
         public string Count { get; set; }
-
-        [Required]
-        public DateTime LetterDate { get; set; }
-
-        [Required]
+        public DateTime? LetterDate { get; set; }
         public string Amount { get; set; }
     }
 
     public class USR_REQ_UBUO_RequestForReferenceTax_Table : BasicDocumentTable
     {
-        [Required]
         public string Customer { get; set; }
-
-        [Required]
         public string ForNotice { get; set; }
-        
-        [Required]
         public string Aim { get; set; }    
     }
 
@@ -2976,7 +1995,7 @@ namespace RapidDoc.Models.DomainModels
     public class USR_REQ_UBUO_RequestCalcDriveTrip_Table : BasicDocumentTable
     {
         public string OrderNum { get; set; }
-        public DateTime OrderDate { get; set; }
+        public DateTime? OrderDate { get; set; }
 
         public string FIO1 { get; set; }
         public string FIO2 { get; set; }
@@ -3029,170 +2048,81 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_REQ_UZL_RequestForAccident_Table : BasicDocumentTable
     {
-        [Required]
         public string Reason { get; set; }
-
-        [Required]
         public string ReasonAbsent { get; set; }
-
-        [Required]
         public string FinancialSource { get; set; }
-
-        [Required]
-        public DateTime FromDate { get; set; }
-
-        [Required]
-        public DateTime ToDate { get; set; }
-
-        [Required]
+        public DateTime? FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
         public string Amount { get; set; }
     }
 
     public class USR_REQ_UZL_RequestForUnscheduledIB_Table : BasicDocumentTable
     {
-        [Required]
         public string Reason { get; set; }
-
-        [Required]
         public string ReasonAbsent { get; set; }
-
-        [Required]
         public string FinancialSource { get; set; }
-
-        [Required]
-        public DateTime FromDate { get; set; }
-
-        [Required]
-        public DateTime ToDate { get; set; }
-
-        [Required]
+        public DateTime? FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
         public string Amount { get; set; }
     }
 
     public class USR_REQ_UZL_RequestForUnscheduledOB_Table : BasicDocumentTable
     {
-        [Required]
         public string Reason { get; set; }
-
-        [Required]
         public string ReasonAbsent { get; set; }
-
-        [Required]
         public string FinancialSource { get; set; }
-
-        [Required]
         public DateTime? FromDate { get; set; }
-
-        [Required]
         public DateTime? ToDate { get; set; }
-
-        [Required]
         public string Amount { get; set; }
     }
 
     public class USR_REQ_UZL_RequestForIlliquid_Table : BasicDocumentTable
     {
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string ItemName { get; set; }
-
-        [Required]
         public string ItemCount { get; set; }
-
-        [Required]
         public string Event { get; set; }
-
-        [Required]
         public DateTime? Date { get; set; }
 
     }
 
     public class USR_REQ_UZL_RequestForPeopleAcceptanceItems_Table : BasicDocumentTable
     {
-
-        [Required]
         public string Iniciator { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string ContactPhone { get; set; }
-
-        [Required]
         public string Theme { get; set; }
-
         public string UserChooseManual1 { get; set; }
-
-
         public string UserChooseManual2 { get; set; }
-
-
         public string UserChooseManual3 { get; set; }
-
-
         public string UserChooseManual4 { get; set; }
-
-
         public string Department1 { get; set; }
-
-
         public string Department2 { get; set; }
-
-
         public string Department3 { get; set; }
-
-
         public string Department4 { get; set; }
-
-
         public string UserChooseManual5 { get; set; }
-
-
         public string UserChooseManual6 { get; set; }
-
-
         public string UserChooseManual7 { get; set; }
-
-
         public string UserChooseManual8 { get; set; }
-
-
         public string Contact1 { get; set; }
-
-
         public string Contact2 { get; set; }
-
-
         public string Contact3 { get; set; }
-
-
         public string Contact4 { get; set; }
-
     }
 
     public class USR_REQ_UZL_RequestForContractNoneresident_Table : BasicDocumentTable
     {
-
         public string UserChooseManual1 { get; set; }
-
     }
 
     public class USR_REQ_UZL_RequestForContractNoneresidentCustoms_Table : BasicDocumentTable
     {
-
         public string UserChooseManual1 { get; set; }
-
     }
 
     public class USR_REQ_UZL_RequestForContractResident_Table : BasicDocumentTable
     {
-
         public string UserChooseManual1 { get; set; }
-
     }
 
     public class USR_REQ_UZL_RequestForrepresentationKD_Table : BasicDocumentTable
@@ -3202,304 +2132,146 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_REQ_UZL_RequestForUT_Table : BasicDocumentTable
     {
-        [Required]
         public string Reason { get; set; }
-
-        [Required]
         public string FinancialSource { get; set; }
-
     }
 
     public class USR_REQ_UZL_RequestForExtraIBBGP_Table : BasicDocumentTable
     {
-        [Required]
         public string Explanation { get; set; }
-
-        [Required]
         public string Reason { get; set; }
-
-        [Required]
         public string FinancialSource { get; set; }
-
-        [Required]
         public DateTime? FromDate { get; set; }
-
-        [Required]
         public DateTime? ToDate { get; set; }
-
-        [Required]
         public string Amount { get; set; }
-
-
     }
 
     public class USR_REQ_UZL_RequestForExtraIBZIF_Table : BasicDocumentTable
     {
-        [Required]
         public string Explanation { get; set; }
-
-        [Required]
         public string Reason { get; set; }
-
-        [Required]
         public string FinancialSource { get; set; }
-
-        [Required]
         public DateTime? FromDate { get; set; }
-
-        [Required]
         public DateTime? ToDate { get; set; }
-
-        [Required]
         public string Amount { get; set; }
     }
 
     public class USR_REQ_UZL_RequestForExtraOBBGP_Table : BasicDocumentTable
     {
-        [Required]
         public string Explanation { get; set; }
-
-        [Required]
         public string Reason { get; set; }
-
-        [Required]
         public string FinancialSource { get; set; }
-
-        [Required]
-        public DateTime FromDate { get; set; }
-
-        [Required]
-        public DateTime ToDate { get; set; }
-
-        [Required]
+        public DateTime? FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
         public string Amount { get; set; }
     }
 
     public class USR_REQ_UZL_RequestForExtraOBZIF_Table : BasicDocumentTable
     {
-        [Required]
         public string Explanation { get; set; }
-
-        [Required]
         public string Reason { get; set; }
-
-        [Required]
         public string FinancialSource { get; set; }
-
-        [Required]
         public DateTime? FromDate { get; set; }
-
-        [Required]
         public DateTime? ToDate { get; set; }
-
-        [Required]
         public string Amount { get; set; }
     }
 
     public class USR_REQ_UZL_RequestForCrashedStone_Table : BasicDocumentTable
     {
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string Explanation { get; set; }
-
-        [Required]
         public string Value { get; set; }
-
-        [Required]
         public DateTime? Date { get; set; }
-
-        [Required]
         public string Purpose { get; set; }
-
     }
 
     public class USR_REQ_UZL_RequestForOpenCompetition_Table : BasicDocumentTable
     {
-        [Required]
         public string NamePurchase { get; set; }
-
-        [Required]
         public string BudgetArticle { get; set; }
-
-        [Required]
         public string Amount { get; set; }
-
-        [Required]
         public string Circumstance { get; set; }
-
-        [Required]
         public string Destination { get; set; }
-
         public string UserChooseManual1 { get; set; }
     }
     public class USR_REQ_UZL_RequestForPriceOffers_Table : BasicDocumentTable
     {
-        [Required]
         public string NamePurchase { get; set; }
-
-        [Required]
         public string BudgetArticle { get; set; }
-
-        [Required]
         public string Amount { get; set; }
-
-        [Required]
         public string Circumstance { get; set; }
-
-        [Required]
         public string Destination { get; set; }
-
         public string UserChooseManual1 { get; set; }
     }
     public class USR_REQ_UZL_RequestForOneSource_Table : BasicDocumentTable
     {
-        [Required]
         public string NamePurchase { get; set; }
-
-        [Required]
         public string BudgetArticle { get; set; }
-
-        [Required]
         public string Amount { get; set; }
-
-        [Required]
         public string Circumstance { get; set; }
-
-        [Required]
         public string Destination { get; set; }
-
         public string UserChooseManual1 { get; set; }
     }
     public class USR_REQ_UZL_RequestForElectronicTrading_Table : BasicDocumentTable
     {
-        [Required]
         public string NamePurchase { get; set; }
-
-        [Required]
         public string BudgetArticle { get; set; }
-
-        [Required]
         public string Amount { get; set; }
-
-        [Required]
         public string Circumstance { get; set; }
-
-        [Required]
         public string Destination { get; set; }
-
         public string UserChooseManual1 { get; set; }
     }
     public class USR_REQ_UZL_RequestForVoiceBids_Table : BasicDocumentTable
     {
-        [Required]
         public string NamePurchase { get; set; }
-
-        [Required]
         public string BudgetArticle { get; set; }
-
-        [Required]
         public string Amount { get; set; }
-
-        [Required]
         public string Circumstance { get; set; }
-
-        [Required]
         public string Destination { get; set; }
-
         public string UserChooseManual1 { get; set; }
     }
 
     public class USR_REQ_UZL_RequestForAdditionalOB_Table : BasicDocumentTable
     {
-        [Required]
         public string Reason { get; set; }
-
-        [Required]
         public string ReasonAbsent { get; set; }
-
-        [Required]
         public string FinancialSource { get; set; }
-
-        [Required]
         public DateTime? FromDate { get; set; }
-
-        [Required]
         public DateTime? ToDate { get; set; }
-
-        [Required]
         public string Amount { get; set; }
-
         public string UserChooseManual1 { get; set; }
     }
 
     public class USR_REQ_UZL_RequestForUrgentOB_Table : BasicDocumentTable
     {
-        [Required]
         public string Reason { get; set; }
-
-        [Required]
         public string ReasonAbsent { get; set; }
-
-        [Required]
         public string FinancialSource { get; set; }
-
-        [Required]
         public DateTime? FromDate { get; set; }
-
-        [Required]
         public DateTime? ToDate { get; set; }
-
-        [Required]
         public string Amount { get; set; }
-
         public string UserChooseManual1 { get; set; }
     }
 
     public class USR_REQ_UZL_RequestForAdditionalIB_Table : BasicDocumentTable
     {
-        [Required]
         public string Reason { get; set; }
-
-        [Required]
         public string ReasonAbsent { get; set; }
-
-        [Required]
         public string FinancialSource { get; set; }
-
-        [Required]
-        public DateTime FromDate { get; set; }
-
-        [Required]
-        public DateTime ToDate { get; set; }
-
-        [Required]
+        public DateTime? FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
         public string Amount { get; set; }
-
         public string UserChooseManual1 { get; set; }
     }
 
     public class USR_REQ_UZL_RequestForUrgentIB_Table : BasicDocumentTable
     {
-        [Required]
         public string Reason { get; set; }
-
-        [Required]
         public string ReasonAbsent { get; set; }
-
-        [Required]
         public string FinancialSource { get; set; }
-
-        [Required]
         public DateTime? FromDate { get; set; }
-
-        [Required]
         public DateTime? ToDate { get; set; }
-
-        [Required]
         public string Amount { get; set; }
-
     }
 
     #endregion
@@ -3508,35 +2280,23 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_REQ_UKR_RequestForExpertiseDKU_Table : BasicDocumentTable
     {
-        [Required]
         public string UserExecutive { get; set; }
-
-        [Required]
         public string Department { get; set; }
     }
 
     public class USR_REQ_UKR_RequestForExpertiseInstruction_Table : BasicDocumentTable
     {
-        [Required]
         public string UserExecutive { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
         public string UserChooseManual1 { get; set; }
     }
 
     public class USR_REQ_UKR_RequestForExpertiseDepartment_Table : BasicDocumentTable
     {
-        [Required]
         public string UserExecutive { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
         public string UserChooseManual1 { get; set; }
     }
-
 
     #endregion
 
@@ -3545,1128 +2305,499 @@ namespace RapidDoc.Models.DomainModels
     public class USR_REQ_URP_RequestForKindergarten_Table : BasicDocumentTable
     {
         public TeachGroup TeachGroup { get; set; }
-
-        [Required]
         public string ChildName { get; set; }
-
-        [Required]
-        public DateTime BirthDate { get; set; }
-
+        public DateTime? BirthDate { get; set; }
         public RelateRate RelateRate { get; set; }
-
-        [Required]
         public string FatherName { get; set; }
-
-        [Required]
         public string FatherWorkPlace { get; set; }
-
-        [Required]
         public string MotherName { get; set; }
-
-        [Required]
         public string MotherWorkPlace { get; set; }
-
-        [Required]
         public string ActualAddress { get; set; }
-
-        [Required]
         public string Contact { get; set; }
     }
 
     public class USR_REQ_URP_RequestForResponsibilities_Table : BasicDocumentTable
     {
-        [Required]
         public string Reason { get; set; }
-
-        [Required]
         public string UsersOff { get; set; }
-
-        [Required]
         public string TitleOff { get; set; }
-
-        [Required]
         public string DepartmentOff { get; set; }
-
-        [Required]
         public string ScheduleOff{ get; set; }
-
-        [Required]
         public string UsersOn { get; set; }
-
-        [Required]
         public string TitleOn { get; set; }
-
-        [Required]
         public string DepartmentOn { get; set; }
-
-        [Required]
         public string ScheduleOn { get; set; }
-
-        [Required]
-        public DateTime FromDate { get; set; }
-
-        [Required]
-        public DateTime ToDate { get; set; }
-
-        [Required]
+        public DateTime? FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
         public string Amount { get; set; }
-
         public string UserChooseManual1 { get; set; }
     }
 
     public class USR_REQ_URP_RequestForResponsibilitiesSOTB_Table : BasicDocumentTable
     {
-        [Required]
         public string Reason { get; set; }
-
-        [Required]
         public string UsersOff { get; set; }
-
-        [Required]
         public string TitleOff { get; set; }
-
-        [Required]
         public string DepartmentOff { get; set; }
-
-        [Required]
         public string ScheduleOff { get; set; }
-
-        [Required]
         public string UsersOn { get; set; }
-
-        [Required]
         public string TitleOn { get; set; }
-
-        [Required]
         public string DepartmentOn { get; set; }
-
-        [Required]
         public string ScheduleOn { get; set; }
-
-        [Required]
-        public DateTime FromDate { get; set; }
-
-        [Required]
-        public DateTime ToDate { get; set; }
-
-        [Required]
+        public DateTime? FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
         public string Amount { get; set; }
-
         public string UserChooseManual1 { get; set; }
     }
 
     public class USR_REQ_URP_RequestForPrepayMaster_Table : BasicDocumentTable
     {
-
-        [Required]
         public string Reason { get; set; }
-
-        [Required]
         public string FIO { get; set; }
-
-        [Required]
         public string Position { get; set; }
-
-        [Required]
         public string Schedule { get; set; }
-
-        [Required]
-        public DateTime DocDate { get; set; }
-
-        [Required]
+        public DateTime? DocDate { get; set; }
         public string Percent { get; set; }
-
-        [Required]
         public string Department { get; set; }
     }
 
     public class USR_REQ_URP_RequestForAccrualExceptZIFBGP_Table : BasicDocumentTable
     {
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string UserChooseManual1 { get; set; }
-
-        [Required]
         public string Period { get; set; }
     }
 
     public class USR_REQ_URP_RequestForAccrualBGP_Table : BasicDocumentTable
     {
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string UserChooseManual1 { get; set; }
-
-        [Required]
         public string Period { get; set; }
     }
 
     public class USR_REQ_URP_RequestForAccrualZIF_Table : BasicDocumentTable
     {
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string UserChooseManual1 { get; set; }
-
-        [Required]
         public string Period { get; set; }
     }
 
     public class USR_REQ_URP_RequestForAccrualSM_Table : BasicDocumentTable
     {
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string UserChooseManual1 { get; set; }
-
-        [Required]
         public string Period { get; set; }
     }
 
     public class USR_REQ_URP_RequestForAccrualPTU_Table : BasicDocumentTable
     {
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string UserChooseManual1 { get; set; }
-
-        [Required]
         public string Period { get; set; }
     }
 
     public class USR_REQ_URP_RequestForTeaching_Table : BasicDocumentTable
     {
-        [Required]
         public string ToUsers { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string UserChooseManual1 { get; set; }
-
-        [Required]
         public string Theme { get; set; }
-
-        [Required]
-        public DateTime DocDate { get; set; }
-
-        [Required]
+        public DateTime? DocDate { get; set; }
         public string Place { get; set; }
-
         public string Company { get; set; }
     }
 
     public class USR_REQ_URP_RequestForWithdrawVocationITR1_Table : BasicDocumentTable
     {
-        [Required]
         public string Employee { get; set; }
-
-        [Required]
         public string Position { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string UserChooseManual1 { get; set; }
-
-        [Required]
         public string Subject { get; set; }
-
-        [Required]
         public string Reason { get; set; }
-
     }
 
     public class USR_REQ_URP_RequestForWithdrawVocationITR2_Table : BasicDocumentTable
     {
-        [Required]
         public string Employee { get; set; }
-
-        [Required]
         public string Position { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string UserChooseManual1 { get; set; }
-
-        [Required]
         public string Subject { get; set; }
-
-        [Required]
         public string Reason { get; set; }
-
     }
 
     public class USR_REQ_URP_RequestForWVAuxiliaryBlock_Table : BasicDocumentTable
     {
-        [Required]
         public string Employee { get; set; }
-
-        [Required]
         public string Position { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string Subject { get; set; }
-
-        [Required]
         public string Reason { get; set; }
-
     }
 
     public class USR_REQ_URP_RequestForWVMiningBlock_Table : BasicDocumentTable
     {
-        [Required]
         public string Employee { get; set; }
-
-        [Required]
         public string Position { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string Subject { get; set; }
-
-        [Required]
         public string Reason { get; set; }
-
     }
 
     public class USR_REQ_URP_RequestForWVFinBlock_Table : BasicDocumentTable
     {
-        [Required]
         public string Employee { get; set; }
-
-        [Required]
         public string Position { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string UserChooseManual1 { get; set; }
-
-        [Required]
         public string Subject { get; set; }
-
-        [Required]
         public string Reason { get; set; }
-
     }
 
     public class USR_REQ_URP_RequestForWVStraight_Table : BasicDocumentTable
     {
-        [Required]
         public string Employee { get; set; }
-
-        [Required]
         public string Position { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string Subject { get; set; }
-
-        [Required]
         public string Reason { get; set; }
-
     }
 
     public class USR_REQ_URP_RequestForForeignVisa_Table : BasicDocumentTable
     {
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string FirstName { get; set; }
-
-        [Required]
         public string DateAndPlace { get; set; }
-
-        [Required]
         public string Citizenship { get; set; }
-
-        [Required]
         public string Nationality { get; set; }
-
-        [Required]
         public string Passport { get; set; }
-
-        [Required]
         public string Position { get; set; }
-
-        [Required]
         public string Address { get; set; }
-
-        [Required]
         public string PlaceVisa { get; set; }
-
-        [Required]
         public string Period { get; set; }
-
-        [Required]
         public string Multiplicity { get; set; }
-
-        [Required]
         public string Purpose { get; set; }
-
-        [Required]
         public string Route { get; set; }
     }
 
     public class USR_REQ_URP_RequestForTransferVocationITR1_Table : BasicDocumentTable
     {
-        [Required]
         public string Employee { get; set; }
-
-        [Required]
         public string Position { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string UserChooseManual1 { get; set; }
-
-        [Required]
         public string PlanDate { get; set; }
-
-        [Required]
         public string TransferDate { get; set; }
-
-        [Required]
         public string Reason { get; set; }
-
     }
 
     public class USR_REQ_URP_RequestForTransferVocationITR2_Table : BasicDocumentTable
     {
-        [Required]
         public string Employee { get; set; }
-
-        [Required]
         public string Position { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string UserChooseManual1 { get; set; }
-
-        [Required]
         public string PlanDate { get; set; }
-
-        [Required]
         public string TransferDate { get; set; }
-
-        [Required]
         public string Reason { get; set; }
-
     }
 
     public class USR_REQ_URP_RequestForTransfVacWorkerMining_Table : BasicDocumentTable
     {
-
-        [Required]
         public string Employee { get; set; }
-
-        [Required]
         public string Position { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string PlanDate { get; set; }
-
-        [Required]
         public string TransferDate { get; set; }
-
-        [Required]
         public string Reason { get; set; }
-
     }
 
     public class USR_REQ_URP_RequestForTransfVacWorkerStraight_Table : BasicDocumentTable
     {
-
-        [Required]
         public string Employee { get; set; }
-
-        [Required]
         public string Position { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string PlanDate { get; set; }
-
-        [Required]
         public string TransferDate { get; set; }
-
-        [Required]
         public string Reason { get; set; }
-
     }
 
     public class USR_REQ_URP_RequestForTransfVacWorkerFin_Table : BasicDocumentTable
     {
-
-        [Required]
         public string Employee { get; set; }
-
-        [Required]
         public string Position { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string UserChooseManual1 { get; set; }
-
-        [Required]
         public string PlanDate { get; set; }
-
-        [Required]
         public string TransferDate { get; set; }
-
-        [Required]
         public string Reason { get; set; }
-
     }
 
     public class USR_REQ_URP_RequestForTransfVacWorkerAuxiliary_Table : BasicDocumentTable
     {
-
-        [Required]
         public string Employee { get; set; }
-
-        [Required]
         public string Position { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string PlanDate { get; set; }
-
-        [Required]
         public string TransferDate { get; set; }
-
-        [Required]
         public string Reason { get; set; }
-
     }
 
     public class USR_REQ_URP_RequestForProvisionGraphVac_Table : BasicDocumentTable
     {
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string UserChooseManual1 { get; set; }
-
         public string UserChooseManual2 { get; set; }
     }
 
     public class USR_REQ_URP_RequestForProvisionGraphExit_Table : BasicDocumentTable
     {
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string UserChooseManual1 { get; set; }
-
-        [Required]
         public string Period { get; set; }
     }
 
     public class USR_REQ_URP_RequestForWeekend_Table : BasicDocumentTable
     {
-        [Required]
         public string Reason { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string Employee { get; set; }
-
-        [Required]
         public string Position { get; set; }
-
-        [Required]
         public string Period { get; set; }
-
-        [Required]
         public string UserChooseManual1 { get; set; }
     }
 
     public class USR_REQ_URP_RequestForReduction_Table : BasicDocumentTable
     {
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string Period { get; set; }
-
-        [Required]
         public string UserChooseManual1 { get; set; }
-
     }
 
     public class USR_REQ_URP_RequestForReductionCandidate_Table : BasicDocumentTable
     {
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string Period { get; set; }
-
     }
 
     public class USR_REQ_URP_RequestForReductionTB_Table : BasicDocumentTable
     {
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string UserChooseManual1 { get; set; }
-
-        [Required]
         public string Bulk { get; set; }
-
-        [Required]
         public string Period { get; set; }
-
-        [Required]
         public string Reason { get; set; }
-
-
     }
 
     public class USR_REQ_URP_RequestForReductionThird_Table : BasicDocumentTable
     {
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string UserChooseManual1 { get; set; }
-
-        [Required]
         public string UserChooseManual2 { get; set; }
-
-        [Required]
         public string UserChooseManual3 { get; set; }
-
-        [Required]
         public string Period { get; set; }
     }
 
     public class USR_REQ_URP_RequestForSelectionPersonal_Table : BasicDocumentTable
     {
-        [Required]
         public string Position { get; set; }
-
-        [Required]
         public int Count { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string Reason { get; set; }
-
-        [Required]
-        public DateTime ClosedDate { get; set; }
-
-        [Required]
+        public DateTime? ClosedDate { get; set; }
         public string Possibility { get; set; }
-
-        [Required]
         public string Executive { get; set; }
-
-        [Required]
         public string ContactPerson { get; set; }
-
-        [Required]
         public string Phone { get; set; }
-
-        [Required]
         public string Age { get; set; }
-
-        [Required]
         public string Education { get; set; }
-
-        [Required]
         public string Experience { get; set; }
-
-        [Required]
         public string Requirement { get; set; }
-
-        [Required]
         public string Skills { get; set; }
-
-        [Required]
         public string Character { get; set; }
-
-        [Required]
         public string Additional { get; set; }
-
-        [Required]
         public string FuncDuties { get; set; }
-
-        [Required]
         public string AddDuties { get; set; }
-
-        [Required]
         public string DirectExecutive { get; set; }
-
-        [Required]
         public string Management { get; set; }
-
-        [Required]
         public string Salary { get; set; }
-
-        [Required]
         public string AddSalary { get; set; }
-
-        [Required]
         public string Schedule { get; set; }
-
-        [Required]
         public string BusinessTrip { get; set; }
     }
 
     public class USR_REQ_URP_RequestForHRCardITR1_Table : BasicDocumentTable
     {
-
-        [Required]
         public string OnPosition { get; set; }
-
-        [Required]
         public string Name { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string Phone { get; set; }
-
-        [Required]
         public string UserChooseManual1 { get; set; }
-    
         public string Tutor { get; set; }
-
-        [Required]
         public string UserChooseManual2 { get; set; }
-
-        [Required]
         public string Report1 { get; set; }
-
-        [Required]
-        public DateTime DateInterview1 { get; set; }
-
-        [Required]
+        public DateTime? DateInterview1 { get; set; }
         public HROpinion Opinion1 { get; set; }
-
-        [Required]
         public string Reason1 { get; set; }
-
         public string Report2 { get; set; }
-
         public DateTime? DateInterview2 { get; set; }
-
         public HROpinion Opinion2 { get; set; }
-
         public string Reason2 { get; set; }
-
         public string Report3 { get; set; }
-
         public DateTime? DateInterview3 { get; set; }
-
         public HROpinion Opinion3 { get; set; }
-
         public string Reason3 { get; set; }
-
         public string Report4 { get; set; }
-
         public DateTime? DateInterview4 { get; set; }
-
         public HROpinion Opinion4 { get; set; }
-
         public string Reason4 { get; set; }
-     
         public string Circumstances { get; set; }
-
         public string RecommendationOZTB { get; set; }
-
-        [Required]
         public string SalaryCode { get; set; }
-
-        [Required]
         public string Period { get; set; }
-
-        [Required]
         public string Schedule { get; set; }
-
-        [Required]
         public string Solution { get; set; }
-
-        [Required]
         public StatusResidence Status { get; set; }
-
-        [Required]
         public bool External { get; set; }
     }
 
     public class USR_REQ_URP_RequestForHRCardITR2_Table : BasicDocumentTable
     {
-
-        [Required]
         public string OnPosition { get; set; }
-
-        [Required]
         public string Name { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string Phone { get; set; }
-
-        [Required]
         public string UserChooseManual1 { get; set; }
-
         public string Tutor { get; set; }
-
-        [Required]
         public string UserChooseManual2 { get; set; }
-
-        [Required]
         public string UserChooseManual3 { get; set; }
-
-        [Required]
         public string Report1 { get; set; }
-
-        [Required]
-        public DateTime DateInterview1 { get; set; }
-
-        [Required]
+        public DateTime? DateInterview1 { get; set; }
         public HROpinion Opinion1 { get; set; }
-
-        [Required]
         public string Reason1 { get; set; }
-
         public string Report2 { get; set; }
-
         public DateTime? DateInterview2 { get; set; }
-
         public HROpinion Opinion2 { get; set; }
-
         public string Reason2 { get; set; }
-
         public string Report3 { get; set; }
-
         public DateTime? DateInterview3 { get; set; }
-
         public HROpinion Opinion3 { get; set; }
-
         public string Reason3 { get; set; }
-
         public string Report4 { get; set; }
-
         public DateTime? DateInterview4 { get; set; }
-
         public HROpinion Opinion4 { get; set; }
-
         public string Reason4 { get; set; }
-
         public string Circumstances { get; set; }
-
         public string RecommendationOZTB { get; set; }
-
-        [Required]
         public string SalaryCode { get; set; }
-
-        [Required]
         public string Period { get; set; }
-
-        [Required]
         public string Schedule { get; set; }
-
-        [Required]
         public string Solution { get; set; }
-
-        [Required]
         public StatusResidence Status { get; set; }
-
-        [Required]
         public bool External { get; set; }
-    
     }
 
     public class USR_REQ_URP_RequestForHRCardITRZIF_Table : BasicDocumentTable
     {
-
-        [Required]
         public string OnPosition { get; set; }
-
-        [Required]
         public string Name { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string Phone { get; set; }
-
-        [Required]
         public string UserChooseManual1 { get; set; }
-       
         public string Tutor { get; set; }
-
-        [Required]
         public string UserChooseManual2 { get; set; }
-
-        [Required]
         public string Report1 { get; set; }
-
-        [Required]
-        public DateTime DateInterview1 { get; set; }
-
-        [Required]
+        public DateTime? DateInterview1 { get; set; }
         public HROpinion Opinion1 { get; set; }
-
-        [Required]
         public string Reason1 { get; set; }
-
         public string Report2 { get; set; }
-
         public DateTime? DateInterview2 { get; set; }
-
         public HROpinion Opinion2 { get; set; }
-
         public string Reason2 { get; set; }
-
         public string Report3 { get; set; }
-
         public DateTime? DateInterview3 { get; set; }
-
         public HROpinion Opinion3 { get; set; }
-
         public string Reason3 { get; set; }
-
         public string Circumstances { get; set; }
-
         public string RecommendationOZTB { get; set; }
-
-        [Required]
         public string SalaryCode { get; set; }
-
-        [Required]
         public string Period { get; set; }
-
-        [Required]
         public string Schedule { get; set; }
-
-        [Required]
         public string Solution { get; set; }
-
-        [Required]
         public StatusResidence Status { get; set; }
-
-        [Required]
         public bool External { get; set; }
-    
     }
 
     public class USR_REQ_URP_RequestForHRCardWork_Table : BasicDocumentTable
     {
-        [Required]
         public string OnPosition { get; set; }
-
-        [Required]
         public string Name { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string Phone { get; set; }
-
-        [Required]
         public string UserChooseManual1 { get; set; }
-
         public string Tutor { get; set; }
-
-        [Required]
         public string UserChooseManual2 { get; set; }
-
-        [Required]
         public string UserChooseManual3 { get; set; }
-
-        [Required]
         public string Report1 { get; set; }
-
-        [Required]
-        public DateTime DateInterview1 { get; set; }
-
-        [Required]
+        public DateTime? DateInterview1 { get; set; }
         public HROpinion Opinion1 { get; set; }
-
-        [Required]
         public string Reason1 { get; set; }
-
         public string Report2 { get; set; }
-
         public DateTime? DateInterview2 { get; set; }
-
         public HROpinion Opinion2 { get; set; }
-
         public string Reason2 { get; set; }
-
         public string Report3 { get; set; }
-
         public DateTime? DateInterview3 { get; set; }
-
         public HROpinion Opinion3 { get; set; }
-
         public string Reason3 { get; set; }
-
         public string Report4 { get; set; }
-
         public DateTime? DateInterview4 { get; set; }
-
         public HROpinion Opinion4 { get; set; }
-
         public string Reason4 { get; set; }
-
         public string Circumstances { get; set; }
-
         public string RecommendationOZTB { get; set; }
-
-        [Required]
         public string SalaryCode { get; set; }
-
-        [Required]
         public string Period { get; set; }
-
-        [Required]
         public string Schedule { get; set; }
-
-        [Required]
         public string Solution { get; set; }
-
-        [Required]
         public StatusResidence Status { get; set; }
-
-        [Required]
         public bool External { get; set; }
-    
-
-
     }
 
     public class USR_REQ_URP_RequestForHRCardWorkZIF_Table : BasicDocumentTable
     {
-
-        [Required]
         public string OnPosition { get; set; }
-
-        [Required]
         public string Name { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string Phone { get; set; }
-
-        [Required]
         public string UserChooseManual1 { get; set; }
-
         public string Tutor { get; set; }
-
-        [Required]
         public string UserChooseManual2 { get; set; }
-
-        [Required]
         public string Report1 { get; set; }
-
-        [Required]
-        public DateTime DateInterview1 { get; set; }
-
-        [Required]
+        public DateTime? DateInterview1 { get; set; }
         public HROpinion Opinion1 { get; set; }
-
-        [Required]
         public string Reason1 { get; set; }
-
         public string Report2 { get; set; }
-
         public DateTime? DateInterview2 { get; set; }
-
         public HROpinion Opinion2 { get; set; }
-
         public string Reason2 { get; set; }
-
         public string Report3 { get; set; }
-
         public DateTime? DateInterview3 { get; set; }
-
         public HROpinion Opinion3 { get; set; }
-
         public string Reason3 { get; set; }
-
         public string Circumstances { get; set; }
-
         public string RecommendationOZTB { get; set; }
-
-        [Required]
         public string SalaryCode { get; set; }
-
-        [Required]
         public string Period { get; set; }
-
-        [Required]
         public string Schedule { get; set; }
-
-        [Required]
         public string Solution { get; set; }
-
-        [Required]
         public StatusResidence Status { get; set; }
-
-        [Required]
         public bool External { get; set; }
-    
     }
 
     public class USR_REQ_URP_RequestForHRChGraphTime_Table : BasicDocumentTable
     {
-        [Required]
         public string UserChooseManual1 { get; set; }
 
         public string Name1 { get; set; }
@@ -4745,7 +2876,6 @@ namespace RapidDoc.Models.DomainModels
         public HRDuration SecondDuration8 { get; set; }
         public HRDuration SecondDuration9 { get; set; }
         public HRDuration SecondDuration10 { get; set; }
-
 
         public string Reason1 { get; set; }
         public string Reason2 { get; set; }
@@ -4783,7 +2913,6 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_REQ_URP_RequestForHRChGraphConst_Table : BasicDocumentTable
     {
-        [Required]
         public string UserChooseManual1 { get; set; }
 
         public string Name1 { get; set; }
@@ -4862,7 +2991,6 @@ namespace RapidDoc.Models.DomainModels
         public HRDuration SecondDuration8 { get; set; }
         public HRDuration SecondDuration9 { get; set; }
         public HRDuration SecondDuration10 { get; set; }
-
 
         public string Reason1 { get; set; }
         public string Reason2 { get; set; }
@@ -4929,990 +3057,469 @@ namespace RapidDoc.Models.DomainModels
     #region УТ
     public class USR_REQ_YT_AuxiliaryTransportOCTMCInvest_Table : BasicDocumentTable
     {
-        [Required]
         public string Transport { get; set; }
-
-        [Required]
         public string Place { get; set; }
-
-        [Required]
         public string Purpose { get; set; }
-
-        [Required]
-        public DateTime StartDate { get; set; }
-
-        [Required]
-        public DateTime EndDate { get; set; }
-
-        [Required]
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public string ItemId { get; set; }
-
-        [Required]
         public string PlaceDeparture { get; set; }
-
-        [Required]
         public TimeSpan TimeDeparture { get; set; }
-
-        [Required]
         public string NumberProject { get; set; }
-
-        [Required]
         public string NumberObject { get; set; }
-
         public string Terms { get; set; }
-
         public string NumberCar { get; set; }
-
         public string NameDriverCar { get; set; }
     }
 
     public class USR_REQ_YT_AuxiliaryTransportOCTMCOper_Table : BasicDocumentTable
     {
-        [Required]
         public string Transport { get; set; }
-
-        [Required]
         public string Place { get; set; }
-
-        [Required]
         public string Purpose { get; set; }
-
-        [Required]
-        public DateTime StartDate { get; set; }
-
-        [Required]
-        public DateTime EndDate { get; set; }
-
-        [Required]
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public string ItemId { get; set; }
-
-        [Required]
         public string PlaceDeparture { get; set; }
-
-        [Required]
         public TimeSpan TimeDeparture { get; set; }
-
         public string Terms { get; set; }
-
         public string NumberCar { get; set; }
-
         public string NameDriverCar { get; set; }
     }
 
     public class USR_REQ_YT_AuxiliaryTransportDayOff_Table : BasicDocumentTable
     {
-        [Required]
         public string Transport { get; set; }
-
         public PurposeAuxiliaryTransportTrip PurposeAuxiliaryTransportTrip { get; set; }
-
-        [Required]
         public string ExecutionWork { get; set; }
-
-        [Required]
         public string EmplName { get; set; }
-
-        [Required]
         public string PlaceDeparture { get; set; }
-
-        [Required]
-        public DateTime StartDate { get; set; }
-
-        [Required]
-        public DateTime EndDate { get; set; }
-
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public TimeSpan StartWorkTime { get; set; }
-
         public TimeSpan EndWorkTime { get; set; }
-
         public string NumberCar { get; set; }
-
         public string NameDriverCar { get; set; }
     }
 
     public class USR_REQ_YT_AuxiliaryTransportWorkDays_Table : BasicDocumentTable
     {
-        [Required]
         public string Transport { get; set; }
-
         public PurposeAuxiliaryTransportTrip PurposeAuxiliaryTransportTrip { get; set; }
-
-        [Required]
         public string ExecutionWork { get; set; }
-
-        [Required]
         public string EmplName { get; set; }
-
-        [Required]
         public string PlaceDeparture { get; set; }
-
-        [Required]
-        public DateTime StartDate { get; set; }
-
-        [Required]
-        public DateTime EndDate { get; set; }
-
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public TimeSpan StartWorkTime { get; set; }
-
         public TimeSpan EndWorkTime { get; set; }
-
         public string NumberCar { get; set; }
-
         public string NameDriverCar { get; set; }
     }
 
     public class USR_REQ_YT_AuxiliaryTransportOutABK_Table : BasicDocumentTable
     {
-        [Required]
         public string Transport { get; set; }
-
-        [Required]
         public string Purpose { get; set; }
-
-        [Required]
         public string ExecutionWork { get; set; }
-
-        [Required]
         public string EmplName { get; set; }
-
-        [Required]
-        public DateTime StartDate { get; set; }
-
-        [Required]
-        public DateTime EndDate { get; set; }
-
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public TimeSpan StartWorkTime { get; set; }
-
         public TimeSpan EndWorkTime { get; set; }
-
         public string NumberCar { get; set; }
-
         public string NameDriverCar { get; set; }
     }
 
     public class USR_REQ_YT_StandbyTransport_Table : BasicDocumentTable
     {
-        [Required]
         public string Client { get; set; }
-
-        [Required]
-        public DateTime StartDate { get; set; }
-
+        public DateTime? StartDate { get; set; }
         public TimeSpan StartWorkTime { get; set; }
-
-        [Required]
         public string Route { get; set; }
-
-        [Required]
         public string Purpose { get; set; }
-
         public string NumberCar { get; set; }
-
         public string NameDriverCar { get; set; }
     }
 
     public class USR_REQ_YT_StandbyTransportUIT_Table : BasicDocumentTable
     {
-        [Required]
         public string Client { get; set; }
-
-        [Required]
-        public DateTime StartDate { get; set; }
-
+        public DateTime? StartDate { get; set; }
         public TimeSpan StartWorkTime { get; set; }
-
-        [Required]
         public string Route { get; set; }
-
-        [Required]
         public string Purpose { get; set; }
-
         public string NumberCar { get; set; }
-
         public string NameDriverCar { get; set; }
     }
 
     public class USR_REQ_YT_LightTransportTripManage_Table : BasicDocumentTable
     {
-        [Required]
         public string Place { get; set; }
-
         public PurposeTrip PurposeTrip { get; set; }
-
-        [Required]
         public string Purpose { get; set; }
-
-        [Required]
-        public DateTime StartDate { get; set; }
-
+        public DateTime? StartDate { get; set; }
         public EmplTrip EmplTrip { get; set; }
-
-        [Required]
         public string EmplName { get; set; }
-
-        [Required]
         public string Phone { get; set; }
-
-        [Required]
         public string PlaceDeparture { get; set; }
-
-        [Required]
         public TimeSpan TimeDeparture { get; set; }
-
-        [Required]
         public string Flight { get; set; }
-
         public string Terms { get; set; }
-
         public string NumberCar { get; set; }
-
         public string NameDriverCar { get; set; }
     }
 
     public class USR_REQ_YT_LightTransportTripATK_Table : BasicDocumentTable
     {
-        [Required]
         public string Place { get; set; }
-
         public PurposeTrip PurposeTrip { get; set; }
-
-        [Required]
         public string Purpose { get; set; }
-
-        [Required]
-        public DateTime StartDate { get; set; }
-
-        [Required]
-        public DateTime EndDate { get; set; }
-
-        [Required]
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public string Users { get; set; }
-
         public EmplTrip EmplTrip { get; set; }
-
-        [Required]
         public string EmplName { get; set; }
-
-        [Required]
         public string Phone { get; set; }
-
-        [Required]
         public string PlaceDeparture { get; set; }
-
-        [Required]
         public TimeSpan TimeDeparture { get; set; }
-
         public string Terms { get; set; }
-
         public string NumberCar { get; set; }
-
         public string NameDriverCar { get; set; }
     }
 
     public class USR_REQ_YT_LightTransportOCTMCInvest_Table : BasicDocumentTable
     {
-        [Required]
         public string Place { get; set; }
-
-        [Required]
         public string Purpose { get; set; }
-
-        [Required]
-        public DateTime StartDate { get; set; }
-
-        [Required]
-        public DateTime EndDate { get; set; }
-
-        [Required]
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public string ItemId { get; set; }
-
-        [Required]
         public string PlaceDeparture { get; set; }
-
-        [Required]
         public TimeSpan TimeDeparture { get; set; }
-
-        [Required]
         public string NumberProject { get; set; }
-
-        [Required]
         public string NumberObject { get; set; }
-
         public string NumberCar { get; set; }
-
         public string NameDriverCar { get; set; }
     }
 
     public class USR_REQ_YT_LightTransportOCTMCOper_Table : BasicDocumentTable
     {
-        [Required]
         public string Place { get; set; }
-
-        [Required]
         public string Purpose { get; set; }
-
-        [Required]
-        public DateTime StartDate { get; set; }
-
-        [Required]
-        public DateTime EndDate { get; set; }
-
-        [Required]
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public string ItemId { get; set; }
-
-        [Required]
         public string PlaceDeparture { get; set; }
-
-        [Required]
         public TimeSpan TimeDeparture { get; set; }
-
         public string Terms { get; set; }
-
         public string NumberCar { get; set; }
-
         public string NameDriverCar { get; set; }
     }
 
     public class USR_REQ_YT_LightTransportOutOrganizationInvest_Table : BasicDocumentTable
     {
-        [Required]
         public string Place { get; set; }
-
         public PurposeTrip PurposeTrip { get; set; }
-
-        [Required]
-        public DateTime StartDate { get; set; }
-
-        [Required]
-        public DateTime EndDate { get; set; }
-
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public EmplTrip EmplTrip { get; set; }
-
-        [Required]
         public string Title { get; set; }
-
-        [Required]
         public string EmplName { get; set; }
-
         public string Organization { get; set; }
-
         public string Purpose { get; set; }
-
-        [Required]
         public string Phone { get; set; }
-
-        [Required]
         public string PlaceDeparture { get; set; }
-
-        [Required]
         public string Flight { get; set; }
-
-        [Required]
         public string NumberProject { get; set; }
-
-        [Required]
         public string NumberObject { get; set; }
-
         public bool Account { get; set; }
-
         public string Terms { get; set; }
-
         public string NumberCar { get; set; }
-
         public string NameDriverCar { get; set; }
     }
 
     public class USR_REQ_YT_LightTransportOutOrganizationOper_Table : BasicDocumentTable
     {
-        [Required]
         public string Place { get; set; }
-
         public PurposeTrip PurposeTrip { get; set; }
-
-        [Required]
-        public DateTime StartDate { get; set; }
-
-        [Required]
-        public DateTime EndDate { get; set; }
-
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public EmplTrip EmplTrip { get; set; }
-
-        [Required]
         public string Title { get; set; }
-
-        [Required]
         public string EmplName { get; set; }
-
         public string Organization { get; set; }
-
         public string Purpose { get; set; }
-
-        [Required]
         public string Phone { get; set; }
-
-        [Required]
         public string PlaceDeparture { get; set; }
-
-        [Required]
         public string Flight { get; set; }
-
         public bool Account { get; set; }
-
         public string Terms { get; set; }
-
         public string NumberCar { get; set; }
-
         public string NameDriverCar { get; set; }
     }
 
     public class USR_REQ_YT_LightTransportTripDayOff_Table : BasicDocumentTable
     {
-        [Required]
         public string Place { get; set; }
-
-        [Required]
         public string Purpose { get; set; }
-
-        [Required]
-        public DateTime StartDate { get; set; }
-
-        [Required]
-        public DateTime EndDate { get; set; }
-
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public TimeSpan StartWorkTime { get; set; }
-
         public TimeSpan EndWorkTime { get; set; }
-
         public string NumberCar { get; set; }
-
         public string NameDriverCar { get; set; }
     }
 
     public class USR_REQ_YT_PassangerTransportTrip_Table : BasicDocumentTable
     {
-        [Required]
         public string Users { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string Phone { get; set; }
-
-        [Required]
         public string Purpose { get; set; }
-
-        [Required]
-        public DateTime StartDate { get; set; }
-
-        [Required]
-        public DateTime EndDate { get; set; }
-
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public TimeSpan StartWorkTime { get; set; }
-
         public TimeSpan EndWorkTime { get; set; }
-
-        [Required]
         public string Route { get; set; }
-
         public string NumberCar { get; set; }
-
         public string NameDriverCar { get; set; }
     }
 
     public class USR_REQ_YT_PassangerTransportTripManage_Table : BasicDocumentTable
     {
-        [Required]
         public string Place { get; set; }
-
-        [Required]
         public string Purpose { get; set; }
-
-        [Required]
-        public DateTime StartDate { get; set; }
-
-        [Required]
-        public DateTime EndDate { get; set; }
-
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public TimeSpan StartWorkTime { get; set; }
-
         public TimeSpan EndWorkTime { get; set; }
-
         public string Terms { get; set; }
-
         public string NumberCar { get; set; }
-
         public string NameDriverCar { get; set; }
     }
 
     public class USR_REQ_YT_PassangerTransportTripATK_Table : BasicDocumentTable
     {
-        [Required]
         public string Place { get; set; }
-
-        [Required]
         public string Purpose { get; set; }
-
-        [Required]
-        public DateTime StartDate { get; set; }
-
-        [Required]
-        public DateTime EndDate { get; set; }
-
-        [Required]
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public string Users { get; set; }
-
-        [Required]
         public string EmplName { get; set; }
-
-        [Required]
         public string Phone { get; set; }
-
-        [Required]
         public string PlaceDeparture { get; set; }
-
-        [Required]
         public TimeSpan TimeArrive { get; set; }
-
-        [Required]
         public string Flight { get; set; }
-
         public string Terms { get; set; }
-
         public string NumberCar { get; set; }
-
         public string NameDriverCar { get; set; }
     }
 
     public class USR_REQ_YT_PassangerTransportOutOrganizationInvest_Table : BasicDocumentTable
     {
-        [Required]
         public string Place { get; set; }
-
         public PurposeTrip PurposeTrip { get; set; }
-
-        [Required]
-        public DateTime StartDate { get; set; }
-
-        [Required]
-        public DateTime EndDate { get; set; }
-
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public EmplTrip EmplTrip { get; set; }
-
-        [Required]
         public string Title { get; set; }
-
-        [Required]
         public string EmplName { get; set; }
-
         public string Organization { get; set; }
-
         public string Purpose { get; set; }
-
-        [Required]
         public string Phone { get; set; }
-
-        [Required]
         public string PlaceDeparture { get; set; }
-
-        [Required]
         public string Flight { get; set; }
-
-        [Required]
         public string NumberProject { get; set; }
-
-        [Required]
         public string NumberObject { get; set; }
-
         public bool Account { get; set; }
-
         public string NumberCar { get; set; }
-
         public string NameDriverCar { get; set; }
     }
 
     public class USR_REQ_YT_PassangerTransportOutOrganizationOper_Table : BasicDocumentTable
     {
-        [Required]
         public string Place { get; set; }
-
         public PurposeTrip PurposeTrip { get; set; }
-
-        [Required]
-        public DateTime StartDate { get; set; }
-
-        [Required]
-        public DateTime EndDate { get; set; }
-
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public EmplTrip EmplTrip { get; set; }
-
-        [Required]
         public string Title { get; set; }
-
-        [Required]
         public string EmplName { get; set; }
-
         public string Organization { get; set; }
-
         public string Purpose { get; set; }
-
-        [Required]
         public string Phone { get; set; }
-
-        [Required]
         public string PlaceDeparture { get; set; }
-
-        [Required]
         public string Flight { get; set; }
-
         public bool Account { get; set; }
-
         public string Terms { get; set; }
-
         public string NumberCar { get; set; }
-
         public string NameDriverCar { get; set; }
     }
 
     public class USR_REQ_YT_PassangerTransportDayOff_Table : BasicDocumentTable
     {
-        [Required]
         public string Place { get; set; }
-
-        [Required]
         public string Purpose { get; set; }
-
-        [Required]
-        public DateTime StartDate { get; set; }
-
-        [Required]
-        public DateTime EndDate { get; set; }
-
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public TimeSpan StartWorkTime { get; set; }
-
         public TimeSpan EndWorkTime { get; set; }
-
         public string NumberCar { get; set; }
-
         public string NameDriverCar { get; set; }
     }
 
     public class USR_REQ_YT_PassangerTransportDayOffZIF_Table : BasicDocumentTable
     {
-        [Required]
         public string Place { get; set; }
-
-        [Required]
         public string Purpose { get; set; }
-
-        [Required]
-        public DateTime StartDate { get; set; }
-
-        [Required]
-        public DateTime EndDate { get; set; }
-
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public TimeSpan StartWorkTime { get; set; }
-
         public TimeSpan EndWorkTime { get; set; }
-
         public string NumberCar { get; set; }
-
         public string NameDriverCar { get; set; }
     }
 
     public class USR_REQ_YT_PassangerTransportCorporate_Table : BasicDocumentTable
     {
-        [Required]
         public string Client { get; set; }
-
-        [Required]
         public string Users { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string Phone { get; set; }
-
-        [Required]
         public string Purpose { get; set; }
-
-        [Required]
-        public DateTime DateCorporate { get; set; }
-
+        public DateTime? DateCorporate { get; set; }
         public TimeSpan StartWorkTime { get; set; }
-
         public TimeSpan EndWorkTime { get; set; }
-
-        [Required]
         public string Route { get; set; }
-
         public string NumberCar { get; set; }
-
         public string NameDriverCar { get; set; }
     }
 
     public class USR_REQ_YT_RequestForEmergAuxiliaryTransportZIF_Table : BasicDocumentTable
     {
-        [Required]
         public string Transport { get; set; }
-
-        [Required]
         public string ExecutionWork { get; set; }
-
-        [Required]
         public string EmplName { get; set; }
-
-        [Required]
         public string PlaceDeparture { get; set; }
-
-        [Required]
-        public DateTime StartDate { get; set; }
-
-        [Required]
-        public DateTime EndDate { get; set; }
-
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public TimeSpan StartWorkTime { get; set; }
-
         public TimeSpan EndWorkTime { get; set; }
-
         public string NumberCar { get; set; }
-
         public string NameDriverCar { get; set; }
     }
 
     public class USR_REQ_YT_RequestForAuxiliaryTransportDayOffZIF_Table : BasicDocumentTable
     {
-        [Required]
         public string Transport { get; set; }
-
         public PurposeAuxiliaryTransportTrip PurposeAuxiliaryTransportTrip { get; set; }
-
-        [Required]
         public string ExecutionWork { get; set; }
-
-        [Required]
         public string EmplName { get; set; }
-
-        [Required]
         public string PlaceDeparture { get; set; }
-
-        [Required]
-        public DateTime StartDate { get; set; }
-
-        [Required]
-        public DateTime EndDate { get; set; }
-
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public TimeSpan StartWorkTime { get; set; }
-
         public TimeSpan EndWorkTime { get; set; }
-
         public string NumberCar { get; set; }
-
         public string NameDriverCar { get; set; }
     }
 
     public class USR_REQ_YT_RequestForAuxiliaryTransportWorkDaysZIF_Table : BasicDocumentTable
     {
-        [Required]
         public string Transport { get; set; }
-
         public PurposeAuxiliaryTransportTrip PurposeAuxiliaryTransportTrip { get; set; }
-
-        [Required]
         public string ExecutionWork { get; set; }
-
-        [Required]
         public string EmplName { get; set; }
-
-        [Required]
         public string PlaceDeparture { get; set; }
-
-        [Required]
-        public DateTime StartDate { get; set; }
-
-        [Required]
-        public DateTime EndDate { get; set; }
-
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public TimeSpan StartWorkTime { get; set; }
-
         public TimeSpan EndWorkTime { get; set; }
-
         public string NumberCar { get; set; }
-
         public string NameDriverCar { get; set; }
     }
 
     public class USR_REQ_YT_RequestForStandbyTransportZIF_Table : BasicDocumentTable
     {
-        [Required]
         public string Client { get; set; }
-
-        [Required]
-        public DateTime StartDate { get; set; }
-
+        public DateTime? StartDate { get; set; }
         public TimeSpan StartWorkTime { get; set; }
-
-        [Required]
         public string Route { get; set; }
-
-        [Required]
         public string Purpose { get; set; }
-
         public string NumberCar { get; set; }
-
         public string NameDriverCar { get; set; }
     }
 
     public class USR_REQ_YT_RequestForLightTransportTripManageZIF_Table : BasicDocumentTable
     {
-        [Required]
         public string Place { get; set; }
-
         public PurposeTrip PurposeTrip { get; set; }
-
-        [Required]
         public string Purpose { get; set; }
-
-        [Required]
-        public DateTime StartDate { get; set; }
-
+        public DateTime? StartDate { get; set; }
         public EmplTrip EmplTrip { get; set; }
-
-        [Required]
         public string EmplName { get; set; }
-
-        [Required]
         public string Phone { get; set; }
-
-        [Required]
         public string PlaceDeparture { get; set; }
-
-        [Required]
         public TimeSpan TimeDeparture { get; set; }
-
-        [Required]
         public string Flight { get; set; }
-
         public string Terms { get; set; }
-
         public string NumberCar { get; set; }
-
         public string NameDriverCar { get; set; }        
     }
 
     public class USR_REQ_YT_RequestForLightTransportTripDayOffZIF_Table : BasicDocumentTable
     {
-        [Required]
         public string Place { get; set; }
-
-        [Required]
         public string Purpose { get; set; }
-
-        [Required]
-        public DateTime StartDate { get; set; }
-
-        [Required]
-        public DateTime EndDate { get; set; }
-
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public TimeSpan StartWorkTime { get; set; }
-
         public TimeSpan EndWorkTime { get; set; }
-
         public string NumberCar { get; set; }
-
         public string NameDriverCar { get; set; }            
     }
 
     public class USR_REQ_YT_RequestForPassangerTransportZIF_Table : BasicDocumentTable
     {
-        [Required]
         public string Users { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string Phone { get; set; }
-
-        [Required]
         public string Purpose { get; set; }
-
-        [Required]
-        public DateTime StartDate { get; set; }
-
-        [Required]
-        public DateTime EndDate { get; set; }
-
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public TimeSpan StartWorkTime { get; set; }
-
         public TimeSpan EndWorkTime { get; set; }
-
-        [Required]
         public string Route { get; set; }
-
         public string NumberCar { get; set; }
-
         public string NameDriverCar { get; set; }    
     }
 
     public class USR_REQ_YT_RequestForPassangerTransportTripZIF_Table : BasicDocumentTable
     {
-        [Required]
         public string Place { get; set; }
-
-        [Required]
         public string Purpose { get; set; }
-
-        [Required]
-        public DateTime StartDate { get; set; }
-
-        [Required]
-        public DateTime EndDate { get; set; }
-
-        [Required]
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public string Users { get; set; }
-
-        [Required]
         public string EmplName { get; set; }
-
-        [Required]
         public string Phone { get; set; }
-
-        [Required]
         public string PlaceDeparture { get; set; }
-
-        [Required]
         public TimeSpan TimeArrive { get; set; }
-
-        [Required]
         public string Flight { get; set; }
-
         public string Terms { get; set; }
-
         public string NumberCar { get; set; }
-
         public string NameDriverCar { get; set; }    
     }
 
     public class USR_REQ_YT_RequestForStandbyTransportUZL_Table : BasicDocumentTable
     {
-        [Required]
         public string Client { get; set; }
-
-        [Required]
-        public DateTime StartDate { get; set; }
-
+        public DateTime? StartDate { get; set; }
         public TimeSpan StartWorkTime { get; set; }
-
-        [Required]
         public string Route { get; set; }
-
-        [Required]
         public string Purpose { get; set; }
-
         public string NumberCar { get; set; }
-
         public string NameDriverCar { get; set; }    
     }
     #endregion
@@ -5922,8 +3529,6 @@ namespace RapidDoc.Models.DomainModels
     {
         public string UserChooseManual1 { get; set; }
         public string UserChooseManual2 { get; set; }
-
-        [Required]
         public string Department { get; set; }
 
         public string ItemName1 { get; set; }
@@ -6110,73 +3715,38 @@ namespace RapidDoc.Models.DomainModels
     public class USR_REQ_HY_BookingRoom_Table : BasicDocumentTable
     {
         public string UserChooseManual1 { get; set; }
-
-        [Required]
         public string Users { get; set; }
-
-        [Required]
         public string Phone { get; set; }
-
-        [Required]
-        public DateTime DateArrival { get; set; }
-
-        [Required]
-        public DateTime DateStart { get; set; }
-
-        [Required]
-        public DateTime DateEnd { get; set; }
-
+        public DateTime? DateArrival { get; set; }
+        public DateTime? DateStart { get; set; }
+        public DateTime? DateEnd { get; set; }
         public Payment Payment { get; set; }
-
-        [Required]
         public string HotelName { get; set; }
     }
 
     public class USR_REQ_HY_CreateStamp_Table : BasicDocumentTable
     {
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string StampName { get; set; }
-
         public int Qty { get; set; }
-
-        [Required]
         public string Reason { get; set; }
-
-        [Required]
         public string Location { get; set; }
     }
 
     public class USR_REQ_HY_FindApartment_Table : BasicDocumentTable
     {
         public string UserChooseManual1 { get; set; }
-
-        [Required]
         public string Users { get; set; }
-
-        [Required]
         public string Phone { get; set; }
-
-        [Required]
         public string MaritalStatus { get; set; }
-
-        [Required]
         public string KidsNumber { get; set; }
-
-        [Required]
-        public DateTime DateArrival { get; set; }
+        public DateTime? DateArrival { get; set; }
     }
 
     public class USR_REQ_HY_RequestRepair_Table : BasicDocumentTable
     {
         public string UserChooseManual1 { get; set; }
-
-        [Required]
-        public DateTime DateIncident { get; set; }
-
-        [Required]
+        public DateTime? DateIncident { get; set; }
         public string Description { get; set; }
     }
 
@@ -6184,8 +3754,6 @@ namespace RapidDoc.Models.DomainModels
     {
         public string UserChooseManual1 { get; set; }
         public string UserChooseManual2 { get; set; }
-
-        [Required]
         public string Department { get; set; }
 
         public string ItemName1 { get; set; }
@@ -6372,8 +3940,6 @@ namespace RapidDoc.Models.DomainModels
     public class USR_REQ_HY_EmergencyRequestTRU_Table : BasicDocumentTable
     {
         public string UserChooseManual1 { get; set; }
-
-        [Required]
         public string Department { get; set; }
 
         public string ItemName1 { get; set; }
@@ -6561,76 +4127,38 @@ namespace RapidDoc.Models.DomainModels
     #region Коммандировки
     public class USR_REQ_TRIP_RegistrationBusinessTripForeign_Table : BasicDocumentTable
     {
-        [Required]
         public string Users { get; set; }
-
-        [Required]
         public string Title { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
         public string UserChooseManual1 { get; set; }
-
         public CategoryTrip CategoryTrip { get; set; }
-
         public TypeTrip TypeTrip { get; set; }
-
-        [Required]
-        public DateTime StartDate { get; set; }
-
-        [Required]
-        public DateTime EndDate { get; set; }
-
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public int Days { get; set; }
-
-        [Required]
         public string City { get; set; }
-
-        [Required]
         public string Purpose { get; set; }
-
         public PassageTrip PassageTrip { get; set; }
-
         public string Organization { get; set; }
-
         public PaymentTrip PaymentTripPassage { get; set; }
-
         public PaymentTrip PaymentTripDaily { get; set; }
-
         public PaymentTrip PaymentTripLive { get; set; }
-
         public string Description { get; set; }
     }
 
     public class USR_REQ_TRIP_RegistrationBusinessTripKZ_Table : BasicDocumentTable
     {
-        [Required]
         public string Users { get; set; }
-
         public string UserChooseManual1 { get; set; }
-
         public CategoryTrip CategoryTrip { get; set; }
-
         public TypeTrip TypeTrip { get; set; }
-
-        [Required]
-        public DateTime StartDate { get; set; }
-
-        [Required]
-        public DateTime EndDate { get; set; }
-
-        [Required]
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public string City { get; set; }
-
-        [Required]
         public string Purpose { get; set; }
-
         public string Organization { get; set; }
-
         public string Description { get; set; }
 
-        [Required]
         public string FIO1 { get; set; }
         public string FIO2 { get; set; }
         public string FIO3 { get; set; }
@@ -6679,32 +4207,17 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_REQ_TRIP_RegistrationBusinessTripPP_Table : BasicDocumentTable
     {
-        [Required]
         public string Users { get; set; }
-
         public string UserChooseManual1 { get; set; }
-
         public CategoryTrip CategoryTrip { get; set; }
-
         public TypeTrip TypeTrip { get; set; }
-
-        [Required]
-        public DateTime StartDate { get; set; }
-
-        [Required]
-        public DateTime EndDate { get; set; }
-
-        [Required]
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public string City { get; set; }
-
-        [Required]
         public string Purpose { get; set; }
-
         public string Organization { get; set; }
-
         public string Description { get; set; }
 
-        [Required]
         public string FIO1 { get; set; }
         public string FIO2 { get; set; }
         public string FIO3 { get; set; }
@@ -6753,32 +4266,17 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_REQ_TRIP_RegistrationBusinessTripPTY_Table : BasicDocumentTable
     {
-        [Required]
         public string Users { get; set; }
-
         public string UserChooseManual1 { get; set; }
-
         public CategoryTrip CategoryTrip { get; set; }
-
         public TypeTrip TypeTrip { get; set; }
-
-        [Required]
-        public DateTime StartDate { get; set; }
-
-        [Required]
-        public DateTime EndDate { get; set; }
-
-        [Required]
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public string City { get; set; }
-
-        [Required]
         public string Purpose { get; set; }
-
         public string Organization { get; set; }
-
         public string Description { get; set; }
 
-        [Required]
         public string FIO1 { get; set; }
         public string FIO2 { get; set; }
         public string FIO3 { get; set; }
@@ -6829,7 +4327,6 @@ namespace RapidDoc.Models.DomainModels
     #region Заявки Kazzink Holdings ИТ служба
     public class USK_REQ_IT_CTP_IncidentIT_Table : BasicDocumentRequestTable
     {
-        [Required]
         public string Phone { get; set; }
     }
     #endregion
@@ -6977,22 +4474,14 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_TAS_DailyTasksProlongation_Table : BasicDocumentTable
     {
-        [Required]
-        public DateTime ProlongationDate { get; set; }
-
-        [Required]
+        public DateTime? ProlongationDate { get; set; }
         public string Reason { get; set; }
 
         [Required]
         public Guid RefDocumentId { get; set; }
 
-        [Required]
         public string RefDocNum { get; set; }
-
-        [Required]
-        public DateTime ExecutionDate { get; set; }
-
-        [Required]
+        public DateTime? ExecutionDate { get; set; }
         public string TextTask { get; set; }
     }
     #endregion
@@ -7008,20 +4497,14 @@ namespace RapidDoc.Models.DomainModels
     {
         public string Subject { get; set; }
 
-
-        [Required]
         public string Workers { get; set; }
-        [Required]
         public DateTime? StartDate { get; set; }
-        [Required]
         public DateTime? EndDate { get; set; }
         public int CountDays { get; set; }
         public BusinessTripType BusinessTripType { get; set; }
-        [Required]
         public string GoalTrip { get; set; }
         public BusinessTripCategory BusinessTripCategory { get; set; }
 
-        
         public Guid? CountryTableId { get; set; }
         public virtual CountryTable CountryTable { get; set; }
         public string Country { get; set; }
@@ -7111,7 +4594,6 @@ namespace RapidDoc.Models.DomainModels
     #region Протоколы
     public class PRT_QuestionList_Table : EntityTable
     {
-        [Required]
         public string Question { get; set; }
 
         public virtual List<PRT_DecisionList_Table> DecisionList { get; set; }
@@ -7119,7 +4601,6 @@ namespace RapidDoc.Models.DomainModels
 
     public class PRT_DecisionList_Table : EntityTable
     {
-        [Required]
         public string Decision { get; set; }
         public string Users { get; set; }
         public DateTime? ControlDate { get; set; }

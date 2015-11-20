@@ -1015,6 +1015,16 @@ namespace RapidDoc.Models.Services
                     {
                         foreach(var decision in question.DecisionList)
                         {
+                            if (!String.IsNullOrEmpty(_SystemService.DeleteAllTags(decision.Decision)) && String.IsNullOrEmpty(_SystemService.DeleteAllTags(question.Question)))
+                            {
+                                errorList.Add(String.Format("Для решения {0} не указан текст вопроса", _SystemService.DeleteAllTags(decision.Decision)));
+                            }
+
+                            if (String.IsNullOrEmpty(_SystemService.DeleteAllTags(decision.Decision)) && !String.IsNullOrEmpty(decision.Users))
+                            {
+                                errorList.Add("Если указали Исполнителя необходимо заполнить поле Решение");
+                            }
+
                             if(!String.IsNullOrEmpty(decision.Users) && decision.ControlDate == null)
                             {
                                 errorList.Add(String.Format("Для решения {0} необходимо указать дату исполнения", _SystemService.DeleteAllTags(decision.Decision)));

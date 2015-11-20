@@ -78,7 +78,7 @@
         <br>
         <p>
             <button type="submit" class="btn btn-success btn-lg" name="action:ApproveNewDocument">@UIElementRes.UIElement.Approve</button>
-            <button type="submit" class="btn btn-default btn-sm" name="action:SaveDraft">@UIElementRes.UIElement.SaveDraft</button>
+            <button type="submit" id="savedraftbtn" class="btn btn-default btn-sm" name="action:SaveDraft">@UIElementRes.UIElement.SaveDraft</button>
             <a href="@Url.Action("Index", "Document")" class="btn btn-default btn-sm visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" role="button">@UIElementRes.UIElement.Cancel</a>
         </p>
 </fieldset>
@@ -190,6 +190,10 @@
         custom_tagsinputEmplBothOpt2_init("@Url.Action("JsonEmplBothOption", "Custom")");
 
         $('[data-toggle="tooltip"]').tooltip();
+
+        $('#savedraftbtn').click(function () {
+            jQuery('#ajaxUploadForm').validate().currentForm = '';
+        });
     });
 </script>
 }

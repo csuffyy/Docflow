@@ -977,13 +977,13 @@ namespace RapidDoc.Controllers
                 return RedirectToAction("PageNotFound", "Error");
             }
 
-            if (ModelState.IsValid)
+            if (operationType == OperationType.ApproveDocument)
             {
-                _SearchService.SaveSearchData(documentId, docModel, actionModelName);
-
-                if (operationType == OperationType.ApproveDocument)
+                if (ModelState.IsValid)
                 {
-                    if(documentTable.ProcessTable != null && !String.IsNullOrEmpty(documentTable.ProcessTable.StartReaderRoleId))
+                    _SearchService.SaveSearchData(documentId, docModel, actionModelName);
+
+                    if (documentTable.ProcessTable != null && !String.IsNullOrEmpty(documentTable.ProcessTable.StartReaderRoleId))
                     {
                         try
                         {
@@ -994,12 +994,12 @@ namespace RapidDoc.Controllers
                                 _EmailService.SendReaderEmail(documentTable.Id, newReader);
                             }
                         }
-                        catch {}
+                        catch { }
                     }
                     _WorkflowService.RunWorkflow(documentTable, processView.TableName, documentData);
-                }
 
-                return RedirectToAction("Index", "Document");
+                    return RedirectToAction("Index", "Document");
+                }
             }
 
             DocumentView docuView = _DocumentService.Document2View(documentTable);
@@ -1063,28 +1063,8 @@ namespace RapidDoc.Controllers
         [HttpPost]
         public ActionResult Create(ProcessView processView, OperationType operationType, dynamic docModel, Guid fileId, String actionModelName, IDictionary<string, object> documentData)
         {
-            if (ModelState.IsValid)
+            if (operationType == OperationType.SaveDraft)
             {
-                if (processView.DocType == DocumentType.Task && docModel.Separated == true)
-                {
-                    string initailStructure = (string)documentData["Users"];
-                    string[] arrayTempStructrue = initailStructure.Split(',');
-
-                    Regex isGuid = new Regex(@"^(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}$", RegexOptions.Compiled);
-                    string[] arrayStructure = arrayTempStructrue.Where(a => isGuid.IsMatch(a) == true).ToArray();
-                    if (arrayStructure.Count() > 0)
-                    {
-                        foreach (var item in arrayStructure)
-                        {
-                            string seprateUser = item + "," + arrayTempStructrue[Array.IndexOf(arrayTempStructrue, item) + 1];
-                            docModel.Users = seprateUser;
-                            documentData["Users"] = seprateUser;
-                            this.CreateSeparateTasks(processView, operationType, docModel, fileId, actionModelName, documentData);
-                        }
-
-                        return RedirectToAction("Index", "Document");
-                    }
-                }
                 //Save Document
                 ApplicationUser user = _AccountService.Find(User.Identity.GetUserId());
                 var documentId = _DocumentService.SaveDocument(docModel, processView.TableName, GuidNull2Guid(processView.Id), fileId, user, documentData.ContainsKey("IsNotified") ? (bool)documentData["IsNotified"] : false, documentData.ContainsKey("Share") ? (bool)documentData["Share"] : false);
@@ -1100,29 +1080,54 @@ namespace RapidDoc.Controllers
 
                 _SearchService.SaveSearchData(documentId, docModel, actionModelName);
 
-                if (operationType == OperationType.ApproveDocument)
+                return RedirectToAction("MyDocuments", "Document");
+            }
+            else
+            {
+                if (ModelState.IsValid)
                 {
-                    //Previous code for startReaderRole
-                    /*if (documentTable.ProcessTable != null && !String.IsNullOrEmpty(documentTable.ProcessTable.StartReaderRoleId))
+                    if (processView.DocType == DocumentType.Task && docModel.Separated == true)
                     {
-                        try
+                        string initailStructure = (string)documentData["Users"];
+                        string[] arrayTempStructrue = initailStructure.Split(',');
+
+                        Regex isGuid = new Regex(@"^(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}$", RegexOptions.Compiled);
+                        string[] arrayStructure = arrayTempStructrue.Where(a => isGuid.IsMatch(a) == true).ToArray();
+                        if (arrayStructure.Count() > 0)
                         {
-                            var role = RoleManager.FindById(documentTable.ProcessTable.StartReaderRoleId);
-                            if (role != null && role.Users != null && role.Users.Count > 0)
+                            foreach (var item in arrayStructure)
                             {
-                                List<string> newReader = _DocumentReaderService.AddReader(documentTable.Id, role.Users.ToList());
-                                _EmailService.SendReaderEmail(documentTable.Id, newReader);
+                                string seprateUser = item + "," + arrayTempStructrue[Array.IndexOf(arrayTempStructrue, item) + 1];
+                                docModel.Users = seprateUser;
+                                documentData["Users"] = seprateUser;
+                                this.CreateSeparateTasks(processView, operationType, docModel, fileId, actionModelName, documentData);
                             }
+
+                            return RedirectToAction("Index", "Document");
                         }
-                        catch { }
-                    }*/
-                    _WorkflowService.RunWorkflow(documentTable, processView.TableName, documentData);
+                    }
+                    //Save Document
+                    ApplicationUser user = _AccountService.Find(User.Identity.GetUserId());
+                    var documentId = _DocumentService.SaveDocument(docModel, processView.TableName, GuidNull2Guid(processView.Id), fileId, user, documentData.ContainsKey("IsNotified") ? (bool)documentData["IsNotified"] : false, documentData.ContainsKey("Share") ? (bool)documentData["Share"] : false);
+                    DocumentTable documentTable = _DocumentService.Find(documentId);
+
+                    Task.Run(() =>
+                    {
+                        IReviewDocLogService _ReviewDocLogServiceTask = DependencyResolver.Current.GetService<IReviewDocLogService>();
+                        IHistoryUserService _HistoryUserServiceTask = DependencyResolver.Current.GetService<IHistoryUserService>();
+                        _ReviewDocLogServiceTask.SaveDomain(new ReviewDocLogTable { DocumentTableId = documentId }, "", user);
+                        _HistoryUserServiceTask.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = Models.Repository.HistoryType.NewDocument }, user.Id);
+                    });
+
+                    _SearchService.SaveSearchData(documentId, docModel, actionModelName);
+
+                    if (operationType == OperationType.ApproveDocument)
+                    {
+                        _WorkflowService.RunWorkflow(documentTable, processView.TableName, documentData);
+                    }
+
+                    return RedirectToAction("Index", "Document");
                 }
-
-                if (operationType == OperationType.SaveDraft)
-                    return RedirectToAction("MyDocuments", "Document");
-
-                return RedirectToAction("Index", "Document");
             }
 
             var viewModel = new DocumentComposite();
@@ -1950,15 +1955,18 @@ namespace RapidDoc.Controllers
                 }
             }
 
-            if (documentId != null)
+            if (operationType != OperationType.SaveDraft)
             {
-                DocumentTable docuTable = _DocumentService.Find(GuidNull2Guid(documentId));
-                CheckCustomDocument(typeActionModel, actionModel, operationType, docuTable, _DocumentService.isSignDocument(docuTable.Id));
-            }
+                if (documentId != null)
+                {
+                    DocumentTable docuTable = _DocumentService.Find(GuidNull2Guid(documentId));
+                    CheckCustomDocument(typeActionModel, actionModel, operationType, docuTable, _DocumentService.isSignDocument(docuTable.Id));
+                }
 
-            CheckCustomDocument(typeActionModel, actionModel, operationType);
-            CheckAttachedFiles(processView, fileId, documentId);
-            _CustomCheckDocument.PreUpdateViewModel(typeActionModel, actionModel);
+                CheckCustomDocument(typeActionModel, actionModel, operationType);
+                CheckAttachedFiles(processView, fileId, documentId);
+                _CustomCheckDocument.PreUpdateViewModel(typeActionModel, actionModel);
+            }
 
             ActionResult view = RoutePostMethod(processView, actionModel, type, operationType, documentId, fileId, actionModelName, documentData);
             return view;
