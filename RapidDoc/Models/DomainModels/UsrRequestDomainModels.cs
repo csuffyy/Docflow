@@ -1575,41 +1575,18 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_REQ_UB_RequestForExportAssetWTask_Table : BasicDocumentTable
     {
-        [Required]
         public string Name { get; set; }
-
-        [Required]
         public string Number { get; set; }
-
-        [Required]
         public string Count { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string UserChooseManual1 { get; set; }
-
-        [Required]
         public string DeparturePlace { get; set; }
-
-        [Required]
         public string DestinationPlace { get; set; }
-
-        [Required]
         public string CarBrand { get; set; }
-
-        [Required]
         public string NamesPeople { get; set; }
-
-        [Required]
         public string Aim { get; set; }
-
-        [Required]
         public string Date { get; set; }
-
-        [Required]
-        public DateTime DateReturnOC { get; set; }
+        public DateTime? DateReturnOC { get; set; }
 
         public bool Post1 { get; set; }
         public bool Post2 { get; set; }
@@ -1623,41 +1600,18 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_REQ_UB_RequestForExportAssetZIFWTask_Table : BasicDocumentTable
     {
-        [Required]
         public string Name { get; set; }
-
-        [Required]
         public string Number { get; set; }
-
-        [Required]
         public string Count { get; set; }
-
-        [Required]
         public string Department { get; set; }
-
-        [Required]
         public string UserChooseManual1 { get; set; }
-
-        [Required]
         public string DeparturePlace { get; set; }
-
-        [Required]
         public string DestinationPlace { get; set; }
-
-        [Required]
         public string CarBrand { get; set; }
-
-        [Required]
         public string NamesPeople { get; set; }
-
-        [Required]
         public string Aim { get; set; }
-
-        [Required]
         public string Date { get; set; }
-
-        [Required]
-        public DateTime DateReturnOC { get; set; }
+        public DateTime? DateReturnOC { get; set; }
 
         public bool Post1 { get; set; }
         public bool Post2 { get; set; }

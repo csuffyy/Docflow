@@ -80,7 +80,7 @@ namespace RapidDoc.Activities.CodeActivities
 
           
             USR_TAS_DailyTasks_View docModel = new USR_TAS_DailyTasks_View();
-            docModel.MainField = "Напоминание, об возврате ОС.";
+            docModel.MainField = "Напоминание, о возврате";
 
             WFTrackerTable trackerTable = _serviceWorkflowTracker.FirstOrDefault(x => x.DocumentTableId == document.Id && x.SystemName == "ApproveUBOS");
 
