@@ -1054,7 +1054,6 @@ function custom_tagsinputEmplDynamic_init(url_json) {
         var currentValue = elt.val();
         if (currentValue != null && currentValue != '') {
             var currentArrData = currentValue.split(",");
-            $(this).val('');
 
             if (currentArrData.length > 1) {
                 for (var i = 0; i < currentArrData.length; i += 2) {
