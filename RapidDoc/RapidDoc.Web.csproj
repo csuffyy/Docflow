@@ -269,6 +269,7 @@
     <Compile Include="Activities\CodeActivities\WFChooseOfficeMemoSpecificUser.cs" />
     <Compile Include="Activities\CodeActivities\WFCreateDynamicTracker.cs" />
     <Compile Include="Activities\CodeActivities\WFCreateProtocolTasks.cs" />
+    <Compile Include="Activities\CodeActivities\WFCreateTaskAssetExport.cs" />
     <Compile Include="Activities\CodeActivities\WFRegistrationAPP.cs" />
     <Compile Include="Activities\CodeActivities\WFRegistrationOUT.cs" />
     <Compile Include="Activities\CodeActivities\WFCreateTaskIND.cs" />
@@ -1934,6 +1935,10 @@
     <Content Include="Views\Custom\USR_PRT_FolderList.cshtml" />
     <Content Include="Views\Custom\USR_REQ_ZIF_RequestForRepairVentilation_Edit.cshtml" />
     <Content Include="Views\Custom\USR_REQ_ZIF_RequestForRepairVentilation_View.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UB_RequestForExportAssetWTask_View.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UB_RequestForExportAssetWTask_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UB_RequestForExportAssetZIFWTask_View.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UB_RequestForExportAssetZIFWTask_Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -3634,6 +3639,24 @@
   </ItemGroup>
   <ItemGroup>
     <XamlAppDef Include="Activities\USR_REQ_ZIF_RequestForRepairVentilation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USR_REQ_UB_RequestForExportAssetZIFWTask.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USR_REQ_UB_RequestForExportAssetWTask.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USR_REQ_UZL_RequestForUrgentIB.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </XamlAppDef>
