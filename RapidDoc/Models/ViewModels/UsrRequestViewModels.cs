@@ -9570,6 +9570,10 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Дата исполнения")]
         public DateTime? ExecutionDate { get; set; }
 
+        [DataType(DataType.Date)]
+        [Display(Name = "Продлен до")]
+        public DateTime? ProlongationOldDate { get; set; }
+
         public Guid RefDocumentId { get; set; }
 
         [Display(Name = "Ссылка на исходный документ")]

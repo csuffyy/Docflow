@@ -4532,6 +4532,7 @@ namespace RapidDoc.Models.DomainModels
 
         public string RefDocNum { get; set; }
         public DateTime? ExecutionDate { get; set; }
+        public DateTime? ProlongationOldDate { get; set; }
         public string TextTask { get; set; }
     }
     #endregion

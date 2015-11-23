@@ -18,7 +18,29 @@
             <br />
         }
 
-@Html.Partial("_DocumentViewFields", Model, new ViewDataDictionary(ViewData) { { "FieldName", "ExecutionDate" } })
+<div class="row">
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.ExecutionDate)
+        </div>
+        <div class="editor-field">
+            @if (Model.ProlongationDate.HasValue && Model.ProlongationDate != DateTime.MinValue)
+            { 
+                <del>@Html.FormatValue(Model.ExecutionDate, "{0:dd.MM.yyyy}")</del>
+            }
+            else
+            {
+               @Html.FormatValue(Model.ExecutionDate, "{0:dd.MM.yyyy}")
+            }
+        </div>
+    </div>
+    <div class="col-xs-2">
+        @if (Model.ProlongationDate.HasValue && Model.ProlongationDate != DateTime.MinValue)
+        {
+            @Html.Partial("_DocumentViewFields", Model, new ViewDataDictionary(ViewData) { { "FieldName", "ProlongationDate" } })
+        }
+    </div>
+</div>
 
 <div class="editor-label">
     @Html.LabelFor(model => Model.MainField)
@@ -26,12 +48,6 @@
 <div class="editor-field">
     @Html.Raw(Model.MainField)
 </div>
-<br />
-
-@if (Model.ProlongationDate.HasValue && Model.ProlongationDate != DateTime.MinValue)
-{ 
-    @Html.Partial("_DocumentViewFields", Model, new ViewDataDictionary(ViewData) { { "FieldName", "ProlongationDate" } })
-}
 
 @if (Model.ReportText != null && Model.ReportText != "")
 {

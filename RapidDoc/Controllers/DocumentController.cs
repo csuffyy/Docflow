@@ -794,6 +794,7 @@ namespace RapidDoc.Controllers
             viewModel.docData.RefDocumentId = documentId;
             viewModel.docData.TextTask = refDocument.MainField;
             viewModel.docData.ExecutionDate = refDocument.ExecutionDate;
+            viewModel.docData.ProlongationOldDate = refDocument.ProlongationDate;
             viewModel.docData.RefDocNum = docTable.DocumentNum;
             viewModel.fileId = Guid.NewGuid();
             viewModel.ProcessTemplates = _DocumentService.GetAllTemplatesDocument((Guid)process.Id);

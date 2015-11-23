@@ -627,7 +627,7 @@ namespace RapidDoc.Models.Services
 
             if (type == (new USR_TAS_DailyTasksProlongation_View()).GetType())
             {
-                if (actionModel.ExecutionDate >= actionModel.ProlongationDate)
+                if (actionModel.ExecutionDate >= actionModel.ProlongationDate || (actionModel.ProlongationOldDate != null && actionModel.ProlongationOldDate >= actionModel.ProlongationDate))
                 {
                     errorList.Add("Дата продления должна быть больше даты исполнения");
                 }

@@ -307,7 +307,22 @@ namespace RapidDoc.Models.DomainModels
         public bool Executed { get; set; }
     }
 
-    public abstract class BasicProtocolDocumentsTable : BasicDocumentTable
+    public interface IBasicProtocol
+    {
+        string Code { get; set; }
+        Guid? ProtocolFoldersTableId { get; set; }
+        string Subject { get; set; }
+        string Location { get; set; }
+        string Introduction { get; set; }
+        string Agenda { get; set; }
+        string Attended { get; set; }
+        string Invited { get; set; }
+        string Absent { get; set; }
+        string Chairman { get; set; }
+        string ListAgreement { get; set; }
+    }
+
+    public abstract class BasicProtocolDocumentsTable : BasicDocumentTable, IBasicProtocol
     {
         public string Code { get; set; }
 

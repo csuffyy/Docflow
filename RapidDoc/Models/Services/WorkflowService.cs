@@ -67,13 +67,14 @@ namespace RapidDoc.Models.Services
         private readonly IReviewDocLogService _ReviewDocLogService;
         private readonly ICustomCheckDocument _CustomCheckDocument;
         private readonly IProcessService _ProcessService;
+        private readonly ISystemService _SystemService;
         private readonly INotificationUsersService _NotificationUsersService;
         
         IDictionary<string, object> outputParameters;              
 
         public WorkflowService(IUnitOfWork uow, IDocumentService documentService, IEmplService emplService, 
             IWorkflowTrackerService workflowTrackerService, IEmailService emailService, IHistoryUserService historyUserService,
-            IReviewDocLogService reviewDocLogService, ICustomCheckDocument customCheckDocument, IProcessService processService, INotificationUsersService notificationUsersService)
+            IReviewDocLogService reviewDocLogService, ICustomCheckDocument customCheckDocument, IProcessService processService, ISystemService systemService, INotificationUsersService notificationUsersService)
         {
             repoUser = uow.GetRepository<ApplicationUser>();
             repoIncident = uow.GetRepository<ServiceIncidentTable>();
@@ -86,6 +87,7 @@ namespace RapidDoc.Models.Services
             _ReviewDocLogService = reviewDocLogService;
             _CustomCheckDocument = customCheckDocument;
             _ProcessService = processService;
+            _SystemService = systemService;
             _NotificationUsersService = notificationUsersService;
         }
 
@@ -719,8 +721,30 @@ namespace RapidDoc.Models.Services
                     allSteps.Add(new string[3] { "Исполнитель", (++i).ToString(), "" });
                 });
 
+                if (documentTable.RefDocumentId != null)
+                {
+                    var taskTable = (USR_TAS_DailyTasks_Table)_DocumentService.GetDocument(documentTable.RefDocumentId, documentTable.ProcessTable.TableName);
+                    var refTaskDocument = _DocumentService.Find(taskTable.RefDocumentId);
+                    if (refTaskDocument.DocType == DocumentType.Protocol)
+                    {
+                        var docuTable = (IBasicProtocol)_DocumentService.GetDocument(refTaskDocument.RefDocumentId, refTaskDocument.ProcessTable.TableName);
+                        if (!String.IsNullOrEmpty(docuTable.Chairman))
+                        {
+                            Guid chairmanEmplId = Guid.Parse(_SystemService.GuidsFromText(docuTable.Chairman)[0]);
+                            EmplTable chairmanEmpl = _EmplService.Find(chairmanEmplId);
+                            if (chairmanEmpl != null)
+                            {
+                                string chairmanId = chairmanEmpl.ApplicationUserId;
+                                endListUsers.Add(new List<WFTrackerUsersTable> { new WFTrackerUsersTable { UserId = chairmanId } });
+                                allSteps.Add(new string[3] { "Председатель", (++i).ToString(), "" });
+                            }
+                        }
+                    }
+                }
+
                 endListUsers.Add(new List<WFTrackerUsersTable> {new WFTrackerUsersTable { UserId = documentTable.ApplicationUserCreatedId }});
-                allSteps.Add(new string[3] { "Исполнитель", (++i).ToString(), "" });
+                allSteps.Add(new string[3] { "Инициатор", (++i).ToString(), "" });
+
                 _documentData.Add("endListUsers", endListUsers);
             }
 
