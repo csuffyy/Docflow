@@ -40,7 +40,7 @@
             @Html.LabelFor(x => x.Invited):
         </div>
         <div class="editor-field">
-            @Html.DisplayTextFor(model => Model.Invited)
+            @Html.HtmlDisplayTagsFor(model => Model.Invited)
         </div>
         }
     </div>
@@ -51,7 +51,7 @@
             @Html.LabelFor(x => x.Absent):
         </div>
         <div class="editor-field">
-            @Html.DisplayTextFor(model => Model.Absent)
+            @Html.HtmlDisplayTagsFor(model => Model.Absent)
         </div>
         }
         <div class="editor-label">

@@ -1,13 +1,19 @@
 ﻿@model RapidDoc.Models.ViewModels.USR_REQ_YT_StandbyTransportUIT_View
 @using RapidDoc.Extensions;
 
-@Html.Partial("_DocumentViewFields", Model, new ViewDataDictionary(ViewData) { { "FieldName", "Client" } })
-@Html.Partial("_DocumentViewFields", Model, new ViewDataDictionary(ViewData) { { "FieldName", "StartDate" } })
-@Html.Partial("_DocumentViewFields", Model, new ViewDataDictionary(ViewData) { { "FieldName", "StartWorkTime" } })
-@Html.Partial("_DocumentViewFields", Model, new ViewDataDictionary(ViewData) { { "FieldName", "Route" } })
-@Html.Partial("_DocumentViewFields", Model, new ViewDataDictionary(ViewData) { { "FieldName", "Purpose" } })
+<div class="row">
+    <div class="col-xs-6">
+        @Html.Partial("_DocumentViewFields", Model, new ViewDataDictionary(ViewData) { { "FieldName", "Client" } })
+        @Html.Partial("_DocumentViewFields", Model, new ViewDataDictionary(ViewData) { { "FieldName", "Route" } })
+        @Html.Partial("_DocumentViewFields", Model, new ViewDataDictionary(ViewData) { { "FieldName", "Purpose" } })
+    </div>
+    <div class="col-xs-6">
+        @Html.Partial("_DocumentViewFields", Model, new ViewDataDictionary(ViewData) { { "FieldName", "StartDate" } })
+        @Html.Partial("_DocumentViewFields", Model, new ViewDataDictionary(ViewData) { { "FieldName", "StartWorkTime" } })
+    </div>
+</div>
 @Html.Action("GetRequestStandbyTransportUIT", "Custom", new { model = Model })
-<hr />
+<br />
 <h5>Время выезда/подпись диспетчера_________________________</h5>
 <h5>Время заезда/подпись заказчика__________________________</h5>
 <br />

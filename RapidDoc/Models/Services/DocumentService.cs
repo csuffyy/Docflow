@@ -1200,10 +1200,10 @@ namespace RapidDoc.Models.Services
             ApplicationUser currentUser = repoUser.GetById(HttpContext.Current.User.Identity.GetUserId());
 
             var  taskList= _uow.GetDbContext<ApplicationDbContext>().USR_TAS_DailyTasks_Table.Where(x => x.RefDocumentId == documentId).ToList();
-            taskList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName }));
+            taskList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName, ReportText = y.ReportText, DocumentState = y.DocumentTable.DocumentState }));
 
             var  prolongationsList= _uow.GetDbContext<ApplicationDbContext>().USR_TAS_DailyTasksProlongation_Table.Where(x => x.RefDocumentId == documentId).ToList();
-            prolongationsList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName }));
+            prolongationsList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName, DocumentState = y.DocumentTable.DocumentState }));
 
             //Orders
             var mainActivityList = _uow.GetDbContext<ApplicationDbContext>().USR_ORD_MainActivity_Table.Where(x => x.AdditionDocumentId == documentId).ToList();

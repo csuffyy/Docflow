@@ -8,7 +8,18 @@
             <div class="well">
                 @foreach (var item in Model)
                 {
-                    <p>@Html.ActionLink(item.DocumentNum, "ShowDocument", "Document", new { id = item.DocumentId, isAfterView = true }, null) - @item.UserCreate (<small>@item.DateCreate.ToShortDateString()</small>)</p>
+                    <p>
+                        @if (item.DocumentState == RapidDoc.Models.Repository.DocumentState.Closed)
+                        {
+                            <span class="fa fa-check hidden-print"></span>
+                        }
+                        else if (item.DocumentState == RapidDoc.Models.Repository.DocumentState.Cancelled)
+                        {
+                            <span class="fa fa-times hidden-print"></span>
+                        }
+                        @Html.ActionLink(item.DocumentNum, "ShowDocument", "Document", new { id = item.DocumentId, isAfterView = true }, null) - @item.UserCreate (<small>@item.DateCreate.ToShortDateString()</small>)
+                    </p>
+                    <p>@Html.Raw(item.ReportText)</p>
                 }
             </div>
         </div>
