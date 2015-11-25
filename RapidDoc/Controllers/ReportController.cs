@@ -155,6 +155,8 @@ namespace RapidDoc.Controllers
         {
             int i = 0;
             List<TaskReportModel> detailTasksList = new List<TaskReportModel>();
+            string currentUserId = User.Identity.GetUserId();
+            ApplicationUser currentUser = _AccountService.Find(currentUserId);
 
             EmailParameterTable emailParameter = _EmailService.FirstOrDefault(x => x.SmtpServer != String.Empty);
             WrapperImpersonationContext contextImpersonation = new WrapperImpersonationContext(emailParameter.ReportAdminDomain, emailParameter.ReportAdminUser, emailParameter.ReportAdminPassword);
@@ -170,7 +172,7 @@ namespace RapidDoc.Controllers
             excelAppl.Visible = false;
             excelAppl.DisplayAlerts = false;
             excelWorkbook = excelAppl.Workbooks.Add(@"C:\Template\TaskReport.xlsx");
-            //excelAppl.Visible = true;
+
             Dictionary<string, int> blockDepartment = new Dictionary<string, int>();
             blockDepartment.Add("VIP", 1);
             blockDepartment.Add("Заместитель Генерального директора по производству", 2);
@@ -186,7 +188,7 @@ namespace RapidDoc.Controllers
             while (templateSheets <= excelAppl.Worksheets.Count)
             {
 
-                var alltTasksList = (from document in context.DocumentTable
+                var allTasksList = (from document in context.DocumentTable
                                      join detailDoc in context.USR_TAS_DailyTasks_Table
                                      on document.Id equals detailDoc.DocumentTableId
                                      join documentRef in context.DocumentTable
@@ -194,10 +196,11 @@ namespace RapidDoc.Controllers
                                      where document.DocType == DocumentType.Task &&
                                          detailDoc.RefDocumentId != null &&
                                          ((documentRef.DocType == DocumentType.Order && templateSheets == 1)  ||
-                                         (documentRef.DocType == DocumentType.IncomingDoc && templateSheets == 2))
+                                         (documentRef.DocType == DocumentType.IncomingDoc && templateSheets == 2) ||
+                                         (documentRef.DocType == DocumentType.Protocol && templateSheets == 3))
                                      select document).ToList();
 
-                foreach (var item in alltTasksList)
+                foreach (var item in allTasksList)
                 {
                     var docTracker = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == item.Id).OrderBy(y => y.CreatedDate);
                     DateTime? closeDate = item.DocumentState == DocumentState.Closed ? docTracker.FirstOrDefault(x => x.SignDate != null).SignDate : null;
@@ -210,18 +213,18 @@ namespace RapidDoc.Controllers
                         string department = "";
                         foreach (var user in tracker.Users)
                         {
-                            EmplTable empl = _EmplService.FirstOrDefault(x => x.ApplicationUserId == user.UserId);
+                            EmplTable empl = _EmplService.GetEmployer(user.UserId, currentUser.CompanyTableId);
                             executor += empl.ShortFullNameType2 + "\n";
                             department += empl.DepartmentTableId.ToString();
 
                             var delegationTracker = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == item.Id && x.ApplicationUserCreatedId == empl.ApplicationUserId && x.CreatedDate > tracker.CreatedDate);
                             foreach (var delegationUser in delegationTracker)
                             {
-                                delegationUser.Users.ForEach(x => delegation += _EmplService.FirstOrDefault(z => z.ApplicationUserId == x.UserId).ShortFullNameType2 + "\n");
+                                delegationUser.Users.ForEach(x => delegation += _EmplService.GetEmployer(x.UserId, currentUser.CompanyTableId).ShortFullNameType2 + "\n");
                             }
                         }
                         if (i - 1 != 0)
-                            executor += "(делегировал " + _EmplService.FirstOrDefault(x => x.ApplicationUserId == tracker.ApplicationUserCreatedId).ShortFullNameType2 + ")\n";
+                            executor += "(делегировал " + _EmplService.GetEmployer(tracker.ApplicationUserCreatedId, currentUser.CompanyTableId).ShortFullNameType2 + ")\n";
 
                         detailTasksList.Add(new TaskReportModel
                         {
