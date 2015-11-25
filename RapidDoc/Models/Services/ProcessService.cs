@@ -33,6 +33,7 @@ namespace RapidDoc.Models.Services
         ProcessView FindView(Guid id, string currentUserId = "");
         SelectList GetDropListProcessNull(Guid? id);
         SelectList GetDropListProcess(Guid? id);
+        SelectList GetProtocolListProcess();
     }
 
     public class ProcessService : IProcessService
@@ -159,6 +160,13 @@ namespace RapidDoc.Models.Services
             {
                 return repoUser.GetById(HttpContext.Current.User.Identity.GetUserId());
             }
+        }
+
+
+        public SelectList GetProtocolListProcess()
+        {
+            var items = GetAllView().Where(x => x.DocType == DocumentType.Protocol).ToList();
+            return new SelectList(items, "Id", "ProcessName", items.FirstOrDefault().Id);
         }
     }
 }

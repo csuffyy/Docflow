@@ -88,6 +88,9 @@
                             <li class="dropdown">
                                 @Html.ActionLink(UIElementRes.UIElement.AppealBase, "IndexAppeal", "DocumentBase")
                             </li>
+                            <li class="dropdown">
+                                @Html.ActionLink(UIElementRes.UIElement.ProtocolBase, "IndexProtocol", "DocumentBase")
+                            </li>
                         </ul>
                     </li>
                     @if (User.IsInRole("Administrator") || User.IsInRole("Reports"))
