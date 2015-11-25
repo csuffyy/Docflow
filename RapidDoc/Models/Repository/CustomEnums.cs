@@ -1190,20 +1190,17 @@ namespace RapidDoc.Models.Repository
 
     public enum ProtocolFilterType : byte
     {
-        [Display(Name = "По инициатору")]
+        [Display(Name = "[Протокол] По инициатору")]
         Initiator = 0,
 
-        [Display(Name = "По подразделению")]
+        [Display(Name = "[Протокол] По подразделению")]
         Department = 1,
 
-        [Display(Name = "По тему документа")]
+        [Display(Name = "[Протокол] По теме документа")]
         Topic = 2,
 
-        [Display(Name = "По процессу")]
-        ProcessName = 3,
-
-        [Display(Name = "По папкам")]
-        Folder = 4
+        [Display(Name = "[Протокол] По папкам")]
+        Folder = 3
     }
 
     public enum BusinessTripType : byte

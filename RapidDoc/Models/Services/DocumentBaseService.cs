@@ -230,6 +230,8 @@ namespace RapidDoc.Models.Services
                     foreach (var item in items)
                     {
                         var documentView = _DocumentService.GetDocumentView(item.DocumentRefId, item.ProcessTableName);
+                        if (!String.IsNullOrEmpty(documentView.Code))
+                            item.OrderNumber = documentView.Code;
                         item.DocumentTitle = documentView.Subject;
                         item.CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(item.CreatedDate), timeZoneInfo);
                         item.ProtocolFolderId = documentView.ProtocolFoldersTableId;
