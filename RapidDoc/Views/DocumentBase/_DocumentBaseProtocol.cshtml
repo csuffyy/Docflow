@@ -1,0 +1,102 @@
+﻿@model List<RapidDoc.Models.ViewModels.DocumentBaseView>
+@using RapidDoc.Extensions;
+@{
+    Layout = null;
+
+}
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+    @{int num = 0;}
+    @switch ((RapidDoc.Models.Repository.ProtocolFilterType)Enum.ToObject(typeof(RapidDoc.Models.Repository.ProtocolFilterType), @ViewBag.FilterType))
+    {
+
+        case RapidDoc.Models.Repository.ProtocolFilterType.Initiator:
+
+            foreach (var itemGroup in Model.GroupBy(x => x.UserName))
+            {
+
+                num++;
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="heading@num">
+                        <p class="panel-title"><a href="#collapseArea_@num" data-toggle="collapse" data-target="#collapseArea_@num" aria-expanded="false" aria-controls="collapseArea_@num"><strong>@itemGroup.Key (@Model.Where(x => x.UserName == itemGroup.Key).Count())</strong></a></p>
+                    </div>
+                    <div class="collapse" id="collapseArea_@num">
+                        <div class="panel-body">
+                            @foreach (var item in Model.Where(x => x.UserName == itemGroup.Key).OrderByDescending(x => x.CreatedDate))
+                            {
+                                <p>
+                                    <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins> - @item.ProcessName - @item.DocumentTitle (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)</a>
+                                </p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+            break;
+        case RapidDoc.Models.Repository.ProtocolFilterType.Department:
+            foreach (var itemGroup in Model.GroupBy(x => x.DepartmentName))
+            {
+                num++;
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="heading@num">
+                        <p class="panel-title"><a href="#collapseArea_@num" data-toggle="collapse" data-target="#collapseArea_@num" aria-expanded="false" aria-controls="collapseArea_@num"><strong>@itemGroup.Key (@Model.Where(x => x.DepartmentName == itemGroup.Key).Count())</strong></a></p>
+                    </div>
+                    <div class="collapse" id="collapseArea_@num">
+                        <div class="panel-body">
+                            @foreach (var item in Model.Where(x => x.DepartmentName == itemGroup.Key).OrderByDescending(x => x.CreatedDate))
+                            {
+                                <p>
+                                    <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins> - @item.ProcessName - @item.DocumentTitle (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)</a>
+                                </p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+            break;
+        case RapidDoc.Models.Repository.ProtocolFilterType.Topic:
+            foreach (var itemGroup in Model.GroupBy(x => x.DocumentTitle))
+            {
+                num++;
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="heading@num">
+                        <p class="panel-title"><a href="#collapseArea_@num" data-toggle="collapse" data-target="#collapseArea_@num" aria-expanded="false" aria-controls="collapseArea_@num"><strong>@itemGroup.Key</strong></a></p>
+                    </div>
+                    <div class="collapse" id="collapseArea_@num">
+                        <div class="panel-body">
+                            @foreach (var item in Model.Where(x => x.DocumentTitle == itemGroup.Key).OrderByDescending(x => x.CreatedDate))
+                            {
+                                <p>
+                                    <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins> - @item.ProcessName (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)</a>
+                                </p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+            break;
+        case RapidDoc.Models.Repository.ProtocolFilterType.ProcessName:
+
+            foreach (var itemGroup in Model.GroupBy(x => x.ProcessName))
+            {
+
+                num++;
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="heading@num">
+                        <p class="panel-title"><a href="#collapseArea_@num" data-toggle="collapse" data-target="#collapseArea_@num" aria-expanded="false" aria-controls="collapseArea_@num"><strong>@itemGroup.Key (@Model.Where(x => x.ProcessName == itemGroup.Key).Count())</strong></a></p>
+                    </div>
+                    <div class="collapse" id="collapseArea_@num">
+                        <div class="panel-body">
+                            @foreach (var item in Model.Where(x => x.ProcessName == itemGroup.Key).OrderByDescending(x => x.CreatedDate))
+                            {
+                                <p>
+                                    <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins> - @item.DocumentTitle (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)</a>
+                                </p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+            break;
+    }
+</div>
+

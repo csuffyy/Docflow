@@ -390,6 +390,23 @@ namespace RapidDoc.Models.ViewModels
         public DateTime? EndDate { get; set; }
     }
 
+    public class ProtocolBaseView
+    {
+        [Display(Name = "Grouping", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public ProtocolFilterType FilterType { get; set; }
+
+        [Display(Name = "StartDate", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public DateTime? StartDate { get; set; }
+
+        [Display(Name = "EndDate", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public DateTime? EndDate { get; set; }
+
+        [Display(Name = "ProcessName", ResourceType = typeof(FieldNameRes.FieldNameResource))]        
+        public string ProcessName { get; set; }
+
+        public Guid? ProcessTableId { get; set; }
+    }
+
     public class DocumentBaseView : BasicCompanyNullView
     {
         public string DocumentNum { get; set; }
@@ -423,5 +440,16 @@ namespace RapidDoc.Models.ViewModels
         public string DocumentText { get; set; }
         public Folder Folder { get; set; }
         public CategoryPerson CategoryPerson { get; set; }
+        public Guid? ProtocolFolderId  { get; set; }
+
     }
+
+    public class DocumentBaseProtocolFolderView : BasicCompanyNullView
+    {
+        public List<DocumentBaseView> documentBaseList { get; set; }
+        public Guid ProtocolFoldersId { get; set; }
+        public string ProtocolFolderName { get; set; }
+        public Guid? ProtocolFoldersParentId { get; set; }
+    }
+
 }

@@ -23,6 +23,8 @@ namespace RapidDoc.Models.Services
     {
         List<DocumentBaseView> GetAllViewUserDocument(DocumentType type, DateTime? startDate, DateTime? endDate);
         List<DocumentBaseView> GetAllViewUserDocumentWithExecutors(DocumentType type, DateTime? startDate, DateTime? endDate);
+        List<Guid> GetParentListFolders(Guid? protocolId);
+
     }
 
     public class DocumentBaseService : IDocumentBaseService
@@ -33,11 +35,13 @@ namespace RapidDoc.Models.Services
         private IUnitOfWork _uow;
         private readonly IDocumentService _DocumentService;
         private readonly ISystemService _SystemService;
-        private readonly IItemCauseService _ItemCauseService;        
+        private readonly IItemCauseService _ItemCauseService;
+        private readonly IProtocolFoldersService _ProtocolFoldersService;  
+      
 
         protected UserManager<ApplicationUser> UserManager { get; private set; }
 
-        public DocumentBaseService(IUnitOfWork uow, IDocumentService documentService, ISystemService systemService, IItemCauseService itemCauseService)
+        public DocumentBaseService(IUnitOfWork uow, IDocumentService documentService, ISystemService systemService, IItemCauseService itemCauseService, IProtocolFoldersService protocolFoldersService)
         {
             _uow = uow;
             repo = uow.GetRepository<SearchTable>();
@@ -46,6 +50,7 @@ namespace RapidDoc.Models.Services
             _DocumentService = documentService;
             _SystemService = systemService;
             _ItemCauseService = itemCauseService;
+            _ProtocolFoldersService = protocolFoldersService;
 
             UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_uow.GetDbContext<ApplicationDbContext>()));
         }
@@ -224,7 +229,10 @@ namespace RapidDoc.Models.Services
                 case DocumentType.Protocol:
                     foreach (var item in items)
                     {
+                        var documentView = _DocumentService.GetDocumentView(item.DocumentRefId, item.ProcessTableName);
+                        item.DocumentTitle = documentView.Subject;
                         item.CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(item.CreatedDate), timeZoneInfo);
+                        item.ProtocolFolderId = documentView.ProtocolFoldersTableId;
                     }
                     return items; 
              }
@@ -358,6 +366,25 @@ namespace RapidDoc.Models.Services
             }
 
             return editedItems;
+        }
+
+        public List<Guid> GetParentListFolders(Guid? protocolId)
+        {
+            List<Guid> listDocumentBaseProtocolFolder = new List<Guid>();
+            List<Guid> listDocumentBaseProtocolFolderBuf = new List<Guid>();
+
+            ProtocolFoldersTable documentBaseProtocolFolder = _ProtocolFoldersService.FirstOrDefault(x => x.Id == protocolId);
+
+            if (documentBaseProtocolFolder.ProtocolFoldersParentId != null)
+            {
+                listDocumentBaseProtocolFolder.Add(documentBaseProtocolFolder.Id);
+                listDocumentBaseProtocolFolderBuf = this.GetParentListFolders(documentBaseProtocolFolder.ProtocolFoldersParentId);
+                listDocumentBaseProtocolFolder = listDocumentBaseProtocolFolder.Concat(listDocumentBaseProtocolFolderBuf).Distinct().OrderBy(x => x).ToList();
+            }
+            else
+                listDocumentBaseProtocolFolder.Add(documentBaseProtocolFolder.Id);
+
+            return listDocumentBaseProtocolFolder;
         }
     }
 }

@@ -1939,6 +1939,9 @@
     <Content Include="Views\Custom\USR_REQ_UB_RequestForExportAssetWTask_Edit.cshtml" />
     <Content Include="Views\Custom\USR_REQ_UB_RequestForExportAssetZIFWTask_View.cshtml" />
     <Content Include="Views\Custom\USR_REQ_UB_RequestForExportAssetZIFWTask_Edit.cshtml" />
+    <Content Include="Views\DocumentBase\IndexProtocol.cshtml" />
+    <Content Include="Views\DocumentBase\_DocumentBaseProtocol.cshtml" />
+    <Content Include="Views\DocumentBase\_DocumentBaseProtocolFolders.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
