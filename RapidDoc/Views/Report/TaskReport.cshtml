@@ -5,9 +5,9 @@
     ViewBag.Title = UIElementRes.UIElement.CreateReport;
 }
 
-<h2>@UIElementRes.UIElement.CreateReport</h2>
+<h2>@UIElementRes.UIElement.TaskReport</h2>
 
-@using (Html.BeginForm("GenerateTaskReport", "Report"))
+@using (Html.BeginForm("GenerateTaskReport", "Report", FormMethod.Post, new { id = "formreport" }))
 {
     @Html.ValidationSummary(true)
 
@@ -32,7 +32,7 @@
 
         <br>
         <p>
-            <input class="btn btn-primary btn-sm" type="submit" value=@UIElementRes.UIElement.Run />
+            <input id="reportbtn" class="btn btn-primary btn-sm" value=@UIElementRes.UIElement.Run />
             <a href="javascript:window.history.back();" class="btn btn-default btn-sm">@UIElementRes.UIElement.Back</a>
         </p>
     </fieldset>
@@ -42,12 +42,17 @@
     @Scripts.Render("~/bundles/editentity")
 }
 @section jslaunch {
-    <script type="text/javascript">
-$(function () {
-    selectpicker_init();
-    datepicker_init("@UIElementRes.UIElement.LangName");
-});
-    </script>
+<script type="text/javascript">
+    $(function () {
+        selectpicker_init();
+        datepicker_init("@UIElementRes.UIElement.LangName");
+
+        $("#reportbtn").click(function (e) {
+            e.preventDefault();
+            $("#formreport").submit();
+        });
+    });
+</script>
 }
 
 
