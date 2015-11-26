@@ -144,33 +144,91 @@ namespace RapidDoc.Controllers
                 case DocumentType.AppealDoc:
                     return View("_DocumentBaseAppeal", _Service.GetAllViewUserDocument(documentType, startDate, endDate));
                 case DocumentType.Protocol:
-                    if ((ProtocolFilterType)filterType == ProtocolFilterType.Folder)
-                    {
-                        List<Guid> uniqueListProtocolFolders = new List<Guid>();
-                        ApplicationDbContext dbContext = new ApplicationDbContext();
-                        List<ProtocolFoldersTable> protocolFolders = dbContext.ProtocolFoldersTable.Where(x => x.ProcessTableId == processTableId).ToList();
-                        List<DocumentBaseView> docBaseView = _Service.GetAllViewUserDocument(documentType, startDate, endDate).Where(x => x.ProcessTableId == processTableId).ToList();
-                        List<DocumentBaseProtocolFolderView> documentBaseProtocolFolder = new List<DocumentBaseProtocolFolderView>();
-                        foreach (var item in docBaseView)
-                        {
-                            if (item.ProtocolFolderId != null)
-                                uniqueListProtocolFolders = uniqueListProtocolFolders.Concat(_Service.GetParentListFolders(item.ProtocolFolderId)).Distinct().ToList();
-                        }
+                    List<DocumentBaseView> docBaseView;
+                    ApplicationDbContext dbContext = new ApplicationDbContext();
+                    DocumentTable docTable;
+                    ProtocolTaskDocumentBaseStatus Status;
+                    List<DocumentBaseProtocolTasksView> protocolTasks;
 
-                        foreach (var protocolId in uniqueListProtocolFolders)
-                        {
-                            ProtocolFoldersTable protocolFoldersTable = protocolFolders.FirstOrDefault(x => x.Id == protocolId);
-                            List<DocumentBaseView> protocolFolderDocumentBases = new List<DocumentBaseView>();
-                            foreach (var doc in docBaseView.Where(x => x.ProtocolFolderId == protocolId))
+                    switch ((ProtocolFilterType)filterType)
+	                {                 
+                        case ProtocolFilterType.Folder:
+                            List<Guid> uniqueListProtocolFolders = new List<Guid>();
+                            List<ProtocolFoldersTable> protocolFolders = dbContext.ProtocolFoldersTable.Where(x => x.ProcessTableId == processTableId).ToList();
+                            docBaseView = _Service.GetAllViewUserDocument(documentType, startDate, endDate).Where(x => x.ProcessTableId == processTableId).ToList();
+                            List<DocumentBaseProtocolFolderView> documentBaseProtocolFolder = new List<DocumentBaseProtocolFolderView>();
+                            foreach (var item in docBaseView)
                             {
-                                protocolFolderDocumentBases.Add(doc);
+                                if (item.ProtocolFolderId != null)
+                                    uniqueListProtocolFolders = uniqueListProtocolFolders.Concat(_Service.GetParentListFolders(item.ProtocolFolderId)).Distinct().ToList();
                             }
-                            documentBaseProtocolFolder.Add(new DocumentBaseProtocolFolderView { ProtocolFoldersId = protocolId, ProtocolFoldersParentId = protocolFoldersTable.ProtocolFoldersParentId, ProtocolFolderName = protocolFoldersTable.ProtocolFolderName, documentBaseList = protocolFolderDocumentBases });
-                        }
-                        return View("_DocumentBaseProtocolFolders", documentBaseProtocolFolder);
-                    }
-                    else
-                        return View("_DocumentBaseProtocol", _Service.GetAllViewUserDocument(documentType, startDate, endDate).Where(x => x.ProcessTableId == processTableId).ToList());
+
+                            foreach (var protocolId in uniqueListProtocolFolders)
+                            {
+                                ProtocolFoldersTable protocolFoldersTable = protocolFolders.FirstOrDefault(x => x.Id == protocolId);
+                                List<DocumentBaseView> protocolFolderDocumentBases = new List<DocumentBaseView>();
+                                foreach (var doc in docBaseView.Where(x => x.ProtocolFolderId == protocolId))
+                                {
+                                    protocolFolderDocumentBases.Add(doc);
+                                }
+                                documentBaseProtocolFolder.Add(new DocumentBaseProtocolFolderView { ProtocolFoldersId = protocolId, ProtocolFoldersParentId = protocolFoldersTable.ProtocolFoldersParentId, ProtocolFolderName = protocolFoldersTable.ProtocolFolderName, documentBaseList = protocolFolderDocumentBases });
+                            }
+                            return View("_DocumentBaseProtocolFolders", documentBaseProtocolFolder);
+                        case ProtocolFilterType.TaskStatus:                      
+                             protocolTasks = new List<DocumentBaseProtocolTasksView>();
+                             docBaseView = _Service.GetAllViewUserDocument(documentType, startDate, endDate).Where(x => x.ProcessTableId == processTableId).Where(x => x.ProcessTableId == processTableId).ToList();
+                             foreach (var protocol in docBaseView)
+                             {                           
+                                 List<USR_TAS_DailyTasks_Table> listTasks= dbContext.USR_TAS_DailyTasks_Table.Where(x => x.RefDocumentId == protocol.Id).ToList();
+
+                                 foreach (var docTask in listTasks)
+                                 {
+                                     docTable = _DocumentService.Find(docTask.DocumentTableId);
+                                     
+                                     if (docTable.DocumentState == DocumentState.Closed || docTable.DocumentState == DocumentState.Cancelled)
+                                         Status = ProtocolTaskDocumentBaseStatus.Executed;
+                                     else if ((docTask.ProlongationDate != null && docTask.ProlongationDate < DateTime.UtcNow) ||
+                                         (docTask.ProlongationDate == null && docTask.ExecutionDate < DateTime.UtcNow))
+                                         Status = ProtocolTaskDocumentBaseStatus.Overdue;
+                                     else
+                                         Status = ProtocolTaskDocumentBaseStatus.AtWork;
+                                     
+                                        protocolTasks.Add(new DocumentBaseProtocolTasksView { DocumentNum = docTable.DocumentNum, CreatedDate = docTable.CreatedDate, TaskStatus = Status, DepartmentName = protocol.DepartmentName, Id = docTable.Id, ProtocolNum = protocol.ProtocolCode});
+                                 }
+                             }
+                             return View("_DocumentBaseProtocolTasks", protocolTasks);
+                        case ProtocolFilterType.TaskExecutor:
+                             protocolTasks = new List<DocumentBaseProtocolTasksView>();
+                             docBaseView = _Service.GetAllViewUserDocumentWithExecutors(DocumentType.Task, startDate, endDate);
+                             foreach (var doc in docBaseView)
+                             {
+                                 USR_TAS_DailyTasks_Table task = dbContext.USR_TAS_DailyTasks_Table.FirstOrDefault(x => x.DocumentTableId == doc.Id);
+
+                                docTable = _DocumentService.Find(task.RefDocumentId);
+
+                                if (docTable != null && docTable.DocType == DocumentType.Protocol)
+                                {
+                                    if (doc.DocumentState == DocumentState.Closed || doc.DocumentState == DocumentState.Cancelled)
+                                        Status = ProtocolTaskDocumentBaseStatus.Executed;
+                                    else if ((task.ProlongationDate != null && task.ProlongationDate < DateTime.UtcNow) ||
+                                        (task.ProlongationDate == null && task.ExecutionDate < DateTime.UtcNow))
+                                        Status = ProtocolTaskDocumentBaseStatus.Overdue;
+                                    else
+                                        Status = ProtocolTaskDocumentBaseStatus.AtWork;
+
+                                    var protocolTable = _DocumentService.GetDocument(docTable.RefDocumentId, docTable.ProcessTable.TableName);
+                                    if (protocolTable.Code != null)
+                                    {
+
+                                        protocolTasks.Add(new DocumentBaseProtocolTasksView { DocumentNum = doc.DocumentNum, CreatedDate = doc.CreatedDate, CreateTaskDate = doc.CreatedDate.ToShortDateString(), TaskStatus = Status, DepartmentName = doc.DepartmentName, Id = doc.Id, ProtocolNum = protocolTable.Code, UserName = doc.UserName });
+                                    }
+                                }
+                             }
+                            return View("_DocumentBaseProtocolTasks", protocolTasks);
+		                default:
+                            return View("_DocumentBaseProtocol", _Service.GetAllViewUserDocument(documentType, startDate, endDate).Where(x => x.ProcessTableId == processTableId).ToList());
+	                }
+                  
             }
             return new EmptyResult();
         }       

@@ -1200,7 +1200,25 @@ namespace RapidDoc.Models.Repository
         Topic = 2,
 
         [Display(Name = "[Протокол] По папкам")]
-        Folder = 3
+        Folder = 3,
+
+        [Display(Name = "[Поручения] По статусу")]
+        TaskStatus = 4,
+
+        [Display(Name = "[Поручения] По исполнителям")]
+        TaskExecutor = 5
+    }
+
+    public enum ProtocolTaskDocumentBaseStatus : byte
+    {
+        [Display(Name = "В работе")]
+        AtWork = 0,
+
+        [Display(Name = "Выполненные")]
+        Executed = 1,
+
+        [Display(Name = "Просроченные")]
+        Overdue = 2
     }
 
     public enum BusinessTripType : byte

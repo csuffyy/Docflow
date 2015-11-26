@@ -235,6 +235,7 @@ namespace RapidDoc.Models.Services
                         item.DocumentTitle = documentView.Subject;
                         item.CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(item.CreatedDate), timeZoneInfo);
                         item.ProtocolFolderId = documentView.ProtocolFoldersTableId;
+                        item.ProtocolCode = documentView.Code;
                     }
                     return items; 
              }
@@ -259,6 +260,8 @@ namespace RapidDoc.Models.Services
                          join company in contextQuery.CompanyTable on document.CompanyTableId equals company.Id
                          join process in contextQuery.ProcessTable on document.ProcessTableId equals process.Id
                          join tracker in contextQuery.WFTrackerTable on document.Id equals tracker.DocumentTableId
+                         let empl = contextQuery.EmplTable.Where(p => p.ApplicationUserId == document.ApplicationUserCreatedId).OrderByDescending(p => p.Enable).FirstOrDefault()
+                         join department in contextQuery.DepartmentTable on empl.DepartmentTableId equals department.Id
                          where document.DocType == type && (document.CreatedDate >= startDate && document.CreatedDate <= endDate)
                          orderby document.ModifiedDate descending
                          select new DocumentBaseView
@@ -281,7 +284,8 @@ namespace RapidDoc.Models.Services
                              ProcessTableName = process.TableName,
                              Cancel = document.Cancel,
                              Executed = document.Executed,
-                             DocumentText = document.DocumentText
+                             DocumentText = document.DocumentText,
+                             DepartmentName = department.DepartmentName
                          }).ToList();
 
             }
@@ -291,6 +295,8 @@ namespace RapidDoc.Models.Services
                          join company in contextQuery.CompanyTable on document.CompanyTableId equals company.Id
                          join process in contextQuery.ProcessTable on document.ProcessTableId equals process.Id
                          join tracker in contextQuery.WFTrackerTable on document.Id equals tracker.DocumentTableId
+                         let empl = contextQuery.EmplTable.Where(p => p.ApplicationUserId == document.ApplicationUserCreatedId).OrderByDescending(p => p.Enable).FirstOrDefault()
+                         join department in contextQuery.DepartmentTable on empl.DepartmentTableId equals department.Id
                          where
                              (document.ApplicationUserCreatedId == user.Id  || document.Share == true ||
                                  contextQuery.WFTrackerTable.Any(x => x.DocumentTableId == document.Id && ((x.SignUserId == null && x.TrackerType == TrackerType.Waiting) ||
@@ -328,6 +334,7 @@ namespace RapidDoc.Models.Services
                              ProcessTableId = document.ProcessTableId,
                              AliasCompanyName = company.AliasCompanyName,
                              DocumentRefId = document.RefDocumentId,
+                             DepartmentName = department.DepartmentName,
                              ProcessTableName = process.TableName,
                              Cancel = document.Cancel,
                              Executed = document.Executed,

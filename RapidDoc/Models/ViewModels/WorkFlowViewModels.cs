@@ -441,7 +441,7 @@ namespace RapidDoc.Models.ViewModels
         public Folder Folder { get; set; }
         public CategoryPerson CategoryPerson { get; set; }
         public Guid? ProtocolFolderId  { get; set; }
-
+        public string ProtocolCode { get; set; }
     }
 
     public class DocumentBaseProtocolFolderView : BasicCompanyNullView
@@ -451,5 +451,16 @@ namespace RapidDoc.Models.ViewModels
         public string ProtocolFolderName { get; set; }
         public Guid? ProtocolFoldersParentId { get; set; }
     }
+
+    public class DocumentBaseProtocolTasksView : BasicCompanyNullView
+    {
+        public string DocumentNum { get; set; }
+        public string ProtocolNum { get; set; }
+        public ProtocolTaskDocumentBaseStatus TaskStatus { get; set; }
+        public string DepartmentName { get; set; }
+        public string UserName { get; set; }
+        public string CreateTaskDate { get; set; }
+    }
+
 
 }
