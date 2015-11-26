@@ -179,7 +179,7 @@ namespace RapidDoc.Controllers
                              docBaseView = _Service.GetAllViewUserDocument(documentType, startDate, endDate).Where(x => x.ProcessTableId == processTableId).Where(x => x.ProcessTableId == processTableId).ToList();
                              foreach (var protocol in docBaseView)
                              {                           
-                                 List<USR_TAS_DailyTasks_Table> listTasks= dbContext.USR_TAS_DailyTasks_Table.Where(x => x.RefDocumentId == protocol.Id).ToList();
+                                 List<USR_TAS_DailyTasks_Table> listTasks = dbContext.USR_TAS_DailyTasks_Table.Where(x => x.RefDocumentId == protocol.Id).ToList();
 
                                  foreach (var docTask in listTasks)
                                  {
@@ -192,8 +192,8 @@ namespace RapidDoc.Controllers
                                          Status = ProtocolTaskDocumentBaseStatus.Overdue;
                                      else
                                          Status = ProtocolTaskDocumentBaseStatus.AtWork;
-                                     
-                                        protocolTasks.Add(new DocumentBaseProtocolTasksView { DocumentNum = docTable.DocumentNum, CreatedDate = docTable.CreatedDate, TaskStatus = Status, DepartmentName = protocol.DepartmentName, Id = docTable.Id, ProtocolNum = protocol.ProtocolCode});
+
+                                     protocolTasks.Add(new DocumentBaseProtocolTasksView { DocumentNum = docTable.DocumentNum, CreatedDate = docTable.CreatedDate, TaskStatus = Status, DepartmentName = protocol.DepartmentName, Id = docTable.Id, ProtocolNum = protocol.ProtocolCode });
                                  }
                              }
                              return View("_DocumentBaseProtocolTasks", protocolTasks);
