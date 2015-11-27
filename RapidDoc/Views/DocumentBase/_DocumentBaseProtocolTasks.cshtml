@@ -32,6 +32,14 @@
                                                 @foreach (var task in Model.Where(x => x.DepartmentName == itemGroupDepartment.Key && x.TaskStatus == itemGroupStatus.Key))
                                                 {
                                                     <p>
+                                                        @if (task.TaskStatus == RapidDoc.Models.Repository.ProtocolTaskDocumentBaseStatus.Executed)
+                                                        {
+                                                            <span class="fa fa-check text-success"></span>
+                                                        }
+                                                        @if (task.TaskStatus == RapidDoc.Models.Repository.ProtocolTaskDocumentBaseStatus.Overdue)
+                                                        {
+                                                            <span class="fa fa-exclamation text-danger"></span>
+                                                        }
                                                         <a href="@Url.Action("ShowDocument", "Document", new { id = task.Id, isAfterView = true })" target="_blank"><ins>@task.DocumentNum</ins> - @task.ProtocolNum (@task.CreatedDate)</a>
                                                     </p>
                                                 }
@@ -72,6 +80,14 @@
                                                 @foreach (var task in Model.Where(x => x.UserName == itemGroupUser.Key && x.CreateTaskDate == itemGroupDate.Key))
                                                 {
                                                     <p>
+                                                        @if (task.TaskStatus == RapidDoc.Models.Repository.ProtocolTaskDocumentBaseStatus.Executed)
+                                                        {
+                                                            <span class="fa fa-check text-success"></span>
+                                                        }
+                                                        @if (task.TaskStatus == RapidDoc.Models.Repository.ProtocolTaskDocumentBaseStatus.Overdue)
+                                                        {
+                                                            <span class="fa fa-exclamation text-danger"></span>
+                                                        }
                                                         <a href="@Url.Action("ShowDocument", "Document", new { id = task.Id, isAfterView = true })" target="_blank"><ins>@task.DocumentNum</ins> - @task.ProtocolNum (@task.CreatedDate)</a>
                                                     </p>
                                                 }
