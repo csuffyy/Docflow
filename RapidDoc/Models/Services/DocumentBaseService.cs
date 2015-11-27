@@ -260,8 +260,6 @@ namespace RapidDoc.Models.Services
                          join company in contextQuery.CompanyTable on document.CompanyTableId equals company.Id
                          join process in contextQuery.ProcessTable on document.ProcessTableId equals process.Id
                          join tracker in contextQuery.WFTrackerTable on document.Id equals tracker.DocumentTableId
-                         let empl = contextQuery.EmplTable.Where(p => p.ApplicationUserId == document.ApplicationUserCreatedId).OrderByDescending(p => p.Enable).FirstOrDefault()
-                         join department in contextQuery.DepartmentTable on empl.DepartmentTableId equals department.Id
                          where document.DocType == type && (document.CreatedDate >= startDate && document.CreatedDate <= endDate)
                          orderby document.ModifiedDate descending
                          select new DocumentBaseView
@@ -284,8 +282,7 @@ namespace RapidDoc.Models.Services
                              ProcessTableName = process.TableName,
                              Cancel = document.Cancel,
                              Executed = document.Executed,
-                             DocumentText = document.DocumentText,
-                             DepartmentName = department.DepartmentName
+                             DocumentText = document.DocumentText
                          }).ToList();
 
             }
@@ -295,8 +292,6 @@ namespace RapidDoc.Models.Services
                          join company in contextQuery.CompanyTable on document.CompanyTableId equals company.Id
                          join process in contextQuery.ProcessTable on document.ProcessTableId equals process.Id
                          join tracker in contextQuery.WFTrackerTable on document.Id equals tracker.DocumentTableId
-                         let empl = contextQuery.EmplTable.Where(p => p.ApplicationUserId == document.ApplicationUserCreatedId).OrderByDescending(p => p.Enable).FirstOrDefault()
-                         join department in contextQuery.DepartmentTable on empl.DepartmentTableId equals department.Id
                          where
                              (document.ApplicationUserCreatedId == user.Id  || document.Share == true ||
                                  contextQuery.WFTrackerTable.Any(x => x.DocumentTableId == document.Id && ((x.SignUserId == null && x.TrackerType == TrackerType.Waiting) ||
@@ -334,7 +329,6 @@ namespace RapidDoc.Models.Services
                              ProcessTableId = document.ProcessTableId,
                              AliasCompanyName = company.AliasCompanyName,
                              DocumentRefId = document.RefDocumentId,
-                             DepartmentName = department.DepartmentName,
                              ProcessTableName = process.TableName,
                              Cancel = document.Cancel,
                              Executed = document.Executed,
@@ -343,12 +337,13 @@ namespace RapidDoc.Models.Services
             }
 
             List<EmplTable> emplTables = contextQuery.EmplTable.ToList();
-
+            List<DepartmentTable> departmentTables = contextQuery.DepartmentTable.ToList();
             foreach(var item in items)
             {
                 foreach(var itemUser in item.Users)
                 {
                     EmplTable empl = emplTables.Where(p => p.ApplicationUserId == itemUser.UserId).OrderByDescending(p => p.Enable).FirstOrDefault();
+                    DepartmentTable department = departmentTables.FirstOrDefault(x => x.Id == empl.DepartmentTableId);
                     editedItems.Add(new DocumentBaseView
                     {
                         ActivityName = item.ActivityName,
@@ -369,7 +364,8 @@ namespace RapidDoc.Models.Services
                         Cancel = item.Cancel,
                         Executed = item.Executed,
                         UserName = empl.FullName,
-                        DocumentText = item.DocumentText
+                        DocumentText = item.DocumentText,
+                        DepartmentName = department.DepartmentName
                     });
                 }
             }

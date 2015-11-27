@@ -174,29 +174,7 @@ namespace RapidDoc.Controllers
                                 documentBaseProtocolFolder.Add(new DocumentBaseProtocolFolderView { ProtocolFoldersId = protocolId, ProtocolFoldersParentId = protocolFoldersTable.ProtocolFoldersParentId, ProtocolFolderName = protocolFoldersTable.ProtocolFolderName, documentBaseList = protocolFolderDocumentBases });
                             }
                             return View("_DocumentBaseProtocolFolders", documentBaseProtocolFolder);
-                        case ProtocolFilterType.TaskStatus:                      
-                             protocolTasks = new List<DocumentBaseProtocolTasksView>();
-                             docBaseView = _Service.GetAllViewUserDocument(documentType, startDate, endDate).Where(x => x.ProcessTableId == processTableId).Where(x => x.ProcessTableId == processTableId).ToList();
-                             foreach (var protocol in docBaseView)
-                             {                           
-                                 List<USR_TAS_DailyTasks_Table> listTasks= dbContext.USR_TAS_DailyTasks_Table.Where(x => x.RefDocumentId == protocol.Id).ToList();
-
-                                 foreach (var docTask in listTasks)
-                                 {
-                                     docTable = _DocumentService.Find(docTask.DocumentTableId);
-                                     
-                                     if (docTable.DocumentState == DocumentState.Closed || docTable.DocumentState == DocumentState.Cancelled)
-                                         Status = ProtocolTaskDocumentBaseStatus.Executed;
-                                     else if ((docTask.ProlongationDate != null && docTask.ProlongationDate < DateTime.UtcNow) ||
-                                         (docTask.ProlongationDate == null && docTask.ExecutionDate < DateTime.UtcNow))
-                                         Status = ProtocolTaskDocumentBaseStatus.Overdue;
-                                     else
-                                         Status = ProtocolTaskDocumentBaseStatus.AtWork;
-                                     
-                                        protocolTasks.Add(new DocumentBaseProtocolTasksView { DocumentNum = docTable.DocumentNum, CreatedDate = docTable.CreatedDate, TaskStatus = Status, DepartmentName = protocol.DepartmentName, Id = docTable.Id, ProtocolNum = protocol.ProtocolCode});
-                                 }
-                             }
-                             return View("_DocumentBaseProtocolTasks", protocolTasks);
+                        case ProtocolFilterType.TaskStatus:                                                
                         case ProtocolFilterType.TaskExecutor:
                              protocolTasks = new List<DocumentBaseProtocolTasksView>();
                              docBaseView = _Service.GetAllViewUserDocumentWithExecutors(DocumentType.Task, startDate, endDate);
