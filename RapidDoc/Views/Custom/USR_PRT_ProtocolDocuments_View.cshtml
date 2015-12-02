@@ -1,5 +1,8 @@
 ﻿@model RapidDoc.Models.ViewModels.USR_PRT_ProtocolDocuments_View
 @using RapidDoc.Extensions;
+@{
+    int numQuestion = 0;
+}
 
 <h4 class="text-center"><strong>ПРОТОКОЛ: @Html.DisplayTextFor(x => x.Code)</strong></h4>
 <h4 class="text-center">Тема: @Html.DisplayTextFor(x => x.Subject)</h4>
@@ -101,7 +104,8 @@
         {
             foreach (var question in Model.QuestionList)
             {
-                Html.RenderPartial("~/Views/Custom/_QuestionListView.cshtml", question);
+                numQuestion++;
+                Html.RenderPartial("~/Views/Custom/_QuestionListView.cshtml", question, new ViewDataDictionary { { "numQuestion", numQuestion } });
             }
         }
     </div>

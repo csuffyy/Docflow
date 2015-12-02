@@ -44,6 +44,7 @@
 
 <br />
 <div class="panel panel-default">
+    <h6><small class="text-danger"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Для ручного ввода ФИО - Должность, в полях "Присутствовали", "Приглашенные", "Отсутствовали", которых нет в справочнике нужно ввести текст и нажать Enter</small></h6>
     <div class="editor-label">
         @Html.LabelForRequired(model => Model.Attended)
     </div>
@@ -74,7 +75,7 @@
     <div class="editor-field">
         @Html.TextBoxFor(model => Model.ListAgreement, new { @class = "form-control", @data_role = "tagsinputEmpl", placeholder = "Маршрут согласования" })
     </div>
-    </div>
+</div>
 
 <div class="row">
     <div class="col-xs-12">
@@ -102,6 +103,10 @@
             <div id="questionRow" class="questionRow">
             @foreach (var question in Model.QuestionList)
             {
+                if (question.DecisionList.Count() == 0)
+                {
+                    question.DecisionList.Add(new RapidDoc.Models.DomainModels.PRT_DecisionList_Table());
+                }
                 Html.RenderPartial("~/Views/Custom/_QuestionList.cshtml", question, new ViewDataDictionary { { "counter", Guid.NewGuid().ToString("N") } });
             }
             </div>
@@ -161,14 +166,17 @@
     function numberDecision() {
         var prtDecisionNumber = 0;
         var oldQuestion = '';
+        var numberquestion = 0;
+
         $('.decisionNumber').each(function (i) {
             if (oldQuestion == '' || oldQuestion != this.id) {
                 oldQuestion = this.id;
                 prtDecisionNumber = 0;
+                numberquestion = numberquestion + 1;
             }
 
             prtDecisionNumber = prtDecisionNumber + 1;
-            $(this).text(prtDecisionNumber);
+            $(this).text(numberquestion + '.' + prtDecisionNumber);
         });
     }
 </script>

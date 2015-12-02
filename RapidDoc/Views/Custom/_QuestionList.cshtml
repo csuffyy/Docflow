@@ -8,7 +8,7 @@
 @using (Html.BeginCollectionItem("PRT_QuestionList_Table__QuestionList" + "*" + index))
 {
     <div class="col-xs-1">
-        <strong style="white-space: nowrap;"><span class="fa fa-question-circle"></span> Вопрос <span class="questionNumber"></span></strong>
+        <strong style="white-space: nowrap;">Вопрос №<span class="questionNumber"></span></strong>
     </div>
     <div class="col-xs-11">
         @Html.TextAreaFor(model => Model.Question, new { @class = "form-control summernotelight" })

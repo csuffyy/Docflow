@@ -1966,7 +1966,7 @@ namespace RapidDoc.Controllers
 
                 CheckCustomDocument(typeActionModel, actionModel, operationType);
                 CheckAttachedFiles(processView, fileId, documentId);
-                _CustomCheckDocument.PreUpdateViewModel(typeActionModel, actionModel);
+                _CustomCheckDocument.PreUpdateViewModel(typeActionModel, actionModel, ModelState.IsValid);
             }
 
             ActionResult view = RoutePostMethod(processView, actionModel, type, operationType, documentId, fileId, actionModelName, documentData);

@@ -29,11 +29,13 @@
         }
     </div>
 </div>
-
-@Html.Partial("_DocumentViewFields", Model, new ViewDataDictionary(ViewData) { { "FieldName", "TextTask" } })
+<br />
+@Html.Raw(Model.TextTask)
 
 @Html.HiddenFor(model => model.RefDocumentId)
 @Html.HiddenFor(model => model.RefDocNum)
+@Html.HiddenFor(model => model.TextTask)
+@Html.HiddenFor(model => model.ExecutionDate)
 <br />
 
 <div class="editor-label">

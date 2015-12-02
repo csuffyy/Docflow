@@ -18,7 +18,7 @@ namespace RapidDoc.Models.Services
         List<string> CheckCustomDocumentCZ(Type type, dynamic actionModel, OperationType operationType);
         List<string> CheckCustomDocumentPRT(Type type, dynamic actionModel, OperationType operationType);
         List<string> CheckCustomPostDocument(Type type, dynamic actionModel, DocumentTable documentTable, bool isSign, List<WFTrackerTable> currentStep);
-        dynamic PreUpdateViewModel(Type type, dynamic actionModel);
+        dynamic PreUpdateViewModel(Type type, dynamic actionModel, bool noErrors);
         void UpdateDocumentData(DocumentTable document, IDictionary<string, object> documentData);
     }
 
@@ -1011,28 +1011,38 @@ namespace RapidDoc.Models.Services
             {
                 if(actionModel.QuestionList != null)
                 {
+                    int numQuestion = 0;
+                    int numDecision = 0;
                     foreach (PRT_QuestionList_Table question in actionModel.QuestionList)
                     {
+                        numQuestion++;
+                        numDecision = 0;
                         foreach(var decision in question.DecisionList)
                         {
+                            numDecision++;
                             if (!String.IsNullOrEmpty(_SystemService.DeleteAllTags(decision.Decision)) && String.IsNullOrEmpty(_SystemService.DeleteAllTags(question.Question)))
                             {
-                                errorList.Add(String.Format("Для решения {0} не указан текст вопроса", _SystemService.DeleteAllTags(decision.Decision)));
+                                errorList.Add(String.Format("Поручение {0}.{1} не указан текст вопроса", numQuestion, numDecision));
                             }
 
                             if (String.IsNullOrEmpty(_SystemService.DeleteAllTags(decision.Decision)) && !String.IsNullOrEmpty(decision.Users))
                             {
-                                errorList.Add("Если указали Исполнителя необходимо заполнить поле Решение");
+                                errorList.Add(String.Format("Поручение {0}.{1} если указали Исполнителей {2} необходимо заполнить поле Поручение", numQuestion, numDecision, _SystemService.DeleteAllTags(decision.Users)));
+                            }
+
+                            if (!String.IsNullOrEmpty(_SystemService.DeleteAllTags(decision.Decision)) && String.IsNullOrEmpty(decision.Users))
+                            {
+                                errorList.Add(String.Format("Поручение {0}.{1} необходимо указать Исполнителей и Дату исполнения", numQuestion, numDecision));
                             }
 
                             if(!String.IsNullOrEmpty(decision.Users) && decision.ControlDate == null)
                             {
-                                errorList.Add(String.Format("Для решения {0} необходимо указать дату исполнения", _SystemService.DeleteAllTags(decision.Decision)));
+                                errorList.Add(String.Format("Поручение {0}.{1} необходимо указать дату исполнения", numQuestion, numDecision));
                             }
 
                             if (!String.IsNullOrEmpty(decision.Users) && decision.ControlDate != null && decision.ControlDate <= DateTime.UtcNow)
                             {
-                                errorList.Add(String.Format("Для решения {0} необходимо указать дату исполнения больше текущей", _SystemService.DeleteAllTags(decision.Decision)));
+                                errorList.Add(String.Format("Поручение {0}.{1} необходимо указать дату исполнения больше текущей", numQuestion, numDecision));
                             }
                         }
                     }
@@ -1286,7 +1296,7 @@ namespace RapidDoc.Models.Services
             return errorList;
         }
 
-        public dynamic PreUpdateViewModel(Type type, dynamic actionModel)
+        public dynamic PreUpdateViewModel(Type type, dynamic actionModel, bool noErrors)
         {
             if (type == (new USR_IND_IncomingDocuments_View()).GetType())
             {
@@ -1379,6 +1389,17 @@ namespace RapidDoc.Models.Services
                 if (!String.IsNullOrEmpty(actionModel.MainField))
                 {
                     actionModel.MainField = _SystemService.RemoveColorFromText(((string)actionModel.MainField));
+                }
+            }
+
+            if (type.IsSubclassOf(typeof(BasicProtocolDocumentsView)))
+            {
+                if (actionModel.QuestionList != null && noErrors == true)
+                {
+                    foreach (PRT_QuestionList_Table question in actionModel.QuestionList)
+                    {
+                        question.DecisionList.RemoveAll(x => _SystemService.CheckTextExists(x.Decision) == false);
+                    }
                 }
             }
 

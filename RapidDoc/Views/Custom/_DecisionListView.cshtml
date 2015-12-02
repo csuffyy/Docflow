@@ -4,7 +4,13 @@
     Layout = "";
 }
 
-<div>
-    <p>@Html.Raw(Model.Decision)</p>
-    <br />
-</div>
+<table class="table table-condensed">
+    <tr>
+        <td>
+            <strong>@String.Format("{0}.{1}", ViewData["numQuestion"].ToString(), ViewData["numDecision"].ToString())</strong>
+        </td>
+        <td>
+            @Html.Raw(Model.Decision)
+        </td>
+    </tr>
+</table>

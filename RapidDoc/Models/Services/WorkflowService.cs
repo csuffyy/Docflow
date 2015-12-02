@@ -69,6 +69,8 @@ namespace RapidDoc.Models.Services
         private readonly IProcessService _ProcessService;
         private readonly ISystemService _SystemService;
         private readonly INotificationUsersService _NotificationUsersService;
+
+        protected RoleManager<ApplicationRole> RoleManager { get; private set; }
         
         IDictionary<string, object> outputParameters;              
 
@@ -89,6 +91,8 @@ namespace RapidDoc.Models.Services
             _ProcessService = processService;
             _SystemService = systemService;
             _NotificationUsersService = notificationUsersService;
+
+            RoleManager = new RoleManager<ApplicationRole>(new RoleStore<ApplicationRole>(_uow.GetDbContext<ApplicationDbContext>()));
         }
 
         public WFUserFunctionResult WFMatchingUpManager(Guid documentId, string currentUserId, int level = 1, string profileName = "")
@@ -721,12 +725,15 @@ namespace RapidDoc.Models.Services
                     allSteps.Add(new string[3] { "Исполнитель", (++i).ToString(), "" });
                 });
 
+                bool protocol = false;
+
                 if (documentTable.RefDocumentId != null)
                 {
                     var taskTable = (USR_TAS_DailyTasks_Table)_DocumentService.GetDocument(documentTable.RefDocumentId, documentTable.ProcessTable.TableName);
                     var refTaskDocument = _DocumentService.Find(taskTable.RefDocumentId);
                     if (refTaskDocument.DocType == DocumentType.Protocol)
                     {
+                        protocol = true;
                         var docuTable = (IBasicProtocol)_DocumentService.GetDocument(refTaskDocument.RefDocumentId, refTaskDocument.ProcessTable.TableName);
                         if (!String.IsNullOrEmpty(docuTable.Chairman))
                         {
@@ -739,11 +746,27 @@ namespace RapidDoc.Models.Services
                                 allSteps.Add(new string[3] { "Председатель", (++i).ToString(), "" });
                             }
                         }
+
+                        var role = RoleManager.FindByName("ORD_Censor_OKS");
+                        if (role != null)
+                        {
+                            List<WFTrackerUsersTable> protocolRoleList = new List<WFTrackerUsersTable>();
+                            foreach (var userRole in role.Users)
+                            {
+                                protocolRoleList.Add(new WFTrackerUsersTable { UserId = userRole.UserId });
+                            }
+
+                            endListUsers.Add(protocolRoleList);
+                            allSteps.Add(new string[3] { "ОКС", (++i).ToString(), "" });
+                        }
                     }
                 }
 
-                endListUsers.Add(new List<WFTrackerUsersTable> {new WFTrackerUsersTable { UserId = documentTable.ApplicationUserCreatedId }});
-                allSteps.Add(new string[3] { "Инициатор", (++i).ToString(), "" });
+                if (protocol == false)
+                {
+                    endListUsers.Add(new List<WFTrackerUsersTable> { new WFTrackerUsersTable { UserId = documentTable.ApplicationUserCreatedId } });
+                    allSteps.Add(new string[3] { "Инициатор", (++i).ToString(), "" });
+                }
 
                 _documentData.Add("endListUsers", endListUsers);
             }
