@@ -144,11 +144,14 @@ namespace RapidDoc.Controllers
                 case DocumentType.AppealDoc:
                     return View("_DocumentBaseAppeal", _Service.GetAllViewUserDocument(documentType, startDate, endDate));
                 case DocumentType.Protocol:
-                    List<DocumentBaseView> docBaseView;
+                    List<DocumentBaseView> docBaseView, docBaseViewProlong;                   
                     ApplicationDbContext dbContext = new ApplicationDbContext();
                     DocumentTable docTable;
                     ProtocolTaskDocumentBaseStatus Status;
+                    ProtocolProlongTaskDocumentBaseStatus prolongStatus;
+
                     List<DocumentBaseProtocolTasksView> protocolTasks;
+                    List<DocumentBaseProtocolProlongTasksView> protocolProlongTasks;
 
                     switch ((ProtocolFilterType)filterType)
 	                {                 
@@ -202,8 +205,51 @@ namespace RapidDoc.Controllers
                                     }
                                 }
                              }
-                            return View("_DocumentBaseProtocolTasks", protocolTasks);
-		                default:
+                            return View("_DocumentBaseProtocolTasks", protocolTasks);		                
+                        case ProtocolFilterType.ProlongTaskExecutor:
+                        case ProtocolFilterType.ProlongTaskStatus:
+                        case ProtocolFilterType.ProlongTaskChairman:
+                            ProcessTable process = _ProcessService.FirstOrDefault(x => x.TableName == "USR_TAS_DailyTasksProlongation");
+                            protocolProlongTasks = new List<DocumentBaseProtocolProlongTasksView>();
+
+                            docBaseView = _Service.GetAllViewUserDocument(DocumentType.Task, startDate, endDate);
+                            if ((ProtocolFilterType)filterType == ProtocolFilterType.ProlongTaskChairman)
+                            {
+                                List<EmplTable> emplTables = _EmplService.GetAll().ToList();
+                                docBaseViewProlong = _Service.GetAllViewUserDocumentWithExecutors(DocumentType.Request, startDate, endDate, process.Id).Where(x => x.TrackerActivityName == "Председатель").ToList(); ;
+                            }
+                            else
+                            {                           
+                                docBaseViewProlong = _Service.GetAllViewUserDocumentWithExecutors(DocumentType.Request, startDate, endDate, process.Id);
+                            }
+
+                            foreach (var doc in docBaseView)
+                            {
+                                USR_TAS_DailyTasks_Table task = dbContext.USR_TAS_DailyTasks_Table.FirstOrDefault(x => x.DocumentTableId == doc.Id);
+                           
+                                docTable = _DocumentService.Find(task.RefDocumentId);
+
+                                List<USR_TAS_DailyTasksProlongation_Table> taskProlong = dbContext.USR_TAS_DailyTasksProlongation_Table.Where(x => x.RefDocumentId == doc.Id).ToList();
+
+                                if (docTable != null && docTable.DocType == DocumentType.Protocol && taskProlong.Count() > 0)
+                                {
+                                    foreach (var prolong in taskProlong.Where(x => x.DocumentTableId != null && docBaseViewProlong.Any(y => y.Id == x.DocumentTableId)))
+                                    {
+                                        docBaseViewProlong.Where(y => y.Id == prolong.DocumentTableId).ToList().ForEach(x =>
+                                        {
+                                            
+                                            if (x.DocumentState == DocumentState.Closed || doc.DocumentState == DocumentState.Cancelled)
+                                                prolongStatus = ProtocolProlongTaskDocumentBaseStatus.Executed;
+                                            else
+                                                prolongStatus = ProtocolProlongTaskDocumentBaseStatus.AtWork;
+
+                                            protocolProlongTasks.Add(new DocumentBaseProtocolProlongTasksView { DocumentNum = x.DocumentNum, CreatedDate = x.CreatedDate, CreateProlongTaskDate = x.CreatedDate.ToShortDateString(),  TaskStatus = prolongStatus, DepartmentName = x.DepartmentName, Id = x.Id, UserName = x.UserName});
+                                        });
+                                    }
+                                }
+                            }
+                            return View("_DocumentBaseProtocolProlongTasks", protocolProlongTasks);
+                        default:
                             return View("_DocumentBaseProtocol", _Service.GetAllViewUserDocument(documentType, startDate, endDate).Where(x => x.ProcessTableId == processTableId).ToList());
 	                }
                   

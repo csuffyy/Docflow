@@ -1943,6 +1943,7 @@
     <Content Include="Views\DocumentBase\_DocumentBaseProtocol.cshtml" />
     <Content Include="Views\DocumentBase\_DocumentBaseProtocolFolders.cshtml" />
     <Content Include="Views\DocumentBase\_DocumentBaseProtocolTasks.cshtml" />
+    <Content Include="Views\DocumentBase\_DocumentBaseProtocolProlongTasks.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
