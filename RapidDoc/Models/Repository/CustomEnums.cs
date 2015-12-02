@@ -1206,7 +1206,16 @@ namespace RapidDoc.Models.Repository
         TaskStatus = 4,
 
         [Display(Name = "[Поручения] По исполнителям")]
-        TaskExecutor = 5
+        TaskExecutor = 5,
+
+        [Display(Name = "[Продление сроков] По исполнителям")]
+        ProlongTaskExecutor = 6,
+
+        [Display(Name = "[Продление сроков] По председателям")]
+        ProlongTaskChairman = 7,
+
+        [Display(Name = "[Продление сроков] По статусу")]
+        ProlongTaskStatus = 8
     }
 
     public enum ProtocolTaskDocumentBaseStatus : byte
@@ -1219,6 +1228,15 @@ namespace RapidDoc.Models.Repository
 
         [Display(Name = "Просроченные")]
         Overdue = 2
+    }
+
+    public enum ProtocolProlongTaskDocumentBaseStatus : byte
+    {
+        [Display(Name = "В работе")]
+        AtWork = 0,
+
+        [Display(Name = "Выполненные")]
+        Executed = 1
     }
 
     public enum BusinessTripType : byte

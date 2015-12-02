@@ -22,7 +22,7 @@ namespace RapidDoc.Models.Services
     public interface IDocumentBaseService
     {
         List<DocumentBaseView> GetAllViewUserDocument(DocumentType type, DateTime? startDate, DateTime? endDate);
-        List<DocumentBaseView> GetAllViewUserDocumentWithExecutors(DocumentType type, DateTime? startDate, DateTime? endDate);
+        List<DocumentBaseView> GetAllViewUserDocumentWithExecutors(DocumentType type, DateTime? startDate, DateTime? endDate, Guid? proccesId = null);
         List<Guid> GetParentListFolders(Guid? protocolId);
 
     }
@@ -243,7 +243,7 @@ namespace RapidDoc.Models.Services
              return null;
         }
 
-        public List<DocumentBaseView> GetAllViewUserDocumentWithExecutors(DocumentType type, DateTime? startDate, DateTime? endDate)
+        public List<DocumentBaseView> GetAllViewUserDocumentWithExecutors(DocumentType type, DateTime? startDate, DateTime? endDate, Guid? processId = null)
         {
             List<DocumentBaseView> items, editedItems = new List<DocumentBaseView>();
 
@@ -256,7 +256,8 @@ namespace RapidDoc.Models.Services
             if (UserManager.IsInRole(user.Id, "Administrator"))
             {
                 items = (from document in contextQuery.DocumentTable
-                         where document.DocumentState != DocumentState.Created
+                         where document.DocumentState != DocumentState.Created &&
+                         ((processId == null)||(processId != null && document.ProcessTableId == processId))
                          join company in contextQuery.CompanyTable on document.CompanyTableId equals company.Id
                          join process in contextQuery.ProcessTable on document.ProcessTableId equals process.Id
                          join tracker in contextQuery.WFTrackerTable on document.Id equals tracker.DocumentTableId
@@ -282,7 +283,9 @@ namespace RapidDoc.Models.Services
                              ProcessTableName = process.TableName,
                              Cancel = document.Cancel,
                              Executed = document.Executed,
-                             DocumentText = document.DocumentText
+                             DocumentText = document.DocumentText,
+                             TrackerActivityName = tracker.ActivityName,
+                             SignUser = tracker.SignUserId
                          }).ToList();
 
             }
@@ -310,7 +313,8 @@ namespace RapidDoc.Models.Services
                                  && (d.ProcessTableId == document.ProcessTableId || d.ProcessTableId == null)
                                  && contextQuery.WFTrackerTable.Any(w => w.DocumentTableId == document.Id && w.SignUserId == null && w.TrackerType == TrackerType.Waiting && w.Users.Any(b => b.UserId == d.EmplTableFrom.ApplicationUserId))
                                  ))
-                             ) && document.DocType == type && (document.CreatedDate >= startDate && document.CreatedDate <= endDate) && document.DocumentState != DocumentState.Created && user.CompanyTableId == document.CompanyTableId
+                             ) && document.DocType == type && (document.CreatedDate >= startDate && document.CreatedDate <= endDate) && document.DocumentState != DocumentState.Created && user.CompanyTableId == document.CompanyTableId &&
+                         ((processId == null) || (processId != null && document.ProcessTableId == processId))
                          orderby String.IsNullOrEmpty(document.ActivityName), document.ModifiedDate descending
                          select new DocumentBaseView
                          {
@@ -332,7 +336,9 @@ namespace RapidDoc.Models.Services
                              ProcessTableName = process.TableName,
                              Cancel = document.Cancel,
                              Executed = document.Executed,
-                             DocumentText = document.DocumentText
+                             DocumentText = document.DocumentText,
+                             TrackerActivityName = tracker.ActivityName,
+                             SignUser = tracker.SignUserId
                          }).ToList();
             }
 
@@ -344,6 +350,7 @@ namespace RapidDoc.Models.Services
                 {
                     EmplTable empl = emplTables.Where(p => p.ApplicationUserId == itemUser.UserId).OrderByDescending(p => p.Enable).FirstOrDefault();
                     DepartmentTable department = departmentTables.FirstOrDefault(x => x.Id == empl.DepartmentTableId);
+
                     editedItems.Add(new DocumentBaseView
                     {
                         ActivityName = item.ActivityName,
@@ -365,7 +372,9 @@ namespace RapidDoc.Models.Services
                         Executed = item.Executed,
                         UserName = empl.FullName,
                         DocumentText = item.DocumentText,
-                        DepartmentName = department.DepartmentName
+                        DepartmentName = department.DepartmentName,
+                        TrackerActivityName = item.TrackerActivityName,
+                        SignUser = item.SignUser
                     });
                 }
             }
