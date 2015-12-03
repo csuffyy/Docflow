@@ -1142,31 +1142,24 @@ namespace RapidDoc.Controllers
 
         public ActionResult DocumentToArchive(Guid id)
         {
+            ApplicationUser userTable = _AccountService.Find(User.Identity.GetUserId());
+            if (userTable == null) return HttpNotFound();
+
             DocumentTable docuTable = _DocumentService.Find(id);
+            if (docuTable == null) return HttpNotFound();
 
-            if (docuTable != null)
+            if ((_DocumentService.isSignDocument(id, userTable) == false && docuTable.DocumentState != DocumentState.OnSign)
+                || docuTable.DocumentState == DocumentState.OnSign)
             {
-                if (docuTable.DocumentState == Models.Repository.DocumentState.Closed 
-                    || docuTable.DocumentState == Models.Repository.DocumentState.Cancelled
-                    || docuTable.DocumentState == Models.Repository.DocumentState.Created
-                    || docuTable.DocumentState == Models.Repository.DocumentState.OnSign)
+                ReviewDocLogTable reviewTable = _ReviewDocLogService.FirstOrDefault(x => x.DocumentTableId == id && x.ApplicationUserCreatedId == userTable.Id);
+                if (reviewTable != null)
                 {
-                    ApplicationUser userTable = _AccountService.Find(User.Identity.GetUserId());
-                    if (userTable == null) return HttpNotFound();
-
-                    ReviewDocLogTable reviewTable = _ReviewDocLogService.FirstOrDefault(x => x.DocumentTableId == id && x.ApplicationUserCreatedId == userTable.Id);
-                    if (reviewTable != null)
-                    {
-                        reviewTable.isArchive = true;
-                        _ReviewDocLogService.SaveDomain(reviewTable, userTable.UserName);
-                    }
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, ValidationRes.ValidationResource.ErrorToArchiveDocumentState);
-                    TempData["ModelState"] = ModelState;
+                    reviewTable.isArchive = true;
+                    _ReviewDocLogService.SaveDomain(reviewTable, userTable.UserName);
                 }
             }
+            else
+                return HttpNotFound();
 
             return RedirectToAction("Index");
         }
