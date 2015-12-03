@@ -81,35 +81,16 @@
                     </div>
                     <div class="collapse" id="collapseArea_@num">
                         <div class="panel-body">
-                            @foreach (var itemGroupDate in Model.Where(x => x.UserName == itemGroupUser.Key).GroupBy(x => x.CreateProlongTaskDate))
-                            {
-                                num1++;
-                                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading" role="tab" id="heading@num1@num">
-                                            <p class="panel-title">
-                                                <a href="#collapseArea_@num1@num" data-toggle="collapse" data-target="#collapseArea_@num1@num" aria-expanded="false" aria-controls="collapseArea_@num1@num">
-                                                    <strong>@Convert.ToDateTime(itemGroupDate.Key).ToShortDateString()</strong>
-                                                </a>
-                                            </p>
-                                        </div>
-                                        <div class="collapse" id="collapseArea_@num1@num">
-                                            <div class="panel-body">
-                                                @foreach (var task in Model.Where(x => x.UserName == itemGroupUser.Key && x.CreateProlongTaskDate == itemGroupDate.Key))
-                                                {
-                                                    <p>
-                                                        @if (task.TaskStatus == RapidDoc.Models.Repository.ProtocolProlongTaskDocumentBaseStatus.Executed)
-                                                        {
-                                                            <span class="fa fa-check text-success"></span>
-                                                        }
-                                                        <a href="@Url.Action("ShowDocument", "Document", new { id = task.Id, isAfterView = true })" target="_blank"><ins>@task.DocumentNum</ins> (@task.CreatedDate)</a>
-                                                    </p>
-                                                }
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
+                        @foreach (var task in Model.Where(x => x.UserName == itemGroupUser.Key))
+                        {
+                            <p>
+                                @if (task.TaskStatus == RapidDoc.Models.Repository.ProtocolProlongTaskDocumentBaseStatus.Executed)
+                                {
+                                    <span class="fa fa-check text-success"></span>
+                                }
+                                <a href="@Url.Action("ShowDocument", "Document", new { id = task.Id, isAfterView = true })" target="_blank"><ins>@task.DocumentNum</ins> (@task.CreatedDate)</a>
+                            </p>
+                        }
                         </div>
                     </div>
                 </div>
@@ -124,36 +105,17 @@
                         <p class="panel-title"><a href="#collapseArea_@num" data-toggle="collapse" data-target="#collapseArea_@num" aria-expanded="false" aria-controls="collapseArea_@num"><strong>@itemGroupUser.Key</strong></a></p>
                     </div>
                     <div class="collapse" id="collapseArea_@num">
-                        <div class="panel-body">
-                            @foreach (var itemGroupDate in Model.Where(x => x.UserName == itemGroupUser.Key).GroupBy(x => x.CreateProlongTaskDate))
-                            {
-                                num1++;
-                                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading" role="tab" id="heading@num1@num">
-                                            <p class="panel-title">
-                                                <a href="#collapseArea_@num1@num" data-toggle="collapse" data-target="#collapseArea_@num1@num" aria-expanded="false" aria-controls="collapseArea_@num1@num">
-                                                    <strong>@Convert.ToDateTime(itemGroupDate.Key).ToShortDateString()</strong>
-                                                </a>
-                                            </p>
-                                        </div>
-                                        <div class="collapse" id="collapseArea_@num1@num">
-                                            <div class="panel-body">
-                                                @foreach (var task in Model.Where(x => x.UserName == itemGroupUser.Key && x.CreateProlongTaskDate == itemGroupDate.Key))
-                                                {
-                                                    <p>
-                                                        @if (task.TaskStatus == RapidDoc.Models.Repository.ProtocolProlongTaskDocumentBaseStatus.Executed)
-                                                        {
-                                                            <span class="fa fa-check text-success"></span>
-                                                        }
-                                                        <a href="@Url.Action("ShowDocument", "Document", new { id = task.Id, isAfterView = true })" target="_blank"><ins>@task.DocumentNum</ins> (@task.CreatedDate)</a>
-                                                    </p>
-                                                }
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
+                        <div class="panel-body">                    
+                        @foreach (var task in Model.Where(x => x.UserName == itemGroupUser.Key))
+                        {
+                            <p>
+                                @if (task.TaskStatus == RapidDoc.Models.Repository.ProtocolProlongTaskDocumentBaseStatus.Executed)
+                                {
+                                    <span class="fa fa-check text-success"></span>
+                                }
+                                <a href="@Url.Action("ShowDocument", "Document", new { id = task.Id, isAfterView = true })" target="_blank"><ins>@task.DocumentNum</ins> (@task.CreatedDate)</a>
+                            </p>
+                        }
                         </div>
                     </div>
                 </div>
