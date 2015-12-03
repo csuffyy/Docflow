@@ -41,13 +41,15 @@ namespace RapidDoc.Models.Services
     {
         private IRepository<DelegationTable> repo;
         private IRepository<ApplicationUser> repoUser;
+        private readonly IGroupProcessService _GroupProcessService;
         private IUnitOfWork _uow;
 
-        public DelegationService(IUnitOfWork uow)
+        public DelegationService(IUnitOfWork uow, IGroupProcessService groupProcessService)
         {
             _uow = uow;
             repo = uow.GetRepository<DelegationTable>();
             repoUser = uow.GetRepository<ApplicationUser>();
+            _GroupProcessService = groupProcessService;
         }
         public IEnumerable<DelegationTable> GetAll()
         {
@@ -234,7 +236,7 @@ namespace RapidDoc.Models.Services
                             return true;
                         }
                     }
-                    else if (process.GroupProcessTableId == delegationItem.GroupProcessTableId)
+                    else if (process.GroupProcessTableId == delegationItem.GroupProcessTableId || _GroupProcessService.GetGroupChildren(delegationItem.GroupProcessTableId).Any(x => x == process.GroupProcessTableId))
                     {
                         if (CheckTrackerUsers(trackerTables, delegationItem.EmplTableFrom.ApplicationUserId))
                         {

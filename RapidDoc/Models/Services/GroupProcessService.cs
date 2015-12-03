@@ -30,6 +30,7 @@ namespace RapidDoc.Models.Services
         GroupProcessView FindView(Guid id);
         SelectList GetDropListGroupProcessNull(Guid? id);
         SelectList GetDropListGroupProcess(Guid? id);
+        List<Guid> GetGroupChildren(Guid? id);
     }
 
     public class GroupProcessService : IGroupProcessService
@@ -135,6 +136,20 @@ namespace RapidDoc.Models.Services
         {
             var items = GetAllView().ToList();
             return new SelectList(items, "Id", "GroupProcessName", id);
+        }
+
+        public List<Guid> GetGroupChildren(Guid? id)
+        {
+            List<Guid> ret = new List<Guid>();
+            var children = GetPartial(x => x.GroupProcessParentId == id);
+
+            foreach (var child in children)
+            {
+                ret.Add(child.Id);
+                ret.AddRange(GetGroupChildren(child.Id));
+            }
+
+            return ret;
         }
     }
 }
