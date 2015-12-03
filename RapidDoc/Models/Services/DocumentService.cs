@@ -1127,6 +1127,7 @@ namespace RapidDoc.Models.Services
         public List<string> SignDocumentCZ(Guid documentId, TrackerType trackerType, string comment = "")
         {
             List<string> ret = new List<string>();
+            List<Guid> childGroup = new List<Guid>();
             string currentUserId = HttpContext.Current.User.Identity.GetUserId();
             ret.AddRange(SignDocumentUserCZ(documentId, trackerType, currentUserId, comment));
 
@@ -1137,17 +1138,22 @@ namespace RapidDoc.Models.Services
             {
                 var delegationItems = _DelegationService.GetPartial(x => x.EmplTableToId == empl.Id
                     && x.DateFrom <= DateTime.UtcNow && x.DateTo >= DateTime.UtcNow
-                    && x.isArchive == false && x.CompanyTableId == empl.CompanyTable.Id
-                    && (x.ProcessTableId == document.ProcessTableId || x.ProcessTableId == null)
-                    && (x.GroupProcessTableId == null || (_GroupProcessService.GetGroupChildren(x.GroupProcessTableId).Any(d => d == document.ProcessTable.GroupProcessTableId) || x.GroupProcessTableId == document.ProcessTable.GroupProcessTableId))).ToList();
+                    && x.isArchive == false && x.CompanyTableId == empl.CompanyTable.Id).ToList();
 
                 foreach(var delegation in delegationItems)
                 {
+                    if (delegation.GroupProcessTableId != null && delegation.ProcessTableId == null)
+                    {
+                        childGroup.AddRange(_GroupProcessService.GetGroupChildren(delegation.GroupProcessTableId));
+                        childGroup.Add((Guid)delegation.GroupProcessTableId);
+                    }
+
                     var item = _EmplService.FirstOrDefault(x => x.Id == delegation.EmplTableFromId && x.CompanyTableId == delegation.CompanyTableId && x.Enable == true);
-                    if(item != null)
+                    if(item != null && (delegation.ProcessTableId == document.ProcessTableId || childGroup.Any(d => d == document.ProcessTable.GroupProcessTableId)))
                     {
                         ret.AddRange(SignDocumentUserCZ(documentId, trackerType, item.ApplicationUserId, comment));
                     }
+                    childGroup.Clear();
                 }
             }
             return ret;
@@ -1197,6 +1203,7 @@ namespace RapidDoc.Models.Services
             bool isSign = false;
 
             var document = Find(documentId);
+            List<Guid> childGroup = new List<Guid>();
             WFTrackerTable trackerTable = _WorkflowTrackerService.FirstOrDefault(x => x.DocumentTableId == documentId && x.SignUserId == null && x.TrackerType == TrackerType.Waiting && x.Users.Any(p => p.UserId == currentUserId));
             if (trackerTable == null)
             {
@@ -1206,17 +1213,21 @@ namespace RapidDoc.Models.Services
                 {
                     var delegationItems = _DelegationService.GetPartial(x => x.EmplTableToId == empl.Id
                         && x.DateFrom <= DateTime.UtcNow && x.DateTo >= DateTime.UtcNow
-                        && x.isArchive == false && x.CompanyTableId == empl.CompanyTable.Id
-                        && (x.ProcessTableId == document.ProcessTableId || x.ProcessTableId == null)
-                        && (x.GroupProcessTableId == null || (_GroupProcessService.GetGroupChildren(x.GroupProcessTableId).Any(d => d == document.ProcessTable.GroupProcessTableId) || x.GroupProcessTableId == document.ProcessTable.GroupProcessTableId))).ToList();
+                        && x.isArchive == false && x.CompanyTableId == empl.CompanyTable.Id).ToList();
 
                     if (isSign == true)
                         break;
 
                     foreach (var delegation in delegationItems)
                     {
+                         if (delegation.GroupProcessTableId != null && delegation.ProcessTableId == null)
+                        {
+                            childGroup.AddRange(_GroupProcessService.GetGroupChildren(delegation.GroupProcessTableId));
+                            childGroup.Add((Guid)delegation.GroupProcessTableId);
+                        }
+
                         var item = _EmplService.FirstOrDefault(x => x.Id == delegation.EmplTableFromId && x.CompanyTableId == delegation.CompanyTableId && x.Enable == true);
-                        if (item != null)
+                        if (item != null && (delegation.ProcessTableId == document.ProcessTableId || childGroup.Any(d => d == document.ProcessTable.GroupProcessTableId)))
                         {
                             trackerTable = _WorkflowTrackerService.FirstOrDefault(x => x.DocumentTableId == documentId && x.SignUserId == null && x.TrackerType == TrackerType.Waiting && x.Users.Any(p => p.UserId == item.ApplicationUserId));
                             if (trackerTable != null)
@@ -1226,6 +1237,7 @@ namespace RapidDoc.Models.Services
                                 break;
                             }
                         }
+                        childGroup.Clear();
                     }
                 }
             }
