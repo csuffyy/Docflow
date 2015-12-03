@@ -160,7 +160,7 @@ namespace RapidDoc.Models.Services
                             }
                         }
                     }
-                    else if (document.ProcessTable.GroupProcessTableId == delegationItem.GroupProcessTableId)
+                    else if (document.ProcessTable.GroupProcessTableId == delegationItem.GroupProcessTableId || _GroupProcessService.GetGroupChildren(delegationItem.GroupProcessTableId).Any(x => x == document.ProcessTable.GroupProcessTableId))
                     {
                         foreach (var trackerTable in trackerTables)
                         {
@@ -204,7 +204,7 @@ namespace RapidDoc.Models.Services
                         {
                             result.Add(repoUser.GetById(delegationItem.EmplTableTo.ApplicationUserId));
                         }
-                        else if (document.ProcessTable.GroupProcessTableId == delegationItem.GroupProcessTableId)
+                        else if (document.ProcessTable.GroupProcessTableId == delegationItem.GroupProcessTableId || _GroupProcessService.GetGroupChildren(delegationItem.GroupProcessTableId).Any(x => x == document.ProcessTable.GroupProcessTableId))
                         {
                             result.Add(repoUser.GetById(delegationItem.EmplTableTo.ApplicationUserId));
                         }

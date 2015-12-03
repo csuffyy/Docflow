@@ -1130,13 +1130,16 @@ namespace RapidDoc.Models.Services
             string currentUserId = HttpContext.Current.User.Identity.GetUserId();
             ret.AddRange(SignDocumentUserCZ(documentId, trackerType, currentUserId, comment));
 
+            var document = Find(documentId);
             var emplTables = _EmplService.GetPartialIntercompany(x => x.ApplicationUserId == currentUserId && x.Enable == true).ToList();
 
             foreach(var empl in emplTables)
             {
                 var delegationItems = _DelegationService.GetPartial(x => x.EmplTableToId == empl.Id
                     && x.DateFrom <= DateTime.UtcNow && x.DateTo >= DateTime.UtcNow
-                    && x.isArchive == false && x.CompanyTableId == empl.CompanyTable.Id).ToList();
+                    && x.isArchive == false && x.CompanyTableId == empl.CompanyTable.Id
+                    && (x.ProcessTableId == document.ProcessTableId || x.ProcessTableId == null)
+                    && (x.GroupProcessTableId == null || (_GroupProcessService.GetGroupChildren(x.GroupProcessTableId).Any(d => d == document.ProcessTable.GroupProcessTableId) || x.GroupProcessTableId == document.ProcessTable.GroupProcessTableId))).ToList();
 
                 foreach(var delegation in delegationItems)
                 {
@@ -1178,7 +1181,7 @@ namespace RapidDoc.Models.Services
                             _WorkflowTrackerService.SaveDomain(nextstep, userid);
                             if (nextstep.Users != null)
                             {
-                                    ret.AddRange(nextstep.Users.Select(x => x.UserId + "|" + nextstep.AdditionalText));
+                                ret.AddRange(nextstep.Users.Select(x => x.UserId + "|" + nextstep.AdditionalText));
                             }
                         }
                     }
@@ -1193,6 +1196,7 @@ namespace RapidDoc.Models.Services
  	        string currentUserId = HttpContext.Current.User.Identity.GetUserId();
             bool isSign = false;
 
+            var document = Find(documentId);
             WFTrackerTable trackerTable = _WorkflowTrackerService.FirstOrDefault(x => x.DocumentTableId == documentId && x.SignUserId == null && x.TrackerType == TrackerType.Waiting && x.Users.Any(p => p.UserId == currentUserId));
             if (trackerTable == null)
             {
@@ -1202,9 +1206,13 @@ namespace RapidDoc.Models.Services
                 {
                     var delegationItems = _DelegationService.GetPartial(x => x.EmplTableToId == empl.Id
                         && x.DateFrom <= DateTime.UtcNow && x.DateTo >= DateTime.UtcNow
-                        && x.isArchive == false && x.CompanyTableId == empl.CompanyTable.Id).ToList();
+                        && x.isArchive == false && x.CompanyTableId == empl.CompanyTable.Id
+                        && (x.ProcessTableId == document.ProcessTableId || x.ProcessTableId == null)
+                        && (x.GroupProcessTableId == null || (_GroupProcessService.GetGroupChildren(x.GroupProcessTableId).Any(d => d == document.ProcessTable.GroupProcessTableId) || x.GroupProcessTableId == document.ProcessTable.GroupProcessTableId))).ToList();
+
                     if (isSign == true)
                         break;
+
                     foreach (var delegation in delegationItems)
                     {
                         var item = _EmplService.FirstOrDefault(x => x.Id == delegation.EmplTableFromId && x.CompanyTableId == delegation.CompanyTableId && x.Enable == true);
