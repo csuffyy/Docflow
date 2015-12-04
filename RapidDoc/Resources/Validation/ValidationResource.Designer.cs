@@ -97,6 +97,15 @@ namespace ValidationRes {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Документ закрыт или отменен.
+        /// </summary>
+        public static string ErrorDocumentState {
+            get {
+                return ResourceManager.GetString("ErrorDocumentState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Не найден сотрудник у пользователя {0}.
         /// </summary>
         public static string ErrorEmplNotFound {

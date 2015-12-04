@@ -1361,16 +1361,19 @@ namespace RapidDoc.Controllers
             if (process.DocSize > 0)
             {
                 if (((files.ContentLength / 1024f) / 1024f) > process.DocSize)
+                {
                     error = true;
+                    errorText = String.Format(ValidationRes.ValidationResource.ErrorDocSize, process.DocSize, Math.Round(((files.ContentLength / 1024f) / 1024f), 2), files.ContentLength);
+                }
             }
 
-            DocumentTable document = _DocumentService.FirstOrDefault(x => x.FileId == fileId);
+            DocumentTable document = _DocumentService.FirstOrDefault(x => x.FileId == fileId && x.DocType == process.DocType);
             if(document != null)
             {
                 if(document.DocumentState == DocumentState.Closed || document.DocumentState == DocumentState.Cancelled)
                 {
                     error = true;
-                    errorText = String.Format(ValidationRes.ValidationResource.ErrorDocSize, process.DocSize, Math.Round(((files.ContentLength / 1024f) / 1024f), 2), files.ContentLength);
+                    errorText = ValidationRes.ValidationResource.ErrorDocumentState;
                 }
             }
             if (_DocumentService.GetAllFilesDocument(fileId).Where(x => x.Version == "1" && x.ApplicationUserCreatedId == User.Identity.GetUserId()).Count() > 20)

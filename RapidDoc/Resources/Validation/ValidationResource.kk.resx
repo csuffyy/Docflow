@@ -183,4 +183,7 @@
   <data name="ErrorDelegationUser" xml:space="preserve">
     <value>-</value>
   </data>
+  <data name="ErrorDocumentState" xml:space="preserve">
+    <value>-</value>
+  </data>
 </root>

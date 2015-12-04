@@ -1,6 +1,17 @@
 ﻿@model RapidDoc.Models.ViewModels.USR_OND_OutcomingDocuments_View
 @using RapidDoc.Extensions;
 
+@Html.HiddenFor(model => model.OrganizationTableId)
+@Html.HiddenFor(model => model.DocumentTypeName)
+@Html.HiddenFor(model => model.DocumentType)
+@Html.HiddenFor(model => model.DispatchType)
+@Html.HiddenFor(model => model.OutcomingDispatchType)
+@Html.HiddenFor(model => model.Language_Kazakh)
+@Html.HiddenFor(model => model.Language_Russian)
+@Html.HiddenFor(model => model.Language_English)
+@Html.HiddenFor(model => model.Language_Chinese)
+@Html.HiddenFor(model => model.Language_French)
+
 @if (Model.OutcomingDocNum != null)
 {  
     <h4 class="text-center">№: @String.Format("{0}/{1}", Model.ItemCauseNumberCode, Model.OutcomingDocNum)</h4>

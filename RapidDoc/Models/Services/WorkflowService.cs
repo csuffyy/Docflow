@@ -717,7 +717,7 @@ namespace RapidDoc.Models.Services
                 List<List<WFTrackerUsersTable>> endListUsers = new List<List<WFTrackerUsersTable>>();
                 string currentUser = HttpContext.Current.User.Identity.GetUserId();
                 WFTrackerTable trackerTableUser = _WorkflowTrackerService.FirstOrDefault(x => x.DocumentTableId == refDocId && x.Users.Any(y => y.UserId == currentUser));
-                List<WFTrackerTable> trackerTalbeUserList = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == refDocId && x.LineNum < trackerTableUser.LineNum).OrderBy( x => x.LineNum).ToList();
+                List<WFTrackerTable> trackerTalbeUserList = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == refDocId && x.LineNum < trackerTableUser.LineNum).OrderByDescending( x => x.LineNum).ToList();
                 trackerTalbeUserList.ForEach(x => {
                     List<WFTrackerUsersTable> users = new List<WFTrackerUsersTable>();
                     x.Users.ForEach(z => users.Add(new WFTrackerUsersTable { UserId = z.UserId }));

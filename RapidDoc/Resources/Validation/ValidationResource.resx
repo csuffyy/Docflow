@@ -183,4 +183,7 @@
   <data name="ErrorDelegationUser" xml:space="preserve">
     <value>Сотрудники должны отличаться</value>
   </data>
+  <data name="ErrorDocumentState" xml:space="preserve">
+    <value>Документ закрыт или отменен</value>
+  </data>
 </root>
