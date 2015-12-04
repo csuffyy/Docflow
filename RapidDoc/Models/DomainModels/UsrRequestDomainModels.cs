@@ -1357,6 +1357,13 @@ namespace RapidDoc.Models.DomainModels
         public string Department { get; set; }
         public string UserChooseManual1 { get; set; }
     }
+
+    public class USR_REQ_UBP_RequestForAgreementPVR_Table : BasicDocumentTable
+    {
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Исполнительный директор")]
+        public string UserChooseManual1 { get; set; }
+    }
     #endregion
 
     #region КД

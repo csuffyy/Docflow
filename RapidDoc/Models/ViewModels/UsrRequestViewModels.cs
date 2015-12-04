@@ -2600,6 +2600,13 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Тех. Руководитель")]
         public string UserChooseManual1 { get; set; }
     }
+
+    public class USR_REQ_UBP_RequestForAgreementPVR_View : BasicDocumentView
+    {
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Исполнительный директор")]
+        public string UserChooseManual1 { get; set; }
+    }
     #endregion
 
     #region КД

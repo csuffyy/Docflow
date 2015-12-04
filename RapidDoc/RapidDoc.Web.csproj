@@ -1944,6 +1944,8 @@
     <Content Include="Views\DocumentBase\_DocumentBaseProtocolFolders.cshtml" />
     <Content Include="Views\DocumentBase\_DocumentBaseProtocolTasks.cshtml" />
     <Content Include="Views\DocumentBase\_DocumentBaseProtocolProlongTasks.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UBP_RequestForAgreementPVR_View.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UBP_RequestForAgreementPVR_Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -3662,6 +3664,12 @@
   </ItemGroup>
   <ItemGroup>
     <XamlAppDef Include="Activities\USR_REQ_UZL_RequestForUrgentIB.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USR_REQ_UBP_RequestForAgreementPVR.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </XamlAppDef>
