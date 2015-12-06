@@ -84,7 +84,7 @@
 <div class="row">
     <div class="col-xs-2">
         <div class="editor-label">
-            @Html.LabelFor(x => x.Introduction):
+            @Html.LabelFor(x => x.Introduction)
         </div>
     </div>
     <div class="col-xs-10">
@@ -95,18 +95,12 @@
 </div>
 }
 <hr />
-<div class="row">
-    <div class="col-xs-2">
-        <strong>Список вопросов:</strong>
-    </div>
-    <div class="col-xs-10">
-        @if (Model.QuestionList != null && Model.QuestionList.Count() > 0)
-        {
-            foreach (var question in Model.QuestionList)
-            {
-                numQuestion++;
-                Html.RenderPartial("~/Views/Custom/_QuestionListView.cshtml", question, new ViewDataDictionary { { "numQuestion", numQuestion } });
-            }
-        }
-    </div>
-</div>
+<strong>Список вопросов:</strong>
+@if (Model.QuestionList != null && Model.QuestionList.Count() > 0)
+{
+    foreach (var question in Model.QuestionList)
+    {
+        numQuestion++;
+        Html.RenderPartial("~/Views/Custom/_QuestionListView.cshtml", question, new ViewDataDictionary { { "numQuestion", numQuestion } });
+    }
+}

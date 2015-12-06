@@ -44,6 +44,10 @@ namespace RapidDoc.Activities.CodeActivities
 
         [Browsable(false)]
         [Inject]
+        public IProtocolFoldersService _serviceProtocolFolders { get; set; }
+
+        [Browsable(false)]
+        [Inject]
         public ISystemService _serviceSystem { get; set; }
 
         [RequiredArgument]
@@ -62,6 +66,7 @@ namespace RapidDoc.Activities.CodeActivities
             _serviceProcess = DependencyResolver.Current.GetService<IProcessService>();
             _serviceSearch = DependencyResolver.Current.GetService<ISearchService>();
             _serviceWorkflow = DependencyResolver.Current.GetService<IWorkflowService>();
+            _serviceProtocolFolders = DependencyResolver.Current.GetService<IProtocolFoldersService>();
 
             Dictionary<string, Object> documentData = context.GetValue(this.inputDocumentData);
             Guid documentId = context.GetValue(this.inputDocumentId);
@@ -93,21 +98,23 @@ namespace RapidDoc.Activities.CodeActivities
                             foreach (var item in arrayStructure)
                             {
                                 string seprateUser = item + "," + arrayTempStructrue[Array.IndexOf(arrayTempStructrue, item) + 1];
-                                CreateTask(seprateUser, decision, question, documentTable, questionText, documentId, currentUserId);
+                                CreateTask(seprateUser, documentView, decision, question, documentTable, questionText, documentId, currentUserId);
 
                             }
                         }
                         else
-                            CreateTask(decision.Users, decision, question, documentTable, questionText, documentId, currentUserId);
+                            CreateTask(decision.Users, documentView, decision, question, documentTable, questionText, documentId, currentUserId);
                     }
                 }
             }
         }
 
-        void CreateTask(string users, PRT_DecisionList_Table decision, PRT_QuestionList_Table question, DocumentTable documentTable, string questionText, Guid documentId, string currentUserId)
+        void CreateTask(string users, dynamic documentView, PRT_DecisionList_Table decision, PRT_QuestionList_Table question, DocumentTable documentTable, string questionText, Guid documentId, string currentUserId)
         {
                         USR_TAS_DailyTasks_View docModel = new USR_TAS_DailyTasks_View();
-                        docModel.MainField = questionText + "\n" + decision.Decision;
+                        string folderName = _serviceProtocolFolders.GetProtocolFolderName(documentTable.ProcessTableId, documentView.ProtocolFoldersTableId, currentUserId);
+
+                        docModel.MainField = "<p>" + folderName + "</p>" + documentView.Subject + "\n" + questionText + "\n" + decision.Decision;
 
                         DateTime? controlDate = decision.ControlDate != null ? decision.ControlDate : DateTime.Now;
 

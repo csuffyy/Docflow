@@ -16,10 +16,10 @@ namespace RapidDoc.Models.Services
 {
     public interface IProtocolFoldersService
     {
-        IEnumerable<ProtocolFoldersTable> GetAll();
-        IEnumerable<ProtocolFoldersView> GetAllView();
-        IEnumerable<ProtocolFoldersTable> GetPartial(Expression<Func<ProtocolFoldersTable, bool>> predicate);
-        IEnumerable<ProtocolFoldersView> GetPartialView(Expression<Func<ProtocolFoldersTable, bool>> predicate);
+        IEnumerable<ProtocolFoldersTable> GetAll(string currentUserId = "");
+        IEnumerable<ProtocolFoldersView> GetAllView(string currentUserId = "");
+        IEnumerable<ProtocolFoldersTable> GetPartial(Expression<Func<ProtocolFoldersTable, bool>> predicate, string currentUserId = "");
+        IEnumerable<ProtocolFoldersView> GetPartialView(Expression<Func<ProtocolFoldersTable, bool>> predicate, string currentUserId = "");
         IEnumerable<ProtocolFoldersTable> GetPartialIntercompany(Expression<Func<ProtocolFoldersTable, bool>> predicate);
         IEnumerable<ProtocolFoldersView> GetPartialIntercompanyView(Expression<Func<ProtocolFoldersTable, bool>> predicate);
         ProtocolFoldersTable FirstOrDefault(Expression<Func<ProtocolFoldersTable, bool>> predicate);
@@ -32,7 +32,8 @@ namespace RapidDoc.Models.Services
         ProtocolFoldersView FindView(Guid id);
         SelectList GetDropListProtocolFolders(Guid? id);
         SelectList GetDropListProtocolFoldersNull(Guid? id);
-        SelectList GetDropListProtocolFoldersFullPath(Guid processId, Guid? id);
+        SelectList GetDropListProtocolFoldersFullPath(Guid processId, Guid? id, string currentUserId = "");
+        string GetProtocolFolderName(Guid processId, Guid? id, string currentUserId = "");
     }
 
     public class ProtocolFoldersService: IProtocolFoldersService
@@ -48,26 +49,26 @@ namespace RapidDoc.Models.Services
             repoUser = uow.GetRepository<ApplicationUser>();
         }
 
-        public IEnumerable<ProtocolFoldersTable> GetAll()
+        public IEnumerable<ProtocolFoldersTable> GetAll(string currentUserId = "")
         {
-            ApplicationUser user = repoUser.GetById(HttpContext.Current.User.Identity.GetUserId());
+            ApplicationUser user = getCurrentUserId(currentUserId);
             return repo.FindAll(x => x.CompanyTableId == user.CompanyTableId);
         }
 
-        public IEnumerable<ProtocolFoldersView> GetAllView()
+        public IEnumerable<ProtocolFoldersView> GetAllView(string currentUserId = "")
         {
-            return Mapper.Map<IEnumerable<ProtocolFoldersTable>, IEnumerable<ProtocolFoldersView>>(GetAll());
+            return Mapper.Map<IEnumerable<ProtocolFoldersTable>, IEnumerable<ProtocolFoldersView>>(GetAll(currentUserId));
         }
 
-        public IEnumerable<ProtocolFoldersTable> GetPartial(Expression<Func<ProtocolFoldersTable, bool>> predicate)
+        public IEnumerable<ProtocolFoldersTable> GetPartial(Expression<Func<ProtocolFoldersTable, bool>> predicate, string currentUserId = "")
         {
-            ApplicationUser user = repoUser.GetById(HttpContext.Current.User.Identity.GetUserId());
+            ApplicationUser user = getCurrentUserId(currentUserId);
             return repo.FindAll(predicate).Where(x => x.CompanyTableId == user.CompanyTableId);
         }
 
-        public IEnumerable<ProtocolFoldersView> GetPartialView(Expression<Func<ProtocolFoldersTable, bool>> predicate)
+        public IEnumerable<ProtocolFoldersView> GetPartialView(Expression<Func<ProtocolFoldersTable, bool>> predicate, string currentUserId = "")
         {
-            return Mapper.Map<IEnumerable<ProtocolFoldersTable>, IEnumerable<ProtocolFoldersView>>(GetPartial(predicate));
+            return Mapper.Map<IEnumerable<ProtocolFoldersTable>, IEnumerable<ProtocolFoldersView>>(GetPartial(predicate, currentUserId));
         }
 
         public IEnumerable<ProtocolFoldersTable> GetPartialIntercompany(Expression<Func<ProtocolFoldersTable, bool>> predicate)
@@ -165,13 +166,19 @@ namespace RapidDoc.Models.Services
         }
 
 
-        public SelectList GetDropListProtocolFoldersFullPath(Guid processId, Guid? id)
+        public SelectList GetDropListProtocolFoldersFullPath(Guid processId, Guid? id, string currentUserId = "")
         {
-            List<ProtocolFoldersView> items = this.GetFullPathItems(GetPartialView(x => x.ProcessTableId == processId && x.ProtocolFoldersParentId == null).ToList());
+            List<ProtocolFoldersView> items = this.GetFullPathItems(GetPartialView(x => x.ProcessTableId == processId && x.ProtocolFoldersParentId == null, currentUserId).ToList(), "", currentUserId);
             return new SelectList(items, "Id", "ProtocolFolderName", id);
         }
 
-        public List<ProtocolFoldersView> GetFullPathItems(List<ProtocolFoldersView> listProtoolFolder, string path = "")
+        public string GetProtocolFolderName(Guid processId, Guid? id, string currentUserId = "")
+        {
+            var selectList = GetDropListProtocolFoldersFullPath(processId, id, currentUserId);
+            return selectList.Where(x => x.Selected == true).FirstOrDefault().Text;
+        }
+
+        public List<ProtocolFoldersView> GetFullPathItems(List<ProtocolFoldersView> listProtoolFolder, string path = "", string currentUserId = "")
         {
             List<ProtocolFoldersView> listDepartmentId = new List<ProtocolFoldersView>();
             List<ProtocolFoldersView> listDepartmentBufId = new List<ProtocolFoldersView>();
@@ -182,12 +189,23 @@ namespace RapidDoc.Models.Services
             {
                 
                     listDepartmentId.Add(new ProtocolFoldersView { ProtocolFolderName = partPath + item.ProtocolFolderName, Id = item.Id });
-                    listDepartmentBufId = GetFullPathItems(GetAllView().Where(x => x.ProtocolFoldersParentId == item.Id).ToList(),
-                        partPath == "" ? item.ProtocolFolderName + "/" : partPath + item.ProtocolFolderName + "/");
+                    listDepartmentBufId = GetFullPathItems(GetAllView(currentUserId).Where(x => x.ProtocolFoldersParentId == item.Id).ToList(),
+                        partPath == "" ? item.ProtocolFolderName + "/" : partPath + item.ProtocolFolderName + "/", currentUserId);
                     listDepartmentId.AddRange(listDepartmentBufId);
             }
             return listDepartmentId;
+        }
 
+        private ApplicationUser getCurrentUserId(string currentUserId = "")
+        {
+            if (currentUserId != string.Empty)
+            {
+                return repoUser.GetById(currentUserId);
+            }
+            else
+            {
+                return repoUser.GetById(HttpContext.Current.User.Identity.GetUserId());
+            }
         }
     }
 }

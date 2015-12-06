@@ -3,13 +3,18 @@
 @{
     Layout = "";
     string index = ViewData["counter"].ToString();
-    Model.Separated = true;
+    Guid? documentId = (Guid?)ViewData["documentId"];
+
+    if (documentId == null || documentId == Guid.Empty)
+    {
+        Model.Separated = true;
+    }
 }
 
 @using (Html.BeginCollectionItem("PRT_DecisionList_Table__DecisionList" + "*" + index))
 {
     <h6><strong>Поручение №<span id="decisionNumber_@index" class="decisionNumber"></span></strong></h6>
-    @Html.TextAreaFor(model => Model.Decision, new { @class = "form-control summernotelight", placeholder = "Решение" })
+    @Html.TextAreaFor(model => Model.Decision, new { @class = "form-control summernotelight" })
     <div class="row">
         <div class="col-xs-8">
             @Html.TextBoxFor(model => Model.Users, new { @class = "form-control", @data_role = "tagsinputEmplDynamic", placeholder = "Исполнители" })

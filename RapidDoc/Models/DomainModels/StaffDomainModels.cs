@@ -202,9 +202,9 @@ namespace RapidDoc.Models.DomainModels
             get
             {
                 if (MiddleName != null && MiddleName.Length > 0)
-                    return (SecondName + " " + FirstName.Substring(0, 1) + "." + MiddleName.Substring(0, 1));
+                    return (SecondName + " " + FirstName.Substring(0, 1) + "." + MiddleName.Substring(0, 1)) + ".";
                 else
-                    return (SecondName + " " + FirstName.Substring(0, 1));
+                    return (SecondName + " " + FirstName.Substring(0, 1)) + ".";
             }
         }
 

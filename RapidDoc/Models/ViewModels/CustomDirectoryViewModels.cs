@@ -77,6 +77,10 @@ namespace RapidDoc.Models.ViewModels
         public DateTime DateCreate { get; set; }
         public string ReportText { get; set; }
         public DocumentState DocumentState { get; set; }
+        public string Users { get; set; }
+        public DateTime? ExecutionDate { get; set; }
+        public DateTime? ProlongationDate { get; set; }
+        public DocumentType DocType { get; set; }
     }
 
     public class ModificationDocumentView

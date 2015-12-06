@@ -5,24 +5,26 @@
     int numDecision = 0;
 }
 <div>
-    <table class="table table-condensed">
-        <tr>
-            <td>
-                <strong>@ViewData["numQuestion"].ToString()</strong>
-            </td>
-            <td>
-                @Html.Raw(Model.Question)
+    <table class="table table-min" style="margin-bottom: 0;">
+        <tbody>
+            <tr>
+                <td style="width: 20px;">
+                    <strong style="white-space: nowrap;">Вопрос №@ViewData["numQuestion"].ToString().</strong>
+                </td>
+                <td>
+                    @Html.Raw(Model.Question)
 
-                @if (Model.DecisionList != null && Model.DecisionList.Count() > 0)
-                {
-                    <h5><strong>РЕШЕНИЯ:</strong></h5>
-                    foreach (var decision in Model.DecisionList)
+                    @if (Model.DecisionList != null && Model.DecisionList.Count() > 0)
                     {
-                        numDecision++;
-                        Html.RenderPartial("~/Views/Custom/_DecisionListView.cshtml", decision, new ViewDataDictionary { { "numQuestion", ViewData["numQuestion"] }, { "numDecision", numDecision } });
+                        <h5><strong>РЕШЕНИЯ:</strong></h5>
+                        foreach (var decision in Model.DecisionList)
+                        {
+                            numDecision++;
+                            Html.RenderPartial("~/Views/Custom/_DecisionListView.cshtml", decision, new ViewDataDictionary { { "numQuestion", ViewData["numQuestion"] }, { "numDecision", numDecision } });
+                        }
                     }
-                }
-            </td>
-        </tr>
+                </td>
+            </tr>
+        </tbody>
     </table>
 </div>

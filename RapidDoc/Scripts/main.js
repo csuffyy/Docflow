@@ -1073,6 +1073,7 @@ function custom_tagsinputEmplBothOpt_init(url_json) {
     try {
         elt = $('input[data-role=tagsinputEmplBothOpt]');
         elt.tagsinput({
+            trimValue: true,
             tagClass: function (item) {
                 return 'label label-primary bts-tags';
             }
@@ -1100,6 +1101,7 @@ function custom_tagsinputEmplBothOpt1_init(url_json) {
     try {
         elt1 = $('input[data-role=tagsinputEmplBothOpt1]');
         elt1.tagsinput({
+            trimValue: true,
             tagClass: function (item) {
                 return 'label label-primary bts-tags';
             }
@@ -1127,6 +1129,7 @@ function custom_tagsinputEmplBothOpt2_init(url_json) {
     try {
         elt2 = $('input[data-role=tagsinputEmplBothOpt2]');
         elt2.tagsinput({
+            trimValue: true,
             tagClass: function (item) {
                 return 'label label-primary bts-tags';
             }

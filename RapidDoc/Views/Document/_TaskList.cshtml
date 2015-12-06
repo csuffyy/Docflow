@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<RapidDoc.Models.ViewModels.TaskDelegationView>
+@using RapidDoc.Extensions;
 
 @if (Model.Count() > 0)
 {
@@ -19,7 +20,19 @@
                         }
                         @Html.ActionLink(item.DocumentNum, "ShowDocument", "Document", new { id = item.DocumentId, isAfterView = true }, null) - @item.UserCreate (<small>@item.DateCreate.ToShortDateString()</small>)
                     </p>
-                    <p>@Html.Raw(item.ReportText)</p>
+                    if(item.DocType == RapidDoc.Models.Repository.DocumentType.Task)
+                    {
+                    <p>@FieldNameRes.FieldNameResource.Executor: @Html.HtmlDisplayTags(item.Users) Срок: @Html.FormatValue(item.ExecutionDate, "{0:dd.MM.yyyy}")
+                        @if(item.ProlongationDate != null)
+                        {
+                            <span>Продление: @Html.FormatValue(item.ProlongationDate, "{0:dd.MM.yyyy}")</span>
+                        }
+                    </p>
+                    <div class="row">
+                        <div class="col-xs-1"></div>
+                        <div class="col-xs-11"><p class="text text-danger"><em>@Html.Raw(item.ReportText)</em></p></div>
+                    </div>
+                    }
                 }
             </div>
         </div>

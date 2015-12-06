@@ -701,11 +701,14 @@ namespace RapidDoc.Controllers
         public ActionResult RejectDocumentTask(Guid processId, int type, Guid fileId, FormCollection collection, string actionModelName, Guid documentId)
         {
             string currentUserId = User.Identity.GetUserId();
+            ProcessView process = _ProcessService.FindView(processId);
+            var documentIdNew = _DocumentService.GetDocumentView(_DocumentService.Find(documentId).RefDocumentId, process.TableName);
 
             if (collection["RejectCommentTask"] != null && _SystemService.CheckTextExists(collection["RejectCommentTask"]))
             {
                 string rejectCommentRequest = collection["RejectCommentTask"].ToString();
-                SaveComment(GuidNull2Guid(documentId), rejectCommentRequest);
+                documentIdNew.ReportText = rejectCommentRequest;
+                _DocumentService.UpdateDocumentFields(documentIdNew, process);
             }
             else
             {
@@ -1104,7 +1107,7 @@ namespace RapidDoc.Controllers
                                 this.CreateSeparateTasks(processView, operationType, docModel, fileId, actionModelName, documentData);
                             }
 
-                            return RedirectToAction("Index", "Document");
+                            return RedirectToAction("MyDocuments", "Document");
                         }
                     }
                     //Save Document
@@ -1127,7 +1130,10 @@ namespace RapidDoc.Controllers
                         _WorkflowService.RunWorkflow(documentTable, processView.TableName, documentData);
                     }
 
-                    return RedirectToAction("Index", "Document");
+                    if (processView.DocType == DocumentType.Task)
+                        return RedirectToAction("MyDocuments", "Document");
+                    else
+                        return RedirectToAction("Index", "Document");
                 }
             }
 

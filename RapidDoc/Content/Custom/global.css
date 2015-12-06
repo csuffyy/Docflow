@@ -625,3 +625,17 @@ input.labelauty + label > span.labelauty-checked
 {
 	display:inline;
 }
+
+.table .table-min {
+  margin-bottom: 0;
+}
+
+.table-min > thead > tr > th,
+.table-min > tbody > tr > th,
+.table-min > tfoot > tr > th,
+.table-min > thead > tr > td,
+.table-min > tbody > tr > td,
+.table-min > tfoot > tr > td {
+    padding: 0;
+    padding-left: 5px;
+}

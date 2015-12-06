@@ -292,6 +292,7 @@ namespace RapidDoc.Models.Services
                                 )
                                 &&
                                 !(contextQuery.ReviewDocLogTable.Any(x => x.ApplicationUserCreatedId == user.Id && x.DocumentTableId == document.Id && x.isArchive == true))
+                                && !(document.ApplicationUserCreatedId == user.Id && document.DocType == DocumentType.Task)
                             join company in contextQuery.CompanyTable on document.CompanyTableId equals company.Id
                             join process in contextQuery.ProcessTable on document.ProcessTableId equals process.Id
                             let empl = contextQuery.EmplTable.Where(p => p.ApplicationUserId == document.ApplicationUserCreatedId).OrderByDescending(p => p.Enable).FirstOrDefault()
@@ -1258,30 +1259,41 @@ namespace RapidDoc.Models.Services
             ApplicationUser currentUser = repoUser.GetById(HttpContext.Current.User.Identity.GetUserId());
 
             var  taskList= _uow.GetDbContext<ApplicationDbContext>().USR_TAS_DailyTasks_Table.Where(x => x.RefDocumentId == documentId).ToList();
-            taskList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName, ReportText = y.ReportText, DocumentState = y.DocumentTable.DocumentState }));
+            taskList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { 
+                DocumentNum = y.DocumentTable.DocumentNum, 
+                DocumentId = y.DocumentTable.Id, 
+                DocType = y.DocumentTable.DocType,
+                DateCreate = y.CreatedDate, 
+                UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName, 
+                ReportText = y.ReportText, 
+                DocumentState = y.DocumentTable.DocumentState,
+                Users = y.Users,
+                ExecutionDate = y.ExecutionDate,
+                ProlongationDate = y.ProlongationDate
+            }));
 
             var  prolongationsList= _uow.GetDbContext<ApplicationDbContext>().USR_TAS_DailyTasksProlongation_Table.Where(x => x.RefDocumentId == documentId).ToList();
-            prolongationsList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName, DocumentState = y.DocumentTable.DocumentState }));
+            prolongationsList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName, DocumentState = y.DocumentTable.DocumentState, DocType = y.DocumentTable.DocType }));
 
             //Orders
             var mainActivityList = _uow.GetDbContext<ApplicationDbContext>().USR_ORD_MainActivity_Table.Where(x => x.AdditionDocumentId == documentId).ToList();
-            mainActivityList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName }));
+            mainActivityList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName, DocType = y.DocumentTable.DocType }));
             var businessTripList = _uow.GetDbContext<ApplicationDbContext>().USR_ORD_BusinessTrip_Table.Where(x => x.AdditionDocumentId == documentId).ToList();
-            businessTripList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName }));
+            businessTripList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName, DocType = y.DocumentTable.DocType }));
             var staffList = _uow.GetDbContext<ApplicationDbContext>().USR_ORD_Staff_Table.Where(x => x.AdditionDocumentId == documentId).ToList();
-            staffList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName }));
+            staffList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName, DocType = y.DocumentTable.DocType }));
             var receptionList = _uow.GetDbContext<ApplicationDbContext>().USR_ORD_Reception_Table.Where(x => x.AdditionDocumentId == documentId).ToList();
-            receptionList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName }));
+            receptionList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName, DocType = y.DocumentTable.DocType }));
             var dismissalList = _uow.GetDbContext<ApplicationDbContext>().USR_ORD_Dismissal_Table.Where(x => x.AdditionDocumentId == documentId).ToList();
-            dismissalList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName }));
+            dismissalList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName, DocType = y.DocumentTable.DocType }));
             var transferList = _uow.GetDbContext<ApplicationDbContext>().USR_ORD_Transfer_Table.Where(x => x.AdditionDocumentId == documentId).ToList();
-            transferList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName }));
+            transferList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName, DocType = y.DocumentTable.DocType }));
             var holidayList = _uow.GetDbContext<ApplicationDbContext>().USR_ORD_Holiday_Table.Where(x => x.AdditionDocumentId == documentId).ToList();
-            holidayList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName }));
+            holidayList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName, DocType = y.DocumentTable.DocType }));
             var changeStaffList = _uow.GetDbContext<ApplicationDbContext>().USR_ORD_ChangeStaff_Table.Where(x => x.AdditionDocumentId == documentId).ToList();
-            changeStaffList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName }));
+            changeStaffList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName, DocType = y.DocumentTable.DocType }));
             var sanctionList = _uow.GetDbContext<ApplicationDbContext>().USR_ORD_Sanction_Table.Where(x => x.AdditionDocumentId == documentId).ToList();
-            sanctionList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName }));
+            sanctionList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName, DocType = y.DocumentTable.DocType }));
 
             return taskDelegationList;
         }
