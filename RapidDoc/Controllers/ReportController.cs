@@ -33,8 +33,9 @@ namespace RapidDoc.Controllers
         private readonly IWorkScheduleService _WorkScheduleService;
         private readonly IEmailService _EmailService;
         private readonly IWorkflowService _WorkflowService;
+        private readonly ICommentService _CommentService;
 
-        public ReportController(IWorkflowTrackerService workflowTrackerService, IDocumentService documentService, IDepartmentService departmentService, ICompanyService companyService, IAccountService accountService, IProcessService processService, IEmplService emplService, IReportService reportService, IWorkScheduleService workScheduleService, IEmailService emailService, IWorkflowService workflowService)
+        public ReportController(IWorkflowTrackerService workflowTrackerService, IDocumentService documentService, IDepartmentService departmentService, ICompanyService companyService, IAccountService accountService, IProcessService processService, IEmplService emplService, IReportService reportService, IWorkScheduleService workScheduleService, IEmailService emailService, IWorkflowService workflowService, ICommentService commentService)
             : base(companyService, accountService)
         {
             _WorkflowTrackerService = workflowTrackerService;
@@ -46,6 +47,7 @@ namespace RapidDoc.Controllers
             _WorkScheduleService = workScheduleService;
             _EmailService = emailService;
             _WorkflowService = workflowService;
+            _CommentService = commentService;
         }
 
         public ActionResult PerformanceDepartment()
@@ -115,6 +117,7 @@ namespace RapidDoc.Controllers
 
         public ActionResult PdfReportCZ(Guid id, Guid? processId)
         {
+            List<ReportCZComments> commentsCZ = new List<ReportCZComments>();  
             ApplicationUser user = _AccountService.Find(User.Identity.GetUserId());
             var timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById(user.TimeZoneId);
             DocumentTable docTable = _DocumentService.FirstOrDefault(x => x.Id == id);
@@ -122,7 +125,13 @@ namespace RapidDoc.Controllers
             var documentView = _DocumentService.GetDocumentView(docTable.RefDocumentId, process.TableName);
             EmplTable emplTable = _EmplService.GetEmployer(docTable.ApplicationUserCreatedId, process.CompanyTableId);
             var trackersAssign = _WorkflowTrackerService.GetPartialView(x => x.DocumentTableId == id && (x.TrackerType == TrackerType.Approved || x.TrackerType == TrackerType.Cancelled), timeZoneInfo, docTable.DocType);
+            var documentComments = _CommentService.GetPartial(x => x.DocumentTableId == id);
 
+            foreach (var comment in documentComments)
+            {
+                EmplTable emplUserName = _EmplService.GetEmployer(comment.ApplicationUserCreatedId, process.CompanyTableId);
+                commentsCZ.Add(new ReportCZComments { UserName = emplUserName.FullName, UserTitle = emplUserName.TitleName, Comment = comment.Comment, CreateDate = comment.CreatedDate });
+            }
             List<FileTable> filesResult = new List<FileTable>();
             var files = _DocumentService.GetAllFilesDocument(docTable.FileId).ToList();
             foreach (var item in files)
@@ -142,6 +151,7 @@ namespace RapidDoc.Controllers
             ViewBag.AliasCompanyName = docTable.AliasCompanyName;
             ViewBag.Id = docTable.Id;
             ViewBag.Process = process;
+            ViewBag.CommentsCZ = commentsCZ;
 
             return new ViewAsPdf("PdfReportCZ", documentView)
             {

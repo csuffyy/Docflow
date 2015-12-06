@@ -34,4 +34,11 @@ namespace RapidDoc.Models.ViewModels
         public List<EmplTable> Names { get; set; }
 
     }
+    public class ReportCZComments
+    {
+        public string UserName { get; set; }
+        public string UserTitle { get; set; }
+        public DateTime CreateDate { get; set; }
+        public string Comment { get; set; }
+    }
 }
