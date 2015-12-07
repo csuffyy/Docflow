@@ -153,6 +153,9 @@
         <FlowStep.Next>
           <FlowStep x:Name="__ReferenceID1" sap2010:WorkflowViewState.IdRef="FlowStep_2">
             <ParallelForEach x:TypeArguments="x:String" DisplayName="Перебор сотрудников" sap2010:WorkflowViewState.IdRef="ParallelForEach`1_1">
+              <ParallelForEach.CompletionCondition>
+                <mca:CSharpValue x:TypeArguments="x:Boolean">outputStep == DocumentState.Cancelled</mca:CSharpValue>
+              </ParallelForEach.CompletionCondition>
               <ParallelForEach.Values>
                 <InArgument x:TypeArguments="scg:IEnumerable(x:String)">
                   <mca:CSharpValue x:TypeArguments="scg:IEnumerable(x:String)">listOfUsers</mca:CSharpValue>
@@ -243,7 +246,7 @@
               </ActivityAction>
             </ParallelForEach>
             <FlowStep.Next>
-              <FlowDecision x:Name="__ReferenceID5" DisplayName="Условие">
+              <FlowDecision x:Name="__ReferenceID5" DisplayName="Условие" sap2010:WorkflowViewState.IdRef="FlowDecision_1">
                 <FlowDecision.Condition>
                   <mca:CSharpValue x:TypeArguments="x:Boolean">outputStep == DocumentState.Agreement</mca:CSharpValue>
                 </FlowDecision.Condition>
@@ -285,8 +288,8 @@
                   </FlowStep>
                 </FlowDecision.True>
                 <FlowDecision.False>
-                  <FlowStep x:Name="__ReferenceID4">
-                    <Assign DisplayName="Выход">
+                  <FlowStep x:Name="__ReferenceID4" sap2010:WorkflowViewState.IdRef="FlowStep_5">
+                    <Assign DisplayName="Выход" sap2010:WorkflowViewState.IdRef="Assign_4">
                       <Assign.To>
                         <OutArgument x:TypeArguments="local:DocumentState">
                           <mca:CSharpReference x:TypeArguments="local:DocumentState">outputStep</mca:CSharpReference>
@@ -297,12 +300,9 @@
                           <mca:CSharpValue x:TypeArguments="local:DocumentState">outputStep</mca:CSharpValue>
                         </InArgument>
                       </Assign.Value>
-                      <sap2010:WorkflowViewState.IdRef>Assign_4</sap2010:WorkflowViewState.IdRef>
                     </Assign>
-                    <sap2010:WorkflowViewState.IdRef>FlowStep_5</sap2010:WorkflowViewState.IdRef>
                   </FlowStep>
                 </FlowDecision.False>
-                <sap2010:WorkflowViewState.IdRef>FlowDecision_1</sap2010:WorkflowViewState.IdRef>
               </FlowDecision>
             </FlowStep.Next>
           </FlowStep>
@@ -315,7 +315,7 @@
     <x:Reference>__ReferenceID3</x:Reference>
     <x:Reference>__ReferenceID4</x:Reference>
     <x:Reference>__ReferenceID5</x:Reference>
-    <sads:DebugSymbol.Symbol>d1tDOlxVc2Vyc1xpZ2RtaXRcU291cmNlXFJlcG9zXERvY2Zsb3dSZXBvXFJhcGlkRG9jXEFjdGl2aXRpZXNcVVNSX1BSVF9Qcm90b2NvbERvY3VtZW50cy54YW1sKBsHG2cBAwGTAQGZAQEChQEDvwIPAgEBiQEziQE2AgECjQEJmAESAwGYApsBDfQBHwIBXvgBE/gBdwIBU6ECFa0CHgIBPPwBFYwCNAIBGo8CGZoCIgIBA5UBD5UBiAEDAaQCkAEPkAFqAwGZAp4BE54BbQMBjQKlARHyARwCAV+pAhupAm4CAUikAhukAnYCAT2JAhuJAmYCATH/ARv/AWkCASaEAhuEAn8CARuXAh+XAnwCAQ+SAh+SAnoCAQSmAROxARwDAfQBsgET2wEyAwGRAdwBE/EBNAIBYK4BGa4BXwMBgQKpARmpAWMDAfUBxAEZxAFrAwHoAbIB7AGyAYECAwHnAbIBjAKyAZMCAwHmAdMBGdMBbgMB2gHOARnOAWsDAc4BvwEZvwFbAwHCAdgBGdgBdAMBtgG6ARm6AWQDAaoByQEZyQFbAwGeAbUBGbUBZwMBkgHkARnkAWsDAYUB6QEZ6QFvAgF53wEZ3wFjAgFt7gEZ7gF0AgFh</sads:DebugSymbol.Symbol>
+    <sads:DebugSymbol.Symbol>d0REOlxHaXRIdWJcRG9jRmxvd1xSYXBpZERvY1xBY3Rpdml0aWVzXFVTUl9QUlRfUHJvdG9jb2xEb2N1bWVudHMueGFtbCkbBxtnAQMBkwEBmQEBAoUBA78CDwIBAYkBM4kBNgIBAo0BCZgBEgMBowKbAQ33AR8CAV77ARP7AXcCAVOkAhWvAh4CATz/ARWPAjQCARqSAhmdAiICAQOVAQ+VAYgBAwGvApABD5ABagMBpAKhAROhAW0DAY0CnQERnQF1AwGYAqgBEfUBHAIBX6wCG6wCbgIBSKcCG6cCdgIBPYwCG4wCZgIBMYICG4ICaQIBJocCG4cCfwIBG5oCH5oCfAIBD5UCH5UCegIBBKkBE7QBHAMB9AG1ARPeATIDAZEB3wET9AE0AgFgsQEZsQFfAwGBAqwBGawBYwMB9QHHARnHAWsDAegBtQHsAbUBgQIDAecBtQGMArUBkwIDAeYB1gEZ1gFuAwHaAdEBGdEBawMBzgHCARnCAVsDAcIB2wEZ2wF0AwG2Ab0BGb0BZAMBqgHMARnMAVsDAZ4BuAEZuAFnAwGSAecBGecBawMBhQHsARnsAW8CAXniARniAWMCAW3xARnxAXQCAWE=</sads:DebugSymbol.Symbol>
   </Flowchart>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>
@@ -342,7 +342,7 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="ParallelForEach`1_1" sap:VirtualizedContainerService.HintSize="294,460" />
+      <sap2010:ViewStateData Id="ParallelForEach`1_1" sap:VirtualizedContainerService.HintSize="200,51" />
       <sap2010:ViewStateData Id="WFCreateProtocolTasks_1" sap:VirtualizedContainerService.HintSize="200,22">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
