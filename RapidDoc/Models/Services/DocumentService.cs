@@ -82,6 +82,7 @@ namespace RapidDoc.Models.Services
         string ScrubHtml(string value);
         double GetSLAHours(Guid documentId, DateTime? startDate, DateTime? endDate);
         Guid DuplicateFile(FileTable fileTable, Guid? docFileId = null);
+        WFTrackerTable FirstOrDefaultTrackerItem(ProcessTable process, Guid documentId, string userId);
     }
 
     public class DocumentService : IDocumentService
@@ -668,7 +669,7 @@ namespace RapidDoc.Models.Services
                 return true;
             }
 
-            if (_DelegationService.CheckDelegation(documentTable, user, documentTable.ProcessTable, trackerTables) == true)
+            if (_DelegationService.CheckDelegation(user, documentTable.ProcessTable, trackerTables) == true)
             {
                 return true;
             }
@@ -711,7 +712,7 @@ namespace RapidDoc.Models.Services
                 return true;
             }
 
-            if (_DelegationService.CheckDelegation(documentTable, user, documentTable.ProcessTable, trackerTables) == true)
+            if (_DelegationService.CheckDelegation(user, documentTable.ProcessTable, trackerTables) == true)
             {
                 return true;
             }
@@ -1273,7 +1274,15 @@ namespace RapidDoc.Models.Services
             }));
 
             var  prolongationsList= _uow.GetDbContext<ApplicationDbContext>().USR_TAS_DailyTasksProlongation_Table.Where(x => x.RefDocumentId == documentId).ToList();
-            prolongationsList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName, DocumentState = y.DocumentTable.DocumentState, DocType = y.DocumentTable.DocType }));
+            prolongationsList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { 
+                DocumentNum = y.DocumentTable.DocumentNum, 
+                DocumentId = y.DocumentTable.Id, 
+                DateCreate = y.CreatedDate, 
+                UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName, 
+                DocumentState = y.DocumentTable.DocumentState, 
+                DocType = y.DocumentTable.DocType,
+                ProlongationDate = y.ProlongationDate
+            }));
 
             //Orders
             var mainActivityList = _uow.GetDbContext<ApplicationDbContext>().USR_ORD_MainActivity_Table.Where(x => x.AdditionDocumentId == documentId).ToList();
@@ -1578,6 +1587,26 @@ namespace RapidDoc.Models.Services
             Guid Id = SaveFile(doc);
 
             return doc.DocumentFileId;
+        }
+
+        public WFTrackerTable FirstOrDefaultTrackerItem(ProcessTable process, Guid documentId, string userId)
+        {
+            WFTrackerTable trackerTableUser = _WorkflowTrackerService.FirstOrDefault(x => x.DocumentTableId == documentId && x.Users.Any(y => y.UserId == userId));
+            if (trackerTableUser == null)
+            {
+                ApplicationUser user = repoUser.GetById(userId);
+                if (user != null)
+                {
+                    var items = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == documentId).OrderBy(x => x.LineNum).ToList();
+                    foreach (var item in items)
+                    {
+                        if (_DelegationService.CheckDelegation(user, process, item))
+                            return item;
+                    }
+                }
+            }
+
+            return trackerTableUser;
         }
     }
 }

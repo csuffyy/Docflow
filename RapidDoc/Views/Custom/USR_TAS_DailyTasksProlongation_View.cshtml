@@ -14,7 +14,7 @@
         <div class="editor-field">
             @if (Model.ProlongationOldDate.HasValue && Model.ProlongationOldDate != DateTime.MinValue)
             {
-                <del>@Html.FormatValue(Model.ExecutionDate, "{0:dd.MM.yyyy}")</del>
+                <span class="text text-danger"><del>@Html.FormatValue(Model.ExecutionDate, "{0:dd.MM.yyyy}")</del></span>
             }
             else
             {

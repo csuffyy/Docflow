@@ -716,7 +716,8 @@ namespace RapidDoc.Models.Services
                 int i = 0;
                 List<List<WFTrackerUsersTable>> endListUsers = new List<List<WFTrackerUsersTable>>();
                 string currentUser = HttpContext.Current.User.Identity.GetUserId();
-                WFTrackerTable trackerTableUser = _WorkflowTrackerService.FirstOrDefault(x => x.DocumentTableId == refDocId && x.Users.Any(y => y.UserId == currentUser));
+                WFTrackerTable trackerTableUser = _DocumentService.FirstOrDefaultTrackerItem(documentTable.ProcessTable, refDocId, currentUser);
+
                 List<WFTrackerTable> trackerTalbeUserList = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == refDocId && x.LineNum < trackerTableUser.LineNum).OrderByDescending( x => x.LineNum).ToList();
                 trackerTalbeUserList.ForEach(x => {
                     List<WFTrackerUsersTable> users = new List<WFTrackerUsersTable>();
@@ -731,7 +732,7 @@ namespace RapidDoc.Models.Services
                 {
                     var taskTable = (USR_TAS_DailyTasks_Table)_DocumentService.GetDocument(documentTable.RefDocumentId, documentTable.ProcessTable.TableName);
                     var refTaskDocument = _DocumentService.Find(taskTable.RefDocumentId);
-                    if (refTaskDocument.DocType == DocumentType.Protocol)
+                    if (refTaskDocument != null && refTaskDocument.DocType == DocumentType.Protocol)
                     {
                         protocol = true;
                         var docuTable = (IBasicProtocol)_DocumentService.GetDocument(refTaskDocument.RefDocumentId, refTaskDocument.ProcessTable.TableName);

@@ -33,6 +33,12 @@
                         <div class="col-xs-11"><p class="text text-danger"><em>@Html.Raw(item.ReportText)</em></p></div>
                     </div>
                     }
+                    else if (item.DocType == RapidDoc.Models.Repository.DocumentType.Request && item.ProlongationDate != null)
+                    {
+                        <span><em>Дата продления: @Html.FormatValue(item.ProlongationDate, "{0:dd.MM.yyyy}")</em></span>
+                        <br />
+                        <br />
+                    }
                 }
             </div>
         </div>

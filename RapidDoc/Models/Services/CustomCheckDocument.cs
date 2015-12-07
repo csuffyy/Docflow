@@ -625,6 +625,14 @@ namespace RapidDoc.Models.Services
                 }
             }
 
+            if (type == (new USR_TAS_DailyTasks_View()).GetType())
+            {
+                if ((actionModel.DocumentTableId == null || actionModel.DocumentTableId == Guid.Empty) && actionModel.ExecutionDate <= DateTime.UtcNow)
+                {
+                    errorList.Add("Дата исполнения должна быть больше текущей");
+                }
+            }
+
             if (type == (new USR_TAS_DailyTasksProlongation_View()).GetType())
             {
                 if (actionModel.ExecutionDate >= actionModel.ProlongationDate || (actionModel.ProlongationOldDate != null && actionModel.ProlongationOldDate >= actionModel.ProlongationDate))
@@ -1040,7 +1048,7 @@ namespace RapidDoc.Models.Services
                                 errorList.Add(String.Format("Поручение {0}.{1} необходимо указать дату исполнения", numQuestion, numDecision));
                             }
 
-                            if (!String.IsNullOrEmpty(decision.Users) && decision.ControlDate != null && decision.ControlDate <= DateTime.UtcNow)
+                            if ((actionModel.DocumentTableId == null || actionModel.DocumentTableId == Guid.Empty) && (!String.IsNullOrEmpty(decision.Users) && decision.ControlDate != null && decision.ControlDate <= DateTime.UtcNow))
                             {
                                 errorList.Add(String.Format("Поручение {0}.{1} необходимо указать дату исполнения больше текущей", numQuestion, numDecision));
                             }
