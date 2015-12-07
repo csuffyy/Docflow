@@ -148,10 +148,10 @@
         
         @if (User.IsInRole("Administrator") && Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.OfficeMemo)
         {
-        <button type="submit" id="saveChanges" class="btn btn-default" name="action:SaveChanges">@UIElementRes.UIElement.Save</button>
+            <button type="submit" id="saveChanges" class="btn btn-default" name="action:SaveChanges">@UIElementRes.UIElement.Save</button>
         }
 
-        @if ((Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && Model.DocumentView.CreatedBy == User.Identity.Name)
+        @if (((Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && Model.DocumentView.CreatedBy == User.Identity.Name) || (Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.OnSign && (User.IsInRole("Administrator") || User.IsInRole("SetupAdministrator"))))
         {
             <button type="button" class="btn btn-danger btn-sm hidden-print" data-toggle="modal" data-target=".bs-withdraw-modal-sm">@UIElementRes.UIElement.Withdraw</button>
         }

@@ -2783,8 +2783,9 @@ namespace RapidDoc.Controllers
 
         public ViewResult CreateNewQuestionProtocol()
         {
-            var model = new PRT_QuestionList_Table() { DecisionList = new List<PRT_DecisionList_Table>() };
-            model.DecisionList.Add(new PRT_DecisionList_Table());
+            //var model = new PRT_QuestionList_Table() { DecisionList = new List<PRT_DecisionList_Table>() };
+            //model.DecisionList.Add(new PRT_DecisionList_Table());
+            var model = new PRT_QuestionList_Table();
             ViewData["counter"] = Guid.NewGuid().ToString("N");
             return View("_QuestionList", model);
         }

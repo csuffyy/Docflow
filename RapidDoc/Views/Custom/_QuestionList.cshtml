@@ -14,16 +14,16 @@
     <div class="col-xs-11">
         @Html.TextAreaFor(model => Model.Question, new { @class = "form-control summernotelight" })
 
-        @if (Model.DecisionList != null && Model.DecisionList.Count() > 0)
-        {
             <div id="decisionRow_@index" class="decisionRow">
-            @foreach (var decision in Model.DecisionList)
+            @if (Model.DecisionList != null && Model.DecisionList.Count() > 0)
             {
-                Html.RenderPartial("~/Views/Custom/_DecisionList.cshtml", decision, new ViewDataDictionary { { "counter", index }, { "documentId", documentId } });
+                foreach (var decision in Model.DecisionList)
+                {
+                    Html.RenderPartial("~/Views/Custom/_DecisionList.cshtml", decision, new ViewDataDictionary { { "counter", index }, { "documentId", documentId } });
+                }
             }
             </div>
-        }
-        @Html.ActionLink("Добавить решение", "CreateNewDecisionProtocol", "Custom", new { counter = index }, new { @id = "addItemDecision_" + index, @class = "addItemDecision" })
+        @Html.ActionLink("Добавить поручение", "CreateNewDecisionProtocol", "Custom", new { counter = index }, new { @id = "addItemDecision_" + index, @class = "addItemDecision" })
     </div>
     <hr style="width: 100%; color: grey; height: 1px; background-color: grey;" />
 }

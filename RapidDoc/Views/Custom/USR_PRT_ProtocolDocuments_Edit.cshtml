@@ -4,8 +4,9 @@
     if(Model.QuestionList == null)
     { 
         Model.QuestionList = new List<RapidDoc.Models.DomainModels.PRT_QuestionList_Table>();
-        Model.QuestionList.Add(new RapidDoc.Models.DomainModels.PRT_QuestionList_Table() { DecisionList = new List<RapidDoc.Models.DomainModels.PRT_DecisionList_Table>() });
-        Model.QuestionList.FirstOrDefault().DecisionList.Add(new RapidDoc.Models.DomainModels.PRT_DecisionList_Table());
+        Model.QuestionList.Add(new RapidDoc.Models.DomainModels.PRT_QuestionList_Table());
+        //Model.QuestionList.Add(new RapidDoc.Models.DomainModels.PRT_QuestionList_Table() { DecisionList = new List<RapidDoc.Models.DomainModels.PRT_DecisionList_Table>() });
+        //Model.QuestionList.FirstOrDefault().DecisionList.Add(new RapidDoc.Models.DomainModels.PRT_DecisionList_Table());
     }
 }
 
@@ -103,7 +104,7 @@
             <div id="questionRow" class="questionRow">
             @foreach (var question in Model.QuestionList)
             {
-                if (question.DecisionList.Count() == 0)
+                if (question.DecisionList != null && question.DecisionList.Count() == 0)
                 {
                     question.DecisionList.Add(new RapidDoc.Models.DomainModels.PRT_DecisionList_Table());
                 }
@@ -163,6 +164,15 @@
             $(this).text(prtQuestionNumber);
         });
     }
+
+    function numberDecision() {
+        var prtDecisionNumber = 0;
+        $('.decisionNumber').each(function (i) {
+            prtDecisionNumber = i + 1;
+            $(this).text(prtDecisionNumber);
+        });
+    }
+    /*
     function numberDecision() {
         var prtDecisionNumber = 0;
         var oldQuestion = '';
@@ -179,5 +189,6 @@
             $(this).text(numberquestion + '.' + prtDecisionNumber);
         });
     }
+    */
 </script>
 
