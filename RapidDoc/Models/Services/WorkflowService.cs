@@ -332,14 +332,55 @@ namespace RapidDoc.Models.Services
 
         public void AgreementWorkflowWithdraw(Guid documentId, string tableName, Guid WWFInstanceId, Guid processId)
         {
-            SqlWorkflowInstanceStore instanceStore = SetupInstanceStore();
-            WorkflowApplicationInstance instanceInfo = WorkflowApplication.GetInstance(WWFInstanceId, instanceStore);
+            string currentUser = HttpContext.Current.User.Identity.GetUserId();
+            DocumentTable documentTable = _DocumentService.Find(documentId);
+            try
+            {
+                SqlWorkflowInstanceStore instanceStore = SetupInstanceStore();
+                WorkflowApplicationInstance instanceInfo = WorkflowApplication.GetInstance(WWFInstanceId, instanceStore);
+                 FileTable fileTableWF = GetRightFileWF(tableName, processId, instanceInfo);
+                 Activity activity = ChooseActualWorkflow(tableName, fileTableWF, instanceInfo.DefinitionIdentity != null);
+                 WithdrawInstance(documentId, DocumentState.Cancelled, TrackerType.Cancelled, instanceStore, activity, instanceInfo);
+                 DeleteInstanceStoreOwner(instanceStore);
+                 _HistoryUserService.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = Models.Repository.HistoryType.Withdraw }, HttpContext.Current.User.Identity.GetUserId());
+            }
+            catch (InstancePersistenceCommandException)
+            {
+                if (documentTable.DocType == DocumentType.OfficeMemo)
+                    MakingWithdrawDoc(documentTable, currentUser);
+                
+            }
+        }
+        private void MakingWithdrawDoc(DocumentTable documentTable, string currentUser)
+        {
+            documentTable.WWFInstanceId = Guid.Empty;
+            documentTable.DocumentState = DocumentState.Created;
+            documentTable.ActivityName = String.Empty;
 
-            FileTable fileTableWF = GetRightFileWF(tableName, processId, instanceInfo);
-            Activity activity = ChooseActualWorkflow(tableName, fileTableWF, instanceInfo.DefinitionIdentity != null);
-            WithdrawInstance(documentId, DocumentState.Cancelled, TrackerType.Cancelled, instanceStore, activity, instanceInfo);
-            DeleteInstanceStoreOwner(instanceStore);
-            _HistoryUserService.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = Models.Repository.HistoryType.Withdraw }, HttpContext.Current.User.Identity.GetUserId());
+            int retries = 3;
+            while (retries > 0)
+            {
+                try
+                {
+                    _DocumentService.UpdateDocument(documentTable, currentUser);
+                    break;
+                }
+                catch
+                {
+                    retries = retries - 1;
+                    if (retries <= 0) throw;
+                    Thread.Sleep(1000);
+                }
+            }
+
+            IEnumerable<WFTrackerTable> wftrackers = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == documentTable.Id).ToList();
+            foreach (var item in wftrackers)
+            {
+                item.Users.Clear();
+                _WorkflowTrackerService.SaveDomain(item, currentUser);
+            }
+
+            _WorkflowTrackerService.DeleteAll(documentTable.Id);
         }
         private SqlWorkflowInstanceStore SetupInstanceStore()
         {
@@ -504,9 +545,10 @@ namespace RapidDoc.Models.Services
             }
         }
         public void WithdrawInstance(Guid _documentId, DocumentState _state, TrackerType _trackerType,  SqlWorkflowInstanceStore instanceStore, Activity activity, WorkflowApplicationInstance instanceInfo)
-        {
+        {            
             try
             {
+                DocumentTable documentTable = _DocumentService.Find(_documentId);
                 AutoResetEvent instanceUnloaded = new AutoResetEvent(false);
                 IEnumerable<WFTrackerTable> bookmarks;
                 string currentUserId = HttpContext.Current.User.Identity.GetUserId();
@@ -563,35 +605,7 @@ namespace RapidDoc.Models.Services
                     }
                 }
 
-                DocumentTable documentTable = _DocumentService.Find(_documentId);
-                documentTable.WWFInstanceId = Guid.Empty;
-                documentTable.DocumentState = DocumentState.Created;
-                documentTable.ActivityName = String.Empty;
-
-                int retries = 3;
-                while (retries > 0)
-                {
-                    try
-                    {
-                        _DocumentService.UpdateDocument(documentTable, currentUserId);
-                        break;
-                    }
-                    catch
-                    {
-                        retries = retries - 1;
-                        if (retries <= 0) throw;
-                        Thread.Sleep(1000);
-                    }
-                }
-                
-                IEnumerable<WFTrackerTable> wftrackers = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == _documentId).ToList();
-                foreach (var item in wftrackers)
-                {
-                    item.Users.Clear();
-                    _WorkflowTrackerService.SaveDomain(item, currentUserId);
-                }
-
-                _WorkflowTrackerService.DeleteAll(_documentId);
+                MakingWithdrawDoc(documentTable, currentUserId);            
             }
             catch (Exception ex)
             {

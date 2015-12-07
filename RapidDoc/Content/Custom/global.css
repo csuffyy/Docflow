@@ -37,7 +37,7 @@ p {
 }
 
 .container {
-    max-width: 100%;
+    width: 90%;
 }
 
 .datepicker table tr td span, .datepicker td, .datepicker th, select, .alert, .table-bordered,

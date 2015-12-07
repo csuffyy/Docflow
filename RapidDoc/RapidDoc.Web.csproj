@@ -1946,6 +1946,7 @@
     <Content Include="Views\DocumentBase\_DocumentBaseProtocolProlongTasks.cshtml" />
     <Content Include="Views\Custom\USR_REQ_UBP_RequestForAgreementPVR_View.cshtml" />
     <Content Include="Views\Custom\USR_REQ_UBP_RequestForAgreementPVR_Edit.cshtml" />
+    <Content Include="Views\Delegation\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
