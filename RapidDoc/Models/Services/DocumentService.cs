@@ -1206,7 +1206,7 @@ namespace RapidDoc.Models.Services
 
             var document = Find(documentId);
             List<Guid> childGroup = new List<Guid>();
-            WFTrackerTable trackerTable = _WorkflowTrackerService.FirstOrDefault(x => x.DocumentTableId == documentId && x.SignUserId == null && x.TrackerType == TrackerType.Waiting && x.Users.Any(p => p.UserId == currentUserId));
+            WFTrackerTable trackerTable = FirstOrDefaultTrackerItem(document.ProcessTable, documentId, currentUserId);
             if (trackerTable == null)
             {
                 var emplTables = _EmplService.GetPartialIntercompany(x => x.ApplicationUserId == currentUserId && x.Enable == true).ToList();
@@ -1591,7 +1591,7 @@ namespace RapidDoc.Models.Services
 
         public WFTrackerTable FirstOrDefaultTrackerItem(ProcessTable process, Guid documentId, string userId)
         {
-            WFTrackerTable trackerTableUser = _WorkflowTrackerService.FirstOrDefault(x => x.DocumentTableId == documentId && x.Users.Any(y => y.UserId == userId));
+            WFTrackerTable trackerTableUser = _WorkflowTrackerService.FirstOrDefault(x => x.DocumentTableId == documentId && x.TrackerType == TrackerType.Waiting && x.Users.Any(y => y.UserId == userId));
             if (trackerTableUser == null)
             {
                 ApplicationUser user = repoUser.GetById(userId);
