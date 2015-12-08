@@ -444,6 +444,8 @@ namespace RapidDoc.Models.ViewModels
         public string ProtocolCode { get; set; }
         public string TrackerActivityName { get; set; }
         public string SignUser { get; set; }
+        public string InOutOrganization { get; set; }
+        
     }
 
     public class DocumentBaseProtocolFolderView : BasicCompanyNullView

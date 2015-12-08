@@ -36,12 +36,14 @@ namespace RapidDoc.Models.Services
         private readonly IDocumentService _DocumentService;
         private readonly ISystemService _SystemService;
         private readonly IItemCauseService _ItemCauseService;
-        private readonly IProtocolFoldersService _ProtocolFoldersService;  
+        private readonly IProtocolFoldersService _ProtocolFoldersService;
+        private readonly IOrganizationService _OrganizationService;  
+        
       
 
         protected UserManager<ApplicationUser> UserManager { get; private set; }
 
-        public DocumentBaseService(IUnitOfWork uow, IDocumentService documentService, ISystemService systemService, IItemCauseService itemCauseService, IProtocolFoldersService protocolFoldersService)
+        public DocumentBaseService(IUnitOfWork uow, IDocumentService documentService, ISystemService systemService, IItemCauseService itemCauseService, IProtocolFoldersService protocolFoldersService, IOrganizationService organizationService)
         {
             _uow = uow;
             repo = uow.GetRepository<SearchTable>();
@@ -51,6 +53,7 @@ namespace RapidDoc.Models.Services
             _SystemService = systemService;
             _ItemCauseService = itemCauseService;
             _ProtocolFoldersService = protocolFoldersService;
+            _OrganizationService = organizationService;
 
             UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_uow.GetDbContext<ApplicationDbContext>()));
         }
@@ -201,6 +204,13 @@ namespace RapidDoc.Models.Services
                         item.OrderDate = documentView.RegistrationDate;
                         item.DocumentTitle = documentView.DocumentSubject;
                         item.CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(item.CreatedDate), timeZoneInfo);
+                        if (documentView.OrganizationTableId != null)
+                        {
+                            Guid organizationId = (Guid)documentView.OrganizationTableId;
+                            item.InOutOrganization = _OrganizationService.FirstOrDefault(x => x.Id == organizationId).OrgName;
+                        }
+                        else
+                            item.InOutOrganization = "Не указан";
                     }
                     return items;
                 case DocumentType.OutcomingDoc:
@@ -212,6 +222,13 @@ namespace RapidDoc.Models.Services
                         item.OrderDate = documentView.OutgoingDate;
                         item.DocumentTitle = documentView.DocumentSubject;
                         item.CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(item.CreatedDate), timeZoneInfo);
+                        if (documentView.OrganizationTableId != null)
+                        {
+                            Guid organizationId = (Guid)documentView.OrganizationTableId;
+                            item.InOutOrganization = _OrganizationService.FirstOrDefault(x => x.Id == organizationId).OrgName;
+                        }
+                        else
+                            item.InOutOrganization = "Не указан";
                     }
                     return items;
                 case DocumentType.AppealDoc:

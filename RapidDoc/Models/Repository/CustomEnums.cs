@@ -1149,7 +1149,10 @@ namespace RapidDoc.Models.Repository
         RegistrationNumber = 3,
 
         [Display(Name = "По дате регистрации")]
-        RegistrationDate = 4
+        RegistrationDate = 4,
+
+        [Display(Name = "По корреспонденту")]
+        Organization = 5
     }
 
     public enum OutcomingFilterType : byte
@@ -1167,7 +1170,10 @@ namespace RapidDoc.Models.Repository
         RegistrationNumber = 3,
 
         [Display(Name = "По дате исходящего")]
-        RegistrationDate = 4
+        RegistrationDate = 4,
+
+        [Display(Name = "По корреспонденту")]
+        Organization = 5
     }
 
     public enum AppealFilterType : byte
