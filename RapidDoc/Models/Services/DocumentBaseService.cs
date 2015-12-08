@@ -241,6 +241,14 @@ namespace RapidDoc.Models.Services
                         item.DocumentTitle = documentView.Subject;
                         item.CategoryPerson = documentView.CategoryPerson;
                         item.CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(item.CreatedDate), timeZoneInfo);
+
+                        if (documentView.OrganizationTableId != null)
+                        {
+                            Guid organizationId = (Guid)documentView.OrganizationTableId;
+                            item.InOutOrganization = _OrganizationService.FirstOrDefault(x => x.Id == organizationId).OrgName;
+                        }
+                        else
+                            item.InOutOrganization = "Не указан";
                     }
                     return items;
                 case DocumentType.Protocol:

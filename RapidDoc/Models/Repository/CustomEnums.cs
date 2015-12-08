@@ -1191,7 +1191,10 @@ namespace RapidDoc.Models.Repository
         Topic = 3,
 
         [Display(Name = "По категории лица")]
-        CategoryPerson = 4
+        CategoryPerson = 4,
+
+        [Display(Name = "По корреспонденту")]
+        Organization = 5
     }
 
     public enum ProtocolFilterType : byte
