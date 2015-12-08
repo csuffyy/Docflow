@@ -12,11 +12,11 @@
                     <p>
                         @if (item.DocumentState == RapidDoc.Models.Repository.DocumentState.Closed)
                         {
-                            <span class="fa fa-check hidden-print"></span>
+                            <span class="text-success fa fa-check hidden-print"></span>
                         }
                         else if (item.DocumentState == RapidDoc.Models.Repository.DocumentState.Cancelled)
                         {
-                            <span class="fa fa-times hidden-print"></span>
+                            <span class="text-danger fa fa-times hidden-print"></span>
                         }
                         @Html.ActionLink(item.DocumentNum, "ShowDocument", "Document", new { id = item.DocumentId, isAfterView = true }, null) - @item.UserCreate (<small>@item.DateCreate.ToShortDateString()</small>)
                     </p>

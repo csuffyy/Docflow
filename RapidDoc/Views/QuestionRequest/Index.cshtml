@@ -1,8 +1,8 @@
 ﻿@{
-    ViewBag.Title = CustomRes.Custom.ReasonRequest;
+    ViewBag.Title = CustomRes.Custom.QuestionRequest;
 }
 
-<h2>@CustomRes.Custom.ReasonRequest</h2>
+<h2>@CustomRes.Custom.QuestionRequest</h2>
 
 @{Html.RenderPartial("_NewEntityBtn");}
 
@@ -16,9 +16,9 @@
 @section jslaunch {
     <script type="text/javascript">
 $(function () {
-    grid_init("@Url.Action("GetReasonRequestList", "ReasonRequest")")
+    grid_init("@Url.Action("GetQuestionRequestList", "QuestionRequest")")
 
-    var detailsUrl = '@Url.Action("Edit", "ReasonRequest")';
+    var detailsUrl = '@Url.Action("Edit", "QuestionRequest")';
     pageGrids.ordersGrid.onRowSelect(function (e) {
     window.location.href = detailsUrl  + '/' + e.row.Id;
     });

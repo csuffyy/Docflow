@@ -1206,7 +1206,8 @@ namespace RapidDoc.Models.Services
 
             var document = Find(documentId);
             List<Guid> childGroup = new List<Guid>();
-            WFTrackerTable trackerTable = FirstOrDefaultTrackerItem(document.ProcessTable, documentId, currentUserId);
+            //WFTrackerTable trackerTable = FirstOrDefaultTrackerItem(document.ProcessTable, documentId, currentUserId);
+            WFTrackerTable trackerTable = _WorkflowTrackerService.FirstOrDefault(x => x.DocumentTableId == documentId && x.SignUserId == null && x.TrackerType == TrackerType.Waiting && x.Users.Any(p => p.UserId == currentUserId));
             if (trackerTable == null)
             {
                 var emplTables = _EmplService.GetPartialIntercompany(x => x.ApplicationUserId == currentUserId && x.Enable == true).ToList();
@@ -1222,19 +1223,19 @@ namespace RapidDoc.Models.Services
 
                     foreach (var delegation in delegationItems)
                     {
-                         if (delegation.GroupProcessTableId != null && delegation.ProcessTableId == null)
+                        if (delegation.GroupProcessTableId != null && delegation.ProcessTableId == null)
                         {
                             childGroup.AddRange(_GroupProcessService.GetGroupChildren(delegation.GroupProcessTableId));
                             childGroup.Add((Guid)delegation.GroupProcessTableId);
                         }
 
                         var item = _EmplService.FirstOrDefault(x => x.Id == delegation.EmplTableFromId && x.CompanyTableId == delegation.CompanyTableId && x.Enable == true);
-                        if (item != null && (delegation.ProcessTableId == document.ProcessTableId || childGroup.Any(d => d == document.ProcessTable.GroupProcessTableId)))
+                        if (item != null && (delegation.ProcessTableId == document.ProcessTableId || childGroup.Any(d => d == document.ProcessTable.GroupProcessTableId) || (delegation.ProcessTableId == null && delegation.GroupProcessTableId == null)))
                         {
                             trackerTable = _WorkflowTrackerService.FirstOrDefault(x => x.DocumentTableId == documentId && x.SignUserId == null && x.TrackerType == TrackerType.Waiting && x.Users.Any(p => p.UserId == item.ApplicationUserId));
                             if (trackerTable != null)
                             {
-                                SaveSignData(new List<WFTrackerTable>{ trackerTable}, trackerType);
+                                SaveSignData(new List<WFTrackerTable>{ trackerTable }, trackerType);
                                 isSign = true;
                                 break;
                             }
@@ -1248,7 +1249,7 @@ namespace RapidDoc.Models.Services
                 SaveSignData(new List<WFTrackerTable> { trackerTable }, trackerType);
             }
 
-             var trackerTables = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == documentId && x.SignUserId == null && x.TrackerType == TrackerType.Waiting).ToList();
+            var trackerTables = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == documentId && x.SignUserId == null && x.TrackerType == TrackerType.Waiting).ToList();
 
             if (trackerTables != null && trackerTables.Count > 0)
                 SaveSignData(trackerTables, TrackerType.Active, false);
@@ -1480,7 +1481,7 @@ namespace RapidDoc.Models.Services
             result.Insert(0, new USR_IND_IncomingDocList { Name = UIElementRes.UIElement.NoValue, Id = null });
 
             IRepository<USR_IND_IncomingDocuments_Table> repo = _uow.GetRepository<USR_IND_IncomingDocuments_Table>();
-            List<USR_IND_IncomingDocuments_Table> items = repo.FindAll(x => !String.IsNullOrEmpty(x.IncomingDocNum) && x.Executed == true).ToList();
+            List<USR_IND_IncomingDocuments_Table> items = repo.FindAll(x => !String.IsNullOrEmpty(x.IncomingDocNum) && x.Executed == true).OrderBy(x => x.IncomingDocNum).ToList();
 
             items.ForEach(x => result.Add(new USR_IND_IncomingDocList() { Name = x.IncomingDocNum + "/" + x.RegistrationDate.Value.ToShortDateString(), Id = x.DocumentTableId }));
 
@@ -1493,7 +1494,7 @@ namespace RapidDoc.Models.Services
             result.Insert(0, new USR_OND_OutcomingDocList { Name = UIElementRes.UIElement.NoValue, Id = null });
 
             IRepository<USR_OND_OutcomingDocuments_Table> repo = _uow.GetRepository<USR_OND_OutcomingDocuments_Table>();
-            List<USR_OND_OutcomingDocuments_Table> items = repo.FindAll(x => !String.IsNullOrEmpty(x.OutcomingDocNum)).ToList();
+            List<USR_OND_OutcomingDocuments_Table> items = repo.FindAll(x => !String.IsNullOrEmpty(x.OutcomingDocNum)).OrderBy(x => x.OutcomingDocNum).ToList();
 
             items.ForEach(x => result.Add(new USR_OND_OutcomingDocList() { Name = x.OutcomingDocNum, Id = x.DocumentTableId }));
 
