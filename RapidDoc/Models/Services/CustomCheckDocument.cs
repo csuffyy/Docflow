@@ -951,7 +951,7 @@ namespace RapidDoc.Models.Services
                 {
                     errorList.Add("Необходимо выбрать Корреспондента");
                 }
-                if (actionModel.Language_Kazakh == false && actionModel.Language_Russian == false && actionModel.Language_English == false && actionModel.Language_Chinese == false && actionModel.Language_French == false)
+                if (actionModel.Language_Kazakh == false && actionModel.Language_Russian == false && actionModel.Language_English == false && actionModel.Language_Chinese == false && actionModel.Language_French == false && actionModel.Language_Other == false)
                 {
                     errorList.Add("Необходимо выбрать язык общения");
                 }
@@ -971,7 +971,7 @@ namespace RapidDoc.Models.Services
                 {
                     errorList.Add("Необходимо выбрать Получателя");
                 }
-                if(actionModel.Language_Kazakh == false && actionModel.Language_Russian == false && actionModel.Language_English == false && actionModel.Language_Chinese == false && actionModel.Language_French == false)
+                if (actionModel.Language_Kazakh == false && actionModel.Language_Russian == false && actionModel.Language_English == false && actionModel.Language_Chinese == false && actionModel.Language_French == false && actionModel.Language_Other == false)
                 {
                     errorList.Add("Необходимо выбрать язык общения");
                 }
@@ -987,7 +987,7 @@ namespace RapidDoc.Models.Services
                 {
                     errorList.Add("Необходимо заполнить характер вопроса");
                 }
-                if (actionModel.Language_Kazakh == false && actionModel.Language_Russian == false && actionModel.Language_English == false && actionModel.Language_Chinese == false && actionModel.Language_French == false)
+                if (actionModel.Language_Kazakh == false && actionModel.Language_Russian == false && actionModel.Language_English == false && actionModel.Language_Chinese == false && actionModel.Language_French == false && actionModel.Language_Other == false)
                 {
                     errorList.Add("Необходимо выбрать язык общения");
                 }

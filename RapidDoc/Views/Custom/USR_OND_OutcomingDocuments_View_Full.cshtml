@@ -11,6 +11,7 @@
 @Html.HiddenFor(model => model.Language_English)
 @Html.HiddenFor(model => model.Language_Chinese)
 @Html.HiddenFor(model => model.Language_French)
+@Html.HiddenFor(model => model.Language_Other)
 
 @if (Model.OutcomingDocNum != null)
 {  
@@ -88,6 +89,17 @@
             @Html.CheckBoxFor(model => Model.Language_French, new { @disabled = true })
         </div>
     </div>
+    }
+    @if (Model.Language_Other == true)
+    {
+        <div class="col-xs-2">
+            <div class="editor-label">
+                @Html.LabelFor(model => Model.Language_Other)
+            </div>
+            <div class="editor-field">
+                @Html.CheckBoxFor(model => Model.Language_Other, new { @disabled = true })
+            </div>
+        </div>
     }
 </div>
 

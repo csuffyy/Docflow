@@ -48,6 +48,14 @@
             @Html.CheckBoxFor(model => model.Language_French)
         </div>
     </div>
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Language_Other)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.Language_Other)
+        </div>
+    </div>
 </div>
 
 <div class="row">

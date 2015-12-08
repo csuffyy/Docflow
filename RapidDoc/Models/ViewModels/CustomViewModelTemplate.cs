@@ -187,6 +187,8 @@ namespace RapidDoc.Models.ViewModels
         public bool Language_Chinese { get; set; }
         [Display(Name = "Французкий")]
         public bool Language_French { get; set; }
+        [Display(Name = "Иное")]
+        public bool Language_Other { get; set; }
 
         [Display(Name = "Ответ на исходящий")]
         public Guid? OutcomingNumberDocId { get; set; }
@@ -266,6 +268,8 @@ namespace RapidDoc.Models.ViewModels
         public bool Language_Chinese { get; set; }
         [Display(Name = "Французкий")]
         public bool Language_French { get; set; }
+        [Display(Name = "Иное")]
+        public bool Language_Other { get; set; }
 
         [Display(Name = "Вид отправки")]
         public OutcomingDispatchType OutcomingDispatchType { get; set; }
@@ -345,6 +349,8 @@ namespace RapidDoc.Models.ViewModels
         public bool Language_Chinese { get; set; }
         [Display(Name = "Французкий")]
         public bool Language_French { get; set; }
+        [Display(Name = "Иное")]
+        public bool Language_Other { get; set; }
 
         [Display(Name = "Категория лица")]
         public CategoryPerson CategoryPerson { get; set; }

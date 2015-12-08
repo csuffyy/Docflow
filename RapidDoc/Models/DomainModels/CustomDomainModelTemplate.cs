@@ -118,6 +118,7 @@ namespace RapidDoc.Models.DomainModels
         public bool Language_English { get; set; }
         public bool Language_Chinese { get; set; }
         public bool Language_French { get; set; }
+        public bool Language_Other { get; set; }
 
         public Guid? OutcomingNumberDocId { get; set; }
         public string OutcomingNumber { get; set; }
@@ -175,6 +176,7 @@ namespace RapidDoc.Models.DomainModels
         public bool Language_English { get; set; }
         public bool Language_Chinese { get; set; }
         public bool Language_French { get; set; }
+        public bool Language_Other { get; set; }
 
         public DateTime? OutgoingDate { get; set; }
         public OutcomingDispatchType OutcomingDispatchType { get; set; }
@@ -238,6 +240,7 @@ namespace RapidDoc.Models.DomainModels
         public bool Language_English { get; set; }
         public bool Language_Chinese { get; set; }
         public bool Language_French { get; set; }
+        public bool Language_Other { get; set; }
 
         public CategoryPerson CategoryPerson { get; set; }
 

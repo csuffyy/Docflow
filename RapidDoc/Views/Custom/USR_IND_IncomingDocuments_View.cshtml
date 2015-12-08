@@ -85,6 +85,17 @@
             </div>
         </div>
     }
+    @if (Model.Language_Other == true)
+    {
+        <div class="col-xs-2">
+            <div class="editor-label">
+                @Html.LabelFor(model => Model.Language_Other)
+            </div>
+            <div class="editor-field">
+                @Html.CheckBoxFor(model => Model.Language_Other, new { @disabled = true })
+            </div>
+        </div>
+    }
 </div>
 <br />
 @if (Model.OutcomingNumber != null)
