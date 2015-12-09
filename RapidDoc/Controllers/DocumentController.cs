@@ -2326,10 +2326,13 @@ namespace RapidDoc.Controllers
                     }
                     if (rootList.ContainsKey(relField))
                     {
-                        foreach (var item in allList.FirstOrDefault(x => x.Key != null).Value)
-	                    {
-                            rootList[relField].Add(item);
-	                    }                                              
+                        if (allList.Count() > 0)
+                        {
+                            foreach (var item in allList.FirstOrDefault(x => x.Key != null).Value)
+                            {
+                                rootList[relField].Add(item);
+                            }
+                        }               
                     }
                     else
                         rootList.Add(relField, allList.FirstOrDefault(x => x.Key != null).Value);

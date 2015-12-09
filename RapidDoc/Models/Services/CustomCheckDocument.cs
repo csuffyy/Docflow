@@ -1022,32 +1022,35 @@ namespace RapidDoc.Models.Services
                     int numDecision = 0;
                     foreach (PRT_QuestionList_Table question in actionModel.QuestionList)
                     {
-                        foreach(var decision in question.DecisionList)
+                        if (question.DecisionList != null)
                         {
-                            numDecision++;
-                            if (!String.IsNullOrEmpty(_SystemService.DeleteAllTags(decision.Decision)) && String.IsNullOrEmpty(_SystemService.DeleteAllTags(question.Question)))
+                            foreach (var decision in question.DecisionList)
                             {
-                                errorList.Add(String.Format("Поручение {0} не указан текст вопроса", numDecision));
-                            }
+                                numDecision++;
+                                if (!String.IsNullOrEmpty(_SystemService.DeleteAllTags(decision.Decision)) && String.IsNullOrEmpty(_SystemService.DeleteAllTags(question.Question)))
+                                {
+                                    errorList.Add(String.Format("Поручение {0} не указан текст вопроса", numDecision));
+                                }
 
-                            if (String.IsNullOrEmpty(_SystemService.DeleteAllTags(decision.Decision)) && !String.IsNullOrEmpty(decision.Users))
-                            {
-                                errorList.Add(String.Format("Поручение {0} если указали Исполнителей {1} необходимо заполнить поле Поручение", numDecision, _SystemService.DeleteAllTags(decision.Users)));
-                            }
+                                if (String.IsNullOrEmpty(_SystemService.DeleteAllTags(decision.Decision)) && !String.IsNullOrEmpty(decision.Users))
+                                {
+                                    errorList.Add(String.Format("Поручение {0} если указали Исполнителей {1} необходимо заполнить поле Поручение", numDecision, _SystemService.DeleteGuidText(_SystemService.DeleteAllTags(decision.Users))));
+                                }
 
-                            if (!String.IsNullOrEmpty(_SystemService.DeleteAllTags(decision.Decision)) && String.IsNullOrEmpty(decision.Users))
-                            {
-                                errorList.Add(String.Format("Поручение {0} необходимо указать Исполнителей и Дату исполнения", numDecision));
-                            }
+                                if (!String.IsNullOrEmpty(_SystemService.DeleteAllTags(decision.Decision)) && String.IsNullOrEmpty(decision.Users))
+                                {
+                                    errorList.Add(String.Format("Поручение {0} необходимо указать Исполнителей и Дату исполнения", numDecision));
+                                }
 
-                            if(!String.IsNullOrEmpty(decision.Users) && decision.ControlDate == null)
-                            {
-                                errorList.Add(String.Format("Поручение {0} необходимо указать дату исполнения", numDecision));
-                            }
+                                if (!String.IsNullOrEmpty(decision.Users) && decision.ControlDate == null)
+                                {
+                                    errorList.Add(String.Format("Поручение {0} необходимо указать дату исполнения", numDecision));
+                                }
 
-                            if ((actionModel.DocumentTableId == null || actionModel.DocumentTableId == Guid.Empty) && (!String.IsNullOrEmpty(decision.Users) && decision.ControlDate != null && decision.ControlDate <= DateTime.UtcNow))
-                            {
-                                errorList.Add(String.Format("Поручение {0} необходимо указать дату исполнения больше текущей", numDecision));
+                                if ((actionModel.DocumentTableId == null || actionModel.DocumentTableId == Guid.Empty) && (!String.IsNullOrEmpty(decision.Users) && decision.ControlDate != null && decision.ControlDate <= DateTime.UtcNow))
+                                {
+                                    errorList.Add(String.Format("Поручение {0} необходимо указать дату исполнения больше текущей", numDecision));
+                                }
                             }
                         }
                     }
@@ -1403,7 +1406,8 @@ namespace RapidDoc.Models.Services
                 {
                     foreach (PRT_QuestionList_Table question in actionModel.QuestionList)
                     {
-                        question.DecisionList.RemoveAll(x => _SystemService.CheckTextExists(x.Decision) == false);
+                        if (question.DecisionList != null)
+                            question.DecisionList.RemoveAll(x => _SystemService.CheckTextExists(x.Decision) == false);
                     }
                 }
             }
