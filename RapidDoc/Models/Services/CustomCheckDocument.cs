@@ -1017,11 +1017,15 @@ namespace RapidDoc.Models.Services
 
             if (type.IsSubclassOf(typeof(BasicProtocolDocumentsView)) && operationType == OperationType.ApproveDocument)
             {
+                bool isQuestion = false;
                 if(actionModel.QuestionList != null)
                 {
                     int numDecision = 0;
                     foreach (PRT_QuestionList_Table question in actionModel.QuestionList)
                     {
+                        if (isQuestion == false && !String.IsNullOrEmpty(_SystemService.DeleteAllTags(question.Question)))
+                            isQuestion = true;
+
                         if (question.DecisionList != null)
                         {
                             foreach (var decision in question.DecisionList)
@@ -1055,6 +1059,9 @@ namespace RapidDoc.Models.Services
                         }
                     }
                 }
+
+                if (isQuestion == false)
+                    errorList.Add("В протоколе нужно указать хотя бы один вопрос");
             }
 
             return errorList;
@@ -1404,10 +1411,15 @@ namespace RapidDoc.Models.Services
             {
                 if (actionModel.QuestionList != null && noErrors == true)
                 {
-                    foreach (PRT_QuestionList_Table question in actionModel.QuestionList)
+                    ((List<PRT_QuestionList_Table>)actionModel.QuestionList).RemoveAll(x => _SystemService.CheckTextExists(x.Question) == false);
+
+                    if (((List<PRT_QuestionList_Table>)actionModel.QuestionList).Count() > 0)
                     {
-                        if (question.DecisionList != null)
-                            question.DecisionList.RemoveAll(x => _SystemService.CheckTextExists(x.Decision) == false);
+                        foreach (PRT_QuestionList_Table question in actionModel.QuestionList)
+                        {
+                            if (question.DecisionList != null)
+                                question.DecisionList.RemoveAll(x => _SystemService.CheckTextExists(x.Decision) == false);
+                        }
                     }
                 }
             }
