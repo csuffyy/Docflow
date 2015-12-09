@@ -138,6 +138,9 @@
   <data name="RequestText" xml:space="preserve">
     <value>Cұраныс мәтіні</value>
   </data>
+  <data name="TripMRP" xml:space="preserve">
+    <value>-</value>
+  </data>
   <data name="TripSettings" xml:space="preserve">
     <value>Іссапарлар нормасы</value>
   </data>

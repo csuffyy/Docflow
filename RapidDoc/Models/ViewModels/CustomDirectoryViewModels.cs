@@ -109,6 +109,16 @@ namespace RapidDoc.Models.ViewModels
         public string OrgName { get; set; }
     }
 
+    public class TripMRPView : BasicCompanyNullView
+    {
+        [Display(Name = "Начальная дата")]
+        public DateTime? FromDate { get; set; }
+        [Display(Name = "Конечная дата")]
+        public DateTime? ToDate { get; set; }
+        [Display(Name = "Значение")]
+        public string Amount { get; set; }
+    }
+
     public class ReasonRequestView : BasicCompanyNullView
     {
         [StringLength(10, ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisLong")]

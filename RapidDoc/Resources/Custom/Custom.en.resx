@@ -138,6 +138,9 @@
   <data name="RequestText" xml:space="preserve">
     <value>Request text</value>
   </data>
+  <data name="TripMRP" xml:space="preserve">
+    <value>MRP amount</value>
+  </data>
   <data name="TripSettings" xml:space="preserve">
     <value>Norms trips</value>
   </data>
