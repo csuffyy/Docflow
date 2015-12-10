@@ -347,6 +347,7 @@ namespace RapidDoc.Models.Infrastructure
         public DbSet<USR_REQ_UB_RequestForExportAssetWTask_Table> USR_REQ_UB_RequestForExportAssetWTask_Table { get; set; }
         public DbSet<USR_REQ_UB_RequestForExportAssetZIFWTask_Table> USR_REQ_UB_RequestForExportAssetZIFWTask_Table { get; set; }
         public DbSet<USR_REQ_UBP_RequestForAgreementPVR_Table> USR_REQ_UBP_RequestForAgreementPVR_Table { get; set; }
+        public DbSet<USR_REQ_JU_RequestForCopyDocument_Table> USR_REQ_JU_RequestForCopyDocument_Table { get; set; }
 
         protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder)
         {

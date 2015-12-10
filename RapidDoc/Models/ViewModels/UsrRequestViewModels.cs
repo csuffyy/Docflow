@@ -2267,6 +2267,30 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Подразделение")]
         public string Department { get; set; }
     }
+
+    public class USR_REQ_JU_RequestForCopyDocument_View : BasicDocumentView
+    {
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "ФИО Заказчика")]
+        public string Users { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Подразделение-инициатор")]
+        public string Department { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Номер и дата документа")]
+        public string NumberDoc { get; set; }
+
+        [DataType(DataType.MultilineText)]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Цель предоставления договора")]
+        public string Purpose { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Вид документа для предоставления")]
+        public TypeJUDocument TypeDocument { get; set; }
+    }
     #endregion
 
     #region ФЭУ
