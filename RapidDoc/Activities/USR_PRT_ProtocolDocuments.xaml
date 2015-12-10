@@ -201,7 +201,7 @@
                     </local1:WFSetUsersForProtocol.inputStep>
                     <local1:WFSetUsersForProtocol.inputUserId>
                       <InArgument x:TypeArguments="x:String">
-                        <mca:CSharpValue x:TypeArguments="x:String">item</mca:CSharpValue>
+                        <mca:CSharpValue x:TypeArguments="x:String">listOfUsers[index-1]</mca:CSharpValue>
                       </InArgument>
                     </local1:WFSetUsersForProtocol.inputUserId>
                     <local1:WFSetUsersForProtocol.outputBookmark>
@@ -315,7 +315,7 @@
     <x:Reference>__ReferenceID3</x:Reference>
     <x:Reference>__ReferenceID4</x:Reference>
     <x:Reference>__ReferenceID5</x:Reference>
-    <sads:DebugSymbol.Symbol>d0REOlxHaXRIdWJcRG9jRmxvd1xSYXBpZERvY1xBY3Rpdml0aWVzXFVTUl9QUlRfUHJvdG9jb2xEb2N1bWVudHMueGFtbCkbBxtnAQMBkwEBmQEBAoUBA78CDwIBAYkBM4kBNgIBAo0BCZgBEgMBowKbAQ33AR8CAV77ARP7AXcCAVOkAhWvAh4CATz/ARWPAjQCARqSAhmdAiICAQOVAQ+VAYgBAwGvApABD5ABagMBpAKhAROhAW0DAY0CnQERnQF1AwGYAqgBEfUBHAIBX6wCG6wCbgIBSKcCG6cCdgIBPYwCG4wCZgIBMYICG4ICaQIBJocCG4cCfwIBG5oCH5oCfAIBD5UCH5UCegIBBKkBE7QBHAMB9AG1ARPeATIDAZEB3wET9AE0AgFgsQEZsQFfAwGBAqwBGawBYwMB9QHHARnHAWsDAegBtQHsAbUBgQIDAecBtQGMArUBkwIDAeYB1gEZ1gFuAwHaAdEBGdEBawMBzgHCARnCAVsDAcIB2wEZ2wF0AwG2Ab0BGb0BZAMBqgHMARnMAVsDAZ4BuAEZuAFnAwGSAecBGecBawMBhQHsARnsAW8CAXniARniAWMCAW3xARnxAXQCAWE=</sads:DebugSymbol.Symbol>
+    <sads:DebugSymbol.Symbol>d0REOlxHaXRIdWJcRG9jRmxvd1xSYXBpZERvY1xBY3Rpdml0aWVzXFVTUl9QUlRfUHJvdG9jb2xEb2N1bWVudHMueGFtbCkbBxtnAQMBkwEBmQEBAoUBA78CDwIBAYkBM4kBNgIBAo0BCZgBEgMBowKbAQ33AR8CAV77ARP7AXcCAVOkAhWvAh4CATz/ARWPAjQCARqSAhmdAiICAQOVAQ+VAYgBAwGvApABD5ABagMBpAKhAROhAW0DAY0CnQERnQF1AwGYAqgBEfUBHAIBX6wCG6wCbgIBSKcCG6cCdgIBPYwCG4wCZgIBMYICG4ICaQIBJocCG4cCfwIBG5oCH5oCfAIBD5UCH5UCegIBBKkBE7QBHAMB9AG1ARPeATIDAZEB3wET9AE0AgFgsQEZsQFfAwGBAqwBGawBYwMB9QHHARnHAWsDAegBtQHsAbUBgQIDAecBtQGMArUBkwIDAeYB1gEZ1gFuAwHaAdEBGdEBawMBzgHCARnCAVsDAcIB2wEZ2wF0AwG2Ab0BGb0BZAMBqgHMARnMAWsDAZ4BuAEZuAFnAwGSAecBGecBawMBhQHsARnsAW8CAXniARniAWMCAW3xARnxAXQCAWE=</sads:DebugSymbol.Symbol>
   </Flowchart>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>
@@ -342,7 +342,7 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="ParallelForEach`1_1" sap:VirtualizedContainerService.HintSize="200,51" />
+      <sap2010:ViewStateData Id="ParallelForEach`1_1" sap:VirtualizedContainerService.HintSize="294,500" />
       <sap2010:ViewStateData Id="WFCreateProtocolTasks_1" sap:VirtualizedContainerService.HintSize="200,22">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
