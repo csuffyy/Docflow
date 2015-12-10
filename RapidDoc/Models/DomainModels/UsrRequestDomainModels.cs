@@ -1155,6 +1155,15 @@ namespace RapidDoc.Models.DomainModels
     {
         public string Department { get; set; }
     }
+
+    public class USR_REQ_JU_RequestForCopyDocument_Table : BasicDocumentTable
+    {
+        public string Users { get; set; }
+        public string Department { get; set; }
+        public string NumberDoc { get; set; }
+        public string Purpose { get; set; }
+        public TypeJUDocument TypeDocument { get; set; }
+    }  
     #endregion
 
     #region ФЭУ

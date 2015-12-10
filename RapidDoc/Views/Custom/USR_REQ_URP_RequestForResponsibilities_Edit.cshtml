@@ -84,7 +84,7 @@
     @Html.LabelForRequired(model => Model.Amount)
 </div>
 <div class="editor-field">
-    @Html.TextBoxFor(model => Model.Amount, new { @class = "form-control", placeholder = "Доплата" })
+    @Html.TextBoxFor(model => Model.Amount, new { @class = "form-control", placeholder = "Доплата", Value = "Согласно Положению по организации оплаты труда", @readonly = "readonly" })
 </div>
 
 <div class="editor-label">
