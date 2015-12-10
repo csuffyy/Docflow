@@ -34,6 +34,14 @@
             @Html.ValidationMessageFor(model => model.ProcessTableId)
         </div>
 
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Enable)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Enable)
+            @Html.ValidationMessageFor(model => model.Enable)
+        </div>
+
         @{Html.RenderPartial("SaveBackBtn");}
     </fieldset>
 }

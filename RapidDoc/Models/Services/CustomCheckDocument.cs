@@ -1043,7 +1043,7 @@ namespace RapidDoc.Models.Services
 
                                 if (!String.IsNullOrEmpty(_SystemService.DeleteAllTags(decision.Decision)) && String.IsNullOrEmpty(decision.Users))
                                 {
-                                    errorList.Add(String.Format("Поручение {0} необходимо указать Исполнителей и Дату исполнения", numDecision));
+                                    errorList.Add(String.Format("Поручение {0} необходимо указать Исполнителей", numDecision));
                                 }
 
                                 if (!String.IsNullOrEmpty(decision.Users) && decision.ControlDate == null)
@@ -1060,7 +1060,7 @@ namespace RapidDoc.Models.Services
                     }
                 }
 
-                if (isQuestion == false)
+                if (actionModel.Subject != null && isQuestion == false)
                     errorList.Add("В протоколе нужно указать хотя бы один вопрос");
             }
 

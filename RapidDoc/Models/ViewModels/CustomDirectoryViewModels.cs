@@ -158,5 +158,7 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Ссылка на родительскую папку")]
         public string ParentProtocolFolderName{ get; set; }
 
+        [Display(Name = "Включено")]
+        public bool Enable { get; set; }
     }
 }

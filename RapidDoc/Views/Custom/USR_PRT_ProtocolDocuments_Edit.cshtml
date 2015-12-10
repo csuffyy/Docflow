@@ -104,10 +104,6 @@
             <div id="questionRow" class="questionRow">
             @foreach (var question in Model.QuestionList)
             {
-                if (question.DecisionList != null && question.DecisionList.Count() == 0)
-                {
-                    question.DecisionList.Add(new RapidDoc.Models.DomainModels.PRT_DecisionList_Table());
-                }
                 Html.RenderPartial("~/Views/Custom/_QuestionList.cshtml", question, new ViewDataDictionary { { "counter", Guid.NewGuid().ToString("N") }, { "documentId", Model.DocumentTableId } });
             }
             </div>

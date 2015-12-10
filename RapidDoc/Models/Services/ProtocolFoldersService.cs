@@ -168,7 +168,7 @@ namespace RapidDoc.Models.Services
 
         public SelectList GetDropListProtocolFoldersFullPath(Guid processId, Guid? id, string currentUserId = "")
         {
-            List<ProtocolFoldersView> items = this.GetFullPathItems(GetPartialView(x => x.ProcessTableId == processId && x.ProtocolFoldersParentId == null, currentUserId).ToList(), "", currentUserId);
+            List<ProtocolFoldersView> items = this.GetFullPathItems(GetPartialView(x => x.ProcessTableId == processId && x.ProtocolFoldersParentId == null && x.Enable == true, currentUserId).ToList(), "", currentUserId);
             return new SelectList(items, "Id", "ProtocolFolderName", id);
         }
 

@@ -107,6 +107,8 @@ namespace RapidDoc.Models.DomainModels
             }
         }
 
+        public bool Enable { get; set; }
+
         [ForeignKey("ProtocolFoldersTableParent")]
         public Guid? ProtocolFoldersParentId { get; set; }
         public virtual ProtocolFoldersTable ProtocolFoldersTableParent { get; set; }
