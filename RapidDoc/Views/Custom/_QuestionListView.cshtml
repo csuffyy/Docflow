@@ -1,29 +1,35 @@
-﻿@model RapidDoc.Models.DomainModels.PRT_QuestionList_Table
+﻿@model List<RapidDoc.Models.DomainModels.PRT_QuestionList_Table>
 @using RapidDoc.Extensions;
 @{
     Layout = "";
     int numDecision = 0;
+    int numQuestion = 0;
 }
-<div>
-    <table class="table table-min" style="margin-bottom: 0;">
-        <tbody>
-            <tr>
-                <td style="width: 20px;">
-                    <strong style="white-space: nowrap;">Вопрос №@ViewData["numQuestion"].ToString().</strong>
-                </td>
-                <td>
-                    @Html.Raw(Model.Question)
 
-                    @if (Model.DecisionList != null && Model.DecisionList.Count() > 0)
-                    {
-                        foreach (var decision in Model.DecisionList)
+@foreach (var question in Model)
+{
+    numQuestion++;
+    <div>
+        <table class="table table-min" style="margin-bottom: 0;">
+            <tbody>
+                <tr>
+                    <td style="width: 20px;">
+                        <strong style="white-space: nowrap;">Вопрос №@numQuestion.ToString().</strong>
+                    </td>
+                    <td>
+                        @Html.Raw(question.Question)
+
+                        @if (question.DecisionList != null && question.DecisionList.Count() > 0)
                         {
-                            numDecision++;
-                            Html.RenderPartial("~/Views/Custom/_DecisionListView.cshtml", decision, new ViewDataDictionary { { "numQuestion", ViewData["numQuestion"] }, { "numDecision", numDecision } });
+                            foreach (var decision in question.DecisionList)
+                            {
+                                numDecision++;
+                                Html.RenderPartial("~/Views/Custom/_DecisionListView.cshtml", decision, new ViewDataDictionary { { "numQuestion", ViewData["numQuestion"] }, { "numDecision", numDecision } });
+                            }
                         }
-                    }
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+}
