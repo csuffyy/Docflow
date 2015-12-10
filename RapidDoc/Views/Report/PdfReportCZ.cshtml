@@ -155,30 +155,32 @@
             }
         </table>
         <br />
+        
+    @if (((List<ReportCZComments>)ViewBag.CommentsCZ).Count > 0)
+    {
         <font size="4" face="Arial">
             <span><strong>Комментарии:</strong></span>
         </font>
         <table width="900">
-            @if (((List<ReportCZComments>)ViewBag.CommentsCZ).Count > 0)
+            @foreach (ReportCZComments commentCZ in ViewBag.CommentsCZ)
             {
-                foreach (ReportCZComments commentCZ in ViewBag.CommentsCZ)
-                {
-                    <tr>
-                        <td align="left">
-                            <ul>
-                                <li>
-                                    <font size="4" face="Arial">
-                                        @commentCZ.UserName - @commentCZ.UserTitle (@commentCZ.CreateDate):
-                                        <br />
-                                        <span><em>@Html.Raw(commentCZ.Comment)</em></span>                                    
-                                    </font>
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
-                }
+            <tr>
+                <td align="left">
+                    <ul>
+                        <li>
+                            <font size="4" face="Arial">
+                                @commentCZ.UserName - @commentCZ.UserTitle (@commentCZ.CreateDate):
+                                <br />
+                                <span><em>@Html.Raw(commentCZ.Comment)</em></span>
+                            </font>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
             }
         </table>
+    }
+        
     </div>
 </body>
 </html>
