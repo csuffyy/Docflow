@@ -39,6 +39,7 @@
 @Html.HiddenFor(model => model.Accommodation)
 @Html.HiddenFor(model => model.Money)
 @Html.HiddenFor(model => model.VisaRequired)
+@Html.HiddenFor(model => model.ListFileName)
 
 <div class="editor-label">
     @Html.LabelFor(model => Model.Workers)
@@ -302,6 +303,8 @@
         </div>
     </div>
 </div>
+<br />
+<h6><span style="white-space: pre-line">@Html.Raw(Model.ListFileName)</span></h6>
 <hr />
 <div class="row">
     <div class="col-xs-12">

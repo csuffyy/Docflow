@@ -14,6 +14,7 @@
 @Html.HiddenFor(model => model.MainField)
 @Html.HiddenFor(model => model.MainFieldTranslate)
 @Html.HiddenFor(model => model.Subject)
+@Html.HiddenFor(model => model.ListFileName)
 
 @if (Model.CancelOrder == true)
 {
@@ -115,6 +116,8 @@
         </div>
     </div>
 </div>
+<br />
+<h6><span style="white-space: pre-line">@Html.Raw(Model.ListFileName)</span></h6>
 <hr />
 <div class="row">
     <div class="col-xs-12">
