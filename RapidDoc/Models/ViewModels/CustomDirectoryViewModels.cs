@@ -45,10 +45,12 @@ namespace RapidDoc.Models.ViewModels
         public TripDirection TripDirection { get; set; }
 
         [Display(Name = "Суточные норма")]
-        public int DayRate { get; set; }
+        [DisplayFormat(DataFormatString = "{0:#,##0.000#}", ApplyFormatInEditMode = true)]
+        public string DayRate { get; set; }
 
         [Display(Name = "Проживание норма")]
-        public int ResidenceRate { get; set; }
+        [DisplayFormat(DataFormatString = "{0:#,##0.000#}", ApplyFormatInEditMode = true)]
+        public string ResidenceRate { get; set; }
     }
 
     public class ItemCauseView : BasicCompanyNullView
@@ -115,7 +117,9 @@ namespace RapidDoc.Models.ViewModels
         public DateTime? FromDate { get; set; }
         [Display(Name = "Конечная дата")]
         public DateTime? ToDate { get; set; }
+
         [Display(Name = "Значение")]
+        [DisplayFormat(DataFormatString = "{0:#,##0.000#}", ApplyFormatInEditMode = true)]
         public string Amount { get; set; }
     }
 

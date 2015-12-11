@@ -503,7 +503,7 @@ namespace RapidDoc.Controllers
         public ActionResult WithdrawDocument(Guid processId, int type, Guid fileId, FormCollection collection, string actionModelName, Guid documentId)
         {
             DocumentTable documentTable = _DocumentService.Find(documentId);
-            if (documentTable.ApplicationUserCreatedId != User.Identity.GetUserId())
+            if (documentTable.ApplicationUserCreatedId != User.Identity.GetUserId() && !(User.IsInRole("Administrator") || User.IsInRole("SetupAdministrator")))
             {
                 return RedirectToAction("PageNotFound", "Error");
             }

@@ -34,8 +34,8 @@ namespace RapidDoc.Models.DomainModels
     {
         public EmplTripType EmplTripType { get; set; }
         public TripDirection TripDirection { get; set; }
-        public int DayRate { get; set; }
-        public int ResidenceRate { get; set; }
+        public string DayRate { get; set; }
+        public string ResidenceRate { get; set; }
     }
 
     public class ItemCauseTable : BasicCompanyNullTable

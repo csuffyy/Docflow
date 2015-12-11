@@ -154,6 +154,9 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Должность")]
         public string SignTitle { get; set; }
 
+        [Display(Name = "Наименование файлов приложения")]
+        public string ListFileName { get; set; }
+
         [Display(Name = "Забронированные номера")]
         public Guid? NumberSeriesBookingTableId { get; set; }
 

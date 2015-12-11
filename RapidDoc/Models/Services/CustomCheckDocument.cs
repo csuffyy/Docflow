@@ -8,6 +8,7 @@ using RapidDoc.Models.Repository;
 using RapidDoc.Models.ViewModels;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Globalization;
 
 namespace RapidDoc.Models.Services
 {
@@ -30,8 +31,9 @@ namespace RapidDoc.Models.Services
         private readonly ISystemService _SystemService;
         private readonly IEmplService _EmplService;
         private readonly INumberSeqService _NumberSeqService;
+        private readonly ITripMRPService _ITripMRPService;
 
-        public CustomCheckDocument(IEmplService emplService, IWorkflowTrackerService workflowTrackerService, IServiceIncidentService serviceIncidentService, ITripSettingsService tripSettingsService, ISystemService systemService, INumberSeqService numberSeqService)
+        public CustomCheckDocument(IEmplService emplService, IWorkflowTrackerService workflowTrackerService, IServiceIncidentService serviceIncidentService, ITripSettingsService tripSettingsService, ISystemService systemService, INumberSeqService numberSeqService, ITripMRPService iTripMRPService)
         {
             _WorkflowTrackerService = workflowTrackerService;
             _SystemService = systemService;
@@ -40,6 +42,7 @@ namespace RapidDoc.Models.Services
             //Custom
             _ServiceIncidentService = serviceIncidentService;
             _TripSettingsService = tripSettingsService;
+            _ITripMRPService = iTripMRPService;
         }
 
         public List<string> CheckCustomDocument(Type type, dynamic actionModel, OperationType operationType)
@@ -1330,13 +1333,18 @@ namespace RapidDoc.Models.Services
 
             if (type == (new USR_REQ_UBUO_RequestCalcDriveTrip_View()).GetType() || type == (new USR_REQ_TRIP_RegistrationBusinessTripKZ_View()).GetType() || type == (new USR_REQ_TRIP_RegistrationBusinessTripPP_View()).GetType() || type == (new USR_REQ_TRIP_RegistrationBusinessTripPTY_View()).GetType())
             {
+                TripMRPTable mrp = _ITripMRPService.FirstOrDefault(x => x.FromDate <= DateTime.UtcNow && x.ToDate >= DateTime.UtcNow);
+
                 if (actionModel.FIO1 != null)
                 {
                     EmplTripType emplTripType1 = (EmplTripType)actionModel.EmplTripType1;
                     TripDirection tripDirection1 = (TripDirection)actionModel.TripDirection1;
                     TripSettingsTable tripSettingsTable = _TripSettingsService.FirstOrDefault(x => x.EmplTripType == emplTripType1 && x.TripDirection == tripDirection1);
-                    actionModel.DayRate1 = tripSettingsTable.DayRate;
-                    actionModel.ResidenceRate1 = tripSettingsTable.ResidenceRate;
+                    double residenceRate = Double.Parse(tripSettingsTable.ResidenceRate, CultureInfo.InvariantCulture);
+                    double dayRate = Double.Parse(tripSettingsTable.DayRate, CultureInfo.InvariantCulture) * Double.Parse(mrp.Amount, CultureInfo.InvariantCulture);
+
+                    actionModel.DayRate1 = (int)dayRate;
+                    actionModel.ResidenceRate1 = (int)residenceRate;
                 }
 
                 if (actionModel.FIO2 != null)
@@ -1344,8 +1352,11 @@ namespace RapidDoc.Models.Services
                     EmplTripType emplTripType2 = (EmplTripType)actionModel.EmplTripType2;
                     TripDirection tripDirection2 = (TripDirection)actionModel.TripDirection2;
                     TripSettingsTable tripSettingsTable = _TripSettingsService.FirstOrDefault(x => x.EmplTripType == emplTripType2 && x.TripDirection == tripDirection2);
-                    actionModel.DayRate2 = tripSettingsTable.DayRate;
-                    actionModel.ResidenceRate2 = tripSettingsTable.ResidenceRate;
+                    double residenceRate = Double.Parse(tripSettingsTable.ResidenceRate, CultureInfo.InvariantCulture);
+                    double dayRate = Double.Parse(tripSettingsTable.DayRate, CultureInfo.InvariantCulture) * Double.Parse(mrp.Amount, CultureInfo.InvariantCulture);
+
+                    actionModel.DayRate2 = (int)dayRate;
+                    actionModel.ResidenceRate2 = (int)residenceRate;
                 }
 
                 if (actionModel.FIO3 != null)
@@ -1353,8 +1364,11 @@ namespace RapidDoc.Models.Services
                     EmplTripType emplTripType3 = (EmplTripType)actionModel.EmplTripType3;
                     TripDirection tripDirection3 = (TripDirection)actionModel.TripDirection3;
                     TripSettingsTable tripSettingsTable = _TripSettingsService.FirstOrDefault(x => x.EmplTripType == emplTripType3 && x.TripDirection == tripDirection3);
-                    actionModel.DayRate3 = tripSettingsTable.DayRate;
-                    actionModel.ResidenceRate3 = tripSettingsTable.ResidenceRate;
+                    double residenceRate = Double.Parse(tripSettingsTable.ResidenceRate, CultureInfo.InvariantCulture);
+                    double dayRate = Double.Parse(tripSettingsTable.DayRate, CultureInfo.InvariantCulture) * Double.Parse(mrp.Amount, CultureInfo.InvariantCulture);
+
+                    actionModel.DayRate3 = (int)dayRate;
+                    actionModel.ResidenceRate3 = (int)residenceRate;
                 }
 
                 if (actionModel.FIO4 != null)
@@ -1362,8 +1376,11 @@ namespace RapidDoc.Models.Services
                     EmplTripType emplTripType4 = (EmplTripType)actionModel.EmplTripType4;
                     TripDirection tripDirection4 = (TripDirection)actionModel.TripDirection4;
                     TripSettingsTable tripSettingsTable = _TripSettingsService.FirstOrDefault(x => x.EmplTripType == emplTripType4 && x.TripDirection == tripDirection4);
-                    actionModel.DayRate4 = tripSettingsTable.DayRate;
-                    actionModel.ResidenceRate4 = tripSettingsTable.ResidenceRate;
+                    double residenceRate = Double.Parse(tripSettingsTable.ResidenceRate, CultureInfo.InvariantCulture);
+                    double dayRate = Double.Parse(tripSettingsTable.DayRate, CultureInfo.InvariantCulture) * Double.Parse(mrp.Amount, CultureInfo.InvariantCulture);
+
+                    actionModel.DayRate4 = (int)dayRate;
+                    actionModel.ResidenceRate4 = (int)residenceRate;
                 }
             }
 

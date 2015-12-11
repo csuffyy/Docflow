@@ -35,7 +35,7 @@
             @Html.LabelForRequired(model => model.Amount)
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(model => model.Amount, new { @class = "form-control", @size = 70, @maxlength = 70, placeholder = "100.23", @autofocus = "required", @x_webkit_speech = "" })
+            @Html.TextBoxFor(model => model.Amount, new { @class = "form-control", placeholder = "100" })
             @Html.ValidationMessageFor(model => model.Amount)
         </div>
 

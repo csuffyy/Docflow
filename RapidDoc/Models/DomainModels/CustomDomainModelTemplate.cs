@@ -85,6 +85,7 @@ namespace RapidDoc.Models.DomainModels
         public string Sign { get; set; }
         public string SignName { get; set; }
         public string SignTitle { get; set; }
+        public string ListFileName { get; set; }
 
         public Guid? NumberSeriesBookingTableId { get; set; }
         public virtual NumberSeriesBookingTable NumberSeriesBookingTable { get; set; }

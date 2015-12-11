@@ -2279,12 +2279,12 @@ namespace RapidDoc.Models.ViewModels
         public string Department { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
-        [Display(Name = "Номер и дата документа")]
+        [Display(Name = "Наименование документа с указанием номера и даты")]
         public string NumberDoc { get; set; }
 
         [DataType(DataType.MultilineText)]
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
-        [Display(Name = "Цель предоставления договора")]
+        [Display(Name = "Цель предоставления документа")]
         public string Purpose { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]

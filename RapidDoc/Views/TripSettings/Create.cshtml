@@ -31,7 +31,7 @@
             @Html.LabelForRequired(model => model.DayRate)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.DayRate)
+            @Html.TextBoxFor(model => model.DayRate, new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.DayRate)
         </div>
 
@@ -39,7 +39,7 @@
             @Html.LabelForRequired(model => model.ResidenceRate)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.ResidenceRate)
+            @Html.TextBoxFor(model => model.ResidenceRate, new { @class = "form-control", placeholder = "100" })
             @Html.ValidationMessageFor(model => model.ResidenceRate)
         </div>
      
