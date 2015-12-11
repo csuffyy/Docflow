@@ -609,7 +609,7 @@ namespace RapidDoc.Models.Services
                             break;
                         }
 
-                        currentName += item.ActivityName + "/";
+                        currentName = currentName.Contains(Regex.Replace(item.ActivityName, @"[\d-]", string.Empty)) != true ? currentName + Regex.Replace(item.ActivityName, @"[\d-]", string.Empty) + "/" : currentName;
                         if(currentName.Length > 60)
                             break;
                     }
