@@ -269,6 +269,7 @@
     <Compile Include="Activities\CodeActivities\WFChooseOfficeMemoSpecificUser.cs" />
     <Compile Include="Activities\CodeActivities\WFCreateDynamicTracker.cs" />
     <Compile Include="Activities\CodeActivities\WFCreateProtocolTasks.cs" />
+    <Compile Include="Activities\CodeActivities\WFCreateTaskAssetExport.cs" />
     <Compile Include="Activities\CodeActivities\WFRegistrationAPP.cs" />
     <Compile Include="Activities\CodeActivities\WFRegistrationOUT.cs" />
     <Compile Include="Activities\CodeActivities\WFCreateTaskIND.cs" />
@@ -325,6 +326,7 @@
     <Compile Include="Controllers\BatchController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\ServiceIncidentController.cs" />
+    <Compile Include="Controllers\TripMRPController.cs" />
     <Compile Include="Controllers\TripSettingsController.cs" />
     <Compile Include="Controllers\WorkScheduleController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
@@ -364,6 +366,7 @@
     <Compile Include="Models\Grids\OrganizationAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\ProcessAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\ServiceIncidentAjaxPagingGrid.cs" />
+    <Compile Include="Models\Grids\TripMRPAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\TripSettingsAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\WorkScheduleAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\RoleAjaxPagingGrid.cs" />
@@ -418,6 +421,7 @@
     <Compile Include="Models\Services\DocumentReaderService.cs" />
     <Compile Include="Models\Services\EmailService.cs" />
     <Compile Include="Models\Services\ServiceIncidentService.cs" />
+    <Compile Include="Models\Services\TripMRPService.cs" />
     <Compile Include="Models\Services\TripSettingsService.cs" />
     <Compile Include="Models\Services\WorkScheduleService.cs" />
     <Compile Include="Models\Services\ProfileService.cs" />
@@ -1934,6 +1938,26 @@
     <Content Include="Views\Custom\USR_PRT_FolderList.cshtml" />
     <Content Include="Views\Custom\USR_REQ_ZIF_RequestForRepairVentilation_Edit.cshtml" />
     <Content Include="Views\Custom\USR_REQ_ZIF_RequestForRepairVentilation_View.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UB_RequestForExportAssetWTask_View.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UB_RequestForExportAssetWTask_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UB_RequestForExportAssetZIFWTask_View.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UB_RequestForExportAssetZIFWTask_Edit.cshtml" />
+    <Content Include="Views\DocumentBase\IndexProtocol.cshtml" />
+    <Content Include="Views\DocumentBase\_DocumentBaseProtocol.cshtml" />
+    <Content Include="Views\DocumentBase\_DocumentBaseProtocolFolders.cshtml" />
+    <Content Include="Views\DocumentBase\_DocumentBaseProtocolTasks.cshtml" />
+    <Content Include="Views\DocumentBase\_DocumentBaseProtocolProlongTasks.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UBP_RequestForAgreementPVR_View.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UBP_RequestForAgreementPVR_Edit.cshtml" />
+    <Content Include="Views\Delegation\Detail.cshtml" />
+    <Content Include="Views\TripMRP\Create.cshtml" />
+    <Content Include="Views\TripMRP\_TripMRPGrid.cshtml" />
+    <Content Include="Views\TripMRP\Delete.cshtml" />
+    <Content Include="Views\TripMRP\Detail.cshtml" />
+    <Content Include="Views\TripMRP\Edit.cshtml" />
+    <Content Include="Views\TripMRP\Index.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_JU_RequestForCopyDocument_View.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_JU_RequestForCopyDocument_Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -3639,7 +3663,31 @@
     </XamlAppDef>
   </ItemGroup>
   <ItemGroup>
+    <XamlAppDef Include="Activities\USR_REQ_UB_RequestForExportAssetZIFWTask.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USR_REQ_UB_RequestForExportAssetWTask.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
     <XamlAppDef Include="Activities\USR_REQ_UZL_RequestForUrgentIB.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USR_REQ_UBP_RequestForAgreementPVR.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USR_REQ_JU_RequestForCopyDocument.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </XamlAppDef>

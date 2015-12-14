@@ -645,4 +645,7 @@
   <data name="ProtocolFolders" xml:space="preserve">
     <value>Протокольные папки</value>
   </data>
+  <data name="ProtocolBase" xml:space="preserve">
+    <value>Протоколы</value>
+  </data>
 </root>

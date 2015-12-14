@@ -32,7 +32,8 @@ namespace RapidDoc.Models.Services
         DelegationView FindView(Guid id);
         List<WFTrackerTable> GetDelegationUsers(DocumentTable document, ApplicationUser currentUser, IEnumerable<WFTrackerTable> trackerTables);
         List<ApplicationUser> GetDelegationUsers(DocumentTable document, List<ApplicationUser> users);
-        bool CheckDelegation(DocumentTable document, ApplicationUser user, ProcessTable process, IEnumerable<WFTrackerTable> trackerTables);
+        bool CheckDelegation(ApplicationUser user, ProcessTable process, IEnumerable<WFTrackerTable> trackerTables);
+        bool CheckDelegation(ApplicationUser user, ProcessTable process, WFTrackerTable trackerTable);
         bool CheckTrackerUsers(IEnumerable<WFTrackerTable> trackerTables, string userId);
         bool CheckTrackerUsers(WFTrackerTable trackerTable, string userId);
     }
@@ -41,13 +42,15 @@ namespace RapidDoc.Models.Services
     {
         private IRepository<DelegationTable> repo;
         private IRepository<ApplicationUser> repoUser;
+        private readonly IGroupProcessService _GroupProcessService;
         private IUnitOfWork _uow;
 
-        public DelegationService(IUnitOfWork uow)
+        public DelegationService(IUnitOfWork uow, IGroupProcessService groupProcessService)
         {
             _uow = uow;
             repo = uow.GetRepository<DelegationTable>();
             repoUser = uow.GetRepository<ApplicationUser>();
+            _GroupProcessService = groupProcessService;
         }
         public IEnumerable<DelegationTable> GetAll()
         {
@@ -158,7 +161,7 @@ namespace RapidDoc.Models.Services
                             }
                         }
                     }
-                    else if (document.ProcessTable.GroupProcessTableId == delegationItem.GroupProcessTableId)
+                    else if (document.ProcessTable.GroupProcessTableId == delegationItem.GroupProcessTableId || _GroupProcessService.GetGroupChildren(delegationItem.GroupProcessTableId).Any(x => x == document.ProcessTable.GroupProcessTableId))
                     {
                         foreach (var trackerTable in trackerTables)
                         {
@@ -202,7 +205,7 @@ namespace RapidDoc.Models.Services
                         {
                             result.Add(repoUser.GetById(delegationItem.EmplTableTo.ApplicationUserId));
                         }
-                        else if (document.ProcessTable.GroupProcessTableId == delegationItem.GroupProcessTableId)
+                        else if (document.ProcessTable.GroupProcessTableId == delegationItem.GroupProcessTableId || _GroupProcessService.GetGroupChildren(delegationItem.GroupProcessTableId).Any(x => x == document.ProcessTable.GroupProcessTableId))
                         {
                             result.Add(repoUser.GetById(delegationItem.EmplTableTo.ApplicationUserId));
                         }
@@ -217,7 +220,7 @@ namespace RapidDoc.Models.Services
             return result;
         }
 
-        public bool CheckDelegation(DocumentTable document, ApplicationUser user, ProcessTable process, IEnumerable<WFTrackerTable> trackerTables)
+        public bool CheckDelegation(ApplicationUser user, ProcessTable process, IEnumerable<WFTrackerTable> trackerTables)
         {
             var delegationItems = GetPartial(x => x.EmplTableTo.ApplicationUserId == user.Id
                 && x.DateFrom <= DateTime.UtcNow && x.DateTo >= DateTime.UtcNow
@@ -234,7 +237,7 @@ namespace RapidDoc.Models.Services
                             return true;
                         }
                     }
-                    else if (process.GroupProcessTableId == delegationItem.GroupProcessTableId)
+                    else if (process.GroupProcessTableId == delegationItem.GroupProcessTableId || _GroupProcessService.GetGroupChildren(delegationItem.GroupProcessTableId).Any(x => x == process.GroupProcessTableId))
                     {
                         if (CheckTrackerUsers(trackerTables, delegationItem.EmplTableFrom.ApplicationUserId))
                         {
@@ -245,6 +248,43 @@ namespace RapidDoc.Models.Services
                 else
                 {
                     if (CheckTrackerUsers(trackerTables, delegationItem.EmplTableFrom.ApplicationUserId))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        public bool CheckDelegation(ApplicationUser user, ProcessTable process, WFTrackerTable trackerTable)
+        {
+            var delegationItems = GetPartial(x => x.EmplTableTo.ApplicationUserId == user.Id
+                && x.DateFrom <= DateTime.UtcNow && x.DateTo >= DateTime.UtcNow
+                && x.isArchive == false && x.CompanyTableId == user.CompanyTableId);
+
+            foreach (var delegationItem in delegationItems)
+            {
+                if (delegationItem.GroupProcessTableId != null || delegationItem.ProcessTableId != null)
+                {
+                    if (delegationItem.ProcessTableId == process.Id)
+                    {
+                        if (CheckTrackerUsers(trackerTable, delegationItem.EmplTableFrom.ApplicationUserId))
+                        {
+                            return true;
+                        }
+                    }
+                    else if (process.GroupProcessTableId == delegationItem.GroupProcessTableId || _GroupProcessService.GetGroupChildren(delegationItem.GroupProcessTableId).Any(x => x == process.GroupProcessTableId))
+                    {
+                        if (CheckTrackerUsers(trackerTable, delegationItem.EmplTableFrom.ApplicationUserId))
+                        {
+                            return true;
+                        }
+                    }
+                }
+                else
+                {
+                    if (CheckTrackerUsers(trackerTable, delegationItem.EmplTableFrom.ApplicationUserId))
                     {
                         return true;
                     }

@@ -1,0 +1,124 @@
+﻿@model List<RapidDoc.Models.ViewModels.DocumentBaseProtocolTasksView>
+@using RapidDoc.Extensions;
+
+@{
+    Layout = null;
+
+}
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+    @{int num = 0, num1 = 0;}
+    @switch ((RapidDoc.Models.Repository.ProtocolFilterType)Enum.ToObject(typeof(RapidDoc.Models.Repository.ProtocolFilterType), @ViewBag.FilterType))
+    {
+        case RapidDoc.Models.Repository.ProtocolFilterType.TaskStatus:
+            foreach (var itemGroupDepartment in Model.GroupBy(x => x.DepartmentName))
+            {
+                num++;
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="heading@num">
+                        <p class="panel-title"><a href="#collapseArea_@num" data-toggle="collapse" data-target="#collapseArea_@num" aria-expanded="false" aria-controls="collapseArea_@num"><strong>@itemGroupDepartment.Key</strong></a></p>
+                    </div>
+                    <div class="collapse" id="collapseArea_@num">
+                        <div class="panel-body">
+                            @foreach (var itemGroupStatus in Model.Where(x => x.DepartmentName == itemGroupDepartment.Key).GroupBy(x => x.TaskStatus).Distinct())
+                            {
+                                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" role="tab" id="heading@itemGroupStatus.Key@num">
+                                            <p class="panel-title"><a href="#collapseArea_@itemGroupStatus.Key@num" data-toggle="collapse" data-target="#collapseArea_@itemGroupStatus.Key@num" aria-expanded="false" aria-controls="collapseArea_@itemGroupStatus.Key@num">                                                                 <strong>@Html.EnumToDescription(itemGroupStatus.Key)</strong>
+                                                </a></p>
+                                        </div>
+                                        <div class="collapse" id="collapseArea_@itemGroupStatus.Key@num">
+                                            <div class="panel-body">
+                                                @foreach (var itemGroupUserName in Model.Where(x => x.DepartmentName == itemGroupDepartment.Key && x.TaskStatus == itemGroupStatus.Key).GroupBy(x => x.UserName))
+                                                {
+                                                    num1++;
+                                                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                                        <div class="panel panel-default">
+                                                            <div class="panel-heading" role="tab" id="heading@num1@itemGroupStatus.Key@num">
+                                                                <p class="panel-title">
+                                                                    <a href="#collapseArea_@num1@itemGroupStatus.Key@num" data-toggle="collapse" data-target="#collapseArea_@num1@itemGroupStatus.Key@num" aria-expanded="false" aria-controls="collapseArea_@num1@itemGroupStatus.Key@num">
+                                                                        <strong>@itemGroupUserName.Key</strong>
+                                                                    </a>
+                                                                </p>
+                                                            </div>
+                                                            <div class="collapse" id="collapseArea_@num1@itemGroupStatus.Key@num">
+                                                                <div class="panel-body">
+                                                                    @foreach (var task in Model.Where(x => x.DepartmentName == itemGroupDepartment.Key && x.TaskStatus == itemGroupStatus.Key && x.UserName == itemGroupUserName.Key))
+                                                                    {
+                                                                        <p>
+                                                                            @if (task.TaskStatus == RapidDoc.Models.Repository.ProtocolTaskDocumentBaseStatus.Executed)
+                                                                            {
+                                                                                <span class="fa fa-check text-success"></span>
+                                                                            }
+                                                                            @if (task.TaskStatus == RapidDoc.Models.Repository.ProtocolTaskDocumentBaseStatus.Overdue)
+                                                                            {
+                                                                                <span class="fa fa-exclamation text-danger"></span>
+                                                                            }
+                                                                            <a href="@Url.Action("ShowDocument", "Document", new { id = task.Id, isAfterView = true })" target="_blank"><ins>@task.DocumentNum</ins> - @task.ProtocolNum (@task.CreatedDate)</a>
+                                                                        </p>
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+            break;
+        case RapidDoc.Models.Repository.ProtocolFilterType.TaskExecutor:
+            foreach (var itemGroupUser in Model.GroupBy(x => x.UserName))
+            {
+                num++;
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="heading@num">
+                        <p class="panel-title"><a href="#collapseArea_@num" data-toggle="collapse" data-target="#collapseArea_@num" aria-expanded="false" aria-controls="collapseArea_@num"><strong>@itemGroupUser.Key</strong></a></p>
+                    </div>
+                    <div class="collapse" id="collapseArea_@num">
+                        <div class="panel-body">
+                            @foreach (var itemGroupDate in Model.Where(x => x.UserName == itemGroupUser.Key).GroupBy(x => x.CreateTaskDate))
+                            {
+                                num1++;
+                                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" role="tab" id="heading@num1@num">
+                                            <p class="panel-title">
+                                                <a href="#collapseArea_@num1@num" data-toggle="collapse" data-target="#collapseArea_@num1@num" aria-expanded="false" aria-controls="collapseArea_@num1@num">
+                                                    <strong>@Convert.ToDateTime(itemGroupDate.Key).ToShortDateString()</strong>
+                                                </a>
+                                            </p>
+                                        </div>
+                                        <div class="collapse" id="collapseArea_@num1@num">
+                                            <div class="panel-body">
+                                                @foreach (var task in Model.Where(x => x.UserName == itemGroupUser.Key && x.CreateTaskDate == itemGroupDate.Key))
+                                                {
+                                                    <p>
+                                                        @if (task.TaskStatus == RapidDoc.Models.Repository.ProtocolTaskDocumentBaseStatus.Executed)
+                                                        {
+                                                            <span class="fa fa-check text-success"></span>
+                                                        }
+                                                        @if (task.TaskStatus == RapidDoc.Models.Repository.ProtocolTaskDocumentBaseStatus.Overdue)
+                                                        {
+                                                            <span class="fa fa-exclamation text-danger"></span>
+                                                        }
+                                                        <a href="@Url.Action("ShowDocument", "Document", new { id = task.Id, isAfterView = true })" target="_blank"><ins>@task.DocumentNum</ins> - @task.ProtocolNum (@task.CreatedDate)</a>
+                                                    </p>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                               
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+            break;
+    }
+</div>

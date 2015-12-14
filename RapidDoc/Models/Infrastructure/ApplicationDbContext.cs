@@ -49,7 +49,7 @@ namespace RapidDoc.Models.Infrastructure
         public DbSet<ReasonRequestTable> ReasonRequestTable { get; set; }
         public DbSet<QuestionRequestTable> QuestionRequestTable { get; set; }
         public DbSet<ProtocolFoldersTable> ProtocolFoldersTable { get; set; }
-
+        public DbSet<TripMRPTable> TripMRPTable { get; set; }
 
         //Custom Requests
         public DbSet<USR_REQ_IT_CTS_DeliveryOfPinCode_Table> USR_REQ_IT_CTS_DeliveryOfPinCode_Table { get; set; }
@@ -344,7 +344,11 @@ namespace RapidDoc.Models.Infrastructure
         public DbSet<USR_REQ_UZL_RequestForUrgentOB_Table> USR_REQ_UZL_RequestForUrgentOB_Table { get; set; }
         public DbSet<USR_REQ_UZL_RequestForAdditionalIB_Table> USR_REQ_UZL_RequestForAdditionalIB_Table { get; set; }
         public DbSet<USR_REQ_UZL_RequestForUrgentIB_Table> USR_REQ_UZL_RequestForUrgentIB_Table { get; set; }
-        
+        public DbSet<USR_REQ_UB_RequestForExportAssetWTask_Table> USR_REQ_UB_RequestForExportAssetWTask_Table { get; set; }
+        public DbSet<USR_REQ_UB_RequestForExportAssetZIFWTask_Table> USR_REQ_UB_RequestForExportAssetZIFWTask_Table { get; set; }
+        public DbSet<USR_REQ_UBP_RequestForAgreementPVR_Table> USR_REQ_UBP_RequestForAgreementPVR_Table { get; set; }
+        public DbSet<USR_REQ_JU_RequestForCopyDocument_Table> USR_REQ_JU_RequestForCopyDocument_Table { get; set; }
+
         protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();

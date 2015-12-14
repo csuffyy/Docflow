@@ -56,6 +56,10 @@ namespace RapidDoc.Activities.CodeActivities
         [Inject]
         public IWorkflowService _service { get; set; }
 
+        [Browsable(false)]
+        [Inject]
+        public IWorkflowTrackerService _trackerService { get; set; }
+
         protected override void Execute(CodeActivityContext context)
         {
             string systemName = context.GetValue(this.inputSystemName);
@@ -70,11 +74,14 @@ namespace RapidDoc.Activities.CodeActivities
             int inputActivityId = context.GetValue(this.inputActivityId);
 
             _service = DependencyResolver.Current.GetService<IWorkflowService>();
+            _trackerService = DependencyResolver.Current.GetService<IWorkflowTrackerService>();
 
-            _service.CreateTrackerRecord(systemName, documentStep, documentId, "Исполнитель", userNames, currentUserId, inputActivityId.ToString(), useManual, slaOffset, executionStep);
+            WFTrackerTable trackerTable = _trackerService.FirstOrDefault(x => x.ActivityID == inputActivityId.ToString() && x.DocumentTableId == documentId);
+
+            _service.CreateTrackerRecord(systemName, documentStep, documentId, trackerTable.ActivityName, userNames, currentUserId, inputActivityId.ToString(), useManual, slaOffset, executionStep);
                 
             outputSkipStep.Set(context, false);
-            outputBookmark.Set(context, "Исполнитель");
+            outputBookmark.Set(context, trackerTable.ActivityName);
             outputStep.Set(context, documentStep);          
         }
     }

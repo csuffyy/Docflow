@@ -390,6 +390,23 @@ namespace RapidDoc.Models.ViewModels
         public DateTime? EndDate { get; set; }
     }
 
+    public class ProtocolBaseView
+    {
+        [Display(Name = "Grouping", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public ProtocolFilterType FilterType { get; set; }
+
+        [Display(Name = "StartDate", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public DateTime? StartDate { get; set; }
+
+        [Display(Name = "EndDate", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public DateTime? EndDate { get; set; }
+
+        [Display(Name = "ProcessName", ResourceType = typeof(FieldNameRes.FieldNameResource))]        
+        public string ProcessName { get; set; }
+
+        public Guid? ProcessTableId { get; set; }
+    }
+
     public class DocumentBaseView : BasicCompanyNullView
     {
         public string DocumentNum { get; set; }
@@ -423,5 +440,39 @@ namespace RapidDoc.Models.ViewModels
         public string DocumentText { get; set; }
         public Folder Folder { get; set; }
         public CategoryPerson CategoryPerson { get; set; }
+        public Guid? ProtocolFolderId  { get; set; }
+        public string ProtocolCode { get; set; }
+        public string TrackerActivityName { get; set; }
+        public string SignUser { get; set; }
+        public string InOutOrganization { get; set; }
+        
     }
+
+    public class DocumentBaseProtocolFolderView : BasicCompanyNullView
+    {
+        public List<DocumentBaseView> documentBaseList { get; set; }
+        public Guid ProtocolFoldersId { get; set; }
+        public string ProtocolFolderName { get; set; }
+        public Guid? ProtocolFoldersParentId { get; set; }
+    }
+
+    public class DocumentBaseProtocolTasksView : BasicCompanyNullView
+    {
+        public string DocumentNum { get; set; }
+        public string ProtocolNum { get; set; }
+        public ProtocolTaskDocumentBaseStatus TaskStatus { get; set; }
+        public string DepartmentName { get; set; }
+        public string UserName { get; set; }
+        public string CreateTaskDate { get; set; }
+    }
+
+    public class DocumentBaseProtocolProlongTasksView : BasicCompanyNullView
+    {
+        public string DocumentNum { get; set; }
+        public ProtocolProlongTaskDocumentBaseStatus TaskStatus { get; set; }
+        public string DepartmentName { get; set; }
+        public string UserName { get; set; }
+        public string CreateProlongTaskDate { get; set; }
+    }
+
 }

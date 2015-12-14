@@ -9,6 +9,7 @@ using RapidDoc.Models.DomainModels;
 using RapidDoc.Models.Repository;
 using RapidDoc.Models.ViewModels;
 using RapidDoc.Models.Infrastructure;
+using System.Globalization;
 
 namespace RapidDoc.Controllers
 {
@@ -20,6 +21,7 @@ namespace RapidDoc.Controllers
         private readonly INumberSeqService _NumberSeqService;
         private readonly IServiceIncidentService _ServiceIncidentService;
         private readonly ITripSettingsService _TripSettingsService;
+        private readonly ITripMRPService _ITripMRPService;
         private readonly ICountryService _CountryService;
         private readonly IOrganizationService _OrganizationService;
         private readonly IReasonRequestService _ReasonRequestService;
@@ -28,7 +30,7 @@ namespace RapidDoc.Controllers
         private readonly IProcessService _ProcessService;
 
         public CustomController(IEmplService emplService, ISystemService systemService, IDocumentService documentService, IServiceIncidentService serviceIncidentService, ICompanyService companyService, IAccountService accountService, ITripSettingsService tripSettingsService, INumberSeqService numberSeqService, ICountryService countryService, IOrganizationService organizationService, IProcessService processService,
-            IReasonRequestService reasonRequestService, IQuestionRequestService questionRequestService, IProtocolFoldersService protocolFoldersService)
+            IReasonRequestService reasonRequestService, IQuestionRequestService questionRequestService, IProtocolFoldersService protocolFoldersService, ITripMRPService iTripMRPService)
             : base(companyService, accountService)
         {
             _EmplService = emplService;
@@ -43,6 +45,7 @@ namespace RapidDoc.Controllers
             _ReasonRequestService = reasonRequestService;
             _QuestionRequestService = questionRequestService;
             _ProtocolFoldersService = protocolFoldersService;
+            _ITripMRPService = iTripMRPService;
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
@@ -599,10 +602,14 @@ namespace RapidDoc.Controllers
             EmplTripType emplTripType = (EmplTripType)EmplTripType;
             TripDirection tripDirection = (TripDirection)TripDirection;
 
+            TripMRPTable mrp = _ITripMRPService.FirstOrDefault(x => x.FromDate <= DateTime.UtcNow && x.ToDate >= DateTime.UtcNow);
             TripSettingsTable tripSettingsTable = _TripSettingsService.FirstOrDefault(x => x.EmplTripType == emplTripType && x.TripDirection == tripDirection);
-            if (tripSettingsTable != null)
+            if (tripSettingsTable != null && mrp != null)
             {
-                var model = new USR_REQ_UBUO_RequestCalcDriveTripCals_View(emplTripType, tripDirection, Day, DayLive, TicketSum, tripSettingsTable.DayRate, tripSettingsTable.ResidenceRate);
+                double residenceRate = Double.Parse(tripSettingsTable.ResidenceRate, CultureInfo.InvariantCulture);
+                double dayRate = Double.Parse(tripSettingsTable.DayRate, CultureInfo.InvariantCulture) * Double.Parse(mrp.Amount, CultureInfo.InvariantCulture);
+
+                var model = new USR_REQ_UBUO_RequestCalcDriveTripCals_View(emplTripType, tripDirection, Day, DayLive, TicketSum, (int)dayRate, (int)residenceRate);
                 return PartialView(@"~/Views/Custom/USR_REQ_UBUO_RequestCalcDriveTrip_Calc.cshtml", model);
             }
 
@@ -2733,10 +2740,14 @@ namespace RapidDoc.Controllers
             EmplTripType emplTripType = (EmplTripType)EmplTripType;
             TripDirection tripDirection = (TripDirection)TripDirection;
 
+            TripMRPTable mrp = _ITripMRPService.FirstOrDefault(x => x.FromDate <= DateTime.UtcNow && x.ToDate >= DateTime.UtcNow);
             TripSettingsTable tripSettingsTable = _TripSettingsService.FirstOrDefault(x => x.EmplTripType == emplTripType && x.TripDirection == tripDirection);
-            if (tripSettingsTable != null)
+            if (tripSettingsTable != null && mrp != null)
             {
-                var model = new USR_REQ_TRIP_RequestCalcDriveBTripCalsPP_View(emplTripType, tripDirection, Day, DayLive, TicketSum, tripSettingsTable.DayRate, tripSettingsTable.ResidenceRate);
+                double residenceRate = Double.Parse(tripSettingsTable.ResidenceRate, CultureInfo.InvariantCulture);
+                double dayRate = Double.Parse(tripSettingsTable.DayRate, CultureInfo.InvariantCulture) * Double.Parse(mrp.Amount, CultureInfo.InvariantCulture);
+
+                var model = new USR_REQ_TRIP_RequestCalcDriveBTripCalsPP_View(emplTripType, tripDirection, Day, DayLive, TicketSum, (int)dayRate, (int)residenceRate);
                 return PartialView(@"~/Views/Custom/USR_REQ_TRIP_RegistrationBusinessTripPP_Calc.cshtml", model);
             }
 
@@ -2749,10 +2760,14 @@ namespace RapidDoc.Controllers
             EmplTripType emplTripType = (EmplTripType)EmplTripType;
             TripDirection tripDirection = (TripDirection)TripDirection;
 
+            TripMRPTable mrp = _ITripMRPService.FirstOrDefault(x => x.FromDate <= DateTime.UtcNow && x.ToDate >= DateTime.UtcNow);
             TripSettingsTable tripSettingsTable = _TripSettingsService.FirstOrDefault(x => x.EmplTripType == emplTripType && x.TripDirection == tripDirection);
-            if (tripSettingsTable != null)
+            if (tripSettingsTable != null && mrp != null)
             {
-                var model = new USR_REQ_TRIP_RequestCalcDriveBTripCalsPTY_View(emplTripType, tripDirection, Day, DayLive, TicketSum, tripSettingsTable.DayRate, tripSettingsTable.ResidenceRate);
+                double residenceRate = Double.Parse(tripSettingsTable.ResidenceRate, CultureInfo.InvariantCulture);
+                double dayRate = Double.Parse(tripSettingsTable.DayRate, CultureInfo.InvariantCulture) * Double.Parse(mrp.Amount, CultureInfo.InvariantCulture);
+
+                var model = new USR_REQ_TRIP_RequestCalcDriveBTripCalsPTY_View(emplTripType, tripDirection, Day, DayLive, TicketSum, (int)dayRate, (int)residenceRate);
                 return PartialView(@"~/Views/Custom/USR_REQ_TRIP_RegistrationBusinessTripPTY_Calc.cshtml", model);
             }
 
@@ -2765,10 +2780,14 @@ namespace RapidDoc.Controllers
             EmplTripType emplTripType = (EmplTripType)EmplTripType;
             TripDirection tripDirection = (TripDirection)TripDirection;
 
+            TripMRPTable mrp = _ITripMRPService.FirstOrDefault(x => x.FromDate <= DateTime.UtcNow && x.ToDate >= DateTime.UtcNow);
             TripSettingsTable tripSettingsTable = _TripSettingsService.FirstOrDefault(x => x.EmplTripType == emplTripType && x.TripDirection == tripDirection);
-            if (tripSettingsTable != null)
+            if (tripSettingsTable != null && mrp != null)
             {
-                var model = new USR_REQ_TRIP_RequestCalcDriveBTripCalsKZ_View(emplTripType, tripDirection, Day, DayLive, TicketSum, tripSettingsTable.DayRate, tripSettingsTable.ResidenceRate);
+                double residenceRate = Double.Parse(tripSettingsTable.ResidenceRate, CultureInfo.InvariantCulture);
+                double dayRate = Double.Parse(tripSettingsTable.DayRate, CultureInfo.InvariantCulture) * Double.Parse(mrp.Amount, CultureInfo.InvariantCulture);
+
+                var model = new USR_REQ_TRIP_RequestCalcDriveBTripCalsKZ_View(emplTripType, tripDirection, Day, DayLive, TicketSum, (int)dayRate, (int)residenceRate);
                 return PartialView(@"~/Views/Custom/USR_REQ_TRIP_RegistrationBusinessTripKZ_Calc.cshtml", model);
             }
 
@@ -2783,8 +2802,9 @@ namespace RapidDoc.Controllers
 
         public ViewResult CreateNewQuestionProtocol()
         {
-            var model = new PRT_QuestionList_Table() { DecisionList = new List<PRT_DecisionList_Table>() };
-            model.DecisionList.Add(new PRT_DecisionList_Table());
+            //var model = new PRT_QuestionList_Table() { DecisionList = new List<PRT_DecisionList_Table>() };
+            //model.DecisionList.Add(new PRT_DecisionList_Table());
+            var model = new PRT_QuestionList_Table();
             ViewData["counter"] = Guid.NewGuid().ToString("N");
             return View("_QuestionList", model);
         }

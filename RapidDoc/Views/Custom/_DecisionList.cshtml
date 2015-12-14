@@ -3,24 +3,28 @@
 @{
     Layout = "";
     string index = ViewData["counter"].ToString();
+    Guid? documentId = (Guid?)ViewData["documentId"];
+
+    if (documentId == null || documentId == Guid.Empty)
+    {
+        Model.Separated = true;
+    }
 }
 
 @using (Html.BeginCollectionItem("PRT_DecisionList_Table__DecisionList" + "*" + index))
 {
-    <div id="decisionRow_@index" class="decisionRow">
-        <h6><strong>Решение <span id="decisionNumber_@index" class="decisionNumber"></span></strong></h6>
-        @Html.TextAreaFor(model => Model.Decision, new { @class = "form-control summernotelight", placeholder = "Решение" })
-        <div class="row">
-            <div class="col-xs-8">
-                @Html.TextBoxFor(model => Model.Users, new { @class = "form-control", @data_role = "tagsinputEmplDynamic", placeholder = "Исполнители" })
-            </div>         
-            <div class="col-xs-2">
-                @Html.TextBoxFor(model => Model.ControlDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", startDate = "" })
-            </div>
-            <div class="col-xs-2">
-                @Html.CheckBoxFor(model => Model.Separated)
-            </div> 
+    <h6><strong>Поручение №<span id="decisionNumber_@index" class="decisionNumber"></span></strong></h6>
+    @Html.TextAreaFor(model => Model.Decision, new { @class = "form-control summernotelight" })
+    <div class="row">
+        <div class="col-xs-8">
+            @Html.TextBoxFor(model => Model.Users, new { @class = "form-control", @data_role = "tagsinputEmplDynamic", placeholder = "Исполнители" })
+        </div>         
+        <div class="col-xs-2">
+            @Html.TextBoxFor(model => Model.ControlDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", startDate = "" })
         </div>
-        <br />
+        <div class="col-xs-2">
+            @Html.CheckBoxFor(model => Model.Separated)
+            <h6><small class="text-danger"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Поручение каждому исполнителю</small></h6>
+        </div> 
     </div>
 }

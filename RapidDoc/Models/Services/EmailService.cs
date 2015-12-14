@@ -223,7 +223,7 @@ namespace RapidDoc.Models.Services
         public void SendExecutorEmail(Guid documentId, string additionalTextCZ = "")
         {
             var documentTable = _DocumentService.Find(documentId);
-            if (documentTable == null || (documentTable.DocumentState != DocumentState.Agreement && documentTable.DocumentState != DocumentState.Execution))
+            if (documentTable == null || (documentTable.DocumentState != DocumentState.Agreement && documentTable.DocumentState != DocumentState.Execution && documentTable.DocType != DocumentType.Task))
                 return;
 
             dynamic ViewBag = new DynamicViewBag();
@@ -819,7 +819,7 @@ namespace RapidDoc.Models.Services
             if (!String.IsNullOrEmpty(user.Email))
             {
                 int num = 0; string countHours = String.Empty;
-                foreach (var documentTable in documents)
+                foreach (var documentTable in documents.Where(x => x.DocumentState == DocumentState.Agreement || x.DocumentState == DocumentState.Execution))
                 {
                     num++;
                     documentUrls.Add("http://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id + "?isAfterView=true");
@@ -828,7 +828,7 @@ namespace RapidDoc.Models.Services
 
                     if(countHourTable.ProlongationDate == null)
                         countHours = DateTime.UtcNow > countHourTable.ExecutionDate ? "Задача просрочена" : String.Format("Осталось {0} дн.",
-                        (int)Math.Abs(Math.Round((countHourTable.ExecutionDate - DateTime.UtcNow).TotalDays)));
+                        (int)Math.Abs(Math.Round(((DateTime)countHourTable.ExecutionDate - DateTime.UtcNow).TotalDays)));
                     else
                         countHours = DateTime.UtcNow > countHourTable.ProlongationDate ? "Задача просрочена" : String.Format("Осталось {0} дн.", (int)Math.Abs(Math.Round(((DateTime)countHourTable.ProlongationDate - DateTime.UtcNow).TotalDays)));
 

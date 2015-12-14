@@ -18,6 +18,7 @@ namespace RapidDoc.Models.Services
         string DeleteAllTags(string text);
         string DeleteAllSpecialCharacters(string text);
         bool CheckTextExists(string text);
+        string DeleteGuidText(string text);
     }
 
     public class SystemService : ISystemService
@@ -62,6 +63,16 @@ namespace RapidDoc.Models.Services
         public string DeleteAllSpecialCharacters(string text)
         {
             return Regex.Replace(text, @"&\w+;", String.Empty, RegexOptions.Compiled);
+        }
+
+        public string DeleteGuidText(string text)
+        {
+            string[] tags = text.Split(',');
+            Regex isGuid = new Regex(@"^(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}$", RegexOptions.Compiled);
+            string[] tagsResult = tags.Where(a => isGuid.IsMatch(a) == false).ToArray();
+            var model = string.Join(",", tagsResult);
+
+            return model;
         }
 
         public bool CheckTextExists(string text)

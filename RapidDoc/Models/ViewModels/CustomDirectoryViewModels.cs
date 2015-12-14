@@ -45,10 +45,12 @@ namespace RapidDoc.Models.ViewModels
         public TripDirection TripDirection { get; set; }
 
         [Display(Name = "Суточные норма")]
-        public int DayRate { get; set; }
+        [DisplayFormat(DataFormatString = "{0:#,##0.000#}", ApplyFormatInEditMode = true)]
+        public string DayRate { get; set; }
 
         [Display(Name = "Проживание норма")]
-        public int ResidenceRate { get; set; }
+        [DisplayFormat(DataFormatString = "{0:#,##0.000#}", ApplyFormatInEditMode = true)]
+        public string ResidenceRate { get; set; }
     }
 
     public class ItemCauseView : BasicCompanyNullView
@@ -75,8 +77,12 @@ namespace RapidDoc.Models.ViewModels
         public Guid DocumentId { get; set; }
         public string UserCreate { get; set; }
         public DateTime DateCreate { get; set; }
-
-
+        public string ReportText { get; set; }
+        public DocumentState DocumentState { get; set; }
+        public string Users { get; set; }
+        public DateTime? ExecutionDate { get; set; }
+        public DateTime? ProlongationDate { get; set; }
+        public DocumentType DocType { get; set; }
     }
 
     public class ModificationDocumentView
@@ -103,6 +109,18 @@ namespace RapidDoc.Models.ViewModels
     {
         [Display(Name = "Организация")]
         public string OrgName { get; set; }
+    }
+
+    public class TripMRPView : BasicCompanyNullView
+    {
+        [Display(Name = "Начальная дата")]
+        public DateTime? FromDate { get; set; }
+        [Display(Name = "Конечная дата")]
+        public DateTime? ToDate { get; set; }
+
+        [Display(Name = "Значение")]
+        [DisplayFormat(DataFormatString = "{0:#,##0.000#}", ApplyFormatInEditMode = true)]
+        public string Amount { get; set; }
     }
 
     public class ReasonRequestView : BasicCompanyNullView
@@ -144,5 +162,7 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Ссылка на родительскую папку")]
         public string ParentProtocolFolderName{ get; set; }
 
+        [Display(Name = "Включено")]
+        public bool Enable { get; set; }
     }
 }

@@ -1030,7 +1030,7 @@ function custom_tagsinputEmplOne1_init(url_json) {
 
 function custom_tagsinputEmplDynamic_init(url_json) {
     $('input[data-role=tagsinputEmplDynamic]').each(function (e) {
-        elt = $(this);
+        var elt = $(this);
 
         elt.tagsinput({
             itemValue: 'value',
@@ -1050,6 +1050,22 @@ function custom_tagsinputEmplDynamic_init(url_json) {
             this.tagsinput('add', datum);
             this.tagsinput('input').typeahead('setQuery', '');
         }, elt));
+
+        var currentValue = elt.val();
+        if (currentValue != null && currentValue != '') {
+            var currentArrData = currentValue.split(",");
+
+            if (currentArrData.length > 1) {
+                for (var i = 0; i < currentArrData.length; i += 2) {
+                    var key = currentArrData[i];
+                    var numValue = i;
+                    numValue++;
+                    var value = currentArrData[numValue];
+                    if (value.length > 0)
+                        $(this).tagsinput('add', { "value": key + "," + value, "text": value });
+                }
+            }
+        }
     });
 }
 
@@ -1057,6 +1073,10 @@ function custom_tagsinputEmplBothOpt_init(url_json) {
     try {
         elt = $('input[data-role=tagsinputEmplBothOpt]');
         elt.tagsinput({
+            trimValue: true,
+            tagClass: function (item) {
+                return 'label label-primary bts-tags';
+            }
         });
 
         elt.tagsinput('input').typeahead({
@@ -1081,6 +1101,10 @@ function custom_tagsinputEmplBothOpt1_init(url_json) {
     try {
         elt1 = $('input[data-role=tagsinputEmplBothOpt1]');
         elt1.tagsinput({
+            trimValue: true,
+            tagClass: function (item) {
+                return 'label label-primary bts-tags';
+            }
         });
 
         elt1.tagsinput('input').typeahead({
@@ -1105,6 +1129,10 @@ function custom_tagsinputEmplBothOpt2_init(url_json) {
     try {
         elt2 = $('input[data-role=tagsinputEmplBothOpt2]');
         elt2.tagsinput({
+            trimValue: true,
+            tagClass: function (item) {
+                return 'label label-primary bts-tags';
+            }
         });
 
         elt2.tagsinput('input').typeahead({

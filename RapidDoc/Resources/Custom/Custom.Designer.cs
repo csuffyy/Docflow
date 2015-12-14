@@ -124,6 +124,15 @@ namespace CustomRes {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Справочник МРП.
+        /// </summary>
+        public static string TripMRP {
+            get {
+                return ResourceManager.GetString("TripMRP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Нормы коммандировок.
         /// </summary>
         public static string TripSettings {

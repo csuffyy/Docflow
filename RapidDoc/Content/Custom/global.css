@@ -37,7 +37,7 @@ p {
 }
 
 .container {
-    max-width: 100%;
+    width: 90%;
 }
 
 .datepicker table tr td span, .datepicker td, .datepicker th, select, .alert, .table-bordered,
@@ -624,4 +624,18 @@ input.labelauty + label > span.labelauty-unchecked,
 input.labelauty + label > span.labelauty-checked
 {
 	display:inline;
+}
+
+.table .table-min {
+  margin-bottom: 0;
+}
+
+.table-min > thead > tr > th,
+.table-min > tbody > tr > th,
+.table-min > tfoot > tr > th,
+.table-min > thead > tr > td,
+.table-min > tbody > tr > td,
+.table-min > tfoot > tr > td {
+    padding: 0;
+    padding-left: 5px;
 }

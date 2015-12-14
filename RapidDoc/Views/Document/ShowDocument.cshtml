@@ -148,10 +148,10 @@
         
         @if (User.IsInRole("Administrator") && Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.OfficeMemo)
         {
-        <button type="submit" id="saveChanges" class="btn btn-default" name="action:SaveChanges">@UIElementRes.UIElement.Save</button>
+            <button type="submit" id="saveChanges" class="btn btn-default" name="action:SaveChanges">@UIElementRes.UIElement.Save</button>
         }
 
-        @if ((Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && Model.DocumentView.CreatedBy == User.Identity.Name)
+        @if (((Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && Model.DocumentView.CreatedBy == User.Identity.Name) || (Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.OnSign && (User.IsInRole("Administrator") || User.IsInRole("SetupAdministrator"))))
         {
             <button type="button" class="btn btn-danger btn-sm hidden-print" data-toggle="modal" data-target=".bs-withdraw-modal-sm">@UIElementRes.UIElement.Withdraw</button>
         }
@@ -162,9 +162,8 @@
         }
         else
         {
-            if ((Model.DocumentView.isSign == false && (Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Closed ||
-                    Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Cancelled ||
-                    Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Created)) || Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.OnSign)
+            if ((Model.DocumentView.isSign == false && Model.DocumentView.DocumentState != RapidDoc.Models.Repository.DocumentState.OnSign) 
+                || Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.OnSign)
             {
                 <a href=@Url.Action("DocumentToArchive", new { id = Model.DocumentView.Id }) class="btn btn-primary btn-sm hidden-print">@UIElementRes.UIElement.ToArchive</a>
             }

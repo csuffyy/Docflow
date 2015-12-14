@@ -1,17 +1,35 @@
-﻿@model RapidDoc.Models.DomainModels.PRT_QuestionList_Table
+﻿@model List<RapidDoc.Models.DomainModels.PRT_QuestionList_Table>
 @using RapidDoc.Extensions;
 @{
     Layout = "";
+    int numDecision = 0;
+    int numQuestion = 0;
 }
-<div>
-    <p>@Html.Raw(Model.Question)</p>
 
-    @if (Model.DecisionList != null && Model.DecisionList.Count() > 0)
-    {
-        <h5><strong>РЕШЕНИЯ:</strong></h5>
-        foreach (var decision in Model.DecisionList)
-        {
-            Html.RenderPartial("~/Views/Custom/_DecisionListView.cshtml", decision);
-        }
-    }
-</div>
+@foreach (var question in Model)
+{
+    numQuestion++;
+    <div>
+        <table class="table table-min" style="margin-bottom: 0;">
+            <tbody>
+                <tr>
+                    <td style="width: 20px;">
+                        <strong style="white-space: nowrap;">Вопрос №@numQuestion.ToString().</strong>
+                    </td>
+                    <td>
+                        @Html.Raw(question.Question)
+
+                        @if (question.DecisionList != null && question.DecisionList.Count() > 0)
+                        {
+                            foreach (var decision in question.DecisionList)
+                            {
+                                numDecision++;
+                                Html.RenderPartial("~/Views/Custom/_DecisionListView.cshtml", decision, new ViewDataDictionary { { "numQuestion", ViewData["numQuestion"] }, { "numDecision", numDecision } });
+                            }
+                        }
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+}

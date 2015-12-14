@@ -503,7 +503,7 @@ namespace RapidDoc.Controllers
         public ActionResult WithdrawDocument(Guid processId, int type, Guid fileId, FormCollection collection, string actionModelName, Guid documentId)
         {
             DocumentTable documentTable = _DocumentService.Find(documentId);
-            if (documentTable.ApplicationUserCreatedId != User.Identity.GetUserId())
+            if (documentTable.ApplicationUserCreatedId != User.Identity.GetUserId() && !(User.IsInRole("Administrator") || User.IsInRole("SetupAdministrator")))
             {
                 return RedirectToAction("PageNotFound", "Error");
             }
@@ -701,11 +701,14 @@ namespace RapidDoc.Controllers
         public ActionResult RejectDocumentTask(Guid processId, int type, Guid fileId, FormCollection collection, string actionModelName, Guid documentId)
         {
             string currentUserId = User.Identity.GetUserId();
+            ProcessView process = _ProcessService.FindView(processId);
+            var documentIdNew = _DocumentService.GetDocumentView(_DocumentService.Find(documentId).RefDocumentId, process.TableName);
 
             if (collection["RejectCommentTask"] != null && _SystemService.CheckTextExists(collection["RejectCommentTask"]))
             {
                 string rejectCommentRequest = collection["RejectCommentTask"].ToString();
-                SaveComment(GuidNull2Guid(documentId), rejectCommentRequest);
+                documentIdNew.ReportText = rejectCommentRequest;
+                _DocumentService.UpdateDocumentFields(documentIdNew, process);
             }
             else
             {
@@ -794,6 +797,7 @@ namespace RapidDoc.Controllers
             viewModel.docData.RefDocumentId = documentId;
             viewModel.docData.TextTask = refDocument.MainField;
             viewModel.docData.ExecutionDate = refDocument.ExecutionDate;
+            viewModel.docData.ProlongationOldDate = refDocument.ProlongationDate;
             viewModel.docData.RefDocNum = docTable.DocumentNum;
             viewModel.fileId = Guid.NewGuid();
             viewModel.ProcessTemplates = _DocumentService.GetAllTemplatesDocument((Guid)process.Id);
@@ -977,13 +981,13 @@ namespace RapidDoc.Controllers
                 return RedirectToAction("PageNotFound", "Error");
             }
 
-            if (ModelState.IsValid)
+            if (operationType == OperationType.ApproveDocument)
             {
-                _SearchService.SaveSearchData(documentId, docModel, actionModelName);
-
-                if (operationType == OperationType.ApproveDocument)
+                if (ModelState.IsValid)
                 {
-                    if(documentTable.ProcessTable != null && !String.IsNullOrEmpty(documentTable.ProcessTable.StartReaderRoleId))
+                    _SearchService.SaveSearchData(documentId, docModel, actionModelName);
+
+                    if (documentTable.ProcessTable != null && !String.IsNullOrEmpty(documentTable.ProcessTable.StartReaderRoleId))
                     {
                         try
                         {
@@ -994,12 +998,12 @@ namespace RapidDoc.Controllers
                                 _EmailService.SendReaderEmail(documentTable.Id, newReader);
                             }
                         }
-                        catch {}
+                        catch { }
                     }
                     _WorkflowService.RunWorkflow(documentTable, processView.TableName, documentData);
-                }
 
-                return RedirectToAction("Index", "Document");
+                    return RedirectToAction("Index", "Document");
+                }
             }
 
             DocumentView docuView = _DocumentService.Document2View(documentTable);
@@ -1063,28 +1067,8 @@ namespace RapidDoc.Controllers
         [HttpPost]
         public ActionResult Create(ProcessView processView, OperationType operationType, dynamic docModel, Guid fileId, String actionModelName, IDictionary<string, object> documentData)
         {
-            if (ModelState.IsValid)
+            if (operationType == OperationType.SaveDraft)
             {
-                if (processView.DocType == DocumentType.Task && docModel.Separated == true)
-                {
-                    string initailStructure = (string)documentData["Users"];
-                    string[] arrayTempStructrue = initailStructure.Split(',');
-
-                    Regex isGuid = new Regex(@"^(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}$", RegexOptions.Compiled);
-                    string[] arrayStructure = arrayTempStructrue.Where(a => isGuid.IsMatch(a) == true).ToArray();
-                    if (arrayStructure.Count() > 0)
-                    {
-                        foreach (var item in arrayStructure)
-                        {
-                            string seprateUser = item + "," + arrayTempStructrue[Array.IndexOf(arrayTempStructrue, item) + 1];
-                            docModel.Users = seprateUser;
-                            documentData["Users"] = seprateUser;
-                            this.CreateSeparateTasks(processView, operationType, docModel, fileId, actionModelName, documentData);
-                        }
-
-                        return RedirectToAction("Index", "Document");
-                    }
-                }
                 //Save Document
                 ApplicationUser user = _AccountService.Find(User.Identity.GetUserId());
                 var documentId = _DocumentService.SaveDocument(docModel, processView.TableName, GuidNull2Guid(processView.Id), fileId, user, documentData.ContainsKey("IsNotified") ? (bool)documentData["IsNotified"] : false, documentData.ContainsKey("Share") ? (bool)documentData["Share"] : false);
@@ -1100,29 +1084,57 @@ namespace RapidDoc.Controllers
 
                 _SearchService.SaveSearchData(documentId, docModel, actionModelName);
 
-                if (operationType == OperationType.ApproveDocument)
+                return RedirectToAction("MyDocuments", "Document");
+            }
+            else
+            {
+                if (ModelState.IsValid)
                 {
-                    //Previous code for startReaderRole
-                    /*if (documentTable.ProcessTable != null && !String.IsNullOrEmpty(documentTable.ProcessTable.StartReaderRoleId))
+                    if (processView.DocType == DocumentType.Task && docModel.Separated == true)
                     {
-                        try
+                        string initailStructure = (string)documentData["Users"];
+                        string[] arrayTempStructrue = initailStructure.Split(',');
+
+                        Regex isGuid = new Regex(@"^(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}$", RegexOptions.Compiled);
+                        string[] arrayStructure = arrayTempStructrue.Where(a => isGuid.IsMatch(a) == true).ToArray();
+                        if (arrayStructure.Count() > 0)
                         {
-                            var role = RoleManager.FindById(documentTable.ProcessTable.StartReaderRoleId);
-                            if (role != null && role.Users != null && role.Users.Count > 0)
+                            foreach (var item in arrayStructure)
                             {
-                                List<string> newReader = _DocumentReaderService.AddReader(documentTable.Id, role.Users.ToList());
-                                _EmailService.SendReaderEmail(documentTable.Id, newReader);
+                                string seprateUser = item + "," + arrayTempStructrue[Array.IndexOf(arrayTempStructrue, item) + 1];
+                                docModel.Users = seprateUser;
+                                documentData["Users"] = seprateUser;
+                                this.CreateSeparateTasks(processView, operationType, docModel, fileId, actionModelName, documentData);
                             }
+
+                            return RedirectToAction("MyDocuments", "Document");
                         }
-                        catch { }
-                    }*/
-                    _WorkflowService.RunWorkflow(documentTable, processView.TableName, documentData);
+                    }
+                    //Save Document
+                    ApplicationUser user = _AccountService.Find(User.Identity.GetUserId());
+                    var documentId = _DocumentService.SaveDocument(docModel, processView.TableName, GuidNull2Guid(processView.Id), fileId, user, documentData.ContainsKey("IsNotified") ? (bool)documentData["IsNotified"] : false, documentData.ContainsKey("Share") ? (bool)documentData["Share"] : false);
+                    DocumentTable documentTable = _DocumentService.Find(documentId);
+
+                    Task.Run(() =>
+                    {
+                        IReviewDocLogService _ReviewDocLogServiceTask = DependencyResolver.Current.GetService<IReviewDocLogService>();
+                        IHistoryUserService _HistoryUserServiceTask = DependencyResolver.Current.GetService<IHistoryUserService>();
+                        _ReviewDocLogServiceTask.SaveDomain(new ReviewDocLogTable { DocumentTableId = documentId }, "", user);
+                        _HistoryUserServiceTask.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = Models.Repository.HistoryType.NewDocument }, user.Id);
+                    });
+
+                    _SearchService.SaveSearchData(documentId, docModel, actionModelName);
+
+                    if (operationType == OperationType.ApproveDocument)
+                    {
+                        _WorkflowService.RunWorkflow(documentTable, processView.TableName, documentData);
+                    }
+
+                    if (processView.DocType == DocumentType.Task)
+                        return RedirectToAction("MyDocuments", "Document");
+                    else
+                        return RedirectToAction("Index", "Document");
                 }
-
-                if (operationType == OperationType.SaveDraft)
-                    return RedirectToAction("MyDocuments", "Document");
-
-                return RedirectToAction("Index", "Document");
             }
 
             var viewModel = new DocumentComposite();
@@ -1136,31 +1148,24 @@ namespace RapidDoc.Controllers
 
         public ActionResult DocumentToArchive(Guid id)
         {
+            ApplicationUser userTable = _AccountService.Find(User.Identity.GetUserId());
+            if (userTable == null) return HttpNotFound();
+
             DocumentTable docuTable = _DocumentService.Find(id);
+            if (docuTable == null) return HttpNotFound();
 
-            if (docuTable != null)
+            if ((_DocumentService.isSignDocument(id, userTable) == false && docuTable.DocumentState != DocumentState.OnSign)
+                || docuTable.DocumentState == DocumentState.OnSign)
             {
-                if (docuTable.DocumentState == Models.Repository.DocumentState.Closed 
-                    || docuTable.DocumentState == Models.Repository.DocumentState.Cancelled
-                    || docuTable.DocumentState == Models.Repository.DocumentState.Created
-                    || docuTable.DocumentState == Models.Repository.DocumentState.OnSign)
+                ReviewDocLogTable reviewTable = _ReviewDocLogService.FirstOrDefault(x => x.DocumentTableId == id && x.ApplicationUserCreatedId == userTable.Id);
+                if (reviewTable != null)
                 {
-                    ApplicationUser userTable = _AccountService.Find(User.Identity.GetUserId());
-                    if (userTable == null) return HttpNotFound();
-
-                    ReviewDocLogTable reviewTable = _ReviewDocLogService.FirstOrDefault(x => x.DocumentTableId == id && x.ApplicationUserCreatedId == userTable.Id);
-                    if (reviewTable != null)
-                    {
-                        reviewTable.isArchive = true;
-                        _ReviewDocLogService.SaveDomain(reviewTable, userTable.UserName);
-                    }
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, ValidationRes.ValidationResource.ErrorToArchiveDocumentState);
-                    TempData["ModelState"] = ModelState;
+                    reviewTable.isArchive = true;
+                    _ReviewDocLogService.SaveDomain(reviewTable, userTable.UserName);
                 }
             }
+            else
+                return HttpNotFound();
 
             return RedirectToAction("Index");
         }
@@ -1362,16 +1367,19 @@ namespace RapidDoc.Controllers
             if (process.DocSize > 0)
             {
                 if (((files.ContentLength / 1024f) / 1024f) > process.DocSize)
+                {
                     error = true;
+                    errorText = String.Format(ValidationRes.ValidationResource.ErrorDocSize, process.DocSize, Math.Round(((files.ContentLength / 1024f) / 1024f), 2), files.ContentLength);
+                }
             }
 
-            DocumentTable document = _DocumentService.FirstOrDefault(x => x.FileId == fileId);
+            DocumentTable document = _DocumentService.FirstOrDefault(x => x.FileId == fileId && x.DocType == process.DocType);
             if(document != null)
             {
                 if(document.DocumentState == DocumentState.Closed || document.DocumentState == DocumentState.Cancelled)
                 {
                     error = true;
-                    errorText = String.Format(ValidationRes.ValidationResource.ErrorDocSize, process.DocSize, Math.Round(((files.ContentLength / 1024f) / 1024f), 2), files.ContentLength);
+                    errorText = ValidationRes.ValidationResource.ErrorDocumentState;
                 }
             }
             if (_DocumentService.GetAllFilesDocument(fileId).Where(x => x.Version == "1" && x.ApplicationUserCreatedId == User.Identity.GetUserId()).Count() > 20)
@@ -1950,15 +1958,18 @@ namespace RapidDoc.Controllers
                 }
             }
 
-            if (documentId != null)
+            if (operationType != OperationType.SaveDraft)
             {
-                DocumentTable docuTable = _DocumentService.Find(GuidNull2Guid(documentId));
-                CheckCustomDocument(typeActionModel, actionModel, operationType, docuTable, _DocumentService.isSignDocument(docuTable.Id));
-            }
+                if (documentId != null)
+                {
+                    DocumentTable docuTable = _DocumentService.Find(GuidNull2Guid(documentId));
+                    CheckCustomDocument(typeActionModel, actionModel, operationType, docuTable, _DocumentService.isSignDocument(docuTable.Id));
+                }
 
-            CheckCustomDocument(typeActionModel, actionModel, operationType);
-            CheckAttachedFiles(processView, fileId, documentId);
-            _CustomCheckDocument.PreUpdateViewModel(typeActionModel, actionModel);
+                CheckCustomDocument(typeActionModel, actionModel, operationType);
+                CheckAttachedFiles(processView, fileId, documentId);
+                _CustomCheckDocument.PreUpdateViewModel(typeActionModel, actionModel, ModelState.IsValid);
+            }
 
             ActionResult view = RoutePostMethod(processView, actionModel, type, operationType, documentId, fileId, actionModelName, documentData);
             return view;
@@ -2242,6 +2253,7 @@ namespace RapidDoc.Controllers
 
             object[] cachePreList = new object[2];
             string modelListName = "", parIdName = "", relField = "", parentGuid = "";
+            bool oneList = false;
 
             Regex isList = new Regex(@"[A-Za-z0-9\-]+_[A-Za-z0-9\-]+_Table__[A-Za-z0-9\-]+[*]+[A-Za-z0-9\-]+[[A-Za-z0-9\-]+].[A-Za-z0-9\-]+", RegexOptions.Compiled);  
             Regex takeModelName = new Regex(@"[A-Za-z0-9\-]+_[A-Za-z0-9\-]+_Table", RegexOptions.Compiled);
@@ -2262,10 +2274,11 @@ namespace RapidDoc.Controllers
                     cachePreList[0] = null;
                     cachePreList[1] = null;
                     allList.Clear();
-
+                    if (formCollection.AllKeys.Where(x => takeChilBranch.IsMatch(x) == true).Reverse().Where(x => takeModelName.IsMatch(x) == true).GroupBy(x => x).Count() <= 1)
+                        oneList = true;
                     foreach (var keyComplex in formCollection.AllKeys.Where(x => takeChilBranch.IsMatch(x) == true).Reverse())
                     {
-                        if (modelListName != takeModelName.Match(keyComplex).Value)
+                        if (modelListName != takeModelName.Match(keyComplex).Value || oneList == true)
                         {
                             modelListName = takeModelName.Match(keyComplex).Value;
                             relField = takeRelNameField.Match(modelListName).Value.Trim('_');
@@ -2305,9 +2318,9 @@ namespace RapidDoc.Controllers
                                 }                       
                                 
                                 documentData.Clear();
-                            }                         
+                            }
 
-                            if (cachePreList[1] != null)
+                            if (cachePreList[1] != null || oneList == true)
                                 allList.Add(typeComplexModel, resultComplexList);
                             cachePreList[0] = resultComplexList;
                             cachePreList[1] = relField;
@@ -2315,14 +2328,18 @@ namespace RapidDoc.Controllers
                     }
                     if (rootList.ContainsKey(relField))
                     {
-                        foreach (var item in allList.FirstOrDefault(x => x.Key != null).Value)
-	                    {
-                            rootList[relField].Add(item);
-	                    }                                              
+                        if (allList.Count() > 0)
+                        {
+                            foreach (var item in allList.FirstOrDefault(x => x.Key != null).Value)
+                            {
+                                rootList[relField].Add(item);
+                            }
+                        }               
                     }
                     else
                         rootList.Add(relField, allList.FirstOrDefault(x => x.Key != null).Value);
                 }
+                oneList = false;
             }
 
             return rootList;

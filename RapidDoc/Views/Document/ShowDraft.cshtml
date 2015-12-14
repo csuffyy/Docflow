@@ -134,7 +134,7 @@
             else
             {
                 <button type="submit" class="btn btn-success btn-lg" name="action:ApproveDocument"><span class="visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">@UIElementRes.UIElement.Approve</span><span class="visible-xs-inline-block glyphicon glyphicon-ok-circle"></span></button>
-                <button type="submit" class="btn btn-default btn-sm" name="action:SaveDraft">@UIElementRes.UIElement.SaveDraft</button>
+                <button type="submit" id="savedraftbtn" class="btn btn-default btn-sm" name="action:SaveDraft">@UIElementRes.UIElement.SaveDraft</button>
                 <button type="button" class="btn btn-default btn-sm visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-toggle="modal" data-target=".rework-modal-sm">@UIElementRes.UIElement.OnRework</button>
             }    
                                  
@@ -293,6 +293,7 @@
         datepicker_init("@UIElementRes.UIElement.LangName");
         datetimepicker_init("@UIElementRes.UIElement.LangName");
         summernote_init("@UIElementRes.UIElement.LangFullName");
+        summernotelight_init("@UIElementRes.UIElement.LangFullName");
         summernotemin_init("@UIElementRes.UIElement.LangFullName");
         timepicker_init();
         custom_tagsinputEmpl_init("@Url.Action("JsonEmpl", "Custom")");
@@ -305,7 +306,14 @@
         custom_tagsinputEmplIntercompany_init("@Url.Action("JsonEmplIntercompany", "Custom")");
         custom_tagsinputEmplOne_init("@Url.Action("JsonEmpl", "Custom")");
         custom_tagsinputOnlyGroup_init("@Url.Action("GetJsonOnlyGroup", "Custom")");
+        custom_tagsinputEmplOne1_init("@Url.Action("GetJsonTripEmpl", "Custom")");
+        custom_tagsinputEmplDynamic_init("@Url.Action("JsonEmpl", "Custom")");
+        custom_tagsinputEmplBothOpt_init("@Url.Action("JsonEmplBothOption", "Custom")");
+        custom_tagsinputEmplBothOpt1_init("@Url.Action("JsonEmplBothOption", "Custom")");
+        custom_tagsinputEmplBothOpt2_init("@Url.Action("JsonEmplBothOption", "Custom")");
         popover_init();
+
+        $('[data-toggle="tooltip"]').tooltip();
 
         $('.documenturl a').click(function (e) {
             var doc = document;
@@ -335,6 +343,9 @@
             return false;
         });
 
+        $('#savedraftbtn').click(function () {
+            jQuery('#ajaxUploadForm').validate().currentForm = '';
+        });
     });
 </script>
 }

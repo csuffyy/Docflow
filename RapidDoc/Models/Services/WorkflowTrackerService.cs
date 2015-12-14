@@ -34,15 +34,17 @@ namespace RapidDoc.Models.Services
         private IRepository<ApplicationUser> repoUser;
         private IRepository<EmplTable> repoEmpl;
         private IRepository<DelegationTable> repoDelegation;
+        private readonly IGroupProcessService _GroupProcessService;
         private IUnitOfWork _uow;
 
-        public WorkflowTrackerService(IUnitOfWork uow)
+        public WorkflowTrackerService(IUnitOfWork uow, IGroupProcessService groupProcessService)
         {
             _uow = uow;
             repo = uow.GetRepository<WFTrackerTable>();
             repoUser = uow.GetRepository<ApplicationUser>();
             repoEmpl = uow.GetRepository<EmplTable>();
             repoDelegation = uow.GetRepository<DelegationTable>();
+            _GroupProcessService = groupProcessService;
         }
         public IEnumerable<WFTrackerTable> GetAll()
         {
@@ -91,7 +93,7 @@ namespace RapidDoc.Models.Services
                             {
                                 addUser = true;
                             }
-                            else if (delegationItem.GroupProcessTableId == item.DocumentTable.ProcessTable.GroupProcessTableId)
+                            else if (delegationItem.GroupProcessTableId == item.DocumentTable.ProcessTable.GroupProcessTableId || _GroupProcessService.GetGroupChildren(delegationItem.GroupProcessTableId).Any(x => x == item.DocumentTable.ProcessTable.GroupProcessTableId))
                             {
                                 addUser = true;
                             }

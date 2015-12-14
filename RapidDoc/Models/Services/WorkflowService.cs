@@ -67,13 +67,16 @@ namespace RapidDoc.Models.Services
         private readonly IReviewDocLogService _ReviewDocLogService;
         private readonly ICustomCheckDocument _CustomCheckDocument;
         private readonly IProcessService _ProcessService;
+        private readonly ISystemService _SystemService;
         private readonly INotificationUsersService _NotificationUsersService;
+
+        protected RoleManager<ApplicationRole> RoleManager { get; private set; }
         
         IDictionary<string, object> outputParameters;              
 
         public WorkflowService(IUnitOfWork uow, IDocumentService documentService, IEmplService emplService, 
             IWorkflowTrackerService workflowTrackerService, IEmailService emailService, IHistoryUserService historyUserService,
-            IReviewDocLogService reviewDocLogService, ICustomCheckDocument customCheckDocument, IProcessService processService, INotificationUsersService notificationUsersService)
+            IReviewDocLogService reviewDocLogService, ICustomCheckDocument customCheckDocument, IProcessService processService, ISystemService systemService, INotificationUsersService notificationUsersService)
         {
             repoUser = uow.GetRepository<ApplicationUser>();
             repoIncident = uow.GetRepository<ServiceIncidentTable>();
@@ -86,7 +89,10 @@ namespace RapidDoc.Models.Services
             _ReviewDocLogService = reviewDocLogService;
             _CustomCheckDocument = customCheckDocument;
             _ProcessService = processService;
+            _SystemService = systemService;
             _NotificationUsersService = notificationUsersService;
+
+            RoleManager = new RoleManager<ApplicationRole>(new RoleStore<ApplicationRole>(_uow.GetDbContext<ApplicationDbContext>()));
         }
 
         public WFUserFunctionResult WFMatchingUpManager(Guid documentId, string currentUserId, int level = 1, string profileName = "")
@@ -326,14 +332,55 @@ namespace RapidDoc.Models.Services
 
         public void AgreementWorkflowWithdraw(Guid documentId, string tableName, Guid WWFInstanceId, Guid processId)
         {
-            SqlWorkflowInstanceStore instanceStore = SetupInstanceStore();
-            WorkflowApplicationInstance instanceInfo = WorkflowApplication.GetInstance(WWFInstanceId, instanceStore);
+            string currentUser = HttpContext.Current.User.Identity.GetUserId();
+            DocumentTable documentTable = _DocumentService.Find(documentId);
+            try
+            {
+                SqlWorkflowInstanceStore instanceStore = SetupInstanceStore();
+                WorkflowApplicationInstance instanceInfo = WorkflowApplication.GetInstance(WWFInstanceId, instanceStore);
+                 FileTable fileTableWF = GetRightFileWF(tableName, processId, instanceInfo);
+                 Activity activity = ChooseActualWorkflow(tableName, fileTableWF, instanceInfo.DefinitionIdentity != null);
+                 WithdrawInstance(documentId, DocumentState.Cancelled, TrackerType.Cancelled, instanceStore, activity, instanceInfo);
+                 DeleteInstanceStoreOwner(instanceStore);
+                 _HistoryUserService.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = Models.Repository.HistoryType.Withdraw }, HttpContext.Current.User.Identity.GetUserId());
+            }
+            catch (InstancePersistenceCommandException)
+            {
+                if (documentTable.DocType == DocumentType.OfficeMemo)
+                    MakingWithdrawDoc(documentTable, currentUser);
+                
+            }
+        }
+        private void MakingWithdrawDoc(DocumentTable documentTable, string currentUser)
+        {
+            documentTable.WWFInstanceId = Guid.Empty;
+            documentTable.DocumentState = DocumentState.Created;
+            documentTable.ActivityName = String.Empty;
 
-            FileTable fileTableWF = GetRightFileWF(tableName, processId, instanceInfo);
-            Activity activity = ChooseActualWorkflow(tableName, fileTableWF, instanceInfo.DefinitionIdentity != null);
-            WithdrawInstance(documentId, DocumentState.Cancelled, TrackerType.Cancelled, instanceStore, activity, instanceInfo);
-            DeleteInstanceStoreOwner(instanceStore);
-            _HistoryUserService.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = Models.Repository.HistoryType.Withdraw }, HttpContext.Current.User.Identity.GetUserId());
+            int retries = 3;
+            while (retries > 0)
+            {
+                try
+                {
+                    _DocumentService.UpdateDocument(documentTable, currentUser);
+                    break;
+                }
+                catch
+                {
+                    retries = retries - 1;
+                    if (retries <= 0) throw;
+                    Thread.Sleep(1000);
+                }
+            }
+
+            IEnumerable<WFTrackerTable> wftrackers = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == documentTable.Id).ToList();
+            foreach (var item in wftrackers)
+            {
+                item.Users.Clear();
+                _WorkflowTrackerService.SaveDomain(item, currentUser);
+            }
+
+            _WorkflowTrackerService.DeleteAll(documentTable.Id);
         }
         private SqlWorkflowInstanceStore SetupInstanceStore()
         {
@@ -498,9 +545,10 @@ namespace RapidDoc.Models.Services
             }
         }
         public void WithdrawInstance(Guid _documentId, DocumentState _state, TrackerType _trackerType,  SqlWorkflowInstanceStore instanceStore, Activity activity, WorkflowApplicationInstance instanceInfo)
-        {
+        {            
             try
             {
+                DocumentTable documentTable = _DocumentService.Find(_documentId);
                 AutoResetEvent instanceUnloaded = new AutoResetEvent(false);
                 IEnumerable<WFTrackerTable> bookmarks;
                 string currentUserId = HttpContext.Current.User.Identity.GetUserId();
@@ -557,35 +605,7 @@ namespace RapidDoc.Models.Services
                     }
                 }
 
-                DocumentTable documentTable = _DocumentService.Find(_documentId);
-                documentTable.WWFInstanceId = Guid.Empty;
-                documentTable.DocumentState = DocumentState.Created;
-                documentTable.ActivityName = String.Empty;
-
-                int retries = 3;
-                while (retries > 0)
-                {
-                    try
-                    {
-                        _DocumentService.UpdateDocument(documentTable, currentUserId);
-                        break;
-                    }
-                    catch
-                    {
-                        retries = retries - 1;
-                        if (retries <= 0) throw;
-                        Thread.Sleep(1000);
-                    }
-                }
-                
-                IEnumerable<WFTrackerTable> wftrackers = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == _documentId).ToList();
-                foreach (var item in wftrackers)
-                {
-                    item.Users.Clear();
-                    _WorkflowTrackerService.SaveDomain(item, currentUserId);
-                }
-
-                _WorkflowTrackerService.DeleteAll(_documentId);
+                MakingWithdrawDoc(documentTable, currentUserId);            
             }
             catch (Exception ex)
             {
@@ -710,8 +730,9 @@ namespace RapidDoc.Models.Services
                 int i = 0;
                 List<List<WFTrackerUsersTable>> endListUsers = new List<List<WFTrackerUsersTable>>();
                 string currentUser = HttpContext.Current.User.Identity.GetUserId();
-                WFTrackerTable trackerTableUser = _WorkflowTrackerService.FirstOrDefault(x => x.DocumentTableId == refDocId && x.Users.Any(y => y.UserId == currentUser));
-                List<WFTrackerTable> trackerTalbeUserList = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == refDocId && x.LineNum < trackerTableUser.LineNum).OrderBy( x => x.LineNum).ToList();
+                WFTrackerTable trackerTableUser = _DocumentService.FirstOrDefaultTrackerItem(documentTable.ProcessTable, refDocId, currentUser);
+
+                List<WFTrackerTable> trackerTalbeUserList = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == refDocId && x.LineNum < trackerTableUser.LineNum).OrderByDescending( x => x.LineNum).ToList();
                 trackerTalbeUserList.ForEach(x => {
                     List<WFTrackerUsersTable> users = new List<WFTrackerUsersTable>();
                     x.Users.ForEach(z => users.Add(new WFTrackerUsersTable { UserId = z.UserId }));
@@ -719,8 +740,49 @@ namespace RapidDoc.Models.Services
                     allSteps.Add(new string[3] { "Исполнитель", (++i).ToString(), "" });
                 });
 
-                endListUsers.Add(new List<WFTrackerUsersTable> {new WFTrackerUsersTable { UserId = documentTable.ApplicationUserCreatedId }});
-                allSteps.Add(new string[3] { "Исполнитель", (++i).ToString(), "" });
+                bool protocol = false;
+
+                if (documentTable.RefDocumentId != null)
+                {
+                    var taskTable = (USR_TAS_DailyTasks_Table)_DocumentService.GetDocument(documentTable.RefDocumentId, documentTable.ProcessTable.TableName);
+                    var refTaskDocument = _DocumentService.Find(taskTable.RefDocumentId);
+                    if (refTaskDocument != null && refTaskDocument.DocType == DocumentType.Protocol)
+                    {
+                        protocol = true;
+                        var docuTable = (IBasicProtocol)_DocumentService.GetDocument(refTaskDocument.RefDocumentId, refTaskDocument.ProcessTable.TableName);
+                        if (!String.IsNullOrEmpty(docuTable.Chairman))
+                        {
+                            Guid chairmanEmplId = Guid.Parse(_SystemService.GuidsFromText(docuTable.Chairman)[0]);
+                            EmplTable chairmanEmpl = _EmplService.Find(chairmanEmplId);
+                            if (chairmanEmpl != null)
+                            {
+                                string chairmanId = chairmanEmpl.ApplicationUserId;
+                                endListUsers.Add(new List<WFTrackerUsersTable> { new WFTrackerUsersTable { UserId = chairmanId } });
+                                allSteps.Add(new string[3] { "Председатель", (++i).ToString(), "" });
+                            }
+                        }
+
+                        var role = RoleManager.FindByName("ORD_Censor_OKS");
+                        if (role != null)
+                        {
+                            List<WFTrackerUsersTable> protocolRoleList = new List<WFTrackerUsersTable>();
+                            foreach (var userRole in role.Users)
+                            {
+                                protocolRoleList.Add(new WFTrackerUsersTable { UserId = userRole.UserId });
+                            }
+
+                            endListUsers.Add(protocolRoleList);
+                            allSteps.Add(new string[3] { "ОКС", (++i).ToString(), "" });
+                        }
+                    }
+                }
+
+                if (protocol == false)
+                {
+                    endListUsers.Add(new List<WFTrackerUsersTable> { new WFTrackerUsersTable { UserId = documentTable.ApplicationUserCreatedId } });
+                    allSteps.Add(new string[3] { "Инициатор", (++i).ToString(), "" });
+                }
+
                 _documentData.Add("endListUsers", endListUsers);
             }
 

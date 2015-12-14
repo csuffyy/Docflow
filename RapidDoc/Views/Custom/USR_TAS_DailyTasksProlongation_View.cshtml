@@ -5,11 +5,33 @@
     @Html.LabelFor(model => Model.RefDocNum)
 </div>
 @Html.ActionLink(Model.RefDocNum.ToString(), "ShowDocument", "Document", new { id = Model.RefDocumentId, isAfterView = true }, null)
-
-@Html.Partial("_DocumentViewFields", Model, new ViewDataDictionary(ViewData) { { "FieldName", "ExecutionDate" } })
-@Html.Partial("_DocumentViewFields", Model, new ViewDataDictionary(ViewData) { { "FieldName", "TextTask" } })
+<br />
+<div class="row">
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.ExecutionDate)
+        </div>
+        <div class="editor-field">
+            @if (Model.ProlongationOldDate.HasValue && Model.ProlongationOldDate != DateTime.MinValue)
+            {
+                <span class="text text-danger"><del>@Html.FormatValue(Model.ExecutionDate, "{0:dd.MM.yyyy}")</del></span>
+            }
+            else
+            {
+                @Html.FormatValue(Model.ExecutionDate, "{0:dd.MM.yyyy}")
+            }
+        </div>
+    </div>
+    <div class="col-xs-2">
+        @if (Model.ProlongationOldDate.HasValue && Model.ProlongationOldDate != DateTime.MinValue)
+        {
+            @Html.Partial("_DocumentViewFields", Model, new ViewDataDictionary(ViewData) { { "FieldName", "ProlongationOldDate" } })
+        }
+    </div>
+</div>
+<br />
+@Html.Raw(Model.TextTask)
 
 @Html.HiddenFor(model => model.RefDocumentId)
-<br />
 @Html.Partial("_DocumentViewFields", Model, new ViewDataDictionary(ViewData) { { "FieldName", "ProlongationDate" } })
 @Html.Partial("_DocumentViewFields", Model, new ViewDataDictionary(ViewData) { { "FieldName", "Reason" } })

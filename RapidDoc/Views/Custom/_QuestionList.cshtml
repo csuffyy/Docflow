@@ -3,26 +3,27 @@
 @{
     Layout = "";
     string index = ViewData["counter"].ToString();
+    Guid? documentId = (Guid?)ViewData["documentId"];
 }
 
 @using (Html.BeginCollectionItem("PRT_QuestionList_Table__QuestionList" + "*" + index))
 {
-    <div id="questionRow" class="questionRow">
-        <div class="col-xs-1">
-            <strong style="white-space: nowrap;"><span class="fa fa-question-circle"></span> Вопрос <span class="questionNumber"></span></strong>
-        </div>
-        <div class="col-xs-11">
-            @Html.TextAreaFor(model => Model.Question, new { @class = "form-control summernotelight" })
+    <div class="col-xs-1">
+        <strong style="white-space: nowrap;">Вопрос №<span class="questionNumber"></span></strong>
+    </div>
+    <div class="col-xs-11">
+        @Html.TextAreaFor(model => Model.Question, new { @class = "form-control summernotelight" })
 
+            <div id="decisionRow_@index" class="decisionRow">
             @if (Model.DecisionList != null && Model.DecisionList.Count() > 0)
             {
                 foreach (var decision in Model.DecisionList)
                 {
-                    Html.RenderPartial("~/Views/Custom/_DecisionList.cshtml", decision, new ViewDataDictionary { { "counter", index } });
+                    Html.RenderPartial("~/Views/Custom/_DecisionList.cshtml", decision, new ViewDataDictionary { { "counter", index }, { "documentId", documentId } });
                 }
             }
-            @Html.ActionLink("Добавить решение", "CreateNewDecisionProtocol", "Custom", new { counter = index }, new { @id = "addItemDecision_" + index, @class = "addItemDecision" })
-        </div>
-        <hr style="width: 100%; color: grey; height: 1px; background-color: grey;" />
+            </div>
+        @Html.ActionLink("Добавить поручение", "CreateNewDecisionProtocol", "Custom", new { counter = index }, new { @id = "addItemDecision_" + index, @class = "addItemDecision" })
     </div>
+    <hr style="width: 100%; color: grey; height: 1px; background-color: grey;" />
 }

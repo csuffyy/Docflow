@@ -639,4 +639,7 @@
   <data name="ProtocolFolders" xml:space="preserve">
     <value>-</value>
   </data>
+  <data name="ProtocolBase" xml:space="preserve">
+    <value>-</value>
+  </data>
 </root>

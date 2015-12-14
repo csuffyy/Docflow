@@ -22,7 +22,9 @@ namespace RapidDoc.Models.Services
     public interface IDocumentBaseService
     {
         List<DocumentBaseView> GetAllViewUserDocument(DocumentType type, DateTime? startDate, DateTime? endDate);
-        List<DocumentBaseView> GetAllViewUserDocumentWithExecutors(DocumentType type, DateTime? startDate, DateTime? endDate);
+        List<DocumentBaseView> GetAllViewUserDocumentWithExecutors(DocumentType type, DateTime? startDate, DateTime? endDate, Guid? proccesId = null);
+        List<Guid> GetParentListFolders(Guid? protocolId);
+
     }
 
     public class DocumentBaseService : IDocumentBaseService
@@ -33,11 +35,15 @@ namespace RapidDoc.Models.Services
         private IUnitOfWork _uow;
         private readonly IDocumentService _DocumentService;
         private readonly ISystemService _SystemService;
-        private readonly IItemCauseService _ItemCauseService;        
+        private readonly IItemCauseService _ItemCauseService;
+        private readonly IProtocolFoldersService _ProtocolFoldersService;
+        private readonly IOrganizationService _OrganizationService;  
+        
+      
 
         protected UserManager<ApplicationUser> UserManager { get; private set; }
 
-        public DocumentBaseService(IUnitOfWork uow, IDocumentService documentService, ISystemService systemService, IItemCauseService itemCauseService)
+        public DocumentBaseService(IUnitOfWork uow, IDocumentService documentService, ISystemService systemService, IItemCauseService itemCauseService, IProtocolFoldersService protocolFoldersService, IOrganizationService organizationService)
         {
             _uow = uow;
             repo = uow.GetRepository<SearchTable>();
@@ -46,6 +52,8 @@ namespace RapidDoc.Models.Services
             _DocumentService = documentService;
             _SystemService = systemService;
             _ItemCauseService = itemCauseService;
+            _ProtocolFoldersService = protocolFoldersService;
+            _OrganizationService = organizationService;
 
             UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_uow.GetDbContext<ApplicationDbContext>()));
         }
@@ -196,6 +204,13 @@ namespace RapidDoc.Models.Services
                         item.OrderDate = documentView.RegistrationDate;
                         item.DocumentTitle = documentView.DocumentSubject;
                         item.CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(item.CreatedDate), timeZoneInfo);
+                        if (documentView.OrganizationTableId != null)
+                        {
+                            Guid organizationId = (Guid)documentView.OrganizationTableId;
+                            item.InOutOrganization = _OrganizationService.FirstOrDefault(x => x.Id == organizationId).OrgName;
+                        }
+                        else
+                            item.InOutOrganization = "Не указан";
                     }
                     return items;
                 case DocumentType.OutcomingDoc:
@@ -207,6 +222,13 @@ namespace RapidDoc.Models.Services
                         item.OrderDate = documentView.OutgoingDate;
                         item.DocumentTitle = documentView.DocumentSubject;
                         item.CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(item.CreatedDate), timeZoneInfo);
+                        if (documentView.OrganizationTableId != null)
+                        {
+                            Guid organizationId = (Guid)documentView.OrganizationTableId;
+                            item.InOutOrganization = _OrganizationService.FirstOrDefault(x => x.Id == organizationId).OrgName;
+                        }
+                        else
+                            item.InOutOrganization = "Не указан";
                     }
                     return items;
                 case DocumentType.AppealDoc:
@@ -219,12 +241,26 @@ namespace RapidDoc.Models.Services
                         item.DocumentTitle = documentView.Subject;
                         item.CategoryPerson = documentView.CategoryPerson;
                         item.CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(item.CreatedDate), timeZoneInfo);
+
+                        if (documentView.OrganizationTableId != null)
+                        {
+                            Guid organizationId = (Guid)documentView.OrganizationTableId;
+                            item.InOutOrganization = _OrganizationService.FirstOrDefault(x => x.Id == organizationId).OrgName;
+                        }
+                        else
+                            item.InOutOrganization = "Не указан";
                     }
                     return items;
                 case DocumentType.Protocol:
                     foreach (var item in items)
                     {
+                        var documentView = _DocumentService.GetDocumentView(item.DocumentRefId, item.ProcessTableName);
+                        if (!String.IsNullOrEmpty(documentView.Code))
+                            item.OrderNumber = documentView.Code;
+                        item.DocumentTitle = documentView.Subject;
                         item.CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(item.CreatedDate), timeZoneInfo);
+                        item.ProtocolFolderId = documentView.ProtocolFoldersTableId;
+                        item.ProtocolCode = documentView.Code;
                     }
                     return items; 
              }
@@ -232,7 +268,7 @@ namespace RapidDoc.Models.Services
              return null;
         }
 
-        public List<DocumentBaseView> GetAllViewUserDocumentWithExecutors(DocumentType type, DateTime? startDate, DateTime? endDate)
+        public List<DocumentBaseView> GetAllViewUserDocumentWithExecutors(DocumentType type, DateTime? startDate, DateTime? endDate, Guid? processId = null)
         {
             List<DocumentBaseView> items, editedItems = new List<DocumentBaseView>();
 
@@ -245,7 +281,8 @@ namespace RapidDoc.Models.Services
             if (UserManager.IsInRole(user.Id, "Administrator"))
             {
                 items = (from document in contextQuery.DocumentTable
-                         where document.DocumentState != DocumentState.Created
+                         where document.DocumentState != DocumentState.Created &&
+                         ((processId == null)||(processId != null && document.ProcessTableId == processId))
                          join company in contextQuery.CompanyTable on document.CompanyTableId equals company.Id
                          join process in contextQuery.ProcessTable on document.ProcessTableId equals process.Id
                          join tracker in contextQuery.WFTrackerTable on document.Id equals tracker.DocumentTableId
@@ -271,7 +308,9 @@ namespace RapidDoc.Models.Services
                              ProcessTableName = process.TableName,
                              Cancel = document.Cancel,
                              Executed = document.Executed,
-                             DocumentText = document.DocumentText
+                             DocumentText = document.DocumentText,
+                             TrackerActivityName = tracker.ActivityName,
+                             SignUser = tracker.SignUserId
                          }).ToList();
 
             }
@@ -299,7 +338,8 @@ namespace RapidDoc.Models.Services
                                  && (d.ProcessTableId == document.ProcessTableId || d.ProcessTableId == null)
                                  && contextQuery.WFTrackerTable.Any(w => w.DocumentTableId == document.Id && w.SignUserId == null && w.TrackerType == TrackerType.Waiting && w.Users.Any(b => b.UserId == d.EmplTableFrom.ApplicationUserId))
                                  ))
-                             ) && document.DocType == type && (document.CreatedDate >= startDate && document.CreatedDate <= endDate) && document.DocumentState != DocumentState.Created && user.CompanyTableId == document.CompanyTableId
+                             ) && document.DocType == type && (document.CreatedDate >= startDate && document.CreatedDate <= endDate) && document.DocumentState != DocumentState.Created && user.CompanyTableId == document.CompanyTableId &&
+                         ((processId == null) || (processId != null && document.ProcessTableId == processId))
                          orderby String.IsNullOrEmpty(document.ActivityName), document.ModifiedDate descending
                          select new DocumentBaseView
                          {
@@ -321,17 +361,21 @@ namespace RapidDoc.Models.Services
                              ProcessTableName = process.TableName,
                              Cancel = document.Cancel,
                              Executed = document.Executed,
-                             DocumentText = document.DocumentText
+                             DocumentText = document.DocumentText,
+                             TrackerActivityName = tracker.ActivityName,
+                             SignUser = tracker.SignUserId
                          }).ToList();
             }
 
             List<EmplTable> emplTables = contextQuery.EmplTable.ToList();
-
+            List<DepartmentTable> departmentTables = contextQuery.DepartmentTable.ToList();
             foreach(var item in items)
             {
                 foreach(var itemUser in item.Users)
                 {
                     EmplTable empl = emplTables.Where(p => p.ApplicationUserId == itemUser.UserId).OrderByDescending(p => p.Enable).FirstOrDefault();
+                    DepartmentTable department = departmentTables.FirstOrDefault(x => x.Id == empl.DepartmentTableId);
+
                     editedItems.Add(new DocumentBaseView
                     {
                         ActivityName = item.ActivityName,
@@ -352,12 +396,34 @@ namespace RapidDoc.Models.Services
                         Cancel = item.Cancel,
                         Executed = item.Executed,
                         UserName = empl.FullName,
-                        DocumentText = item.DocumentText
+                        DocumentText = item.DocumentText,
+                        DepartmentName = department.DepartmentName,
+                        TrackerActivityName = item.TrackerActivityName,
+                        SignUser = item.SignUser
                     });
                 }
             }
 
             return editedItems;
+        }
+
+        public List<Guid> GetParentListFolders(Guid? protocolId)
+        {
+            List<Guid> listDocumentBaseProtocolFolder = new List<Guid>();
+            List<Guid> listDocumentBaseProtocolFolderBuf = new List<Guid>();
+
+            ProtocolFoldersTable documentBaseProtocolFolder = _ProtocolFoldersService.FirstOrDefault(x => x.Id == protocolId);
+
+            if (documentBaseProtocolFolder.ProtocolFoldersParentId != null)
+            {
+                listDocumentBaseProtocolFolder.Add(documentBaseProtocolFolder.Id);
+                listDocumentBaseProtocolFolderBuf = this.GetParentListFolders(documentBaseProtocolFolder.ProtocolFoldersParentId);
+                listDocumentBaseProtocolFolder = listDocumentBaseProtocolFolder.Concat(listDocumentBaseProtocolFolderBuf).Distinct().OrderBy(x => x).ToList();
+            }
+            else
+                listDocumentBaseProtocolFolder.Add(documentBaseProtocolFolder.Id);
+
+            return listDocumentBaseProtocolFolder;
         }
     }
 }

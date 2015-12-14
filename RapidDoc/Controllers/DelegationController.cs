@@ -226,5 +226,15 @@ namespace RapidDoc.Controllers
 
             return View(model);
         }
+        public ActionResult Detail(Guid id)
+        {
+            var model = _Service.FindView(id);
+
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
+            return View(model);
+        }
     }
 }

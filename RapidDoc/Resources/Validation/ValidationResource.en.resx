@@ -183,4 +183,7 @@
   <data name="ErrorDelegationUser" xml:space="preserve">
     <value>Employees should be different</value>
   </data>
+  <data name="ErrorDocumentState" xml:space="preserve">
+    <value>The document is closed or canceled</value>
+  </data>
 </root>

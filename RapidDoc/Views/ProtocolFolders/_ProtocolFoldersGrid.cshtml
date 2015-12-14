@@ -21,7 +21,8 @@
     columns.Add(o => o.Id).Css("hidden");
     columns.Add(o => o.ProtocolFolderName).Titled(Html.DisplayNameFor(o => ((RapidDoc.Models.ViewModels.ProtocolFoldersView)o.Columns).ProtocolFolderName).ToHtmlString()).Sortable(true).Filterable(true);
     columns.Add(o => o.ParentProtocolFolderName).Titled(Html.DisplayNameFor(o => ((RapidDoc.Models.ViewModels.ProtocolFoldersView)o.Columns).ParentProtocolFolderName).ToHtmlString()).Sortable(true).Filterable(true); 
-    columns.Add(o => o.ProcessName).Titled(Html.DisplayNameFor(o => ((RapidDoc.Models.ViewModels.ProtocolFoldersView)o.Columns).ProcessName).ToHtmlString()).Sortable(true).Filterable(true);   
+    columns.Add(o => o.ProcessName).Titled(Html.DisplayNameFor(o => ((RapidDoc.Models.ViewModels.ProtocolFoldersView)o.Columns).ProcessName).ToHtmlString()).Sortable(true).Filterable(true);
+    columns.Add(o => o.Enable).Titled(Html.DisplayNameFor(o => ((RapidDoc.Models.ViewModels.ProtocolFoldersView)o.Columns).Enable).ToHtmlString()).Sortable(true).Filterable(true); 
     columns.Add()
         .Encoded(false)
         .Sanitized(false)

@@ -138,6 +138,9 @@
   <data name="RequestText" xml:space="preserve">
     <value>Текст запроса</value>
   </data>
+  <data name="TripMRP" xml:space="preserve">
+    <value>Справочник МРП</value>
+  </data>
   <data name="TripSettings" xml:space="preserve">
     <value>Нормы коммандировок</value>
   </data>

@@ -82,6 +82,7 @@ namespace RapidDoc.Models.Services
         string ScrubHtml(string value);
         double GetSLAHours(Guid documentId, DateTime? startDate, DateTime? endDate);
         Guid DuplicateFile(FileTable fileTable, Guid? docFileId = null);
+        WFTrackerTable FirstOrDefaultTrackerItem(ProcessTable process, Guid documentId, string userId);
     }
 
     public class DocumentService : IDocumentService
@@ -93,6 +94,7 @@ namespace RapidDoc.Models.Services
         private IUnitOfWork _uow;
         private readonly INumberSeqService _NumberSeqService;
         private readonly IProcessService _ProcessService;
+        private readonly IGroupProcessService _GroupProcessService;
         private readonly IWorkflowTrackerService _WorkflowTrackerService;
         private readonly IDelegationService _DelegationService;
         private readonly IDocumentReaderService _DocumentReaderService;
@@ -107,7 +109,7 @@ namespace RapidDoc.Models.Services
         public DocumentService(IUnitOfWork uow, INumberSeqService numberSeqService, IProcessService processService, 
             IWorkflowTrackerService workflowTrackerService,
             IDelegationService delegationService, IDocumentReaderService documentReaderService, IWorkScheduleService workScheduleService,
-            IReviewDocLogService reviewDocLogService, IEmplService emplService, IModificationUsersService modificationUsersService)
+            IReviewDocLogService reviewDocLogService, IEmplService emplService, IModificationUsersService modificationUsersService, IGroupProcessService groupProcessService)
         {
             _uow = uow;
             repoProcess = uow.GetRepository<ProcessTable>();
@@ -123,6 +125,7 @@ namespace RapidDoc.Models.Services
             _ReviewDocLogService = reviewDocLogService;
             _EmplService = emplService;
             _ModificationUsersService = modificationUsersService;
+            _GroupProcessService = groupProcessService;
 
             UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_uow.GetDbContext<ApplicationDbContext>()));
             RoleManager = new RoleManager<ApplicationRole>(new RoleStore<ApplicationRole>(_uow.GetDbContext<ApplicationDbContext>()));
@@ -254,6 +257,18 @@ namespace RapidDoc.Models.Services
             }
             else
             {
+                var delegations = contextQuery.DelegationTable.Where(d => d.EmplTableTo.ApplicationUserId == user.Id && d.DateFrom <= currentDate && d.DateTo >= currentDate && d.isArchive == false
+                    && d.CompanyTableId == user.CompanyTableId && d.GroupProcessTableId != null).ToList();
+                List<Guid> childGroup = new List<Guid>();
+
+                foreach(var item in delegations)
+                {
+                    childGroup.AddRange(_GroupProcessService.GetGroupChildren(item.GroupProcessTableId));
+                    childGroup.Add((Guid)item.GroupProcessTableId);
+                }
+
+                var childGroupArray = childGroup.Distinct().ToArray();
+
                 var items = from document in contextQuery.DocumentTable
                             where
                                 (document.ApplicationUserCreatedId == user.Id ||
@@ -271,13 +286,14 @@ namespace RapidDoc.Models.Services
                                         )) && document.DocumentState != DocumentState.Created) ||
                                     (contextQuery.DelegationTable.Any(d => d.EmplTableTo.ApplicationUserId == user.Id && d.DateFrom <= currentDate && d.DateTo >= currentDate && d.isArchive == false
                                     && d.CompanyTableId == user.CompanyTableId
-                                    && (d.GroupProcessTableId == document.ProcessTable.Id || d.GroupProcessTableId == null)
+                                    && (d.GroupProcessTableId == null || childGroupArray.Any(x => x == document.ProcessTable.GroupProcessTableId))
                                     && (d.ProcessTableId == document.ProcessTableId || d.ProcessTableId == null)
                                     && contextQuery.WFTrackerTable.Any(w => w.DocumentTableId == document.Id && w.SignUserId == null && w.TrackerType == TrackerType.Waiting && w.Users.Any(b => b.UserId == d.EmplTableFrom.ApplicationUserId))
                                     ))
                                 )
                                 &&
                                 !(contextQuery.ReviewDocLogTable.Any(x => x.ApplicationUserCreatedId == user.Id && x.DocumentTableId == document.Id && x.isArchive == true))
+                                && !(document.ApplicationUserCreatedId == user.Id && document.DocType == DocumentType.Task)
                             join company in contextQuery.CompanyTable on document.CompanyTableId equals company.Id
                             join process in contextQuery.ProcessTable on document.ProcessTableId equals process.Id
                             let empl = contextQuery.EmplTable.Where(p => p.ApplicationUserId == document.ApplicationUserCreatedId).OrderByDescending(p => p.Enable).FirstOrDefault()
@@ -341,6 +357,18 @@ namespace RapidDoc.Models.Services
             }
             else
             {
+                var delegations = contextQuery.DelegationTable.Where(d => d.EmplTableTo.ApplicationUserId == user.Id && d.DateFrom <= currentDate && d.DateTo >= currentDate && d.isArchive == false
+                    && d.CompanyTableId == user.CompanyTableId && d.GroupProcessTableId != null).ToList();
+                List<Guid> childGroup = new List<Guid>();
+
+                foreach (var item in delegations)
+                {
+                    childGroup.AddRange(_GroupProcessService.GetGroupChildren(item.GroupProcessTableId));
+                    childGroup.Add((Guid)item.GroupProcessTableId);
+                }
+
+                var childGroupArray = childGroup.Distinct().ToArray();
+
                 var items = from document in contextQuery.DocumentTable
                        where
                            (document.ApplicationUserCreatedId == user.Id ||
@@ -352,7 +380,7 @@ namespace RapidDoc.Models.Services
                                (contextQuery.DocumentReaderTable.Any(d => d.RoleId != null && d.DocumentTableId == document.Id && contextQuery.Roles.Where(r => r.Id == d.RoleId).ToList().Any(x => x.Users.ToList().Any(z => z.UserId == user.Id)))) ||
                                (contextQuery.DelegationTable.Any(d => d.EmplTableTo.ApplicationUserId == user.Id && d.DateFrom <= currentDate && d.DateTo >= currentDate && d.isArchive == false
                                && d.CompanyTableId == user.CompanyTableId
-                               && (d.GroupProcessTableId == document.ProcessTable.Id || d.GroupProcessTableId == null)
+                               && (d.GroupProcessTableId == null || childGroupArray.Any(x => x == document.ProcessTable.GroupProcessTableId))
                                && (d.ProcessTableId == document.ProcessTableId || d.ProcessTableId == null)
                                && contextQuery.WFTrackerTable.Any(w => w.DocumentTableId == document.Id && w.SignUserId == null && w.TrackerType == TrackerType.Waiting && w.Users.Any(b => b.UserId == d.EmplTableFrom.ApplicationUserId))
                                ))
@@ -460,13 +488,25 @@ namespace RapidDoc.Models.Services
             DateTime currentDate = DateTime.UtcNow;
             ApplicationDbContext contextQuery = _uow.GetDbContext<ApplicationDbContext>();
 
+            var delegations = contextQuery.DelegationTable.Where(d => d.EmplTableTo.ApplicationUserId == user.Id && d.DateFrom <= currentDate && d.DateTo >= currentDate && d.isArchive == false
+                    && d.CompanyTableId == user.CompanyTableId && d.GroupProcessTableId != null).ToList();
+            List<Guid> childGroup = new List<Guid>();
+
+            foreach (var item in delegations)
+            {
+                childGroup.AddRange(_GroupProcessService.GetGroupChildren(item.GroupProcessTableId));
+                childGroup.Add((Guid)item.GroupProcessTableId);
+            }
+
+            var childGroupArray = childGroup.Distinct().ToArray();
+
             var items = from document in contextQuery.DocumentTable
                         where (contextQuery.ProcessTable.Any(p => p.Id == document.ProcessTableId && contextQuery.Roles.Where(pr => pr.Id == p.StartReaderRoleId).ToList().Any(x => x.Users.ToList().Any(z => z.UserId == user.Id)))
                                     ||
                                     contextQuery.WFTrackerTable.Any(x => x.DocumentTableId == document.Id && x.SignUserId == null && x.TrackerType == TrackerType.Waiting && x.Users.Any(b => b.UserId == user.Id)) ||
                                     (contextQuery.DelegationTable.Any(d => d.EmplTableTo.ApplicationUserId == user.Id && d.DateFrom <= currentDate && d.DateTo >= currentDate && d.isArchive == false
                                     && d.CompanyTableId == user.CompanyTableId
-                                    && (d.GroupProcessTableId == document.ProcessTable.Id || d.GroupProcessTableId == null)
+                                    && (d.GroupProcessTableId == null || childGroupArray.Any(x => x == document.ProcessTable.GroupProcessTableId))
                                     && (d.ProcessTableId == document.ProcessTableId || d.ProcessTableId == null)
                                     && contextQuery.WFTrackerTable.Any(w => w.DocumentTableId == document.Id && w.SignUserId == null && w.TrackerType == TrackerType.Waiting && w.Users.Any(b => b.UserId == d.EmplTableFrom.ApplicationUserId))
                                     ))
@@ -569,7 +609,7 @@ namespace RapidDoc.Models.Services
                             break;
                         }
 
-                        currentName += item.ActivityName + "/";
+                        currentName = currentName.Contains(Regex.Replace(item.ActivityName, @"[\d-]", string.Empty)) != true ? currentName + Regex.Replace(item.ActivityName, @"[\d-]", string.Empty) + "/" : currentName;
                         if(currentName.Length > 60)
                             break;
                     }
@@ -629,7 +669,7 @@ namespace RapidDoc.Models.Services
                 return true;
             }
 
-            if (_DelegationService.CheckDelegation(documentTable, user, documentTable.ProcessTable, trackerTables) == true)
+            if (_DelegationService.CheckDelegation(user, documentTable.ProcessTable, trackerTables) == true)
             {
                 return true;
             }
@@ -672,7 +712,7 @@ namespace RapidDoc.Models.Services
                 return true;
             }
 
-            if (_DelegationService.CheckDelegation(documentTable, user, documentTable.ProcessTable, trackerTables) == true)
+            if (_DelegationService.CheckDelegation(user, documentTable.ProcessTable, trackerTables) == true)
             {
                 return true;
             }
@@ -1089,9 +1129,11 @@ namespace RapidDoc.Models.Services
         public List<string> SignDocumentCZ(Guid documentId, TrackerType trackerType, string comment = "")
         {
             List<string> ret = new List<string>();
+            List<Guid> childGroup = new List<Guid>();
             string currentUserId = HttpContext.Current.User.Identity.GetUserId();
             ret.AddRange(SignDocumentUserCZ(documentId, trackerType, currentUserId, comment));
 
+            var document = Find(documentId);
             var emplTables = _EmplService.GetPartialIntercompany(x => x.ApplicationUserId == currentUserId && x.Enable == true).ToList();
 
             foreach(var empl in emplTables)
@@ -1102,11 +1144,18 @@ namespace RapidDoc.Models.Services
 
                 foreach(var delegation in delegationItems)
                 {
+                    if (delegation.GroupProcessTableId != null && delegation.ProcessTableId == null)
+                    {
+                        childGroup.AddRange(_GroupProcessService.GetGroupChildren(delegation.GroupProcessTableId));
+                        childGroup.Add((Guid)delegation.GroupProcessTableId);
+                    }
+
                     var item = _EmplService.FirstOrDefault(x => x.Id == delegation.EmplTableFromId && x.CompanyTableId == delegation.CompanyTableId && x.Enable == true);
-                    if(item != null)
+                    if(item != null && (delegation.ProcessTableId == document.ProcessTableId || childGroup.Any(d => d == document.ProcessTable.GroupProcessTableId)))
                     {
                         ret.AddRange(SignDocumentUserCZ(documentId, trackerType, item.ApplicationUserId, comment));
                     }
+                    childGroup.Clear();
                 }
             }
             return ret;
@@ -1140,7 +1189,7 @@ namespace RapidDoc.Models.Services
                             _WorkflowTrackerService.SaveDomain(nextstep, userid);
                             if (nextstep.Users != null)
                             {
-                                    ret.AddRange(nextstep.Users.Select(x => x.UserId + "|" + nextstep.AdditionalText));
+                                ret.AddRange(nextstep.Users.Select(x => x.UserId + "|" + nextstep.AdditionalText));
                             }
                         }
                     }
@@ -1155,6 +1204,9 @@ namespace RapidDoc.Models.Services
  	        string currentUserId = HttpContext.Current.User.Identity.GetUserId();
             bool isSign = false;
 
+            var document = Find(documentId);
+            List<Guid> childGroup = new List<Guid>();
+            //WFTrackerTable trackerTable = FirstOrDefaultTrackerItem(document.ProcessTable, documentId, currentUserId);
             WFTrackerTable trackerTable = _WorkflowTrackerService.FirstOrDefault(x => x.DocumentTableId == documentId && x.SignUserId == null && x.TrackerType == TrackerType.Waiting && x.Users.Any(p => p.UserId == currentUserId));
             if (trackerTable == null)
             {
@@ -1165,21 +1217,30 @@ namespace RapidDoc.Models.Services
                     var delegationItems = _DelegationService.GetPartial(x => x.EmplTableToId == empl.Id
                         && x.DateFrom <= DateTime.UtcNow && x.DateTo >= DateTime.UtcNow
                         && x.isArchive == false && x.CompanyTableId == empl.CompanyTable.Id).ToList();
+
                     if (isSign == true)
                         break;
+
                     foreach (var delegation in delegationItems)
                     {
+                        if (delegation.GroupProcessTableId != null && delegation.ProcessTableId == null)
+                        {
+                            childGroup.AddRange(_GroupProcessService.GetGroupChildren(delegation.GroupProcessTableId));
+                            childGroup.Add((Guid)delegation.GroupProcessTableId);
+                        }
+
                         var item = _EmplService.FirstOrDefault(x => x.Id == delegation.EmplTableFromId && x.CompanyTableId == delegation.CompanyTableId && x.Enable == true);
-                        if (item != null)
+                        if (item != null && (delegation.ProcessTableId == document.ProcessTableId || childGroup.Any(d => d == document.ProcessTable.GroupProcessTableId) || (delegation.ProcessTableId == null && delegation.GroupProcessTableId == null)))
                         {
                             trackerTable = _WorkflowTrackerService.FirstOrDefault(x => x.DocumentTableId == documentId && x.SignUserId == null && x.TrackerType == TrackerType.Waiting && x.Users.Any(p => p.UserId == item.ApplicationUserId));
                             if (trackerTable != null)
                             {
-                                SaveSignData(new List<WFTrackerTable>{ trackerTable}, trackerType);
+                                SaveSignData(new List<WFTrackerTable>{ trackerTable }, trackerType);
                                 isSign = true;
                                 break;
                             }
                         }
+                        childGroup.Clear();
                     }
                 }
             }
@@ -1188,7 +1249,7 @@ namespace RapidDoc.Models.Services
                 SaveSignData(new List<WFTrackerTable> { trackerTable }, trackerType);
             }
 
-             var trackerTables = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == documentId && x.SignUserId == null && x.TrackerType == TrackerType.Waiting).ToList();
+            var trackerTables = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == documentId && x.SignUserId == null && x.TrackerType == TrackerType.Waiting).ToList();
 
             if (trackerTables != null && trackerTables.Count > 0)
                 SaveSignData(trackerTables, TrackerType.Active, false);
@@ -1200,30 +1261,49 @@ namespace RapidDoc.Models.Services
             ApplicationUser currentUser = repoUser.GetById(HttpContext.Current.User.Identity.GetUserId());
 
             var  taskList= _uow.GetDbContext<ApplicationDbContext>().USR_TAS_DailyTasks_Table.Where(x => x.RefDocumentId == documentId).ToList();
-            taskList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName }));
+            taskList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { 
+                DocumentNum = y.DocumentTable.DocumentNum, 
+                DocumentId = y.DocumentTable.Id, 
+                DocType = y.DocumentTable.DocType,
+                DateCreate = y.CreatedDate, 
+                UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName, 
+                ReportText = y.ReportText, 
+                DocumentState = y.DocumentTable.DocumentState,
+                Users = y.Users,
+                ExecutionDate = y.ExecutionDate,
+                ProlongationDate = y.ProlongationDate
+            }));
 
             var  prolongationsList= _uow.GetDbContext<ApplicationDbContext>().USR_TAS_DailyTasksProlongation_Table.Where(x => x.RefDocumentId == documentId).ToList();
-            prolongationsList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName }));
+            prolongationsList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { 
+                DocumentNum = y.DocumentTable.DocumentNum, 
+                DocumentId = y.DocumentTable.Id, 
+                DateCreate = y.CreatedDate, 
+                UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName, 
+                DocumentState = y.DocumentTable.DocumentState, 
+                DocType = y.DocumentTable.DocType,
+                ProlongationDate = y.ProlongationDate
+            }));
 
             //Orders
             var mainActivityList = _uow.GetDbContext<ApplicationDbContext>().USR_ORD_MainActivity_Table.Where(x => x.AdditionDocumentId == documentId).ToList();
-            mainActivityList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName }));
+            mainActivityList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName, DocType = y.DocumentTable.DocType }));
             var businessTripList = _uow.GetDbContext<ApplicationDbContext>().USR_ORD_BusinessTrip_Table.Where(x => x.AdditionDocumentId == documentId).ToList();
-            businessTripList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName }));
+            businessTripList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName, DocType = y.DocumentTable.DocType }));
             var staffList = _uow.GetDbContext<ApplicationDbContext>().USR_ORD_Staff_Table.Where(x => x.AdditionDocumentId == documentId).ToList();
-            staffList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName }));
+            staffList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName, DocType = y.DocumentTable.DocType }));
             var receptionList = _uow.GetDbContext<ApplicationDbContext>().USR_ORD_Reception_Table.Where(x => x.AdditionDocumentId == documentId).ToList();
-            receptionList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName }));
+            receptionList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName, DocType = y.DocumentTable.DocType }));
             var dismissalList = _uow.GetDbContext<ApplicationDbContext>().USR_ORD_Dismissal_Table.Where(x => x.AdditionDocumentId == documentId).ToList();
-            dismissalList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName }));
+            dismissalList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName, DocType = y.DocumentTable.DocType }));
             var transferList = _uow.GetDbContext<ApplicationDbContext>().USR_ORD_Transfer_Table.Where(x => x.AdditionDocumentId == documentId).ToList();
-            transferList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName }));
+            transferList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName, DocType = y.DocumentTable.DocType }));
             var holidayList = _uow.GetDbContext<ApplicationDbContext>().USR_ORD_Holiday_Table.Where(x => x.AdditionDocumentId == documentId).ToList();
-            holidayList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName }));
+            holidayList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName, DocType = y.DocumentTable.DocType }));
             var changeStaffList = _uow.GetDbContext<ApplicationDbContext>().USR_ORD_ChangeStaff_Table.Where(x => x.AdditionDocumentId == documentId).ToList();
-            changeStaffList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName }));
+            changeStaffList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName, DocType = y.DocumentTable.DocType }));
             var sanctionList = _uow.GetDbContext<ApplicationDbContext>().USR_ORD_Sanction_Table.Where(x => x.AdditionDocumentId == documentId).ToList();
-            sanctionList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName }));
+            sanctionList.ForEach(y => taskDelegationList.Add(new TaskDelegationView { DocumentNum = y.DocumentTable.DocumentNum, DocumentId = y.DocumentTable.Id, DateCreate = y.CreatedDate, UserCreate = _EmplService.GetEmployer(y.DocumentTable.ApplicationUserCreatedId, currentUser.CompanyTableId).FullName, DocType = y.DocumentTable.DocType }));
 
             return taskDelegationList;
         }
@@ -1401,7 +1481,7 @@ namespace RapidDoc.Models.Services
             result.Insert(0, new USR_IND_IncomingDocList { Name = UIElementRes.UIElement.NoValue, Id = null });
 
             IRepository<USR_IND_IncomingDocuments_Table> repo = _uow.GetRepository<USR_IND_IncomingDocuments_Table>();
-            List<USR_IND_IncomingDocuments_Table> items = repo.FindAll(x => !String.IsNullOrEmpty(x.IncomingDocNum) && x.Executed == true).ToList();
+            List<USR_IND_IncomingDocuments_Table> items = repo.FindAll(x => !String.IsNullOrEmpty(x.IncomingDocNum) && x.Executed == true).OrderBy(x => x.IncomingDocNum).ToList();
 
             items.ForEach(x => result.Add(new USR_IND_IncomingDocList() { Name = x.IncomingDocNum + "/" + x.RegistrationDate.Value.ToShortDateString(), Id = x.DocumentTableId }));
 
@@ -1414,7 +1494,7 @@ namespace RapidDoc.Models.Services
             result.Insert(0, new USR_OND_OutcomingDocList { Name = UIElementRes.UIElement.NoValue, Id = null });
 
             IRepository<USR_OND_OutcomingDocuments_Table> repo = _uow.GetRepository<USR_OND_OutcomingDocuments_Table>();
-            List<USR_OND_OutcomingDocuments_Table> items = repo.FindAll(x => !String.IsNullOrEmpty(x.OutcomingDocNum)).ToList();
+            List<USR_OND_OutcomingDocuments_Table> items = repo.FindAll(x => !String.IsNullOrEmpty(x.OutcomingDocNum)).OrderBy(x => x.OutcomingDocNum).ToList();
 
             items.ForEach(x => result.Add(new USR_OND_OutcomingDocList() { Name = x.OutcomingDocNum, Id = x.DocumentTableId }));
 
@@ -1508,6 +1588,26 @@ namespace RapidDoc.Models.Services
             Guid Id = SaveFile(doc);
 
             return doc.DocumentFileId;
+        }
+
+        public WFTrackerTable FirstOrDefaultTrackerItem(ProcessTable process, Guid documentId, string userId)
+        {
+            WFTrackerTable trackerTableUser = _WorkflowTrackerService.FirstOrDefault(x => x.DocumentTableId == documentId && x.TrackerType == TrackerType.Waiting && x.Users.Any(y => y.UserId == userId));
+            if (trackerTableUser == null)
+            {
+                ApplicationUser user = repoUser.GetById(userId);
+                if (user != null)
+                {
+                    var items = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == documentId).OrderBy(x => x.LineNum).ToList();
+                    foreach (var item in items)
+                    {
+                        if (_DelegationService.CheckDelegation(user, process, item))
+                            return item;
+                    }
+                }
+            }
+
+            return trackerTableUser;
         }
     }
 }

@@ -116,6 +116,12 @@
 <div class="editor-field">
     @Html.TextAreaFor(model => Model.MainFieldTranslate, new { @class = "form-control summernote" })
 </div>
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.ListFileName)
+</div>
+<div class="editor-field">
+    @Html.TextAreaFor(model => Model.ListFileName, new { @class = "form-control", placeholder = "Приложения" })
+</div>
 
 <div class="modal listagreement-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sidebar">

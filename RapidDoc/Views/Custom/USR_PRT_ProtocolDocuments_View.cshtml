@@ -32,7 +32,7 @@
             @Html.LabelFor(x => x.Attended):
         </div>
         <div class="editor-field">
-            @Html.DisplayTextFor(model => Model.Attended)
+            @Html.HtmlDisplayTagsFor(model => Model.Attended)
         </div>
         @if(!String.IsNullOrEmpty(Model.Invited))
         { 
@@ -40,7 +40,7 @@
             @Html.LabelFor(x => x.Invited):
         </div>
         <div class="editor-field">
-            @Html.DisplayTextFor(model => Model.Invited)
+            @Html.HtmlDisplayTagsFor(model => Model.Invited)
         </div>
         }
     </div>
@@ -51,7 +51,7 @@
             @Html.LabelFor(x => x.Absent):
         </div>
         <div class="editor-field">
-            @Html.DisplayTextFor(model => Model.Absent)
+            @Html.HtmlDisplayTagsFor(model => Model.Absent)
         </div>
         }
         <div class="editor-label">
@@ -65,12 +65,12 @@
 <hr />
 
 <div class="row">
-    <div class="col-xs-2">
+    <div class="col-xs-1">
         <div class="editor-label">
             @Html.LabelFor(x => x.Agenda):
         </div>
     </div>
-    <div class="col-xs-10">
+    <div class="col-xs-11">
         <div class="editor-field">
             <p><strong><span style="white-space: pre-line">@Html.Raw(Model.Agenda)</span></strong></p>
         </div>
@@ -79,12 +79,12 @@
 @if(!String.IsNullOrEmpty(Model.Introduction))
 { 
 <div class="row">
-    <div class="col-xs-2">
+    <div class="col-xs-1">
         <div class="editor-label">
-            @Html.LabelFor(x => x.Introduction):
+            @Html.LabelFor(x => x.Introduction)
         </div>
     </div>
-    <div class="col-xs-10">
+    <div class="col-xs-11">
         <div class="editor-field">
             <p><span style="white-space: pre-line">@Html.Raw(Model.Introduction)</span></p>
         </div>
@@ -92,17 +92,10 @@
 </div>
 }
 <hr />
-<div class="row">
-    <div class="col-xs-2">
-        <strong>Список вопросов:</strong>
-    </div>
-    <div class="col-xs-10">
-        @if (Model.QuestionList != null && Model.QuestionList.Count() > 0)
-        {
-            foreach (var question in Model.QuestionList)
-            {
-                Html.RenderPartial("~/Views/Custom/_QuestionListView.cshtml", question);
-            }
-        }
-    </div>
-</div>
+<strong>Список вопросов:</strong>
+<br />
+<br />
+@if (Model.QuestionList != null && Model.QuestionList.Count() > 0)
+{
+    Html.RenderPartial("~/Views/Custom/_QuestionListView.cshtml", Model.QuestionList);
+}

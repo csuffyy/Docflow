@@ -1149,7 +1149,10 @@ namespace RapidDoc.Models.Repository
         RegistrationNumber = 3,
 
         [Display(Name = "По дате регистрации")]
-        RegistrationDate = 4
+        RegistrationDate = 4,
+
+        [Display(Name = "По корреспонденту")]
+        Organization = 5
     }
 
     public enum OutcomingFilterType : byte
@@ -1167,7 +1170,10 @@ namespace RapidDoc.Models.Repository
         RegistrationNumber = 3,
 
         [Display(Name = "По дате исходящего")]
-        RegistrationDate = 4
+        RegistrationDate = 4,
+
+        [Display(Name = "По корреспонденту")]
+        Organization = 5
     }
 
     public enum AppealFilterType : byte
@@ -1185,7 +1191,61 @@ namespace RapidDoc.Models.Repository
         Topic = 3,
 
         [Display(Name = "По категории лица")]
-        CategoryPerson = 4
+        CategoryPerson = 4,
+
+        [Display(Name = "По корреспонденту")]
+        Organization = 5
+    }
+
+    public enum ProtocolFilterType : byte
+    {
+        [Display(Name = "[Протокол] По инициатору")]
+        Initiator = 0,
+
+        [Display(Name = "[Протокол] По подразделению")]
+        Department = 1,
+
+        [Display(Name = "[Протокол] По теме документа")]
+        Topic = 2,
+
+        [Display(Name = "[Протокол] По папкам")]
+        Folder = 3,
+
+        [Display(Name = "[Поручения] По статусу")]
+        TaskStatus = 4,
+
+        [Display(Name = "[Поручения] По исполнителям")]
+        TaskExecutor = 5,
+
+        [Display(Name = "[Продление сроков] По исполнителям")]
+        ProlongTaskExecutor = 6,
+
+        [Display(Name = "[Продление сроков] По председателям")]
+        ProlongTaskChairman = 7,
+
+        [Display(Name = "[Продление сроков] По статусу")]
+        ProlongTaskStatus = 8
+    }
+
+    public enum ProtocolTaskDocumentBaseStatus : byte
+    {
+        [Display(Name = "В работе")]
+        AtWork = 0,
+
+        [Display(Name = "Выполненные")]
+        Executed = 1,
+
+        [Display(Name = "Просроченные")]
+        Overdue = 2
+    }
+
+    public enum ProtocolProlongTaskDocumentBaseStatus : byte
+    {
+        [Display(Name = "В работе")]
+        AtWork = 0,
+
+        [Display(Name = "Выполненные")]
+        Executed = 1
     }
 
     public enum BusinessTripType : byte
