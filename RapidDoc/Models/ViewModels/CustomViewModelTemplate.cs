@@ -452,15 +452,11 @@ namespace RapidDoc.Models.ViewModels
 
     public abstract class BasicProtocolDocumentsView : BasicDocumentView
     {
-        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
-        [Display(Name = "Код")]
-        public string Code { get; set; }
-
         [Display(Name = "Папка")]
         public Guid? ProtocolFoldersTableId { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
-        [Display(Name = "Тема документа")]
+        [Display(Name = "Наименование заседания, номер")]
         public string Subject { get; set; }
 
         [Display(Name = "Место проведения")]

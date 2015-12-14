@@ -13,7 +13,7 @@
 
 @using (Html.BeginCollectionItem("PRT_DecisionList_Table__DecisionList" + "*" + index))
 {
-    <h6><strong>Поручение №<span id="decisionNumber_@index" class="decisionNumber"></span></strong></h6>
+    <h6><strong class="text-uppercase">Поручение №<span id="decisionNumber_@index" class="decisionNumber"></span></strong></h6>
     @Html.TextAreaFor(model => Model.Decision, new { @class = "form-control summernotelight" })
     <div class="row">
         <div class="col-xs-8">

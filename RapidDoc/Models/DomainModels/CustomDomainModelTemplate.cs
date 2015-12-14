@@ -313,7 +313,6 @@ namespace RapidDoc.Models.DomainModels
 
     public interface IBasicProtocol
     {
-        string Code { get; set; }
         Guid? ProtocolFoldersTableId { get; set; }
         string Subject { get; set; }
         string Location { get; set; }
@@ -328,8 +327,6 @@ namespace RapidDoc.Models.DomainModels
 
     public abstract class BasicProtocolDocumentsTable : BasicDocumentTable, IBasicProtocol
     {
-        public string Code { get; set; }
-
         public Guid? ProtocolFoldersTableId { get; set; }
         public virtual ProtocolFoldersTable ProtocolFoldersTable { get; set; }
 
