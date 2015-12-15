@@ -2004,6 +2004,12 @@ namespace RapidDoc.Controllers
             return PartialView("~/Views/Document/_TaskList.cshtml", model);       
         }
 
+        public ActionResult GetFileList(Guid id)
+        {
+            var model = _DocumentService.GetAllFilesDocument(id).ToList();
+            return PartialView("~/Views/Document/_FileList.cshtml", model);
+        }
+
         private void CheckAttachedFiles(ProcessView process, Guid fileId, Guid? documentId)
         {
             var files = _DocumentService.GetAllFilesDocument(fileId).ToList();

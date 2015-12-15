@@ -339,7 +339,7 @@ namespace RapidDoc.Models.DomainModels
         public string Absent { get; set; }
         public string Chairman { get; set; }
         public string ListAgreement { get; set; }
-
+        public string Duration { get; set; }
         public virtual List<PRT_QuestionList_Table> QuestionList { get; set; }
     }
 }

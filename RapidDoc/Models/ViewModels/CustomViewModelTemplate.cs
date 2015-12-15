@@ -487,6 +487,10 @@ namespace RapidDoc.Models.ViewModels
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         public string ListAgreement { get; set; }
 
+        [Display(Name = "Время проведения совещания")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string Duration { get; set; }
+
         public List<RapidDoc.Models.DomainModels.PRT_QuestionList_Table> QuestionList { get; set; }
     }
 }

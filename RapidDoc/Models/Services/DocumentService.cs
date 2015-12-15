@@ -1271,7 +1271,8 @@ namespace RapidDoc.Models.Services
                 DocumentState = y.DocumentTable.DocumentState,
                 Users = y.Users,
                 ExecutionDate = y.ExecutionDate,
-                ProlongationDate = y.ProlongationDate
+                ProlongationDate = y.ProlongationDate,
+                FileId = y.DocumentTable.FileId
             }));
 
             var  prolongationsList= _uow.GetDbContext<ApplicationDbContext>().USR_TAS_DailyTasksProlongation_Table.Where(x => x.RefDocumentId == documentId).ToList();

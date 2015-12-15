@@ -62,6 +62,24 @@
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Addition)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.Addition)
+        </div>
+    </div>
+    <div id="additiontextid" style="visibility: hidden">
+        <div class="col-xs-10">
+            <div class="editor-label">
+                @Html.LabelForRequired(model => Model.Addition)
+            </div>
+            @Html.Action("GetAdditionORD", "Custom", new { id = Model.AdditionDocumentId, edit = true })
+        </div>
+    </div>
+</div>
 <hr />
 <div class="form-group">
     <div class="input-group">
@@ -119,15 +137,29 @@
         @if(Model.CancelOrder == false)
         {
             <text>
-            var buttoncancelorderstatus = true;
+        var buttoncancelorderstatus = true;
+        </text>
+        }
+        else
+        {
+            <text>
+        var buttoncancelorderstatus = false;
+        document.getElementById('buttoncancelorder').style.visibility = 'visible';
+        </text>
+        }
+
+        @if(Model.Addition == false)
+        {
+            <text>
+            var buttonadditionorderstatus = true;
             </text>
         }
         else
         {
             <text>
-            var buttoncancelorderstatus = false;
-            document.getElementById('buttoncancelorder').style.visibility = 'visible';
-        </text>
+            var buttonadditionorderstatus = false;
+            document.getElementById('additiontextid').style.visibility = 'visible';
+            </text>
         }
 
         $('#CancelOrder').click(function (event) {
@@ -136,6 +168,15 @@
                 document.getElementById('buttoncancelorder').style.visibility = 'hidden';
             } else {
                 document.getElementById('buttoncancelorder').style.visibility = 'visible';
+            }
+        });
+
+        $('#Addition').click(function (event) {
+            buttonadditionorderstatus = !buttonadditionorderstatus;
+            if (buttonadditionorderstatus) {
+                document.getElementById('additiontextid').style.visibility = 'hidden';
+            } else {
+                document.getElementById('additiontextid').style.visibility = 'visible';
             }
         });
 
