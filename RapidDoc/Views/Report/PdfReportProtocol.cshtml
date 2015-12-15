@@ -235,7 +235,7 @@
                     </td>
                     <td>
                         <font size="4" face="Arial">
-                            <span style="white-space: pre-line;" @Raw(@querstion.Question)</span>
+                            @Html.Raw(@querstion.Question)
                         </font>
                         @if (querstion.DecisionList != null && querstion.DecisionList.Count > 0)
                         {
@@ -251,7 +251,7 @@
                                         </td>
                                         <td>
                                             <font size="4" face="Arial">
-                                                <span style="white-space: pre-line;">@Raw(@decision.Decision)</span>
+                                                @Html.Raw(@decision.Decision)
                                             </font>
                                         </td>
                                     </tr>
@@ -332,10 +332,13 @@
                 }
             }
         </table>
-        <br />        
-        <font size="4" face="Arial">
-            <span><strong>Время проведения совещания - </strong></span>
-        </font>   
+        @if (Model.Duration != null && Model.Duration != String.Empty)
+        { 
+            <br />        
+            <font size="4" face="Arial">
+                <span><strong>Время проведения совещания - @Model.Duration</strong></span>
+            </font>   
+        }
 </div>
 </body>
 </html>

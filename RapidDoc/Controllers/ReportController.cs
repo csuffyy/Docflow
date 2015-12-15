@@ -36,8 +36,9 @@ namespace RapidDoc.Controllers
         private readonly IWorkflowService _WorkflowService;
         private readonly ICommentService _CommentService;
         private readonly IProtocolFoldersService _ProtocolFoldersService;
+        private readonly ISystemService _SystemService;
 
-        public ReportController(IWorkflowTrackerService workflowTrackerService, IDocumentService documentService, IDepartmentService departmentService, ICompanyService companyService, IAccountService accountService, IProcessService processService, IEmplService emplService, IReportService reportService, IWorkScheduleService workScheduleService, IEmailService emailService, IWorkflowService workflowService, ICommentService commentService, IProtocolFoldersService protocolFoldersService)
+        public ReportController(IWorkflowTrackerService workflowTrackerService, IDocumentService documentService, IDepartmentService departmentService, ICompanyService companyService, IAccountService accountService, IProcessService processService, IEmplService emplService, IReportService reportService, IWorkScheduleService workScheduleService, IEmailService emailService, IWorkflowService workflowService, ICommentService commentService, IProtocolFoldersService protocolFoldersService, ISystemService systemService)
             : base(companyService, accountService)
         {
             _WorkflowTrackerService = workflowTrackerService;
@@ -51,6 +52,7 @@ namespace RapidDoc.Controllers
             _WorkflowService = workflowService;
             _CommentService = commentService;
             _ProtocolFoldersService = protocolFoldersService;
+            _SystemService = systemService;
         }
 
         public ActionResult PerformanceDepartment()
@@ -165,6 +167,8 @@ namespace RapidDoc.Controllers
 
         public ActionResult PdfReportProtocol(Guid id, Guid? processId)
         {
+            List<RapidDoc.Models.DomainModels.PRT_QuestionList_Table> questionList = new List<PRT_QuestionList_Table>();
+
             DocumentTable docTable = _DocumentService.FirstOrDefault(x => x.Id == id);
             ApplicationUser user = _AccountService.Find(User.Identity.GetUserId());
             ProcessTable process = _ProcessService.FirstOrDefault(x => x.Id == processId);
@@ -202,9 +206,23 @@ namespace RapidDoc.Controllers
                 ViewBag.ListAbsent = listAbsent;
             }
 
-            if (documentView.QuestionList != null)            
-                ViewBag.QuestionList = documentView.QuestionList;
+            //if (documentView.QuestionList != null)
+            //{
+            //    foreach (var item in documentView.QuestionList)
+            //    {
+            //        questionList.Add(item);
+            //    }
 
+            //    foreach (var question in questionList)
+            //    {
+            //        question.Question = _SystemService.RemoveColorFromText(question.Question);
+            //        foreach (var decision in question.DecisionList)
+            //        {
+            //            decision.Decision = _SystemService.RemoveColorFromText(decision.Decision);
+            //        }
+            //    }
+            //    ViewBag.QuestionList = questionList;
+            //}
             List<FileTable> filesResult = new List<FileTable>();
             var files = _DocumentService.GetAllFilesDocument(docTable.FileId).ToList();
             foreach (var item in files)
