@@ -83,6 +83,7 @@ namespace RapidDoc.Models.ViewModels
         public DateTime? ExecutionDate { get; set; }
         public DateTime? ProlongationDate { get; set; }
         public DocumentType DocType { get; set; }
+        public Guid FileId { get; set; }
     }
 
     public class ModificationDocumentView

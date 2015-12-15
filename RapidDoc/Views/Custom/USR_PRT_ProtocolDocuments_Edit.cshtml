@@ -27,11 +27,23 @@
             @Html.TextBoxFor(model => Model.Subject, new { @class = "form-control", placeholder = "Тема документа" })
         </div>
 
-        <div class="editor-label">
-            @Html.LabelForRequired(model => Model.Location)
-        </div>
-        <div class="editor-field">
-            @Html.TextBoxFor(model => Model.Location, new { @class = "form-control", placeholder = "Место проведения" })
+        <div class="row">
+            <div class="col-xs-10">
+                <div class="editor-label">
+                    @Html.LabelForRequired(model => Model.Location)
+                </div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => Model.Location, new { @class = "form-control", placeholder = "Место проведения" })
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <div class="editor-label">
+                    @Html.LabelForRequired(model => Model.Duration)
+                </div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => Model.Duration, new { @class = "form-control", placeholder = "Время проведения совещания" })
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -78,13 +90,6 @@
         </div>
         <div class="editor-field">
             @Html.TextAreaFor(model => Model.Agenda, new { @class = "form-control", placeholder = "Повестка совещания" })
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelForRequired(model => Model.Introduction)
-        </div>
-        <div class="editor-field">
-            @Html.TextAreaFor(model => Model.Introduction, new { @class = "form-control", placeholder = "Вступительное слово" })
         </div>
     </div>
 </div>

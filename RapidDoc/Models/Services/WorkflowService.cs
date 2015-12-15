@@ -781,19 +781,6 @@ namespace RapidDoc.Models.Services
                                 allSteps.Add(new string[3] { "Председатель", (++i).ToString(), "" });
                             }
                         }
-
-                        var role = RoleManager.FindByName("ORD_Censor_OKS");
-                        if (role != null)
-                        {
-                            List<WFTrackerUsersTable> protocolRoleList = new List<WFTrackerUsersTable>();
-                            foreach (var userRole in role.Users)
-                            {
-                                protocolRoleList.Add(new WFTrackerUsersTable { UserId = userRole.UserId });
-                            }
-
-                            endListUsers.Add(protocolRoleList);
-                            allSteps.Add(new string[3] { "ОКС", (++i).ToString(), "" });
-                        }
                     }
                 }
 

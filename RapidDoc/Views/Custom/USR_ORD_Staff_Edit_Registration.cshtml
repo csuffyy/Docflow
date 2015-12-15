@@ -58,14 +58,6 @@
             </div>
             @Html.Action("GetAdditionORD", "Custom", new { id = Model.AdditionDocumentId, edit = true })
         </div>
-        <div class="col-xs-5">
-            <div class="editor-label">
-                @Html.LabelForRequired(model => Model.AdditionText)
-            </div>
-            <div class="editor-field">
-                @Html.TextBoxFor(model => model.AdditionText, new { @class = "form-control", @size = 256, placeholder = "Опционально" })
-            </div>
-        </div>
     </div>
 </div>
 <br />
@@ -148,7 +140,20 @@
 
 <script type="text/javascript">
     $(function () {
-        var buttonadditionorderstatus = true;
+        @if(Model.Addition == false)
+        {
+            <text>
+            var buttonadditionorderstatus = true;
+            </text>
+        }
+        else
+        {
+            <text>
+            var buttonadditionorderstatus = false;
+            document.getElementById('additiontextid').style.visibility = 'visible';
+            </text>
+        }
+
         $('#Addition').click(function (event) {
             buttonadditionorderstatus = !buttonadditionorderstatus;
             if (buttonadditionorderstatus) {
@@ -162,16 +167,6 @@
             var element = $(event.target);
             var tagId = element.attr('data-itemid') + ', ' + element.attr('data-rolename');
             $('input[data-role=tagsinputGroup2]').tagsinput('add', { value: tagId, text: element.text() });
-        });
-
-        $('#AdditionDocumentId').change(function (event) {
-            if ($('#AdditionDocumentId').val() == '') {
-                $('#AdditionText')[0].disabled = false;
-            }
-            else {
-                $('#AdditionText')[0].disabled = true;
-                $('#AdditionText').val('');
-            }
         });
     });
 </script>
