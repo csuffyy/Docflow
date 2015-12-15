@@ -281,12 +281,17 @@
     }
     else if (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.OfficeMemo)
     {
-        <a href=@Url.Action("PdfReportCZ", "Report", new { id = Model.DocumentView.Id, processId = Model.ProcessView.Id }) class="btn btn-default btn-sm hidden-print visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" target="_blank">@UIElementRes.UIElement.Print</a>      
+        <a href=@Url.Action("PdfReportCZ", "Report", new { id = Model.DocumentView.Id, processId = Model.ProcessView.Id }) class="btn btn-default btn-sm hidden-print visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" target="_blank">@UIElementRes.UIElement.Print</a>
+    }
+    else if (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Protocol)
+    {
+            <a href=@Url.Action("PdfReportProtocol", "Report", new { id = Model.DocumentView.Id, processId = Model.ProcessView.Id }) class="btn btn-default btn-sm hidden-print visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" target="_blank">@UIElementRes.UIElement.Print</a>
     }
     else
     {
         <a href="javascript:window.print()" class="btn btn-default btn-sm hidden-print visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">@UIElementRes.UIElement.Print</a>
     }
+
     <a href=@Url.Action("Index", "Document") class="btn btn-default btn-sm hidden-print visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" role="button">@UIElementRes.UIElement.Close</a>
 </fieldset>
     }

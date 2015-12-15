@@ -1,0 +1,341 @@
+﻿@using RapidDoc.Models.DomainModels;
+@using RapidDoc.Models.ViewModels;
+@using RapidDoc.Models.Repository;
+@using RapidDoc.Extensions;
+@model dynamic
+@{
+    Layout = null;
+    int numDecision = 0;
+    int numQuestion = 0;
+}
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>PdfReportCZ</title>
+</head>
+<body>
+    <div>
+        @*<br />
+        <table width="900">
+            <tr>
+                <td align="right">
+                    <img src="@Url.Content("~/Content/Custom/image-icon/Logo.png")">
+                </td>
+            </tr>
+        </table>
+        <br />
+        <br />
+        <h4 align="center">
+            <strong>
+                <font size="4" face="Arial">
+                    ПРОТОКОЛ <a href="@String.Format("http://" + System.Configuration.ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/{0}/Document/ShowDocument/{1}?isAfterView=true", ViewBag.AliasCompanyName, ViewBag.Id)">@ViewBag.DocumentNum</a><br />
+                </font>
+            </strong>
+        </h4>*@
+        <br />
+        <table width="900" cellpadding="7" cellspacing="0">
+            <tr>
+                <td style="width:10%; vertical-align:top;">
+                    <font size="4" face="Arial">
+                        <span><strong>ТОО "Altyntau Kokshetau"</strong></span>
+                    </font>
+                </td>
+                <td style="width:10%; vertical-align:top;text-align:right">
+                    <font size="4" face="Arial">
+                        <span><strong>ТОО "Altyntau Kokshetau"</strong></span>
+                    </font>
+                </td>
+            </tr>
+            <tr>
+                <td style="width:10%; vertical-align:top;">
+                    <font size="4" face="Arial">
+                        <span><strong>ХАТТАМА</strong></span>
+                    </font>
+                </td>
+                <td style="width:10%; vertical-align:top; text-align:right">
+                    <font size="4" face="Arial">
+                        <span><strong>ПРОТОКОЛ</strong></span>
+                    </font>
+                </td>
+            </tr>
+        </table>
+        <br />
+        <h4 align="center">
+            <strong>
+                <font size="4" face="Arial">
+                    @Model.Subject
+                </font>
+            </strong>
+        </h4>
+        <table width="900">
+            <tr>
+                <td style="width:10%; vertical-align:top;">
+                    <font size="4" face="Arial">
+                        <span><strong>Папка:</strong></span>
+                    </font>
+                </td>
+                <td style="width:10%; vertical-align:top;">
+                    <font size="4" face="Arial">
+                        <span><strong>Место проведения:</strong></span>
+                    </font>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <font size="4" face="Arial">
+                        <span style="white-space: pre-line;">@ViewBag.FolderText </span>
+                    </font>
+                </td>
+                <td>
+                    <font size="4" face="Arial">
+                        <span style="white-space: pre-line;">@Model.Location</span>
+                    </font>
+                </td>
+            </tr>
+        </table>
+        <hr />
+        <table width="900">
+            <tr>               
+                <td style="width:10%; vertical-align:top;">
+                    <font size="4" face="Arial">
+                        <span><strong>Председатель:</strong></span>
+                    </font>
+                </td>
+                @if (@ViewBag.ListAttended != null && ((List<string>)@ViewBag.ListAttended).Count > 0)
+                {
+                    <td style="width:10%; vertical-align:top;">
+                        <font size="4" face="Arial">
+                            <span><strong>Присутствовали:</strong></span>
+                        </font>
+                    </td>
+                }
+            </tr>
+            <tr>              
+                <td>
+                    <font size="4" face="Arial">
+                        <span style="white-space: pre-line;">@ViewBag.Chairman (@ViewBag.ChairmanTitle)</span>
+                    </font>
+                </td>
+                @if (@ViewBag.ListAttended != null && ((List<string>)@ViewBag.ListAttended).Count > 0)
+                {
+                    <td>
+                        @foreach (string attended in @ViewBag.ListAttended)
+                        {
+                            <font size="4" face="Arial">
+                                <span style="white-space: pre-line;">@attended</span>
+                            </font>
+                            @*<br />*@
+                        }
+                    </td>
+                }
+            </tr>
+            <tr>
+                <td style="width:10%; vertical-align:top;">
+                    <font size="4" face="Arial">
+                        <span><strong>Секретарь:</strong></span>
+                    </font>
+                </td>
+                @if (@ViewBag.ListInvited != null && ((List<string>)@ViewBag.ListInvited).Count > 0)
+                {
+                    <td>
+                        <font size="4" face="Arial">
+                            <span><strong>Приглашенные:</strong></span>
+                        </font>
+                    </td>
+                }
+            </tr>
+            <tr>
+                <td>
+                    <font size="4" face="Arial">
+                        <span style="white-space: pre-line;">@ViewBag.UserCreateName 
+                           (@ViewBag.UserCreateTitleName)</span>
+                    </font>
+                </td>
+                @if (@ViewBag.ListInvited != null && ((List<string>)@ViewBag.ListInvited).Count > 0)
+                {
+                    <td>
+                        @foreach (string invited in @ViewBag.ListInvited)
+                        {
+                            <font size="4" face="Arial">
+                                <span style="white-space: pre-line;">@invited</span>
+                            </font>
+                            <br />
+                        }
+                    </td>
+                }            
+            </tr>
+            <tr>
+                <td style="width:10%; vertical-align:top;">
+                    
+                </td>              
+
+                @if (@ViewBag.ListAbsent != null && ((List<string>)@ViewBag.ListAbsent).Count > 0)
+                {
+                    <td>
+                        <font size="4" face="Arial">
+                            <span><strong>Отсутствовали:</strong></span>
+                        </font>
+                    </td>
+                }
+            </tr>
+            <tr>
+                <td>
+                    
+                </td>
+                
+                @if (@ViewBag.ListAbsent != null && ((List<string>)@ViewBag.ListAbsent).Count > 0)
+                {
+                    <td>
+                        @foreach (string absent in @ViewBag.ListAbsent)
+                        {
+                            <font size="4" face="Arial">
+                                <span style="white-space: pre-line;">@absent</span>
+                            </font>
+                            <br />
+                        }
+                    </td>
+                }
+            </tr>
+        </table>
+        <hr />
+        <table width="900">
+            <tr>
+                <td style="width:10%; vertical-align:top;">
+                    <font size="4" face="Arial">
+                        <span><strong>Повестка:</strong></span>
+                    </font>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <font size="4" face="Arial">
+                        <span style="white-space: pre-line;">@Model.Agenda</span>
+                    </font>
+                </td>
+            </tr>
+        </table>
+        <hr />       
+        @if (Model.QuestionList != null && ((List<RapidDoc.Models.DomainModels.PRT_QuestionList_Table>)Model.QuestionList).Count > 0)
+        {
+            <font size="4" face="Arial">
+                <span><strong>Список вопросов:</strong></span>
+            </font>
+            <br />
+            <br />
+            <table width="900" style="table-layout: fixed">
+            @foreach (PRT_QuestionList_Table querstion in Model.QuestionList)
+            {
+                numQuestion++;
+                <tr>
+                    <td style="width:150px; vertical-align:top;">
+                        <font size="4" face="Arial">
+                            <strong>Вопрос №@numQuestion.ToString()</strong>
+                        </font>
+                    </td>
+                    <td>
+                        <font size="4" face="Arial">
+                            <span style="white-space: pre-line;" @Raw(@querstion.Question)</span>
+                        </font>
+                        @if (querstion.DecisionList != null && querstion.DecisionList.Count > 0)
+                        {
+                            <table width="900">
+                                @foreach (PRT_DecisionList_Table decision in querstion.DecisionList)
+                                {
+                                    numDecision++;
+                                    <tr>
+                                        <td style="width:150px; vertical-align:top;">
+                                            <font size="4" face="Arial">
+                                                <strong>Поручение №@numDecision.ToString()</strong>
+                                            </font>
+                                        </td>
+                                        <td>
+                                            <font size="4" face="Arial">
+                                                <span style="white-space: pre-line;">@Raw(@decision.Decision)</span>
+                                            </font>
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
+                        }
+                    </td>
+                </tr>
+
+            }
+            </table>
+        }
+        <br />
+        <table width="900">
+            @if (((List<FileTable>)ViewBag.ListFiles).Count > 0)
+            { 
+                <tr>
+                    <td align="left">
+                        <strong>
+                            <font size="4" face="Arial">
+                                Вложенные файлы:
+                            </font>
+                        </strong>
+                    </td>
+                </tr>
+                foreach (FileTable file in ViewBag.ListFiles)
+                {
+                    <tr>
+                               
+                            <td align="left">
+                                <font size="4" face="Arial">                           
+                                        @file.FileName                          
+                                </font>
+                            </td>
+                    
+                    </tr>
+                }
+                <tr>
+                    <td>
+                        <br />
+                    </td>
+                </tr>
+            }   
+        </table>   
+        <table width="900">
+            @if (((List<WFTrackerListView>)ViewBag.Tracker).Count > 0)
+            {
+                foreach (WFTrackerListView tracker in ViewBag.Tracker)
+                {
+                    <tr>
+                        <td align="left">
+                            <ul>
+                                <li>
+                                    <font size="4" face="Arial">
+                                        @tracker.Executors - @tracker.ActivityName (@tracker.SignDate) -
+
+                                        @if (tracker.TrackerType == RapidDoc.Models.Repository.TrackerType.Approved)
+                                        {
+                                            @UIElementRes.UIElement.Yes
+                                            if (tracker.Comments != null && tracker.Comments != String.Empty)
+                                            {
+                                                <span><em>(@tracker.Comments)</em></span>
+                                            }
+                                        }
+                                        @if (tracker.TrackerType == RapidDoc.Models.Repository.TrackerType.Cancelled)
+                                        {
+                                            @UIElementRes.UIElement.No
+                                            if (tracker.Comments != null && tracker.Comments != String.Empty)
+                                            {
+                                                <span><em>( @tracker.Comments )</em></span>
+                                            }
+                                        }
+                                    </font>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
+        <br />        
+        <font size="4" face="Arial">
+            <span><strong>Время проведения совещания - </strong></span>
+        </font>   
+</div>
+</body>
+</html>

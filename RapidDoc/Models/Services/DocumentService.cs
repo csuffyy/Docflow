@@ -1151,7 +1151,7 @@ namespace RapidDoc.Models.Services
                     }
 
                     var item = _EmplService.FirstOrDefault(x => x.Id == delegation.EmplTableFromId && x.CompanyTableId == delegation.CompanyTableId && x.Enable == true);
-                    if(item != null && (delegation.ProcessTableId == document.ProcessTableId || childGroup.Any(d => d == document.ProcessTable.GroupProcessTableId)))
+                    if (item != null && (delegation.ProcessTableId == document.ProcessTableId || childGroup.Any(d => d == document.ProcessTable.GroupProcessTableId) || (delegation.ProcessTableId == null && delegation.GroupProcessTableId == null)))
                     {
                         ret.AddRange(SignDocumentUserCZ(documentId, trackerType, item.ApplicationUserId, comment));
                     }
