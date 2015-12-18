@@ -222,47 +222,90 @@
                 <span><strong>Список вопросов:</strong></span>
             </font>
             <br />
-            <br />
-            <table width="900" style="table-layout: fixed">
-            @foreach (PRT_QuestionList_Table querstion in Model.QuestionList)
+            <br />         
+            foreach (PRT_QuestionList_Table querstion in Model.QuestionList)
             {
-                numQuestion++;
-                <tr>
-                    <td style="width:150px; vertical-align:top;">
-                        <font size="4" face="Arial">
-                            <strong>Вопрос №@numQuestion.ToString()</strong>
-                        </font>
-                    </td>
-                    <td>
-                        <font size="4" face="Arial">
-                            @Html.Raw(@querstion.Question)
-                        </font>
-                        @if (querstion.DecisionList != null && querstion.DecisionList.Count > 0)
-                        {
-                            <table width="900">
-                                @foreach (PRT_DecisionList_Table decision in querstion.DecisionList)
-                                {
-                                    numDecision++;
-                                    <tr>
-                                        <td style="width:150px; vertical-align:top;">
-                                            <font size="4" face="Arial">
-                                                <strong>Поручение №@numDecision.ToString()</strong>
-                                            </font>
-                                        </td>
-                                        <td>
-                                            <font size="4" face="Arial">
-                                                @Html.Raw(@decision.Decision)
-                                            </font>
-                                        </td>
-                                    </tr>
-                                }
-                            </table>
-                        }
-                    </td>
-                </tr>
+                <table width="900" style="table-layout: fixed">
+                    @{numQuestion++;}
+                    <tr style="page-break-inside: avoid">
+                        <td style="width:150px; vertical-align:top;">
+                            <font size="4" face="Arial">
+                                <strong>Вопрос №@numQuestion.ToString()</strong>
+                            </font>
+                        </td>
+                        <td>
+                            <font size="4" face="Arial">
+                                @Html.Raw(@querstion.Question)
+                            </font>
+                        </td>
+                    </tr>
+                </table>
+            
+                <tabel>
+                @if (querstion.DecisionList.Where(x => x.Type == true).Count() > 0)
+                {
+                    <tr style="page-break-inside: avoid">
+                        <td style="width:30px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                        <td style="width:150px; vertical-align:top;">
+                            <font size="4" face="Arial">
+                                <strong>РЕШЕНИЕ:</strong>
+                            </font>
+                        </td>
+                    </tr>
+                }
+                </tabel>
+
+                <table>
+                    @foreach (PRT_DecisionList_Table decision in querstion.DecisionList.Where(x => x.Type == true))
+                    {
+                        numDecision++;
+                        <tr style="page-break-inside: avoid">
+                            <td style="width:30px"></td>
+                            <td style="vertical-align:top; text-align:left">
+                                <font size="4" face="Arial">
+                                    <strong class="text-uppercase" style="white-space: nowrap;">@numDecision.ToString().</strong>
+                                </font>
+                            </td>
+                            <td>
+                                <font size="4" face="Arial">
+                                    @Html.Action("ProtocolDecisionText", "Custom", new { model = decision })
+                                </font>
+                            </td>
+                        </tr>
+                    }
+                </table>
+                
+                <table>
+                    @{ numDecision = 0;}
+                    @foreach (PRT_DecisionList_Table decision in querstion.DecisionList.Where(x => x.Type == false))
+                    {
+                        numDecision++;
+                        @*<tr style="page-break-inside: avoid">
+                            <td style="width:15px"></td>
+                            <td style="width:150px; vertical-align:top;">
+                                <font size="4" face="Arial">
+                                    
+                                </font>
+                            </td>
+                        </tr>*@
+                        <tr style="page-break-inside: avoid">
+                            <td style="width:40px">
+                            </td>
+                            <td style="display:table-row-group">
+                                <font size="4" face="Arial"><strong>ПОРУЧЕНИЕ №@numDecision.ToString()</strong>
+                                </font>
+                                <br />
+                                <font size="4" face="Arial">                               
+                                    @Html.Action("ProtocolDecisionText", "Custom", new { model = decision })
+                                </font>
+                            </td>
+                        </tr>
+                    }
+                </table>
+                <br />
+                    numDecision = 0;
 
             }
-            </table>
         }
         <br />
         <table width="900">
@@ -333,8 +376,7 @@
             }
         </table>
         @if (Model.Duration != null && Model.Duration != String.Empty)
-        { 
-            <br />        
+        {        
             <font size="4" face="Arial">
                 <span><strong>Время проведения совещания - @Model.Duration</strong></span>
             </font>   
