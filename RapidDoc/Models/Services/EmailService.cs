@@ -35,7 +35,7 @@ namespace RapidDoc.Models.Services
         void SaveDomain(EmailParameterTable domainTable);
         EmailParameterTable Find(Guid id);
         void InitializeMailParameter();
-        void SendEmail(EmailParameterTable emailParameter, string[] emailTo, string[] ccTo, string subject, string body);
+        void SendEmail(EmailParameterTable emailParameter, string[] emailTo, string subject, string body);
         void SendInitiatorEmail(Guid documentId);
         void SendInitiatorEmailDocAdding(Guid documentId);
         void SendExecutorEmail(Guid documentId, string additionalTextCZ = "");
@@ -139,7 +139,7 @@ namespace RapidDoc.Models.Services
             SaveDomain(domainTable);
         }
 
-        public void SendEmail(EmailParameterTable emailParameter, string[] emailTo, string[] ccTo, string subject, string body)
+        public void SendEmail(EmailParameterTable emailParameter, string[] emailTo, string subject, string body)
         {
             if (emailTo == null || emailTo.Length == 0)
                 return;
@@ -151,36 +151,32 @@ namespace RapidDoc.Models.Services
             smtpClient.UseDefaultCredentials = true;
             smtpClient.Credentials = new NetworkCredential(emailParameter.UserName, emailParameter.Password);
 
-            MailMessage message = new MailMessage();
-            smtpClient.SendCompleted += (s, e) =>
-            {
-                smtpClient.Dispose();
-                message.Dispose();
-            };
-
-            message.From = new MailAddress(emailParameter.Email);
-            message.Subject = subject == null ? "" : subject;
-            message.Body = body == null ? "" : body;
-            message.IsBodyHtml = true;
-            message.BodyEncoding = UTF8Encoding.UTF8;
-            message.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
-
             foreach (string email in emailTo)
+            {
+                MailMessage message = new MailMessage();
+                smtpClient.SendCompleted += (s, e) =>
+                {
+                    smtpClient.Dispose();
+                    message.Dispose();
+                };
+
+                message.From = new MailAddress(emailParameter.Email);
+                message.Subject = subject == null ? "" : subject;
+                message.Body = body == null ? "" : body;
+                message.IsBodyHtml = true;
+                message.BodyEncoding = UTF8Encoding.UTF8;
+                message.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
+
                 message.To.Add(email);
 
-            if (emailTo != null && ccTo.Length > 0)
-            {
-                foreach (string emailCc in ccTo)
-                    message.CC.Add(emailCc);
-            }
-
-            try
-            {
-                smtpClient.Send(message);
-            }
-            catch
-            {
-                return;
+                try
+                {
+                    smtpClient.Send(message);
+                }
+                catch
+                {
+                    continue;
+                }
             }
         }
 
@@ -212,7 +208,7 @@ namespace RapidDoc.Models.Services
                     Thread.CurrentThread.CurrentCulture = ci;
                     Thread.CurrentThread.CurrentUICulture = ci;
                     string body = Razor.Parse(razorText, new { DocumentNum = String.Format("{0} - {1}", documentTable.DocumentNum, processName), DocumentUri = documentUri, EmplName = emplTable.FullName, BodyText = UIElementRes.UIElement.SendInitiatorEmail, DocumentText = documentTable.DocumentText }, "emailTemplateDefault");
-                    SendEmail(emailParameter, new string[] { user.Email }, new string[] { }, String.Format("Вы создали новый документ [{0}]", documentTable.DocumentNum), body);
+                    SendEmail(emailParameter, new string[] { user.Email }, String.Format("Вы создали новый документ [{0}]", documentTable.DocumentNum), body);
                     ci = CultureInfo.GetCultureInfo(currentLang);
                     Thread.CurrentThread.CurrentCulture = ci;
                     Thread.CurrentThread.CurrentUICulture = ci;
@@ -256,7 +252,7 @@ namespace RapidDoc.Models.Services
                             Thread.CurrentThread.CurrentCulture = ci;
                             Thread.CurrentThread.CurrentUICulture = ci;
                             string body = Razor.Parse(razorText, new { DocumentNum = String.Format("{0} - {1}", documentTable.DocumentNum, processName), DocumentUri = documentUri, EmplName = emplTable.FullName, BodyText = UIElementRes.UIElement.SendExecutorEmail, DocumentText = documentTable.DocumentText}, ViewBag, "emailTemplateDefaultWithCZ");
-                            SendEmail(emailParameter, new string[] { user.Email }, new string[] { }, String.Format("Требуется ваша подпись, документ [{0}]", documentTable.DocumentNum), body);
+                            SendEmail(emailParameter, new string[] { user.Email }, String.Format("Требуется ваша подпись, документ [{0}]", documentTable.DocumentNum), body);
                             ci = CultureInfo.GetCultureInfo(currentLang);
                             Thread.CurrentThread.CurrentCulture = ci;
                             Thread.CurrentThread.CurrentUICulture = ci;
@@ -287,7 +283,7 @@ namespace RapidDoc.Models.Services
                         Thread.CurrentThread.CurrentCulture = ci;
                         Thread.CurrentThread.CurrentUICulture = ci;
                         string body = Razor.Parse(razorText, new { DocumentNum = String.Format("{0} - {1}", documentTable.DocumentNum, processName), DocumentUri = documentUri, BodyText = UIElementRes.UIElement.SendExecutorEmail, DocumentText = documentTable.DocumentText }, ViewBag, "emailBulkTemplateDefault");
-                        SendEmail(emailParameter, emails.ToArray(), new string[] { }, String.Format("Требуется ваша подпись, документ [{0}]", documentTable.DocumentNum), body);
+                        SendEmail(emailParameter, emails.ToArray(), String.Format("Требуется ваша подпись, документ [{0}]", documentTable.DocumentNum), body);
                         ci = CultureInfo.GetCultureInfo(currentLang);
                         Thread.CurrentThread.CurrentCulture = ci;
                         Thread.CurrentThread.CurrentUICulture = ci;
@@ -347,7 +343,7 @@ namespace RapidDoc.Models.Services
                         Thread.CurrentThread.CurrentCulture = ci;
                         Thread.CurrentThread.CurrentUICulture = ci;
                         string body = Razor.Parse(razorText, new { DocumentNum = String.Format("{0} - {1}", documentTable.DocumentNum, processName), DocumentUri = documentUri, EmplName = emplTable.FullName, BodyText = UIElementRes.UIElement.SendInitiatorRejectEmail, DocumentText = documentTable.DocumentText }, "emailTemplateDefault");
-                        SendEmail(emailParameter, new string[] { user.Email }, new string[] { }, String.Format("Ваш документ [{0}] был отменен", documentTable.DocumentNum), body);
+                        SendEmail(emailParameter, new string[] { user.Email }, String.Format("Ваш документ [{0}] был отменен", documentTable.DocumentNum), body);
                         ci = CultureInfo.GetCultureInfo(currentLang);
                         Thread.CurrentThread.CurrentCulture = ci;
                         Thread.CurrentThread.CurrentUICulture = ci;
@@ -384,7 +380,7 @@ namespace RapidDoc.Models.Services
                     Thread.CurrentThread.CurrentCulture = ci;
                     Thread.CurrentThread.CurrentUICulture = ci;
                     string body = Razor.Parse(razorText, new { DocumentNum = String.Format("{0} - {1}", documentTable.DocumentNum, processName), DocumentUri = documentUri, EmplName = emplTable.FullName, BodyText = UIElementRes.UIElement.SendInitiatorClosedEmail, DocumentText = documentTable.DocumentText }, "emailTemplateDefault");
-                    SendEmail(emailParameter, new string[] { user.Email }, new string[] { }, String.Format("Ваш документ [{0}] закрыт", documentTable.DocumentNum), body);
+                    SendEmail(emailParameter, new string[] { user.Email }, String.Format("Ваш документ [{0}] закрыт", documentTable.DocumentNum), body);
                     ci = CultureInfo.GetCultureInfo(currentLang);
                     Thread.CurrentThread.CurrentCulture = ci;
                     Thread.CurrentThread.CurrentUICulture = ci;
@@ -436,7 +432,7 @@ namespace RapidDoc.Models.Services
                         Thread.CurrentThread.CurrentCulture = ci;
                         Thread.CurrentThread.CurrentUICulture = ci;
                         string body = Razor.Parse(razorText, new { DocumentNum = String.Format("{0} - {1}", documentTable.DocumentNum, processName), DocumentUri = documentUri, EmplName = emplTable.FullName, BodyText = UIElementRes.UIElement.SendInitiatorCommentEmail, LastComment = lastComment, DocumentText = documentTable.DocumentText }, "emailTemplateComment");
-                        SendEmail(emailParameter, new string[] { user.Email }, new string[] { }, String.Format("Новый комментарий в документе [{0}]", documentTable.DocumentNum), body);
+                        SendEmail(emailParameter, new string[] { user.Email }, String.Format("Новый комментарий в документе [{0}]", documentTable.DocumentNum), body);
                         ci = CultureInfo.GetCultureInfo(currentLang);
                         Thread.CurrentThread.CurrentCulture = ci;
                         Thread.CurrentThread.CurrentUICulture = ci;
@@ -469,7 +465,7 @@ namespace RapidDoc.Models.Services
                     Thread.CurrentThread.CurrentCulture = ci;
                     Thread.CurrentThread.CurrentUICulture = ci;
                     string body = Razor.Parse(razorText, new { DocumentUri = documentUri, EmplNameTo = emplTableTo.FullName, EmplNameFrom = emplTableFrom.FullName, BodyText = UIElementRes.UIElement.SendDelegationEmplEmail }, "emailTemplateDelegation");
-                    SendEmail(emailParameter, new string[] { user.Email }, new string[] { }, "На вас настроенно делегирование", body);
+                    SendEmail(emailParameter, new string[] { user.Email }, "На вас настроенно делегирование", body);
                     ci = CultureInfo.GetCultureInfo(currentLang);
                     Thread.CurrentThread.CurrentCulture = ci;
                     Thread.CurrentThread.CurrentUICulture = ci;
@@ -505,7 +501,7 @@ namespace RapidDoc.Models.Services
                     Thread.CurrentThread.CurrentCulture = ci;
                     Thread.CurrentThread.CurrentUICulture = ci;
                     string body = Razor.Parse(razorText, new { DocumentNum = String.Format("{0} - {1}", documentTable.DocumentNum, processName), DocumentUri = documentUri, BodyText = UIElementRes.UIElement.SendReaderEmail, DocumentText = documentTable.DocumentText }, "emailBulkTemplateDefault");
-                    SendEmail(emailParameter, emails.ToArray(), new string[] { }, String.Format("Вас добавили читателем, документ [{0}]", documentTable.DocumentNum), body);
+                    SendEmail(emailParameter, emails.ToArray(), String.Format("Вас добавили читателем, документ [{0}]", documentTable.DocumentNum), body);
                     ci = CultureInfo.GetCultureInfo(currentLang);
                     Thread.CurrentThread.CurrentCulture = ci;
                     Thread.CurrentThread.CurrentUICulture = ci;
@@ -544,7 +540,7 @@ namespace RapidDoc.Models.Services
                     Thread.CurrentThread.CurrentCulture = ci;
                     Thread.CurrentThread.CurrentUICulture = ci;
                     string body = Razor.Parse(razorText, new { DocumentNum = String.Format("{0} - {1}", documentTable.DocumentNum, processName), DocumentUri = documentUri, EmplName = emplTable.FullName, BodyText = UIElementRes.UIElement.SendExecutorEmail, DocumentText = documentTable.DocumentText, AdditionalText = additionalTextCZ }, ViewBag, "emailTemplateDefault");
-                    SendEmail(emailParameter, new string[] { user.Email }, new string[] { }, String.Format("Требуется ваша подпись, документ [{0}]", documentTable.DocumentNum), body);
+                    SendEmail(emailParameter, new string[] { user.Email }, String.Format("Требуется ваша подпись, документ [{0}]", documentTable.DocumentNum), body);
                     ci = CultureInfo.GetCultureInfo(currentLang);
                     Thread.CurrentThread.CurrentCulture = ci;
                     Thread.CurrentThread.CurrentUICulture = ci;
@@ -583,7 +579,7 @@ namespace RapidDoc.Models.Services
                     Thread.CurrentThread.CurrentCulture = ci;
                     Thread.CurrentThread.CurrentUICulture = ci;
                     string body = Razor.Parse(razorText, new { DocumentNum = String.Format("{0} - {1}", documentTable.DocumentNum, processName), DocumentUri = documentUri, BodyText = UIElementRes.UIElement.SendExecutorEmail, DocumentText = documentTable.DocumentText }, ViewBag, "emailBulkTemplateDefault");
-                    SendEmail(emailParameter, emails.ToArray(), new string[] { }, String.Format("Требуется ваша подпись, документ [{0}]", documentTable.DocumentNum), body);
+                    SendEmail(emailParameter, emails.ToArray(), String.Format("Требуется ваша подпись, документ [{0}]", documentTable.DocumentNum), body);
                     ci = CultureInfo.GetCultureInfo(currentLang);
                     Thread.CurrentThread.CurrentCulture = ci;
                     Thread.CurrentThread.CurrentUICulture = ci;
@@ -625,7 +621,7 @@ namespace RapidDoc.Models.Services
                     Thread.CurrentThread.CurrentCulture = ci;
                     Thread.CurrentThread.CurrentUICulture = ci;
                     string body = Razor.Parse(razorText, new { DocumentUri = "", DocumentUris = documentUrls.ToArray(), DocumentNums = documentNums.ToArray(), documentText = documentText.ToArray(), EmplName = emplTable.FullName, BodyText = UIElementRes.UIElement.SendSLAWarningEmail }, "emailTemplateSLAStatus");
-                    SendEmail(emailParameter, new string[] { user.Email }, new string[] { }, "Срок исполнения подходит к концу", body);
+                    SendEmail(emailParameter, new string[] { user.Email }, "Срок исполнения подходит к концу", body);
                     ci = CultureInfo.GetCultureInfo(currentLang);
                     Thread.CurrentThread.CurrentCulture = ci;
                     Thread.CurrentThread.CurrentUICulture = ci;
@@ -667,7 +663,7 @@ namespace RapidDoc.Models.Services
                     Thread.CurrentThread.CurrentCulture = ci;
                     Thread.CurrentThread.CurrentUICulture = ci;
                     string body = Razor.Parse(razorText, new { DocumentUri = "", DocumentUris = documentUrls.ToArray(), DocumentNums = documentNums.ToArray(), documentText = documentText.ToArray(), EmplName = emplTable.FullName, BodyText = UIElementRes.UIElement.SendSLADisturbanceEmail }, "emailTemplateSLAStatus");
-                    SendEmail(emailParameter, new string[] { user.Email }, new string[] { }, "Исполнение по документам просрочено", body);
+                    SendEmail(emailParameter, new string[] { user.Email }, "Исполнение по документам просрочено", body);
                     ci = CultureInfo.GetCultureInfo(currentLang);
                     Thread.CurrentThread.CurrentCulture = ci;
                     Thread.CurrentThread.CurrentUICulture = ci;
@@ -712,7 +708,7 @@ namespace RapidDoc.Models.Services
                     Thread.CurrentThread.CurrentCulture = ci;
                     Thread.CurrentThread.CurrentUICulture = ci;
                     string body = Razor.Parse(razorText, new { DocumentUri = "", DocumentUris = documentUrls.ToArray(), DocumentNums = documentNums.ToArray(), documentText = documentText.ToArray(), EmplName = emplTable.FullName, BodyText = "Документы на подписи" }, "emailTemplateSLAStatus");
-                    SendEmail(emailParameter, new string[] { user.Email }, new string[] { }, "У вас на подписи находятся следующие документы", body);
+                    SendEmail(emailParameter, new string[] { user.Email }, "У вас на подписи находятся следующие документы", body);
                     ci = CultureInfo.GetCultureInfo(currentLang);
                     Thread.CurrentThread.CurrentCulture = ci;
                     Thread.CurrentThread.CurrentUICulture = ci;
@@ -761,7 +757,7 @@ namespace RapidDoc.Models.Services
                                 Thread.CurrentThread.CurrentCulture = ci;
                                 Thread.CurrentThread.CurrentUICulture = ci;
                                 string body = Razor.Parse(razorText, new { DocumentUri = "", DocumentUris = processUrls.ToArray(), DocumentNums = stageNames.ToArray(), documentText = filterTexts.ToArray(), EmplName = emplTable.FullName, BodyText = "У вас несколько ошибочных маршрутов" }, "emailTemplateRoutes");
-                                SendEmail(emailParameter, new string[] { user.Email }, new string[] { }, "Маршруты процессов на исправление", body);
+                                SendEmail(emailParameter, new string[] { user.Email }, "Маршруты процессов на исправление", body);
                                 ci = CultureInfo.GetCultureInfo(currentLang);
                                 Thread.CurrentThread.CurrentCulture = ci;
                                 Thread.CurrentThread.CurrentUICulture = ci;
@@ -801,7 +797,7 @@ namespace RapidDoc.Models.Services
                     Thread.CurrentThread.CurrentCulture = ci;
                     Thread.CurrentThread.CurrentUICulture = ci;
                     string body = Razor.Parse(razorText, new { DocumentNum = String.Format("{0} - {1}", documentTable.DocumentNum, processName), DocumentUri = documentUri, EmplName = emplTable.FullName, BodyText = UIElementRes.UIElement.AddingNewDocEmail, DocumentText = documentTable.DocumentText }, "emailTemplateDefault");
-                    SendEmail(emailParameter, new string[] { user.Email }, new string[] { }, String.Format("Добавлен новый файл в документ [{0}]", documentTable.DocumentNum), body);
+                    SendEmail(emailParameter, new string[] { user.Email }, String.Format("Добавлен новый файл в документ [{0}]", documentTable.DocumentNum), body);
                     ci = CultureInfo.GetCultureInfo(currentLang);
                     Thread.CurrentThread.CurrentCulture = ci;
                     Thread.CurrentThread.CurrentUICulture = ci;
@@ -854,7 +850,7 @@ namespace RapidDoc.Models.Services
                     Thread.CurrentThread.CurrentCulture = ci;
                     Thread.CurrentThread.CurrentUICulture = ci;
                     string body = Razor.Parse(razorText, new { DocumentUri = "", DocumentUris = documentUrls.ToArray(), DocumentNums = documentNums.ToArray(), documentText = documentText.ToArray(), EmplName = emplTable.FullName, BodyText = "задачи на выполнении" }, "emailTemplateSLAStatus");
-                    SendEmail(emailParameter, new string[] { user.Email }, new string[] { }, "У вас на выполнении находятся следующие задачи", body);
+                    SendEmail(emailParameter, new string[] { user.Email }, "У вас на выполнении находятся следующие задачи", body);
                     ci = CultureInfo.GetCultureInfo(currentLang);
                     Thread.CurrentThread.CurrentCulture = ci;
                     Thread.CurrentThread.CurrentUICulture = ci;
@@ -894,7 +890,7 @@ namespace RapidDoc.Models.Services
                     Thread.CurrentThread.CurrentCulture = ci;
                     Thread.CurrentThread.CurrentUICulture = ci;
                     string body = Razor.Parse(razorText, new { DocumentNum = String.Format("{0} - {1}", documentTable.DocumentNum, processName), DocumentUri = documentUri, EmplName = emplTable.FullName, BodyText = UIElementRes.UIElement.SendModificationUserEmail, DocumentText = documentTable.DocumentText, AdditionalText = additionalTextCZ }, ViewBag, "emailTemplateDefault");
-                    SendEmail(emailParameter, new string[] { user.Email }, new string[] { }, String.Format("Требуется доработка документа [{0}]", documentTable.DocumentNum), body);
+                    SendEmail(emailParameter, new string[] { user.Email }, String.Format("Требуется доработка документа [{0}]", documentTable.DocumentNum), body);
                     ci = CultureInfo.GetCultureInfo(currentLang);
                     Thread.CurrentThread.CurrentCulture = ci;
                     Thread.CurrentThread.CurrentUICulture = ci;
@@ -934,7 +930,7 @@ namespace RapidDoc.Models.Services
                     Thread.CurrentThread.CurrentCulture = ci;
                     Thread.CurrentThread.CurrentUICulture = ci;
                     string body = Razor.Parse(razorText, new { DocumentNum = String.Format("{0} - {1}", documentTable.DocumentNum, processName), DocumentUri = documentUri, EmplName = emplTable.FullName, BodyText = "Новая версия документа", DocumentText = documentTable.DocumentText, AdditionalText = additionalTextCZ }, ViewBag, "emailTemplateDefault");
-                    SendEmail(emailParameter, new string[] { user.Email }, new string[] { }, String.Format("Новая версия документа [{0}]", documentTable.DocumentNum), body);
+                    SendEmail(emailParameter, new string[] { user.Email }, String.Format("Новая версия документа [{0}]", documentTable.DocumentNum), body);
                     ci = CultureInfo.GetCultureInfo(currentLang);
                     Thread.CurrentThread.CurrentCulture = ci;
                     Thread.CurrentThread.CurrentUICulture = ci;
@@ -977,7 +973,7 @@ namespace RapidDoc.Models.Services
                     Thread.CurrentThread.CurrentCulture = ci;
                     Thread.CurrentThread.CurrentUICulture = ci;
                     string body = Razor.Parse(razorText, new { DocumentNum = String.Format("{0} - {1}", documentTable.DocumentNum, processName), DocumentUri = documentUri, EmplName = emplTable.FullName, BodyText = "Уведомление о просмотре документа", DocumentText = documentTable.DocumentText, AdditionalText = additionalTextCZ }, ViewBag, "emailTemplateDefault");
-                    SendEmail(emailParameter, new string[] { user.Email }, new string[] { }, String.Format("Просмотрен пользователем {1} документ [{0}]", documentTable.DocumentNum, currentWatchingEmplTable.FullName), body);
+                    SendEmail(emailParameter, new string[] { user.Email }, String.Format("Просмотрен пользователем {1} документ [{0}]", documentTable.DocumentNum, currentWatchingEmplTable.FullName), body);
                     ci = CultureInfo.GetCultureInfo(currentLang);
                     Thread.CurrentThread.CurrentCulture = ci;
                     Thread.CurrentThread.CurrentUICulture = ci;
@@ -1014,7 +1010,7 @@ namespace RapidDoc.Models.Services
                 Thread.CurrentThread.CurrentCulture = ci;
                 Thread.CurrentThread.CurrentUICulture = ci;
                 string body = Razor.Parse(razorText, new { DocumentNum = String.Format("{0} - {1}", documentTable.DocumentNum, processName), DocumentUri = documentUri, OrderNum = model.OrderNum, OrderDate = model.OrderDate.ToShortDateString(), Subject = model.Subject, MainField = model.MainField, MainFieldTranslate = model.MainFieldTranslate, SignTitle = model.SignTitle, SignName = model.SignName }, "emailORD");
-                SendEmail(emailParameter, emailList.ToArray(), new string[] { }, String.Format("Приказ [{0}]", documentTable.DocumentNum), body);
+                SendEmail(emailParameter, emailList.ToArray(), String.Format("Приказ [{0}]", documentTable.DocumentNum), body);
                 ci = CultureInfo.GetCultureInfo(currentLang);
                 Thread.CurrentThread.CurrentCulture = ci;
                 Thread.CurrentThread.CurrentUICulture = ci;
@@ -1053,7 +1049,7 @@ namespace RapidDoc.Models.Services
                         Thread.CurrentThread.CurrentCulture = ci;
                         Thread.CurrentThread.CurrentUICulture = ci;
                         string body = Razor.Parse(razorText, new { DocumentNum = String.Format("{0} - {1}", documentTable.DocumentNum, processName), DocumentUri = documentUri, EmplName = emplTable.FullName, BodyText = UIElementRes.UIElement.SendInitiatorClosedEmail, DocumentText = documentTable.DocumentText }, "emailTemplateDefault");
-                        SendEmail(emailParameter, new string[] { user.Email }, new string[] { }, String.Format("Ваш документ [{0}] закрыт", documentTable.DocumentNum), body);
+                        SendEmail(emailParameter, new string[] { user.Email }, String.Format("Ваш документ [{0}] закрыт", documentTable.DocumentNum), body);
                         ci = CultureInfo.GetCultureInfo(currentLang);
                         Thread.CurrentThread.CurrentCulture = ci;
                         Thread.CurrentThread.CurrentUICulture = ci;
