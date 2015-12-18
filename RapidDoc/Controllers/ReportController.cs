@@ -19,6 +19,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Office.Interop.Excel;
 using Rotativa;
 using Rotativa.Options;
+using System.Text.RegularExpressions;
 
 namespace RapidDoc.Controllers
 {
@@ -34,8 +35,10 @@ namespace RapidDoc.Controllers
         private readonly IEmailService _EmailService;
         private readonly IWorkflowService _WorkflowService;
         private readonly ICommentService _CommentService;
+        private readonly IProtocolFoldersService _ProtocolFoldersService;
+        private readonly ISystemService _SystemService;
 
-        public ReportController(IWorkflowTrackerService workflowTrackerService, IDocumentService documentService, IDepartmentService departmentService, ICompanyService companyService, IAccountService accountService, IProcessService processService, IEmplService emplService, IReportService reportService, IWorkScheduleService workScheduleService, IEmailService emailService, IWorkflowService workflowService, ICommentService commentService)
+        public ReportController(IWorkflowTrackerService workflowTrackerService, IDocumentService documentService, IDepartmentService departmentService, ICompanyService companyService, IAccountService accountService, IProcessService processService, IEmplService emplService, IReportService reportService, IWorkScheduleService workScheduleService, IEmailService emailService, IWorkflowService workflowService, ICommentService commentService, IProtocolFoldersService protocolFoldersService, ISystemService systemService)
             : base(companyService, accountService)
         {
             _WorkflowTrackerService = workflowTrackerService;
@@ -48,6 +51,8 @@ namespace RapidDoc.Controllers
             _EmailService = emailService;
             _WorkflowService = workflowService;
             _CommentService = commentService;
+            _ProtocolFoldersService = protocolFoldersService;
+            _SystemService = systemService;
         }
 
         public ActionResult PerformanceDepartment()
@@ -154,6 +159,93 @@ namespace RapidDoc.Controllers
             ViewBag.CommentsCZ = commentsCZ;
 
             return new ViewAsPdf("PdfReportCZ", documentView)
+            {
+                PageSize = Size.A4,
+                FileName = String.Format("{0}.pdf", docTable.DocumentNum)
+            };
+        }
+
+        public ActionResult PdfReportProtocol(Guid id, Guid? processId)
+        {
+            List<RapidDoc.Models.DomainModels.PRT_QuestionList_Table> questionList = new List<PRT_QuestionList_Table>();
+
+            DocumentTable docTable = _DocumentService.FirstOrDefault(x => x.Id == id);
+            ApplicationUser user = _AccountService.Find(User.Identity.GetUserId());
+            ProcessTable process = _ProcessService.FirstOrDefault(x => x.Id == processId);
+            var timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById(user.TimeZoneId);
+            var documentView = _DocumentService.GetDocumentView(docTable.RefDocumentId, process.TableName);
+            if (documentView.Chairman != null)
+            {
+                string[] arrayTempStructrue = documentView.Chairman.Split(',');
+                Regex isGuid = new Regex(@"^(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}$", RegexOptions.Compiled);
+                string empId = arrayTempStructrue.FirstOrDefault(a => isGuid.IsMatch(a) == true).ToString();
+                EmplTable emplUserChairman = _EmplService.FirstOrDefault(x => x.Id.ToString() == empId && x.CompanyTableId == docTable.CompanyTableId);
+                ViewBag.Chairman = emplUserChairman.FullName;
+                ViewBag.ChairmanTitle = emplUserChairman.TitleName;
+            }
+            EmplTable emplTable = _EmplService.GetEmployer(docTable.ApplicationUserCreatedId, process.CompanyTableId);
+
+            var trackersAssign = _WorkflowTrackerService.GetPartialView(x => x.DocumentTableId == id && (x.TrackerType == TrackerType.Approved || x.TrackerType == TrackerType.Cancelled), timeZoneInfo, docTable.DocType);
+
+            if (documentView.Attended != null && documentView.Attended != "") 
+            {
+                string[] arrayAttended = documentView.Attended.Split(',');
+                List<string> listAttended = arrayAttended.ToList();
+                ViewBag.ListAttended = listAttended;
+            }
+            if (documentView.Invited != null && documentView.Invited != "")   
+            {
+                string[] arrayInvited = documentView.Invited.Split(',');
+                List<string> listInvited = arrayInvited.ToList();
+                ViewBag.ListInvited = listInvited;
+            }
+            if (documentView.Absent != null && documentView.Absent != "")
+            {
+                string[] arrayAbsent = documentView.Absent.Split(',');
+                List<string> listAbsent = arrayAbsent.ToList();
+                ViewBag.ListAbsent = listAbsent;
+            }
+
+            //if (documentView.QuestionList != null)
+            //{
+            //    foreach (var item in documentView.QuestionList)
+            //    {
+            //        questionList.Add(item);
+            //    }
+
+            //    foreach (var question in questionList)
+            //    {
+            //        question.Question = _SystemService.RemoveColorFromText(question.Question);
+            //        foreach (var decision in question.DecisionList)
+            //        {
+            //            decision.Decision = _SystemService.RemoveColorFromText(decision.Decision);
+            //        }
+            //    }
+            //    ViewBag.QuestionList = questionList;
+            //}
+            List<FileTable> filesResult = new List<FileTable>();
+            var files = _DocumentService.GetAllFilesDocument(docTable.FileId).ToList();
+            foreach (var item in files)
+            {
+                if (!_DocumentService.FileReplaceContains(item.Id))
+                {
+                    filesResult.Add(item);
+                }
+            }
+           
+            IEnumerable<SelectListItem> list = _ProtocolFoldersService.GetDropListProtocolFoldersFullPath(process.Id, documentView.ProtocolFoldersTableId);
+            if (list.Count() > 0)
+                ViewBag.FolderText = list.Where(x => x.Selected == true).FirstOrDefault().Text;
+            ViewBag.DocumentNum = docTable.DocumentNum;
+            ViewBag.AliasCompanyName = docTable.AliasCompanyName;
+            ViewBag.Id = docTable.Id;
+            ViewBag.Process = process;
+            ViewBag.Tracker = trackersAssign;
+            ViewBag.ListFiles = filesResult;
+            ViewBag.UserCreateName = emplTable.FullName;
+            ViewBag.UserCreateTitleName = emplTable.TitleName;
+
+            return new ViewAsPdf("PdfReportProtocol", documentView)
             {
                 PageSize = Size.A4,
                 FileName = String.Format("{0}.pdf", docTable.DocumentNum)
