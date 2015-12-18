@@ -1959,6 +1959,7 @@
     <Content Include="Views\Custom\USR_REQ_JU_RequestForCopyDocument_View.cshtml" />
     <Content Include="Views\Custom\USR_REQ_JU_RequestForCopyDocument_Edit.cshtml" />
     <Content Include="Views\Document\_FileList.cshtml" />
+    <Content Include="Views\Custom\USR_PRT_DecisionText.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

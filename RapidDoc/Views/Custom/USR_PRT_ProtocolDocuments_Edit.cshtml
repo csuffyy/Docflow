@@ -28,7 +28,7 @@
         </div>
 
         <div class="row">
-            <div class="col-xs-10">
+            <div class="col-xs-8">
                 <div class="editor-label">
                     @Html.LabelForRequired(model => Model.Location)
                 </div>
@@ -36,12 +36,12 @@
                     @Html.TextBoxFor(model => Model.Location, new { @class = "form-control", placeholder = "Место проведения" })
                 </div>
             </div>
-            <div class="col-xs-2">
+            <div class="col-xs-4">
                 <div class="editor-label">
                     @Html.LabelForRequired(model => Model.Duration)
                 </div>
                 <div class="editor-field">
-                    @Html.TextBoxFor(model => Model.Duration, new { @class = "form-control", placeholder = "Время проведения совещания" })
+                    @Html.TextBoxFor(model => Model.Duration, new { @class = "form-control", placeholder = "30 мин" })
                 </div>
             </div>
         </div>
@@ -146,6 +146,10 @@
                 summernotelight_init("@UIElementRes.UIElement.LangFullName");
                 checkbox_init('@UIElementRes.UIElement.Yes', '@UIElementRes.UIElement.No');
                 numberDecision();
+
+                $('input:radio').change(function () {
+                    numberDecision();
+                });
             }
         });
         return false;
@@ -161,9 +165,25 @@
 
     function numberDecision() {
         var prtDecisionNumber = 0;
+        var prtDecisionNumber2 = 0;
         $('.decisionNumber').each(function (i) {
-            prtDecisionNumber = i + 1;
-            $(this).text(prtDecisionNumber);
+            if ($(this).closest('label').find('input:checked').val() != undefined) {
+                prtDecisionNumber = prtDecisionNumber + 1;
+                $(this).text('№' + prtDecisionNumber);
+            }
+            else {
+                $(this).text('');
+            }
+        });
+
+        $('.decisionTwoNumber').each(function (i) {
+            if ($(this).closest('label').find('input:checked').val() != undefined) {
+                prtDecisionNumber2 = prtDecisionNumber2 + 1;
+                $(this).text('№' + prtDecisionNumber2);
+            }
+            else {
+                $(this).text('');
+            }
         });
     }
     /*
@@ -185,4 +205,3 @@
     }
     */
 </script>
-

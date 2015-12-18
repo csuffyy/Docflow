@@ -1024,6 +1024,7 @@ namespace RapidDoc.Models.Services
                 if(actionModel.QuestionList != null)
                 {
                     int numDecision = 0;
+                    int numTwoDecision = 0;
                     foreach (PRT_QuestionList_Table question in actionModel.QuestionList)
                     {
                         if (isQuestion == false && !String.IsNullOrEmpty(_SystemService.DeleteAllTags(question.Question)))
@@ -1033,30 +1034,40 @@ namespace RapidDoc.Models.Services
                         {
                             foreach (var decision in question.DecisionList)
                             {
-                                numDecision++;
-                                if (!String.IsNullOrEmpty(_SystemService.DeleteAllTags(decision.Decision)) && String.IsNullOrEmpty(_SystemService.DeleteAllTags(question.Question)))
+                                if (decision.Type == true)
                                 {
-                                    errorList.Add(String.Format("Поручение {0} не указан текст вопроса", numDecision));
-                                }
+                                    numTwoDecision++;
 
-                                if (String.IsNullOrEmpty(_SystemService.DeleteAllTags(decision.Decision)) && !String.IsNullOrEmpty(decision.Users))
-                                {
-                                    errorList.Add(String.Format("Поручение {0} если указали Исполнителей {1} необходимо заполнить поле Поручение", numDecision, _SystemService.DeleteGuidText(_SystemService.DeleteAllTags(decision.Users))));
-                                }
+                                    if (!String.IsNullOrEmpty(_SystemService.DeleteAllTags(decision.Decision)) && String.IsNullOrEmpty(_SystemService.DeleteAllTags(question.Question)))
+                                        errorList.Add(String.Format("Решение {0} не указан текст вопроса", numTwoDecision));
 
-                                if (!String.IsNullOrEmpty(_SystemService.DeleteAllTags(decision.Decision)) && String.IsNullOrEmpty(decision.Users))
-                                {
-                                    errorList.Add(String.Format("Поручение {0} необходимо указать Исполнителей", numDecision));
-                                }
+                                    if (String.IsNullOrEmpty(_SystemService.DeleteAllTags(decision.Decision)) && !String.IsNullOrEmpty(decision.Users))
+                                        errorList.Add(String.Format("Решение {0} если указали Исполнителей {1} необходимо заполнить поле Решение", numTwoDecision, _SystemService.DeleteGuidText(_SystemService.DeleteAllTags(decision.Users))));
 
-                                if (!String.IsNullOrEmpty(decision.Users) && decision.ControlDate == null)
-                                {
-                                    errorList.Add(String.Format("Поручение {0} необходимо указать дату исполнения", numDecision));
-                                }
+                                    if (!String.IsNullOrEmpty(decision.Users) && decision.ControlDate == null)
+                                        errorList.Add(String.Format("Решение {0} необходимо указать дату исполнения", numTwoDecision));
 
-                                if ((actionModel.DocumentTableId == null || actionModel.DocumentTableId == Guid.Empty) && (!String.IsNullOrEmpty(decision.Users) && decision.ControlDate != null && decision.ControlDate <= DateTime.UtcNow))
+                                    if ((actionModel.DocumentTableId == null || actionModel.DocumentTableId == Guid.Empty) && (!String.IsNullOrEmpty(decision.Users) && decision.ControlDate != null && decision.ControlDate <= DateTime.UtcNow))
+                                        errorList.Add(String.Format("Решение {0} необходимо указать дату исполнения больше текущей", numTwoDecision));
+                                }
+                                else
                                 {
-                                    errorList.Add(String.Format("Поручение {0} необходимо указать дату исполнения больше текущей", numDecision));
+                                    numDecision++;
+
+                                    if (!String.IsNullOrEmpty(_SystemService.DeleteAllTags(decision.Decision)) && String.IsNullOrEmpty(_SystemService.DeleteAllTags(question.Question)))
+                                        errorList.Add(String.Format("Поручение {0} не указан текст вопроса", numDecision));
+
+                                    if (String.IsNullOrEmpty(_SystemService.DeleteAllTags(decision.Decision)) && !String.IsNullOrEmpty(decision.Users))
+                                        errorList.Add(String.Format("Поручение {0} если указали Исполнителей {1} необходимо заполнить поле Поручение", numDecision, _SystemService.DeleteGuidText(_SystemService.DeleteAllTags(decision.Users))));
+
+                                    if (!String.IsNullOrEmpty(_SystemService.DeleteAllTags(decision.Decision)) && String.IsNullOrEmpty(decision.Users))
+                                        errorList.Add(String.Format("Поручение {0} необходимо указать Исполнителей", numDecision));
+
+                                    if (!String.IsNullOrEmpty(decision.Users) && decision.ControlDate == null)
+                                        errorList.Add(String.Format("Поручение {0} необходимо указать дату исполнения", numDecision));
+
+                                    if ((actionModel.DocumentTableId == null || actionModel.DocumentTableId == Guid.Empty) && (!String.IsNullOrEmpty(decision.Users) && decision.ControlDate != null && decision.ControlDate <= DateTime.UtcNow))
+                                        errorList.Add(String.Format("Поручение {0} необходимо указать дату исполнения больше текущей", numDecision));
                                 }
                             }
                         }

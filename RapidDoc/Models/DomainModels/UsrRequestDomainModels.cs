@@ -4668,6 +4668,7 @@ namespace RapidDoc.Models.DomainModels
 
     public class PRT_DecisionList_Table : EntityTable
     {
+        public bool Type { get; set; }
         public string Decision { get; set; }
         public string Users { get; set; }
         public DateTime? ControlDate { get; set; }

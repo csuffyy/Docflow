@@ -3,6 +3,7 @@
 @{
     Layout = "";
     int numDecision = 0;
+    int numTwoDecision = 0;
     int numQuestion = 0;
 }
 
@@ -19,12 +20,22 @@
                     <td>
                         @Html.Raw(question.Question)
 
-                        @if (question.DecisionList != null && question.DecisionList.Count() > 0)
+                        @if (question.DecisionList != null && question.DecisionList.Count() > 0 && question.DecisionList.Any(x => x.Type == false))
                         {
-                            foreach (var decision in question.DecisionList)
+                            foreach (var decision in question.DecisionList.Where(x => x.Type == false))
                             {
                                 numDecision++;
                                 Html.RenderPartial("~/Views/Custom/_DecisionListView.cshtml", decision, new ViewDataDictionary { { "numQuestion", ViewData["numQuestion"] }, { "numDecision", numDecision } });
+                            }
+                        }
+                        
+                        @if (question.DecisionList != null && question.DecisionList.Count() > 0 && question.DecisionList.Any(x => x.Type == true))
+                        {
+                            <strong class="text-uppercase" style="white-space: nowrap;">Решение:</strong>
+                            foreach (var decision in question.DecisionList.Where(x => x.Type == true))
+                            {
+                                numTwoDecision++;
+                                Html.RenderPartial("~/Views/Custom/_DecisionListView.cshtml", decision, new ViewDataDictionary { { "numQuestion", ViewData["numQuestion"] }, { "numDecision", numTwoDecision } });
                             }
                         }
                     </td>

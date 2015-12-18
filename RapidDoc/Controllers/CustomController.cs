@@ -2814,5 +2814,33 @@ namespace RapidDoc.Controllers
             ViewData["counter"] = counter;
             return View("_DecisionList", new PRT_DecisionList_Table());
         }
+
+        public ActionResult ProtocolDecisionText(PRT_DecisionList_Table model)
+        {
+            string result = String.Empty;
+
+            if (model.Users != null)
+            {
+                string[] tmp = _SystemService.GuidsFromText(model.Users);
+
+                if (tmp != null)
+                {
+                    foreach (var item in tmp)
+                    {
+                        EmplTable empl = _EmplService.Find(Guid.Parse(item));
+
+                        if (empl != null)
+                            result = result + String.Format("{0}, ", empl.ShortFullNameType2);
+                    }
+                }
+
+                if (!String.IsNullOrEmpty(result))
+                    result = String.Format("{2} <strong>ответ {0}срок {1}г.</strong>", result, model.ControlDate.Value.ToShortDateString(), _SystemService.DeleteLastTagSegment(model.Decision));
+                else
+                    result = model.Decision;
+            }
+
+            return PartialView("USR_PRT_DecisionText", result);
+        }
 	}
 }

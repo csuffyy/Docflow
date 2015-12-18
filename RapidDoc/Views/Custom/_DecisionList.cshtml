@@ -13,18 +13,20 @@
 
 @using (Html.BeginCollectionItem("PRT_DecisionList_Table__DecisionList" + "*" + index))
 {
-    <h6><strong class="text-uppercase">Поручение №<span id="decisionNumber_@index" class="decisionNumber"></span></strong></h6>
-    @Html.TextAreaFor(model => Model.Decision, new { @class = "form-control summernotelight" })
-    <div class="row">
-        <div class="col-xs-8">
-            @Html.TextBoxFor(model => Model.Users, new { @class = "form-control", @data_role = "tagsinputEmplDynamic", placeholder = "Исполнители" })
-        </div>         
-        <div class="col-xs-2">
-            @Html.TextBoxFor(model => Model.ControlDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", startDate = "" })
+    <label class="radio-inline text-uppercase">@Html.RadioButtonFor(model => Model.Type, false, new { id = "decisiontype-true" })<strong>Поручение <span id="decisionNumber_@index" class="decisionNumber"></span></strong></label>
+    <label class="radio-inline text-uppercase">@Html.RadioButtonFor(model => Model.Type, true, new { id = "decisiontype-false" })<strong>Решение <span id="decisionTwoNumber_@index" class="decisionTwoNumber"></span></strong></label>
+    <h6 class="radio-inline"><small class="text-danger"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Для Решений не обязательно указывать Исполнителя и Дату</small></h6>
+        @Html.TextAreaFor(model => Model.Decision, new { @class = "form-control summernotelight" })
+        <div class="row">
+            <div class="col-xs-8">
+                @Html.TextBoxFor(model => Model.Users, new { @class = "form-control", @data_role = "tagsinputEmplDynamic", placeholder = "Исполнители" })
+            </div>
+            <div class="col-xs-2">
+                @Html.TextBoxFor(model => Model.ControlDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", startDate = "" })
+            </div>
+            <div class="col-xs-2">
+                @Html.CheckBoxFor(model => Model.Separated)
+                <h6><small class="text-danger"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Поручение каждому исполнителю</small></h6>
+            </div>
         </div>
-        <div class="col-xs-2">
-            @Html.CheckBoxFor(model => Model.Separated)
-            <h6><small class="text-danger"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Поручение каждому исполнителю</small></h6>
-        </div> 
-    </div>
-}
+        }

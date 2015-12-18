@@ -459,6 +459,7 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Наименование заседания, номер")]
         public string Subject { get; set; }
 
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         [Display(Name = "Место проведения")]
         public string Location { get; set; }
 
