@@ -443,6 +443,15 @@ fieldset[disabled] .form-control {
   line-height: 1.083;
 }
 
+.btn-link {
+  color: #008cba;
+}
+
+.btn-link:hover,
+.btn-link:focus {
+  color: #008cba;
+}
+
 .bs-callout {
   margin: 20px 0;
   padding: 20px;

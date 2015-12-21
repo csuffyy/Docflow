@@ -28,6 +28,7 @@ using System.Configuration;
 using Rotativa;
 using Rotativa.Options;
 using System.Collections;
+using System.Net;
 
 
 namespace RapidDoc.Controllers
@@ -1723,26 +1724,34 @@ namespace RapidDoc.Controllers
 
             if (file != null && file.ContentLength > 0 && !string.IsNullOrEmpty(file.FileName))
             {
-                string contentType;
-                BinaryReader binaryReader = new BinaryReader(file.InputStream);
-                byte[] data = binaryReader.ReadBytes(file.ContentLength);
+                if (((file.ContentLength / 1024f) / 1024f) > 10)
+                {
+                    Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    return Json(String.Format(ValidationRes.ValidationResource.ErrorDocSize, 10, Math.Round(((file.ContentLength / 1024f) / 1024f), 2)));
+                }
+                else
+                {
+                    string contentType;
+                    BinaryReader binaryReader = new BinaryReader(file.InputStream);
+                    byte[] data = binaryReader.ReadBytes(file.ContentLength);
 
-                var thumbnail = new byte[] { };
-                contentType = file.ContentType.ToString().ToUpper();
-                thumbnail = GetThumbnail(data, contentType);
+                    var thumbnail = new byte[] { };
+                    contentType = file.ContentType.ToString().ToUpper();
+                    thumbnail = GetThumbnail(data, contentType);
 
-                FileTable doc = new FileTable();
-                doc.DocumentFileId = Guid.NewGuid();
-                doc.FileName = file.FileName;
-                doc.ContentType = contentType;
-                doc.ContentLength = file.ContentLength;
-                doc.Data = data;
-                doc.Thumbnail = thumbnail;
-                doc.Version = "1";
-                doc.VersionName = "Version 1";
+                    FileTable doc = new FileTable();
+                    doc.DocumentFileId = Guid.NewGuid();
+                    doc.FileName = file.FileName;
+                    doc.ContentType = contentType;
+                    doc.ContentLength = file.ContentLength;
+                    doc.Data = data;
+                    doc.Thumbnail = thumbnail;
+                    doc.Version = "1";
+                    doc.VersionName = "Version 1";
 
-                Guid Id = _DocumentService.SaveFile(doc);
-                result = @"/Document/DownloadFile/" + Id.ToString();
+                    Guid Id = _DocumentService.SaveFile(doc);
+                    result = @"/Document/DownloadFile/" + Id.ToString();
+                }
             }
 
             return Json(result);
