@@ -1149,6 +1149,7 @@ namespace RapidDoc.Models.DomainModels
         public DateTime? Date { get; set; }
         public string FullName { get; set; }
         public string OwnMind { get; set; }
+        public string UserChooseManual1 { get; set; }
     }
 
     public class USR_REQ_JU_RequestForExpertise_Table : BasicDocumentTable

@@ -1961,6 +1961,7 @@
     <Content Include="Views\Document\_FileList.cshtml" />
     <Content Include="Views\Report\PdfReportProtocol.cshtml" />
     <Content Include="Views\Custom\USR_PRT_DecisionText.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_JU_RequestForExplanationNormalAct_Edit_Manual.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

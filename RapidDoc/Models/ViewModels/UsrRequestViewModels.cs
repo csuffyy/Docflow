@@ -2259,6 +2259,10 @@ namespace RapidDoc.Models.ViewModels
 
         [Display(Name = "Собственное мнение заявителя по разъяснению НПА")]
         public string OwnMind { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Исполнитель")]
+        public string UserChooseManual1 { get; set; }
     }
 
     public class USR_REQ_JU_RequestForExpertise_View : BasicDocumentView

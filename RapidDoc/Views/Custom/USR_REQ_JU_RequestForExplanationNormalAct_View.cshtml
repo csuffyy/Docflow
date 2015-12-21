@@ -1,6 +1,8 @@
 ﻿@model RapidDoc.Models.ViewModels.USR_REQ_JU_RequestForExplanationNormalAct_View
 @using RapidDoc.Extensions;
 
+@Html.Action("GetManualRequestForExplanationNormalAct", "Custom", new { model = Model })
+
 <div class="editor-label">
     @Html.LabelFor(model => Model.Users)
 </div>
