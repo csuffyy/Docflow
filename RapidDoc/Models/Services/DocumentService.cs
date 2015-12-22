@@ -286,7 +286,7 @@ namespace RapidDoc.Models.Services
                                         )) && document.DocumentState != DocumentState.Created) ||
                                     (contextQuery.DelegationTable.Any(d => d.EmplTableTo.ApplicationUserId == user.Id && d.DateFrom <= currentDate && d.DateTo >= currentDate && d.isArchive == false
                                     && d.CompanyTableId == user.CompanyTableId
-                                    && (d.GroupProcessTableId == null || childGroupArray.Any(x => x == document.ProcessTable.GroupProcessTableId))
+                                    && (d.GroupProcessTableId == null || (d.GroupProcessTableId != null && childGroupArray.Any(x => x == document.ProcessTable.GroupProcessTableId)))
                                     && (d.ProcessTableId == document.ProcessTableId || d.ProcessTableId == null)
                                     && contextQuery.WFTrackerTable.Any(w => w.DocumentTableId == document.Id && w.SignUserId == null && w.TrackerType == TrackerType.Waiting && w.Users.Any(b => b.UserId == d.EmplTableFrom.ApplicationUserId))
                                     ))
@@ -380,7 +380,7 @@ namespace RapidDoc.Models.Services
                                (contextQuery.DocumentReaderTable.Any(d => d.RoleId != null && d.DocumentTableId == document.Id && contextQuery.Roles.Where(r => r.Id == d.RoleId).ToList().Any(x => x.Users.ToList().Any(z => z.UserId == user.Id)))) ||
                                (contextQuery.DelegationTable.Any(d => d.EmplTableTo.ApplicationUserId == user.Id && d.DateFrom <= currentDate && d.DateTo >= currentDate && d.isArchive == false
                                && d.CompanyTableId == user.CompanyTableId
-                               && (d.GroupProcessTableId == null || childGroupArray.Any(x => x == document.ProcessTable.GroupProcessTableId))
+                               && (d.GroupProcessTableId == null || (d.GroupProcessTableId != null && childGroupArray.Any(x => x == document.ProcessTable.GroupProcessTableId)))
                                && (d.ProcessTableId == document.ProcessTableId || d.ProcessTableId == null)
                                && contextQuery.WFTrackerTable.Any(w => w.DocumentTableId == document.Id && w.SignUserId == null && w.TrackerType == TrackerType.Waiting && w.Users.Any(b => b.UserId == d.EmplTableFrom.ApplicationUserId))
                                ))
@@ -506,7 +506,7 @@ namespace RapidDoc.Models.Services
                                     contextQuery.WFTrackerTable.Any(x => x.DocumentTableId == document.Id && x.SignUserId == null && x.TrackerType == TrackerType.Waiting && x.Users.Any(b => b.UserId == user.Id)) ||
                                     (contextQuery.DelegationTable.Any(d => d.EmplTableTo.ApplicationUserId == user.Id && d.DateFrom <= currentDate && d.DateTo >= currentDate && d.isArchive == false
                                     && d.CompanyTableId == user.CompanyTableId
-                                    && (d.GroupProcessTableId == null || childGroupArray.Any(x => x == document.ProcessTable.GroupProcessTableId))
+                                    && (d.GroupProcessTableId == null || (d.GroupProcessTableId != null && childGroupArray.Any(x => x == document.ProcessTable.GroupProcessTableId)))
                                     && (d.ProcessTableId == document.ProcessTableId || d.ProcessTableId == null)
                                     && contextQuery.WFTrackerTable.Any(w => w.DocumentTableId == document.Id && w.SignUserId == null && w.TrackerType == TrackerType.Waiting && w.Users.Any(b => b.UserId == d.EmplTableFrom.ApplicationUserId))
                                     ))
@@ -1151,7 +1151,7 @@ namespace RapidDoc.Models.Services
                     }
 
                     var item = _EmplService.FirstOrDefault(x => x.Id == delegation.EmplTableFromId && x.CompanyTableId == delegation.CompanyTableId && x.Enable == true);
-                    if (item != null && (delegation.ProcessTableId == document.ProcessTableId || childGroup.Any(d => d == document.ProcessTable.GroupProcessTableId) || (delegation.ProcessTableId == null && delegation.GroupProcessTableId == null)))
+                    if (item != null && (delegation.ProcessTableId == document.ProcessTableId || (childGroup.Any(d => d == document.ProcessTable.GroupProcessTableId) && delegation.GroupProcessTableId != null) || (delegation.ProcessTableId == null && delegation.GroupProcessTableId == null)))
                     {
                         ret.AddRange(SignDocumentUserCZ(documentId, trackerType, item.ApplicationUserId, comment));
                     }
@@ -1230,7 +1230,7 @@ namespace RapidDoc.Models.Services
                         }
 
                         var item = _EmplService.FirstOrDefault(x => x.Id == delegation.EmplTableFromId && x.CompanyTableId == delegation.CompanyTableId && x.Enable == true);
-                        if (item != null && (delegation.ProcessTableId == document.ProcessTableId || childGroup.Any(d => d == document.ProcessTable.GroupProcessTableId) || (delegation.ProcessTableId == null && delegation.GroupProcessTableId == null)))
+                        if (item != null && (delegation.ProcessTableId == document.ProcessTableId || (childGroup.Any(d => d == document.ProcessTable.GroupProcessTableId) && delegation.GroupProcessTableId != null) || (delegation.ProcessTableId == null && delegation.GroupProcessTableId == null)))
                         {
                             trackerTable = _WorkflowTrackerService.FirstOrDefault(x => x.DocumentTableId == documentId && x.SignUserId == null && x.TrackerType == TrackerType.Waiting && x.Users.Any(p => p.UserId == item.ApplicationUserId));
                             if (trackerTable != null)

@@ -208,7 +208,7 @@
         $('.distributiongrouplink_listagreement').click(function (event) {
             var element = $(event.target);
             var tagId = element.attr('data-itemid') + ', ' + element.attr('data-rolename');
-            $('input[data-role=tagsinputOnlyGroup]').tagsinput('add', { value: tagId, text: element.text() });
+            $('input[data-role=tagsinputGroup]').tagsinput('add', { value: tagId, text: element.text() });
         });
 
         $('.distributiongrouplink_listsubcription').click(function (event) {

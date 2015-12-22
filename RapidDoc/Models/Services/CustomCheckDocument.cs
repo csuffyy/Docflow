@@ -642,6 +642,11 @@ namespace RapidDoc.Models.Services
                 {
                     errorList.Add("Дата продления должна быть больше даты исполнения");
                 }
+
+                if ((actionModel.DocumentTableId == null || actionModel.DocumentTableId == Guid.Empty) && actionModel.ProlongationDate.Year < DateTime.UtcNow.Year && actionModel.ProlongationDate.Month < DateTime.UtcNow.Month && actionModel.ProlongationDate.Day < DateTime.UtcNow.Day)
+                {
+                    errorList.Add("Дата продления должна быть больше или равна текущей");
+                }
             }
 
             if (type == (new USR_ORD_BusinessTrip_View()).GetType())
