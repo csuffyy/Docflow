@@ -211,6 +211,8 @@ namespace RapidDoc.Models.DomainModels
         public Guid? ItemCauseTableId { get; set; }
         public virtual ItemCauseTable ItemCauseTable { get; set; }
 
+        public bool NeedTranslate { get; set; }
+
         public string ItemCauseNumber
         {
             get

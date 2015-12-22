@@ -338,6 +338,9 @@ namespace RapidDoc.Models.ViewModels
 
         [Display(Name = "Номенклатурное дело")]
         public string ItemCauseNumberCode { get; set; }
+
+        [Display(Name = "Требуется перевод")]
+        public bool NeedTranslate { get; set; }
     }
 
     public abstract class BasicAppealDocumentsView : BasicDocumentView
