@@ -145,6 +145,19 @@ else
         @Html.EnumToDescription(Model.OutcomingDispatchType)
     </div>
 }
+<div class="row">
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.NeedTranslate):
+        </div>
+    </div>
+
+    <div class="col-xs-2">
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.NeedTranslate, new { @disabled = true })
+        </div>
+    </div>
+</div>
 <br />
 
 <div class="editor-label">
