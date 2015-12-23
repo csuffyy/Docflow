@@ -116,6 +116,7 @@ namespace RapidDoc.Controllers
             return new ViewAsPdf("PdfReport", documentView)
             {
                 PageSize = Size.A4,
+                IsGrayScale = true,
                 FileName = String.Format("{0}.pdf", docTable.DocumentNum)
             };
         }

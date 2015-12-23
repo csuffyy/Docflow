@@ -69,7 +69,7 @@ namespace RapidDoc.Models.Services
         void SignTaskDocument(Guid documentId, TrackerType trackerType);
         List<TaskDelegationView> GetDocumentRefTask(Guid documentId);
         string[] GetUserListFromStructure(string users);
-        void UpdateProlongationDate(Guid refDocumentid, DateTime prolongationDate, string currentUserId);
+        Guid? UpdateProlongationDate(Guid refDocumentid, DateTime prolongationDate, string currentUserId);
         void ORDRegistration(Guid refDocumentid, string currentUserId, Guid? bookingNumberId);
         void INDRegistration(Guid refDocumentid, string currentUserId, Guid? bookingNumberId);
         void OUTRegistration(Guid refDocumentid, string currentUserId, Guid? bookingNumberId);
@@ -1321,7 +1321,7 @@ namespace RapidDoc.Models.Services
             return arrayStructure;
         }
 
-        public void UpdateProlongationDate(Guid refDocumentid, DateTime prolongationDate, string currentUserId)
+        public Guid? UpdateProlongationDate(Guid refDocumentid, DateTime prolongationDate, string currentUserId)
         {
             DocumentTable documentTable = Find(refDocumentid);
             ProcessView processView = _ProcessService.FindView(documentTable.ProcessTableId, currentUserId);
@@ -1336,7 +1336,8 @@ namespace RapidDoc.Models.Services
                 item.SLAOffset = Convert.ToInt32(GetSLAHours(refDocumentid, item.StartDateSLA, prolongationDate));
                 _WorkflowTrackerService.SaveDomain(item, currentUserId);
             }
-            
+
+            return document.RefDocumentId;
         }
 
         public void ORDRegistration(Guid refDocumentid, string currentUserId, Guid? bookingNumberId)

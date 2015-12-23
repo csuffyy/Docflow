@@ -12,6 +12,7 @@
 @Html.HiddenFor(model => model.Language_Chinese)
 @Html.HiddenFor(model => model.Language_French)
 @Html.HiddenFor(model => model.Language_Other)
+@Html.HiddenFor(model => model.NeedTranslate)
 
 @if (Model.OutcomingDocNum != null)
 {  
@@ -102,6 +103,19 @@
         </div>
     }
 </div>
+<div class="row">
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.NeedTranslate):
+        </div>
+    </div>
+
+    <div class="col-xs-2">
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.NeedTranslate, new { @disabled = true })
+        </div>
+    </div>
+</div>
 
 <div class="editor-label">
     @Html.LabelFor(model => model.OrganizationTableId)
@@ -145,19 +159,6 @@ else
         @Html.EnumToDescription(Model.OutcomingDispatchType)
     </div>
 }
-<div class="row">
-    <div class="col-xs-2">
-        <div class="editor-label">
-            @Html.LabelForRequired(model => Model.NeedTranslate):
-        </div>
-    </div>
-
-    <div class="col-xs-2">
-        <div class="editor-field">
-            @Html.CheckBoxFor(model => model.NeedTranslate, new { @disabled = true })
-        </div>
-    </div>
-</div>
 <br />
 
 <div class="editor-label">

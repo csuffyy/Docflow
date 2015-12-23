@@ -206,13 +206,16 @@
             foreach (PRT_QuestionList_Table querstion in Model.QuestionList)
             {
                 <table width="900" style="table-layout: fixed">
-                    @{numQuestion++;}
                     <tr style="page-break-inside: avoid">
+                        @if(!String.IsNullOrEmpty(querstion.Question))
+                        {
+                            numQuestion++;
                         <td style="width:150px; vertical-align:top;">
                             <font size="4" face="Arial">
                                 <strong>Вопрос №@numQuestion.ToString()</strong>
                             </font>
                         </td>
+                        }
                         <td>
                             <font size="4" face="Arial">
                                 @Html.Raw(@querstion.Question)

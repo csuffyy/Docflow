@@ -761,6 +761,7 @@ namespace RapidDoc.Controllers
                 var documentView = _DocumentService.GetDocumentView(docTable.RefDocumentId, process.TableName);
                 return new ViewAsPdf("~/Views/Report/PdfReportTrip.cshtml", documentView)
                 {
+                    IsGrayScale = true,
                     PageSize = Size.A4,
                     FileName = String.Format("{0}.pdf", docTable.DocumentNum)
                 };
