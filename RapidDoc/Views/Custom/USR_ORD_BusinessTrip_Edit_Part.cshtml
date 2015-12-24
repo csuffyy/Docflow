@@ -289,6 +289,12 @@
 
 <script type="text/javascript">
     $(function () {
+        if ($('#CountryTableId').val() != '') 
+            $('#Country')[0].disabled = true;
+
+        if ($('#OrganizationTableId').val() != '') 
+            $('#Organization')[0].disabled = true;
+
         @if(Model.CancelOrder == false)
         {
             <text>
