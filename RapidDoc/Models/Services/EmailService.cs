@@ -68,8 +68,9 @@ namespace RapidDoc.Models.Services
         private IUnitOfWork _uow;
         private readonly IDocumentService _DocumentService;
         private readonly IDocumentReaderService _DocumentReaderService;
+        private readonly ISystemService _SystemService;
 
-        public EmailService(IUnitOfWork uow, IDocumentService documentService, IDocumentReaderService documentReaderService)
+        public EmailService(IUnitOfWork uow, IDocumentService documentService, IDocumentReaderService documentReaderService, ISystemService systemService)
         {
             _uow = uow;
             repo = uow.GetRepository<EmailParameterTable>();
@@ -77,6 +78,7 @@ namespace RapidDoc.Models.Services
             repoEmpl = uow.GetRepository<EmplTable>();
             _DocumentService = documentService;
             _DocumentReaderService = documentReaderService;
+            _SystemService = systemService;
         }
 
         public EmailParameterTable FirstOrDefault(Expression<Func<EmailParameterTable, bool>> predicate)
@@ -999,7 +1001,8 @@ namespace RapidDoc.Models.Services
                 return;
 
             string processName = documentTable.ProcessName;
-
+            string subject = Regex.Replace(model.Subject, @"\t|\n|\r", "");
+                   
             new Task(() =>
             {
                 string absFile = HostingEnvironment.ApplicationPhysicalPath + @"Views\\EmailTemplate\\ORDEmailTemplate.cshtml";
@@ -1010,8 +1013,9 @@ namespace RapidDoc.Models.Services
                 Thread.CurrentThread.CurrentCulture = ci;
                 Thread.CurrentThread.CurrentUICulture = ci;
                 string body = Razor.Parse(razorText, new { DocumentNum = String.Format("{0} - {1}", documentTable.DocumentNum, processName), DocumentUri = documentUri, OrderNum = model.OrderNum, OrderDate = model.OrderDate.ToShortDateString(), Subject = model.Subject, MainField = model.MainField, MainFieldTranslate = model.MainFieldTranslate, SignTitle = model.SignTitle, SignName = model.SignName }, "emailORD");
-                SendEmail(emailParameter, emailList.ToArray(), String.Format("Приказ [{0}]", documentTable.DocumentNum), body);
+                SendEmail(emailParameter, emailList.ToArray(), String.Format("{0} - {1} - {2}", documentTable.DocumentNum, processName, subject), body);
                 ci = CultureInfo.GetCultureInfo(currentLang);
+                
                 Thread.CurrentThread.CurrentCulture = ci;
                 Thread.CurrentThread.CurrentUICulture = ci;
             }).Start();
