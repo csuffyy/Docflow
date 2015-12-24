@@ -47,6 +47,12 @@ namespace RapidDoc
             ).RouteHandler = new DefaultMvcRouteHandler();
 
             routes.MapRoute(
+                name: "FavoriteDocument",
+                url: "Document/FavoriteDocument",
+                defaults: new { controller = "Document", action = "FavoriteDocument" }
+            ).RouteHandler = new DefaultMvcRouteHandler();
+
+            routes.MapRoute(
                 name: "DocumentDelete",
                 url: "Document/DeleteFile/{id}",
                 defaults: new { controller = "Document", action = "DeleteFile", id = UrlParameter.Optional }

@@ -130,6 +130,8 @@ namespace RapidDoc.Models.ViewModels
 
         public bool isArchive { get; set; }
 
+        public bool isFavorite { get; set; }
+
         public bool isSign { get; set; }
 
         public bool isShow { get; set; }

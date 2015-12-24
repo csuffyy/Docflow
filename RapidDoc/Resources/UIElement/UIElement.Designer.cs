@@ -844,6 +844,15 @@ namespace UIElementRes {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Избранное.
+        /// </summary>
+        public static string MyFavorite {
+            get {
+                return ResourceManager.GetString("MyFavorite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Активные документы.
         /// </summary>
         public static string MyProcesses {

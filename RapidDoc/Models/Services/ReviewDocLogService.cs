@@ -25,6 +25,7 @@ namespace RapidDoc.Models.Services
         ReviewDocLogTable Find(Guid id);
         bool isNotReviewDocCurrentUser(Guid documentId, string currentUserName = "", ApplicationUser user = null);
         bool isArchive(Guid documentId, string currentUserName = "", ApplicationUser user = null);
+        bool isFavorite(Guid documentId, string currentUserName = "", ApplicationUser user = null);
         void Delete(Guid documentId, string userId);
         void DeleteAll(Guid documenId);
 
@@ -96,6 +97,15 @@ namespace RapidDoc.Models.Services
             }
 
             return repo.Contains(x => x.ApplicationUserCreatedId == user.Id && x.DocumentTableId == documentId && x.isArchive == true);
+        }
+        public bool isFavorite(Guid documentId, string currentUserName = "", ApplicationUser user = null)
+        {
+            if (user == null)
+            {
+                user = getCurrentUserName(currentUserName);
+            }
+
+            return repo.Contains(x => x.ApplicationUserCreatedId == user.Id && x.DocumentTableId == documentId && x.isFavorite == true);
         }
         public void Delete(Guid documentId, string userId)
         {

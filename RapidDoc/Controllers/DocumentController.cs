@@ -105,6 +105,11 @@ namespace RapidDoc.Controllers
             return View();
         }
 
+        public ActionResult MyFavorite()
+        {
+            return View();
+        }
+
         public ActionResult MyTasks()
         {
             return View();
@@ -131,6 +136,12 @@ namespace RapidDoc.Controllers
         public ActionResult GetAllMyDocument()
         {
             var grid = new MyDocumentAjaxPagingGrid(_DocumentService.GetMyDocumentView(), 1, false, _ReviewDocLogService, _DocumentService, _AccountService, _SearchService, _EmplService);
+            return PartialView("~/Views/Document/DocumentList.cshtml", grid);
+        }
+
+        public ActionResult GetAllMyFavorite()
+        {
+            var grid = new MyFavoriteAjaxPagingGrid(_DocumentService.GetMyFavoriteView(), 1, false, _ReviewDocLogService, _DocumentService, _AccountService, _SearchService, _EmplService);
             return PartialView("~/Views/Document/DocumentList.cshtml", grid);
         }
 
@@ -176,6 +187,17 @@ namespace RapidDoc.Controllers
         public JsonResult GetMyDocumentList(int page)
         {
             var grid = new MyDocumentAjaxPagingGrid(_DocumentService.GetMyDocumentView(), page, true, _ReviewDocLogService, _DocumentService, _AccountService, _SearchService, _EmplService);
+
+            return Json(new
+            {
+                Html = RenderPartialViewToString("DocumentList", grid),
+                HasItems = grid.DisplayingItemsCount >= grid.Pager.PageSize
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetMyFavoriteList(int page)
+        {
+            var grid = new MyFavoriteAjaxPagingGrid(_DocumentService.GetMyFavoriteView(), page, true, _ReviewDocLogService, _DocumentService, _AccountService, _SearchService, _EmplService);
 
             return Json(new
             {
@@ -315,6 +337,7 @@ namespace RapidDoc.Controllers
 
             docuView.isSign = _DocumentService.isSignDocument(documentTable.Id, userTable);
             docuView.isArchive = _ReviewDocLogService.isArchive(documentTable.Id, "", userTable);
+            docuView.isFavorite = _ReviewDocLogService.isFavorite(documentTable.Id, "", userTable);
             viewModel.DocumentView = docuView;
             viewModel.docData = _DocumentService.GetDocumentView(documentTable.RefDocumentId, process.TableName);
             viewModel.fileId = docuView.FileId;           
@@ -1756,6 +1779,22 @@ namespace RapidDoc.Controllers
             }
 
             return Json(result);
+        }
+
+        [HttpPost]
+        public void FavoriteDocument(string documentId, string userId)
+        {
+            if(!String.IsNullOrEmpty(documentId) && !String.IsNullOrEmpty(userId))
+            {
+                Guid documentIdGuid = Guid.Parse(documentId);
+                var item = _ReviewDocLogService.FirstOrDefault(x => x.ApplicationUserCreatedId == userId && x.DocumentTableId == documentIdGuid);
+
+                if(item != null)
+                {
+                    item.isFavorite = !item.isFavorite;
+                    _ReviewDocLogService.SaveDomain(item);
+                }
+            }
         }
 
         private bool CheсkFileRightDelete(FileTable fileTable, ApplicationUser user, DocumentTable document)

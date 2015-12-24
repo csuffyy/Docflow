@@ -134,11 +134,29 @@ function qrcode_init() {
 
 function checkbox_init(checked, unchecked) {
     $(':checkbox').each(function (e) {
-        if ($(this).attr("class") != 'labelauty') {
+        if ($(this).hasClass('labelauty') == false && $(this).hasClass('glyphicon') == false) {
             $(this).labelauty({
                 label: true,
                 checked_label: checked,
                 unchecked_label: unchecked
+            });
+        }
+    });
+}
+
+function favoritebutton(documentId, userId) {
+    $('#favoriteButton').change(function () {
+        if (window.FormData !== undefined) {
+            var formData = new FormData();
+            formData.append("documentId", documentId);
+            formData.append("userId", userId);
+
+            $.ajax({
+                type: "POST",
+                url: '/Document/FavoriteDocument/',
+                data: formData,
+                contentType: false,
+                processData: false
             });
         }
     });

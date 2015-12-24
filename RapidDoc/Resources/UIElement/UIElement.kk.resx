@@ -642,4 +642,7 @@
   <data name="ProtocolBase" xml:space="preserve">
     <value>-</value>
   </data>
+  <data name="MyFavorite" xml:space="preserve">
+    <value>-</value>
+  </data>
 </root>

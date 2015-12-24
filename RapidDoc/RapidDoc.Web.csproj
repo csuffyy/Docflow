@@ -350,6 +350,7 @@
     <Compile Include="Models\DomainModels\CustomDomainModelTemplate.cs" />
     <Compile Include="Models\DomainModels\UsrRequestDomainModels.cs" />
     <Compile Include="Models\Grids\CountryAjaxPagingGrid.cs" />
+    <Compile Include="Models\Grids\MyFavoriteAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\MyTaskAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\MyDocumentAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\AjaxGridPager.cs" />
@@ -1962,6 +1963,7 @@
     <Content Include="Views\Report\PdfReportProtocol.cshtml" />
     <Content Include="Views\Custom\USR_PRT_DecisionText.cshtml" />
     <Content Include="Views\Custom\USR_REQ_JU_RequestForExplanationNormalAct_Edit_Manual.cshtml" />
+    <Content Include="Views\Document\MyFavorite.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

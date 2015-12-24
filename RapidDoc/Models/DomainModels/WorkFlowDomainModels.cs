@@ -235,6 +235,7 @@ namespace RapidDoc.Models.DomainModels
         public Guid DocumentTableId { get; set; }
         public virtual DocumentTable DocumentTable { get; set; }
         public bool isArchive { get; set; }
+        public bool isFavorite { get; set; }
     }
 
     public class DocumentReaderTable : BasicTable

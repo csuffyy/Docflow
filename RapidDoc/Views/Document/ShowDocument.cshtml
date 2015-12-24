@@ -1,5 +1,6 @@
 ﻿@model RapidDoc.Models.ViewModels.DocumentComposite
 @using RapidDoc.Extensions;
+@using Microsoft.AspNet.Identity;
 @{
     ViewBag.Title = Model.DocumentView.DocumentNum + " - " + Model.ProcessView.ProcessName;
     string documentState = Html.EnumToDescription(Model.DocumentView.DocumentState);
@@ -7,7 +8,7 @@
 
 <div class="row hidden-print">
     <div class="col-xs-6">
-        <h5 class="documenturl"><a href="@ViewBag.DocumentUrl" target="_blank">[||]</a> <strong><a href="@ViewBag.DocumentUrl" class="documenturl" target="_blank"> @Model.DocumentView.DocumentNum</a> - @Model.ProcessView.ProcessName</strong></h5>
+        <h5 class="documenturl"><a href="@ViewBag.DocumentUrl" target="_blank">[||]</a> <strong><a href="@ViewBag.DocumentUrl" class="documenturl" target="_blank"> @Model.DocumentView.DocumentNum</a> - @Model.ProcessView.ProcessName</strong> <input type="checkbox" id="favoriteButton" class="glyphicon glyphicon-star-empty text-warning" data-toggle="tooltip" data-placement="right" title="Добавить документ в избранное" @(Model.DocumentView.isFavorite ? "checked=\"checked\"" : "")></h5>
         <h5>
             <small class="">@documentState</small>
             @if (Model.DocumentView.isArchive == true)
@@ -449,7 +450,10 @@
         custom_tagsinputOnlyGroup_init("@Url.Action("GetJsonOnlyGroup", "Custom")");
         custom_tagsinputEmplOne1_init("@Url.Action("GetJsonTripEmpl", "Custom")");
         popover_init();
+        favoritebutton('@Model.DocumentView.Id', '@User.Identity.GetUserId()');
         qrcode_init();
+
+        $('[data-toggle="tooltip"]').tooltip();
 
         bootstrap_alert = function () { }
         bootstrap_alert.warning = function (message) {
