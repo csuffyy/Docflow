@@ -9,13 +9,16 @@
 
 @foreach (var question in Model)
 {
-    numQuestion++;
     <div>
         <table class="table table-min" style="margin-bottom: 0;">
             <tbody>
                 <tr>
-                    <td style="width: 20px;">
-                        <strong style="white-space: nowrap;">Вопрос №@numQuestion.ToString().</strong>
+                    <td style="width: 95px;">
+                        @if (!String.IsNullOrEmpty(question.Question))
+                        {
+                            numQuestion++; 
+                            <strong style="white-space: nowrap;">Вопрос №@numQuestion.ToString().</strong>
+                        }
                     </td>
                     <td>
                         @Html.Raw(question.Question)

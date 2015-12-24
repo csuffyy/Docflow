@@ -116,6 +116,7 @@ namespace RapidDoc.Controllers
             return new ViewAsPdf("PdfReport", documentView)
             {
                 PageSize = Size.A4,
+                IsGrayScale = true,
                 FileName = String.Format("{0}.pdf", docTable.DocumentNum)
             };
         }
@@ -161,6 +162,7 @@ namespace RapidDoc.Controllers
             return new ViewAsPdf("PdfReportCZ", documentView)
             {
                 PageSize = Size.A4,
+                IsGrayScale = true,
                 FileName = String.Format("{0}.pdf", docTable.DocumentNum)
             };
         }
@@ -247,6 +249,7 @@ namespace RapidDoc.Controllers
 
             return new ViewAsPdf("PdfReportProtocol", documentView)
             {
+                IsGrayScale = true,
                 PageSize = Size.A4,
                 FileName = String.Format("{0}.pdf", docTable.DocumentNum)
             };
@@ -276,7 +279,7 @@ namespace RapidDoc.Controllers
             excelWorkbook = excelAppl.Workbooks.Add(@"C:\Template\TaskReport.xlsx");
 
             Dictionary<string, int> blockDepartment = new Dictionary<string, int>();
-            blockDepartment.Add("VIP", 1);
+            blockDepartment.Add("Руководство", 1);
             blockDepartment.Add("Заместитель Генерального директора по производству", 2);
             blockDepartment.Add("Производственно-техническое управление", 3);
             blockDepartment.Add("Блок горного производства", 4);

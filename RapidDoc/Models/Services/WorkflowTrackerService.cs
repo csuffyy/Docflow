@@ -93,7 +93,7 @@ namespace RapidDoc.Models.Services
                             {
                                 addUser = true;
                             }
-                            else if (delegationItem.GroupProcessTableId == item.DocumentTable.ProcessTable.GroupProcessTableId || _GroupProcessService.GetGroupChildren(delegationItem.GroupProcessTableId).Any(x => x == item.DocumentTable.ProcessTable.GroupProcessTableId))
+                            else if (delegationItem.GroupProcessTableId != null && (delegationItem.GroupProcessTableId == item.DocumentTable.ProcessTable.GroupProcessTableId || _GroupProcessService.GetGroupChildren(delegationItem.GroupProcessTableId).Any(x => x == item.DocumentTable.ProcessTable.GroupProcessTableId)))
                             {
                                 addUser = true;
                             }

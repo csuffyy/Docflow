@@ -630,7 +630,7 @@ namespace RapidDoc.Models.Services
 
             if (type == (new USR_TAS_DailyTasks_View()).GetType())
             {
-                if ((actionModel.DocumentTableId == null || actionModel.DocumentTableId == Guid.Empty) && actionModel.ExecutionDate <= DateTime.UtcNow)
+                if ((actionModel.DocumentTableId == null || actionModel.DocumentTableId == Guid.Empty) && actionModel.ExecutionDate.Date <= DateTime.UtcNow.Date)
                 {
                     errorList.Add("Дата исполнения должна быть больше текущей");
                 }
@@ -641,6 +641,11 @@ namespace RapidDoc.Models.Services
                 if (actionModel.ExecutionDate >= actionModel.ProlongationDate || (actionModel.ProlongationOldDate != null && actionModel.ProlongationOldDate >= actionModel.ProlongationDate))
                 {
                     errorList.Add("Дата продления должна быть больше даты исполнения");
+                }
+
+                if ((actionModel.DocumentTableId == null || actionModel.DocumentTableId == Guid.Empty) && actionModel.ProlongationDate.Date < DateTime.UtcNow.Date)
+                {
+                    errorList.Add("Дата продления должна быть больше или равна текущей");
                 }
             }
 
@@ -1038,8 +1043,8 @@ namespace RapidDoc.Models.Services
                                 {
                                     numTwoDecision++;
 
-                                    if (!String.IsNullOrEmpty(_SystemService.DeleteAllTags(decision.Decision)) && String.IsNullOrEmpty(_SystemService.DeleteAllTags(question.Question)))
-                                        errorList.Add(String.Format("Решение {0} не указан текст вопроса", numTwoDecision));
+                                    //if (!String.IsNullOrEmpty(_SystemService.DeleteAllTags(decision.Decision)) && String.IsNullOrEmpty(_SystemService.DeleteAllTags(question.Question)))
+                                    //    errorList.Add(String.Format("Решение {0} не указан текст вопроса", numTwoDecision));
 
                                     if (String.IsNullOrEmpty(_SystemService.DeleteAllTags(decision.Decision)) && !String.IsNullOrEmpty(decision.Users))
                                         errorList.Add(String.Format("Решение {0} если указали Исполнителей {1} необходимо заполнить поле Решение", numTwoDecision, _SystemService.DeleteGuidText(_SystemService.DeleteAllTags(decision.Users))));
@@ -1047,15 +1052,15 @@ namespace RapidDoc.Models.Services
                                     if (!String.IsNullOrEmpty(decision.Users) && decision.ControlDate == null)
                                         errorList.Add(String.Format("Решение {0} необходимо указать дату исполнения", numTwoDecision));
 
-                                    if ((actionModel.DocumentTableId == null || actionModel.DocumentTableId == Guid.Empty) && (!String.IsNullOrEmpty(decision.Users) && decision.ControlDate != null && decision.ControlDate <= DateTime.UtcNow))
+                                    if ((actionModel.DocumentTableId == null || actionModel.DocumentTableId == Guid.Empty) && (!String.IsNullOrEmpty(decision.Users) && decision.ControlDate != null && decision.ControlDate.Value.Date <= DateTime.UtcNow.Date))
                                         errorList.Add(String.Format("Решение {0} необходимо указать дату исполнения больше текущей", numTwoDecision));
                                 }
                                 else
                                 {
                                     numDecision++;
 
-                                    if (!String.IsNullOrEmpty(_SystemService.DeleteAllTags(decision.Decision)) && String.IsNullOrEmpty(_SystemService.DeleteAllTags(question.Question)))
-                                        errorList.Add(String.Format("Поручение {0} не указан текст вопроса", numDecision));
+                                    //if (!String.IsNullOrEmpty(_SystemService.DeleteAllTags(decision.Decision)) && String.IsNullOrEmpty(_SystemService.DeleteAllTags(question.Question)))
+                                    //    errorList.Add(String.Format("Поручение {0} не указан текст вопроса", numDecision));
 
                                     if (String.IsNullOrEmpty(_SystemService.DeleteAllTags(decision.Decision)) && !String.IsNullOrEmpty(decision.Users))
                                         errorList.Add(String.Format("Поручение {0} если указали Исполнителей {1} необходимо заполнить поле Поручение", numDecision, _SystemService.DeleteGuidText(_SystemService.DeleteAllTags(decision.Users))));
@@ -1066,7 +1071,7 @@ namespace RapidDoc.Models.Services
                                     if (!String.IsNullOrEmpty(decision.Users) && decision.ControlDate == null)
                                         errorList.Add(String.Format("Поручение {0} необходимо указать дату исполнения", numDecision));
 
-                                    if ((actionModel.DocumentTableId == null || actionModel.DocumentTableId == Guid.Empty) && (!String.IsNullOrEmpty(decision.Users) && decision.ControlDate != null && decision.ControlDate <= DateTime.UtcNow))
+                                    if ((actionModel.DocumentTableId == null || actionModel.DocumentTableId == Guid.Empty) && (!String.IsNullOrEmpty(decision.Users) && decision.ControlDate != null && decision.ControlDate.Value.Date <= DateTime.UtcNow.Date))
                                         errorList.Add(String.Format("Поручение {0} необходимо указать дату исполнения больше текущей", numDecision));
                                 }
                             }
@@ -1074,8 +1079,8 @@ namespace RapidDoc.Models.Services
                     }
                 }
 
-                if (actionModel.Subject != null && isQuestion == false)
-                    errorList.Add("В протоколе нужно указать хотя бы один вопрос");
+                //if (actionModel.Subject != null && isQuestion == false)
+                //    errorList.Add("В протоколе нужно указать хотя бы один вопрос");
             }
 
             return errorList;
@@ -1439,7 +1444,13 @@ namespace RapidDoc.Models.Services
             {
                 if (actionModel.QuestionList != null && noErrors == true)
                 {
-                    ((List<PRT_QuestionList_Table>)actionModel.QuestionList).RemoveAll(x => _SystemService.CheckTextExists(x.Question) == false);
+                    ((List<PRT_QuestionList_Table>)actionModel.QuestionList).RemoveAll(x => _SystemService.CheckTextExists(x.Question) == false && x.DecisionList == null);
+
+                    foreach(var item in (List<PRT_QuestionList_Table>)actionModel.QuestionList)
+                    {
+                        if (_SystemService.CheckTextExists(item.Question) == false)
+                            item.Question = String.Empty;
+                    }
 
                     if (((List<PRT_QuestionList_Table>)actionModel.QuestionList).Count() > 0)
                     {

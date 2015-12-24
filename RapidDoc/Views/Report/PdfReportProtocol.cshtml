@@ -16,7 +16,7 @@
 </head>
 <body>
     <div>
-        @*<br />
+        <br />
         <table width="900">
             <tr>
                 <td align="right">
@@ -25,28 +25,7 @@
             </tr>
         </table>
         <br />
-        <br />
-        <h4 align="center">
-            <strong>
-                <font size="4" face="Arial">
-                    ПРОТОКОЛ <a href="@String.Format("http://" + System.Configuration.ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/{0}/Document/ShowDocument/{1}?isAfterView=true", ViewBag.AliasCompanyName, ViewBag.Id)">@ViewBag.DocumentNum</a><br />
-                </font>
-            </strong>
-        </h4>*@
-        <br />
         <table width="900" cellpadding="7" cellspacing="0">
-            <tr>
-                <td style="width:10%; vertical-align:top;">
-                    <font size="4" face="Arial">
-                        <span><strong>ТОО "Altyntau Kokshetau"</strong></span>
-                    </font>
-                </td>
-                <td style="width:10%; vertical-align:top;text-align:right">
-                    <font size="4" face="Arial">
-                        <span><strong>ТОО "Altyntau Kokshetau"</strong></span>
-                    </font>
-                </td>
-            </tr>
             <tr>
                 <td style="width:10%; vertical-align:top;">
                     <font size="4" face="Arial">
@@ -112,7 +91,7 @@
                 }
             </tr>
             <tr>              
-                <td>
+                <td style="vertical-align:top;">
                     <font size="4" face="Arial">
                         <span style="white-space: pre-line;">@ViewBag.Chairman (@ViewBag.ChairmanTitle)</span>
                     </font>
@@ -125,7 +104,7 @@
                             <font size="4" face="Arial">
                                 <span style="white-space: pre-line;">@attended</span>
                             </font>
-                            @*<br />*@
+                            <br />
                         }
                     </td>
                 }
@@ -146,10 +125,11 @@
                 }
             </tr>
             <tr>
-                <td>
+                <td style="vertical-align:top;">
                     <font size="4" face="Arial">
-                        <span style="white-space: pre-line;">@ViewBag.UserCreateName 
-                           (@ViewBag.UserCreateTitleName)</span>
+                        <span style="white-space: pre-line;">
+                            @ViewBag.UserCreateName (@ViewBag.UserCreateTitleName)
+                        </span>
                     </font>
                 </td>
                 @if (@ViewBag.ListInvited != null && ((List<string>)@ViewBag.ListInvited).Count > 0)
@@ -226,13 +206,16 @@
             foreach (PRT_QuestionList_Table querstion in Model.QuestionList)
             {
                 <table width="900" style="table-layout: fixed">
-                    @{numQuestion++;}
                     <tr style="page-break-inside: avoid">
+                        @if(!String.IsNullOrEmpty(querstion.Question))
+                        {
+                            numQuestion++;
                         <td style="width:150px; vertical-align:top;">
                             <font size="4" face="Arial">
                                 <strong>Вопрос №@numQuestion.ToString()</strong>
                             </font>
                         </td>
+                        }
                         <td>
                             <font size="4" face="Arial">
                                 @Html.Raw(@querstion.Question)
