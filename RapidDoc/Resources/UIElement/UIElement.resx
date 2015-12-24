@@ -648,7 +648,7 @@
   <data name="ProtocolBase" xml:space="preserve">
     <value>Протоколы</value>
   </data>
-  <data name="MyFavorite" xml:space="preserve">
-    <value>Избранное</value>
+  <data name="ReturnTask" xml:space="preserve">
+    <value>Вернуть задачу</value>
   </data>
 </root>

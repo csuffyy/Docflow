@@ -123,6 +123,19 @@
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.AddReaders)
+        </div>
+    </div>
+
+    <div class="col-xs-2">
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.AddReaders)
+        </div>
+    </div>
+</div>
 
 <div class="modal listsubcription-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sidebar">

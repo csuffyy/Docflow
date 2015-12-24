@@ -6,6 +6,7 @@
 @Html.HiddenFor(model => model.NeedTranslate)
 @Html.HiddenFor(model => model.ListAgreement)
 @Html.HiddenFor(model => model.ListSubcription)
+@Html.HiddenFor(model => model.AddReaders)
 @Html.HiddenFor(model => model.CountDays)
 @Html.HiddenFor(model => model.Subject)
 
@@ -288,6 +289,12 @@
 
 <script type="text/javascript">
     $(function () {
+        if ($('#CountryTableId').val() != '') 
+            $('#Country')[0].disabled = true;
+
+        if ($('#OrganizationTableId').val() != '') 
+            $('#Organization')[0].disabled = true;
+
         @if(Model.CancelOrder == false)
         {
             <text>

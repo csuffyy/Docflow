@@ -74,6 +74,10 @@
             <div class="modal-body" style="min-height:250px;">
                 @Html.TextBox("ReceiversOrder", "", new { @class = "form-control", @data_role = "tagsinputEmpl3", @size = 256, @maxlength = 256, placeholder = "Сотрудники" })
                 <br>
+                <span>
+                    @Html.CheckBox("AddReaders", false, new { @data_labelauty = "Читателем|Читателем" })
+                </span>
+                <br>
                 <div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default pull-right" data-dismiss="modal">@UIElementRes.UIElement.Cancel</button>

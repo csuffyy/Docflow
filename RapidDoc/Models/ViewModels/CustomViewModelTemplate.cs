@@ -137,6 +137,8 @@ namespace RapidDoc.Models.ViewModels
 
         [Display(Name = "Список рассылки")]      
         public string ListSubcription { get; set; }
+        [Display(Name = "Добавить рассылку читателями")]
+        public bool AddReaders { get; set; }
 
         [Display(Name = "Срок исполнения")]
         public DateTime? ControlDate { get; set; }

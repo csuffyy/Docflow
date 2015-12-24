@@ -151,7 +151,8 @@ namespace RapidDoc.Activities.CodeActivities
                     List<string> users = _serviceWorkflow.EmplAndRolesToUserList(usersAndRoles);
                     IEmailService _EmailService = DependencyResolver.Current.GetService<IEmailService>();
                     var documentModel = _service.GetDocumentView(document.RefDocumentId, document.ProcessTable.TableName);
-                    _serviceDocumentReader.AddOrderReader(documentId, users, currentUserId);
+                    if ((bool)documentData["AddReaders"] == true)
+                        _serviceDocumentReader.AddOrderReader(documentId, users, currentUserId);
                     _EmailService.SendORDForUserEmail(documentId, users, documentModel);
                 }
             }

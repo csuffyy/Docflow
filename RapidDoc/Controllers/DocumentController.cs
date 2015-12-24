@@ -745,11 +745,41 @@ namespace RapidDoc.Controllers
             documentTable.ActivityName = String.Empty;
 
             _DocumentService.UpdateDocument(documentTable, User.Identity.GetUserId());
-            _DocumentService.SaveSignData(_DocumentService.GetCurrentSignStep(documentId, currentUserId).ToList(), TrackerType.Cancelled);
+           /* _DocumentService.SaveSignData(_DocumentService.GetCurrentSignStep(documentId, currentUserId).ToList(), TrackerType.Cancelled);*/
+            _DocumentService.SignTaskDocument(documentId, TrackerType.Cancelled);
             _HistoryUserService.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = Models.Repository.HistoryType.CancelledDocument }, User.Identity.GetUserId());
             _EmailService.SendInitiatorRejectEmail(documentTable.Id);
 
             return RedirectToAction("Index", "Document");         
+        }
+
+        [HttpPost]
+        [MultipleButton(Name = "action", Argument = "ReturnTask")]
+        public ActionResult ReturnTask(Guid processId, int type, Guid fileId, FormCollection collection, string actionModelName, Guid documentId)
+        {
+            string currentUserId = User.Identity.GetUserId();
+            ProcessView process = _ProcessService.FindView(processId);
+            var documentIdNew = _DocumentService.GetDocumentView(_DocumentService.Find(documentId).RefDocumentId, process.TableName);
+
+            List<WFTrackerTable> trackerTableList = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == documentId).ToList();
+
+            foreach (var tracker in trackerTableList)
+            {
+                tracker.TrackerType = TrackerType.Waiting;
+                tracker.SignDate = null;
+                tracker.SignUserId = null;
+                _WorkflowTrackerService.SaveDomain(tracker, currentUserId);
+            }
+
+            DocumentTable documentTable = _DocumentService.Find(documentId);
+            documentTable.DocumentState = DocumentState.OnSign;
+            documentTable.ActivityName = "Исполнители";
+            _DocumentService.UpdateDocument(documentTable, currentUserId);
+
+            documentIdNew.ReportText = "";
+            _DocumentService.UpdateDocumentFields(documentIdNew, process);
+
+            return RedirectToAction("Index", "Document");
         }
 
         [HttpPost]
@@ -764,7 +794,8 @@ namespace RapidDoc.Controllers
                 string[] users = _DocumentService.GetUserListFromStructure(collection["ReceiversOrder"].ToString());
                 var documentModel = _DocumentService.GetDocumentView(documentTable.RefDocumentId, documentTable.ProcessTable.TableName);
                 users.ToList().ForEach(x => appUsers.Add(_EmplService.Find(new Guid(x)).ApplicationUserId));
-                _DocumentReaderService.AddOrderReader(documentTable.Id, appUsers, User.Identity.GetUserId());
+                if (collection["AddReaders"].ToLower().Contains("true") == true)
+                    _DocumentReaderService.AddOrderReader(documentTable.Id, appUsers, User.Identity.GetUserId());               
                 _EmailService.SendORDForUserEmail(documentTable.Id, appUsers, documentModel);
             }
 

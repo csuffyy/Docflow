@@ -80,7 +80,8 @@ namespace RapidDoc.Models.DomainModels
         public string ControlUsers { get; set; }
         public DateTime? ControlDate { get; set; }
 
-        public string ListSubcription { get; set; } 
+        public string ListSubcription { get; set; }
+        public bool AddReaders { get; set; } 
 
         public string Sign { get; set; }
         public string SignName { get; set; }

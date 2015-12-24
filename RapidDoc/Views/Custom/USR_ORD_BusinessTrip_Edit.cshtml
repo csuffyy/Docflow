@@ -306,6 +306,19 @@
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.AddReaders)
+        </div>
+    </div>
+
+    <div class="col-xs-2">
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.AddReaders)
+        </div>
+    </div>
+</div>
 <h4>БҰЙРЫҚ</h4>
 <div class="editor-field">
     @Html.TextAreaFor(model => Model.MainField, new { @class = "form-control summernote" })

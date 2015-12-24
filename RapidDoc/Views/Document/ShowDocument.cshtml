@@ -169,7 +169,13 @@
                 <a href=@Url.Action("DocumentToArchive", new { id = Model.DocumentView.Id }) class="btn btn-primary btn-sm hidden-print">@UIElementRes.UIElement.ToArchive</a>
             }
         }
-
+        @if (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Task &&
+                    (Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Closed ||
+        Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Cancelled) && (User.IsInRole("Administrator") || User.IsInRole("SetupAdministrator")))
+        {
+            <button type="submit" id="returnTask" class="btn btn-danger" name="action:ReturnTask">@UIElementRes.UIElement.ReturnTask</button>
+        }
+        
         <div class="btn-group hidden-print">
             <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
                 <span class="visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">@UIElementRes.UIElement.Create</span> <span class="glyphicon glyphicon-cog visible-xs-inline-block"></span> <span class="caret"></span>
@@ -212,7 +218,7 @@
                     <li>
                         <a href=@Url.Action("CreateTaskFromDocument", new {documentId = Model.DocumentView.Id})>@UIElementRes.UIElement.CreateTask</a>
                     </li>
-                }
+                }               
             </ul>
         </div>
 
