@@ -651,4 +651,7 @@
   <data name="ReturnTask" xml:space="preserve">
     <value>Вернуть задачу</value>
   </data>
+  <data name="MyFavorite" xml:space="preserve">
+    <value>Избранное</value>
+  </data>
 </root>

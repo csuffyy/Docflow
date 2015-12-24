@@ -645,4 +645,7 @@
   <data name="ReturnTask" xml:space="preserve">
     <value>-</value>
   </data>
+  <data name="MyFavorite" xml:space="preserve">
+    <value>-</value>
+  </data>
 </root>
