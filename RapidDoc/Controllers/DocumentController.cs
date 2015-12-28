@@ -29,6 +29,8 @@ using Rotativa;
 using Rotativa.Options;
 using System.Collections;
 using System.Net;
+using RapidDoc.Extensions;
+using AutoMapper;
 
 
 namespace RapidDoc.Controllers
@@ -914,7 +916,8 @@ namespace RapidDoc.Controllers
                 docView.RefDocumentId = null;
             }
 
-            var documentIdNew = _DocumentService.SaveDocument(docView, process.TableName, GuidNull2Guid(process.Id), newDocFileId, userTable);
+            var complexModelNew = RapidDoc.Extensions.Extensions.Clone(docView);
+            var documentIdNew = _DocumentService.SaveDocument(complexModelNew, process.TableName, GuidNull2Guid(process.Id), newDocFileId, userTable);
 
             DateTime date = DateTime.UtcNow;
             DateTime startTime = new DateTime(date.Year, date.Month, date.Day) + process.StartWorkTime;

@@ -178,6 +178,7 @@
     function numberDecision() {
         var prtDecisionNumber = 0;
         var prtDecisionNumber2 = 0;
+        var prtDecisionNumber3 = 0;
         $('.decisionNumber').each(function (i) {
             if ($(this).closest('label').find('input:checked').val() != undefined) {
                 prtDecisionNumber = prtDecisionNumber + 1;
@@ -192,6 +193,16 @@
             if ($(this).closest('label').find('input:checked').val() != undefined) {
                 prtDecisionNumber2 = prtDecisionNumber2 + 1;
                 $(this).text('№' + prtDecisionNumber2);
+            }
+            else {
+                $(this).text('');
+            }
+        });
+
+        $('.decisionThreeNumber').each(function (i) {
+            if ($(this).closest('label').find('input:checked').val() != undefined) {
+                prtDecisionNumber3 = prtDecisionNumber3 + 1;
+                $(this).text('№' + prtDecisionNumber3);
             }
             else {
                 $(this).text('');

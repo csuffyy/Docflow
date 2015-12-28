@@ -13,8 +13,9 @@
 
 @using (Html.BeginCollectionItem("PRT_DecisionList_Table__DecisionList" + "*" + index))
 {
-    <label class="radio-inline text-uppercase">@Html.RadioButtonFor(model => Model.Type, false, new { id = "decisiontype-true" })<strong>Поручение <span id="decisionNumber_@index" class="decisionNumber"></span></strong></label>
-    <label class="radio-inline text-uppercase">@Html.RadioButtonFor(model => Model.Type, true, new { id = "decisiontype-false" })<strong>Решение <span id="decisionTwoNumber_@index" class="decisionTwoNumber"></span></strong></label>
+    <label class="radio-inline text-uppercase">@Html.RadioButtonFor(model => Model.Type, 0, new { id = "decisiontype-0" })<strong>Поручение <span id="decisionNumber_@index" class="decisionNumber"></span></strong></label>
+    <label class="radio-inline text-uppercase">@Html.RadioButtonFor(model => Model.Type, 1, new { id = "decisiontype-1" })<strong>Решение <span id="decisionTwoNumber_@index" class="decisionTwoNumber"></span></strong></label>
+    <label class="radio-inline text-uppercase">@Html.RadioButtonFor(model => Model.Type, 2, new { id = "decisiontype-2" })<strong>Рекомендовано <span id="decisionThreeNumber_@index" class="decisionThreeNumber"></span></strong></label>
     <h6 class="radio-inline"><small class="text-danger"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Для Решений не обязательно указывать Исполнителя и Дату</small></h6>
         @Html.TextAreaFor(model => Model.Decision, new { @class = "form-control summernotelight" })
         <div class="row">

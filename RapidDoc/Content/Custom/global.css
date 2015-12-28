@@ -649,12 +649,21 @@ input.labelauty + label > span.labelauty-checked
     padding-left: 5px;
 }
 
-.glyphicon:before {
-     visibility: visible;
+input[type='checkbox'].pseudo-checkbox + label:before,
+input[type='checkbox'].pseudo-checkbox + label:after{
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
-.glyphicon.glyphicon-star-empty:checked:before {
+input[type='checkbox'].pseudo-checkbox + label:before{/*unchecked icon*/
+    content: "\e007";
+}
+input[type='checkbox']:checked.pseudo-checkbox + label:before{/*checked icon*/
     content: "\e006";
-}
-input[type=checkbox].glyphicon{
-     visibility: hidden;        
 }

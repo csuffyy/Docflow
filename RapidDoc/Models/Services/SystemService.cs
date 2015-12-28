@@ -78,7 +78,8 @@ namespace RapidDoc.Models.Services
 
         public string DeleteLastTagSegment(string text)
         {
-            if (!String.IsNullOrEmpty(text) && text.Substring(0, 3) == "<p>")
+            //if (!String.IsNullOrEmpty(text) && text.Substring(0, 3) == "<p>")
+            if (!String.IsNullOrEmpty(text))
             {
                 while (text.StartsWith("<p>"))
                     text = text.Substring(3);

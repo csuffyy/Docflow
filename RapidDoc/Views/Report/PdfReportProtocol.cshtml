@@ -6,6 +6,8 @@
 @{
     Layout = null;
     int numDecision = 0;
+    int numTwoDecision = 0;
+    int numThreeDecision = 0;
     int numQuestion = 0;
 }
 
@@ -225,7 +227,7 @@
                 </table>
             
                 <tabel>
-                @if (querstion.DecisionList.Where(x => x.Type == true).Count() > 0)
+                @if (querstion.DecisionList.Where(x => x.Type == 1).Count() > 0)
                 {
                     <tr style="page-break-inside: avoid">
                         <td style="width:30px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
@@ -236,17 +238,28 @@
                         </td>
                     </tr>
                 }
+                else if (querstion.DecisionList.Where(x => x.Type == 2).Count() > 0)
+                {
+                    <tr style="page-break-inside: avoid">
+                        <td style="width:30px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                        <td style="width:150px; vertical-align:top;">
+                            <font size="4" face="Arial">
+                                <strong>РЕКОМЕНДОВАНО:</strong>
+                            </font>
+                        </td>
+                    </tr>
+                }
                 </tabel>
 
                 <table>
-                    @foreach (PRT_DecisionList_Table decision in querstion.DecisionList.Where(x => x.Type == true))
+                    @foreach (PRT_DecisionList_Table decision in querstion.DecisionList.Where(x => x.Type == 1))
                     {
-                        numDecision++;
+                        numTwoDecision++;
                         <tr style="page-break-inside: avoid">
                             <td style="width:30px"></td>
                             <td style="vertical-align:top; text-align:left">
                                 <font size="4" face="Arial">
-                                    <strong class="text-uppercase" style="white-space: nowrap;">@numDecision.ToString().</strong>
+                                    <strong class="text-uppercase" style="white-space: nowrap;">@numTwoDecision.ToString().</strong>
                                 </font>
                             </td>
                             <td>
@@ -257,20 +270,31 @@
                         </tr>
                     }
                 </table>
-                
+
                 <table>
-                    @{ numDecision = 0;}
-                    @foreach (PRT_DecisionList_Table decision in querstion.DecisionList.Where(x => x.Type == false))
+                    @foreach (PRT_DecisionList_Table decision in querstion.DecisionList.Where(x => x.Type == 2))
                     {
-                        numDecision++;
-                        @*<tr style="page-break-inside: avoid">
-                            <td style="width:15px"></td>
-                            <td style="width:150px; vertical-align:top;">
+                        numThreeDecision++;
+                        <tr style="page-break-inside: avoid">
+                            <td style="width:30px"></td>
+                            <td style="vertical-align:top; text-align:left">
                                 <font size="4" face="Arial">
-                                    
+                                    <strong class="text-uppercase" style="white-space: nowrap;">@numThreeDecision.ToString().</strong>
                                 </font>
                             </td>
-                        </tr>*@
+                            <td>
+                                <font size="4" face="Arial">
+                                    @Html.Action("ProtocolDecisionText", "Custom", new { model = decision })
+                                </font>
+                            </td>
+                        </tr>
+                    }
+                </table>
+
+                <table>
+                    @foreach (PRT_DecisionList_Table decision in querstion.DecisionList.Where(x => x.Type == 0))
+                    {
+                        numDecision++;
                         <tr style="page-break-inside: avoid">
                             <td style="width:40px">
                             </td>
@@ -286,8 +310,6 @@
                     }
                 </table>
                 <br />
-                    numDecision = 0;
-
             }
         }
         <br />

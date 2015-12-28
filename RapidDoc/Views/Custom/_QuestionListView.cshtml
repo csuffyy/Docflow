@@ -4,6 +4,7 @@
     Layout = "";
     int numDecision = 0;
     int numTwoDecision = 0;
+    int numThreeDecision = 0;
     int numQuestion = 0;
 }
 
@@ -23,22 +24,32 @@
                     <td>
                         @Html.Raw(question.Question)
 
-                        @if (question.DecisionList != null && question.DecisionList.Count() > 0 && question.DecisionList.Any(x => x.Type == false))
+                        @if (question.DecisionList != null && question.DecisionList.Count() > 0 && question.DecisionList.Any(x => x.Type == 0))
                         {
-                            foreach (var decision in question.DecisionList.Where(x => x.Type == false))
+                            foreach (var decision in question.DecisionList.Where(x => x.Type == 0))
                             {
                                 numDecision++;
                                 Html.RenderPartial("~/Views/Custom/_DecisionListView.cshtml", decision, new ViewDataDictionary { { "numQuestion", ViewData["numQuestion"] }, { "numDecision", numDecision } });
                             }
                         }
                         
-                        @if (question.DecisionList != null && question.DecisionList.Count() > 0 && question.DecisionList.Any(x => x.Type == true))
+                        @if (question.DecisionList != null && question.DecisionList.Count() > 0 && question.DecisionList.Any(x => x.Type == 1))
                         {
                             <strong class="text-uppercase" style="white-space: nowrap;">Решение:</strong>
-                            foreach (var decision in question.DecisionList.Where(x => x.Type == true))
+                            foreach (var decision in question.DecisionList.Where(x => x.Type == 1))
                             {
                                 numTwoDecision++;
                                 Html.RenderPartial("~/Views/Custom/_DecisionListView.cshtml", decision, new ViewDataDictionary { { "numQuestion", ViewData["numQuestion"] }, { "numDecision", numTwoDecision } });
+                            }
+                        }
+                        
+                        @if (question.DecisionList != null && question.DecisionList.Count() > 0 && question.DecisionList.Any(x => x.Type == 2))
+                        {
+                            <strong class="text-uppercase" style="white-space: nowrap;">Рекомендовано:</strong>
+                            foreach (var decision in question.DecisionList.Where(x => x.Type == 2))
+                            {
+                                numThreeDecision++;
+                                Html.RenderPartial("~/Views/Custom/_DecisionListView.cshtml", decision, new ViewDataDictionary { { "numQuestion", ViewData["numQuestion"] }, { "numDecision", numThreeDecision } });
                             }
                         }
                     </td>

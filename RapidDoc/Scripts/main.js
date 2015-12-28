@@ -134,7 +134,7 @@ function qrcode_init() {
 
 function checkbox_init(checked, unchecked) {
     $(':checkbox').each(function (e) {
-        if ($(this).hasClass('labelauty') == false && $(this).hasClass('glyphicon') == false) {
+        if ($(this).hasClass('labelauty') == false && $(this).hasClass('pseudo-checkbox') == false) {
             $(this).labelauty({
                 label: true,
                 checked_label: checked,

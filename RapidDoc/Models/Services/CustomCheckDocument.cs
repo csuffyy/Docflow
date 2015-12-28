@@ -1026,10 +1026,12 @@ namespace RapidDoc.Models.Services
             if (type.IsSubclassOf(typeof(BasicProtocolDocumentsView)) && operationType == OperationType.ApproveDocument)
             {
                 bool isQuestion = false;
+                bool isDecision = false;
                 if(actionModel.QuestionList != null)
                 {
                     int numDecision = 0;
                     int numTwoDecision = 0;
+                    int numThreeDecision = 0;
                     foreach (PRT_QuestionList_Table question in actionModel.QuestionList)
                     {
                         if (isQuestion == false && !String.IsNullOrEmpty(_SystemService.DeleteAllTags(question.Question)))
@@ -1039,7 +1041,8 @@ namespace RapidDoc.Models.Services
                         {
                             foreach (var decision in question.DecisionList)
                             {
-                                if (decision.Type == true)
+                                isDecision = true;
+                                if (decision.Type == 1)
                                 {
                                     numTwoDecision++;
 
@@ -1054,6 +1057,22 @@ namespace RapidDoc.Models.Services
 
                                     if ((actionModel.DocumentTableId == null || actionModel.DocumentTableId == Guid.Empty) && (!String.IsNullOrEmpty(decision.Users) && decision.ControlDate != null && decision.ControlDate.Value.Date <= DateTime.UtcNow.Date))
                                         errorList.Add(String.Format("Решение {0} необходимо указать дату исполнения больше текущей", numTwoDecision));
+                                }
+                                else if (decision.Type == 2)
+                                {
+                                    numThreeDecision++;
+
+                                    //if (!String.IsNullOrEmpty(_SystemService.DeleteAllTags(decision.Decision)) && String.IsNullOrEmpty(_SystemService.DeleteAllTags(question.Question)))
+                                    //    errorList.Add(String.Format("Решение {0} не указан текст вопроса", numTwoDecision));
+
+                                    if (String.IsNullOrEmpty(_SystemService.DeleteAllTags(decision.Decision)) && !String.IsNullOrEmpty(decision.Users))
+                                        errorList.Add(String.Format("Рекомендация {0} если указали Исполнителей {1} необходимо заполнить поле Рекомендация", numThreeDecision, _SystemService.DeleteGuidText(_SystemService.DeleteAllTags(decision.Users))));
+
+                                    if (!String.IsNullOrEmpty(decision.Users) && decision.ControlDate == null)
+                                        errorList.Add(String.Format("Рекомендация {0} необходимо указать дату исполнения", numThreeDecision));
+
+                                    if ((actionModel.DocumentTableId == null || actionModel.DocumentTableId == Guid.Empty) && (!String.IsNullOrEmpty(decision.Users) && decision.ControlDate != null && decision.ControlDate.Value.Date <= DateTime.UtcNow.Date))
+                                        errorList.Add(String.Format("Рекомендация {0} необходимо указать дату исполнения больше текущей", numThreeDecision));
                                 }
                                 else
                                 {
@@ -1079,8 +1098,8 @@ namespace RapidDoc.Models.Services
                     }
                 }
 
-                //if (actionModel.Subject != null && isQuestion == false)
-                //    errorList.Add("В протоколе нужно указать хотя бы один вопрос");
+                if (!String.IsNullOrEmpty(actionModel.Subject) && isQuestion == false && isDecision == false)
+                    errorList.Add("В протоколе нужно указать хотя бы один вопрос или поручение");
             }
 
             return errorList;

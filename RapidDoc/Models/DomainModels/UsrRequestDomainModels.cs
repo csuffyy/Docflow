@@ -4662,6 +4662,7 @@ namespace RapidDoc.Models.DomainModels
     #region Протоколы
     public class PRT_QuestionList_Table : EntityTable
     {
+        public bool IncludeText { get; set; }
         public string Question { get; set; }
 
         public virtual List<PRT_DecisionList_Table> DecisionList { get; set; }
@@ -4669,7 +4670,7 @@ namespace RapidDoc.Models.DomainModels
 
     public class PRT_DecisionList_Table : EntityTable
     {
-        public bool Type { get; set; }
+        public int Type { get; set; }
         public string Decision { get; set; }
         public string Users { get; set; }
         public DateTime? ControlDate { get; set; }
