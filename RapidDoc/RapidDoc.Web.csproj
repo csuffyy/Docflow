@@ -389,6 +389,7 @@
     <Compile Include="Models\Interfaces\IDbContext.cs" />
     <Compile Include="Models\Interfaces\IUnitOfWork.cs" />
     <Compile Include="Models\Repository\CompanyConstraint.cs" />
+    <Compile Include="Models\Services\DocumentSubcriptionService.cs" />
     <Compile Include="Models\Services\ProtocolFoldersService.cs" />
     <Compile Include="Models\Services\QuestionRequestService.cs" />
     <Compile Include="Models\Services\ReasonRequestService.cs" />
@@ -1965,6 +1966,7 @@
     <Content Include="Views\Custom\USR_PRT_DecisionText.cshtml" />
     <Content Include="Views\Custom\USR_REQ_JU_RequestForExplanationNormalAct_Edit_Manual.cshtml" />
     <Content Include="Views\Document\MyFavorite.cshtml" />
+    <Content Include="Views\Document\ShowSubscriberList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

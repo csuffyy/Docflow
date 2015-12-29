@@ -48,6 +48,10 @@ namespace RapidDoc.Activities.CodeActivities
         [Inject]
         public IDocumentReaderService _serviceDocumentReader { get; set; }
 
+        [Browsable(false)]
+        [Inject]
+        public IDocumentSubcriptionService _serviceDocumentSubcriptionService { get; set; }
+
         protected override void Execute(CodeActivityContext context)
         {
             _service = DependencyResolver.Current.GetService<IDocumentService>();
@@ -56,6 +60,7 @@ namespace RapidDoc.Activities.CodeActivities
             _serviceSearch = DependencyResolver.Current.GetService<ISearchService>();
             _serviceWorkflow = DependencyResolver.Current.GetService<IWorkflowService>();
             _serviceDocumentReader = DependencyResolver.Current.GetService<IDocumentReaderService>();
+            _serviceDocumentSubcriptionService = DependencyResolver.Current.GetService<IDocumentSubcriptionService>();
             Guid documentId = context.GetValue(this.inputDocumentId);
             Dictionary<string, Object> documentData = context.GetValue(this.inputDocumentData);
             string currentUserId = context.GetValue(this.inputCurrentUser);
@@ -149,6 +154,7 @@ namespace RapidDoc.Activities.CodeActivities
                 {
                     string[] usersAndRoles = _service.GetUserListFromStructure((string)documentData["ListSubcription"]);
                     List<string> users = _serviceWorkflow.EmplAndRolesToUserList(usersAndRoles);
+                    _serviceDocumentSubcriptionService.SaveSubscriber(documentId, users.ToArray(), currentUserId);
                     IEmailService _EmailService = DependencyResolver.Current.GetService<IEmailService>();
                     var documentModel = _service.GetDocumentView(document.RefDocumentId, document.ProcessTable.TableName);
                     if ((bool)documentData["AddReaders"] == true)

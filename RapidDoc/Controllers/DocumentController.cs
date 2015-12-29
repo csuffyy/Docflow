@@ -54,6 +54,7 @@ namespace RapidDoc.Controllers
         private readonly IItemCauseService _ItemCauseService;
         private readonly IModificationUsersService _ModificationUsersService;
         private readonly INotificationUsersService _NotificationUsersService;
+        private readonly IDocumentSubcriptionService _DocumentSubcriptionService;
 
         protected UserManager<ApplicationUser> UserManager { get; private set; }
         protected RoleManager<ApplicationRole> RoleManager { get; private set; }
@@ -62,7 +63,7 @@ namespace RapidDoc.Controllers
             IWorkflowService workflowService, IEmplService emplService, IAccountService accountService, ISystemService systemService,
             IWorkflowTrackerService workflowTrackerService, IReviewDocLogService reviewDocLogService,
             IDocumentReaderService documentReaderService, ICommentService commentService, IEmailService emailService,
-            IHistoryUserService historyUserService, ISearchService searchService, ICompanyService companyService, ICustomCheckDocument customCheckDocument, IItemCauseService itemCauseService, IModificationUsersService modificationUsers, INotificationUsersService notificationUsersService)
+            IHistoryUserService historyUserService, ISearchService searchService, ICompanyService companyService, ICustomCheckDocument customCheckDocument, IItemCauseService itemCauseService, IModificationUsersService modificationUsers, INotificationUsersService notificationUsersService, IDocumentSubcriptionService documentSubcriptionService)
             : base(companyService, accountService)
         {
             _DocumentService = documentService;
@@ -81,6 +82,7 @@ namespace RapidDoc.Controllers
             _ItemCauseService = itemCauseService;
             _ModificationUsersService = modificationUsers;
             _NotificationUsersService = notificationUsersService;
+            _DocumentSubcriptionService = documentSubcriptionService;
 
             ApplicationDbContext dbContext = new ApplicationDbContext();
             UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(dbContext));
@@ -345,6 +347,7 @@ namespace RapidDoc.Controllers
             viewModel.fileId = docuView.FileId;           
             ViewBag.CreatedDate = _SystemService.ConvertDateTimeToLocal(userTable, docuView.CreatedDate);
             ViewBag.DocumentUrl = "http://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + docuView.AliasCompanyName + "/Document/ShowDocument/" + docuView.Id + "?isAfterView=true";
+            ViewBag.CountSubscribers = _DocumentSubcriptionService.GetPartial(x => x.DocumentTableId == documentTable.Id).Count();
             if (emplTable != null)
             {
                 ViewBag.Initiator = emplTable.ApplicationUserId != null ? emplTable.FullName : docuView.ApplicationUserCreatedId;
@@ -796,6 +799,7 @@ namespace RapidDoc.Controllers
                 string[] users = _DocumentService.GetUserListFromStructure(collection["ReceiversOrder"].ToString());
                 var documentModel = _DocumentService.GetDocumentView(documentTable.RefDocumentId, documentTable.ProcessTable.TableName);
                 users.ToList().ForEach(x => appUsers.Add(_EmplService.Find(new Guid(x)).ApplicationUserId));
+                _DocumentSubcriptionService.SaveSubscriber(documentTable.Id, appUsers.ToArray());
                 if (collection["AddReaders"].ToLower().Contains("true") == true)
                     _DocumentReaderService.AddOrderReader(documentTable.Id, appUsers, User.Identity.GetUserId());               
                 _EmailService.SendORDForUserEmail(documentTable.Id, appUsers, documentModel);
@@ -2161,6 +2165,25 @@ namespace RapidDoc.Controllers
             var model = _WorkflowTrackerService.GetPartialView(x => x.DocumentTableId == id && (x.TrackerType == TrackerType.Waiting || x.TrackerType == TrackerType.NonActive), timeZoneInfo, documentTable.DocType).OrderBy(x => x.CreatedDate);
             ViewBag.DocumentId = id;
             return View("~/Views/Document/ShowWaitingUsersCZ.cshtml", model);       
+        }
+
+        public ActionResult GetSubcriptionUser(Guid id)
+        {
+            var subscribtionList = new List<DocumentSubscriptionListView>();
+            DocumentTable documentTable = _DocumentService.Find(id);
+            List<DocumentSubcriptionListTable> subscribtionListTable= _DocumentSubcriptionService.GetPartial(x => x.DocumentTableId
+                 == id).ToList();
+            foreach (var item in subscribtionListTable)
+            {
+                EmplTable emplUser = _EmplService.FirstOrDefault(x => x.ApplicationUserId == item.UserId);
+                EmplTable emplUserCreated = _EmplService.FirstOrDefault(x => x.ApplicationUserId == item.ApplicationUserCreatedId);
+                if (emplUser != null && emplUserCreated != null)
+                {
+                    subscribtionList.Add(new DocumentSubscriptionListView() { DocumentNum = documentTable.DocumentNum, DocumentTableId = documentTable.Id, UserName = emplUser.ShortFullNameType2, CreateUserName = emplUserCreated.ShortFullNameType2, UserId = item.UserId, LogDate = item.CreatedDate.ToLocalTime() });
+                }
+            }
+            ViewBag.DocumentId = id;
+            return View("~/Views/Document/ShowSubscriberList.cshtml", subscribtionList);
         }
 
         protected override void Dispose(bool disposing)

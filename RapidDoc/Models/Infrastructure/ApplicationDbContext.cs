@@ -50,6 +50,7 @@ namespace RapidDoc.Models.Infrastructure
         public DbSet<QuestionRequestTable> QuestionRequestTable { get; set; }
         public DbSet<ProtocolFoldersTable> ProtocolFoldersTable { get; set; }
         public DbSet<TripMRPTable> TripMRPTable { get; set; }
+        public DbSet<DocumentSubcriptionListTable> DocumentSubcriptionListTable { get; set; }
 
         //Custom Requests
         public DbSet<USR_REQ_IT_CTS_DeliveryOfPinCode_Table> USR_REQ_IT_CTS_DeliveryOfPinCode_Table { get; set; }

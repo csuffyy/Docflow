@@ -89,6 +89,14 @@
         <br class="visible-print">
         @Html.Action("GetTrackerList", "Document", new { id = Model.DocumentView.Id, signDocument = Model.DocumentView.isSign })
         @Html.Action("GetTaskList", "Document", new { id = Model.DocumentView.Id })
+
+        @if ((int)ViewBag.CountSubscribers > 0)
+        {
+            <a href="@Url.Action("GetSubcriptionUser", "Document", new { id = Model.DocumentView.Id })" class="hidden-print">@*<p class="help-block">*@Лог рассылки:@*</p>*@</a>
+            <br class="hidden-print" />
+            <br />
+        }
+        
         <div class="hidden-print">
         @if (((List<RapidDoc.Models.ViewModels.HistoryUserView>)ViewBag.RejectHistory).Count() > 0 && Model.DocumentView.DocumentState != RapidDoc.Models.Repository.DocumentState.Cancelled && Model.DocumentView.DocumentState != RapidDoc.Models.Repository.DocumentState.OnSign)
         {
