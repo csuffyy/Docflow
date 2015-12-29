@@ -2126,7 +2126,7 @@ namespace RapidDoc.Models.ViewModels
         public string Department { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
-        [Display(Name = "Полное наименование юридического или физического лица, перед которым предоставляются интересы Товарищиства")]
+        [Display(Name = "Полное наименование юридического или физического лица, перед которым предоставляются интересы Товарищества")]
         public string JuName { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]

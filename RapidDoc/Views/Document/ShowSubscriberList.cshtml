@@ -1,15 +1,13 @@
 ﻿@model List<RapidDoc.Models.ViewModels.DocumentSubscriptionListView>
 @using RapidDoc.Extensions;
 @{
-    ViewBag.Title = "Лог рассылки";
+    ViewBag.Title = "Аудит рассылки";
 }
  @{int num = 0;}
 <hr />
 @if (Model.Count() > 0)
-{    
-    @Html.Label("Лог:", new { @class = "visible-print" })
-    @Html.Label("Логи рассылки:")
-    <br /><br />
+{   
+    <h2>@ViewBag.Title</h2>
     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
     @foreach (var logItem in Model.GroupBy(x => x.CreateUserName))
     {

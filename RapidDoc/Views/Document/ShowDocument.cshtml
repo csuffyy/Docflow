@@ -92,7 +92,7 @@
 
         @if ((int)ViewBag.CountSubscribers > 0)
         {
-            <a href="@Url.Action("GetSubcriptionUser", "Document", new { id = Model.DocumentView.Id })" class="hidden-print">@*<p class="help-block">*@Лог рассылки:@*</p>*@</a>
+            <a href="@Url.Action("GetSubcriptionUser", "Document", new { id = Model.DocumentView.Id })" class="hidden-print">Аудит рассылки</a>
             <br class="hidden-print" />
             <br />
         }
