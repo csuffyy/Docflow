@@ -201,11 +201,14 @@
                             <td align="left">                               
                                 <strong>@Model.SignName</strong>
                             </td>
-                        </tr>                      
+                        </tr>                
                     </table>
+                    @foreach (var item in Model.Files)
+                    {
+                        <p><a href="@Model.Uri/Document/DownloadFile/@item.Id">@item.FileName</a></p>
+                    } 
                 </div>
                 <!-- /content -->
-
             </td>
             <td>
                 

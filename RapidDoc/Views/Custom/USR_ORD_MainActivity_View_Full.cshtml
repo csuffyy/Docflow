@@ -74,8 +74,10 @@
             <div class="modal-body" style="min-height:250px;">
                 @Html.TextBox("ReceiversOrder", "", new { @class = "form-control", @data_role = "tagsinputEmpl3", @size = 256, @maxlength = 256, placeholder = "Сотрудники" })
                 <br>
+                <br>
                 <span>
                     @Html.CheckBox("AddReaders", false, new { @data_labelauty = "Читателем|Читателем" })
+                    @Html.CheckBox("AddAttachment", false, new { @data_labelauty = "Приложение|Приложение" })
                 </span>
                 <br>
                 <div>

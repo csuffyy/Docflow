@@ -152,6 +152,8 @@ namespace RapidDoc.Activities.CodeActivities
             {
                 if (!String.IsNullOrEmpty((string)documentData["ListSubcription"]))
                 {
+                    List<FileTable> docFile = new List<FileTable>();
+
                     string[] usersAndRoles = _service.GetUserListFromStructure((string)documentData["ListSubcription"]);
                     List<string> users = _serviceWorkflow.EmplAndRolesToUserList(usersAndRoles);
                     _serviceDocumentSubcriptionService.SaveSubscriber(documentId, users.ToArray(), currentUserId);
@@ -159,7 +161,11 @@ namespace RapidDoc.Activities.CodeActivities
                     var documentModel = _service.GetDocumentView(document.RefDocumentId, document.ProcessTable.TableName);
                     if ((bool)documentData["AddReaders"] == true)
                         _serviceDocumentReader.AddOrderReader(documentId, users, currentUserId);
-                    _EmailService.SendORDForUserEmail(documentId, users, documentModel);
+
+                    if ((bool)documentData["AddAttachment"] == true)
+                        docFile = _service.GetAllFilesDocument(document.FileId).ToList();
+
+                    _EmailService.SendORDForUserEmail(documentId, users, documentModel, docFile);
                 }
             }
         }

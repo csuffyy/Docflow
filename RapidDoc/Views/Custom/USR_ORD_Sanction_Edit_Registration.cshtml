@@ -112,7 +112,7 @@
 <h6><span style="white-space: pre-line">@Html.Raw(Model.ListFileName)</span></h6>
 <hr />
 <div class="row">
-    <div class="col-xs-12">
+    <div class="col-xs-8">
         <div class="form-group">
             <div class="input-group">
                 <span class="input-group-addon">
@@ -122,17 +122,24 @@
             </div>
         </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-xs-2">
+    <div class="col-xs-1">
         <div class="editor-label">
             @Html.LabelForRequired(model => Model.AddReaders)
         </div>
     </div>
-
-    <div class="col-xs-2">
+    <div class="col-xs-1">
         <div class="editor-field">
             @Html.CheckBoxFor(model => model.AddReaders)
+        </div>
+    </div>
+    <div class="col-xs-1">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.AddAttachment)
+        </div>
+    </div>
+    <div class="col-xs-1">
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.AddAttachment)
         </div>
     </div>
 </div>

@@ -793,6 +793,7 @@ namespace RapidDoc.Controllers
         {
             DocumentTable documentTable = _DocumentService.Find(documentId);
             List<string> appUsers = new List<string>();
+            List<FileTable> docFile = new List<FileTable>();
 
             if (!String.IsNullOrEmpty(collection["ReceiversOrder"]))
             {
@@ -801,8 +802,12 @@ namespace RapidDoc.Controllers
                 users.ToList().ForEach(x => appUsers.Add(_EmplService.Find(new Guid(x)).ApplicationUserId));
                 _DocumentSubcriptionService.SaveSubscriber(documentTable.Id, appUsers.ToArray());
                 if (collection["AddReaders"].ToLower().Contains("true") == true)
-                    _DocumentReaderService.AddOrderReader(documentTable.Id, appUsers, User.Identity.GetUserId());               
-                _EmailService.SendORDForUserEmail(documentTable.Id, appUsers, documentModel);
+                    _DocumentReaderService.AddOrderReader(documentTable.Id, appUsers, User.Identity.GetUserId());
+
+                if (collection["AddAttachment"].ToLower().Contains("true") == true)
+                    docFile = _DocumentService.GetAllFilesDocument(documentTable.FileId).ToList();
+
+                _EmailService.SendORDForUserEmail(documentTable.Id, appUsers, documentModel, docFile);
             }
 
             return RedirectToAction("ShowDocument", new { id = documentId, isAfterView = true });

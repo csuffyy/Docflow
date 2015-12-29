@@ -54,7 +54,7 @@ namespace RapidDoc.Models.Services
         void SendNewModificationUserEmail(Guid documentId, string userId, string additionalTextCZ = "");
         void SendNoteReadyModificationUserEmail(Guid documentId, string userId, string additionalTextCZ = "");
         void SendNotificationForUserEmail(Guid documentId, string userId, string additionalTextCZ = "");
-        void SendORDForUserEmail(Guid documentId, List<string> users, dynamic model);
+        void SendORDForUserEmail(Guid documentId, List<string> users, dynamic model, List<FileTable> files);
         void SendUsersClosedEmail(Guid documentId, List<string> users);
         void SendProlongationResultInitiator(Guid documentId, string userId, DateTime prolongationDate, string taskNum, string taskText);
         string CryptStringSHA256(string pass);
@@ -984,7 +984,7 @@ namespace RapidDoc.Models.Services
             }
         }
 
-        public void SendORDForUserEmail(Guid documentId, List<string> users, dynamic model)
+        public void SendORDForUserEmail(Guid documentId, List<string> users, dynamic model, List<FileTable> files)
         {
             var documentTable = _DocumentService.Find(documentId);
             if (documentTable == null)
@@ -995,7 +995,8 @@ namespace RapidDoc.Models.Services
             if (emailList == null || emailList.Count == 0)
                 return;
 
-            string documentUri = "http://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id + "?isAfterView=true";
+            string uri = "http://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString();
+            string documentUri = uri + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id + "?isAfterView=true";
             
             EmailParameterTable emailParameter = FirstOrDefault(x => x.SmtpServer != String.Empty);
             if (emailParameter == null)
@@ -1013,7 +1014,7 @@ namespace RapidDoc.Models.Services
                 CultureInfo ci = CultureInfo.GetCultureInfo("ru-RU");
                 Thread.CurrentThread.CurrentCulture = ci;
                 Thread.CurrentThread.CurrentUICulture = ci;
-                string body = Razor.Parse(razorText, new { DocumentNum = String.Format("{0} - {1}", documentTable.DocumentNum, processName), DocumentUri = documentUri, OrderNum = model.OrderNum, OrderDate = model.OrderDate.ToShortDateString(), Subject = model.Subject, MainField = model.MainField, MainFieldTranslate = model.MainFieldTranslate, SignTitle = model.SignTitle, SignName = model.SignName }, "emailORD");
+                string body = Razor.Parse(razorText, new { DocumentNum = String.Format("{0} - {1}", documentTable.DocumentNum, processName), DocumentUri = documentUri, OrderNum = model.OrderNum, OrderDate = model.OrderDate.ToShortDateString(), Subject = model.Subject, MainField = model.MainField, MainFieldTranslate = model.MainFieldTranslate, SignTitle = model.SignTitle, SignName = model.SignName, Files = files, Uri = uri }, "emailORD");
                 SendEmail(emailParameter, emailList.ToArray(), String.Format("{0} - {1} - {2}", documentTable.DocumentNum, processName, subject), body);
                 ci = CultureInfo.GetCultureInfo(currentLang);
                 

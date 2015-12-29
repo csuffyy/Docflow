@@ -98,12 +98,36 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <div class="input-group">
-                <span class="input-group-addon">
-                    <a href="#" class="hidden-print" data-toggle="modal" data-target=".listsubcription-modal"><span class="fa fa-users fa-lg" aria-hidden="false"></span></a>
-                </span>
-                @Html.TextBoxFor(model => Model.ListSubcription, new { @class = "form-control", @data_role = "tagsinputGroup2", @size = 256, placeholder = "Список рассылки" })
+        <div class="row">
+            <div class="col-xs-8">
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <a href="#" class="hidden-print" data-toggle="modal" data-target=".listsubcription-modal"><span class="fa fa-users fa-lg" aria-hidden="false"></span></a>
+                        </span>
+                        @Html.TextBoxFor(model => Model.ListSubcription, new { @class = "form-control", @data_role = "tagsinputGroup2", @size = 256, placeholder = "Список рассылки" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-1">
+                <div class="editor-label">
+                    @Html.LabelForRequired(model => Model.AddReaders)
+                </div>
+            </div>
+            <div class="col-xs-1">
+                <div class="editor-field">
+                    @Html.CheckBoxFor(model => model.AddReaders)
+                </div>
+            </div>
+            <div class="col-xs-1">
+                <div class="editor-label">
+                    @Html.LabelForRequired(model => Model.AddAttachment)
+                </div>
+            </div>
+            <div class="col-xs-1">
+                <div class="editor-field">
+                    @Html.CheckBoxFor(model => model.AddAttachment)
+                </div>
             </div>
         </div>
 
@@ -123,19 +147,6 @@
                 </span>
                 @Html.TextBoxFor(model => Model.Subject, new { @class = "form-control", @size = 256, placeholder = "Тема" })
             </div>
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-xs-2">
-        <div class="editor-label">
-            @Html.LabelForRequired(model => Model.AddReaders)
-        </div>
-    </div>
-
-    <div class="col-xs-2">
-        <div class="editor-field">
-            @Html.CheckBoxFor(model => model.AddReaders)
         </div>
     </div>
 </div>
