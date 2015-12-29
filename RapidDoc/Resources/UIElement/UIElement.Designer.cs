@@ -1501,7 +1501,7 @@ namespace UIElementRes {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Задачи.
+        ///   Looks up a localized string similar to Поручения.
         /// </summary>
         public static string TaskBase {
             get {
@@ -1510,7 +1510,7 @@ namespace UIElementRes {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Отчет по задачам.
+        ///   Looks up a localized string similar to Отчет по поручениям.
         /// </summary>
         public static string TaskReport {
             get {

@@ -433,9 +433,6 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Номенклатурное дело")]
         public string ItemCauseNumberCode { get; set; }
 
-        [Display(Name = "Содержание")]
-        public string Content { get; set; }
-
         [Display(Name = "Причина обращения")]
         public Guid? ReasonRequestTableId { get; set; }
 

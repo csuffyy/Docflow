@@ -300,8 +300,6 @@ namespace RapidDoc.Models.DomainModels
             }
         }
 
-        public string Content { get; set; }
-
         public Guid? ReasonRequestTableId { get; set; }
         public virtual ReasonRequestTable ReasonRequestTable { get; set; }
 
