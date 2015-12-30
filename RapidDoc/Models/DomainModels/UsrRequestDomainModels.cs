@@ -4682,6 +4682,26 @@ namespace RapidDoc.Models.DomainModels
 
     }
 
+    public class USR_PRT_BalanceCommissionDocuments_Table : BasicProtocolDocumentsTable
+    {
+
+    }
+
+    public class USR_PRT_ManagementDocuments_Table : BasicProtocolDocumentsTable
+    {
+
+    }
+
+    public class USR_PRT_TechCommitteeDocuments_Table : BasicProtocolDocumentsTable
+    {
+
+    }
+
+    public class USR_PRT_DirectorateDocuments_Table : BasicProtocolDocumentsTable
+    {
+
+    }
+
     #endregion
 }
     

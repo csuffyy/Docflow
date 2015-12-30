@@ -9784,5 +9784,25 @@ namespace RapidDoc.Models.ViewModels
 
     }
 
+    public class USR_PRT_BalanceCommissionDocuments_View : BasicProtocolDocumentsView
+    {
+
+    }
+
+    public class USR_PRT_ManagementDocuments_View : BasicProtocolDocumentsView
+    {
+
+    }
+
+    public class USR_PRT_TechCommitteeDocuments_View : BasicProtocolDocumentsView
+    {
+
+    }
+
+    public class USR_PRT_DirectorateDocuments_View : BasicProtocolDocumentsView
+    {
+
+    }
+
     #endregion
 }
