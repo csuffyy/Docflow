@@ -292,7 +292,7 @@
 
     @if (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Order)
     {
-        <a href=@Url.Action("PdfReport", "Report", new { id = Model.DocumentView.Id, processId = Model.ProcessView.Id }) class="btn btn-default btn-sm hidden-print visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" target="_blank">@UIElementRes.UIElement.PrintOrder</a>
+        <a href="#" class="btn btn-default btn-sm hidden-print visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-toggle="modal" data-target=".printorder-modal">@UIElementRes.UIElement.PrintOrder</a>
 
         if (Model.docData.GetType() == typeof(RapidDoc.Models.ViewModels.USR_ORD_BusinessTrip_View) && Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Closed)
         {
@@ -531,6 +531,14 @@
 
     $('.pdfreporttrip-modal').on('shown.bs.modal', function (e) {
         $('#PrintTrip').removeAttr("disabled");
+    })
+
+    $('#printOrder').click(function () {
+        $('.printorder-modal').modal('hide');
+    });
+
+    $('.printorder-modal').on('shown.bs.modal', function (e) {
+        $('#printOrder').removeAttr("disabled");
     })
 
     $('.bs-reject-modal-sm').on('shown.bs.modal', function (e) {

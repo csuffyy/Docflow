@@ -2,4 +2,28 @@
 
 @Html.Action("GetManualORDHoliday", "Custom", new { model = Model })
 
+<div class="modal fade printorder-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="alert_placeholder"></div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">@UIElementRes.UIElement.PrintOrder</h4>
+            </div>
+            <div class="modal-body" style="min-height:100px;">
+                <span>
+                    @Html.CheckBox("Acquainted", false, new { @data_labelauty = "Ознакомлен|Ознакомлен" })
+                </span>
+                <br>
+                <div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">@UIElementRes.UIElement.Cancel</button>
+                        <button type="submit" id="printOrder" class="btn btn-success" name="action:PrintOrder">@UIElementRes.UIElement.Yes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 

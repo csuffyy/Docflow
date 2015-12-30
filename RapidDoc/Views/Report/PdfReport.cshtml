@@ -64,9 +64,7 @@
                     <h5><span style="white-space: pre-line">@Html.Raw(Model.ListFileName)</span></h5>
                 </td>
             </tr>
-            @if (((string)ViewBag.TableName) == "USR_ORD_Staff" || ((string)ViewBag.TableName) == "USR_ORD_Reception"
-                || ((string)ViewBag.TableName) == "USR_ORD_Dismissal" || ((string)ViewBag.TableName) == "USR_ORD_Transfer"
-                || ((string)ViewBag.TableName) == "USR_ORD_Holiday" || ((string)ViewBag.TableName) == "USR_ORD_Sanction")
+            @if (ViewBag.Acquainted == true)
             { 
             <tr>
                 <td align="left">

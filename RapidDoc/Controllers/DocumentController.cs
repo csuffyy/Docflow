@@ -814,6 +814,17 @@ namespace RapidDoc.Controllers
         }
 
         [HttpPost]
+        [MultipleButton(Name = "action", Argument = "PrintOrder")]
+        public ActionResult PrintOrder(Guid processId, int type, Guid fileId, FormCollection collection, string actionModelName, Guid documentId)
+        {
+            bool acquainted = false;
+            if (collection["Acquainted"].ToLower().Contains("true") == true)
+                acquainted = true;
+
+            return RedirectToAction("PdfReport", "Report", new { id = documentId, processId = processId, acquainted = acquainted });
+        }
+
+        [HttpPost]
         [MultipleButton(Name = "action", Argument = "PrintPdfTrip")]
         public ActionResult PrintPdfTrip(Guid processId, int type, Guid fileId, FormCollection collection, string actionModelName, Guid documentId)
         {

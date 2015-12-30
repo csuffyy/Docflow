@@ -78,7 +78,7 @@ namespace RapidDoc.Controllers
             return View();
         }
 
-        public ActionResult PdfReport(Guid id, Guid? processId)
+        public ActionResult PdfReport(Guid id, Guid? processId, bool acquainted)
         {
             DocumentTable docTable = _DocumentService.FirstOrDefault(x => x.Id == id);
             ProcessTable process = _ProcessService.FirstOrDefault(x => x.Id == processId);
@@ -112,6 +112,7 @@ namespace RapidDoc.Controllers
             ViewBag.DocState = docTable.DocumentState;
             ViewBag.ManagerName = managerName;
             ViewBag.TableName = docTable.ProcessTable.TableName;
+            ViewBag.Acquainted = acquainted;
 
             return new ViewAsPdf("PdfReport", documentView)
             {
