@@ -1967,6 +1967,14 @@
     <Content Include="Views\Custom\USR_REQ_JU_RequestForExplanationNormalAct_Edit_Manual.cshtml" />
     <Content Include="Views\Document\MyFavorite.cshtml" />
     <Content Include="Views\Document\ShowSubscriberList.cshtml" />
+    <Content Include="Views\Custom\USR_PRT_BalanceCommissionDocuments_View.cshtml" />
+    <Content Include="Views\Custom\USR_PRT_BalanceCommissionDocuments_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_PRT_ManagementDocuments_View.cshtml" />
+    <Content Include="Views\Custom\USR_PRT_ManagementDocuments_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_PRT_TechCommitteeDocuments_View.cshtml" />
+    <Content Include="Views\Custom\USR_PRT_TechCommitteeDocuments_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_PRT_DirectorateDocuments_View.cshtml" />
+    <Content Include="Views\Custom\USR_PRT_DirectorateDocuments_Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -2050,6 +2058,22 @@
       <Generator>MSBuild:Compile</Generator>
     </XamlAppDef>
     <XamlAppDef Include="Activities\USR_OFM_UIT_OfficeMemo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </XamlAppDef>
+    <XamlAppDef Include="Activities\USR_PRT_BalanceCommissionDocuments.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </XamlAppDef>
+    <XamlAppDef Include="Activities\USR_PRT_DirectorateDocuments.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </XamlAppDef>
+    <XamlAppDef Include="Activities\USR_PRT_ManagementDocuments.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </XamlAppDef>
+    <XamlAppDef Include="Activities\USR_PRT_TechCommitteeDocuments.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </XamlAppDef>
