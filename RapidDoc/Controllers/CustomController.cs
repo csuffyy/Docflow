@@ -602,7 +602,8 @@ namespace RapidDoc.Controllers
             EmplTripType emplTripType = (EmplTripType)EmplTripType;
             TripDirection tripDirection = (TripDirection)TripDirection;
 
-            TripMRPTable mrp = _ITripMRPService.FirstOrDefault(x => x.FromDate <= DateTime.UtcNow && x.ToDate >= DateTime.UtcNow);
+            DateTime dateNow = DateTime.UtcNow.Date;
+            TripMRPTable mrp = _ITripMRPService.FirstOrDefault(x => x.FromDate <= dateNow && x.ToDate >= dateNow);
             TripSettingsTable tripSettingsTable = _TripSettingsService.FirstOrDefault(x => x.EmplTripType == emplTripType && x.TripDirection == tripDirection);
             if (tripSettingsTable != null && mrp != null)
             {
@@ -2759,7 +2760,8 @@ namespace RapidDoc.Controllers
             EmplTripType emplTripType = (EmplTripType)EmplTripType;
             TripDirection tripDirection = (TripDirection)TripDirection;
 
-            TripMRPTable mrp = _ITripMRPService.FirstOrDefault(x => x.FromDate <= DateTime.UtcNow && x.ToDate >= DateTime.UtcNow);
+            DateTime dateNow = DateTime.UtcNow.Date;
+            TripMRPTable mrp = _ITripMRPService.FirstOrDefault(x => x.FromDate <= dateNow && x.ToDate >= dateNow);
             TripSettingsTable tripSettingsTable = _TripSettingsService.FirstOrDefault(x => x.EmplTripType == emplTripType && x.TripDirection == tripDirection);
             if (tripSettingsTable != null && mrp != null)
             {
@@ -2779,7 +2781,8 @@ namespace RapidDoc.Controllers
             EmplTripType emplTripType = (EmplTripType)EmplTripType;
             TripDirection tripDirection = (TripDirection)TripDirection;
 
-            TripMRPTable mrp = _ITripMRPService.FirstOrDefault(x => x.FromDate <= DateTime.UtcNow && x.ToDate >= DateTime.UtcNow);
+            DateTime dateNow = DateTime.UtcNow.Date;
+            TripMRPTable mrp = _ITripMRPService.FirstOrDefault(x => x.FromDate <= dateNow && x.ToDate >= dateNow);
             TripSettingsTable tripSettingsTable = _TripSettingsService.FirstOrDefault(x => x.EmplTripType == emplTripType && x.TripDirection == tripDirection);
             if (tripSettingsTable != null && mrp != null)
             {
@@ -2799,7 +2802,8 @@ namespace RapidDoc.Controllers
             EmplTripType emplTripType = (EmplTripType)EmplTripType;
             TripDirection tripDirection = (TripDirection)TripDirection;
 
-            TripMRPTable mrp = _ITripMRPService.FirstOrDefault(x => x.FromDate <= DateTime.UtcNow && x.ToDate >= DateTime.UtcNow);
+            DateTime dateNow = DateTime.UtcNow.Date;
+            TripMRPTable mrp = _ITripMRPService.FirstOrDefault(x => x.FromDate <= dateNow && x.ToDate >= dateNow);
             TripSettingsTable tripSettingsTable = _TripSettingsService.FirstOrDefault(x => x.EmplTripType == emplTripType && x.TripDirection == tripDirection);
             if (tripSettingsTable != null && mrp != null)
             {

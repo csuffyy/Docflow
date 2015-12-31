@@ -58,6 +58,7 @@ namespace RapidDoc.Controllers
         }
 
         // GET api/<controller>
+        //http://sitename/api/batch/8/ATK
         public void Get(int id, string companyId)
         {
             CompanyTable company = _CompanyService.FirstOrDefault(x => x.AliasCompanyName == companyId);
