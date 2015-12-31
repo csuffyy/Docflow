@@ -20,12 +20,11 @@
             </tr>
         </table>
         <br />
-        <br /> 
-        <h4 align ="center">
+        <h4 align="center">
             <strong>
                 <font size="4" face="Arial">
-                    БҰЙРЫҚ<br />
-                    № @Model.OrderNum от @Model.OrderDate.ToShortDateString() г.<br />
+                    БҰЙРЫҚ<br /><br />
+                    № @Model.OrderNum от @Model.OrderDate.ToShortDateString() г.<br /><br />
                 </font>
             </strong>
             <font size="4" face="Arial">
@@ -61,7 +60,9 @@
             <tr>
                 <td>
                     <br />
-                    <h5><span style="white-space: pre-line">@Html.Raw(Model.ListFileName)</span></h5>
+                    <font size="4" face="Arial">
+                        @Html.Raw(Model.ListFileName)
+                    </font>
                 </td>
             </tr>
             @if (ViewBag.Acquainted == true)
@@ -86,41 +87,43 @@
                     <br />
                 </td>
             </tr>
-            @if (((List<FileTable>)ViewBag.ListFiles).Count > 0)
-            { 
-                <tr>
+            @*
+    @if (((List<FileTable>)ViewBag.ListFiles).Count > 0)
+    {
+        <tr>
+            <td align="left">
+                <strong>
+                    <font size="4" face="Arial">
+                        Вложенные файлы:
+                    </font>
+                </strong>
+            </td>
+        </tr>
+        foreach (FileTable file in ViewBag.ListFiles)
+        {
+            <tr>
+
                     <td align="left">
-                        <strong>
-                            <font size="4" face="Arial">
-                                Вложенные файлы:
-                            </font>
-                        </strong>
+                        <font size="4" face="Arial">
+                                @file.FileName
+                        </font>
                     </td>
-                </tr>
-                foreach (FileTable file in ViewBag.ListFiles)
-                {
-                    <tr>
-                               
-                            <td align="left">
-                                <font size="4" face="Arial">                           
-                                        @file.FileName                          
-                                </font>
-                            </td>
-                    
-                    </tr>
-                }
-                <tr>
-                    <td>
-                        <br />
-                    </td>
-                </tr>
-            }
+
+            </tr>
+        }
+        <tr>
+            <td>
+                <br />
+            </td>
+        </tr>
+    }
+            *@
             @if ((DocumentState)ViewBag.DocState == DocumentState.Closed)
             {         
                 <tr>
                     <td align="left">
                         <strong>
-                            <font size="4" face="Arial">
+                            <font size="3" face="Arial">
                                 Согласовано:
                             </font>
                         </strong>
@@ -136,12 +139,12 @@
                     <tr>
                                
                             <td align="left">
-                                <font size="4" face="Arial">                           
+                                <font size="3" face="Arial">                           
                                         @item.TitleName                          
                                 </font>
                             </td>
                             <td align="right">
-                                <font size="4" face="Arial">
+                                <font size="3" face="Arial">
                                        @item.ShortFullNameType2
                                 </font>
                             </td>
@@ -157,7 +160,7 @@
             <tr>
                 <td align="left">
                     <strong>
-                        <font size="4" face="Arial">
+                        <font size="3" face="Arial">
                             Подготовлено:
                         </font>
                     </strong>
@@ -170,12 +173,12 @@
             </tr>
             <tr>
                 <td align="left">
-                    <font size="4" face="Arial">
+                    <font size="3" face="Arial">
                         @ViewBag.Department
                     </font>
                 </td>
                 <td align="right">
-                    <font size="4" face="Arial">
+                    <font size="3" face="Arial">
                         @ViewBag.ManagerName
                     </font>
                 </td>
