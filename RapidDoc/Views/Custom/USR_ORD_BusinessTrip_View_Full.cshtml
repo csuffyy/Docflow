@@ -195,6 +195,14 @@ else
 </div>
 
 <hr />
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.ListSubcription)
+</div>
+<div class="editor-field">
+    @Html.HtmlDisplayTagsFor(model => Model.ListSubcription)
+</div>
+
 <div class="row">
     @if(!String.IsNullOrEmpty(Model.ControlUsers))
     { 

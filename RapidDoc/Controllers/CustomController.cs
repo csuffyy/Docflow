@@ -2434,6 +2434,9 @@ namespace RapidDoc.Controllers
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
 
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_ORD_MainActivity_Edit_Part", model);
+
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
@@ -2460,6 +2463,9 @@ namespace RapidDoc.Controllers
         public ActionResult GetManualORDBusinessTrip(RapidDoc.Models.ViewModels.USR_ORD_BusinessTrip_View model)
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_ORD_BusinessTrip_Edit_Part", model);
 
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
@@ -2488,6 +2494,9 @@ namespace RapidDoc.Controllers
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
 
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_ORD_Staff_Edit_Part", model);
+
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
@@ -2514,6 +2523,9 @@ namespace RapidDoc.Controllers
         public ActionResult GetManualORDReception(RapidDoc.Models.ViewModels.USR_ORD_Reception_View model)
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_ORD_Reception_Edit_Part", model);
 
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
@@ -2542,6 +2554,9 @@ namespace RapidDoc.Controllers
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
 
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_ORD_Dismissal_Edit_Part", model);
+
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
@@ -2568,6 +2583,9 @@ namespace RapidDoc.Controllers
         public ActionResult GetManualORDTransfer(RapidDoc.Models.ViewModels.USR_ORD_Transfer_View model)
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_ORD_Transfer_Edit_Part", model);
 
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
@@ -2596,6 +2614,9 @@ namespace RapidDoc.Controllers
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
 
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_ORD_Holiday_Edit_Part", model);
+
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
@@ -2623,6 +2644,9 @@ namespace RapidDoc.Controllers
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
 
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_ORD_ChangeStaff_Edit_Part", model);
+
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
@@ -2649,6 +2673,9 @@ namespace RapidDoc.Controllers
         public ActionResult GetManualORDSanction(RapidDoc.Models.ViewModels.USR_ORD_Sanction_View model)
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_ORD_Sanction_Edit_Part", model);
 
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {

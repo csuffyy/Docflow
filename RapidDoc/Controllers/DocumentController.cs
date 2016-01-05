@@ -2382,6 +2382,7 @@ namespace RapidDoc.Controllers
             object[] cachePreList = new object[2];
             string modelListName = "", parIdName = "", relField = "", parentGuid = "";
             bool oneList = false;
+            List<string> countUniqueNum = new List<string>();
 
             Regex isList = new Regex(@"[A-Za-z0-9\-]+_[A-Za-z0-9\-]+_Table__[A-Za-z0-9\-]+[*]+[A-Za-z0-9\-]+[[A-Za-z0-9\-]+].[A-Za-z0-9\-]+", RegexOptions.Compiled);  
             Regex takeModelName = new Regex(@"[A-Za-z0-9\-]+_[A-Za-z0-9\-]+_Table", RegexOptions.Compiled);
@@ -2393,6 +2394,7 @@ namespace RapidDoc.Controllers
 
             foreach (var collectionList in formCollection.AllKeys.Where(x => isList.IsMatch(x) == true))
             {
+                countUniqueNum.Clear();
                 if (parentGuid != takeParentGuid.Match(collectionList).Value.Remove(0, 1))
                 {
                     parentGuid = takeParentGuid.Match(collectionList).Value.Remove(0, 1);
@@ -2402,8 +2404,10 @@ namespace RapidDoc.Controllers
                     cachePreList[0] = null;
                     cachePreList[1] = null;
                     allList.Clear();
-                    if (formCollection.AllKeys.Where(x => takeChilBranch.IsMatch(x) == true).Reverse().Where(x => takeModelName.IsMatch(x) == true).GroupBy(x => x).Count() <= 1)
+                    formCollection.AllKeys.Where(x => takeChilBranch.IsMatch(x) == true).Reverse()./*Where(x => takeModelName.IsMatch(x) == true).*/Where(x => takeParticularFieldName.IsMatch(x) == true).ToList().ForEach(x => countUniqueNum.Add(takeParticularFieldName.Match(x).Value));
+                    if (countUniqueNum.GroupBy(x => x).Count() <= 1)                     
                         oneList = true;
+                        
                     foreach (var keyComplex in formCollection.AllKeys.Where(x => takeChilBranch.IsMatch(x) == true).Reverse())
                     {
                         if (modelListName != takeModelName.Match(keyComplex).Value || oneList == true)
@@ -2453,6 +2457,8 @@ namespace RapidDoc.Controllers
                             cachePreList[0] = resultComplexList;
                             cachePreList[1] = relField;
                         }
+                        if (oneList == true)
+                            oneList = false;
                     }
                     if (rootList.ContainsKey(relField))
                     {

@@ -160,7 +160,7 @@
             }
         }
         
-        @if (User.IsInRole("Administrator") && Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.OfficeMemo)
+        @if (User.IsInRole("Administrator") && (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.OfficeMemo || Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Order))
         {
             <button type="submit" id="saveChanges" class="btn btn-default" name="action:SaveChanges">@UIElementRes.UIElement.Save</button>
         }
