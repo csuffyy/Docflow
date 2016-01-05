@@ -799,10 +799,10 @@ namespace RapidDoc.Controllers
             {
                 string[] users = _DocumentService.GetUserListFromStructure(collection["ReceiversOrder"].ToString());
                 var documentModel = _DocumentService.GetDocumentView(documentTable.RefDocumentId, documentTable.ProcessTable.TableName);
-                users.ToList().ForEach(x => appUsers.Add(_EmplService.Find(new Guid(x)).ApplicationUserId));
+                appUsers = _WorkflowService.EmplAndRolesToUserList(users);
                 _DocumentSubcriptionService.SaveSubscriber(documentTable.Id, appUsers.ToArray());
                 if (collection["AddReaders"].ToLower().Contains("true") == true)
-                    _DocumentReaderService.AddOrderReader(documentTable.Id, appUsers, User.Identity.GetUserId());
+                    _DocumentReaderService.SaveReader(documentTable.Id, users);
 
                 if (collection["AddAttachment"].ToLower().Contains("true") == true)
                     docFile = _DocumentService.GetAllFilesDocument(documentTable.FileId).ToList();

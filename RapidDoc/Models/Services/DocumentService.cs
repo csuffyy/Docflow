@@ -774,7 +774,15 @@ namespace RapidDoc.Models.Services
                 return true;
             }
 
-            if (UserManager.IsInRole(user.Id, "Administrator"))
+            if (UserManager.IsInRole(user.Id, "Administrator") ||
+                (UserManager.IsInRole(user.Id, "FullView_Request") && documentTable.DocType == DocumentType.Request) ||
+                (UserManager.IsInRole(user.Id, "FullView_Appeal") && documentTable.DocType == DocumentType.AppealDoc) ||
+                (UserManager.IsInRole(user.Id, "FullView_Incoming") && documentTable.DocType == DocumentType.IncomingDoc) ||
+                (UserManager.IsInRole(user.Id, "FullView_OfficeMemo") && documentTable.DocType == DocumentType.OfficeMemo) ||
+                (UserManager.IsInRole(user.Id, "FullView_Order") && documentTable.DocType == DocumentType.Order) ||
+                (UserManager.IsInRole(user.Id, "FullView_Outcoming") && documentTable.DocType == DocumentType.OutcomingDoc) ||
+                (UserManager.IsInRole(user.Id, "FullView_Protocol") && documentTable.DocType == DocumentType.Protocol) ||
+                (UserManager.IsInRole(user.Id, "FullView_Task") && documentTable.DocType == DocumentType.Task))
             {
                 return true;
             }

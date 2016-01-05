@@ -79,7 +79,7 @@ namespace RapidDoc.Models.Services
                 foreach (string userId in listdata)
                 {
                     if ((Contains(x => x.DocumentTableId == documentId && x.UserId == userId && x.RoleId == null) == false) &&
-                        (Contains(x => x.DocumentTableId == documentId && x.RoleId == userId && x.UserId != userId) == false))
+                        (Contains(x => x.DocumentTableId == documentId && x.RoleId == userId) == false))
                     {                       
                         var empl = _EmplService.GetEmployer(userId, user.CompanyTableId);
                         if (empl == null)

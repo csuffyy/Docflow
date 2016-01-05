@@ -294,7 +294,7 @@
     {
         <a href="#" class="btn btn-default btn-sm hidden-print visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-toggle="modal" data-target=".printorder-modal">@UIElementRes.UIElement.PrintOrder</a>
 
-        if (Model.docData.GetType() == typeof(RapidDoc.Models.ViewModels.USR_ORD_BusinessTrip_View) && Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Closed)
+        if (Model.docData.GetType() == typeof(RapidDoc.Models.ViewModels.USR_ORD_BusinessTrip_View))
         {
             <a href="#" class="btn btn-default btn-sm hidden-print visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-toggle="modal" data-target=".pdfreporttrip-modal">@UIElementRes.UIElement.PrintPdfTrip</a>
         }
