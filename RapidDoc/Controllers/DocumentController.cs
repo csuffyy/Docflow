@@ -566,6 +566,7 @@ namespace RapidDoc.Controllers
                 string[] arrayStructrue = userid.Split('|');
                 _EmailService.SendNewExecutorEmail(documentId, arrayStructrue[0], arrayStructrue[1] != null | arrayStructrue[1] != string.Empty ? arrayStructrue[1] : "");
             }
+            _EmailService.SendInitiatorEmailSignCZ(documentId, User.Identity.GetUserId());
             return RedirectToAction("Index", "Document");
         }
 
