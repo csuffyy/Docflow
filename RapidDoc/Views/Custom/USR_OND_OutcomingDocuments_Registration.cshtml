@@ -21,6 +21,7 @@
 @Html.HiddenFor(model => model.DocumentTypeName)
 @Html.HiddenFor(model => model.ApplicationsCount)
 @Html.HiddenFor(model => model.DocumentSubject)
+@Html.HiddenFor(model => model.Content)
 @Html.HiddenFor(model => model.NeedTranslate)
 @Html.HiddenFor(model => model.Language_Kazakh)
 @Html.HiddenFor(model => model.Language_Russian)
@@ -44,7 +45,7 @@
 <div class="row">
     <div class="col-xs-12">
         <div>
-            <h5 class="text-center">@Html.DisplayTextFor(model => Model.DocumentSubject)</h5>
+            <h4 class="text-center">@Html.DisplayTextFor(model => Model.DocumentSubject)</h4>
         </div>
     </div>
 </div>
@@ -239,6 +240,16 @@ else
         </div>
         <div class="editor-field">
             @Html.DisplayTextFor(model => Model.ApplicationsCount)
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.Content)
+        </div>
+        <div class="editor-field">
+            @Html.Raw(Model.Content)
         </div>
     </div>
 </div>

@@ -210,6 +210,8 @@ namespace RapidDoc.Models.DomainModels
         public string DocumentTypeName { get; set; }
         public string ListAgreement { get; set; }
 
+        public string Content { get; set; }
+
         public Guid? ItemCauseTableId { get; set; }
         public virtual ItemCauseTable ItemCauseTable { get; set; }
 

@@ -70,7 +70,7 @@ namespace RapidDoc.Controllers
             switch(id)
             {
                 case 1:
-                    if (_WorkScheduleService.CheckWorkTime(null, DateTime.UtcNow))
+                    if (!_WorkScheduleService.CheckDayType(_WorkScheduleService.FirstOrDefault(x => x.WorkScheduleName == "8x5").Id, DateTime.UtcNow.Date))
                     {
                         var users = _AccountService.GetPartial(x => x.Email != null && x.Enable == true).ToList();
                         List<CheckSLAStatus> checkData = new List<CheckSLAStatus>();
@@ -91,7 +91,7 @@ namespace RapidDoc.Controllers
                     }
                     break;
                 case 2:
-                    if (_WorkScheduleService.CheckWorkTime(null, DateTime.UtcNow))
+                    if (!_WorkScheduleService.CheckDayType(_WorkScheduleService.FirstOrDefault(x => x.WorkScheduleName == "8x5").Id, DateTime.UtcNow.Date))
                     {
                         var users = _AccountService.GetPartial(x => x.Email != null && x.Enable == true).ToList();
                         List<CheckSLAStatus> checkData = new List<CheckSLAStatus>();
