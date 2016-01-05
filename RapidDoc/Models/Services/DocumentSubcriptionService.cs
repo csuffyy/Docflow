@@ -22,9 +22,9 @@ namespace RapidDoc.Models.Services
         IEnumerable<DocumentSubcriptionListTable> GetPartial(Expression<Func<DocumentSubcriptionListTable, bool>> predicate);
         DocumentSubcriptionListTable FirstOrDefault(Expression<Func<DocumentSubcriptionListTable, bool>> predicate);
         bool Contains(Expression<Func<DocumentSubcriptionListTable, bool>> predicate);
-        void SaveSubscriber(Guid documentId, string[] listdata, string currentUserId = "");
+        void SaveSubscriber(Guid documentId, string[] listdata, string currentUserId);
         void AddSubscriber(Guid documentId, List<IdentityUserRole> listdata);
-        void SaveDomain(DocumentSubcriptionListTable domainTable, string currentUserId = "");
+        void SaveDomain(DocumentSubcriptionListTable domainTable, string currentUserId);
         void Delete(Guid documentId);
         void Delete(Expression<Func<DocumentSubcriptionListTable, bool>> predicate);
         DocumentSubcriptionListTable Find(Guid id);
@@ -69,7 +69,7 @@ namespace RapidDoc.Models.Services
             return repo.Contains(predicate);
         }
 
-        public void SaveSubscriber(Guid documentId, string[] listdata, string currentUserId = "")
+        public void SaveSubscriber(Guid documentId, string[] listdata, string currentUserId)
         {
             if (listdata != null)
             {
@@ -85,8 +85,6 @@ namespace RapidDoc.Models.Services
 
         public void AddSubscriber(Guid documentId, List<IdentityUserRole> listdata)
         {
-            ApplicationUser currentUser = repoUser.GetById(HttpContext.Current.User.Identity.GetUserId());
-
             if (listdata != null)
             {
                 foreach (var user in listdata)
@@ -94,33 +92,17 @@ namespace RapidDoc.Models.Services
                     DocumentSubcriptionListTable reader = new DocumentSubcriptionListTable();
                     reader.DocumentTableId = documentId;
                     reader.UserId = user.UserId;
-                    SaveDomain(reader);
+                    SaveDomain(reader, HttpContext.Current.User.Identity.GetUserId());
                 }
             }
         }
 
-        public void SaveDomain(DocumentSubcriptionListTable domainTable, string currentUserId = "")
+        public void SaveDomain(DocumentSubcriptionListTable domainTable, string currentUserId)
         {
-            if (currentUserId != string.Empty)
-            {
-                ApplicationUser user = repoUser.GetById(currentUserId);
-                domainTable.CreatedDate = DateTime.UtcNow;
-                domainTable.ModifiedDate = domainTable.CreatedDate;
-                domainTable.ApplicationUserCreatedId = currentUserId;
-                domainTable.ApplicationUserModifiedId = currentUserId;
-                domainTable.CompanyTableId = user.CompanyTableId;
-                domainTable.CompanyTableId = user.CompanyTableId;
-            }
-            else
-            {
-                string userId = HttpContext.Current.User.Identity.GetUserId();
-                ApplicationUser user = repoUser.GetById(userId);
-                domainTable.CreatedDate = DateTime.UtcNow;
-                domainTable.ModifiedDate = domainTable.CreatedDate;
-                domainTable.ApplicationUserCreatedId = userId;
-                domainTable.ApplicationUserModifiedId = userId;
-                domainTable.CompanyTableId = user.CompanyTableId;
-            }
+            domainTable.CreatedDate = DateTime.UtcNow;
+            domainTable.ModifiedDate = domainTable.CreatedDate;
+            domainTable.ApplicationUserCreatedId = currentUserId;
+            domainTable.ApplicationUserModifiedId = currentUserId;
 
             repo.Add(domainTable);
             _uow.Commit();

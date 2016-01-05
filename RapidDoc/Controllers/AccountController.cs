@@ -50,10 +50,8 @@ namespace RapidDoc.Controllers
                 }
             }
 
-            LoginViewModel model = new LoginViewModel();
-            model.UserName = @"altyntau\";
             ViewBag.ReturnUrl = returnUrl;
-            return View(model);
+            return View();
         }
 
         //

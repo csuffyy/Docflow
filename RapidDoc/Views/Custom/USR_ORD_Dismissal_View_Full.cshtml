@@ -51,12 +51,6 @@
         }
     }
 </div>
-<div class="editor-label">
-    @Html.LabelFor(model => Model.ListSubcription)
-</div>
-<div class="editor-field">
-    @Html.HtmlDisplayTagsFor(model => Model.ListSubcription)
-</div>
 @if (Model.CancelOrder == true)
 {
     <div class="row">
@@ -126,6 +120,12 @@
 </div>
 <br />
 <h6><span style="white-space: pre-line">@Html.Raw(Model.ListFileName)</span></h6>
+<div class="editor-label">
+    @Html.LabelFor(model => Model.ListSubcription)
+</div>
+<div class="editor-field">
+    @Html.HtmlDisplayTagsFor(model => Model.ListSubcription)
+</div>
 
 
 

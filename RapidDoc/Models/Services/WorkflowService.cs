@@ -51,6 +51,7 @@ namespace RapidDoc.Models.Services
         List<Array> GetTrackerList(Guid documentId, Activity activity, IDictionary<string, object> documentData, DocumentType documentType);
         List<string> GetUniqueUserList(Guid documentId, IDictionary<string, object> documentData, string nameField, bool getAll = false);
         List<string> EmplAndRolesToUserList(string[] list);
+        List<string> EmplAndRolesToReaders(string[] list);
         void CreateDynamicTracker(List<string> users, Guid documentId, string currentUserId, bool parallel, string additionalText = "");
     }
 
@@ -965,6 +966,28 @@ namespace RapidDoc.Models.Services
                             }
                         }
                     }
+                }
+            }
+
+            return ofmList;
+        }
+
+        public List<string> EmplAndRolesToReaders(string[] list)
+        {
+            List<string> ofmList = new List<string>();
+
+            foreach (string emplIdStr in list)
+            {
+                Guid emplId = Guid.Parse(emplIdStr);
+                var emplTable = _EmplService.FirstOrDefault(x => x.Id == emplId && x.Enable == true);
+
+                if (emplTable != null && !ofmList.Exists(x => x == emplTable.ApplicationUserId))
+                {
+                    ofmList.Add(emplTable.ApplicationUserId);
+                }
+                else
+                {
+                    ofmList.Add(emplIdStr);
                 }
             }
 

@@ -477,7 +477,7 @@ namespace RapidDoc.Models.ViewModels
         public string CreateProlongTaskDate { get; set; }
     }
 
-    public class DocumentSubscriptionListView : BasicCompanyNullView
+    public class DocumentSubscriptionListView : BasicView
     {
         [Display(Name = "Номер документа")]
         public string DocumentNum { get; set; }

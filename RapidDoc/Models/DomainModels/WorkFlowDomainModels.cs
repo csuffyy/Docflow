@@ -287,7 +287,7 @@ namespace RapidDoc.Models.DomainModels
         public bool IsNotify { get; set; }
     }
 
-    public class DocumentSubcriptionListTable : BasicCompanyNullTable
+    public class DocumentSubcriptionListTable : BasicTable
     {
         [Required]
         public Guid DocumentTableId { get; set; }

@@ -160,7 +160,10 @@ namespace RapidDoc.Activities.CodeActivities
                     IEmailService _EmailService = DependencyResolver.Current.GetService<IEmailService>();
                     var documentModel = _service.GetDocumentView(document.RefDocumentId, document.ProcessTable.TableName);
                     if ((bool)documentData["AddReaders"] == true)
-                        _serviceDocumentReader.AddOrderReader(documentId, users, currentUserId);
+                    {
+                        List<string> readers = _serviceWorkflow.EmplAndRolesToReaders(usersAndRoles);
+                        _serviceDocumentReader.SaveReader(documentId, readers.ToArray(), currentUserId);
+                    }
 
                     if ((bool)documentData["AddAttachment"] == true)
                         docFile = _service.GetAllFilesDocument(document.FileId).ToList();

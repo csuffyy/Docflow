@@ -67,7 +67,7 @@
         @Html.HiddenFor(model => model.fileId)
         @Html.Action("GetDocumentData", new { modelDoc = Model.docData, Model.ProcessView.TableName, viewType = "View", processId = Model.ProcessView.Id })
         <br class="hidden-print">
-        @if (Model.DocumentView.DocumentState != RapidDoc.Models.Repository.DocumentState.Closed && Model.DocumentView.DocumentState != RapidDoc.Models.Repository.DocumentState.Cancelled)
+        @if ((Model.DocumentView.DocumentState != RapidDoc.Models.Repository.DocumentState.Closed && Model.DocumentView.DocumentState != RapidDoc.Models.Repository.DocumentState.Cancelled) || User.IsInRole("Administrator"))
         {
             <div class="visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
                 <h4 class="hidden-print">

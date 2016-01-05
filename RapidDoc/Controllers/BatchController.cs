@@ -79,12 +79,23 @@ namespace RapidDoc.Controllers
                         || x.DocumentState == Models.Repository.DocumentState.Execution || x.DocumentState == Models.Repository.DocumentState.OnSign).ToList())
                         {
                             var checkUser = _Documentservice.GetUsersSLAStatus(document, SLAStatusList.Warning).ToList();
-                            checkData.Add(new CheckSLAStatus(document, checkUser));
+
+                            List<WFTrackerUsersTable> tmpTrackerUsers = new List<WFTrackerUsersTable>();
+                            foreach(var item in checkUser)
+                            {
+                                ApplicationUser user =  users.FirstOrDefault(x => x.Id == item.UserId);
+                                if (user != null && _ReviewDocLogService.isArchive(document.Id, "", user) == false)
+                                {
+                                    tmpTrackerUsers.Add(item);
+                                }
+                            }
+                            checkData.Add(new CheckSLAStatus(document, tmpTrackerUsers));
                         }
 
                         foreach (var user in users)
                         {
                             var userDocuments = checkData.Where(x => x.TrackerUsers.Any(a => a.UserId == user.Id)).GroupBy(b => b.DocumentTable).Select(group => group.Key).ToList();
+                            
                             if (userDocuments.Count() > 0)
                                 _Emailservice.SendSLAWarningEmail(user.Id, userDocuments);
                         }
@@ -100,7 +111,18 @@ namespace RapidDoc.Controllers
                         || x.DocumentState == Models.Repository.DocumentState.Execution || x.DocumentState == Models.Repository.DocumentState.OnSign).ToList())
                         {
                             var checkUser = _Documentservice.GetUsersSLAStatus(document, SLAStatusList.Disturbance).ToList();
-                            checkData.Add(new CheckSLAStatus(document, checkUser));
+
+                            List<WFTrackerUsersTable> tmpTrackerUsers = new List<WFTrackerUsersTable>();
+                            foreach (var item in checkUser)
+                            {
+                                ApplicationUser user = users.FirstOrDefault(x => x.Id == item.UserId);
+                                if (user != null && _ReviewDocLogService.isArchive(document.Id, "", user) == false)
+                                {
+                                    tmpTrackerUsers.Add(item);
+                                }
+                            }
+
+                            checkData.Add(new CheckSLAStatus(document, tmpTrackerUsers));
                         }
 
                         foreach (var user in users)

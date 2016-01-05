@@ -801,9 +801,12 @@ namespace RapidDoc.Controllers
                 string[] users = _DocumentService.GetUserListFromStructure(collection["ReceiversOrder"].ToString());
                 var documentModel = _DocumentService.GetDocumentView(documentTable.RefDocumentId, documentTable.ProcessTable.TableName);
                 appUsers = _WorkflowService.EmplAndRolesToUserList(users);
-                _DocumentSubcriptionService.SaveSubscriber(documentTable.Id, appUsers.ToArray());
+                _DocumentSubcriptionService.SaveSubscriber(documentTable.Id, appUsers.ToArray(), User.Identity.GetUserId());
                 if (collection["AddReaders"].ToLower().Contains("true") == true)
-                    _DocumentReaderService.SaveReader(documentTable.Id, users);
+                {
+                    List<string> readers = _WorkflowService.EmplAndRolesToReaders(users);
+                    _DocumentReaderService.SaveReader(documentTable.Id, readers.ToArray(), User.Identity.GetUserId());
+                }
 
                 if (collection["AddAttachment"].ToLower().Contains("true") == true)
                     docFile = _DocumentService.GetAllFilesDocument(documentTable.FileId).ToList();
@@ -1281,6 +1284,7 @@ namespace RapidDoc.Controllers
         public ActionResult AddReader(Guid id, string[] listdata, bool? isAjax)
         {
             string errorText = String.Empty;
+            string currentUserId = User.Identity.GetUserId();
 
             if(listdata != null && listdata.Count() > 20)
             {
@@ -1297,7 +1301,7 @@ namespace RapidDoc.Controllers
                     {
                         if (RoleManager.RoleExists("MailingAdmin"))
                         {
-                            IdentityUserRole user = RoleManager.FindByName("MailingAdmin").Users.FirstOrDefault(x => x.UserId == User.Identity.GetUserId());
+                            IdentityUserRole user = RoleManager.FindByName("MailingAdmin").Users.FirstOrDefault(x => x.UserId == currentUserId);
                             if (user == null)
                             {
                                 errorText = ValidationRes.ValidationResource.ErrorRoleMailingGroup;
@@ -1317,7 +1321,7 @@ namespace RapidDoc.Controllers
                     {
                         if (RoleManager.RoleExists("MailingAdmin"))
                         {
-                            IdentityUserRole user = RoleManager.FindByName("MailingAdmin").Users.FirstOrDefault(x => x.UserId == User.Identity.GetUserId());
+                            IdentityUserRole user = RoleManager.FindByName("MailingAdmin").Users.FirstOrDefault(x => x.UserId == currentUserId);
                             if (user == null)
                             {
                                 errorText = ValidationRes.ValidationResource.ErrorRoleMailingGroup;
@@ -1332,7 +1336,7 @@ namespace RapidDoc.Controllers
             {
                 try
                 {
-                    List<string> newReader = _DocumentReaderService.SaveReader(id, listdata);
+                    List<string> newReader = _DocumentReaderService.SaveReader(id, listdata, currentUserId);
                     _EmailService.SendReaderEmail(id, newReader.Distinct().ToList());
                 }
                 catch (Exception ex)
@@ -1456,7 +1460,7 @@ namespace RapidDoc.Controllers
             DocumentTable document = _DocumentService.FirstOrDefault(x => x.FileId == fileId && x.DocType == process.DocType);
             if(document != null)
             {
-                if(document.DocumentState == DocumentState.Closed || document.DocumentState == DocumentState.Cancelled)
+                if ((document.DocumentState == DocumentState.Closed || document.DocumentState == DocumentState.Cancelled) && !User.IsInRole("Administrator"))
                 {
                     error = true;
                     errorText = ValidationRes.ValidationResource.ErrorDocumentState;
@@ -1595,7 +1599,7 @@ namespace RapidDoc.Controllers
                 DocumentTable document = _DocumentService.FirstOrDefault(x => x.FileId == fileId);
                 if (document != null)
                 {
-                    if (document.DocumentState == DocumentState.Closed || document.DocumentState == DocumentState.Cancelled)
+                    if ((document.DocumentState == DocumentState.Closed || document.DocumentState == DocumentState.Cancelled) && !User.IsInRole("Administrator"))
                     {
                         error = true;
                     }
