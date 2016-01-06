@@ -24,7 +24,7 @@
                             @foreach (var item in Model.Where(x => x.UserName == itemGroup.Key).OrderByDescending(x => x.CreatedDate))
                             {
                                 <p>
-                                    <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins> - @item.OrderNumber / @item.DocumentTitle (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)</a>
+                                    <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins> - @*@item.OrderNumber /*@ @item.DocumentTitle (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)</a>
                                 </p>
                             }
                         </div>
@@ -45,7 +45,7 @@
                             @foreach (var item in Model.Where(x => x.DepartmentName == itemGroup.Key).OrderByDescending(x => x.CreatedDate))
                             {
                                 <p>
-                                    <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins> - @item.OrderNumber / @item.DocumentTitle (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)</a>
+                                    <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins> - @*@item.OrderNumber /*@ @item.DocumentTitle (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)</a>
                                 </p>
                             }
                         </div>
@@ -66,7 +66,7 @@
                             @foreach (var item in Model.Where(x => x.DocumentTitle == itemGroup.Key).OrderByDescending(x => x.CreatedDate))
                             {
                                 <p>
-                                    <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins> - @item.OrderNumber (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)</a>
+                                    <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins> - @*@item.OrderNumber*@ (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)</a>
                                 </p>
                             }
                         </div>

@@ -198,10 +198,10 @@ namespace RapidDoc.Controllers
                                         Status = ProtocolTaskDocumentBaseStatus.AtWork;
 
                                     var protocolTable = _DocumentService.GetDocument(docTable.RefDocumentId, docTable.ProcessTable.TableName);
-                                    if (protocolTable.Code != null)
+                                    if (protocolTable.Subject != null)
                                     {
 
-                                        protocolTasks.Add(new DocumentBaseProtocolTasksView { DocumentNum = doc.DocumentNum, CreatedDate = doc.CreatedDate, CreateTaskDate = doc.CreatedDate.ToShortDateString(), TaskStatus = Status, DepartmentName = doc.DepartmentName, Id = doc.Id, ProtocolNum = protocolTable.Code, UserName = doc.UserName });
+                                        protocolTasks.Add(new DocumentBaseProtocolTasksView { DocumentNum = doc.DocumentNum, CreatedDate = doc.CreatedDate, CreateTaskDate = doc.CreatedDate.ToShortDateString(), TaskStatus = Status, DepartmentName = doc.DepartmentName, Id = doc.Id, ProtocolNum = protocolTable.Subject, UserName = doc.UserName });
                                     }
                                 }
                              }
