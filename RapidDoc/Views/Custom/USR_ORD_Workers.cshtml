@@ -1,3 +1,15 @@
 ﻿<div class="editor-field">
     @Html.DropDownList("WorkerSearchId", (IEnumerable<SelectListItem>)ViewBag.WorkerSearchList, new { @class = "selectpickerfull", @data_live_search = "true", @data_size = "10" })
 </div>
+<div class="editor-label">
+    Согласующий ФИО
+</div>
+<div class="editor-field">
+    @Html.TextBox("SignName", "", new { @class = "form-control", @size = 256, @maxlength = 256, placeholder = "ФИО" })
+</div>
+<div class="editor-label">
+    Согласующий Должность
+</div>
+<div class="editor-field">
+    @Html.TextBox("SignTitle", "", new { @class = "form-control", @size = 256, @maxlength = 256, placeholder = "Должность" })
+</div>

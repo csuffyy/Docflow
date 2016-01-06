@@ -839,6 +839,16 @@ namespace RapidDoc.Controllers
                 string worker = collection["WorkerSearchId"].ToString();
                 ViewBag.Worker = worker;
                 var documentView = _DocumentService.GetDocumentView(docTable.RefDocumentId, process.TableName);
+
+                if (!String.IsNullOrEmpty(collection["SignName"]))
+                {
+                    documentView.SignName = collection["SignName"].ToString();
+                }
+                if (!String.IsNullOrEmpty(collection["SignTitle"]))
+                {
+                    documentView.SignTitle = collection["SignTitle"].ToString();
+                }
+
                 return new ViewAsPdf("~/Views/Report/PdfReportTrip.cshtml", documentView)
                 {
                     IsGrayScale = true,
@@ -1289,27 +1299,6 @@ namespace RapidDoc.Controllers
             if(listdata != null && listdata.Count() > 20)
             {
                 errorText = ValidationRes.ValidationResource.ErrorLimitReaders;
-            }
-
-            if (listdata != null)
-            {
-                foreach (string item in listdata)
-                {
-                    ApplicationRole role = RoleManager.FindById(item);
-
-                    if ((role != null) && (_DocumentReaderService.Contains(x => x.DocumentTableId == id && x.RoleId == item) == false))
-                    {
-                        if (RoleManager.RoleExists("MailingAdmin"))
-                        {
-                            IdentityUserRole user = RoleManager.FindByName("MailingAdmin").Users.FirstOrDefault(x => x.UserId == currentUserId);
-                            if (user == null)
-                            {
-                                errorText = ValidationRes.ValidationResource.ErrorRoleMailingGroup;
-                                break;
-                            }
-                        }
-                    }
-                }
             }
 
             var currentReaders = _DocumentReaderService.GetPartial(x => x.DocumentTableId == id && x.RoleId != null).GroupBy(x => x.RoleId);
