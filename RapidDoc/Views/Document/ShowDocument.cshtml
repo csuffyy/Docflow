@@ -529,17 +529,9 @@
         $('.pdfreporttrip-modal').modal('hide');
     });
 
-    $('.pdfreporttrip-modal').on('shown.bs.modal', function (e) {
-        $('#PrintTrip').removeAttr("disabled");
-    })
-
     $('#printOrder').click(function () {
         $('.printorder-modal').modal('hide');
     });
-
-    $('.printorder-modal').on('shown.bs.modal', function (e) {
-        $('#printOrder').removeAttr("disabled");
-    })
 
     $('.bs-reject-modal-sm').on('shown.bs.modal', function (e) {
         $('#RejectCommentRequest').code($('#lastComment').code());
@@ -547,6 +539,10 @@
 
     $('.bs-approve-modal-sm').on('shown.bs.modal', function (e) {
         $('#ApproveCommentRequest').code($('#lastComment').code());
+    })
+
+    $(this).on('shown.bs.modal', function (e) {
+        $('button[type=submit]').removeAttr("disabled");
     })
 
     function replaceFile(e) {

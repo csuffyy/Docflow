@@ -357,7 +357,7 @@ function summernotelight_init(lang) {
             lang: lang,
             defaultFontName: 'Arial',
             toolbar: [
-                //['style', ['style']], // no style button
+                ['style', ['style']], // no style button
                 ['style', ['bold', 'clear']],
                 ['group', ['insertfile']],
                 //['fontsize', ['fontsize']],
@@ -369,6 +369,7 @@ function summernotelight_init(lang) {
                 ['misc', ['undo', 'redo']]
                 //['help', ['help']] //no help button
             ],
+            styleTags: ['p'],
             onPaste: function (e) {
                 var thisNote = $(this);
                 var updatePastedText = function (someNote) {

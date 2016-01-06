@@ -805,7 +805,7 @@ namespace RapidDoc.Controllers
                 if (collection["AddReaders"].ToLower().Contains("true") == true)
                 {
                     List<string> readers = _WorkflowService.EmplAndRolesToReaders(users);
-                    _DocumentReaderService.SaveReader(documentTable.Id, readers.ToArray(), User.Identity.GetUserId());
+                    _DocumentReaderService.SaveOrderReader(documentTable.Id, readers.ToArray(), User.Identity.GetUserId());
                 }
 
                 if (collection["AddAttachment"].ToLower().Contains("true") == true)
@@ -840,13 +840,13 @@ namespace RapidDoc.Controllers
                 ViewBag.Worker = worker;
                 var documentView = _DocumentService.GetDocumentView(docTable.RefDocumentId, process.TableName);
 
-                if (!String.IsNullOrEmpty(collection["SignName"]))
+                if (!String.IsNullOrEmpty(collection["SignNameManual"]))
                 {
-                    documentView.SignName = collection["SignName"].ToString();
+                    documentView.SignName = collection["SignNameManual"].ToString();
                 }
-                if (!String.IsNullOrEmpty(collection["SignTitle"]))
+                if (!String.IsNullOrEmpty(collection["SignTitleManual"]))
                 {
-                    documentView.SignTitle = collection["SignTitle"].ToString();
+                    documentView.SignTitle = collection["SignTitleManual"].ToString();
                 }
 
                 return new ViewAsPdf("~/Views/Report/PdfReportTrip.cshtml", documentView)
