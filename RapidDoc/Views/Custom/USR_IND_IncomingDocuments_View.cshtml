@@ -1,6 +1,23 @@
 ﻿@model RapidDoc.Models.ViewModels.USR_IND_IncomingDocuments_View
 @using RapidDoc.Extensions;
 
+@Html.HiddenFor(model => model.Language_Kazakh)
+@Html.HiddenFor(model => model.Language_Russian)
+@Html.HiddenFor(model => model.Language_English)
+@Html.HiddenFor(model => model.Language_Chinese)
+@Html.HiddenFor(model => model.Language_French)
+@Html.HiddenFor(model => model.Language_Other)
+@Html.HiddenFor(model => model.DocumentTypeName)
+@Html.HiddenFor(model => model.DocumentType)
+@Html.HiddenFor(model => model.OrganizationTableId)
+@Html.HiddenFor(model => model.NatureQuestionType)
+@Html.HiddenFor(model => model.NatureQuestion)
+@Html.HiddenFor(model => model.OutcomingNumber)
+@Html.HiddenFor(model => model.Receiver)
+@Html.HiddenFor(model => model.ExecutionDate)
+
+
+
 <div class="row">
     <div class="col-xs-2 col-xs-offset-11">
         <div class="editor-label">
@@ -168,7 +185,7 @@
     @Html.LabelForRequired(model => Model.ExecutionDate)
 </div>
 <div class="editor-field">
-    @Html.FormatValue(Model.OutgoingDate, "{0:dd.MM.yyyy}")
+    @Html.FormatValue(Model.ExecutionDate, "{0:dd.MM.yyyy}")
 </div>
 <hr />
 <div class="row">

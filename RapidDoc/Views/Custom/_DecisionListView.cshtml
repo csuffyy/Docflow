@@ -7,10 +7,45 @@
 <table class="table table-min" style="margin-bottom: 0;">
     <tbody>
         <tr>
-            <td style="width: 5px;"></td>
+            <td style="width: 10px;"></td>
             <td>
-                <strong style="white-space: nowrap;">Поручение №@ViewData["numDecision"].ToString()</strong>
-                @Html.Raw(Model.Decision)
+                @if (Model.Type == 1)
+                {
+                    <table class="table table-min" style="margin-bottom: 0;">
+                        <tbody>
+                            <tr>
+                                <td style="width: 10px;">
+                                    <strong class="text-uppercase" style="white-space: nowrap;">@ViewData["numDecision"].ToString().</strong>
+                                </td>
+                                <td>
+                                    @Html.Action("ProtocolDecisionText", "Custom", new { model = Model })
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                }
+                else if (Model.Type == 2)
+                {
+                    <table class="table table-min" style="margin-bottom: 0;">
+                        <tbody>
+                            <tr>
+                                <td style="width: 10px;">
+                                    <strong class="text-uppercase" style="white-space: nowrap;">@ViewData["numDecision"].ToString().</strong>
+                                </td>
+                                <td>
+                                    @Html.Action("ProtocolDecisionText", "Custom", new { model = Model })
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <strong class="text-uppercase" style="white-space: nowrap;">Поручение №@ViewData["numDecision"].ToString()</strong>
+                    <p>
+                        @Html.Action("ProtocolDecisionText", "Custom", new { model = Model })
+                    </p>
+                }
             </td>
         </tr>
     </tbody>

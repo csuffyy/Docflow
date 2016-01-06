@@ -68,7 +68,15 @@ namespace RapidDoc.Models.Services
 
             ApplicationDbContext contextQuery = _uow.GetDbContext<ApplicationDbContext>();
 
-            if (UserManager.IsInRole(user.Id, "Administrator"))
+            if (UserManager.IsInRole(user.Id, "Administrator") ||
+                (UserManager.IsInRole(user.Id, "FullView_Request") && type == DocumentType.Request) ||
+                (UserManager.IsInRole(user.Id, "FullView_Appeal") && type == DocumentType.AppealDoc) ||
+                (UserManager.IsInRole(user.Id, "FullView_Incoming") && type == DocumentType.IncomingDoc) ||
+                (UserManager.IsInRole(user.Id, "FullView_OfficeMemo") && type == DocumentType.OfficeMemo) ||
+                (UserManager.IsInRole(user.Id, "FullView_Order") && type == DocumentType.Order) ||
+                (UserManager.IsInRole(user.Id, "FullView_Outcoming") && type == DocumentType.OutcomingDoc) ||
+                (UserManager.IsInRole(user.Id, "FullView_Protocol") && type == DocumentType.Protocol) ||
+                (UserManager.IsInRole(user.Id, "FullView_Task") && type == DocumentType.Task))
             {
                 items = (from document in contextQuery.DocumentTable
                          where document.DocType == type && (document.CreatedDate >= startDate && document.CreatedDate <= endDate) && document.DocumentState != DocumentState.Created
@@ -278,7 +286,15 @@ namespace RapidDoc.Models.Services
 
             ApplicationDbContext contextQuery = _uow.GetDbContext<ApplicationDbContext>();
 
-            if (UserManager.IsInRole(user.Id, "Administrator"))
+            if (UserManager.IsInRole(user.Id, "Administrator") ||
+                (UserManager.IsInRole(user.Id, "FullView_Request") && type == DocumentType.Request) ||
+                (UserManager.IsInRole(user.Id, "FullView_Appeal") && type == DocumentType.AppealDoc) ||
+                (UserManager.IsInRole(user.Id, "FullView_Incoming") && type == DocumentType.IncomingDoc) ||
+                (UserManager.IsInRole(user.Id, "FullView_OfficeMemo") && type == DocumentType.OfficeMemo) ||
+                (UserManager.IsInRole(user.Id, "FullView_Order") && type == DocumentType.Order) ||
+                (UserManager.IsInRole(user.Id, "FullView_Outcoming") && type == DocumentType.OutcomingDoc) ||
+                (UserManager.IsInRole(user.Id, "FullView_Protocol") && type == DocumentType.Protocol) ||
+                (UserManager.IsInRole(user.Id, "FullView_Task") && type == DocumentType.Task))
             {
                 items = (from document in contextQuery.DocumentTable
                          where document.DocumentState != DocumentState.Created &&

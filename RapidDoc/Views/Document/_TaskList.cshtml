@@ -30,7 +30,10 @@
                     </p>
                     <div class="row">
                         <div class="col-xs-1"></div>
-                        <div class="col-xs-11"><p><em class="text text-danger">@Html.Raw(item.ReportText)</em></p></div>
+                        <div class="col-xs-11">
+                            <p><em class="text text-danger">@Html.Raw(item.ReportText)</em></p>
+                            @Html.Action("GetFileList", "Document", new { id = item.FileId })
+                        </div>
                     </div>
                     }
                     else if (item.DocType == RapidDoc.Models.Repository.DocumentType.Request && item.ProlongationDate != null)

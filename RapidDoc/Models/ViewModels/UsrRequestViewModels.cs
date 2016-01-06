@@ -2126,7 +2126,7 @@ namespace RapidDoc.Models.ViewModels
         public string Department { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
-        [Display(Name = "Полное наименование юридического или физического лица, перед которым предоставляются интересы Товарищиства")]
+        [Display(Name = "Полное наименование юридического или физического лица, перед которым предоставляются интересы Товарищества")]
         public string JuName { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
@@ -2259,6 +2259,10 @@ namespace RapidDoc.Models.ViewModels
 
         [Display(Name = "Собственное мнение заявителя по разъяснению НПА")]
         public string OwnMind { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Исполнитель")]
+        public string UserChooseManual1 { get; set; }
     }
 
     public class USR_REQ_JU_RequestForExpertise_View : BasicDocumentView
@@ -9776,6 +9780,26 @@ namespace RapidDoc.Models.ViewModels
     #region Протоколы
 
     public class USR_PRT_ProtocolDocuments_View : BasicProtocolDocumentsView
+    {
+
+    }
+
+    public class USR_PRT_BalanceCommissionDocuments_View : BasicProtocolDocumentsView
+    {
+
+    }
+
+    public class USR_PRT_ManagementDocuments_View : BasicProtocolDocumentsView
+    {
+
+    }
+
+    public class USR_PRT_TechCommitteeDocuments_View : BasicProtocolDocumentsView
+    {
+
+    }
+
+    public class USR_PRT_DirectorateDocuments_View : BasicProtocolDocumentsView
     {
 
     }

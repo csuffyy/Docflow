@@ -48,6 +48,10 @@ namespace RapidDoc.Activities.CodeActivities
         [Inject]
         public IDocumentReaderService _serviceDocumentReader { get; set; }
 
+        [Browsable(false)]
+        [Inject]
+        public IDocumentSubcriptionService _serviceDocumentSubcriptionService { get; set; }
+
         protected override void Execute(CodeActivityContext context)
         {
             _service = DependencyResolver.Current.GetService<IDocumentService>();
@@ -56,6 +60,7 @@ namespace RapidDoc.Activities.CodeActivities
             _serviceSearch = DependencyResolver.Current.GetService<ISearchService>();
             _serviceWorkflow = DependencyResolver.Current.GetService<IWorkflowService>();
             _serviceDocumentReader = DependencyResolver.Current.GetService<IDocumentReaderService>();
+            _serviceDocumentSubcriptionService = DependencyResolver.Current.GetService<IDocumentSubcriptionService>();
             Guid documentId = context.GetValue(this.inputDocumentId);
             Dictionary<string, Object> documentData = context.GetValue(this.inputDocumentData);
             string currentUserId = context.GetValue(this.inputCurrentUser);
@@ -147,12 +152,23 @@ namespace RapidDoc.Activities.CodeActivities
             {
                 if (!String.IsNullOrEmpty((string)documentData["ListSubcription"]))
                 {
+                    List<FileTable> docFile = new List<FileTable>();
+
                     string[] usersAndRoles = _service.GetUserListFromStructure((string)documentData["ListSubcription"]);
                     List<string> users = _serviceWorkflow.EmplAndRolesToUserList(usersAndRoles);
+                    _serviceDocumentSubcriptionService.SaveSubscriberMapper(documentId, users.ToArray(), currentUserId);
                     IEmailService _EmailService = DependencyResolver.Current.GetService<IEmailService>();
                     var documentModel = _service.GetDocumentView(document.RefDocumentId, document.ProcessTable.TableName);
-                    _serviceDocumentReader.AddOrderReader(documentId, users, currentUserId);
-                    _EmailService.SendORDForUserEmail(documentId, users, documentModel);
+                    if ((bool)documentData["AddReaders"] == true)
+                    {
+                        List<string> readers = _serviceWorkflow.EmplAndRolesToReaders(usersAndRoles);
+                        _serviceDocumentReader.SaveOrderReader(documentId, readers.ToArray(), currentUserId);
+                    }
+
+                    if ((bool)documentData["AddAttachment"] == true)
+                        docFile = _service.GetAllFilesDocument(document.FileId).ToList();
+
+                    _EmailService.SendORDForUserEmail(documentId, users, documentModel, docFile);
                 }
             }
         }

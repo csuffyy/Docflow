@@ -80,8 +80,6 @@ namespace RapidDoc.Activities.CodeActivities
 
             foreach (var question in questionList)
             {
-                string questionText = question.Question;
-
                 foreach (var decision in question.DecisionList)
                 {
                     if ((decision.Decision != null && decision.Decision != String.Empty) &&
@@ -98,23 +96,26 @@ namespace RapidDoc.Activities.CodeActivities
                             foreach (var item in arrayStructure)
                             {
                                 string seprateUser = item + "," + arrayTempStructrue[Array.IndexOf(arrayTempStructrue, item) + 1];
-                                CreateTask(seprateUser, documentView, decision, question, documentTable, questionText, documentId, currentUserId);
+                                CreateTask(seprateUser, documentView, decision, question, documentTable, documentId, currentUserId);
 
                             }
                         }
                         else
-                            CreateTask(decision.Users, documentView, decision, question, documentTable, questionText, documentId, currentUserId);
+                            CreateTask(decision.Users, documentView, decision, question, documentTable, documentId, currentUserId);
                     }
                 }
             }
         }
 
-        void CreateTask(string users, dynamic documentView, PRT_DecisionList_Table decision, PRT_QuestionList_Table question, DocumentTable documentTable, string questionText, Guid documentId, string currentUserId)
+        void CreateTask(string users, dynamic documentView, PRT_DecisionList_Table decision, PRT_QuestionList_Table question, DocumentTable documentTable, Guid documentId, string currentUserId)
         {
                         USR_TAS_DailyTasks_View docModel = new USR_TAS_DailyTasks_View();
                         string folderName = _serviceProtocolFolders.GetProtocolFolderName(documentTable.ProcessTableId, documentView.ProtocolFoldersTableId, currentUserId);
 
-                        docModel.MainField = "<p>" + folderName + "</p>" + documentView.Subject + "\n" + questionText + "\n" + decision.Decision;
+                        if (question.IncludeText == false)
+                            docModel.MainField = "<p>" + folderName + "</p>" + documentView.Subject + "\n" + question.Question + "\n" + decision.Decision;
+                        else
+                            docModel.MainField = "<p>" + folderName + "</p>" + documentView.Subject + "\n" + decision.Decision;
 
                         DateTime? controlDate = decision.ControlDate != null ? decision.ControlDate : DateTime.Now;
 
@@ -124,7 +125,7 @@ namespace RapidDoc.Activities.CodeActivities
             docModel.RefDocNum = documentTable.DocumentNum;
             ApplicationUser user = _serviceAccount.Find(currentUserId);
             ProcessTable processTable = _serviceProcess.FirstOrDefault(x => x.TableName == "USR_TAS_DailyTasks");
-            var taskDocumentId = _service.SaveDocument(docModel, "USR_TAS_DailyTasks", processTable.Id, documentTable.FileId, user, false, false);
+            var taskDocumentId = _service.SaveDocument(docModel, "USR_TAS_DailyTasks", processTable.Id, Guid.NewGuid(), user, false, false);
                         documentTable = _service.Find(taskDocumentId);
 
                         Task.Run(() =>

@@ -102,6 +102,7 @@ namespace RapidDoc.App_Start
             kernel.Bind<IQuestionRequestService>().To<QuestionRequestService>();
             kernel.Bind<IProtocolFoldersService>().To<ProtocolFoldersService>();
             kernel.Bind<ITripMRPService>().To<TripMRPService>();
+            kernel.Bind<IDocumentSubcriptionService>().To<DocumentSubcriptionService>();
         }        
     }
 }

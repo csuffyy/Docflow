@@ -1,7 +1,7 @@
 ﻿@model RapidDoc.Models.ViewModels.USR_PRT_ProtocolDocuments_View
 @using RapidDoc.Extensions;
 @{
-    if(Model.QuestionList == null)
+    if(Model.QuestionList == null || Model.QuestionList.Count() == 0)
     { 
         Model.QuestionList = new List<RapidDoc.Models.DomainModels.PRT_QuestionList_Table>();
         Model.QuestionList.Add(new RapidDoc.Models.DomainModels.PRT_QuestionList_Table());
@@ -13,13 +13,6 @@
 @Html.ValidationSummary(true)
 <div class="row">
     <div class="col-xs-12">
-        <div class="editor-label">
-            @Html.LabelForRequired(model => Model.Code)
-        </div>
-        <div class="editor-field">
-            @Html.TextBoxFor(model => Model.Code, new { @class = "form-control", placeholder = "Код" })
-        </div>
-
         <div class="editor-label">
             @Html.LabelForRequired(model => Model.ProtocolFoldersTableId)
         </div>
@@ -34,11 +27,23 @@
             @Html.TextBoxFor(model => Model.Subject, new { @class = "form-control", placeholder = "Тема документа" })
         </div>
 
-        <div class="editor-label">
-            @Html.LabelForRequired(model => Model.Location)
-        </div>
-        <div class="editor-field">
-            @Html.TextBoxFor(model => Model.Location, new { @class = "form-control", placeholder = "Место проведения" })
+        <div class="row">
+            <div class="col-xs-8">
+                <div class="editor-label">
+                    @Html.LabelForRequired(model => Model.Location)
+                </div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => Model.Location, new { @class = "form-control", placeholder = "Место проведения" })
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <div class="editor-label">
+                    @Html.LabelForRequired(model => Model.Duration)
+                </div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => Model.Duration, new { @class = "form-control", placeholder = "30 мин" })
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -86,13 +91,6 @@
         <div class="editor-field">
             @Html.TextAreaFor(model => Model.Agenda, new { @class = "form-control", placeholder = "Повестка совещания" })
         </div>
-
-        <div class="editor-label">
-            @Html.LabelForRequired(model => Model.Introduction)
-        </div>
-        <div class="editor-field">
-            @Html.TextAreaFor(model => Model.Introduction, new { @class = "form-control", placeholder = "Вступительное слово" })
-        </div>
     </div>
 </div>
 
@@ -108,7 +106,7 @@
             }
             </div>
         }
-        @Html.ActionLink("Добавить вопрос", "CreateNewQuestionProtocol", "Custom", null, new { id = "addItemQuestion" })
+        @Html.ActionLink("Добавить вопрос", "CreateNewQuestionProtocol", "Custom", null, new { id = "addItemQuestion", @class = "addItemQuestion btn btn-link" })
     </div>
 </div>
 
@@ -116,7 +114,10 @@
     $(function () {
         numberQuestion();
         numberDecision();
-        $("#addItemQuestion").click(function () {
+        $(".addItemQuestion").click(function () {
+            $(".addItemQuestion").toggleClass('disabled', true);
+            $(".addItemDecision").toggleClass('disabled', true);
+
             $.ajax({
                 url: this.href,
                 cache: false,
@@ -128,6 +129,9 @@
                     checkbox_init('@UIElementRes.UIElement.Yes', '@UIElementRes.UIElement.No');
                     numberQuestion();
                     numberDecision();
+
+                    $(".addItemQuestion").toggleClass('disabled', false);
+                    $(".addItemDecision").toggleClass('disabled', false);
                 }
             });
             return false;
@@ -137,6 +141,9 @@
     $(document).on('click', '.addItemDecision', function () {
         var itemdecisionid = event.target.id;
         itemdecisionid = itemdecisionid.replace("addItemDecision_", "decisionRow_");
+
+        $(".addItemQuestion").toggleClass('disabled', true);
+        $(".addItemDecision").toggleClass('disabled', true);
 
         $.ajax({
             url: this.href,
@@ -148,6 +155,13 @@
                 summernotelight_init("@UIElementRes.UIElement.LangFullName");
                 checkbox_init('@UIElementRes.UIElement.Yes', '@UIElementRes.UIElement.No');
                 numberDecision();
+
+                $('input:radio').change(function () {
+                    numberDecision();
+                });
+
+                $(".addItemQuestion").toggleClass('disabled', false);
+                $(".addItemDecision").toggleClass('disabled', false);
             }
         });
         return false;
@@ -163,28 +177,36 @@
 
     function numberDecision() {
         var prtDecisionNumber = 0;
+        var prtDecisionNumber2 = 0;
+        var prtDecisionNumber3 = 0;
         $('.decisionNumber').each(function (i) {
-            prtDecisionNumber = i + 1;
-            $(this).text(prtDecisionNumber);
-        });
-    }
-    /*
-    function numberDecision() {
-        var prtDecisionNumber = 0;
-        var oldQuestion = '';
-        var numberquestion = 0;
-
-        $('.decisionNumber').each(function (i) {
-            if (oldQuestion == '' || oldQuestion != this.id) {
-                oldQuestion = this.id;
-                prtDecisionNumber = 0;
-                numberquestion = numberquestion + 1;
+            if ($(this).closest('label').find('input:checked').val() != undefined) {
+                prtDecisionNumber = prtDecisionNumber + 1;
+                $(this).text('№' + prtDecisionNumber);
             }
+            else {
+                $(this).text('');
+            }
+        });
 
-            prtDecisionNumber = prtDecisionNumber + 1;
-            $(this).text(numberquestion + '.' + prtDecisionNumber);
+        $('.decisionTwoNumber').each(function (i) {
+            if ($(this).closest('label').find('input:checked').val() != undefined) {
+                prtDecisionNumber2 = prtDecisionNumber2 + 1;
+                $(this).text('№' + prtDecisionNumber2);
+            }
+            else {
+                $(this).text('');
+            }
+        });
+
+        $('.decisionThreeNumber').each(function (i) {
+            if ($(this).closest('label').find('input:checked').val() != undefined) {
+                prtDecisionNumber3 = prtDecisionNumber3 + 1;
+                $(this).text('№' + prtDecisionNumber3);
+            }
+            else {
+                $(this).text('');
+            }
         });
     }
-    */
 </script>
-

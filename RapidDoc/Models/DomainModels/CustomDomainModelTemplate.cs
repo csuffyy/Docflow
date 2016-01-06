@@ -80,7 +80,9 @@ namespace RapidDoc.Models.DomainModels
         public string ControlUsers { get; set; }
         public DateTime? ControlDate { get; set; }
 
-        public string ListSubcription { get; set; } 
+        public string ListSubcription { get; set; }
+        public bool AddReaders { get; set; }
+        public bool AddAttachment { get; set; }
 
         public string Sign { get; set; }
         public string SignName { get; set; }
@@ -208,8 +210,12 @@ namespace RapidDoc.Models.DomainModels
         public string DocumentTypeName { get; set; }
         public string ListAgreement { get; set; }
 
+        public string Content { get; set; }
+
         public Guid? ItemCauseTableId { get; set; }
         public virtual ItemCauseTable ItemCauseTable { get; set; }
+
+        public bool NeedTranslate { get; set; }
 
         public string ItemCauseNumber
         {
@@ -297,8 +303,6 @@ namespace RapidDoc.Models.DomainModels
             }
         }
 
-        public string Content { get; set; }
-
         public Guid? ReasonRequestTableId { get; set; }
         public virtual ReasonRequestTable ReasonRequestTable { get; set; }
 
@@ -313,7 +317,6 @@ namespace RapidDoc.Models.DomainModels
 
     public interface IBasicProtocol
     {
-        string Code { get; set; }
         Guid? ProtocolFoldersTableId { get; set; }
         string Subject { get; set; }
         string Location { get; set; }
@@ -328,8 +331,6 @@ namespace RapidDoc.Models.DomainModels
 
     public abstract class BasicProtocolDocumentsTable : BasicDocumentTable, IBasicProtocol
     {
-        public string Code { get; set; }
-
         public Guid? ProtocolFoldersTableId { get; set; }
         public virtual ProtocolFoldersTable ProtocolFoldersTable { get; set; }
 
@@ -342,7 +343,7 @@ namespace RapidDoc.Models.DomainModels
         public string Absent { get; set; }
         public string Chairman { get; set; }
         public string ListAgreement { get; set; }
-
+        public string Duration { get; set; }
         public virtual List<PRT_QuestionList_Table> QuestionList { get; set; }
     }
 }

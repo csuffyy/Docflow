@@ -844,6 +844,15 @@ namespace UIElementRes {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Избранное.
+        /// </summary>
+        public static string MyFavorite {
+            get {
+                return ResourceManager.GetString("MyFavorite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Активные документы.
         /// </summary>
         public static string MyProcesses {
@@ -1240,6 +1249,15 @@ namespace UIElementRes {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Вернуть задачу.
+        /// </summary>
+        public static string ReturnTask {
+            get {
+                return ResourceManager.GetString("ReturnTask", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Аннулирование.
         /// </summary>
         public static string Revocation {
@@ -1483,7 +1501,7 @@ namespace UIElementRes {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Задачи.
+        ///   Looks up a localized string similar to Поручения.
         /// </summary>
         public static string TaskBase {
             get {
@@ -1492,7 +1510,7 @@ namespace UIElementRes {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Отчет по задачам.
+        ///   Looks up a localized string similar to Отчет по поручениям.
         /// </summary>
         public static string TaskReport {
             get {

@@ -12,6 +12,7 @@
 @Html.HiddenFor(model => model.Language_Chinese)
 @Html.HiddenFor(model => model.Language_French)
 @Html.HiddenFor(model => model.Language_Other)
+@Html.HiddenFor(model => model.NeedTranslate)
 
 @if (Model.OutcomingDocNum != null)
 {  
@@ -21,7 +22,7 @@
 <div class="row">
     <div class="col-xs-12">
         <div>
-            <h5 class="text-center">@Html.DisplayTextFor(model => Model.DocumentSubject)</h5>
+            <h4 class="text-center">@Html.DisplayTextFor(model => Model.DocumentSubject)</h4>
         </div>
     </div>
 </div>
@@ -101,6 +102,19 @@
             </div>
         </div>
     }
+</div>
+<div class="row">
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.NeedTranslate):
+        </div>
+    </div>
+
+    <div class="col-xs-2">
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.NeedTranslate, new { @disabled = true })
+        </div>
+    </div>
 </div>
 
 <div class="editor-label">
@@ -211,6 +225,16 @@ else
         </div>
         <div class="editor-field">
             @Html.DisplayTextFor(model => Model.ApplicationsCount)
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.Content)
+        </div>
+        <div class="editor-field">
+            @Html.Raw(Model.Content)
         </div>
     </div>
 </div>

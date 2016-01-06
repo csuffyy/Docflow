@@ -602,14 +602,15 @@ namespace RapidDoc.Controllers
             EmplTripType emplTripType = (EmplTripType)EmplTripType;
             TripDirection tripDirection = (TripDirection)TripDirection;
 
-            TripMRPTable mrp = _ITripMRPService.FirstOrDefault(x => x.FromDate <= DateTime.UtcNow && x.ToDate >= DateTime.UtcNow);
+            DateTime dateNow = DateTime.UtcNow.Date;
+            TripMRPTable mrp = _ITripMRPService.FirstOrDefault(x => x.FromDate <= dateNow && x.ToDate >= dateNow);
             TripSettingsTable tripSettingsTable = _TripSettingsService.FirstOrDefault(x => x.EmplTripType == emplTripType && x.TripDirection == tripDirection);
             if (tripSettingsTable != null && mrp != null)
             {
                 double residenceRate = Double.Parse(tripSettingsTable.ResidenceRate, CultureInfo.InvariantCulture);
                 double dayRate = Double.Parse(tripSettingsTable.DayRate, CultureInfo.InvariantCulture) * Double.Parse(mrp.Amount, CultureInfo.InvariantCulture);
 
-                var model = new USR_REQ_UBUO_RequestCalcDriveTripCals_View(emplTripType, tripDirection, Day, DayLive, TicketSum, (int)dayRate, (int)residenceRate);
+                var model = new USR_REQ_UBUO_RequestCalcDriveTripCals_View(emplTripType, tripDirection, Day, DayLive, TicketSum, (int)Math.Ceiling(dayRate), (int)residenceRate);
                 return PartialView(@"~/Views/Custom/USR_REQ_UBUO_RequestCalcDriveTrip_Calc.cshtml", model);
             }
 
@@ -2433,6 +2434,9 @@ namespace RapidDoc.Controllers
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
 
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_ORD_MainActivity_Edit_Part", model);
+
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
@@ -2459,6 +2463,9 @@ namespace RapidDoc.Controllers
         public ActionResult GetManualORDBusinessTrip(RapidDoc.Models.ViewModels.USR_ORD_BusinessTrip_View model)
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_ORD_BusinessTrip_Edit_Part", model);
 
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
@@ -2487,6 +2494,9 @@ namespace RapidDoc.Controllers
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
 
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_ORD_Staff_Edit_Part", model);
+
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
@@ -2513,6 +2523,9 @@ namespace RapidDoc.Controllers
         public ActionResult GetManualORDReception(RapidDoc.Models.ViewModels.USR_ORD_Reception_View model)
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_ORD_Reception_Edit_Part", model);
 
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
@@ -2541,6 +2554,9 @@ namespace RapidDoc.Controllers
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
 
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_ORD_Dismissal_Edit_Part", model);
+
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
@@ -2567,6 +2583,9 @@ namespace RapidDoc.Controllers
         public ActionResult GetManualORDTransfer(RapidDoc.Models.ViewModels.USR_ORD_Transfer_View model)
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_ORD_Transfer_Edit_Part", model);
 
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
@@ -2595,6 +2614,9 @@ namespace RapidDoc.Controllers
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
 
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_ORD_Holiday_Edit_Part", model);
+
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
@@ -2622,6 +2644,9 @@ namespace RapidDoc.Controllers
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
 
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_ORD_ChangeStaff_Edit_Part", model);
+
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
@@ -2648,6 +2673,9 @@ namespace RapidDoc.Controllers
         public ActionResult GetManualORDSanction(RapidDoc.Models.ViewModels.USR_ORD_Sanction_View model)
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_ORD_Sanction_Edit_Part", model);
 
             if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
             {
@@ -2734,20 +2762,40 @@ namespace RapidDoc.Controllers
             return PartialView("USR_OND_OutcomingDocuments_View_Full", model);
         }
 
+        public ActionResult GetManualRequestForExplanationNormalAct(RapidDoc.Models.ViewModels.USR_REQ_JU_RequestForExplanationNormalAct_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.ActivityName == "Начальник ЮУ" || x.SystemName == "ChiefNormalAct"))
+                    {
+                        return PartialView("USR_REQ_JU_RequestForExplanationNormalAct_Edit_Manual", model);
+                    }
+                }
+            }
+
+            return PartialView("_Empty");
+        }
+
         [HttpPost]
         public ActionResult UpdateCalcBTripPPTRIP(byte EmplTripType, byte TripDirection, int Day, int DayLive, int TicketSum)
         {
             EmplTripType emplTripType = (EmplTripType)EmplTripType;
             TripDirection tripDirection = (TripDirection)TripDirection;
 
-            TripMRPTable mrp = _ITripMRPService.FirstOrDefault(x => x.FromDate <= DateTime.UtcNow && x.ToDate >= DateTime.UtcNow);
+            DateTime dateNow = DateTime.UtcNow.Date;
+            TripMRPTable mrp = _ITripMRPService.FirstOrDefault(x => x.FromDate <= dateNow && x.ToDate >= dateNow);
             TripSettingsTable tripSettingsTable = _TripSettingsService.FirstOrDefault(x => x.EmplTripType == emplTripType && x.TripDirection == tripDirection);
             if (tripSettingsTable != null && mrp != null)
             {
                 double residenceRate = Double.Parse(tripSettingsTable.ResidenceRate, CultureInfo.InvariantCulture);
                 double dayRate = Double.Parse(tripSettingsTable.DayRate, CultureInfo.InvariantCulture) * Double.Parse(mrp.Amount, CultureInfo.InvariantCulture);
 
-                var model = new USR_REQ_TRIP_RequestCalcDriveBTripCalsPP_View(emplTripType, tripDirection, Day, DayLive, TicketSum, (int)dayRate, (int)residenceRate);
+                var model = new USR_REQ_TRIP_RequestCalcDriveBTripCalsPP_View(emplTripType, tripDirection, Day, DayLive, TicketSum, (int)Math.Ceiling(dayRate), (int)residenceRate);
                 return PartialView(@"~/Views/Custom/USR_REQ_TRIP_RegistrationBusinessTripPP_Calc.cshtml", model);
             }
 
@@ -2760,14 +2808,15 @@ namespace RapidDoc.Controllers
             EmplTripType emplTripType = (EmplTripType)EmplTripType;
             TripDirection tripDirection = (TripDirection)TripDirection;
 
-            TripMRPTable mrp = _ITripMRPService.FirstOrDefault(x => x.FromDate <= DateTime.UtcNow && x.ToDate >= DateTime.UtcNow);
+            DateTime dateNow = DateTime.UtcNow.Date;
+            TripMRPTable mrp = _ITripMRPService.FirstOrDefault(x => x.FromDate <= dateNow && x.ToDate >= dateNow);
             TripSettingsTable tripSettingsTable = _TripSettingsService.FirstOrDefault(x => x.EmplTripType == emplTripType && x.TripDirection == tripDirection);
             if (tripSettingsTable != null && mrp != null)
             {
                 double residenceRate = Double.Parse(tripSettingsTable.ResidenceRate, CultureInfo.InvariantCulture);
                 double dayRate = Double.Parse(tripSettingsTable.DayRate, CultureInfo.InvariantCulture) * Double.Parse(mrp.Amount, CultureInfo.InvariantCulture);
 
-                var model = new USR_REQ_TRIP_RequestCalcDriveBTripCalsPTY_View(emplTripType, tripDirection, Day, DayLive, TicketSum, (int)dayRate, (int)residenceRate);
+                var model = new USR_REQ_TRIP_RequestCalcDriveBTripCalsPTY_View(emplTripType, tripDirection, Day, DayLive, TicketSum, (int)Math.Ceiling(dayRate), (int)residenceRate);
                 return PartialView(@"~/Views/Custom/USR_REQ_TRIP_RegistrationBusinessTripPTY_Calc.cshtml", model);
             }
 
@@ -2780,14 +2829,15 @@ namespace RapidDoc.Controllers
             EmplTripType emplTripType = (EmplTripType)EmplTripType;
             TripDirection tripDirection = (TripDirection)TripDirection;
 
-            TripMRPTable mrp = _ITripMRPService.FirstOrDefault(x => x.FromDate <= DateTime.UtcNow && x.ToDate >= DateTime.UtcNow);
+            DateTime dateNow = DateTime.UtcNow.Date;
+            TripMRPTable mrp = _ITripMRPService.FirstOrDefault(x => x.FromDate <= dateNow && x.ToDate >= dateNow);
             TripSettingsTable tripSettingsTable = _TripSettingsService.FirstOrDefault(x => x.EmplTripType == emplTripType && x.TripDirection == tripDirection);
             if (tripSettingsTable != null && mrp != null)
             {
                 double residenceRate = Double.Parse(tripSettingsTable.ResidenceRate, CultureInfo.InvariantCulture);
                 double dayRate = Double.Parse(tripSettingsTable.DayRate, CultureInfo.InvariantCulture) * Double.Parse(mrp.Amount, CultureInfo.InvariantCulture);
 
-                var model = new USR_REQ_TRIP_RequestCalcDriveBTripCalsKZ_View(emplTripType, tripDirection, Day, DayLive, TicketSum, (int)dayRate, (int)residenceRate);
+                var model = new USR_REQ_TRIP_RequestCalcDriveBTripCalsKZ_View(emplTripType, tripDirection, Day, DayLive, TicketSum, (int)Math.Ceiling(dayRate), (int)residenceRate);
                 return PartialView(@"~/Views/Custom/USR_REQ_TRIP_RegistrationBusinessTripKZ_Calc.cshtml", model);
             }
 
@@ -2813,6 +2863,34 @@ namespace RapidDoc.Controllers
         {
             ViewData["counter"] = counter;
             return View("_DecisionList", new PRT_DecisionList_Table());
+        }
+
+        public ActionResult ProtocolDecisionText(PRT_DecisionList_Table model)
+        {
+            string result = String.Empty;
+
+            if (model.Users != null)
+            {
+                string[] tmp = _SystemService.GuidsFromText(model.Users);
+
+                if (tmp != null)
+                {
+                    foreach (var item in tmp)
+                    {
+                        EmplTable empl = _EmplService.Find(Guid.Parse(item));
+
+                        if (empl != null)
+                            result = result + String.Format("{0}, ", empl.ShortFullNameType2);
+                    }
+                }
+
+                if (!String.IsNullOrEmpty(result))
+                    result = String.Format("{2} <strong>ответ {0}срок {1}г.</strong>", result, model.ControlDate.Value.ToShortDateString(), _SystemService.DeleteLastTagSegment(model.Decision));
+                else
+                    result = model.Decision;
+            }
+
+            return PartialView("USR_PRT_DecisionText", result);
         }
 	}
 }

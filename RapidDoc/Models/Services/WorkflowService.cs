@@ -51,6 +51,7 @@ namespace RapidDoc.Models.Services
         List<Array> GetTrackerList(Guid documentId, Activity activity, IDictionary<string, object> documentData, DocumentType documentType);
         List<string> GetUniqueUserList(Guid documentId, IDictionary<string, object> documentData, string nameField, bool getAll = false);
         List<string> EmplAndRolesToUserList(string[] list);
+        List<string> EmplAndRolesToReaders(string[] list);
         void CreateDynamicTracker(List<string> users, Guid documentId, string currentUserId, bool parallel, string additionalText = "");
     }
 
@@ -282,52 +283,79 @@ namespace RapidDoc.Models.Services
         }
         public void AgreementWorkflowApprove(Guid documentId, string TableName, Guid WWFInstanceId, Guid processId, IDictionary<string, object> documentData)
         {
-            SqlWorkflowInstanceStore instanceStore = SetupInstanceStore();
-
-            WorkflowApplicationInstance instanceInfo =
-                    WorkflowApplication.GetInstance(WWFInstanceId, instanceStore);
-
-            FileTable fileTableWF = GetRightFileWF(TableName, processId, instanceInfo);
-            Activity activity = ChooseActualWorkflow(TableName, fileTableWF, instanceInfo.DefinitionIdentity != null);
-            LoadAOrCompleteInstance(documentId, DocumentState.Agreement, TrackerType.Approved, documentData, instanceStore, activity, instanceInfo);
-            DeleteInstanceStoreOwner(instanceStore);
-            _HistoryUserService.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = Models.Repository.HistoryType.ApproveDocument }, HttpContext.Current.User.Identity.GetUserId());
-            _EmailService.SendExecutorEmail(documentId, documentData.ContainsKey("AdditionalText") ? (string)documentData["AdditionalText"] : "");
-            DocumentTable docTable = _DocumentService.FirstOrDefault(x => x.Id == documentId);
-            if (docTable.IsNotified == true)
+            string currentUserId = HttpContext.Current.User.Identity.GetUserId();
+            IEnumerable<WFTrackerTable> bookmarks = _DocumentService.GetCurrentSignStep(documentId, currentUserId).ToList();
+            _DocumentService.SaveSignData(bookmarks, TrackerType.Approved, String.IsNullOrEmpty("") ? true : false);
+            if (bookmarks != null)
             {
-                foreach (var user in _DocumentService.GetSignUsersDirect(docTable))
+                foreach (var bookmark in bookmarks)
                 {
-                    _NotificationUsersService.CreateNotifyForUser(documentId, _DocumentService.FirstOrDefault(x => x.Id == documentId).ApplicationUserCreatedId, user.Id);
-                }    
-            }           
+                    SqlWorkflowInstanceStore instanceStore = SetupInstanceStore();
+
+                    WorkflowApplicationInstance instanceInfo =
+                            WorkflowApplication.GetInstance(WWFInstanceId, instanceStore);
+
+                    FileTable fileTableWF = GetRightFileWF(TableName, processId, instanceInfo);
+                    Activity activity = ChooseActualWorkflow(TableName, fileTableWF, instanceInfo.DefinitionIdentity != null);
+                    LoadAOrCompleteInstance(documentId, DocumentState.Agreement, TrackerType.Approved, documentData, instanceStore, activity, instanceInfo, bookmark);
+                    DeleteInstanceStoreOwner(instanceStore);
+                    _HistoryUserService.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = Models.Repository.HistoryType.ApproveDocument }, HttpContext.Current.User.Identity.GetUserId());
+                    _EmailService.SendExecutorEmail(documentId, documentData.ContainsKey("AdditionalText") ? (string)documentData["AdditionalText"] : "");
+                    DocumentTable docTable = _DocumentService.FirstOrDefault(x => x.Id == documentId);
+                    if (docTable.IsNotified == true)
+                    {
+                        foreach (var user in _DocumentService.GetSignUsersDirect(docTable))
+                        {
+                            _NotificationUsersService.CreateNotifyForUser(documentId, _DocumentService.FirstOrDefault(x => x.Id == documentId).ApplicationUserCreatedId, user.Id);
+                        }
+                    }
+                }
+            }
         }
         public void AgreementWorkflowReject(Guid documentId, string TableName, Guid WWFInstanceId, Guid processId, IDictionary<string, object> documentData)
         {
-            SqlWorkflowInstanceStore instanceStore = SetupInstanceStore();
+            string currentUserId = HttpContext.Current.User.Identity.GetUserId();
+            IEnumerable<WFTrackerTable> bookmarks = _DocumentService.GetCurrentSignStep(documentId, currentUserId).ToList();
+            _DocumentService.SaveSignData(bookmarks, TrackerType.Cancelled, String.IsNullOrEmpty("") ? true : false);
+            if (bookmarks != null)
+            {
+                foreach (var bookmark in bookmarks)
+                {
+                    SqlWorkflowInstanceStore instanceStore = SetupInstanceStore();
 
-            WorkflowApplicationInstance instanceInfo =
-                    WorkflowApplication.GetInstance(WWFInstanceId, instanceStore);
+                    WorkflowApplicationInstance instanceInfo =
+                            WorkflowApplication.GetInstance(WWFInstanceId, instanceStore);
 
-            FileTable fileTableWF = GetRightFileWF(TableName, processId, instanceInfo);
-            Activity activity = ChooseActualWorkflow(TableName, fileTableWF, instanceInfo.DefinitionIdentity != null);
-            LoadAOrCompleteInstance(documentId, DocumentState.Cancelled, TrackerType.Cancelled, documentData, instanceStore, activity, instanceInfo);
-            DeleteInstanceStoreOwner(instanceStore);
-            _HistoryUserService.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = Models.Repository.HistoryType.CancelledDocument }, HttpContext.Current.User.Identity.GetUserId());
-            _EmailService.SendInitiatorRejectEmail(documentId);
+                    FileTable fileTableWF = GetRightFileWF(TableName, processId, instanceInfo);
+                    Activity activity = ChooseActualWorkflow(TableName, fileTableWF, instanceInfo.DefinitionIdentity != null);
+                    LoadAOrCompleteInstance(documentId, DocumentState.Cancelled, TrackerType.Cancelled, documentData, instanceStore, activity, instanceInfo, bookmark);
+                    DeleteInstanceStoreOwner(instanceStore);
+                    _HistoryUserService.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = Models.Repository.HistoryType.CancelledDocument }, HttpContext.Current.User.Identity.GetUserId());
+                    _EmailService.SendInitiatorRejectEmail(documentId);
+                }
+            }
         }
 
         public void ActiveWorkflowApprove(Guid documentId, string TableName, Guid WWFInstanceId, Guid processId, IDictionary<string, object> documentData, string currentUser)
         {
-            SqlWorkflowInstanceStore instanceStore = SetupInstanceStore();
+            IEnumerable<WFTrackerTable> bookmarks = _DocumentService.GetCurrentSignStep(documentId, currentUser).ToList();
+            _DocumentService.SaveSignData(bookmarks, TrackerType.Active, String.IsNullOrEmpty(currentUser) ? true : false);
+            if (bookmarks != null)
+            {
+                foreach (var bookmark in bookmarks)
+                {
+            
+                    SqlWorkflowInstanceStore instanceStore = SetupInstanceStore();
 
-            WorkflowApplicationInstance instanceInfo =
-                    WorkflowApplication.GetInstance(WWFInstanceId, instanceStore);
-            FileTable fileTableWF = GetRightFileWF(TableName, processId, instanceInfo);
-            Activity activity = ChooseActualWorkflow(TableName, fileTableWF, instanceInfo.DefinitionIdentity != null);
-            LoadAOrCompleteInstance(documentId, DocumentState.Agreement, TrackerType.Active, documentData, instanceStore, activity, instanceInfo, currentUser);
-            DeleteInstanceStoreOwner(instanceStore);
-            _EmailService.SendExecutorEmail(documentId, documentData.ContainsKey("AdditionalText") ? (string)documentData["AdditionalText"] : "");          
+                    WorkflowApplicationInstance instanceInfo =
+                            WorkflowApplication.GetInstance(WWFInstanceId, instanceStore);
+                    FileTable fileTableWF = GetRightFileWF(TableName, processId, instanceInfo);
+                    Activity activity = ChooseActualWorkflow(TableName, fileTableWF, instanceInfo.DefinitionIdentity != null);
+                    LoadAOrCompleteInstance(documentId, DocumentState.Agreement, TrackerType.Active, documentData, instanceStore, activity, instanceInfo, bookmark, currentUser);
+                    DeleteInstanceStoreOwner(instanceStore);
+                    _EmailService.SendExecutorEmail(documentId, documentData.ContainsKey("AdditionalText") ? (string)documentData["AdditionalText"] : "");
+                }
+            }
         }
 
         public void AgreementWorkflowWithdraw(Guid documentId, string tableName, Guid WWFInstanceId, Guid processId)
@@ -452,12 +480,11 @@ namespace RapidDoc.Models.Services
             documentTable.DocumentState = (DocumentState)outputParameters["outputStep"];
             _DocumentService.UpdateDocument(documentTable, currentUserId);
         }
-        public void LoadAOrCompleteInstance(Guid _documentId, DocumentState _state, TrackerType _trackerType, IDictionary<string, object> documentData, SqlWorkflowInstanceStore instanceStore, Activity activity, WorkflowApplicationInstance instanceInfo, string currentUser = "")
+        public void LoadAOrCompleteInstance(Guid _documentId, DocumentState _state, TrackerType _trackerType, IDictionary<string, object> documentData, SqlWorkflowInstanceStore instanceStore, Activity activity, WorkflowApplicationInstance instanceInfo, WFTrackerTable bookmark, string currentUser = "")
         {
             try
             {
                 AutoResetEvent instanceUnloaded = new AutoResetEvent(false);
-                IEnumerable<WFTrackerTable> bookmarks;
                 string currentUserId = HttpContext.Current.User.Identity.GetUserId();
 
                 IDictionary<string, object> inputArguments = new Dictionary<string, object>();
@@ -498,20 +525,14 @@ namespace RapidDoc.Models.Services
 
                 application.Load(instanceInfo);
 
-                bookmarks = _DocumentService.GetCurrentSignStep(_documentId, String.IsNullOrEmpty(currentUser) ? currentUserId : currentUser).ToList();
-                _DocumentService.SaveSignData(bookmarks, _trackerType, String.IsNullOrEmpty(currentUser) ? true : false);
+                //bookmarks = _DocumentService.GetCurrentSignStep(_documentId, String.IsNullOrEmpty(currentUser) ? currentUserId : currentUser).ToList();
+                //_DocumentService.SaveSignData(bookmarks, _trackerType, String.IsNullOrEmpty(currentUser) ? true : false);
+               
+                application.ResumeBookmark(bookmark.ActivityName, inputArguments);
 
-                if (bookmarks != null)
-                {
-                    foreach (var bookmark in bookmarks)
-                    {
-                        application.ResumeBookmark(bookmark.ActivityName, inputArguments);
-
-                        //application.Persist();
-                        instanceUnloaded.WaitOne();             
-                    }
-                }
-
+                //application.Persist();
+                instanceUnloaded.WaitOne();             
+                 
                 DocumentTable documentTable = _DocumentService.Find(_documentId);
                 documentTable.WWFInstanceId = application.Id;
                 documentTable.DocumentState = (DocumentState)outputParameters["outputStep"];
@@ -761,19 +782,6 @@ namespace RapidDoc.Models.Services
                                 allSteps.Add(new string[3] { "Председатель", (++i).ToString(), "" });
                             }
                         }
-
-                        var role = RoleManager.FindByName("ORD_Censor_OKS");
-                        if (role != null)
-                        {
-                            List<WFTrackerUsersTable> protocolRoleList = new List<WFTrackerUsersTable>();
-                            foreach (var userRole in role.Users)
-                            {
-                                protocolRoleList.Add(new WFTrackerUsersTable { UserId = userRole.UserId });
-                            }
-
-                            endListUsers.Add(protocolRoleList);
-                            allSteps.Add(new string[3] { "ОКС", (++i).ToString(), "" });
-                        }
                     }
                 }
 
@@ -958,6 +966,28 @@ namespace RapidDoc.Models.Services
                             }
                         }
                     }
+                }
+            }
+
+            return ofmList;
+        }
+
+        public List<string> EmplAndRolesToReaders(string[] list)
+        {
+            List<string> ofmList = new List<string>();
+
+            foreach (string emplIdStr in list)
+            {
+                Guid emplId = Guid.Parse(emplIdStr);
+                var emplTable = _EmplService.FirstOrDefault(x => x.Id == emplId && x.Enable == true);
+
+                if (emplTable != null && !ofmList.Exists(x => x == emplTable.ApplicationUserId))
+                {
+                    ofmList.Add(emplTable.ApplicationUserId);
+                }
+                else
+                {
+                    ofmList.Add(emplIdStr);
                 }
             }
 

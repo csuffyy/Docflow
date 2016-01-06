@@ -1149,6 +1149,7 @@ namespace RapidDoc.Models.DomainModels
         public DateTime? Date { get; set; }
         public string FullName { get; set; }
         public string OwnMind { get; set; }
+        public string UserChooseManual1 { get; set; }
     }
 
     public class USR_REQ_JU_RequestForExpertise_Table : BasicDocumentTable
@@ -4661,6 +4662,7 @@ namespace RapidDoc.Models.DomainModels
     #region Протоколы
     public class PRT_QuestionList_Table : EntityTable
     {
+        public bool IncludeText { get; set; }
         public string Question { get; set; }
 
         public virtual List<PRT_DecisionList_Table> DecisionList { get; set; }
@@ -4668,6 +4670,7 @@ namespace RapidDoc.Models.DomainModels
 
     public class PRT_DecisionList_Table : EntityTable
     {
+        public int Type { get; set; }
         public string Decision { get; set; }
         public string Users { get; set; }
         public DateTime? ControlDate { get; set; }
@@ -4675,6 +4678,26 @@ namespace RapidDoc.Models.DomainModels
     }
 
     public class USR_PRT_ProtocolDocuments_Table : BasicProtocolDocumentsTable
+    {
+
+    }
+
+    public class USR_PRT_BalanceCommissionDocuments_Table : BasicProtocolDocumentsTable
+    {
+
+    }
+
+    public class USR_PRT_ManagementDocuments_Table : BasicProtocolDocumentsTable
+    {
+
+    }
+
+    public class USR_PRT_TechCommitteeDocuments_Table : BasicProtocolDocumentsTable
+    {
+
+    }
+
+    public class USR_PRT_DirectorateDocuments_Table : BasicProtocolDocumentsTable
     {
 
     }

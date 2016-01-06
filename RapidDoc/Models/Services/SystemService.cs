@@ -19,6 +19,7 @@ namespace RapidDoc.Models.Services
         string DeleteAllSpecialCharacters(string text);
         bool CheckTextExists(string text);
         string DeleteGuidText(string text);
+        string DeleteLastTagSegment(string text);
     }
 
     public class SystemService : ISystemService
@@ -73,6 +74,25 @@ namespace RapidDoc.Models.Services
             var model = string.Join(",", tagsResult);
 
             return model;
+        }
+
+        public string DeleteLastTagSegment(string text)
+        {
+            //if (!String.IsNullOrEmpty(text) && text.Substring(0, 3) == "<p>")
+            if (!String.IsNullOrEmpty(text))
+            {
+                while (text.StartsWith("<p>"))
+                    text = text.Substring(3);
+                while (text.EndsWith("</p>"))
+                    text = text.Substring(0, text.Length - 4);
+
+                while (text.StartsWith("<br>"))
+                    text = text.Substring(4);
+                while (text.EndsWith("<br>"))
+                    text = text.Substring(0, text.Length - 4);
+            }
+
+            return text.Trim();
         }
 
         public bool CheckTextExists(string text)

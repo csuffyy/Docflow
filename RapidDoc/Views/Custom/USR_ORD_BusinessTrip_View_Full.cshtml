@@ -10,6 +10,7 @@
 @Html.HiddenFor(model => model.Country)
 @Html.HiddenFor(model => model.Organization)
 @Html.HiddenFor(model => model.Subject)
+@Html.HiddenFor(model => model.Sign)
 
 <div class="editor-label">
     @Html.LabelFor(model => Model.Workers)
@@ -36,17 +37,23 @@
     </div>
 </div>
 
-<div class="editor-label">
-    @Html.LabelFor(model => Model.BusinessTripType)
-</div>
-<div class="editor-field">
-    @Html.EnumToDescription(Model.BusinessTripType)
-</div>
-<div class="editor-label">
-    @Html.LabelFor(model => Model.BusinessTripCategory)
-</div>
-<div class="editor-field">
-    @Html.EnumToDescription(Model.BusinessTripCategory)
+<div class="row">
+    <div class="col-xs-3">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.BusinessTripType)
+        </div>
+        <div class="editor-field">
+            @Html.EnumToDescription(Model.BusinessTripType)
+        </div>
+    </div>
+    <div class="col-xs-3">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.BusinessTripCategory)
+        </div>
+        <div class="editor-field">
+            @Html.EnumToDescription(Model.BusinessTripCategory)
+        </div>
+    </div>
 </div>
 
 <div class="editor-label">
@@ -187,8 +194,8 @@ else
         </div>
     </div>
 </div>
-
 <hr />
+
 <div class="row">
     @if(!String.IsNullOrEmpty(Model.ControlUsers))
     { 
@@ -249,28 +256,6 @@ else
 </div>
 }
 
-<div class="modal fade deliveryOrder-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="alert_placeholder"></div>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Создание рассылки</h4>
-            </div>
-            <div class="modal-body" style="min-height:250px;">
-                @Html.TextBox("ReceiversOrder", "", new { @class = "form-control", @data_role = "tagsinputEmpl3", @size = 256, @maxlength = 256, placeholder = "Сотрудники" })
-                <br>
-                <div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default pull-right" data-dismiss="modal">@UIElementRes.UIElement.Cancel</button>
-                        <button type="submit" id="rejectCZ" class="btn btn-success pull-left" name="action:DeliveryOrder">@UIElementRes.UIElement.Dispatch</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <h4 class="text-center"><strong>БҰЙРЫҚ</strong></h4>
 <h4 class="text-center"><strong>№ @Html.DisplayTextFor(x => x.OrderNum)</strong></h4>
 <h5 class="text-center"><strong>@Html.FormatValue(Model.OrderDate, "{0:dd.MM.yyyy}") ж.</strong></h5>
@@ -304,6 +289,12 @@ else
 </div>
 <br />
 <h6><span style="white-space: pre-line">@Html.Raw(Model.ListFileName)</span></h6>
+<div class="editor-label">
+    @Html.LabelFor(model => Model.ListSubcription)
+</div>
+<div class="editor-field">
+    @Html.HtmlDisplayTagsFor(model => Model.ListSubcription)
+</div>
 
 
 

@@ -6,8 +6,12 @@
 @Html.HiddenFor(model => model.NeedTranslate)
 @Html.HiddenFor(model => model.ListAgreement)
 @Html.HiddenFor(model => model.ListSubcription)
+@Html.HiddenFor(model => model.AddReaders)
+@Html.HiddenFor(model => model.AddAttachment)
 @Html.HiddenFor(model => model.CountDays)
 @Html.HiddenFor(model => model.Subject)
+@Html.HiddenFor(model => model.SignName)
+@Html.HiddenFor(model => model.OrderNum)
 
 <h4>Ввод работников:</h4>
 
@@ -80,17 +84,23 @@
 <br />
 <div class="alert_placeholderDate"></div>
 
-<div class="editor-label">
-    @Html.LabelForRequired(model => Model.BusinessTripType)
-</div>
-<div class="editor-field">
-    @Html.EnumDropDownListFor(model => Model.BusinessTripType, new { @class = "selectpicker" })
-</div>
-<div class="editor-label">
-    @Html.LabelForRequired(model => Model.BusinessTripCategory)
-</div>
-<div class="editor-field">
-    @Html.EnumDropDownListFor(model => Model.BusinessTripCategory, new { @class = "selectpicker" })
+<div class="row">
+    <div class="col-xs-3">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.BusinessTripType)
+        </div>
+        <div class="editor-field">
+            @Html.EnumDropDownListFor(model => Model.BusinessTripType, new { @class = "selectpickerfull" })
+        </div>
+    </div>
+    <div class="col-xs-3">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.BusinessTripCategory)
+        </div>
+        <div class="editor-field">
+            @Html.EnumDropDownListFor(model => Model.BusinessTripCategory, new { @class = "selectpickerfull" })
+        </div>
+    </div>
 </div>
 
 <div class="editor-label">
@@ -233,6 +243,30 @@
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Addition)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.Addition)
+        </div>
+    </div>
+    <div id="additiontextid" style="visibility: hidden">
+        <div class="col-xs-10">
+            <div class="editor-label">
+                @Html.LabelForRequired(model => Model.Addition)
+            </div>
+            @Html.Action("GetAdditionORD", "Custom", new { id = Model.AdditionDocumentId, edit = true })
+        </div>
+    </div>
+</div>
+<div class="editor-label">
+    @Html.LabelFor(model => Model.ListSubcription)
+</div>
+<div class="editor-field">
+    @Html.HtmlDisplayTagsFor(model => Model.ListSubcription)
+</div>
 <hr />
 <h4>БҰЙРЫҚ</h4>
 <div class="editor-field">
@@ -264,17 +298,37 @@
 
 <script type="text/javascript">
     $(function () {
+        if ($('#CountryTableId').val() != '') 
+            $('#Country')[0].disabled = true;
+
+        if ($('#OrganizationTableId').val() != '') 
+            $('#Organization')[0].disabled = true;
+
         @if(Model.CancelOrder == false)
         {
             <text>
-            var buttoncancelorderstatus = true;
+        var buttoncancelorderstatus = true;
+        </text>
+        }
+        else
+        {
+            <text>
+        var buttoncancelorderstatus = false;
+        document.getElementById('buttoncancelorder').style.visibility = 'visible';
+        </text>
+        }
+
+        @if(Model.Addition == false)
+        {
+            <text>
+            var buttonadditionorderstatus = true;
             </text>
         }
         else
         {
             <text>
-            var buttoncancelorderstatus = false;
-            document.getElementById('buttoncancelorder').style.visibility = 'visible';
+            var buttonadditionorderstatus = false;
+            document.getElementById('additiontextid').style.visibility = 'visible';
             </text>
         }
 
@@ -284,6 +338,15 @@
                 document.getElementById('buttoncancelorder').style.visibility = 'hidden';
             } else {
                 document.getElementById('buttoncancelorder').style.visibility = 'visible';
+            }
+        });
+
+        $('#Addition').click(function (event) {
+            buttonadditionorderstatus = !buttonadditionorderstatus;
+            if (buttonadditionorderstatus) {
+                document.getElementById('additiontextid').style.visibility = 'hidden';
+            } else {
+                document.getElementById('additiontextid').style.visibility = 'visible';
             }
         });
 

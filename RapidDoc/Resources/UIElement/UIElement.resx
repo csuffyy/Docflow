@@ -628,7 +628,7 @@
     <value>Приказы</value>
   </data>
   <data name="TaskBase" xml:space="preserve">
-    <value>Задачи</value>
+    <value>Поручения</value>
   </data>
   <data name="IncomingBase" xml:space="preserve">
     <value>Входящая корреспонденция</value>
@@ -640,12 +640,18 @@
     <value>Исходящая корреспонденция</value>
   </data>
   <data name="TaskReport" xml:space="preserve">
-    <value>Отчет по задачам</value>
+    <value>Отчет по поручениям</value>
   </data>
   <data name="ProtocolFolders" xml:space="preserve">
     <value>Протокольные папки</value>
   </data>
   <data name="ProtocolBase" xml:space="preserve">
     <value>Протоколы</value>
+  </data>
+  <data name="ReturnTask" xml:space="preserve">
+    <value>Вернуть задачу</value>
+  </data>
+  <data name="MyFavorite" xml:space="preserve">
+    <value>Избранное</value>
   </data>
 </root>

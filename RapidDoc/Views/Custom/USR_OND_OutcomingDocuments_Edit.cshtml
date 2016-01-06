@@ -75,7 +75,19 @@
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.NeedTranslate):
+        </div>
+    </div>
 
+    <div class="col-xs-2">
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.NeedTranslate)
+        </div>
+    </div>
+</div>
 <br />
 
 <div class="row">
@@ -200,47 +212,56 @@
     @Html.TextBoxFor(model => Model.DocumentSubject, new { @class = "form-control", placeholder = "Тема документа" })
 </div>
 
-<div class="modal fade itemcause-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sidebar">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">@CustomRes.Custom.ItemCause</h4>
-            </div>
-            <div class="modal-body" style="min-height:700px;">
-                @Html.Action("ItemCausesListLookup", "ItemCause")
-            </div>
-        </div>
+<div class="editor-label">
+    <div class="editor-label">
+        @Html.LabelForRequired(model => Model.Content)
+    </div>
+    <div>
+        @Html.TextAreaFor(model => Model.Content, new { @class = "form-control summernotemin", placeholder = "" })
     </div>
 </div>
 
-<script type="text/javascript">
-    $(function () {
-        $('.itemcauseslink').click(function (event) {
-            var element = $(event.target);
-            $('#ItemCauseTableId').val(element.attr('data-itemid'));
-            $('#ItemCauseNumber').text(element.text());
-        });
+    <div class="modal fade itemcause-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sidebar">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">@CustomRes.Custom.ItemCause</h4>
+                </div>
+                <div class="modal-body" style="min-height:700px;">
+                    @Html.Action("ItemCausesListLookup", "ItemCause")
+                </div>
+            </div>
+        </div>
+    </div>
 
-        $('#OutcomingDispatchType').change(function (event) {
-            if ($('#OutcomingDispatchType').val() == 0) {
-                $('#DispatchType')[0].disabled = false;
-            }
-            else {
-                $('#DispatchType')[0].disabled = true;
-                $('#DispatchType').val("");
-            }
-        });
+    <script type="text/javascript">
+        $(function () {
+            $('.itemcauseslink').click(function (event) {
+                var element = $(event.target);
+                $('#ItemCauseTableId').val(element.attr('data-itemid'));
+                $('#ItemCauseNumber').text(element.text());
+            });
 
-        $('#DocumentType').change(function (event) {
-            var amount = $('#DocumentType').val();
-            if ($('#DocumentType').val() == 0) {
-                $('#DocumentTypeName')[0].disabled = false;
-            }
-            else {
-                $('#DocumentTypeName')[0].disabled = true;
-                $('#DocumentTypeName').val("");
-            }
+            $('#OutcomingDispatchType').change(function (event) {
+                if ($('#OutcomingDispatchType').val() == 0) {
+                    $('#DispatchType')[0].disabled = false;
+                }
+                else {
+                    $('#DispatchType')[0].disabled = true;
+                    $('#DispatchType').val("");
+                }
+            });
+
+            $('#DocumentType').change(function (event) {
+                var amount = $('#DocumentType').val();
+                if ($('#DocumentType').val() == 0) {
+                    $('#DocumentTypeName')[0].disabled = false;
+                }
+                else {
+                    $('#DocumentTypeName')[0].disabled = true;
+                    $('#DocumentTypeName').val("");
+                }
+            });
         });
-    });
-</script>
+    </script>

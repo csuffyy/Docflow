@@ -443,6 +443,15 @@ fieldset[disabled] .form-control {
   line-height: 1.083;
 }
 
+.btn-link {
+  color: #008cba;
+}
+
+.btn-link:hover,
+.btn-link:focus {
+  color: #008cba;
+}
+
 .bs-callout {
   margin: 20px 0;
   padding: 20px;
@@ -638,4 +647,23 @@ input.labelauty + label > span.labelauty-checked
 .table-min > tfoot > tr > td {
     padding: 0;
     padding-left: 5px;
+}
+
+input[type='checkbox'].pseudo-checkbox + label:before,
+input[type='checkbox'].pseudo-checkbox + label:after{
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+input[type='checkbox'].pseudo-checkbox + label:before{/*unchecked icon*/
+    content: "\e007";
+}
+input[type='checkbox']:checked.pseudo-checkbox + label:before{/*checked icon*/
+    content: "\e006";
 }

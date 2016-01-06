@@ -6,6 +6,10 @@
 @Html.HiddenFor(model => model.NeedTranslate)
 @Html.HiddenFor(model => model.ListAgreement)
 @Html.HiddenFor(model => model.ListSubcription)
+@Html.HiddenFor(model => model.AddReaders)
+@Html.HiddenFor(model => model.AddAttachment)
+@Html.HiddenFor(model => model.SignName)
+@Html.HiddenFor(model => model.OrderNum)
 
 <div class="row">
     <div class="col-xs-2">
@@ -61,6 +65,30 @@
             </div>
         </div>
     </div>
+</div>
+<div class="row">
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Addition)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.Addition)
+        </div>
+    </div>
+    <div id="additiontextid" style="visibility: hidden">
+        <div class="col-xs-10">
+            <div class="editor-label">
+                @Html.LabelForRequired(model => Model.Addition)
+            </div>
+            @Html.Action("GetAdditionORD", "Custom", new { id = Model.AdditionDocumentId, edit = true })
+        </div>
+    </div>
+</div>
+<div class="editor-label">
+    @Html.LabelFor(model => Model.ListSubcription)
+</div>
+<div class="editor-field">
+    @Html.HtmlDisplayTagsFor(model => Model.ListSubcription)
 </div>
 <hr />
 <div class="form-group">
@@ -118,8 +146,8 @@
         @if(Model.CancelOrder == false)
         {
             <text>
-            var buttoncancelorderstatus = true;
-            </text>
+        var buttoncancelorderstatus = true;
+        </text>
         }
         else
         {
@@ -129,12 +157,35 @@
             </text>
         }
 
+        @if(Model.Addition == false)
+        {
+            <text>
+            var buttonadditionorderstatus = true;
+            </text>
+        }
+        else
+        {
+            <text>
+            var buttonadditionorderstatus = false;
+            document.getElementById('additiontextid').style.visibility = 'visible';
+            </text>
+        }
+
         $('#CancelOrder').click(function (event) {
             buttoncancelorderstatus = !buttoncancelorderstatus;
             if (buttoncancelorderstatus) {
                 document.getElementById('buttoncancelorder').style.visibility = 'hidden';
             } else {
                 document.getElementById('buttoncancelorder').style.visibility = 'visible';
+            }
+        });
+
+        $('#Addition').click(function (event) {
+            buttonadditionorderstatus = !buttonadditionorderstatus;
+            if (buttonadditionorderstatus) {
+                document.getElementById('additiontextid').style.visibility = 'hidden';
+            } else {
+                document.getElementById('additiontextid').style.visibility = 'visible';
             }
         });
 

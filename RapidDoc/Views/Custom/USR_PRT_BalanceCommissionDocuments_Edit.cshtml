@@ -1,0 +1,213 @@
+﻿@model RapidDoc.Models.ViewModels.USR_PRT_BalanceCommissionDocuments_View
+@using RapidDoc.Extensions;
+
+@{
+    if (Model.QuestionList == null || Model.QuestionList.Count() == 0)
+    {
+        Model.QuestionList = new List<RapidDoc.Models.DomainModels.PRT_QuestionList_Table>();
+        Model.QuestionList.Add(new RapidDoc.Models.DomainModels.PRT_QuestionList_Table());
+        //Model.QuestionList.Add(new RapidDoc.Models.DomainModels.PRT_QuestionList_Table() { DecisionList = new List<RapidDoc.Models.DomainModels.PRT_DecisionList_Table>() });
+        //Model.QuestionList.FirstOrDefault().DecisionList.Add(new RapidDoc.Models.DomainModels.PRT_DecisionList_Table());
+    }
+}
+
+@Html.ValidationSummary(true)
+<div class="row">
+    <div class="col-xs-12">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.ProtocolFoldersTableId)
+        </div>
+        <div class="editor-field">
+            @Html.Action("GetPRTFolderORD", "Custom", new { @processId = ViewBag.ProcessId, id = Model.ProtocolFoldersTableId })
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Subject)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => Model.Subject, new { @class = "form-control", placeholder = "Тема документа" })
+        </div>
+
+        <div class="row">
+            <div class="col-xs-8">
+                <div class="editor-label">
+                    @Html.LabelForRequired(model => Model.Location)
+                </div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => Model.Location, new { @class = "form-control", placeholder = "Место проведения" })
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <div class="editor-label">
+                    @Html.LabelForRequired(model => Model.Duration)
+                </div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => Model.Duration, new { @class = "form-control", placeholder = "30 мин" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br />
+<div class="panel panel-default">
+    <h6><small class="text-danger"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Для ручного ввода ФИО - Должность, в полях "Присутствовали", "Приглашенные", "Отсутствовали", которых нет в справочнике нужно ввести текст и нажать Enter. Не используйте запятую в тексте!</small></h6>
+    <div class="editor-label">
+        @Html.LabelForRequired(model => Model.Attended)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(model => Model.Attended, new { @class = "form-control", @data_role = "tagsinputEmplBothOpt", placeholder = "Присутствовали" })
+    </div>
+    <div class="editor-label">
+        @Html.LabelForRequired(model => Model.Invited)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(model => Model.Invited, new { @class = "form-control", @data_role = "tagsinputEmplBothOpt1", placeholder = "Приглашенные" })
+    </div>
+    <div class="editor-label">
+        @Html.LabelForRequired(model => Model.Absent)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(model => Model.Absent, new { @class = "form-control", @data_role = "tagsinputEmplBothOpt2", placeholder = "Отсутствовали" })
+    </div>
+    <div class="editor-label">
+        @Html.LabelForRequired(model => Model.Chairman)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(model => Model.Chairman, new { @class = "form-control", @data_role = "tagsinputEmplOne", placeholder = "Председатель" })
+    </div>
+    <div class="editor-label">
+        @Html.LabelForRequired(model => Model.ListAgreement)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(model => Model.ListAgreement, new { @class = "form-control", @data_role = "tagsinputEmpl", placeholder = "Маршрут согласования" })
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Agenda)
+        </div>
+        <div class="editor-field">
+            @Html.TextAreaFor(model => Model.Agenda, new { @class = "form-control", placeholder = "Повестка совещания" })
+        </div>
+    </div>
+</div>
+
+<hr />
+<div class="row">
+    <div class="col-xs-12">
+        @if (Model.QuestionList != null && Model.QuestionList.Count() > 0)
+        {
+            <div id="questionRow" class="questionRow">
+                @foreach (var question in Model.QuestionList)
+                {
+                    Html.RenderPartial("~/Views/Custom/_QuestionList.cshtml", question, new ViewDataDictionary { { "counter", Guid.NewGuid().ToString("N") }, { "documentId", Model.DocumentTableId } });
+                }
+            </div>
+        }
+        @Html.ActionLink("Добавить вопрос", "CreateNewQuestionProtocol", "Custom", null, new { id = "addItemQuestion", @class = "addItemQuestion btn btn-link" })
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        numberQuestion();
+        numberDecision();
+        $(".addItemQuestion").click(function () {
+            $(".addItemQuestion").toggleClass('disabled', true);
+            $(".addItemDecision").toggleClass('disabled', true);
+
+            $.ajax({
+                url: this.href,
+                cache: false,
+                success: function (html) {
+                    $("#questionRow").append(html);
+                    datepicker_init("@UIElementRes.UIElement.LangName");
+                    custom_tagsinputEmplDynamic_init("@Url.Action("JsonEmpl", "Custom")");
+                    summernotelight_init("@UIElementRes.UIElement.LangFullName");
+                    checkbox_init('@UIElementRes.UIElement.Yes', '@UIElementRes.UIElement.No');
+                    numberQuestion();
+                    numberDecision();
+
+                    $(".addItemQuestion").toggleClass('disabled', false);
+                    $(".addItemDecision").toggleClass('disabled', false);
+                }
+            });
+            return false;
+        });
+    });
+
+    $(document).on('click', '.addItemDecision', function () {
+        var itemdecisionid = event.target.id;
+        itemdecisionid = itemdecisionid.replace("addItemDecision_", "decisionRow_");
+
+        $(".addItemQuestion").toggleClass('disabled', true);
+        $(".addItemDecision").toggleClass('disabled', true);
+
+        $.ajax({
+            url: this.href,
+            cache: false,
+            success: function (html) {
+                $("#" + itemdecisionid).append(html);
+                datepicker_init("@UIElementRes.UIElement.LangName");
+                custom_tagsinputEmplDynamic_init("@Url.Action("JsonEmpl", "Custom")");
+                summernotelight_init("@UIElementRes.UIElement.LangFullName");
+                checkbox_init('@UIElementRes.UIElement.Yes', '@UIElementRes.UIElement.No');
+                numberDecision();
+
+                $('input:radio').change(function () {
+                    numberDecision();
+                });
+
+                $(".addItemQuestion").toggleClass('disabled', false);
+                $(".addItemDecision").toggleClass('disabled', false);
+            }
+        });
+        return false;
+    });
+
+    function numberQuestion() {
+        var prtQuestionNumber = 0;
+        $('.questionNumber').each(function (i) {
+            prtQuestionNumber = i + 1;
+            $(this).text(prtQuestionNumber);
+        });
+    }
+
+    function numberDecision() {
+        var prtDecisionNumber = 0;
+        var prtDecisionNumber2 = 0;
+        var prtDecisionNumber3 = 0;
+        $('.decisionNumber').each(function (i) {
+            if ($(this).closest('label').find('input:checked').val() != undefined) {
+                prtDecisionNumber = prtDecisionNumber + 1;
+                $(this).text('№' + prtDecisionNumber);
+            }
+            else {
+                $(this).text('');
+            }
+        });
+
+        $('.decisionTwoNumber').each(function (i) {
+            if ($(this).closest('label').find('input:checked').val() != undefined) {
+                prtDecisionNumber2 = prtDecisionNumber2 + 1;
+                $(this).text('№' + prtDecisionNumber2);
+            }
+            else {
+                $(this).text('');
+            }
+        });
+
+        $('.decisionThreeNumber').each(function (i) {
+            if ($(this).closest('label').find('input:checked').val() != undefined) {
+                prtDecisionNumber3 = prtDecisionNumber3 + 1;
+                $(this).text('№' + prtDecisionNumber3);
+            }
+            else {
+                $(this).text('');
+            }
+        });
+    }
+</script>

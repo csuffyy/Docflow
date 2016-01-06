@@ -1,6 +1,21 @@
 ﻿@model RapidDoc.Models.ViewModels.USR_APP_AppealDocuments_View
 @using RapidDoc.Extensions;
 
+@Html.HiddenFor(model => model.TypeAppealAddition)
+@Html.HiddenFor(model => model.TypeAppeal)
+@Html.HiddenFor(model => model.CharacterQuestionAddition)
+@Html.HiddenFor(model => model.CharacterQuestion)
+@Html.HiddenFor(model => model.Language_Kazakh)
+@Html.HiddenFor(model => model.Language_Russian)
+@Html.HiddenFor(model => model.Language_English)
+@Html.HiddenFor(model => model.Language_Chinese)
+@Html.HiddenFor(model => model.Language_French)
+@Html.HiddenFor(model => model.Language_Other)
+@Html.HiddenFor(model => model.RegistrationNum)
+@Html.HiddenFor(model => model.ExecutionDate)
+@Html.HiddenFor(model => model.Whom)
+
+
 <div class="row">
     <div class="col-xs-2 col-xs-offset-11">
         <div class="editor-label">
@@ -229,12 +244,6 @@
         </div>
     </div>
     <div class="col-xs-6">
-        <div class="editor-label">
-            @Html.LabelFor(model => Model.Content)
-        </div>
-        <div>
-            @Html.DisplayTextFor(model => Model.Content)
-        </div>
         <div class="editor-label">
             @Html.LabelFor(model => model.ReasonRequestTableId)
         </div>

@@ -278,10 +278,13 @@ namespace RapidDoc.Models.Services
                         NumberSeriesBookingTable numberSeqBookingTable = FirstOrDefaultBooking(x => x.Id == bookingNumberId);
                         numberSeqBookingTable.Enable = false;
                         SaveDomainBooking(numberSeqBookingTable, currentUserId);
+                        /*
                         if (numberSeqBookingTable.LastNum < 9)
                             lastnum = numberSeqBookingTable.LastNum.ToString("D" + 2.ToString());
                         else
                             lastnum = numberSeqBookingTable.LastNum.ToString();
+                        */
+                        lastnum = numberSeqBookingTable.LastNum.ToString();
 
                         if (String.IsNullOrEmpty(numberSeqBookingTable.Prefix))
                             num = lastnum;
@@ -298,10 +301,13 @@ namespace RapidDoc.Models.Services
                         while (BookingContains(x => x.LastNum == numberSeq.LastNum && x.NumberSeriesTableId == numberSeq.Id));
                         
                         SaveDomain(numberSeq, currentUserId);
+                        /*
                         if (numberSeq.LastNum < 9)
                             lastnum = numberSeq.LastNum.ToString("D" + 2.ToString());
                         else
                             lastnum = numberSeq.LastNum.ToString();
+                        */
+                        lastnum = numberSeq.LastNum.ToString();
 
                         if (String.IsNullOrEmpty(numberSeq.Prefix))
                             num = lastnum;

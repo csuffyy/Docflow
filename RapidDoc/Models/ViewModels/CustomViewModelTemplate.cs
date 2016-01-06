@@ -137,6 +137,10 @@ namespace RapidDoc.Models.ViewModels
 
         [Display(Name = "Список рассылки")]      
         public string ListSubcription { get; set; }
+        [Display(Name = "Читатели")]
+        public bool AddReaders { get; set; }
+        [Display(Name = "Приложения")]
+        public bool AddAttachment { get; set; }
 
         [Display(Name = "Срок исполнения")]
         public DateTime? ControlDate { get; set; }
@@ -328,6 +332,9 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Тип документа")]
         public string DocumentTypeName { get; set; }
 
+        [Display(Name = "Дополнение")]
+        public string Content { get; set; }
+
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         [Display(Name = "Номенклатурное дело")]
         public Guid? ItemCauseTableId { get; set; }
@@ -338,6 +345,9 @@ namespace RapidDoc.Models.ViewModels
 
         [Display(Name = "Номенклатурное дело")]
         public string ItemCauseNumberCode { get; set; }
+
+        [Display(Name = "Требуется перевод")]
+        public bool NeedTranslate { get; set; }
     }
 
     public abstract class BasicAppealDocumentsView : BasicDocumentView
@@ -428,9 +438,6 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Номенклатурное дело")]
         public string ItemCauseNumberCode { get; set; }
 
-        [Display(Name = "Содержание")]
-        public string Content { get; set; }
-
         [Display(Name = "Причина обращения")]
         public Guid? ReasonRequestTableId { get; set; }
 
@@ -452,17 +459,14 @@ namespace RapidDoc.Models.ViewModels
 
     public abstract class BasicProtocolDocumentsView : BasicDocumentView
     {
-        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
-        [Display(Name = "Код")]
-        public string Code { get; set; }
-
         [Display(Name = "Папка")]
         public Guid? ProtocolFoldersTableId { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
-        [Display(Name = "Тема документа")]
+        [Display(Name = "Наименование заседания, номер")]
         public string Subject { get; set; }
 
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         [Display(Name = "Место проведения")]
         public string Location { get; set; }
 
@@ -490,6 +494,10 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Список согласования")]
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         public string ListAgreement { get; set; }
+
+        [Display(Name = "Время проведения совещания")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string Duration { get; set; }
 
         public List<RapidDoc.Models.DomainModels.PRT_QuestionList_Table> QuestionList { get; set; }
     }

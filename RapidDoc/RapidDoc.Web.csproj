@@ -336,6 +336,7 @@
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Extensions\DefaultScaffoldingExtensions.cs" />
     <Compile Include="Extensions\ExceptionExtensions.cs" />
+    <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Extensions\HtmlExtensions.cs" />
     <Compile Include="Extensions\UrlHelperExtensions.cs" />
     <Compile Include="Filters\CultureAttribute.cs" />
@@ -350,6 +351,7 @@
     <Compile Include="Models\DomainModels\CustomDomainModelTemplate.cs" />
     <Compile Include="Models\DomainModels\UsrRequestDomainModels.cs" />
     <Compile Include="Models\Grids\CountryAjaxPagingGrid.cs" />
+    <Compile Include="Models\Grids\MyFavoriteAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\MyTaskAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\MyDocumentAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\AjaxGridPager.cs" />
@@ -387,6 +389,7 @@
     <Compile Include="Models\Interfaces\IDbContext.cs" />
     <Compile Include="Models\Interfaces\IUnitOfWork.cs" />
     <Compile Include="Models\Repository\CompanyConstraint.cs" />
+    <Compile Include="Models\Services\DocumentSubcriptionService.cs" />
     <Compile Include="Models\Services\ProtocolFoldersService.cs" />
     <Compile Include="Models\Services\QuestionRequestService.cs" />
     <Compile Include="Models\Services\ReasonRequestService.cs" />
@@ -1958,6 +1961,20 @@
     <Content Include="Views\TripMRP\Index.cshtml" />
     <Content Include="Views\Custom\USR_REQ_JU_RequestForCopyDocument_View.cshtml" />
     <Content Include="Views\Custom\USR_REQ_JU_RequestForCopyDocument_Edit.cshtml" />
+    <Content Include="Views\Document\_FileList.cshtml" />
+    <Content Include="Views\Report\PdfReportProtocol.cshtml" />
+    <Content Include="Views\Custom\USR_PRT_DecisionText.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_JU_RequestForExplanationNormalAct_Edit_Manual.cshtml" />
+    <Content Include="Views\Document\MyFavorite.cshtml" />
+    <Content Include="Views\Document\ShowSubscriberList.cshtml" />
+    <Content Include="Views\Custom\USR_PRT_BalanceCommissionDocuments_View.cshtml" />
+    <Content Include="Views\Custom\USR_PRT_BalanceCommissionDocuments_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_PRT_ManagementDocuments_View.cshtml" />
+    <Content Include="Views\Custom\USR_PRT_ManagementDocuments_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_PRT_TechCommitteeDocuments_View.cshtml" />
+    <Content Include="Views\Custom\USR_PRT_TechCommitteeDocuments_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_PRT_DirectorateDocuments_View.cshtml" />
+    <Content Include="Views\Custom\USR_PRT_DirectorateDocuments_Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -2041,6 +2058,22 @@
       <Generator>MSBuild:Compile</Generator>
     </XamlAppDef>
     <XamlAppDef Include="Activities\USR_OFM_UIT_OfficeMemo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </XamlAppDef>
+    <XamlAppDef Include="Activities\USR_PRT_BalanceCommissionDocuments.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </XamlAppDef>
+    <XamlAppDef Include="Activities\USR_PRT_DirectorateDocuments.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </XamlAppDef>
+    <XamlAppDef Include="Activities\USR_PRT_ManagementDocuments.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </XamlAppDef>
+    <XamlAppDef Include="Activities\USR_PRT_TechCommitteeDocuments.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </XamlAppDef>

@@ -130,6 +130,8 @@ namespace RapidDoc.Models.ViewModels
 
         public bool isArchive { get; set; }
 
+        public bool isFavorite { get; set; }
+
         public bool isSign { get; set; }
 
         public bool isShow { get; set; }
@@ -475,4 +477,21 @@ namespace RapidDoc.Models.ViewModels
         public string CreateProlongTaskDate { get; set; }
     }
 
+    public class DocumentSubscriptionListView : BasicView
+    {
+        [Display(Name = "Номер документа")]
+        public string DocumentNum { get; set; }
+
+        public Guid DocumentTableId { get; set; }       
+
+        [Display(Name = "Имя пользователя")]
+        public string UserName { get; set; }
+
+        [Display(Name = "Имя создавшего")]
+        public string CreateUserName { get; set; }
+
+        public string UserId { get; set; }
+
+        public DateTime? LogDate { get; set; }
+    }
 }
