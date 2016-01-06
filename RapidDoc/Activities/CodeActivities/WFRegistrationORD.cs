@@ -156,7 +156,7 @@ namespace RapidDoc.Activities.CodeActivities
 
                     string[] usersAndRoles = _service.GetUserListFromStructure((string)documentData["ListSubcription"]);
                     List<string> users = _serviceWorkflow.EmplAndRolesToUserList(usersAndRoles);
-                    _serviceDocumentSubcriptionService.SaveSubscriber(documentId, users.ToArray(), currentUserId);
+                    _serviceDocumentSubcriptionService.SaveSubscriberMapper(documentId, users.ToArray(), currentUserId);
                     IEmailService _EmailService = DependencyResolver.Current.GetService<IEmailService>();
                     var documentModel = _service.GetDocumentView(document.RefDocumentId, document.ProcessTable.TableName);
                     if ((bool)documentData["AddReaders"] == true)

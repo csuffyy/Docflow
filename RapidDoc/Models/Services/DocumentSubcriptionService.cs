@@ -13,6 +13,7 @@ using System.Linq.Expressions;
 using System.Transactions;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Data;
 
 namespace RapidDoc.Models.Services
 {
@@ -23,6 +24,7 @@ namespace RapidDoc.Models.Services
         DocumentSubcriptionListTable FirstOrDefault(Expression<Func<DocumentSubcriptionListTable, bool>> predicate);
         bool Contains(Expression<Func<DocumentSubcriptionListTable, bool>> predicate);
         void SaveSubscriber(Guid documentId, string[] listdata, string currentUserId);
+        void SaveSubscriberMapper(Guid documentId, string[] listdata, string currentUserId);
         void AddSubscriber(Guid documentId, List<IdentityUserRole> listdata);
         void SaveDomain(DocumentSubcriptionListTable domainTable, string currentUserId);
         void Delete(Guid documentId);
@@ -82,6 +84,45 @@ namespace RapidDoc.Models.Services
                 }
             }
          }
+
+        public void SaveSubscriberMapper(Guid documentId, string[] listdata, string currentUserId)
+        {
+            DateTime createdDate = DateTime.UtcNow;
+            using (var bcp = new System.Data.SqlClient.SqlBulkCopy(System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
+            {
+                bcp.BatchSize = listdata.Count();
+                bcp.DestinationTableName = "[dbo].[DocumentSubcriptionListTable]";
+                DataTable table = new DataTable();
+                table.Columns.Add("Id", typeof(Guid));
+                table.Columns.Add("DocumentTableId", typeof(Guid));
+                table.Columns.Add("UserId", typeof(string));               
+                table.Columns.Add("ApplicationUserCreatedId", typeof(string));
+                table.Columns.Add("ApplicationUserModifiedId", typeof(string));
+                table.Columns.Add("TimeStamp", typeof(Byte[]));
+                table.Columns.Add("CreatedDate", typeof(DateTime));
+                table.Columns.Add("ModifiedDate", typeof(DateTime));
+
+                int num = 0;
+                foreach (string userId in listdata)
+                {
+                    num++;
+                    DataRow row = table.NewRow();
+                    row["Id"] = Guid.NewGuid();
+                    row["DocumentTableId"] = documentId;
+                    row["UserId"] = userId;                                      
+                    row["ApplicationUserCreatedId"] = currentUserId;
+                    row["ApplicationUserModifiedId"] = currentUserId;
+                    row["TimeStamp"] = DBNull.Value;
+                    row["CreatedDate"] = createdDate;
+                    row["ModifiedDate"] = createdDate;
+
+                    table.Rows.Add(row);
+                }
+
+                bcp.WriteToServer(table);
+                _uow.Commit();
+            }
+        }
 
         public void AddSubscriber(Guid documentId, List<IdentityUserRole> listdata)
         {
