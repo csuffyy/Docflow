@@ -44,4 +44,31 @@
     </div>
 </div>
 
+<div class="modal fade deliveryOrder-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="alert_placeholder"></div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Создание рассылки</h4>
+            </div>
+            <div class="modal-body" style="min-height:250px;">
+                @Html.TextBox("ReceiversOrder", "", new { @class = "form-control", @data_role = "tagsinputGroup2", @size = 256, @maxlength = 256, placeholder = "Сотрудники" })
+                <br>
+                <span>
+                    @Html.CheckBox("AddReaders", false, new { @data_labelauty = "Читателем|Читателем" })
+                    @Html.CheckBox("AddAttachment", false, new { @data_labelauty = "Приложение|Приложение" })
+                </span>
+                <br>
+                <div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default pull-right" data-dismiss="modal">@UIElementRes.UIElement.Cancel</button>
+                        <button type="submit" id="deliveryOrderBtnId" class="btn btn-success pull-left" name="action:DeliveryOrder">@UIElementRes.UIElement.Dispatch</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 

@@ -1378,7 +1378,7 @@ namespace RapidDoc.Models.Services
                     double residenceRate = Double.Parse(tripSettingsTable.ResidenceRate, CultureInfo.InvariantCulture);
                     double dayRate = Double.Parse(tripSettingsTable.DayRate, CultureInfo.InvariantCulture) * Double.Parse(mrp.Amount, CultureInfo.InvariantCulture);
 
-                    actionModel.DayRate1 = (int)dayRate;
+                    actionModel.DayRate1 = (int)Math.Ceiling(dayRate);
                     actionModel.ResidenceRate1 = (int)residenceRate;
                 }
 
@@ -1390,7 +1390,7 @@ namespace RapidDoc.Models.Services
                     double residenceRate = Double.Parse(tripSettingsTable.ResidenceRate, CultureInfo.InvariantCulture);
                     double dayRate = Double.Parse(tripSettingsTable.DayRate, CultureInfo.InvariantCulture) * Double.Parse(mrp.Amount, CultureInfo.InvariantCulture);
 
-                    actionModel.DayRate2 = (int)dayRate;
+                    actionModel.DayRate2 = (int)Math.Ceiling(dayRate);
                     actionModel.ResidenceRate2 = (int)residenceRate;
                 }
 
@@ -1402,7 +1402,7 @@ namespace RapidDoc.Models.Services
                     double residenceRate = Double.Parse(tripSettingsTable.ResidenceRate, CultureInfo.InvariantCulture);
                     double dayRate = Double.Parse(tripSettingsTable.DayRate, CultureInfo.InvariantCulture) * Double.Parse(mrp.Amount, CultureInfo.InvariantCulture);
 
-                    actionModel.DayRate3 = (int)dayRate;
+                    actionModel.DayRate3 = (int)Math.Ceiling(dayRate);
                     actionModel.ResidenceRate3 = (int)residenceRate;
                 }
 
@@ -1414,7 +1414,7 @@ namespace RapidDoc.Models.Services
                     double residenceRate = Double.Parse(tripSettingsTable.ResidenceRate, CultureInfo.InvariantCulture);
                     double dayRate = Double.Parse(tripSettingsTable.DayRate, CultureInfo.InvariantCulture) * Double.Parse(mrp.Amount, CultureInfo.InvariantCulture);
 
-                    actionModel.DayRate4 = (int)dayRate;
+                    actionModel.DayRate4 = (int)Math.Ceiling(dayRate);
                     actionModel.ResidenceRate4 = (int)residenceRate;
                 }
             }

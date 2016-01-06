@@ -24,6 +24,7 @@ namespace RapidDoc.Models.Services
         bool Contains(Expression<Func<DocumentReaderTable, bool>> predicate);
         bool ContainsRoleUser(Guid documentId, string userId);
         List<string> SaveReader(Guid documentId, string[] listdata, string currentUserId);
+        List<string> SaveOrderReader(Guid documentId, string[] listdata, string currentUserId);
         List<string> AddReader(Guid documentId, List<IdentityUserRole> listdata);
         void SaveDomain(DocumentReaderTable domainTable, string currentUserId = "");
         void Delete(Guid documentId);
@@ -166,6 +167,58 @@ namespace RapidDoc.Models.Services
             if (removeReadersDescription.Length > 0)
             {
                 _HistoryUserService.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = HistoryType.RemoveReader, Description = removeReadersDescription }, currentUserId);
+            }
+
+            return newReader;
+        }
+
+        public List<string> SaveOrderReader(Guid documentId, string[] listdata, string currentUserId)
+        {
+            List<string> newReader = new List<string>();
+            string addReadersDescription = String.Empty;
+            ApplicationUser currentUser = repoUser.GetById(currentUserId);
+            List<EmplTable> emplList = _EmplService.GetAllIntercompany().ToList();
+
+            if (listdata != null)
+            {
+                foreach (string userId in listdata)
+                {
+                    if ((Contains(x => x.DocumentTableId == documentId && x.UserId == userId && x.RoleId == null) == false) &&
+                        (Contains(x => x.DocumentTableId == documentId && x.RoleId == userId) == false))
+                    {
+                        newReader.Add(userId);
+                        var empl = _EmplService.GetEmployer(userId, currentUser.CompanyTableId);
+                        if (empl == null)
+                        {
+                            ApplicationRole role = RoleManager.FindById(userId);
+
+                            var names = role.Users;
+                            if (names != null && names.Count() > 0)
+                            {
+                                DocumentReaderTable reader = new DocumentReaderTable();
+                                reader.DocumentTableId = documentId;
+                                reader.UserId = userId;
+                                reader.RoleId = userId;
+                                SaveDomain(reader, currentUserId);
+
+                                addReadersDescription += role.Description + "; ";
+                            }
+                        }
+                        else
+                        {
+                            addReadersDescription += empl.FullName + "; ";
+                            DocumentReaderTable reader = new DocumentReaderTable();
+                            reader.DocumentTableId = documentId;
+                            reader.UserId = userId;
+                            SaveDomain(reader, currentUserId);
+                        }
+                    }
+                }
+            }
+
+            if (addReadersDescription.Length > 0)		
+            {		
+                _HistoryUserService.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = HistoryType.AddReader, Description = addReadersDescription }, currentUser.Id);		
             }
 
             return newReader;

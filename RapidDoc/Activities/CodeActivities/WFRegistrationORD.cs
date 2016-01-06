@@ -162,7 +162,7 @@ namespace RapidDoc.Activities.CodeActivities
                     if ((bool)documentData["AddReaders"] == true)
                     {
                         List<string> readers = _serviceWorkflow.EmplAndRolesToReaders(usersAndRoles);
-                        _serviceDocumentReader.SaveReader(documentId, readers.ToArray(), currentUserId);
+                        _serviceDocumentReader.SaveOrderReader(documentId, readers.ToArray(), currentUserId);
                     }
 
                     if ((bool)documentData["AddAttachment"] == true)
