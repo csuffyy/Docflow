@@ -1350,22 +1350,7 @@ namespace RapidDoc.Models.Services
         }
 
         public dynamic PreUpdateViewModel(Type type, dynamic actionModel, bool noErrors)
-        {
-            if (type == (new USR_IND_IncomingDocuments_View()).GetType())
-            {
-                if (String.IsNullOrEmpty(actionModel.IncomingDocNum))
-                {                                  
-                    NumberSeriesTable numberSeq = _NumberSeqService.FirstOrDefault(x => x.TableName == type.Name.Replace("_View", ""));
-
-                    if (numberSeq != null)
-                    {
-                        string number = String.Empty;
-                        number = _NumberSeqService.GetDocumentNumORD(numberSeq.Id, actionModel.NumberSeriesBookingTableId, HttpContext.Current.User.Identity.GetUserId());
-                        actionModel.IncomingDocNum = number;
-                    }
-                }               
-            }         
-
+        {         
             if (type == (new USR_REQ_UBUO_RequestCalcDriveTrip_View()).GetType() || type == (new USR_REQ_TRIP_RegistrationBusinessTripKZ_View()).GetType() || type == (new USR_REQ_TRIP_RegistrationBusinessTripPP_View()).GetType() || type == (new USR_REQ_TRIP_RegistrationBusinessTripPTY_View()).GetType())
             {
                 TripMRPTable mrp = _ITripMRPService.FirstOrDefault(x => x.FromDate <= DateTime.UtcNow && x.ToDate >= DateTime.UtcNow);

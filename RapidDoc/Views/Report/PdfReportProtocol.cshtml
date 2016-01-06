@@ -15,6 +15,15 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>PdfReportCZ</title>
+    <style type="text/css">
+        p {
+            margin: 0;
+        }
+        .container {
+            height: auto;
+            overflow: hidden;
+        }
+    </style>
 </head>
 <body>
     <div>
@@ -204,111 +213,102 @@
                 <span><strong>Список вопросов:</strong></span>
             </font>
             <br />
-            <br />         
+            <br />
             foreach (PRT_QuestionList_Table querstion in Model.QuestionList)
             {
-                <table width="900" style="table-layout: fixed">
-                    <tr style="page-break-inside: avoid">
-                        @if(!String.IsNullOrEmpty(querstion.Question))
-                        {
-                            numQuestion++;
-                        <td style="width:150px; vertical-align:top;">
+                <div class="container">
+                    @if (!String.IsNullOrEmpty(querstion.Question))
+                    {
+                        numQuestion++;
+                        <div style="width:15%; vertical-align:top; float:left;">
                             <font size="4" face="Arial">
                                 <strong>Вопрос №@numQuestion.ToString()</strong>
                             </font>
-                        </td>
-                        }
-                        <td>
+                        </div>
+                        <div style="width:85%; float:right;">
                             <font size="4" face="Arial">
                                 @Html.Raw(@querstion.Question)
                             </font>
-                        </td>
-                    </tr>
-                </table>
-            
-                <tabel>
-                @if (querstion.DecisionList.Where(x => x.Type == 1).Count() > 0)
+                        </div>
+                    }
+                </div>
+                if (querstion.DecisionList.Where(x => x.Type == 1).Count() > 0)
                 {
-                    <tr style="page-break-inside: avoid">
-                        <td style="width:30px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                        <td style="width:150px; vertical-align:top;">
-                            <font size="4" face="Arial">
-                                <strong>РЕШЕНИЕ:</strong>
-                            </font>
-                        </td>
-                    </tr>
+                <div class="container">
+                    <div style="width:85%; float:right;">
+                        <font size="4" face="Arial">
+                            <strong>РЕШЕНИЕ:</strong>
+                        </font>
+                    </div>
+                </div>
                 }
                 else if (querstion.DecisionList.Where(x => x.Type == 2).Count() > 0)
                 {
-                    <tr style="page-break-inside: avoid">
-                        <td style="width:30px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                        <td style="width:150px; vertical-align:top;">
+                    <div class="container">
+                        <div style="width:85%; float:right;">
                             <font size="4" face="Arial">
-                                <strong>РЕКОМЕНДОВАНО:</strong>
+                                <strong>РЕКОМЕНДОВАНО РУКОВОДСТВУ:</strong>
                             </font>
-                        </td>
-                    </tr>
+                        </div>
+                    </div>
                 }
-                </tabel>
 
-                <table>
+                <div class="container">
                     @foreach (PRT_DecisionList_Table decision in querstion.DecisionList.Where(x => x.Type == 1))
                     {
                         numTwoDecision++;
-                        <tr style="page-break-inside: avoid">
-                            <td style="width:30px"></td>
-                            <td style="vertical-align:top; text-align:left">
-                                <font size="4" face="Arial">
-                                    <strong class="text-uppercase" style="white-space: nowrap;">@numTwoDecision.ToString().</strong>
-                                </font>
-                            </td>
-                            <td>
-                                <font size="4" face="Arial">
-                                    @Html.Action("ProtocolDecisionText", "Custom", new { model = decision })
-                                </font>
-                            </td>
-                        </tr>
+                        <div style="width:83%; float:right;">
+                            <div class="container">
+                                <div style="width:3%; vertical-align:top; float:left;">
+                                    <font size="4" face="Arial">
+                                        <strong class="text-uppercase" style="white-space: nowrap;">@numTwoDecision.ToString().</strong>
+                                    </font>
+                                </div>
+                                <div style="width:97%; float:right;">
+                                    <font size="4" face="Arial">
+                                        @Html.Action("ProtocolDecisionText", "Custom", new { model = decision })
+                                    </font>
+                                </div>
+                            </div>
+                        </div>
                     }
-                </table>
-
-                <table>
+                </div>
+                <div class="container">
                     @foreach (PRT_DecisionList_Table decision in querstion.DecisionList.Where(x => x.Type == 2))
                     {
                         numThreeDecision++;
-                        <tr style="page-break-inside: avoid">
-                            <td style="width:30px"></td>
-                            <td style="vertical-align:top; text-align:left">
-                                <font size="4" face="Arial">
-                                    <strong class="text-uppercase" style="white-space: nowrap;">@numThreeDecision.ToString().</strong>
-                                </font>
-                            </td>
-                            <td>
-                                <font size="4" face="Arial">
-                                    @Html.Action("ProtocolDecisionText", "Custom", new { model = decision })
-                                </font>
-                            </td>
-                        </tr>
+                        <div style="width:83%; float:right;">
+                            <div class="container">
+                                <div style="width:3%; vertical-align:top; float:left;">
+                                    <font size="4" face="Arial">
+                                        <strong class="text-uppercase" style="white-space: nowrap;">@numThreeDecision.ToString().</strong>
+                                    </font>
+                                </div>
+                                <div style="width:97%; float:right;">
+                                    <font size="4" face="Arial">
+                                        @Html.Action("ProtocolDecisionText", "Custom", new { model = decision })
+                                    </font>
+                                </div>
+                            </div>
+                        </div>
                     }
-                </table>
+                </div>
 
-                <table>
+                <div class="container">
                     @foreach (PRT_DecisionList_Table decision in querstion.DecisionList.Where(x => x.Type == 0))
                     {
                         numDecision++;
-                        <tr style="page-break-inside: avoid">
-                            <td style="width:40px">
-                            </td>
-                            <td style="display:table-row-group">
-                                <font size="4" face="Arial"><strong>ПОРУЧЕНИЕ №@numDecision.ToString()</strong>
-                                </font>
-                                <br />
-                                <font size="4" face="Arial">                               
-                                    @Html.Action("ProtocolDecisionText", "Custom", new { model = decision })
-                                </font>
-                            </td>
-                        </tr>
+                        <div style="width:83%; float:right;">
+                            <font size="4" face="Arial">
+                                <strong>ПОРУЧЕНИЕ №@numDecision.ToString()</strong>
+                            </font>
+                            <br />
+                            <font size="4" face="Arial">
+                                @Html.Action("ProtocolDecisionText", "Custom", new { model = decision })
+                            </font>
+                        </div>
                     }
-                </table>
+                </div>
                 <br />
             }
         }

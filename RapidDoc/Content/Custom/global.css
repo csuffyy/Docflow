@@ -667,3 +667,7 @@ input[type='checkbox'].pseudo-checkbox + label:before{/*unchecked icon*/
 input[type='checkbox']:checked.pseudo-checkbox + label:before{/*checked icon*/
     content: "\e006";
 }
+
+.note-editable > p {
+    margin: 0;
+}
