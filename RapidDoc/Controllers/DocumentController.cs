@@ -282,7 +282,7 @@ namespace RapidDoc.Controllers
             ApplicationUser currentUser = _AccountService.Find(User.Identity.GetUserId());
             if (currentUser == null) return RedirectToAction("PageNotFound", "Error");
 
-            if (operationType == OperationType.RejectDocument)
+            if (operationType == OperationType.RejectDocument && process.DocType != DocumentType.OfficeMemo)
             {
                 DateTime checkRejectDate = DateTime.UtcNow.AddMinutes(-5);
                 HistoryUserTable history = _HistoryUserService.FirstOrDefault(x => x.DocumentTableId == id && x.HistoryType == Models.Repository.HistoryType.CancelledDocument);
@@ -2005,14 +2005,20 @@ namespace RapidDoc.Controllers
             {
                 Guid documentGuidId = GuidNull2Guid(documentId);
                 string rejectCommentRequest = collection["RejectCommentRequest"].ToString();
-
-                var trackers = _WorkflowTrackerService.GetCurrentStep(x => x.DocumentTableId == documentGuidId && x.TrackerType == TrackerType.Waiting);
-                foreach (var tracker in trackers)
+                if (actionModel.GetType().IsSubclassOf(typeof(BasicDocumantOfficeMemoView)))
                 {
-                    tracker.Comments = rejectCommentRequest;
-                    _WorkflowTrackerService.SaveDomain(tracker);
+                    var trackers = _WorkflowTrackerService.GetCurrentStep(x => x.DocumentTableId == documentGuidId && x.TrackerType == TrackerType.Waiting);
+                    foreach (var tracker in trackers)
+                    {
+                        rejectCommentRequest = _SystemService.DeleteAllTags(rejectCommentRequest);
+                        tracker.Comments = rejectCommentRequest;
+                        _WorkflowTrackerService.SaveDomain(tracker);
+                    }
                 }
-                SaveComment(documentGuidId, rejectCommentRequest);
+                else
+                {
+                    SaveComment(documentGuidId, rejectCommentRequest);
+                }
             }
             else if (collection["RejectComment"] != null && _SystemService.CheckTextExists(collection["RejectComment"]))
             {
@@ -2023,9 +2029,13 @@ namespace RapidDoc.Controllers
                     var trackers = _WorkflowTrackerService.GetCurrentStep(x => x.DocumentTableId == documentGuidId && x.TrackerType == TrackerType.Waiting);
                     foreach (var tracker in trackers)
                     {
+                        rejectCommentRequest = _SystemService.DeleteAllTags(rejectCommentRequest);
                         tracker.Comments = rejectCommentRequest;
                         _WorkflowTrackerService.SaveDomain(tracker);
                     }
+                }
+                else 
+                {
                     SaveComment(documentGuidId, rejectCommentRequest);
                 }
             }

@@ -1,4 +1,4 @@
-﻿@model RapidDoc.Models.ViewModels.USR_OFM_UE_OfficeMemo_View
+﻿@model RapidDoc.Models.ViewModels.USR_OFM_BMK_OfficeMemo_View
 @using RapidDoc.Extensions;
 
 <div>
@@ -12,7 +12,7 @@
     <!-- Tab panes -->
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="view">
-            @Html.Partial("USR_OFM_UE_OfficeMemo_View_Full", Model)
+            @Html.Partial("USR_OFM_BMK_OfficeMemo_View_Full", Model)
         </div>
         <div role="tabpanel" class="tab-pane" id="edit">
             @Html.HiddenFor(model => model.Id)

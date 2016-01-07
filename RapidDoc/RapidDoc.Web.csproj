@@ -1746,7 +1746,7 @@
     <Content Include="Views\Custom\USR_OFM_VIP_OfficeMemo_Edit.cshtml" />
     <Content Include="Views\Custom\USR_OFM_VIP_OfficeMemo_Edit_Part.cshtml" />
     <Content Include="Views\Custom\USR_OFM_BMK_OfficeMemo_Edit.cshtml" />
-    <Content Include="Views\Custom\USR_OFM_BMK_OfficeMemo_Part.cshtml" />
+    <Content Include="Views\Custom\USR_OFM_BMK_OfficeMemo_Edit_Part.cshtml" />
     <Content Include="Views\Custom\USR_OFM_BMK_OfficeMemo_View.cshtml" />
     <Content Include="Views\Custom\USR_OFM_BMK_OfficeMemo_View_Full.cshtml" />
     <Content Include="Views\Custom\USR_OFM_BY_OfficeMemo_Edit.cshtml" />
