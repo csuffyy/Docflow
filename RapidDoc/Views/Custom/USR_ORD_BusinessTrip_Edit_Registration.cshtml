@@ -2,6 +2,8 @@
 @using RapidDoc.Extensions;
 
 @{
+    Model.OrderDate = DateTime.Today;
+    Model.ControlDate = DateTime.Today.AddDays(2);
     Model.Subject = String.Format("Командировка: {0} - {1}", @Html.HtmlDisplayTagsFor(model => model.Workers, new { @row = true, @onlyName = true }), Model.CountryTableId != null ? @Html.Action("GetCountryORD", "Custom", new { id = Model.CountryTableId, selected = true }) : @Html.DisplayTextFor(model => Model.Country));
 }
 
@@ -319,7 +321,7 @@
                 <span class="input-group-addon">
                     <a href="#" class="hidden-print" data-toggle="modal" data-target=".listsubcription-modal"><span class="fa fa-users fa-lg" aria-hidden="false"></span></a>
                 </span>
-                @Html.TextBoxFor(model => Model.ListSubcription, new { @class = "form-control", @data_role = "tagsinputGroup2", @size = 256, placeholder = "Список рассылки" })
+                @Html.TextBoxFor(model => Model.ListSubcription, new { @class = "form-control", @data_role = "tagsinputGroup", @size = 256, placeholder = "Список рассылки" })
             </div>
         </div>
     </div>
@@ -387,7 +389,7 @@
         $('.distributiongrouplink_listsubcription').click(function (event) {
             var element = $(event.target);
             var tagId = element.attr('data-itemid') + ', ' + element.attr('data-rolename');
-            $('input[data-role=tagsinputGroup2]').tagsinput('add', { value: tagId, text: element.text() });
+            $('input[data-role=tagsinputGroup]').tagsinput('add', { value: tagId, text: element.text() });
         });
     });
 </script>

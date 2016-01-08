@@ -1467,6 +1467,23 @@ namespace RapidDoc.Models.Services
                 }
             }
 
+            if (type == (new USR_ORD_BusinessTrip_View()).GetType())
+            {
+                ApplicationRole defaultRole = _EmplService.GetListRole(x => x.Name == "SendOrderBusinessTrip").FirstOrDefault();
+
+                if (defaultRole != null && !((USR_ORD_BusinessTrip_View)actionModel).ListSubcription.Contains(defaultRole.Description))
+                {
+                    string defaultRoleName = string.Format("{0}, {1}", defaultRole.Id, defaultRole.Description.Replace(",", " "));
+
+                    if (((USR_ORD_BusinessTrip_View)actionModel).ListSubcription.Length > 0)
+                        actionModel.ListSubcription = actionModel.ListSubcription + "," + defaultRoleName;
+                    else
+                        actionModel.ListSubcription = defaultRoleName;
+
+                    actionModel.AddReaders = true;
+                }
+            }
+
             return actionModel;
         }
 

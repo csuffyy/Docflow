@@ -37,6 +37,7 @@ namespace RapidDoc.Models.Services
         SelectList GetDropListEmplNull(Guid? id);
         SelectList GetDropListEmplActiveNull(Guid? id);
         SelectList GetDropListCurrentEmplNull(Guid? id);
+        List<ApplicationRole> GetListRole(Expression<Func<ApplicationRole, bool>> predicate);
         object GetJsonEmpl();
         object GetJsonEmplBothOption();
         object GetJsonTripEmpl();
@@ -279,6 +280,11 @@ namespace RapidDoc.Models.Services
                            };
 
             return jsondata;
+        }
+
+        public List<ApplicationRole> GetListRole(Expression<Func<ApplicationRole, bool>> predicate)
+        {
+            return RoleManager.Roles.Where(predicate).ToList();
         }
 
         public EmplTable GetEmployer(string userId, Guid? companyId)
