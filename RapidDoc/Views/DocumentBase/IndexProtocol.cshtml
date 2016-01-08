@@ -6,7 +6,7 @@
     ViewBag.Title = UIElementRes.UIElement.DocumentBase;
 }
 
-<h2>@UIElementRes.UIElement.RequestBase</h2>
+<h2>@UIElementRes.UIElement.ProtocolBase</h2>
 @using (Ajax.BeginForm("Search", "DocumentBase", new { documentType = DocumentType.Protocol, filterType = (int)Model.FilterType, startDate = Model.StartDate, endDate = Model.EndDate, processTableId = Model.ProcessTableId }, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "GroupData", LoadingElementId = "loading", LoadingElementDuration = 1000 }))
 {
     <div class="form-group">

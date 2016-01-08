@@ -210,6 +210,9 @@ namespace RapidDoc.Models.Services
                         if (!String.IsNullOrEmpty(documentView.IncomingDocNum))
                             item.OrderNumber = documentView.IncomingDocNum;
                         item.OrderDate = documentView.RegistrationDate;
+                        item.ItemCaseNumber = documentView.ItemCauseNumber;
+                        if (documentView.ItemCauseTableId != Guid.Empty && documentView.ItemCauseTableId != null)
+                            item.ItemCaseName = _ItemCauseService.Find((Guid)documentView.ItemCauseTableId).CaseName;
                         item.DocumentTitle = documentView.DocumentSubject;
                         item.CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(item.CreatedDate), timeZoneInfo);
                         if (documentView.OrganizationTableId != null)
@@ -228,6 +231,9 @@ namespace RapidDoc.Models.Services
                         if (!String.IsNullOrEmpty(documentView.OutcomingDocNum))
                             item.OrderNumber = documentView.OutcomingDocNum;
                         item.OrderDate = documentView.OutgoingDate;
+                        item.ItemCaseNumber = documentView.ItemCauseNumber;
+                        if (documentView.ItemCauseTableId != Guid.Empty && documentView.ItemCauseTableId != null)
+                            item.ItemCaseName = _ItemCauseService.Find((Guid)documentView.ItemCauseTableId).CaseName;
                         item.DocumentTitle = documentView.DocumentSubject;
                         item.CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(item.CreatedDate), timeZoneInfo);
                         if (documentView.OrganizationTableId != null)
@@ -246,6 +252,9 @@ namespace RapidDoc.Models.Services
                         if (!String.IsNullOrEmpty(documentView.RegistrationNum))
                             item.OrderNumber = documentView.RegistrationNum;
                         item.OrderDate = documentView.RegistrationDate;
+                        item.ItemCaseNumber = documentView.ItemCauseNumber;
+                        if (documentView.ItemCauseTableId != Guid.Empty && documentView.ItemCauseTableId != null)
+                            item.ItemCaseName = _ItemCauseService.Find((Guid)documentView.ItemCauseTableId).CaseName;
                         item.DocumentTitle = documentView.Subject;
                         item.CategoryPerson = documentView.CategoryPerson;
                         item.CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(item.CreatedDate), timeZoneInfo);

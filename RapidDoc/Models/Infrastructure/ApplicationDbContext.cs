@@ -5,6 +5,7 @@ using RapidDoc.Models.DomainModels;
 using System.ComponentModel.DataAnnotations;
 using RapidDoc.Attributes.Validation;
 using System;
+using System.Collections.Generic;
 
 namespace RapidDoc.Models.Infrastructure
 {
@@ -358,6 +359,14 @@ namespace RapidDoc.Models.Infrastructure
         {
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+
+            modelBuilder.Entity<USR_PRT_ProtocolDocuments_Table>()
+             .HasMany(o => o.QuestionList).WithOptional()
+            .WillCascadeOnDelete(true);
+
+            modelBuilder.Entity<PRT_QuestionList_Table>()
+            .HasMany(o => o.DecisionList).WithOptional()
+            .WillCascadeOnDelete(true);
             base.OnModelCreating(modelBuilder);
         }
     }
