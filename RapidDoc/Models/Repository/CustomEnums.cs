@@ -1152,7 +1152,10 @@ namespace RapidDoc.Models.Repository
         RegistrationDate = 4,
 
         [Display(Name = "По корреспонденту")]
-        Organization = 5
+        Organization = 5,
+
+        [Display(Name = "По номенклатурному делу")]
+        ItemCase = 6
     }
 
     public enum OutcomingFilterType : byte
@@ -1173,7 +1176,10 @@ namespace RapidDoc.Models.Repository
         RegistrationDate = 4,
 
         [Display(Name = "По корреспонденту")]
-        Organization = 5
+        Organization = 5,
+
+        [Display(Name = "По номенклатурному делу")]
+        ItemCase = 6
     }
 
     public enum AppealFilterType : byte
@@ -1194,7 +1200,10 @@ namespace RapidDoc.Models.Repository
         CategoryPerson = 4,
 
         [Display(Name = "По корреспонденту")]
-        Organization = 5
+        Organization = 5,
+
+        [Display(Name = "По номенклатурному делу")]
+        ItemCase = 6
     }
 
     public enum ProtocolFilterType : byte

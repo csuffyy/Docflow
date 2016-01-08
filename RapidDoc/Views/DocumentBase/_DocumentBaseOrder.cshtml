@@ -78,34 +78,48 @@
             }
             break;
         case RapidDoc.Models.Repository.OrderFilterType.NumberOrder:
-            foreach (var itemGroup in Model.GroupBy(x => x.OrderNumber).Where(y => !String.IsNullOrEmpty(y.Key)))
+            foreach (var itemGroupProcess in Model.Where(x => x.OrderNumber != null).GroupBy(x => x.ProcessName))
             {
                 num++;
                 <div class="panel panel-default">
                     <div class="panel-heading" role="tab" id="heading@num">
-                        <p class="panel-title"><a href="#collapseArea_@num" data-toggle="collapse" data-target="#collapseArea_@num" aria-expanded="false" aria-controls="collapseArea_@num"><strong>@itemGroup.Key</strong></a></p>
+                        <p class="panel-title"><a href="#collapseArea_@num" data-toggle="collapse" data-target="#collapseArea_@num" aria-expanded="false" aria-controls="collapseArea_@num"><strong>@itemGroupProcess.Key</strong></a></p>
                     </div>
                     <div class="collapse" id="collapseArea_@num">
                         <div class="panel-body">
-                            @foreach (var item in Model.Where(x => x.OrderNumber == itemGroup.Key).OrderByDescending(x => x.CreatedDate))
-                            {
-                                <p>
-                                    @if (item.Cancel == true)
-                                    {
-                                        <span class="fa fa-times text-danger"></span>
-                                    }
-                                    @if (item.Addition == true)
-                                    {
-                                        <span class="fa fa-code-fork"></span>
-                                    }
-                                    @if (item.Executed == true)
-                                    {
-                                        <span class="fa fa-check text-success"></span>
-                                    }
-                                    <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins> - @item.ProcessName - @item.DocumentTitle (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)</a>
-                                </p>
-                            }
-                        </div>
+                        @foreach (var itemGroup in Model.Where(x => x.ProcessName == itemGroupProcess.Key).GroupBy(x => x.OrderNumber).Where(y => !String.IsNullOrEmpty(y.Key)).OrderBy(x => x.Key))
+                        {
+                            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="heading@itemGroup.Key@num">
+                                    <p class="panel-title"><a href="#collapseArea_@itemGroup.Key@num" data-toggle="collapse" data-target="#collapseArea_@itemGroup.Key@num" aria-expanded="false" aria-controls="collapseArea_@itemGroup.Key@num"><strong>@itemGroup.Key</strong></a></p>
+                                </div>
+                                <div class="collapse" id="collapseArea_@itemGroup.Key@num">
+                                    <div class="panel-body">
+                                        @foreach (var item in Model.Where(x => x.OrderNumber == itemGroup.Key && x.ProcessName == itemGroupProcess.Key).OrderByDescending(x => x.CreatedDate))
+                                        {
+                                            <p>
+                                                @if (item.Cancel == true)
+                                                {
+                                                    <span class="fa fa-times text-danger"></span>
+                                                }
+                                                @if (item.Addition == true)
+                                                {
+                                                    <span class="fa fa-code-fork"></span>
+                                                }
+                                                @if (item.Executed == true)
+                                                {
+                                                    <span class="fa fa-check text-success"></span>
+                                                }
+                                                <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins> - @item.ProcessName - @item.DocumentTitle (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)</a>
+                                            </p>
+                                        }
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
                     </div>
                 </div>
             }
@@ -114,125 +128,125 @@
             foreach (var itemGroup in Model.GroupBy(x => x.DocumentTitle))
             {
                 num++;
-                <div class="panel panel-default">
-                    <div class="panel-heading" role="tab" id="heading@num">
-                        <p class="panel-title"><a href="#collapseArea_@num" data-toggle="collapse" data-target="#collapseArea_@num" aria-expanded="false" aria-controls="collapseArea_@num"><strong>@itemGroup.Key</strong></a></p>
-                    </div>
-                    <div class="collapse" id="collapseArea_@num">
-                        <div class="panel-body">
-                            @foreach (var item in Model.Where(x => x.DocumentTitle == itemGroup.Key).OrderByDescending(x => x.CreatedDate))
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="heading@num">
+                            <p class="panel-title"><a href="#collapseArea_@num" data-toggle="collapse" data-target="#collapseArea_@num" aria-expanded="false" aria-controls="collapseArea_@num"><strong>@itemGroup.Key</strong></a></p>
+                        </div>
+                        <div class="collapse" id="collapseArea_@num">
+                            <div class="panel-body">
+                                @foreach (var item in Model.Where(x => x.DocumentTitle == itemGroup.Key).OrderByDescending(x => x.CreatedDate))
                             {
-                                <p>
-                                    @if (item.Cancel == true)
+                                    <p>
+                                        @if (item.Cancel == true)
                                     {
-                                        <span class="fa fa-times text-danger"></span>
+                                            <span class="fa fa-times text-danger"></span>
                                     }
-                                    @if (item.Addition == true)
+                                        @if (item.Addition == true)
                                     {
-                                        <span class="fa fa-code-fork"></span>
+                                            <span class="fa fa-code-fork"></span>
                                     }
-                                    @if (item.Executed == true)
+                                        @if (item.Executed == true)
                                     {
-                                        <span class="fa fa-check text-success"></span>
+                                            <span class="fa fa-check text-success"></span>
                                     }
-                                    <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins> - @item.ProcessName (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)</a>
-                                </p>
+                                        <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins> - @item.ProcessName (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)</a>
+                                    </p>
                             }
+                            </div>
                         </div>
                     </div>
-                </div>
-            }
-            break;
-        case RapidDoc.Models.Repository.OrderFilterType.ProcessName:
+                    }
+                    break;
+                    case RapidDoc.Models.Repository.OrderFilterType.ProcessName:
 
-            foreach (var itemGroup in Model.GroupBy(x => x.ProcessName))
-            {
+                    foreach (var itemGroup in Model.GroupBy(x => x.ProcessName))
+                    {
 
-                num++;
-                <div class="panel panel-default">
-                    <div class="panel-heading" role="tab" id="heading@num">
-                        <p class="panel-title"><a href="#collapseArea_@num" data-toggle="collapse" data-target="#collapseArea_@num" aria-expanded="false" aria-controls="collapseArea_@num"><strong>@itemGroup.Key (@Model.Where(x => x.ProcessName == itemGroup.Key).Count())</strong></a></p>
-                    </div>
-                    <div class="panel-collapse collapse" id="collapseArea_@num">
-                        <div class="panel-body">
-                            @foreach (var state in Model.Where(x => x.ProcessName == itemGroup.Key).OrderByDescending(x => x.CreatedDate).GroupBy(x => x.DocumentState))
+                    num++;
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="heading@num">
+                            <p class="panel-title"><a href="#collapseArea_@num" data-toggle="collapse" data-target="#collapseArea_@num" aria-expanded="false" aria-controls="collapseArea_@num"><strong>@itemGroup.Key (@Model.Where(x => x.ProcessName == itemGroup.Key).Count())</strong></a></p>
+                        </div>
+                        <div class="panel-collapse collapse" id="collapseArea_@num">
+                            <div class="panel-body">
+                                @foreach (var state in Model.Where(x => x.ProcessName == itemGroup.Key).OrderByDescending(x => x.CreatedDate).GroupBy(x => x.DocumentState))
                             {
 
-                                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading" role="tab" id="heading@num1@itemGroupStatus.Key@num">
-                                            <p class="panel-title">
-                                                <a href="#collapseArea_@state.Key@num" data-toggle="collapse" data-target="#collapseArea_@state.Key@num" aria-expanded="false" aria-controls="collapseArea_@state.Key@num">                                               
-                                                    <strong>@Html.EnumToDescription(@state.Key)</strong>
-                                                </a>
-                                            </p>
-                                        </div>
-                                        <div class="collapse" id="collapseArea_@state.Key@num">
-                                            <div class="panel-body">
-                                                @foreach (var item in Model.Where(x => x.ProcessName == itemGroup.Key && x.DocumentState == state.Key).OrderByDescending(x => x.CreatedDate))
+                                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading" role="tab" id="heading@num1@itemGroupStatus.Key@num">
+                                                <p class="panel-title">
+                                                    <a href="#collapseArea_@state.Key@num" data-toggle="collapse" data-target="#collapseArea_@state.Key@num" aria-expanded="false" aria-controls="collapseArea_@state.Key@num">
+                                                        <strong>@Html.EnumToDescription(@state.Key)</strong>
+                                                    </a>
+                                                </p>
+                                            </div>
+                                            <div class="collapse" id="collapseArea_@state.Key@num">
+                                                <div class="panel-body">
+                                                    @foreach (var item in Model.Where(x => x.ProcessName == itemGroup.Key && x.DocumentState == state.Key).OrderByDescending(x => x.CreatedDate))
                                                 {
-                                                    <p>
-                                                        @if (item.Cancel == true)
+                                                        <p>
+                                                            @if (item.Cancel == true)
                                                         {
-                                                            <span class="fa fa-times text-danger"></span>
+                                                                <span class="fa fa-times text-danger"></span>
                                                         }
-                                                        @if (item.Addition == true)
+                                                            @if (item.Addition == true)
                                                         {
-                                                            <span class="fa fa-code-fork text-primary"></span>
+                                                                <span class="fa fa-code-fork text-primary"></span>
                                                         }
-                                                        @if (item.Executed == true)
+                                                            @if (item.Executed == true)
                                                         {
-                                                            <span class="fa fa-check text-success"></span>
+                                                                <span class="fa fa-check text-success"></span>
                                                         }
-                                                        <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins> - @item.DocumentTitle (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)</a>
-                                                    </p>
+                                                            <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins> - @item.DocumentTitle (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)</a>
+                                                        </p>
                                                 }
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
                             }
+                            </div>
                         </div>
                     </div>
-                </div>
-            }
-            break;
-        case RapidDoc.Models.Repository.OrderFilterType.OrderDate:
+                    }
+                    break;
+                    case RapidDoc.Models.Repository.OrderFilterType.OrderDate:
 
-            foreach (var itemGroup in Model.Where(y => y.OrderDate != null).GroupBy(x => x.OrderDate))
-            {
+                    foreach (var itemGroup in Model.Where(y => y.OrderDate != null).GroupBy(x => x.OrderDate))
+                    {
 
-                num++;
-                <div class="panel panel-default">
-                    <div class="panel-heading" role="tab" id="heading@num">
-                        <p class="panel-title"><a href="#collapseArea_@num" data-toggle="collapse" data-target="#collapseArea_@num" aria-expanded="false" aria-controls="collapseArea_@num"><strong>@Html.FormatValue(itemGroup.Key, "{0:dd.MM.yyyy}") (@Model.Where(x => x.OrderDate == itemGroup.Key).Count())</strong></a></p>
-                    </div>
-                    <div class="panel-collapse collapse" id="collapseArea_@num">
-                        <div class="panel-body">
-                            @foreach (var item in Model.Where(x => x.OrderDate == itemGroup.Key).OrderByDescending(x => x.CreatedDate))
+                    num++;
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="heading@num">
+                            <p class="panel-title"><a href="#collapseArea_@num" data-toggle="collapse" data-target="#collapseArea_@num" aria-expanded="false" aria-controls="collapseArea_@num"><strong>@Html.FormatValue(itemGroup.Key, "{0:dd.MM.yyyy}") (@Model.Where(x => x.OrderDate == itemGroup.Key).Count())</strong></a></p>
+                        </div>
+                        <div class="panel-collapse collapse" id="collapseArea_@num">
+                            <div class="panel-body">
+                                @foreach (var item in Model.Where(x => x.OrderDate == itemGroup.Key).OrderByDescending(x => x.CreatedDate))
                             {
-                                <p>
-                                    @if (item.Cancel == true)
+                                    <p>
+                                        @if (item.Cancel == true)
                                     {
-                                        <span class="fa fa-times text-danger"></span>
+                                            <span class="fa fa-times text-danger"></span>
                                     }
-                                    @if (item.Addition == true)
+                                        @if (item.Addition == true)
                                     {
-                                        <span class="fa fa-code-fork text-primary"></span>
+                                            <span class="fa fa-code-fork text-primary"></span>
                                     }
-                                    @if (item.Executed == true)
+                                        @if (item.Executed == true)
                                     {
-                                        <span class="fa fa-check text-success"></span>
+                                            <span class="fa fa-check text-success"></span>
                                     }
-                                    <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins> @item.ProcessName - @item.DocumentTitle (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)</a>
-                                </p>
+                                        <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins> @item.ProcessName - @item.DocumentTitle (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)</a>
+                                    </p>
                             }
+                            </div>
                         </div>
                     </div>
+                    }
+                    break;
+                    }
                 </div>
-            }
-            break;
-    }
-</div>
 
 
