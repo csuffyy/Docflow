@@ -118,6 +118,7 @@ namespace RapidDoc.Controllers
             {
                 PageSize = Size.A4,
                 IsGrayScale = true,
+                PageMargins = { Left = 20 },
                 FileName = String.Format("{0}.pdf", docTable.DocumentNum)
             };
         }

@@ -39,6 +39,7 @@ namespace RapidDoc.Models.Services
         SelectList GetDropListCurrentEmplNull(Guid? id);
         List<ApplicationRole> GetListRole(Expression<Func<ApplicationRole, bool>> predicate);
         object GetJsonEmpl();
+        object GetJsonEmplKZ();
         object GetJsonEmplBothOption();
         object GetJsonTripEmpl();
         object GetJsonUsers();
@@ -200,6 +201,18 @@ namespace RapidDoc.Models.Services
                                value = string.Format("{0},({1}) {2} - {3}", c.Id, c.AliasCompanyName, c.FullName, c.TitleName),
                                text = string.Format("({0}) {1} - {2}", c.AliasCompanyName, c.FullName, c.TitleName)
                            }; 
+
+            return jsondata;
+        }
+
+        public object GetJsonEmplKZ()
+        {
+            var jsondata = from c in GetPartial(x => x.Enable == true)
+                           select new
+                           {
+                               value = string.Format("{0},({1}) {2} - {3}", c.Id, c.AliasCompanyName, c.FullName, !string.IsNullOrEmpty(c.TitleTable.TitleNameKZ) ? c.TitleTable.TitleNameKZ : c.TitleTable.TitleName ),
+                               text = string.Format("({0}) {1} - {2}", c.AliasCompanyName, c.FullName, !string.IsNullOrEmpty(c.TitleTable.TitleNameKZ) ? c.TitleTable.TitleNameKZ : c.TitleTable.TitleName)
+                           };
 
             return jsondata;
         }

@@ -156,7 +156,7 @@
                         <p>@UIElementRes.UIElement.СonfirmDeletion</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success" name="action:DeleteDraft">@UIElementRes.UIElement.Yes</button>
+                        <button type="submit" id="deleteDraftBtn" class="btn btn-success" name="action:DeleteDraft">@UIElementRes.UIElement.Yes</button>
                         <button type="button" class="btn btn-danger" data-dismiss="modal">@UIElementRes.UIElement.No</button>
                     </div>
                 </div>
@@ -344,6 +344,10 @@
         });
 
         $('#savedraftbtn').click(function () {
+            jQuery('#ajaxUploadForm').validate().currentForm = '';
+        });
+
+        $('#deleteDraftBtn').click(function () {
             jQuery('#ajaxUploadForm').validate().currentForm = '';
         });
     });
