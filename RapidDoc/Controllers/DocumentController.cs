@@ -1296,11 +1296,6 @@ namespace RapidDoc.Controllers
             string errorText = String.Empty;
             string currentUserId = User.Identity.GetUserId();
 
-            if(listdata != null && listdata.Count() > 20)
-            {
-                errorText = ValidationRes.ValidationResource.ErrorLimitReaders;
-            }
-
             var currentReaders = _DocumentReaderService.GetPartial(x => x.DocumentTableId == id && x.RoleId != null).GroupBy(x => x.RoleId);
             if (currentReaders.Count() > 0)
             {

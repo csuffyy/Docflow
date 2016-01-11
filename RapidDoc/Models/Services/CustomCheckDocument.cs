@@ -969,7 +969,7 @@ namespace RapidDoc.Models.Services
             {
                 if (String.IsNullOrEmpty(actionModel.DispatchType) && actionModel.OutcomingDispatchType == OutcomingDispatchType.Element1)
                 {
-                    errorList.Add("Необходимо заполнить тип документа ");
+                    errorList.Add("Необходимо заполнить вид отправки ");
                 }
                 if (String.IsNullOrEmpty(actionModel.DocumentTypeName) && actionModel.DocumentType == IncomingDocumentType.Element1)
                 {
