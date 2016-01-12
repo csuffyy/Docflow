@@ -18,6 +18,7 @@
     <style type="text/css">
         p {
             margin: 0;
+            text-align: justify;
         }
         .container {
             height: auto;
@@ -242,16 +243,6 @@
                     </div>
                 </div>
                 }
-                else if (querstion.DecisionList.Where(x => x.Type == 2).Count() > 0)
-                {
-                    <div class="container">
-                        <div style="width:85%; float:right;">
-                            <font size="4" face="Arial">
-                                <strong>РЕКОМЕНДОВАНО РУКОВОДСТВУ:</strong>
-                            </font>
-                        </div>
-                    </div>
-                }
 
                 <div class="container">
                     @foreach (PRT_DecisionList_Table decision in querstion.DecisionList.Where(x => x.Type == 1))
@@ -273,6 +264,17 @@
                         </div>
                     }
                 </div>
+
+                if (querstion.DecisionList.Where(x => x.Type == 2).Count() > 0)
+                {
+                    <div class="container">
+                        <div style="width:85%; float:right;">
+                            <font size="4" face="Arial">
+                                <strong>РЕКОМЕНДОВАНО РУКОВОДСТВУ:</strong>
+                            </font>
+                        </div>
+                    </div>
+                }
                 <div class="container">
                     @foreach (PRT_DecisionList_Table decision in querstion.DecisionList.Where(x => x.Type == 2))
                     {

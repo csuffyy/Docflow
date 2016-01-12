@@ -648,4 +648,7 @@
   <data name="MyFavorite" xml:space="preserve">
     <value>Favorite</value>
   </data>
+  <data name="SendNotificationToMail" xml:space="preserve">
+    <value>Sent notification to email</value>
+  </data>
 </root>

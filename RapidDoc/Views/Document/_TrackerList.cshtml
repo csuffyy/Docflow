@@ -44,6 +44,10 @@
                             {
                                 <a href=@Url.Action("AddExecutor", new { id = ViewBag.DocumentId, activityId = trackerItem.ActivityID }) class="hidden-print"><span class="fa fa-users fa-lg"></span></a>
                             }
+                            @if (trackerItem.TrackerType == RapidDoc.Models.Repository.TrackerType.Waiting && DateTime.UtcNow.AddHours(-8) > trackerItem.ModifiedDate)
+                            {
+                                <a href=@Url.Action("AddExecutor", new { id = ViewBag.DocumentId, activityId = trackerItem.ActivityID }) class="hidden-print" data-toggle="tooltip" data-placement="right" title="@UIElementRes.UIElement.SendNotificationToMail"><span class="fa fa-bell-o fa-lg"></span></a>
+                            }
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => trackerItem.ActivityName)

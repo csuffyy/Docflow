@@ -1402,6 +1402,15 @@ namespace UIElementRes {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Отправить уведомление на почту.
+        /// </summary>
+        public static string SendNotificationToMail {
+            get {
+                return ResourceManager.GetString("SendNotificationToMail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Вас добавили читателем к документу.
         /// </summary>
         public static string SendReaderEmail {

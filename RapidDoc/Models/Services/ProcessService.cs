@@ -166,7 +166,10 @@ namespace RapidDoc.Models.Services
         public SelectList GetProtocolListProcess()
         {
             var items = GetAllView().Where(x => x.DocType == DocumentType.Protocol).ToList();
-            return new SelectList(items, "Id", "ProcessName", items.FirstOrDefault().Id);
+            if (items.Count() > 0)
+                return new SelectList(items, "Id", "ProcessName", items.FirstOrDefault().Id);
+            else
+                return new SelectList(items, "Id", "ProcessName");
         }
     }
 }

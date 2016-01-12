@@ -140,8 +140,10 @@ namespace RapidDoc.Models.Services
                         ParallelID = item.ParallelID,
                         SLAOffset = item.SLAOffset,
                         CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(item.CreatedDate, currentTimeZoneInfo),
+                        ModifiedDate = item.ModifiedDate,
                         Comments = item.Comments,
-                        CreatedBy = createdEmpl != null ? createdEmpl.FullName : item.CreatedBy
+                        CreatedBy = createdEmpl != null ? createdEmpl.FullName : item.CreatedBy,
+                        //LastNotificationDate = item.LastNotificationDate
                     };
                     model.SignDate = TimeZoneInfo.ConvertTimeFromUtc(item.SignDate ?? DateTime.MinValue, currentTimeZoneInfo);
                     DateTime? performToDate = item.PerformToDate();
@@ -173,8 +175,10 @@ namespace RapidDoc.Models.Services
                         ParallelID = item.ParallelID,
                         SLAOffset = item.SLAOffset,
                         CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(item.CreatedDate, currentTimeZoneInfo),
+                        ModifiedDate = item.ModifiedDate,
                         Comments = item.Comments,
-                        CreatedBy = createdEmpl != null ? createdEmpl.FullName : item.CreatedBy
+                        CreatedBy = createdEmpl != null ? createdEmpl.FullName : item.CreatedBy,
+                        //LastNotificationDate = item.LastNotificationDate
                     };
                     DateTime? performToDate = item.PerformToDate();
                     if (performToDate != null)

@@ -362,7 +362,7 @@ function summernotelight_init(lang) {
                 ['group', ['insertfile']],
                 //['fontsize', ['fontsize']],
                 //['color', ['color']],
-                //['para', ['ul', 'ol', 'paragraph']],
+                ['para', ['ul', 'ol', 'paragraph']],
                 //['height', ['height']],
                 //['insert', ['link']], // no insert buttons
                 //['table', ['table']], // no table button

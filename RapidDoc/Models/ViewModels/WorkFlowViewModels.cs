@@ -243,6 +243,8 @@ namespace RapidDoc.Models.ViewModels
         public string Comments { get; set; }
 
         public string AdditionalText { get; set; }
+
+        //public DateTime? LastNotificationDate { get; set; }
     }
 
     public class CommentView : BasicCompanyNullView
