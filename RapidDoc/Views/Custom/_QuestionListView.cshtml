@@ -6,10 +6,12 @@
     int numTwoDecision = 0;
     int numThreeDecision = 0;
     int numQuestion = 0;
+    int prevDecisionType = 0;
 }
 
 @foreach (var question in Model)
 {
+    prevDecisionType = 0;
     <div>
         <table class="table table-min" style="margin-bottom: 0;">
             <tbody>
@@ -24,29 +26,32 @@
                     <td>
                         @Html.Raw(question.Question)
 
-                        @if (question.DecisionList != null && question.DecisionList.Count() > 0 && question.DecisionList.Any(x => x.Type == 0))
+                        @foreach (var decision in question.DecisionList)
                         {
-                            foreach (var decision in question.DecisionList.Where(x => x.Type == 0))
+                            if (decision.Type == 1 && decision.Type != prevDecisionType)
+                            {
+                                prevDecisionType = decision.Type;
+                                <table class="table table-min" style="margin-bottom: 0;">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 10px;"></td>
+                                            <td><strong class="text-uppercase" style="white-space: nowrap;">Решение:</strong></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            }
+
+                            if (decision.Type == 0)
                             {
                                 numDecision++;
                                 Html.RenderPartial("~/Views/Custom/_DecisionListView.cshtml", decision, new ViewDataDictionary { { "numQuestion", ViewData["numQuestion"] }, { "numDecision", numDecision } });
                             }
-                        }
-                        
-                        @if (question.DecisionList != null && question.DecisionList.Count() > 0 && question.DecisionList.Any(x => x.Type == 1))
-                        {
-                            <strong class="text-uppercase" style="white-space: nowrap;">Решение:</strong>
-                            foreach (var decision in question.DecisionList.Where(x => x.Type == 1))
+                            else if(decision.Type == 1)
                             {
                                 numTwoDecision++;
                                 Html.RenderPartial("~/Views/Custom/_DecisionListView.cshtml", decision, new ViewDataDictionary { { "numQuestion", ViewData["numQuestion"] }, { "numDecision", numTwoDecision } });
                             }
-                        }
-                        
-                        @if (question.DecisionList != null && question.DecisionList.Count() > 0 && question.DecisionList.Any(x => x.Type == 2))
-                        {
-                            <strong class="text-uppercase" style="white-space: nowrap;">Рекомендовано руководству:</strong>
-                            foreach (var decision in question.DecisionList.Where(x => x.Type == 2))
+                            else if(decision.Type == 2)
                             {
                                 numThreeDecision++;
                                 Html.RenderPartial("~/Views/Custom/_DecisionListView.cshtml", decision, new ViewDataDictionary { { "numQuestion", ViewData["numQuestion"] }, { "numDecision", numThreeDecision } });
@@ -57,4 +62,5 @@
             </tbody>
         </table>
     </div>
+    <br />
 }

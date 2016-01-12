@@ -357,6 +357,7 @@ namespace RapidDoc.Controllers
 
         private Guid TitleIntegration(string _title)
         {
+            _title = _title.Replace(",", "");
             if (!_TitleService.Contains(x => x.TitleName == _title))
             {
                 _TitleService.SaveDomain(new TitleTable() { TitleName = _title, isIntegratedLDAP = true }, "Admin");

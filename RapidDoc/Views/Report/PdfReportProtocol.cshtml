@@ -9,6 +9,7 @@
     int numTwoDecision = 0;
     int numThreeDecision = 0;
     int numQuestion = 0;
+    int prevDecisionType = 0;
 }
 
 <html>
@@ -201,9 +202,11 @@
             </tr>
             <tr>
                 <td>
+                    <p style="text-align: justify;">
                     <font size="4" face="Arial">
                         <span style="white-space: pre-line;">@Model.Agenda</span>
                     </font>
+                    </p>
                 </td>
             </tr>
         </table>
@@ -217,36 +220,51 @@
             <br />
             foreach (PRT_QuestionList_Table querstion in Model.QuestionList)
             {
+                prevDecisionType = 0;
                 <div class="container">
-                    @if (!String.IsNullOrEmpty(querstion.Question))
+                @if (!String.IsNullOrEmpty(querstion.Question))
+                {
+                    numQuestion++;
+                    <div style="width:15%; vertical-align:top; float:left;">
+                        <font size="4" face="Arial">
+                            <strong>Вопрос №@numQuestion.ToString()</strong>
+                        </font>
+                    </div>
+                    <div style="width:85%; float:right;">
+                        <font size="4" face="Arial">
+                            @Html.Raw(@querstion.Question)
+                        </font>
+                    </div>
+                }
+                </div>
+
+                <div class="container">
+                @foreach (PRT_DecisionList_Table decision in querstion.DecisionList)
+                {
+                    if (decision.Type == 0)
                     {
-                        numQuestion++;
-                        <div style="width:15%; vertical-align:top; float:left;">
+                        numDecision++;
+                        <div style="width:83%; float:right;">
                             <font size="4" face="Arial">
-                                <strong>Вопрос №@numQuestion.ToString()</strong>
+                                <strong>ПОРУЧЕНИЕ №@numDecision.ToString()</strong>
                             </font>
-                        </div>
-                        <div style="width:85%; float:right;">
+                            <br />
                             <font size="4" face="Arial">
-                                @Html.Raw(@querstion.Question)
+                                @Html.Action("ProtocolDecisionText", "Custom", new { model = decision })
                             </font>
                         </div>
                     }
-                </div>
-                if (querstion.DecisionList.Where(x => x.Type == 1).Count() > 0)
-                {
-                <div class="container">
-                    <div style="width:85%; float:right;">
-                        <font size="4" face="Arial">
-                            <strong>РЕШЕНИЕ:</strong>
-                        </font>
-                    </div>
-                </div>
-                }
-
-                <div class="container">
-                    @foreach (PRT_DecisionList_Table decision in querstion.DecisionList.Where(x => x.Type == 1))
+                    else if (decision.Type == 1)
                     {
+                        if (decision.Type != prevDecisionType)
+                        {
+                            prevDecisionType = decision.Type;
+                            <div style="width:83%; float:right;">
+                                <font size="4" face="Arial">
+                                    <strong>РЕШЕНИЕ:</strong>
+                                </font>
+                            </div>
+                        }
                         numTwoDecision++;
                         <div style="width:83%; float:right;">
                             <div class="container">
@@ -263,22 +281,14 @@
                             </div>
                         </div>
                     }
-                </div>
-
-                if (querstion.DecisionList.Where(x => x.Type == 2).Count() > 0)
-                {
-                    <div class="container">
-                        <div style="width:85%; float:right;">
+                    else if (decision.Type == 2)
+                    {
+                        numThreeDecision++;
+                        <div style="width:83%; float:right;">
                             <font size="4" face="Arial">
                                 <strong>РЕКОМЕНДОВАНО РУКОВОДСТВУ:</strong>
                             </font>
                         </div>
-                    </div>
-                }
-                <div class="container">
-                    @foreach (PRT_DecisionList_Table decision in querstion.DecisionList.Where(x => x.Type == 2))
-                    {
-                        numThreeDecision++;
                         <div style="width:83%; float:right;">
                             <div class="container">
                                 <div style="width:3%; vertical-align:top; float:left;">
@@ -294,22 +304,7 @@
                             </div>
                         </div>
                     }
-                </div>
-
-                <div class="container">
-                    @foreach (PRT_DecisionList_Table decision in querstion.DecisionList.Where(x => x.Type == 0))
-                    {
-                        numDecision++;
-                        <div style="width:83%; float:right;">
-                            <font size="4" face="Arial">
-                                <strong>ПОРУЧЕНИЕ №@numDecision.ToString()</strong>
-                            </font>
-                            <br />
-                            <font size="4" face="Arial">
-                                @Html.Action("ProtocolDecisionText", "Custom", new { model = decision })
-                            </font>
-                        </div>
-                    }
+                }
                 </div>
                 <br />
             }

@@ -138,6 +138,7 @@
                         </div>
                         <div class="col-xs-10">
                             @Html.HiddenFor(model => Model.ItemCauseTableId)
+                            @Html.HiddenFor(model => Model.ItemCauseNumber, new { id = "ItemCauseNumberTextId" })
                             <span id="ItemCauseNumber">@Html.DisplayTextFor(model => Model.ItemCauseNumber)</span>
                         </div>
                     </div>
@@ -295,6 +296,7 @@
             var element = $(event.target);
             $('#ItemCauseTableId').val(element.attr('data-itemid'));
             $('#ItemCauseNumber').text(element.text());
+            $('#ItemCauseNumberTextId').val(element.text());
         });
     });
 </script>

@@ -2894,7 +2894,7 @@ namespace RapidDoc.Controllers
                 if (!String.IsNullOrEmpty(result))
                     result = String.Format("{2} <strong>ответ {0}срок {1}г.</strong>", result, model.ControlDate.Value.ToShortDateString(), _SystemService.DeleteLastTagSegment(model.Decision));
                 else
-                    result = model.Decision;
+                    result = _SystemService.DeleteLastTagSegment(model.Decision);
             }
 
             return PartialView("USR_PRT_DecisionText", result);

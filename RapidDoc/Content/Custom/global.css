@@ -671,3 +671,7 @@ input[type='checkbox']:checked.pseudo-checkbox + label:before{/*checked icon*/
 .note-editable > p {
     margin: 0;
 }
+
+.textblock > p {
+   margin: 0;
+}

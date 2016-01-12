@@ -143,7 +143,8 @@ namespace RapidDoc.Models.Services
                         ModifiedDate = item.ModifiedDate,
                         Comments = item.Comments,
                         CreatedBy = createdEmpl != null ? createdEmpl.FullName : item.CreatedBy,
-                        //LastNotificationDate = item.LastNotificationDate
+                        LastNotificationDate = item.LastNotificationDate,
+                        ApplicationUserCreatedId = item.DocumentTable.ApplicationUserCreatedId
                     };
                     model.SignDate = TimeZoneInfo.ConvertTimeFromUtc(item.SignDate ?? DateTime.MinValue, currentTimeZoneInfo);
                     DateTime? performToDate = item.PerformToDate();
@@ -178,7 +179,8 @@ namespace RapidDoc.Models.Services
                         ModifiedDate = item.ModifiedDate,
                         Comments = item.Comments,
                         CreatedBy = createdEmpl != null ? createdEmpl.FullName : item.CreatedBy,
-                        //LastNotificationDate = item.LastNotificationDate
+                        LastNotificationDate = item.LastNotificationDate,
+                        ApplicationUserCreatedId = item.DocumentTable.ApplicationUserCreatedId
                     };
                     DateTime? performToDate = item.PerformToDate();
                     if (performToDate != null)
@@ -258,6 +260,7 @@ namespace RapidDoc.Models.Services
                 table.Columns.Add("Comments", typeof(string));
                 table.Columns.Add("AdditionalText", typeof(string));
                 table.Columns.Add("SystemName", typeof(string));
+                table.Columns.Add("LastNotificationDate", typeof(DateTime));
 
                 foreach (string[] step in allSteps)
                 {
@@ -283,6 +286,7 @@ namespace RapidDoc.Models.Services
                     row["Comments"] = DBNull.Value;
                     row["AdditionalText"] = DBNull.Value;
                     row["SystemName"] = (step.Length > 3) ? step[3] : "";
+                    row["LastNotificationDate"] = DBNull.Value;
 
                     table.Rows.Add(row);
                 }

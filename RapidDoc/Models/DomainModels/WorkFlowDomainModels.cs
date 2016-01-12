@@ -197,7 +197,7 @@ namespace RapidDoc.Models.DomainModels
 
         public bool ExecutionStep { get; set; }
 
-        //public DateTime? LastNotificationDate { get; set; }
+        public DateTime? LastNotificationDate { get; set; }
 
         public DateTime? PerformToDate()
         {

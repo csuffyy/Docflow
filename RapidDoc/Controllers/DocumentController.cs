@@ -680,6 +680,7 @@ namespace RapidDoc.Controllers
         public ActionResult ApproveDocumentTask(Guid processId, int type, Guid fileId, FormCollection collection, string actionModelName, Guid documentId)
         {
             string currentUserId = User.Identity.GetUserId();
+            string reminderChairmanUser = String.Empty;
             ProcessView process = _ProcessService.FindView(processId);
 
             _DocumentService.SignTaskDocument(documentId, TrackerType.Approved);
@@ -705,21 +706,35 @@ namespace RapidDoc.Controllers
                 Guid sourceDocumentId = Guid.Parse(collection["RefDocumentId"]);
                 DocumentTable documentSourceTable = _DocumentService.Find(sourceDocumentId);
 
-                if (documentSourceTable != null && (documentSourceTable.DocType == DocumentType.Order || documentSourceTable.DocType == DocumentType.IncomingDoc || documentSourceTable.DocType == DocumentType.AppealDoc) && documentSourceTable.Executed == false)
+                if (documentSourceTable != null)
                 {
-                    var sourceDocumentData = _DocumentService.GetDocumentView(documentSourceTable.RefDocumentId, documentSourceTable.ProcessTable.TableName);
-                    sourceDocumentData.Executed = true;
-                    var processSourceView = _ProcessService.FindView(documentSourceTable.ProcessTable.Id);
-                    _DocumentService.UpdateDocumentFields(sourceDocumentData, processSourceView);
+                    if ((documentSourceTable.DocType == DocumentType.Order || documentSourceTable.DocType == DocumentType.IncomingDoc || documentSourceTable.DocType == DocumentType.AppealDoc) && documentSourceTable.Executed == false)
+                    {
+                        var sourceDocumentData = _DocumentService.GetDocumentView(documentSourceTable.RefDocumentId, documentSourceTable.ProcessTable.TableName);
+                        sourceDocumentData.Executed = true;
+                        var processSourceView = _ProcessService.FindView(documentSourceTable.ProcessTable.Id);
+                        _DocumentService.UpdateDocumentFields(sourceDocumentData, processSourceView);
 
-                    documentSourceTable.Executed = true;
-                    _DocumentService.UpdateDocument(documentTable, userId);
+                        documentSourceTable.Executed = true;
+                        _DocumentService.UpdateDocument(documentTable, userId);
+                    }
+                    else if (documentSourceTable.DocType == DocumentType.Protocol)
+                    {
+                        var sourceDocumentData = _DocumentService.GetDocumentView(documentSourceTable.RefDocumentId, documentSourceTable.ProcessTable.TableName);
+                        string[] chairman = _SystemService.GuidsFromText(sourceDocumentData.Chairman);
+
+                        if (chairman.Count() > 0 && !String.IsNullOrEmpty(chairman[0]))
+                        {
+                            EmplTable chairmanEmpl = _EmplService.Find(Guid.Parse(chairman[0]), currentUserId);
+                            reminderChairmanUser = chairmanEmpl.ApplicationUserId;
+                        }
+                    }
                 }
             }
 
             _HistoryUserService.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = Models.Repository.HistoryType.ApproveDocument }, User.Identity.GetUserId());
             if (documentIdNew.RefDocumentId != null)
-                _EmailService.SendUsersClosedEmail(documentTable.Id, new List<string> { documentTable.ApplicationUserCreatedId, _DocumentService.Find(documentIdNew.RefDocumentId).ApplicationUserCreatedId });
+                _EmailService.SendUsersClosedEmail(documentTable.Id, new List<string> { documentTable.ApplicationUserCreatedId, _DocumentService.Find(documentIdNew.RefDocumentId).ApplicationUserCreatedId, reminderChairmanUser });
             else
                 _EmailService.SendInitiatorClosedEmail(documentTable.Id);
 
@@ -1421,6 +1436,22 @@ namespace RapidDoc.Controllers
             }
 
             return Json(new { result = "Redirect", url = Url.Action("ShowDocument", new { id = id, isAfterView = true }) });
+        }
+
+        public ActionResult NotificationUsers(Guid id, string activityId)
+        {
+            string currentUserId = User.Identity.GetUserId();
+            var currentItem = _WorkflowTrackerService.FirstOrDefault(x => x.DocumentTableId == id && x.ActivityID == activityId && x.TrackerType == TrackerType.Waiting);
+            if (currentItem != null && currentItem.DocumentTable != null &&
+                currentUserId == currentItem.DocumentTable.ApplicationUserCreatedId && DateTime.UtcNow.AddHours(-9) > currentItem.ModifiedDate)
+            {
+                currentItem.LastNotificationDate = DateTime.UtcNow;
+                _WorkflowTrackerService.SaveDomain(currentItem, currentUserId);
+                foreach(var user in currentItem.Users)
+                    _EmailService.SendNewExecutorEmail(id, user.UserId);
+            }
+
+            return RedirectToAction("ShowDocument", new { id = id, isAfterView = true });
         }
 
         [HttpPost]

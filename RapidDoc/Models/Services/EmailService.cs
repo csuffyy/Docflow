@@ -1034,9 +1034,8 @@ namespace RapidDoc.Models.Services
             foreach (var item in users.Distinct())
 	        {
                 ApplicationUser user = repoUser.GetById(item);
-                if (!String.IsNullOrEmpty(user.Email))
+                if (user != null && !String.IsNullOrEmpty(user.Email))
                 {
-
                     string documentUri = "http://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id + "?isAfterView=true";
                     EmplTable emplTable = repoEmpl.Find(x => x.ApplicationUserId == user.Id && x.Enable == true);
 
