@@ -53,6 +53,7 @@ namespace RapidDoc.Models.Services
         List<string> EmplAndRolesToUserList(string[] list);
         List<string> EmplAndRolesToReaders(string[] list);
         void CreateDynamicTracker(List<string> users, Guid documentId, string currentUserId, bool parallel, string additionalText = "");
+        bool CheckSkipStepOrder(Guid documentId, List<WFTrackerUsersTable> userlist, string createdBy);
     }
 
     public class WorkflowService : IWorkflowService
@@ -135,6 +136,22 @@ namespace RapidDoc.Models.Services
 
             return false;
         }
+
+        public bool CheckSkipStepOrder(Guid documentId, List<WFTrackerUsersTable> userlist, string createdBy)
+        {
+            var trackerTables = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == documentId && x.TrackerType == TrackerType.Approved).ToList();
+
+            foreach (var user in userlist)
+            {
+                if (user.UserId == createdBy || (trackerTables != null && trackerTables.Any(x => x.SignUserId == user.UserId)))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         private EmplTable WFMatchingUpManagerFinder(EmplTable emplTable, int level, string currentUserId, string profileName = "")
         {
             if (((level == 0 && profileName == null) || (emplTable.ProfileName == profileName || emplTable.TitleTable.ProfileName == profileName)) && emplTable.Enable == true) return emplTable;
@@ -199,6 +216,7 @@ namespace RapidDoc.Models.Services
             }
             return new WFUserFunctionResult { Users = userList, Skip = checkSkipStep(documentId, userList, documentTable.ApplicationUserCreatedId) };
         }
+
         public WFUserFunctionResult WFStaffStructure(Guid documentId, Expression<Func<EmplTable, bool>> predicate)
         {
             var documentTable = _DocumentService.Find(documentId);
@@ -794,15 +812,18 @@ namespace RapidDoc.Models.Services
                 _documentData.Add("endListUsers", endListUsers);
             }
 
-            if (activity.GetType() == typeof(WFSetUsersForOrder) || activity.GetType() == typeof(WFSetUsersForProtocol))
+            if (activity.GetType() == typeof(WFSetUsersForOrder) || activity.GetType() == typeof(WFSetUsersForProtocol) || activity.GetType() == typeof(WFSetUsersForOND))
             {
                 List<string> userList = (List<string>)_documentData["ListAgreement"];
                 dynamic particularActivity;
 
                 if (activity.GetType() == typeof(WFSetUsersForProtocol))               
-                    particularActivity = activity as WFSetUsersForProtocol;              
-                else            
+                    particularActivity = activity as WFSetUsersForProtocol;
+                else if (activity.GetType() == typeof(WFSetUsersForOrder))           
                     particularActivity = activity as WFSetUsersForOrder;
+                else
+                    particularActivity = activity as WFSetUsersForOND;
+
                 
                 var particularActivityExpression = particularActivity.inputSystemName.Expression as System.Activities.Expressions.Literal<string>;
                 foreach(string userId in userList)
