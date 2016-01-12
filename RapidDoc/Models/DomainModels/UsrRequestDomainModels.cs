@@ -4657,6 +4657,11 @@ namespace RapidDoc.Models.DomainModels
 
     }
 
+    public class USR_APP_AppealIndividualDocuments_Table : BasicAppealDocumentsTable
+    {
+
+    }
+
     #endregion
 
     #region Протоколы

@@ -1976,6 +1976,8 @@
     <Content Include="Views\Custom\USR_PRT_TechCommitteeDocuments_Edit.cshtml" />
     <Content Include="Views\Custom\USR_PRT_DirectorateDocuments_View.cshtml" />
     <Content Include="Views\Custom\USR_PRT_DirectorateDocuments_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_APP_AppealIndividualDocuments_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_APP_AppealIndividualDocuments_View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -3722,6 +3724,12 @@
   </ItemGroup>
   <ItemGroup>
     <XamlAppDef Include="Activities\USR_REQ_JU_RequestForCopyDocument.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USR_APP_AppealIndividualDocuments.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </XamlAppDef>

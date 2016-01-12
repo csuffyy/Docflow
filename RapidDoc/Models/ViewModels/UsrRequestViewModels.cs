@@ -9775,6 +9775,11 @@ namespace RapidDoc.Models.ViewModels
 
     }
 
+    public class USR_APP_AppealIndividualDocuments_View : BasicAppealDocumentsView
+    {
+
+    }
+
     #endregion
 
     #region Протоколы
