@@ -274,6 +274,7 @@
     <Compile Include="Activities\CodeActivities\WFRegistrationOUT.cs" />
     <Compile Include="Activities\CodeActivities\WFCreateTaskIND.cs" />
     <Compile Include="Activities\CodeActivities\WFRegistrationORD.cs" />
+    <Compile Include="Activities\CodeActivities\WFSetUsersForOND.cs" />
     <Compile Include="Activities\CodeActivities\WFSetUsersForOrder.cs" />
     <Compile Include="Activities\CodeActivities\WFSetUsersForProtocol.cs" />
     <Compile Include="Activities\CodeActivities\WFSetUsersForTaskProlongation.cs" />
