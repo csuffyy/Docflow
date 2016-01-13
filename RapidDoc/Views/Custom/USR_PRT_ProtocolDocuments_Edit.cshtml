@@ -1,121 +1,243 @@
 ﻿@model RapidDoc.Models.ViewModels.USR_PRT_ProtocolDocuments_View
 @using RapidDoc.Extensions;
 @{
-    if(Model.QuestionList == null || Model.QuestionList.Count() == 0)
-    { 
+    if (Model.QuestionList == null || Model.QuestionList.Count() == 0)
+    {
         Model.QuestionList = new List<RapidDoc.Models.DomainModels.PRT_QuestionList_Table>();
         Model.QuestionList.Add(new RapidDoc.Models.DomainModels.PRT_QuestionList_Table());
         //Model.QuestionList.Add(new RapidDoc.Models.DomainModels.PRT_QuestionList_Table() { DecisionList = new List<RapidDoc.Models.DomainModels.PRT_DecisionList_Table>() });
         //Model.QuestionList.FirstOrDefault().DecisionList.Add(new RapidDoc.Models.DomainModels.PRT_DecisionList_Table());
     }
 }
+<div>
 
-@Html.ValidationSummary(true)
-<div class="row">
-    <div class="col-xs-12">
-        <div class="editor-label">
-            @Html.LabelForRequired(model => Model.ProtocolFoldersTableId)
-        </div>
-        <div class="editor-field">
-            @Html.Action("GetPRTFolderORD", "Custom", new { @processId = ViewBag.ProcessId, id = Model.ProtocolFoldersTableId })
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelForRequired(model => Model.Subject)
-        </div>
-        <div class="editor-field">
-            @Html.TextBoxFor(model => Model.Subject, new { @class = "form-control", placeholder = "Тема документа" })
-        </div>
-
-        <div class="row">
-            <div class="col-xs-8">
-                <div class="editor-label">
-                    @Html.LabelForRequired(model => Model.Location)
-                </div>
-                <div class="editor-field">
-                    @Html.TextBoxFor(model => Model.Location, new { @class = "form-control", placeholder = "Место проведения" })
-                </div>
-            </div>
-            <div class="col-xs-4">
-                <div class="editor-label">
-                    @Html.LabelForRequired(model => Model.Duration)
-                </div>
-                <div class="editor-field">
-                    @Html.TextBoxFor(model => Model.Duration, new { @class = "form-control", placeholder = "30 мин" })
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<br />
-<div class="panel panel-default">
-    <h6><small class="text-danger"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Для ручного ввода ФИО - Должность, в полях "Присутствовали", "Приглашенные", "Отсутствовали", которых нет в справочнике нужно ввести текст и нажать Enter. Не используйте запятую в тексте!</small></h6>
-    <div class="editor-label">
-        @Html.LabelForRequired(model => Model.Attended)
-    </div>
-    <div class="editor-field">
-        @Html.TextBoxFor(model => Model.Attended, new { @class = "form-control", @data_role = "tagsinputEmplBothOpt", placeholder = "Присутствовали" })
-    </div>
-    <div class="editor-label">
-        @Html.LabelForRequired(model => Model.Invited)
-    </div>
-    <div class="editor-field">
-        @Html.TextBoxFor(model => Model.Invited, new { @class = "form-control", @data_role = "tagsinputEmplBothOpt1", placeholder = "Приглашенные" })
-    </div>
-    <div class="editor-label">
-        @Html.LabelForRequired(model => Model.Absent)
-    </div>
-    <div class="editor-field">
-        @Html.TextBoxFor(model => Model.Absent, new { @class = "form-control", @data_role = "tagsinputEmplBothOpt2", placeholder = "Отсутствовали" })
-    </div>
-    <div class="editor-label">
-        @Html.LabelForRequired(model => Model.Chairman)
-    </div>
-    <div class="editor-field">
-        @Html.TextBoxFor(model => Model.Chairman, new { @class = "form-control", @data_role = "tagsinputEmplOne", placeholder = "Председатель"})
-    </div>
-    <div class="editor-label">
-        @Html.LabelForRequired(model => Model.ListAgreement)
-    </div>
-    <div class="editor-field">
-        @Html.TextBoxFor(model => Model.ListAgreement, new { @class = "form-control", @data_role = "tagsinputEmpl", placeholder = "Маршрут согласования" })
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-xs-12">
-        <div class="editor-label">
-            @Html.LabelForRequired(model => Model.Agenda)
-        </div>
-        <div class="editor-field">
-            @Html.TextAreaFor(model => Model.Agenda, new { @class = "form-control", placeholder = "Повестка совещания" })
-        </div>
-    </div>
-</div>
-
-<hr />
-<div class="row">
-    <div class="col-xs-12">
-        @if (Model.QuestionList != null && Model.QuestionList.Count() > 0)
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#edit" aria-controls="edit" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Редактирование</a></li>
+        @if (!String.IsNullOrEmpty(Model.Subject))
         {
-            <div id="questionRow" class="questionRow">
-            @foreach (var question in Model.QuestionList)
-            {
-                Html.RenderPartial("~/Views/Custom/_QuestionList.cshtml", question, new ViewDataDictionary { { "counter", Guid.NewGuid().ToString("N") }, { "documentId", Model.DocumentTableId } });
-            }
+            <li role="presentation"><a href="#view" aria-controls="view" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Просмотр</a></li>
+        }
+    </ul>
+
+    <div class="tab-content">
+        @if (!String.IsNullOrEmpty(Model.Subject))
+        {
+            <div role="tabpanel" class="tab-pane" id="view">
+                <h4 class="text-center"><strong>ПРОТОКОЛ: @Html.DisplayTextFor(x => x.Subject)</strong></h4>
+                <br />
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="editor-label">
+                            <div class="editor-label">
+                                @Html.LabelFor(x => x.ProtocolFoldersTableId):
+                            </div>
+                            <div class="editor-field">
+                                @Html.Action("GetPRTFolderORD", "Custom", new { @processId = ViewBag.ProcessId, id = Model.ProtocolFoldersTableId, selected = true })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="editor-label">
+                            @Html.LabelFor(x => x.Location):
+                        </div>
+                        <div class="editor-field">
+                            @Html.DisplayTextFor(x => x.Location)
+                        </div>
+                    </div>
+                </div>
+                <hr />
+
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="editor-label">
+                            @Html.LabelFor(x => x.Attended):
+                        </div>
+                        <div class="editor-field">
+                            @Html.HtmlDisplayTagsFor(model => Model.Attended)
+                        </div>
+                        @if (!String.IsNullOrEmpty(Model.Invited))
+                        {
+                            <div class="editor-label">
+                                @Html.LabelFor(x => x.Invited):
+                            </div>
+                            <div class="editor-field">
+                                @Html.HtmlDisplayTagsFor(model => Model.Invited)
+                            </div>
+                        }
+                    </div>
+                    <div class="col-xs-6">
+                        @if (!String.IsNullOrEmpty(Model.Absent))
+                        {
+                            <div class="editor-label">
+                                @Html.LabelFor(x => x.Absent):
+                            </div>
+                            <div class="editor-field">
+                                @Html.HtmlDisplayTagsFor(model => Model.Absent)
+                            </div>
+                        }
+                        <div class="editor-label">
+                            @Html.LabelFor(x => x.Chairman):
+                        </div>
+                        <div class="editor-field">
+                            @Html.HtmlDisplayTagsFor(model => Model.Chairman)
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                @if (!String.IsNullOrEmpty(Model.Agenda))
+                {
+                    <div class="row">
+                        <div class="col-xs-2">
+                            <div class="editor-label">
+                                @Html.LabelFor(x => x.Agenda):
+                            </div>
+                        </div>
+                        <div class="col-xs-10">
+                            <p class="text-justify"><strong><span style="white-space: pre-line;">@Html.Raw(Model.Agenda)</span></strong></p>
+                        </div>
+                    </div>
+                }
+                @if (!String.IsNullOrEmpty(Model.Introduction))
+                {
+                    <div class="row">
+                        <div class="col-xs-1">
+                            <div class="editor-label">
+                                @Html.LabelFor(x => x.Introduction)
+                            </div>
+                        </div>
+                        <div class="col-xs-11">
+                            <div class="editor-field">
+                                <p><span style="white-space: pre-line">@Html.Raw(Model.Introduction)</span></p>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <hr />
+                <strong>Список вопросов:</strong>
+                <br />
+                <br />
+                @if (Model.QuestionList != null && Model.QuestionList.Count() > 0)
+                {
+                    Html.RenderPartial("~/Views/Custom/_QuestionListView.cshtml", Model.QuestionList);
+                }
+                <br />
+                <div>@Html.Raw(Model.Addition)</div>
+                <strong>Время проведения совещания - @Html.DisplayTextFor(model => Model.Duration)</strong>
+
             </div>
         }
-        @Html.ActionLink("Добавить вопрос", "CreateNewQuestionProtocol", "Custom", null, new { id = "addItemQuestion", @class = "addItemQuestion btn btn-link" })
-    </div>
-</div>
-<div class="row">
-    <div class="col-xs-12">
-        <div class="editor-label">
-            @Html.LabelForRequired(model => Model.Addition)
-        </div>
-        <div class="editor-field">
-            @Html.TextAreaFor(model => Model.Addition, new { @class = "form-control summernotelight", placeholder = "" })
+        <div role="tabpanel" class="tab-pane active" id="edit">
+            @Html.HiddenFor(model => model.Id)
+            @Html.HiddenFor(model => model.DocumentTableId)
+            @Html.ValidationSummary(true)
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="editor-label">
+                        @Html.LabelForRequired(model => Model.ProtocolFoldersTableId)
+                    </div>
+                    <div class="editor-field">
+                        @Html.Action("GetPRTFolderORD", "Custom", new { @processId = ViewBag.ProcessId, id = Model.ProtocolFoldersTableId })
+                    </div>
+
+                    <div class="editor-label">
+                        @Html.LabelForRequired(model => Model.Subject)
+                    </div>
+                    <div class="editor-field">
+                        @Html.TextBoxFor(model => Model.Subject, new { @class = "form-control", placeholder = "Тема документа" })
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <div class="editor-label">
+                                @Html.LabelForRequired(model => Model.Location)
+                            </div>
+                            <div class="editor-field">
+                                @Html.TextBoxFor(model => Model.Location, new { @class = "form-control", placeholder = "Место проведения" })
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="editor-label">
+                                @Html.LabelForRequired(model => Model.Duration)
+                            </div>
+                            <div class="editor-field">
+                                @Html.TextBoxFor(model => Model.Duration, new { @class = "form-control", placeholder = "30 мин" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <br />
+            <div class="panel panel-default">
+                <h6><small class="text-danger"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Для ручного ввода ФИО - Должность, в полях "Присутствовали", "Приглашенные", "Отсутствовали", которых нет в справочнике нужно ввести текст и нажать Enter. Не используйте запятую в тексте!</small></h6>
+                <div class="editor-label">
+                    @Html.LabelForRequired(model => Model.Attended)
+                </div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => Model.Attended, new { @class = "form-control", @data_role = "tagsinputEmplBothOpt", placeholder = "Присутствовали" })
+                </div>
+                <div class="editor-label">
+                    @Html.LabelForRequired(model => Model.Invited)
+                </div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => Model.Invited, new { @class = "form-control", @data_role = "tagsinputEmplBothOpt1", placeholder = "Приглашенные" })
+                </div>
+                <div class="editor-label">
+                    @Html.LabelForRequired(model => Model.Absent)
+                </div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => Model.Absent, new { @class = "form-control", @data_role = "tagsinputEmplBothOpt2", placeholder = "Отсутствовали" })
+                </div>
+                <div class="editor-label">
+                    @Html.LabelForRequired(model => Model.Chairman)
+                </div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => Model.Chairman, new { @class = "form-control", @data_role = "tagsinputEmplOne", placeholder = "Председатель" })
+                </div>
+                <div class="editor-label">
+                    @Html.LabelForRequired(model => Model.ListAgreement)
+                </div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => Model.ListAgreement, new { @class = "form-control", @data_role = "tagsinputEmpl", placeholder = "Маршрут согласования" })
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="editor-label">
+                        @Html.LabelForRequired(model => Model.Agenda)
+                    </div>
+                    <div class="editor-field">
+                        @Html.TextAreaFor(model => Model.Agenda, new { @class = "form-control", placeholder = "Повестка совещания" })
+                    </div>
+                </div>
+            </div>
+
+            <hr />
+            <div class="row">
+                <div class="col-xs-12">
+                    @if (Model.QuestionList != null && Model.QuestionList.Count() > 0)
+                    {
+                        <div id="questionRow" class="questionRow">
+                            @foreach (var question in Model.QuestionList)
+                            {
+                                Html.RenderPartial("~/Views/Custom/_QuestionList.cshtml", question, new ViewDataDictionary { { "counter", Guid.NewGuid().ToString("N") }, { "documentId", Model.DocumentTableId } });
+                            }
+                        </div>
+                    }
+                    @Html.ActionLink("Добавить вопрос", "CreateNewQuestionProtocol", "Custom", null, new { id = "addItemQuestion", @class = "addItemQuestion btn btn-link" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="editor-label">
+                        @Html.LabelForRequired(model => Model.Addition)
+                    </div>
+                    <div class="editor-field">
+                        @Html.TextAreaFor(model => Model.Addition, new { @class = "form-control summernotelight", placeholder = "" })
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
