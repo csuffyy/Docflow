@@ -113,8 +113,11 @@
                             <div>
                                 <p>@Model.BodyText:</p>
                                 <h3><a href="@Model.DocumentUri">@Model.DocumentNum</a></h3>
-                                <h5>Текст:</h5>
-                                <p>@Model.DocumentText</p>
+                                @if (!String.IsNullOrEmpty(Model.DocumentText))
+                                { 
+                                    <h5>Текст:</h5>
+                                    <p>@Model.DocumentText</p>
+                                }
                                 @if (@ViewBag.AdditionalText != null && @ViewBag.AdditionalText != String.Empty)
                                 {
                                     <h5>Сопроводительный текст:</h5>

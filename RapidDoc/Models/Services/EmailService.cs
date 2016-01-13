@@ -483,7 +483,7 @@ namespace RapidDoc.Models.Services
             if (documentTable == null)
                 return;
 
-            List<string> emails = repoUser.FindAll(x => newReader.Contains(x.Id) && x.Email != String.Empty).GroupBy(x => x.Email).Select(x => x.Key).ToList();
+            List<string> emails = repoUser.FindAll(x => newReader.Contains(x.Id) && x.Email != String.Empty && x.Enable == true).GroupBy(x => x.Email).Select(x => x.Key).ToList();
 
             if (emails != null && emails.Count > 0)
             {

@@ -63,7 +63,9 @@ function popover_init() {
 function duallist_init(placeholder) {
     $('.duallist').bootstrapDualListbox({
         infoText: false,
-        filterPlaceHolder: placeholder
+        filterPlaceHolder: placeholder,
+        moveOnSelect: false,
+        preserveSelectionOnMove: 'moved'
     });
 
     $("#duallistform").submit(function (e) {

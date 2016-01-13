@@ -148,6 +148,9 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Поставить на контроль")]
         public string ControlUsers { get; set; }
 
+        //[Display(Name = "Без поручения")]
+        //public bool NoTask { get; set; }
+
         [Display(Name = "Подпись")]
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         public string Sign { get; set; }

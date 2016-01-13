@@ -108,13 +108,16 @@ namespace RapidDoc.Models.Services
                         }
                         else
                         {
-                            addReadersDescription += empl.FullName + "; ";
+                            if (empl.Enable == true)
+                            {
+                                addReadersDescription += empl.FullName + "; ";
 
-                            DocumentReaderTable reader = new DocumentReaderTable();
-                            reader.DocumentTableId = documentId;
-                            reader.UserId = userId;
-                            SaveDomain(reader, currentUserId);
-                            newReader.Add(userId);
+                                DocumentReaderTable reader = new DocumentReaderTable();
+                                reader.DocumentTableId = documentId;
+                                reader.UserId = userId;
+                                SaveDomain(reader, currentUserId);
+                                newReader.Add(userId);
+                            }
                         }
                     }
                 }
@@ -186,7 +189,6 @@ namespace RapidDoc.Models.Services
                     if ((Contains(x => x.DocumentTableId == documentId && x.UserId == userId && x.RoleId == null) == false) &&
                         (Contains(x => x.DocumentTableId == documentId && x.RoleId == userId) == false))
                     {
-                        newReader.Add(userId);
                         var empl = _EmplService.GetEmployer(userId, currentUser.CompanyTableId);
                         if (empl == null)
                         {
@@ -200,17 +202,22 @@ namespace RapidDoc.Models.Services
                                 reader.UserId = userId;
                                 reader.RoleId = userId;
                                 SaveDomain(reader, currentUserId);
+                                newReader.Add(userId);
 
                                 addReadersDescription += role.Description + "; ";
                             }
                         }
                         else
                         {
-                            addReadersDescription += empl.FullName + "; ";
-                            DocumentReaderTable reader = new DocumentReaderTable();
-                            reader.DocumentTableId = documentId;
-                            reader.UserId = userId;
-                            SaveDomain(reader, currentUserId);
+                            if(empl.Enable == true)
+                            {
+                                addReadersDescription += empl.FullName + "; ";
+                                DocumentReaderTable reader = new DocumentReaderTable();
+                                reader.DocumentTableId = documentId;
+                                reader.UserId = userId;
+                                SaveDomain(reader, currentUserId);
+                                newReader.Add(userId);
+                            }
                         }
                     }
                 }

@@ -675,3 +675,13 @@ input[type='checkbox']:checked.pseudo-checkbox + label:before{/*checked icon*/
 .textblock > p {
    margin: 0;
 }
+
+.bootstrap-duallistbox-container .btn.moveall,
+.bootstrap-duallistbox-container .btn.removeall {
+  display: none;
+}
+
+.bootstrap-duallistbox-container .btn.move,
+.bootstrap-duallistbox-container .btn.remove {
+  width: 100%;
+}

@@ -5257,7 +5257,7 @@
 
           // if no url was given, copy text to url
           if (!linkInfo.url) {
-            linkInfo.url = linkInfo.text || 'http://';
+              linkInfo.url = linkInfo.text || 'file:///';
             toggleBtn($linkBtn, linkInfo.text);
           }
 

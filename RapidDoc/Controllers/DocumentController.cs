@@ -1310,24 +1310,22 @@ namespace RapidDoc.Controllers
         {
             string errorText = String.Empty;
             string currentUserId = User.Identity.GetUserId();
+            int checkCount = 0;
 
-            var currentReaders = _DocumentReaderService.GetPartial(x => x.DocumentTableId == id && x.RoleId != null).GroupBy(x => x.RoleId);
-            if (currentReaders.Count() > 0)
+            foreach (var item in listdata)
             {
-                foreach (var item in currentReaders)
+                if (!String.IsNullOrEmpty(item) && !_DocumentReaderService.Contains(x => x.DocumentTableId == id && x.UserId == item))
+                    checkCount++;
+            }
+
+            var currentReaders = _DocumentReaderService.GetPartial(x => x.DocumentTableId == id && x.ApplicationUserCreatedId == currentUserId).GroupBy(x => x.UserId).ToList();
+            if ((currentReaders.Count() + checkCount) > 20)
+            {
+                if (RoleManager.RoleExists("MailingAdmin"))
                 {
-                    if (listdata == null || listdata.Contains(item.Key) == false)
-                    {
-                        if (RoleManager.RoleExists("MailingAdmin"))
-                        {
-                            IdentityUserRole user = RoleManager.FindByName("MailingAdmin").Users.FirstOrDefault(x => x.UserId == currentUserId);
-                            if (user == null)
-                            {
-                                errorText = ValidationRes.ValidationResource.ErrorRoleMailingGroup;
-                                break;
-                            }
-                        }
-                    }
+                    IdentityUserRole user = RoleManager.FindByName("MailingAdmin").Users.FirstOrDefault(x => x.UserId == currentUserId);
+                    if (user == null)
+                        errorText = ValidationRes.ValidationResource.ErrorLimitReaders;
                 }
             }
 
