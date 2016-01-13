@@ -79,7 +79,7 @@ namespace RapidDoc.Models.DomainModels
             
         public string ControlUsers { get; set; }
         public DateTime? ControlDate { get; set; }
-        //public bool NoTask { get; set; }
+        public bool NoTask { get; set; }
 
         public string ListSubcription { get; set; }
         public bool AddReaders { get; set; }
