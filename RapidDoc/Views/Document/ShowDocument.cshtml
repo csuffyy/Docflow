@@ -67,7 +67,8 @@
         @Html.HiddenFor(model => model.fileId)
         @Html.Action("GetDocumentData", new { modelDoc = Model.docData, Model.ProcessView.TableName, viewType = "View", processId = Model.ProcessView.Id })
         <br class="hidden-print">
-        @if ((Model.DocumentView.DocumentState != RapidDoc.Models.Repository.DocumentState.Closed && Model.DocumentView.DocumentState != RapidDoc.Models.Repository.DocumentState.Cancelled) || User.IsInRole("Administrator"))
+        @if ((Model.DocumentView.DocumentState != RapidDoc.Models.Repository.DocumentState.Closed && Model.DocumentView.DocumentState != RapidDoc.Models.Repository.DocumentState.Cancelled) || User.IsInRole("Administrator") || (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.OutcomingDoc &&
+            Model.DocumentView.CreatedBy == User.Identity.Name))
         {
             <div class="visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
                 <h4 class="hidden-print">
@@ -160,7 +161,7 @@
             }
         }
         
-        @if (User.IsInRole("Administrator") && (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.OfficeMemo || Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Order))
+        @if (User.IsInRole("Administrator") && (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.OfficeMemo || Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Order || Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Protocol))
         {
             <button type="submit" id="saveChanges" class="btn btn-default" name="action:SaveChanges">@UIElementRes.UIElement.Save</button>
         }
@@ -459,6 +460,7 @@
         datetimepicker_init("@UIElementRes.UIElement.LangName");
         summernote_init("@UIElementRes.UIElement.LangFullName");
         summernotemin_init("@UIElementRes.UIElement.LangFullName");
+        summernotelight_init("@UIElementRes.UIElement.LangFullName");
         custom_tagsinputEmpl_init("@Url.Action("JsonEmpl", "Custom")");
         custom_tagsinputEmpl2_init("@Url.Action("JsonEmpl", "Custom")");
         custom_tagsinputEmpl3_init("@Url.Action("JsonEmpl", "Custom")");
@@ -470,6 +472,10 @@
         custom_tagsinputEmplOne_init("@Url.Action("JsonEmpl", "Custom")");
         custom_tagsinputOnlyGroup_init("@Url.Action("GetJsonOnlyGroup", "Custom")");
         custom_tagsinputEmplOne1_init("@Url.Action("GetJsonTripEmpl", "Custom")");
+        custom_tagsinputEmplDynamic_init("@Url.Action("JsonEmpl", "Custom")");
+        custom_tagsinputEmplBothOpt_init("@Url.Action("JsonEmplBothOption", "Custom")");
+        custom_tagsinputEmplBothOpt1_init("@Url.Action("JsonEmplBothOption", "Custom")");
+        custom_tagsinputEmplBothOpt2_init("@Url.Action("JsonEmplBothOption", "Custom")");
         popover_init();
         favoritebutton('@Model.DocumentView.Id', '@User.Identity.GetUserId()');
         qrcode_init();

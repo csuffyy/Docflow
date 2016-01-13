@@ -1473,7 +1473,7 @@ namespace RapidDoc.Controllers
             DocumentTable document = _DocumentService.FirstOrDefault(x => x.FileId == fileId && x.DocType == process.DocType);
             if(document != null)
             {
-                if ((document.DocumentState == DocumentState.Closed || document.DocumentState == DocumentState.Cancelled) && !User.IsInRole("Administrator"))
+                if ((document.DocumentState == DocumentState.Closed || document.DocumentState == DocumentState.Cancelled) && !User.IsInRole("Administrator") || (document.DocType == DocumentType.OutcomingDoc && document.ApplicationUserCreatedId == User.Identity.GetUserId()))
                 {
                     error = true;
                     errorText = ValidationRes.ValidationResource.ErrorDocumentState;
@@ -2286,6 +2286,9 @@ namespace RapidDoc.Controllers
         [Authorize(Roles = "Administrator, SetupAdministrator")]
         public ActionResult SaveChanges(Guid processId, int type, Guid fileId, FormCollection collection, string actionModelName, Guid documentId)
         {
+            IDictionary<string, IList> listData = new Dictionary<string, IList>();
+            DocumentTable docTable = _DocumentService.Find(documentId);
+            Regex isList = new Regex(@"[A-Za-z0-9\-]+_[A-Za-z0-9\-]+_Table__[A-Za-z0-9\-]+[*]+[A-Za-z0-9\-]+[[A-Za-z0-9\-]+].[A-Za-z0-9\-]+", RegexOptions.Compiled); 
             IDictionary<string, object> documentData = new Dictionary<string, object>();
             Type typeActionModel = Type.GetType("RapidDoc.Models.ViewModels." + actionModelName + "_View");
             var actionModel = Activator.CreateInstance(typeActionModel);
@@ -2293,11 +2296,25 @@ namespace RapidDoc.Controllers
 
             foreach (var key in collection.AllKeys.OrderBy(x => x))
             {
-                MappingModelFields(key, key, ref actionModel, typeActionModel, collection, ref documentData);               
+                if (isList.IsMatch(key) && listData.Count() == 0)
+                {
+                    listData = GetChildrenBranch(collection);
+                    foreach (var item in listData)
+                    {
+                        System.Reflection.PropertyInfo propertyInfo = typeActionModel.GetProperty(item.Key);
+                        if (propertyInfo != null)
+                        {
+                            propertyInfo.SetValue(actionModel, item.Value, null);
+                        }
+                    }
+                }
+                else
+                {
+                    MappingModelFields(key, key, ref actionModel, typeActionModel, collection, ref documentData);
+                }  
             }
 
             _DocumentService.UpdateDocumentFields(actionModel, processSourceView);
-
             return RedirectToAction("ShowDocument", new { id = documentId, isAfterView = true });
         }
 

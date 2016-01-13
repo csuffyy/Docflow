@@ -2788,6 +2788,55 @@ namespace RapidDoc.Controllers
             return PartialView("_Empty");
         }
 
+        public ActionResult GetPRTTechCommitteeDocuments(RapidDoc.Models.ViewModels.USR_PRT_TechCommitteeDocuments_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+            ViewBag.ProcessId = document.ProcessTableId;
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_PRT_TechCommitteeDocuments_Edit", model);
+
+            return PartialView("USR_PRT_TechCommitteeDocuments_View_Full", model);
+        }
+
+        public ActionResult GetPRTProtocolDocuments(RapidDoc.Models.ViewModels.USR_PRT_ProtocolDocuments_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+            ViewBag.ProcessId = document.ProcessTableId;
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_PRT_ProtocolDocuments_Edit", model);
+
+            return PartialView("USR_PRT_ProtocolDocuments_View_Full", model);
+        }
+        public ActionResult GetPRTManagementDocuments(RapidDoc.Models.ViewModels.USR_PRT_ManagementDocuments_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+            ViewBag.ProcessId = document.ProcessTableId;
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_PRT_ManagementDocuments_Edit", model);
+
+            return PartialView("USR_PRT_ManagementDocuments_View_Full", model);
+        }
+
+        public ActionResult GetPRTDirectorateDocuments(RapidDoc.Models.ViewModels.USR_PRT_DirectorateDocuments_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+            ViewBag.ProcessId = document.ProcessTableId;
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_PRT_DirectorateDocuments_Edit", model);
+
+            return PartialView("USR_PRT_DirectorateDocuments_View_Full", model);
+        }
+
+        public ActionResult GetPRTBalanceCommissionDocuments(RapidDoc.Models.ViewModels.USR_PRT_BalanceCommissionDocuments_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+            ViewBag.ProcessId = document.ProcessTableId;
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_PRT_BalanceCommissionDocuments_Edit", model);
+
+            return PartialView("USR_PRT_BalanceCommissionDocuments_View_Full", model);
+        }
+
         [HttpPost]
         public ActionResult UpdateCalcBTripPPTRIP(byte EmplTripType, byte TripDirection, int Day, int DayLive, int TicketSum)
         {

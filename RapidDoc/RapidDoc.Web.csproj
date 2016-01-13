@@ -1978,6 +1978,11 @@
     <Content Include="Views\Custom\USR_PRT_DirectorateDocuments_Edit.cshtml" />
     <Content Include="Views\Custom\USR_APP_AppealIndividualDocuments_Edit.cshtml" />
     <Content Include="Views\Custom\USR_APP_AppealIndividualDocuments_View.cshtml" />
+    <Content Include="Views\Custom\USR_PRT_TechCommitteeDocuments_View_Full.cshtml" />
+    <Content Include="Views\Custom\USR_PRT_ProtocolDocuments_View_Full.cshtml" />
+    <Content Include="Views\Custom\USR_PRT_ManagementDocuments_View_Full.cshtml" />
+    <Content Include="Views\Custom\USR_PRT_DirectorateDocuments_View_Full.cshtml" />
+    <Content Include="Views\Custom\USR_PRT_BalanceCommissionDocuments_View_Full.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
