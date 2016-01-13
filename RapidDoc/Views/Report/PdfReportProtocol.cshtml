@@ -340,7 +340,23 @@
                     </td>
                 </tr>
             }   
-        </table>   
+        </table>
+        <table width="900">
+            <tr>
+                <td align="left">
+                    <strong>
+                        <font size="4" face="Arial">
+                            @Html.Raw(Model.Addition)
+                        </font>
+                    </strong>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <br />
+                </td>
+            </tr>
+        </table>  
         <table width="900">
             @if (((List<WFTrackerListView>)ViewBag.Tracker).Count > 0)
             {

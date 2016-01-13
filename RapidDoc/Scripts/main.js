@@ -364,7 +364,7 @@ function summernotelight_init(lang) {
                 //['color', ['color']],
                 ['para', ['ul', 'ol', 'paragraph']],
                 //['height', ['height']],
-                //['insert', ['link']], // no insert buttons
+                ['insert', ['link']], // no insert buttons
                 //['table', ['table']], // no table button
                 ['misc', ['undo', 'redo']]
                 //['help', ['help']] //no help button

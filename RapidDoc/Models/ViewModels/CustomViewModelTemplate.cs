@@ -496,6 +496,9 @@ namespace RapidDoc.Models.ViewModels
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         public string Duration { get; set; }
 
+        [Display(Name = "Приложения")]
+        public string Addition { get; set; }
+
         public List<RapidDoc.Models.DomainModels.PRT_QuestionList_Table> QuestionList { get; set; }
     }
 }
