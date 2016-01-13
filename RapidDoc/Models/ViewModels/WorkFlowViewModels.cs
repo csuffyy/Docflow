@@ -443,7 +443,6 @@ namespace RapidDoc.Models.ViewModels
         public TrackerType WFTrackerType { get; set; }
         public string DocumentText { get; set; }
         public Folder Folder { get; set; }
-        public CategoryPerson CategoryPerson { get; set; }
         public Guid? ProtocolFolderId  { get; set; }
         public string ProtocolCode { get; set; }
         public string TrackerActivityName { get; set; }

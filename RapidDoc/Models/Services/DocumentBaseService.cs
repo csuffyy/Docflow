@@ -256,7 +256,6 @@ namespace RapidDoc.Models.Services
                         if (documentView.ItemCauseTableId != Guid.Empty && documentView.ItemCauseTableId != null)
                             item.ItemCaseName = _ItemCauseService.Find((Guid)documentView.ItemCauseTableId).CaseName;
                         item.DocumentTitle = documentView.Subject;
-                        item.CategoryPerson = documentView.CategoryPerson;
                         item.CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(item.CreatedDate), timeZoneInfo);
 
                         if (documentView.OrganizationTableId != null)

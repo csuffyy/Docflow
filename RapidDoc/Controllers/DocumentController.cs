@@ -2300,7 +2300,7 @@ namespace RapidDoc.Controllers
 
             _DocumentService.UpdateDocumentFields(actionModel, processSourceView);
 
-            return RedirectToAction("Index", "Document");
+            return RedirectToAction("ShowDocument", new { id = documentId, isAfterView = true });
         }
 
         public string GetProcessName(Guid? id)

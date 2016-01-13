@@ -249,8 +249,6 @@ namespace RapidDoc.Models.DomainModels
         public bool Language_French { get; set; }
         public bool Language_Other { get; set; }
 
-        public CategoryPerson CategoryPerson { get; set; }
-
         public string IdentificatorNumber { get; set; }
 
         public Guid? OrganizationTableId { get; set; }

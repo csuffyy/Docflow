@@ -1196,9 +1196,6 @@ namespace RapidDoc.Models.Repository
         [Display(Name = "По теме документа")]
         Topic = 3,
 
-        [Display(Name = "По категории лица")]
-        CategoryPerson = 4,
-
         [Display(Name = "По корреспонденту")]
         Organization = 5,
 

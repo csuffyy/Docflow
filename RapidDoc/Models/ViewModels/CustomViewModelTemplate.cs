@@ -365,9 +365,6 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Иное")]
         public bool Language_Other { get; set; }
 
-        [Display(Name = "Категория лица")]
-        public CategoryPerson CategoryPerson { get; set; }
-
         [Display(Name = "ИИН\\БИН")]
         public string IdentificatorNumber { get; set; }
 
