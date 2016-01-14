@@ -219,7 +219,7 @@
                     <li>
                         <a href="#" data-toggle="modal" data-target=".delegatetask-modal-sm">@UIElementRes.UIElement.Delegate</a>
                     </li>
-                    if (Model.docData.ExecutionDate > DateTime.UtcNow || Model.docData.ProlongationDate > DateTime.UtcNow)
+                    if (Model.docData.ExecutionDate >= DateTime.UtcNow.Date || Model.docData.ProlongationDate >= DateTime.UtcNow.Date)
                     { 
                     <li>
                         <a href=@Url.Action("ProlongDocumentTask", new { tableName = Model.ProcessView.TableName, documentId = Model.DocumentView.Id })>@UIElementRes.UIElement.Prolong</a>
