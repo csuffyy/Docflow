@@ -4,61 +4,49 @@
 @Html.HiddenFor(model => model.MainField)
 @Html.HiddenFor(model => model.NeedTranslate)
 
-<div class="row">
-    @if(!String.IsNullOrEmpty(Model.ControlUsers))
-    { 
-        <div class="col-xs-4">
+<h6>@Html.DisplayTextFor(model => Model.ItemCauseNumber)</h6>
+@if (Model.Addition == true)
+{
+    <div class="row">
+        <div class="col-xs-12">
+            <h6>
+                Дополнение к:
+                @Html.Action("GetAdditionORD", "Custom", new { id = Model.AdditionDocumentId, edit = false })
+            </h6>
+        </div>
+    </div>
+}
+@if (Model.CancelOrder == true)
+{
+    <div class="row">
+        <div class="col-xs-12">
+            <h6>
+                Аннулировать приказ:
+                @Html.Action("GetRevocationORD", "Custom", new { id = Model.CancelDocumentId, edit = false })
+            </h6>
+        </div>
+    </div>
+}
+@if (!String.IsNullOrEmpty(Model.ControlUsers))
+{
+    <div class="row">
+        <div class="col-xs-10">
+            <h6>
+                Контролирует: @Html.HtmlDisplayTagsFor(model => model.ControlUsers)
+                @if (Model.NoTask == false)
+                {
+                    <text>-</text>
+                    @Model.ControlDate.Value.ToShortDateString()
+                }
+            </h6>
+        </div>
+        <div class="col-xs-2">
             <div class="editor-label">
                 @Html.LabelForRequired(model => model.Executed)
             </div>
             <div class="editor-field">
                 @Html.CheckBoxFor(model => model.Executed, new { @disabled = true })
-                Контролирует: @Html.HtmlDisplayTagsFor(model => model.ControlUsers), @Model.ControlDate.Value.ToShortDateString()
             </div>
-        </div>
-    }
-    @if (Model.Addition == true)
-    {
-        <div class="col-xs-2">
-            <div class="editor-label">
-                @Html.LabelForRequired(model => model.Addition)
-            </div>
-            <div class="editor-field">
-                @Html.CheckBoxFor(model => model.Addition, new { @disabled = true })
-            </div>
-        </div>
-        if (Model.AdditionDocumentId != null)
-        {
-            <div class="col-xs-3">
-                <div class="editor-label">
-                    @Html.LabelForRequired(model => model.Addition)
-                </div>
-                <div class="editor-field">
-                    @Html.Action("GetAdditionORD", "Custom", new { id = Model.AdditionDocumentId, edit = false })
-                </div>
-            </div>
-        }
-        if (!String.IsNullOrEmpty(Model.AdditionText))
-        {
-            <div class="col-xs-3">
-                <div class="editor-label">
-                    @Html.LabelForRequired(model => model.AdditionText)
-                </div>
-                <div class="editor-field">
-                    @Html.DisplayTextFor(model => model.AdditionText)
-                </div>
-            </div>
-        }
-    }
-</div>
-@if (Model.CancelOrder == true)
-{
-    <div class="row">
-        <div class="col-xs-12">
-            <h5>
-                Аннулировать приказ:
-                @Html.Action("GetRevocationORD", "Custom", new { id = Model.CancelDocumentId, edit = false })
-            </h5>
         </div>
     </div>
 }
@@ -93,9 +81,12 @@
 </div>
 <br />
 <h6><span style="white-space: pre-line">@Html.Raw(Model.ListFileName)</span></h6>
-<div class="editor-label">
-    @Html.LabelFor(model => Model.ListSubcription)
-</div>
-<div class="editor-field">
-    @Html.HtmlDisplayTagsFor(model => Model.ListSubcription)
-</div>
+@if (!String.IsNullOrEmpty(Model.ListSubcription))
+{
+    <div class="editor-label">
+        @Html.LabelFor(model => Model.ListSubcription)
+    </div>
+    <div class="editor-field">
+        @Html.HtmlDisplayTagsFor(model => Model.ListSubcription)
+    </div>
+}

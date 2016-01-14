@@ -1473,7 +1473,7 @@ namespace RapidDoc.Controllers
             DocumentTable document = _DocumentService.FirstOrDefault(x => x.FileId == fileId && x.DocType == process.DocType);
             if(document != null)
             {
-                if ((document.DocumentState == DocumentState.Closed || document.DocumentState == DocumentState.Cancelled) && !User.IsInRole("Administrator") || (document.DocType == DocumentType.OutcomingDoc && document.ApplicationUserCreatedId == User.Identity.GetUserId()))
+                if ((document.DocumentState == DocumentState.Closed || document.DocumentState == DocumentState.Cancelled) && !User.IsInRole("Administrator") || (document.DocType == DocumentType.OutcomingDoc))
                 {
                     error = true;
                     errorText = ValidationRes.ValidationResource.ErrorDocumentState;

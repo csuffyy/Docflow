@@ -116,7 +116,7 @@
                                 @if (!String.IsNullOrEmpty(Model.DocumentText))
                                 { 
                                     <h5>Текст:</h5>
-                                    <p>@Model.DocumentText</p>
+                                    <p style="white-space: pre-line;">@Model.DocumentText</p>
                                 }
                                 @if (@ViewBag.AdditionalText != null && @ViewBag.AdditionalText != String.Empty)
                                 {

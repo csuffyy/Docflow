@@ -284,7 +284,7 @@ namespace RapidDoc.Models.Services
             if (document == null)
                 return;
 
-            document.DocumentText = searchString;
+            document.DocumentText = GetDocumentText(document, searchString);
             _DocumentService.SaveDocumentText(document);
 
             if (!Contains(x => x.DocumentTableId == document.Id))
@@ -307,6 +307,38 @@ namespace RapidDoc.Models.Services
         {
             repo.Delete(x => x.Id == Id);
             _uow.Commit();
+        }
+
+        private string GetDocumentText(DocumentTable documentTable, string defaultText)
+        {
+            string ret = defaultText;
+
+            if (documentTable.DocType == DocumentType.OfficeMemo || documentTable.DocType == DocumentType.Protocol || documentTable.DocType == DocumentType.Order)
+            {
+                var refDocument = _DocumentService.GetDocument(documentTable.RefDocumentId, documentTable.ProcessTable.TableName);
+
+                if (refDocument != null)
+                {
+                    if (documentTable.DocType == DocumentType.OfficeMemo)
+                    {
+                        ret = refDocument._DocumentTitle;
+                    }
+                    else if (documentTable.DocType == DocumentType.Protocol)
+                    {
+                        ret = refDocument.Subject + '\n' + refDocument.Agenda;
+                    }
+                    else if (documentTable.DocType == DocumentType.Order && refDocument.GetType() != (new USR_ORD_BusinessTrip_Table()).GetType())
+                    {
+                        ret = refDocument.Subject;
+                    }
+                    else if (documentTable.DocType == DocumentType.Order && refDocument.GetType() == (new USR_ORD_BusinessTrip_Table()).GetType())
+                    {
+                        ret = refDocument.GoalTrip;
+                    }
+                }
+            }
+
+            return ret;
         }
 
         private string getCurrentUserId(string currentUserId = "")

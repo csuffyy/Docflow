@@ -1202,7 +1202,7 @@ namespace RapidDoc.Models.Services
                     EmplTable emplTableSignUser = repoEmpl.Find(x => x.ApplicationUserId == user.Id && x.Enable == true);
 
                     string processName = documentTable.ProcessName;
-                    string docText = this.GetDocumentText(documentTable);
+                    string docText = documentTable.DocumentText;
                     new Task(() =>
                     {
                         string absFile = HostingEnvironment.ApplicationPhysicalPath + @"Views\\EmailTemplate\\BasicEmailTemplate.cshtml";
@@ -1220,41 +1220,6 @@ namespace RapidDoc.Models.Services
                     }).Start();
                 }
             }
-        }
-        private string GetDocumentText(DocumentTable documentTable)
-        {
-            string ret = String.Empty;
-
-            if (documentTable.DocType == DocumentType.OfficeMemo || documentTable.DocType == DocumentType.Protocol || documentTable.DocType == DocumentType.Order)
-            {
-                var refDocument = _DocumentService.GetDocument(documentTable.RefDocumentId, documentTable.ProcessTable.TableName);
-
-                if (refDocument != null)
-                {
-                    if (documentTable.DocType == DocumentType.OfficeMemo)
-                    {
-                        ret = refDocument._DocumentTitle;
-                    }
-                    else if (documentTable.DocType == DocumentType.Protocol)
-                    {
-                        ret = refDocument.Subject + '\n' + refDocument.Agenda;
-                    }
-                    else if (documentTable.DocType == DocumentType.Order && refDocument.GetType() != (new USR_ORD_BusinessTrip_Table()).GetType())
-                    {
-                        ret = refDocument.Subject;
-                    }
-                    else if (documentTable.DocType == DocumentType.Order && refDocument.GetType() == (new USR_ORD_BusinessTrip_Table()).GetType())
-                    {
-                        ret = refDocument.GoalTrip;
-                    }
-                }
-            }
-            else
-            {
-                ret = documentTable.DocumentText;
-            }
-
-            return ret;
         }
 
         public string CryptStringSHA256(string pass)
