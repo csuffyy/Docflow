@@ -1444,9 +1444,12 @@ namespace RapidDoc.Models.Services
                 }
             }
 
-            if (type.IsSubclassOf(typeof(BasicProtocolDocumentsView)))
+            if (type.IsSubclassOf(typeof(BasicProtocolDocumentsView)) && noErrors == true)
             {
-                if (actionModel.QuestionList != null && noErrors == true)
+                if (_SystemService.CheckTextExists(actionModel.Addition) == false)
+                    actionModel.Addition = String.Empty;
+
+                if (actionModel.QuestionList != null)
                 {
                     ((List<PRT_QuestionList_Table>)actionModel.QuestionList).RemoveAll(x => _SystemService.CheckTextExists(x.Question) == false && x.DecisionList == null);
 

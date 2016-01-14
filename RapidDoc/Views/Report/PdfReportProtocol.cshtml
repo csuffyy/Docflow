@@ -130,7 +130,7 @@
                 </td>
                 @if (@ViewBag.ListInvited != null && ((List<string>)@ViewBag.ListInvited).Count > 0)
                 {
-                    <td>
+                    <td style="vertical-align:top;">
                         <font size="4" face="Arial">
                             <span><strong>Приглашенные:</strong></span>
                         </font>
@@ -199,13 +199,11 @@
                         <span><strong>Повестка:</strong></span>
                     </font>
                 </td>
-            </tr>
-            <tr>
                 <td>
                     <p style="text-align: justify;">
-                    <font size="4" face="Arial">
-                        <span style="white-space: pre-line;">@Model.Agenda</span>
-                    </font>
+                        <font size="4" face="Arial">
+                            <strong><span style="white-space: pre-line;">@Model.Agenda</span></strong>
+                        </font>
                     </p>
                 </td>
             </tr>
@@ -309,54 +307,26 @@
                 <br />
             }
         }
-        <br />
-        <table width="900">
-            @if (((List<FileTable>)ViewBag.ListFiles).Count > 0)
-            { 
-                <tr>
-                    <td align="left">
-                        <strong>
-                            <font size="4" face="Arial">
-                                Вложенные файлы:
-                            </font>
-                        </strong>
-                    </td>
-                </tr>
-                foreach (FileTable file in ViewBag.ListFiles)
-                {
-                    <tr>
-                               
-                            <td align="left">
-                                <font size="4" face="Arial">                           
-                                        @file.FileName                          
-                                </font>
-                            </td>
-                    
-                    </tr>
-                }
-                <tr>
-                    <td>
-                        <br />
-                    </td>
-                </tr>
-            }   
-        </table>
-        <table width="900">
-            <tr>
-                <td align="left">
-                    <strong>
-                        <font size="4" face="Arial">
-                            @Html.Raw(Model.Addition)
-                        </font>
-                    </strong>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <br />
-                </td>
-            </tr>
-        </table>  
+        @if (((List<FileTable>)ViewBag.ListFiles).Count > 0)
+        {
+            <p>
+                <strong>
+                    <font size="4" face="Arial">
+                        Вложенные файлы:
+                    </font>
+                </strong>
+            </p>
+            foreach (FileTable file in ViewBag.ListFiles)
+            {
+                <font size="4" face="Arial">                           
+                    @file.FileName                          
+                </font>
+            }
+        }   
+        <font size="4" face="Arial">
+            @Html.Raw(Model.Addition)
+        </font>
+        <br /> 
         <table width="900">
             @if (((List<WFTrackerListView>)ViewBag.Tracker).Count > 0)
             {

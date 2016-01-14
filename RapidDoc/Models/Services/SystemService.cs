@@ -97,6 +97,9 @@ namespace RapidDoc.Models.Services
 
         public bool CheckTextExists(string text)
         {
+            if (String.IsNullOrEmpty(text) || String.IsNullOrWhiteSpace(text))
+                return false;
+
             string prepare = DeleteAllTags(text);
             prepare = DeleteAllSpecialCharacters(prepare);
             prepare = prepare.Trim();

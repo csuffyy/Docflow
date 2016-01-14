@@ -401,8 +401,11 @@ namespace RapidDoc.Models.Services
             var users = repoUser.FindAll(x => x.Id == documentTable.ApplicationUserCreatedId).ToList();
 
             var currentReaders = _DocumentReaderService.GetPartial(x => x.DocumentTableId == documentId).ToList();
-            foreach (var reader in currentReaders)
-                users.Add(repoUser.GetById(reader.UserId));
+            if (currentReaders.Count() < 51)
+            {
+                foreach (var reader in currentReaders)
+                    users.Add(repoUser.GetById(reader.UserId));
+            }
 
             var signUsers = _DocumentService.GetSignUsersDirect(documentTable);
             foreach (var signUser in signUsers)
