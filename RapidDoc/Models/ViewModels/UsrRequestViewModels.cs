@@ -4178,6 +4178,18 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Направление")]
         public TripDirection TripDirection4 { get; set; }
 
+        [Display(Name = "Вид командировки")]
+        public TypeRequestTrip TypeRequestTrip1 { get; set; }
+
+        [Display(Name = "Вид командировки")]
+        public TypeRequestTrip TypeRequestTrip2 { get; set; }
+
+        [Display(Name = "Вид командировки")]
+        public TypeRequestTrip TypeRequestTrip3 { get; set; }
+
+        [Display(Name = "Вид командировки")]
+        public TypeRequestTrip TypeRequestTrip4 { get; set; }
+
         [Display(Name = "Количество суток")]
         public int Day1 { get; set; }
         [Display(Name = "Количество суток")]
@@ -4227,10 +4239,11 @@ namespace RapidDoc.Models.ViewModels
 
     public class USR_REQ_UBUO_RequestCalcDriveTripCals_View
     {
-        public USR_REQ_UBUO_RequestCalcDriveTripCals_View(EmplTripType emplTripType, TripDirection tripDirection, int day, int dayLive, int ticketSum, int dayRate, int residenceRate)
+        public USR_REQ_UBUO_RequestCalcDriveTripCals_View(EmplTripType emplTripType, TripDirection tripDirection, TypeRequestTrip typeRequestTrip, int day, int dayLive, int ticketSum, int dayRate, int residenceRate)
         {
             EmplTripType = emplTripType;
             TripDirection = tripDirection;
+            TypeRequestTrip = typeRequestTrip;
             Day = day;
             DayLive = dayLive;
             TicketSum = ticketSum;
@@ -4240,6 +4253,7 @@ namespace RapidDoc.Models.ViewModels
 
         public EmplTripType EmplTripType { get; set; }
         public TripDirection TripDirection { get; set; }
+        public TypeRequestTrip TypeRequestTrip { get; set; }
         public int Day { get; set; }
         public int DayLive { get; set; }
         public int TicketSum { get; set; }
@@ -9003,6 +9017,18 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Примечание")]
         public string Description { get; set; }
 
+        [Display(Name = "Вид командировки")]
+        public TypeRequestTrip TypeRequestTrip1 { get; set; }
+
+        [Display(Name = "Вид командировки")]
+        public TypeRequestTrip TypeRequestTrip2 { get; set; }
+
+        [Display(Name = "Вид командировки")]
+        public TypeRequestTrip TypeRequestTrip3 { get; set; }
+
+        [Display(Name = "Вид командировки")]
+        public TypeRequestTrip TypeRequestTrip4 { get; set; }
+
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         [Display(Name = "ФИО")]
         public string FIO1 { get; set; }
@@ -9176,6 +9202,18 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Направление")]
         public TripDirection TripDirection4 { get; set; }
 
+        [Display(Name = "Вид командировки")]
+        public TypeRequestTrip TypeRequestTrip1 { get; set; }
+
+        [Display(Name = "Вид командировки")]
+        public TypeRequestTrip TypeRequestTrip2 { get; set; }
+
+        [Display(Name = "Вид командировки")]
+        public TypeRequestTrip TypeRequestTrip3 { get; set; }
+
+        [Display(Name = "Вид командировки")]
+        public TypeRequestTrip TypeRequestTrip4 { get; set; }
+
         [Display(Name = "Количество суток")]
         public int Day1 { get; set; }
 
@@ -9312,6 +9350,18 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Направление")]
         public TripDirection TripDirection4 { get; set; }
 
+        [Display(Name = "Вид командировки")]
+        public TypeRequestTrip TypeRequestTrip1 { get; set; }
+
+        [Display(Name = "Вид командировки")]
+        public TypeRequestTrip TypeRequestTrip2 { get; set; }
+
+        [Display(Name = "Вид командировки")]
+        public TypeRequestTrip TypeRequestTrip3 { get; set; }
+
+        [Display(Name = "Вид командировки")]
+        public TypeRequestTrip TypeRequestTrip4 { get; set; }
+
         [Display(Name = "Количество суток")]
         public int Day1 { get; set; }
 
@@ -9372,10 +9422,11 @@ namespace RapidDoc.Models.ViewModels
     }
     public class USR_REQ_TRIP_RequestCalcDriveBTripCalsPP_View
     {
-        public USR_REQ_TRIP_RequestCalcDriveBTripCalsPP_View(EmplTripType emplTripType, TripDirection tripDirection, int day, int dayLive, int ticketSum, int dayRate, int residenceRate)
+        public USR_REQ_TRIP_RequestCalcDriveBTripCalsPP_View(EmplTripType emplTripType, TripDirection tripDirection, TypeRequestTrip typeRequestTrip, int day, int dayLive, int ticketSum, int dayRate, int residenceRate)
         {
             EmplTripType = emplTripType;
             TripDirection = tripDirection;
+            TypeRequestTrip = typeRequestTrip;
             Day = day;
             DayLive = dayLive;
             TicketSum = ticketSum;
@@ -9385,6 +9436,7 @@ namespace RapidDoc.Models.ViewModels
 
         public EmplTripType EmplTripType { get; set; }
         public TripDirection TripDirection { get; set; }
+        public TypeRequestTrip TypeRequestTrip { get; set; }
         public int Day { get; set; }
         public int DayLive { get; set; }
         public int TicketSum { get; set; }
@@ -9394,10 +9446,11 @@ namespace RapidDoc.Models.ViewModels
 
     public class USR_REQ_TRIP_RequestCalcDriveBTripCalsPTY_View
     {
-        public USR_REQ_TRIP_RequestCalcDriveBTripCalsPTY_View(EmplTripType emplTripType, TripDirection tripDirection, int day, int dayLive, int ticketSum, int dayRate, int residenceRate)
+        public USR_REQ_TRIP_RequestCalcDriveBTripCalsPTY_View(EmplTripType emplTripType, TripDirection tripDirection, TypeRequestTrip typeRequestTrip, int day, int dayLive, int ticketSum, int dayRate, int residenceRate)
         {
             EmplTripType = emplTripType;
             TripDirection = tripDirection;
+            TypeRequestTrip = typeRequestTrip;
             Day = day;
             DayLive = dayLive;
             TicketSum = ticketSum;
@@ -9407,6 +9460,7 @@ namespace RapidDoc.Models.ViewModels
 
         public EmplTripType EmplTripType { get; set; }
         public TripDirection TripDirection { get; set; }
+        public TypeRequestTrip TypeRequestTrip { get; set; }
         public int Day { get; set; }
         public int DayLive { get; set; }
         public int TicketSum { get; set; }
@@ -9416,10 +9470,11 @@ namespace RapidDoc.Models.ViewModels
 
     public class USR_REQ_TRIP_RequestCalcDriveBTripCalsKZ_View
     {
-        public USR_REQ_TRIP_RequestCalcDriveBTripCalsKZ_View(EmplTripType emplTripType, TripDirection tripDirection, int day, int dayLive, int ticketSum, int dayRate, int residenceRate)
+        public USR_REQ_TRIP_RequestCalcDriveBTripCalsKZ_View(EmplTripType emplTripType, TripDirection tripDirection, TypeRequestTrip typeRequestTrip, int day, int dayLive, int ticketSum, int dayRate, int residenceRate)
         {
             EmplTripType = emplTripType;
             TripDirection = tripDirection;
+            TypeRequestTrip = typeRequestTrip;
             Day = day;
             DayLive = dayLive;
             TicketSum = ticketSum;
@@ -9429,6 +9484,7 @@ namespace RapidDoc.Models.ViewModels
 
         public EmplTripType EmplTripType { get; set; }
         public TripDirection TripDirection { get; set; }
+        public TypeRequestTrip TypeRequestTrip { get; set; }
         public int Day { get; set; }
         public int DayLive { get; set; }
         public int TicketSum { get; set; }

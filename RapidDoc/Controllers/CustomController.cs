@@ -604,10 +604,11 @@ namespace RapidDoc.Controllers
         }
 
         [HttpPost]
-        public ActionResult UpdateCalcTripUBUO(byte EmplTripType, byte TripDirection, int Day, int DayLive, int TicketSum)
+        public ActionResult UpdateCalcTripUBUO(byte EmplTripType, byte TripDirection, byte TypeRequestTrip, int Day, int DayLive, int TicketSum)
         {
             EmplTripType emplTripType = (EmplTripType)EmplTripType;
             TripDirection tripDirection = (TripDirection)TripDirection;
+            TypeRequestTrip typeRequestTrip = (TypeRequestTrip)TypeRequestTrip;
 
             DateTime dateNow = DateTime.UtcNow.Date;
             TripMRPTable mrp = _ITripMRPService.FirstOrDefault(x => x.FromDate <= dateNow && x.ToDate >= dateNow);
@@ -617,7 +618,7 @@ namespace RapidDoc.Controllers
                 double residenceRate = Double.Parse(tripSettingsTable.ResidenceRate, CultureInfo.InvariantCulture);
                 double dayRate = Double.Parse(tripSettingsTable.DayRate, CultureInfo.InvariantCulture) * Double.Parse(mrp.Amount, CultureInfo.InvariantCulture);
 
-                var model = new USR_REQ_UBUO_RequestCalcDriveTripCals_View(emplTripType, tripDirection, Day, DayLive, TicketSum, (int)Math.Ceiling(dayRate), (int)residenceRate);
+                var model = new USR_REQ_UBUO_RequestCalcDriveTripCals_View(emplTripType, tripDirection, typeRequestTrip, Day, DayLive, TicketSum, (int)Math.Ceiling(dayRate), (int)residenceRate);
                 return PartialView(@"~/Views/Custom/USR_REQ_UBUO_RequestCalcDriveTrip_Calc.cshtml", model);
             }
 
@@ -2838,10 +2839,11 @@ namespace RapidDoc.Controllers
         }
 
         [HttpPost]
-        public ActionResult UpdateCalcBTripPPTRIP(byte EmplTripType, byte TripDirection, int Day, int DayLive, int TicketSum)
+        public ActionResult UpdateCalcBTripPPTRIP(byte EmplTripType, byte TripDirection, byte TypeRequestTrip, int Day, int DayLive, int TicketSum)
         {
             EmplTripType emplTripType = (EmplTripType)EmplTripType;
             TripDirection tripDirection = (TripDirection)TripDirection;
+            TypeRequestTrip typeRequestTrip = (TypeRequestTrip)TypeRequestTrip;
 
             DateTime dateNow = DateTime.UtcNow.Date;
             TripMRPTable mrp = _ITripMRPService.FirstOrDefault(x => x.FromDate <= dateNow && x.ToDate >= dateNow);
@@ -2851,7 +2853,7 @@ namespace RapidDoc.Controllers
                 double residenceRate = Double.Parse(tripSettingsTable.ResidenceRate, CultureInfo.InvariantCulture);
                 double dayRate = Double.Parse(tripSettingsTable.DayRate, CultureInfo.InvariantCulture) * Double.Parse(mrp.Amount, CultureInfo.InvariantCulture);
 
-                var model = new USR_REQ_TRIP_RequestCalcDriveBTripCalsPP_View(emplTripType, tripDirection, Day, DayLive, TicketSum, (int)Math.Ceiling(dayRate), (int)residenceRate);
+                var model = new USR_REQ_TRIP_RequestCalcDriveBTripCalsPP_View(emplTripType, tripDirection, typeRequestTrip, Day, DayLive, TicketSum, (int)Math.Ceiling(dayRate), (int)residenceRate);
                 return PartialView(@"~/Views/Custom/USR_REQ_TRIP_RegistrationBusinessTripPP_Calc.cshtml", model);
             }
 
@@ -2859,10 +2861,11 @@ namespace RapidDoc.Controllers
         }
 
         [HttpPost]
-        public ActionResult UpdateCalcBTripPTY(byte EmplTripType, byte TripDirection, int Day, int DayLive, int TicketSum)
+        public ActionResult UpdateCalcBTripPTY(byte EmplTripType, byte TripDirection, byte TypeRequestTrip, int Day, int DayLive, int TicketSum)
         {
             EmplTripType emplTripType = (EmplTripType)EmplTripType;
             TripDirection tripDirection = (TripDirection)TripDirection;
+            TypeRequestTrip typeRequestTrip = (TypeRequestTrip)TypeRequestTrip;
 
             DateTime dateNow = DateTime.UtcNow.Date;
             TripMRPTable mrp = _ITripMRPService.FirstOrDefault(x => x.FromDate <= dateNow && x.ToDate >= dateNow);
@@ -2872,7 +2875,7 @@ namespace RapidDoc.Controllers
                 double residenceRate = Double.Parse(tripSettingsTable.ResidenceRate, CultureInfo.InvariantCulture);
                 double dayRate = Double.Parse(tripSettingsTable.DayRate, CultureInfo.InvariantCulture) * Double.Parse(mrp.Amount, CultureInfo.InvariantCulture);
 
-                var model = new USR_REQ_TRIP_RequestCalcDriveBTripCalsPTY_View(emplTripType, tripDirection, Day, DayLive, TicketSum, (int)Math.Ceiling(dayRate), (int)residenceRate);
+                var model = new USR_REQ_TRIP_RequestCalcDriveBTripCalsPTY_View(emplTripType, tripDirection, typeRequestTrip, Day, DayLive, TicketSum, (int)Math.Ceiling(dayRate), (int)residenceRate);
                 return PartialView(@"~/Views/Custom/USR_REQ_TRIP_RegistrationBusinessTripPTY_Calc.cshtml", model);
             }
 
@@ -2880,10 +2883,11 @@ namespace RapidDoc.Controllers
         }
 
         [HttpPost]
-        public ActionResult UpdateCalcBTripKZTRIP(byte EmplTripType, byte TripDirection, int Day, int DayLive, int TicketSum)
+        public ActionResult UpdateCalcBTripKZTRIP(byte EmplTripType, byte TripDirection, byte TypeRequestTrip, int Day, int DayLive, int TicketSum)
         {
             EmplTripType emplTripType = (EmplTripType)EmplTripType;
             TripDirection tripDirection = (TripDirection)TripDirection;
+            TypeRequestTrip typeRequestTrip = (TypeRequestTrip)TypeRequestTrip;
 
             DateTime dateNow = DateTime.UtcNow.Date;
             TripMRPTable mrp = _ITripMRPService.FirstOrDefault(x => x.FromDate <= dateNow && x.ToDate >= dateNow);
@@ -2893,7 +2897,7 @@ namespace RapidDoc.Controllers
                 double residenceRate = Double.Parse(tripSettingsTable.ResidenceRate, CultureInfo.InvariantCulture);
                 double dayRate = Double.Parse(tripSettingsTable.DayRate, CultureInfo.InvariantCulture) * Double.Parse(mrp.Amount, CultureInfo.InvariantCulture);
 
-                var model = new USR_REQ_TRIP_RequestCalcDriveBTripCalsKZ_View(emplTripType, tripDirection, Day, DayLive, TicketSum, (int)Math.Ceiling(dayRate), (int)residenceRate);
+                var model = new USR_REQ_TRIP_RequestCalcDriveBTripCalsKZ_View(emplTripType, tripDirection, typeRequestTrip, Day, DayLive, TicketSum, (int)Math.Ceiling(dayRate), (int)residenceRate);
                 return PartialView(@"~/Views/Custom/USR_REQ_TRIP_RegistrationBusinessTripKZ_Calc.cshtml", model);
             }
 

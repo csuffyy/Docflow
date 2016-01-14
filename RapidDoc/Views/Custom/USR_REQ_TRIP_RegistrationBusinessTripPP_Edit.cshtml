@@ -98,6 +98,12 @@
             @Html.EnumDropDownListFor(model => Model.TripDirection1, new { @class = "selectpickerfull" })
         </div>
         <div class="editor-label">
+            @Html.LabelFor(model => Model.TypeRequestTrip1)
+        </div>
+        <div class="editor-field">
+            @Html.EnumDropDownListFor(model => Model.TypeRequestTrip1, new { @class = "selectpickerfull" })
+        </div>
+        <div class="editor-label">
             @Html.LabelForRequired(model => Model.Day1)
         </div>
         <div class="editor-field">
@@ -144,6 +150,12 @@
         </div>
         <div class="editor-field">
             @Html.EnumDropDownListFor(model => Model.TripDirection2, new { @class = "selectpickerfull" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.TypeRequestTrip2)
+        </div>
+        <div class="editor-field">
+            @Html.EnumDropDownListFor(model => Model.TypeRequestTrip2, new { @class = "selectpickerfull" })
         </div>
         <div class="editor-label">
             @Html.LabelForRequired(model => Model.Day2)
@@ -194,6 +206,12 @@
             @Html.EnumDropDownListFor(model => Model.TripDirection3, new { @class = "selectpickerfull" })
         </div>
         <div class="editor-label">
+            @Html.LabelFor(model => Model.TypeRequestTrip3)
+        </div>
+        <div class="editor-field">
+            @Html.EnumDropDownListFor(model => Model.TypeRequestTrip3, new { @class = "selectpickerfull" })
+        </div>
+        <div class="editor-label">
             @Html.LabelForRequired(model => Model.Day3)
         </div>
         <div class="editor-field">
@@ -242,6 +260,12 @@
             @Html.EnumDropDownListFor(model => Model.TripDirection4, new { @class = "selectpickerfull" })
         </div>
         <div class="editor-label">
+            @Html.LabelFor(model => Model.TypeRequestTrip4)
+        </div>
+        <div class="editor-field">
+            @Html.EnumDropDownListFor(model => Model.TypeRequestTrip4, new { @class = "selectpickerfull" })
+        </div>
+        <div class="editor-label">
             @Html.LabelForRequired(model => Model.Day4)
         </div>
         <div class="editor-field">
@@ -284,6 +308,9 @@
         $("#TripDirection1").change(function () {
             tripUpdate("1");
         });
+        $("#TypeRequestTrip1").change(function () {
+            tripUpdate("1");
+        });
         $('#Day1').on('blur', function () {
             tripUpdate("1");
         });
@@ -310,6 +337,9 @@
             tripUpdate("2");
         });
         $("#TripDirection2").change(function () {
+            tripUpdate("2");
+        });
+        $("#TypeRequestTrip2").change(function () {
             tripUpdate("2");
         });
         $('#Day2').on('blur', function () {
@@ -340,6 +370,9 @@
         $("#TripDirection3").change(function () {
             tripUpdate("3");
         });
+        $("#TypeRequestTrip3").change(function () {
+            tripUpdate("3");
+        });
         $('#Day3').on('blur', function () {
             tripUpdate("3");
         });
@@ -366,6 +399,9 @@
             tripUpdate("4");
         });
         $("#TripDirection4").change(function () {
+            tripUpdate("4");
+        });
+        $("#TypeRequestTrip4").change(function () {
             tripUpdate("4");
         });
         $('#Day4').on('blur', function () {
@@ -398,11 +434,13 @@
         if (day > 0 || dayLive > 0) {
             var emplTripType = $("#EmplTripType" + blockId).val();
             var tripDirection = $("#TripDirection" + blockId).val();
+            var typeRequestTrip = $("#TypeRequestTrip" + blockId).val();
             var ticketSum = $("#TicketSum" + blockId).val();
 
             var formData = new FormData();
             formData.append('EmplTripType', emplTripType);
             formData.append('TripDirection', tripDirection);
+            formData.append('TypeRequestTrip', typeRequestTrip);
             formData.append('Day', day);
             formData.append('DayLive', dayLive);
             formData.append('TicketSum', ticketSum);

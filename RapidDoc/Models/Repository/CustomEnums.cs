@@ -1574,4 +1574,13 @@ namespace RapidDoc.Models.Repository
         [Display(Name = "Финансовый")]
         Element15 = 14
     }
+
+    public enum TypeRequestTrip : byte
+    {
+        [Display(Name = "Командировка")]
+        Trip = 0,
+
+        [Display(Name = "Продление")]
+        Continents = 1
+    } 
 }

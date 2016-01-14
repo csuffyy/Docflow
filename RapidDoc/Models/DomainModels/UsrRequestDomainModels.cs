@@ -2079,6 +2079,11 @@ namespace RapidDoc.Models.DomainModels
         public TripDirection TripDirection3 { get; set; }
         public TripDirection TripDirection4 { get; set; }
 
+        public TypeRequestTrip TypeRequestTrip1 { get; set; }
+        public TypeRequestTrip TypeRequestTrip2 { get; set; }
+        public TypeRequestTrip TypeRequestTrip3 { get; set; }
+        public TypeRequestTrip TypeRequestTrip4 { get; set; }
+
         public int Day1 { get; set; }
         public int Day2 { get; set; }
         public int Day3 { get; set; }
@@ -4241,6 +4246,11 @@ namespace RapidDoc.Models.DomainModels
         public TripDirection TripDirection3 { get; set; }
         public TripDirection TripDirection4 { get; set; }
 
+        public TypeRequestTrip TypeRequestTrip1 { get; set; }
+        public TypeRequestTrip TypeRequestTrip2 { get; set; }
+        public TypeRequestTrip TypeRequestTrip3 { get; set; }
+        public TypeRequestTrip TypeRequestTrip4 { get; set; }
+
         public int Day1 { get; set; }
         public int Day2 { get; set; }
         public int Day3 { get; set; }
@@ -4300,6 +4310,11 @@ namespace RapidDoc.Models.DomainModels
         public TripDirection TripDirection3 { get; set; }
         public TripDirection TripDirection4 { get; set; }
 
+        public TypeRequestTrip TypeRequestTrip1 { get; set; }
+        public TypeRequestTrip TypeRequestTrip2 { get; set; }
+        public TypeRequestTrip TypeRequestTrip3 { get; set; }
+        public TypeRequestTrip TypeRequestTrip4 { get; set; }
+
         public int Day1 { get; set; }
         public int Day2 { get; set; }
         public int Day3 { get; set; }
@@ -4358,6 +4373,11 @@ namespace RapidDoc.Models.DomainModels
         public TripDirection TripDirection2 { get; set; }
         public TripDirection TripDirection3 { get; set; }
         public TripDirection TripDirection4 { get; set; }
+
+        public TypeRequestTrip TypeRequestTrip1 { get; set; }
+        public TypeRequestTrip TypeRequestTrip2 { get; set; }
+        public TypeRequestTrip TypeRequestTrip3 { get; set; }
+        public TypeRequestTrip TypeRequestTrip4 { get; set; }
 
         public int Day1 { get; set; }
         public int Day2 { get; set; }
