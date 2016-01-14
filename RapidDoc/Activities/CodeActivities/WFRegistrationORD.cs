@@ -52,6 +52,14 @@ namespace RapidDoc.Activities.CodeActivities
         [Inject]
         public IDocumentSubcriptionService _serviceDocumentSubcriptionService { get; set; }
 
+        [Browsable(false)]
+        [Inject]
+        public ISystemService _serviceSystem{ get; set; }
+
+        [Browsable(false)]
+        [Inject]
+        public IEmailService _serviceEmail { get; set; }
+
         protected override void Execute(CodeActivityContext context)
         {
             _service = DependencyResolver.Current.GetService<IDocumentService>();
@@ -61,6 +69,9 @@ namespace RapidDoc.Activities.CodeActivities
             _serviceWorkflow = DependencyResolver.Current.GetService<IWorkflowService>();
             _serviceDocumentReader = DependencyResolver.Current.GetService<IDocumentReaderService>();
             _serviceDocumentSubcriptionService = DependencyResolver.Current.GetService<IDocumentSubcriptionService>();
+            _serviceSystem = DependencyResolver.Current.GetService<ISystemService>();
+            _serviceEmail = DependencyResolver.Current.GetService<IEmailService>();
+
             Guid documentId = context.GetValue(this.inputDocumentId);
             Dictionary<string, Object> documentData = context.GetValue(this.inputDocumentData);
             string currentUserId = context.GetValue(this.inputCurrentUser);
@@ -75,9 +86,9 @@ namespace RapidDoc.Activities.CodeActivities
                     bookingNumberId = (Guid)documentData["NumberSeriesBookingTableId"];
             }
 
-            if (documentData.ContainsKey("ControlUsers") && documentData.ContainsKey("ControlDate"))
+            if (documentData.ContainsKey("ControlUsers") && documentData.ContainsKey("ControlDate") && documentData.ContainsKey("NoTask"))
             {
-                if(!String.IsNullOrEmpty((string)documentData["ControlUsers"]))
+                if (!String.IsNullOrEmpty((string)documentData["ControlUsers"]) && (bool)documentData["NoTask"] == false)
                 {
                     USR_TAS_DailyTasks_View docModel = new USR_TAS_DailyTasks_View();
                     docModel.MainField = (string)documentData["Subject"] + 
@@ -112,6 +123,12 @@ namespace RapidDoc.Activities.CodeActivities
                     taskDocumentData.Add("MainField", docModel.MainField);
                     taskDocumentData.Add("Users", docModel.Users);
                     _serviceWorkflow.RunWorkflow(documentTable, "USR_TAS_DailyTasks", taskDocumentData, currentUserId);
+                }
+                else if ((bool)documentData["NoTask"] == true && !String.IsNullOrEmpty((string)documentData["ControlUsers"])) {
+                    string[] users = _serviceSystem.GuidsFromText((string)documentData["ControlUsers"]);
+                    _serviceEmail.SendControlORDUserNotification(documentId, Guid.Parse(users[0]));
+                    List<string> readers = _serviceWorkflow.EmplAndRolesToReaders(users);
+                    _serviceDocumentReader.SaveOrderReader(documentId, readers.ToArray(), currentUserId);
                 }
             }
 

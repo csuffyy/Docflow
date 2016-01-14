@@ -66,6 +66,14 @@
     </div>
 </div>
 <br />
+
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.NoTask)
+</div>
+<div class="editor-field">
+    @Html.CheckBoxFor(model => model.NoTask)
+</div>
+ 
 <div class="row">
     <div class="col-xs-2">
         <div class="editor-label">
@@ -74,7 +82,7 @@
         <div class="editor-field">
             @Html.TextBoxFor(model => model.ControlDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", data_date_format = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.ToLower(), placeholder = "Срок исполнения", startDate = "" })
         </div>
-    </div>
+    </div>   
     <div class="col-xs-10">
         <div class="editor-label">
             @Html.LabelForRequired(model => Model.ControlUsers)

@@ -66,6 +66,12 @@
     </div>
 </div>
 <br />
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.NoTask)
+</div>
+<div class="editor-field">
+    @Html.CheckBoxFor(model => model.NoTask)
+</div>
 <div class="row">
     <div class="col-xs-2">
         <div class="editor-label">

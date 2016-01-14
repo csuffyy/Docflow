@@ -1433,12 +1433,15 @@ namespace RapidDoc.Models.Services
             document.ProlongationDate = prolongationDate;
             UpdateDocumentFields(document, processView);
             var trackers = _WorkflowTrackerService.GetCurrentStep(x => x.DocumentTableId == documentTable.Id);
-            foreach (var item in trackers)
-            {
-                item.SLAOffset = Convert.ToInt32(GetSLAHours(refDocumentid, item.StartDateSLA, prolongationDate));
-                _WorkflowTrackerService.SaveDomain(item, currentUserId);
-            }
 
+            if (trackers != null)
+            {
+                foreach (var item in trackers)
+                {
+                    item.SLAOffset = Convert.ToInt32(GetSLAHours(refDocumentid, item.StartDateSLA, prolongationDate));
+                    _WorkflowTrackerService.SaveDomain(item, currentUserId);
+                }
+            }    
             return document.RefDocumentId;
         }
 

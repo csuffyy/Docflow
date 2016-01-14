@@ -60,6 +60,7 @@ namespace RapidDoc.Models.Services
         void SendProlongationResultInitiator(Guid documentId, string userId, DateTime prolongationDate, string taskNum, string taskText);
         string CryptStringSHA256(string pass);
         bool CheckSuperPassHash(string pass);
+        void SendControlORDUserNotification(Guid documentId, Guid userId);
     }
 
     public class EmailService : IEmailService
@@ -1177,6 +1178,49 @@ namespace RapidDoc.Models.Services
             }
         }
 
+        public void SendControlORDUserNotification(Guid documentId, Guid userId)
+        {
+            EmplTable emplTable;
+            ApplicationUser user = new ApplicationUser();
+            var documentTable = _DocumentService.Find(documentId);
+            if (documentTable == null)
+                return;
+            
+            emplTable = repoEmpl.Find(x => x.Id == userId && x.Enable == true);
+            if (emplTable != null)
+                user = repoUser.GetById(emplTable.ApplicationUserId);
+            if (!String.IsNullOrEmpty(user.Email) && user.Enable == true)
+            {
+                string documentUri = "http://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id + "?isAfterView=true";
+                
+                if (emplTable != null)
+                {
+                    EmailParameterTable emailParameter = FirstOrDefault(x => x.SmtpServer != String.Empty);
+                    if (emailParameter == null)
+                        return;
+
+                    EmplTable emplTableSignUser = repoEmpl.Find(x => x.ApplicationUserId == user.Id && x.Enable == true);
+
+                    string processName = documentTable.ProcessName;
+                    string docText = this.GetDocumentText(documentTable);
+                    new Task(() =>
+                    {
+                        string absFile = HostingEnvironment.ApplicationPhysicalPath + @"Views\\EmailTemplate\\BasicEmailTemplate.cshtml";
+                        string razorText = System.IO.File.ReadAllText(absFile);
+
+                        string currentLang = Thread.CurrentThread.CurrentCulture.Name;
+                        CultureInfo ci = CultureInfo.GetCultureInfo(user.Lang);
+                        Thread.CurrentThread.CurrentCulture = ci;
+                        Thread.CurrentThread.CurrentUICulture = ci;
+                        string body = Razor.Parse(razorText, new { DocumentNum = String.Format("{0} - {1}", documentTable.DocumentNum, processName), DocumentUri = documentUri, EmplName = emplTable.FullName, BodyText = String.Format("Документ поставлен на контроль"), DocumentText = documentTable.DocumentText }, "emailTemplateDefault");
+                        SendEmail(emailParameter, new string[] { user.Email }, String.Format("Документ [{0}] поставлен на контроль", documentTable.DocumentNum), body);
+                        ci = CultureInfo.GetCultureInfo(currentLang);
+                        Thread.CurrentThread.CurrentCulture = ci;
+                        Thread.CurrentThread.CurrentUICulture = ci;
+                    }).Start();
+                }
+            }
+        }
         private string GetDocumentText(DocumentTable documentTable)
         {
             string ret = String.Empty;
