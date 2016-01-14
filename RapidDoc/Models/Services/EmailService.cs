@@ -1189,7 +1189,7 @@ namespace RapidDoc.Models.Services
                 {
                     if (documentTable.DocType == DocumentType.OfficeMemo)
                     {
-                        ret = refDocument.Subject;
+                        ret = refDocument._DocumentTitle;
                     }
                     else if (documentTable.DocType == DocumentType.Protocol)
                     {

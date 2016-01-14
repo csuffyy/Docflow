@@ -195,7 +195,7 @@ namespace RapidDoc.Models.Services
 
         public object GetJsonEmpl()
         {
-            var jsondata = from c in GetPartial(x => x.Enable == true)
+            var jsondata = from c in GetPartial(x => x.Enable == true).OrderByDescending(x => x.ProfileTableId)
                            select new
                            {
                                value = string.Format("{0},({1}) {2} - {3}", c.Id, c.AliasCompanyName, c.FullName, c.TitleName),
@@ -207,7 +207,7 @@ namespace RapidDoc.Models.Services
 
         public object GetJsonEmplKZ()
         {
-            var jsondata = from c in GetPartial(x => x.Enable == true)
+            var jsondata = from c in GetPartial(x => x.Enable == true).OrderByDescending(x => x.ProfileTableId)
                            select new
                            {
                                value = string.Format("{0},({1}) {2} - {3}", c.Id, c.AliasCompanyName, c.FullName, !string.IsNullOrEmpty(c.TitleTable.TitleNameKZ) ? c.TitleTable.TitleNameKZ : c.TitleTable.TitleName ),
@@ -219,7 +219,7 @@ namespace RapidDoc.Models.Services
 
         public object GetJsonEmplBothOption()
         {
-            var jsondata = from c in GetPartial(x => x.Enable == true)
+            var jsondata = from c in GetPartial(x => x.Enable == true).OrderByDescending(x => x.ProfileTableId)
                            select new
                            {
                                text = string.Format("{0} {1}", c.ShortFullNameType2, c.TitleName)
@@ -243,7 +243,7 @@ namespace RapidDoc.Models.Services
 
         public object GetJsonEmplIntercompany()
         {
-            var jsondata = from c in GetPartialIntercompany(x => x.Enable == true)
+            var jsondata = from c in GetPartialIntercompany(x => x.Enable == true).OrderByDescending(x => x.ProfileTableId)
                            select new
                            {
                                value = string.Format("{0},({1}) {2} - {3}", c.Id, c.AliasCompanyName, c.FullName, c.TitleName),
@@ -255,7 +255,7 @@ namespace RapidDoc.Models.Services
 
         public object GetJsonGroup()
         {
-            var jsondata = (from c in GetPartial(x => x.Enable == true)
+            var jsondata = (from c in GetPartial(x => x.Enable == true).OrderByDescending(x => x.ProfileTableId)
                             select new
                             {
                                 value = string.Format("{0},({1}) {2} - {3}", c.Id, c.AliasCompanyName, c.FullName, c.TitleName),
@@ -348,7 +348,7 @@ namespace RapidDoc.Models.Services
         public object GetJsonTripEmpl()
         {
             ApplicationUser user = repoUser.GetById(HttpContext.Current.User.Identity.GetUserId());
-            var jsondata = (from c in GetPartial(x => x.Enable == true && x.CompanyTableId == user.CompanyTableId)
+            var jsondata = (from c in GetPartial(x => x.Enable == true && x.CompanyTableId == user.CompanyTableId).OrderByDescending(x => x.ProfileTableId)
                            select new
                            {
                                value = string.Format("{0},{1} - {2} - {3}", c.Id, c.FullName, c.TitleName, c.DepartmentName),
