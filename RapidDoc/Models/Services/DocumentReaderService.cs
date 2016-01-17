@@ -86,24 +86,27 @@ namespace RapidDoc.Models.Services
                         {
                             ApplicationRole role = RoleManager.FindById(userId);
 
-                            var names = role.Users;
-                            if (names != null && names.Count() > 0)
+                            if (role != null)
                             {
-                                DocumentReaderTable reader = new DocumentReaderTable();
-                                reader.DocumentTableId = documentId;
-                                reader.UserId = userId;
-                                reader.RoleId = userId;
-                                SaveDomain(reader, currentUserId);
-
-                                foreach (IdentityUserRole name in names)
+                                var names = role.Users;
+                                if (names != null && names.Count() > 0)
                                 {
-                                    if (emplList.Exists(x => x.ApplicationUserId == name.UserId && x.Enable == true))
-                                    {
-                                        newReader.Add(name.UserId);
-                                    }                                     
-                                }
+                                    DocumentReaderTable reader = new DocumentReaderTable();
+                                    reader.DocumentTableId = documentId;
+                                    reader.UserId = userId;
+                                    reader.RoleId = userId;
+                                    SaveDomain(reader, currentUserId);
 
-                                addReadersDescription += role.Description + "; "; 
+                                    foreach (IdentityUserRole name in names)
+                                    {
+                                        if (emplList.Exists(x => x.ApplicationUserId == name.UserId && x.Enable == true))
+                                        {
+                                            newReader.Add(name.UserId);
+                                        }
+                                    }
+
+                                    addReadersDescription += role.Description + "; ";
+                                }
                             }
                         }
                         else

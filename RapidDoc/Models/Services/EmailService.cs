@@ -402,7 +402,7 @@ namespace RapidDoc.Models.Services
             var users = repoUser.FindAll(x => x.Id == documentTable.ApplicationUserCreatedId).ToList();
 
             var currentReaders = _DocumentReaderService.GetPartial(x => x.DocumentTableId == documentId).ToList();
-            if (currentReaders.Count() < 51)
+            if (currentReaders.Count() < 31)
             {
                 foreach (var reader in currentReaders)
                     users.Add(repoUser.GetById(reader.UserId));

@@ -18,7 +18,7 @@
                         {
                             <span class="text-danger fa fa-times hidden-print"></span>
                         }
-                        @Html.ActionLink(item.DocumentNum, "ShowDocument", "Document", new { id = item.DocumentId, isAfterView = true }, null) - @item.UserCreate (<small>@item.DateCreate.ToShortDateString()</small>)
+                        <strong>@Html.ActionLink(item.DocumentNum, "ShowDocument", "Document", new { id = item.DocumentId, isAfterView = true }, null) - @item.UserCreate (<small>@item.DateCreate.ToShortDateString()</small>)</strong>
                     </p>
                     if(item.DocType == RapidDoc.Models.Repository.DocumentType.Task)
                     {
@@ -27,6 +27,9 @@
                         {
                             <span>Продление: @Html.FormatValue(item.ProlongationDate, "{0:dd.MM.yyyy}")</span>
                         }
+                    </p>
+                    <p>
+                        <span>@item.DocumentText.Substring(0, ((int)Math.Min(item.DocumentText.Length, 100))) ...</span>
                     </p>
                     <div class="row">
                         <div class="col-xs-1"></div>
@@ -42,6 +45,7 @@
                         <br />
                         <br />
                     }
+                    <hr />
                 }
             </div>
         </div>

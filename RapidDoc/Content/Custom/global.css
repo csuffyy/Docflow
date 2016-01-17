@@ -19,6 +19,7 @@ a {
 a:hover,
 a:focus {
   color: #008cba;
+  cursor: pointer;
 }
 .navbar-default .navbar-nav > li > a:hover,
 .navbar-default .navbar-nav > li > a:focus {

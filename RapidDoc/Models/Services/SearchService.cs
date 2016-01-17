@@ -313,7 +313,8 @@ namespace RapidDoc.Models.Services
         {
             string ret = defaultText;
 
-            if (documentTable.DocType == DocumentType.OfficeMemo || documentTable.DocType == DocumentType.Protocol || documentTable.DocType == DocumentType.Order)
+            if (documentTable.DocType == DocumentType.OfficeMemo || documentTable.DocType == DocumentType.Protocol || documentTable.DocType == DocumentType.Order
+                || documentTable.DocType == DocumentType.AppealDoc || documentTable.DocType == DocumentType.OutcomingDoc || documentTable.DocType == DocumentType.IncomingDoc)
             {
                 var refDocument = _DocumentService.GetDocument(documentTable.RefDocumentId, documentTable.ProcessTable.TableName);
 
@@ -327,13 +328,29 @@ namespace RapidDoc.Models.Services
                     {
                         ret = refDocument.Subject + '\n' + refDocument.Agenda;
                     }
-                    else if (documentTable.DocType == DocumentType.Order && refDocument.GetType() != (new USR_ORD_BusinessTrip_Table()).GetType())
+                    if (documentTable.DocType == DocumentType.OutcomingDoc)
+                    {
+                        ret = refDocument.DocumentSubject;
+                    }
+                    if (documentTable.DocType == DocumentType.IncomingDoc)
+                    {
+                        ret = refDocument.DocumentSubject;
+                    }
+                    if (documentTable.DocType == DocumentType.AppealDoc)
                     {
                         ret = refDocument.Subject;
                     }
-                    else if (documentTable.DocType == DocumentType.Order && refDocument.GetType() == (new USR_ORD_BusinessTrip_Table()).GetType())
+                    else if (documentTable.DocType == DocumentType.Order)
                     {
-                        ret = refDocument.GoalTrip;
+                        if (refDocument.GetType() == (new USR_ORD_BusinessTrip_Table()).GetType())
+                            ret = refDocument.GoalTrip;
+                        else
+                        {
+                            if (refDocument.GetType().GetProperty("GoalTrip") != null && String.IsNullOrEmpty(refDocument.Subject))
+                                ret = refDocument.GoalTrip;
+                            else
+                                ret = refDocument.Subject;
+                        }                       
                     }
                 }
             }

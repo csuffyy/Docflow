@@ -58,6 +58,9 @@ namespace RapidDoc.Models.Services
 
         public string DeleteAllTags(string text)
         {
+            if (String.IsNullOrEmpty(text))
+                return String.Empty;
+
             return Regex.Replace(text, @"<[^>]*>", String.Empty, RegexOptions.Compiled);
         }
 

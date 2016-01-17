@@ -77,6 +77,7 @@ namespace RapidDoc.Models.ViewModels
         public Guid DocumentId { get; set; }
         public string UserCreate { get; set; }
         public DateTime DateCreate { get; set; }
+        public string DocumentText { get; set; }
         public string ReportText { get; set; }
         public DocumentState DocumentState { get; set; }
         public string Users { get; set; }

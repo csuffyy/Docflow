@@ -302,21 +302,22 @@ namespace RapidDoc.Models.Services
 
         public EmplTable GetEmployer(string userId, Guid? companyId)
         {
-            var empls = GetPartialIntercompany(x => x.ApplicationUserId == userId && x.CompanyTableId == companyId);
+            var empls = GetPartialIntercompany(x => x.ApplicationUserId == userId && x.CompanyTableId == companyId && x.Enable == true).ToList();
 
-            if(empls != null)
+            if(empls != null && empls.Count() > 0)
             {
-                EmplTable emplTable = empls.OrderByDescending(x => x.Enable).FirstOrDefault();
-
-                if (emplTable == null)
-                {
-                    empls = GetPartialIntercompany(x => x.ApplicationUserId == userId);
-                    if(empls != null)
-                    {
-                        return empls.OrderByDescending(x => x.Enable).FirstOrDefault();
-                    }
-                }
+                EmplTable emplTable = empls.FirstOrDefault();
                 return emplTable;
+            }
+            else
+            {
+                empls = GetPartialIntercompany(x => x.ApplicationUserId == userId).ToList();
+
+                if (empls != null && empls.Count() > 0)
+                {
+                    EmplTable emplTable = empls.OrderByDescending(x => x.Enable).FirstOrDefault();
+                    return emplTable;
+                }
             }
 
             return null;

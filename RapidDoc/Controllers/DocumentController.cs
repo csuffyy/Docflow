@@ -1473,7 +1473,7 @@ namespace RapidDoc.Controllers
             DocumentTable document = _DocumentService.FirstOrDefault(x => x.FileId == fileId && x.DocType == process.DocType);
             if(document != null)
             {
-                if ((document.DocumentState == DocumentState.Closed || document.DocumentState == DocumentState.Cancelled) && !User.IsInRole("Administrator") || (document.DocType == DocumentType.OutcomingDoc))
+                if ((document.DocumentState == DocumentState.Closed || document.DocumentState == DocumentState.Cancelled) && !User.IsInRole("Administrator") && document.DocType != DocumentType.OutcomingDoc)
                 {
                     error = true;
                     errorText = ValidationRes.ValidationResource.ErrorDocumentState;
@@ -1612,7 +1612,7 @@ namespace RapidDoc.Controllers
                 DocumentTable document = _DocumentService.FirstOrDefault(x => x.FileId == fileId);
                 if (document != null)
                 {
-                    if ((document.DocumentState == DocumentState.Closed || document.DocumentState == DocumentState.Cancelled) && !User.IsInRole("Administrator"))
+                    if ((document.DocumentState == DocumentState.Closed || document.DocumentState == DocumentState.Cancelled) && !User.IsInRole("Administrator") && document.DocType != DocumentType.OutcomingDoc)
                     {
                         error = true;
                     }
@@ -2132,6 +2132,9 @@ namespace RapidDoc.Controllers
         public ActionResult GetTaskList(Guid id)
         {
             var model = _DocumentService.GetDocumentRefTask(id);
+            if (model != null)
+                model.ForEach(y => y.DocumentText = _SystemService.DeleteAllTags(y.DocumentText));
+            
             return PartialView("~/Views/Document/_TaskList.cshtml", model);       
         }
 

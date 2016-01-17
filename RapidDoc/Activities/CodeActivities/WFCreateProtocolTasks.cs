@@ -78,10 +78,21 @@ namespace RapidDoc.Activities.CodeActivities
             var documentView = _service.GetDocumentView(documentTable.RefDocumentId, processTable.TableName);
             List<PRT_QuestionList_Table> questionList = documentView.QuestionList;
 
+            int numDecision = 0;
+            int numTwoDecision = 0;
+            int numThreeDecision = 0;
+
             foreach (var question in questionList)
             {
                 foreach (var decision in question.DecisionList)
                 {
+                    if (decision.Type == 0)
+                        numDecision++;
+                    else if (decision.Type == 1)
+                        numTwoDecision++;
+                    else if (decision.Type == 2)
+                        numThreeDecision++;
+
                     if ((decision.Decision != null && decision.Decision != String.Empty) &&
                         (decision.Users != null && decision.Users != String.Empty))
                     {
@@ -96,26 +107,41 @@ namespace RapidDoc.Activities.CodeActivities
                             foreach (var item in arrayStructure)
                             {
                                 string seprateUser = item + "," + arrayTempStructrue[Array.IndexOf(arrayTempStructrue, item) + 1];
-                                CreateTask(seprateUser, documentView, decision, question, documentTable, documentId, currentUserId);
+                                CreateTask(seprateUser, documentView, decision, question, documentTable, documentId, currentUserId, numDecision, numTwoDecision, numThreeDecision);
 
                             }
                         }
                         else
-                            CreateTask(decision.Users, documentView, decision, question, documentTable, documentId, currentUserId);
+                            CreateTask(decision.Users, documentView, decision, question, documentTable, documentId, currentUserId, numDecision, numTwoDecision, numThreeDecision);
                     }
                 }
             }
         }
 
-        void CreateTask(string users, dynamic documentView, PRT_DecisionList_Table decision, PRT_QuestionList_Table question, DocumentTable documentTable, Guid documentId, string currentUserId)
+        void CreateTask(string users, dynamic documentView, PRT_DecisionList_Table decision, PRT_QuestionList_Table question, DocumentTable documentTable, Guid documentId, string currentUserId, int numDecision, int numTwoDecision, int numThreeDecision)
         {
+            string strDecision = String.Empty;
+
+            if (decision.Type == 0)
+            {
+                strDecision = "ПОРУЧЕНИЕ №" + numDecision.ToString() + " ";
+            }
+            else if (decision.Type == 1)
+            {
+                strDecision = "РЕШЕНИЕ №" + numTwoDecision.ToString() + " ";
+            }
+            else if (decision.Type == 2)
+            {
+                strDecision = "РЕКОМЕНДОВАНО РУКОВОДСТВУ №" + numThreeDecision.ToString() + " ";
+            }
+
                         USR_TAS_DailyTasks_View docModel = new USR_TAS_DailyTasks_View();
                         string folderName = _serviceProtocolFolders.GetProtocolFolderName(documentTable.ProcessTableId, documentView.ProtocolFoldersTableId, currentUserId);
 
                         if (question.IncludeText == false)
-                            docModel.MainField = "<p>" + folderName + "</p>" + documentView.Subject + "\n" + question.Question + "\n" + decision.Decision;
+                            docModel.MainField = strDecision + "<p>" + folderName + "</p>" + documentView.Subject + "\n" + question.Question + "\n" + decision.Decision;
                         else
-                            docModel.MainField = "<p>" + folderName + "</p>" + documentView.Subject + "\n" + decision.Decision;
+                            docModel.MainField = strDecision + "<p>" + folderName + "</p>" + documentView.Subject + "\n" + decision.Decision;
 
                         DateTime? controlDate = decision.ControlDate != null ? decision.ControlDate : DateTime.Now;
 
