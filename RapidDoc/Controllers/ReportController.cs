@@ -261,7 +261,9 @@ namespace RapidDoc.Controllers
         public FileContentResult GenerateTaskReport(ReportParametersBasicView model)
         {
             int i = 0;
+            string subjectDoc = String.Empty;
             List<TaskReportModel> detailTasksList = new List<TaskReportModel>();
+            List<TaskReportModel> detailTasksListPRTDir = new List<TaskReportModel>();
             string currentUserId = User.Identity.GetUserId();
             ApplicationUser currentUser = _AccountService.Find(currentUserId);
 
@@ -274,7 +276,7 @@ namespace RapidDoc.Controllers
             Excel.Workbook excelWorkbook;
             Excel.Worksheet excelWorksheet;
             int rowCount = 6;
-            
+            string reportText;
             excelAppl = new Excel.Application();
             excelAppl.Visible = false;
             excelAppl.DisplayAlerts = false;
@@ -290,7 +292,12 @@ namespace RapidDoc.Controllers
             blockDepartment.Add("Золотоизвлекательная фабрика", 7);
             blockDepartment.Add("Административный блок", 8);
             blockDepartment.Add("Заместитель исполнительного директора по ПБиВП", 9);
-            List<DepartmentTable> firstDepartment = _DepartmentService.GetPartial(x => x.DepartmentName == "ATK").ToList();
+            List<DepartmentTable> firstDepartment = new List<DepartmentTable>();
+            foreach (var block in blockDepartment)
+            {
+                firstDepartment.Add(_DepartmentService.FirstOrDefault(x => x.DepartmentName == block.Key && x.CompanyTableId == currentUser.CompanyTableId));
+            }
+             //= _DepartmentService.GetPartial(x => x.DepartmentName == "ATK").ToList();
             int templateSheets = 1;
             while (templateSheets <= excelAppl.Worksheets.Count)
             {
@@ -309,9 +316,12 @@ namespace RapidDoc.Controllers
 
                 foreach (var item in allTasksList)
                 {
+                    reportText = String.Empty;
                     var docTracker = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == item.Id).OrderBy(y => y.CreatedDate);
                     DateTime? closeDate = item.DocumentState == DocumentState.Closed ? docTracker.FirstOrDefault(x => x.SignDate != null).SignDate : null;
                     USR_TAS_DailyTasks_Table taskDoc = context.USR_TAS_DailyTasks_Table.FirstOrDefault(x => x.DocumentTableId == item.Id);
+                    if (item.DocumentState == DocumentState.Closed)
+                         reportText = _SystemService.DeleteAllSpecialCharacters(_SystemService.DeleteAllTags(taskDoc.ReportText));
                     foreach (var tracker in docTracker)
                     {
                         i++;
@@ -324,35 +334,137 @@ namespace RapidDoc.Controllers
                             executor += empl.ShortFullNameType2 + "\n";
                             department += empl.DepartmentTableId.ToString();
 
-                            var delegationTracker = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == item.Id && x.ApplicationUserCreatedId == empl.ApplicationUserId && x.CreatedDate > tracker.CreatedDate);
-                            foreach (var delegationUser in delegationTracker)
-                            {
-                                delegationUser.Users.ForEach(x => delegation += _EmplService.GetEmployer(x.UserId, currentUser.CompanyTableId).ShortFullNameType2 + "\n");
-                            }
+                            WFTrackerTable delegationTracker = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == item.Id && x.ApplicationUserCreatedId == empl.ApplicationUserId && x.CreatedDate > tracker.CreatedDate).OrderBy(y => y.CreatedDate).FirstOrDefault();
+                            if (delegationTracker != null)
+                                delegationTracker.Users.ForEach(x => delegation += _EmplService.GetEmployer(x.UserId, currentUser.CompanyTableId).ShortFullNameType2 + "\n");
+                            
                         }
-                        if (i - 1 != 0)
-                            executor += "(делегировал " + _EmplService.GetEmployer(tracker.ApplicationUserCreatedId, currentUser.CompanyTableId).ShortFullNameType2 + ")\n";
 
-                        detailTasksList.Add(new TaskReportModel
+                        switch (templateSheets)
                         {
-                            CardNumber = item.DocumentNum,
-                            TaskDescription = taskDoc.MainField,
-                            PlaneDate = taskDoc.ProlongationDate != null ? (DateTime)taskDoc.ProlongationDate : (DateTime)taskDoc.ExecutionDate,
-                            Factdate = item.DocumentState == DocumentState.Closed ? closeDate : null,
-                            Executor = executor,
-                            Delegation = delegation,
-                            Status = item.DocumentState == DocumentState.Closed ? true : false,
-                            Text = item.DocumentState == DocumentState.Closed ? taskDoc.ReportText : "",
-                            Department = department,
-                            DocType = item.DocType
-                        });
+                            case 1:
+                                var refORDDocView = (from detailDoc in context.USR_TAS_DailyTasks_Table
+                                                  join refDocumentTable in context.DocumentTable
+                                                  on detailDoc.RefDocumentId equals refDocumentTable.Id
+                                                  join refDocView in context.USR_ORD_MainActivity_Table
+                                                  on refDocumentTable.Id equals refDocView.DocumentTableId
+                                                   where detailDoc.DocumentTableId == item.Id
+                                                   select refDocView).FirstOrDefault();
+                                if (refORDDocView != null)
+                                    subjectDoc = refORDDocView.Subject; 
+                                else
+                                    subjectDoc = String.Empty;  
+                                break;
+                            case 2:
+                                var refINCDocView = (from detailDoc in context.USR_TAS_DailyTasks_Table
+                                                     join refDocumentTable in context.DocumentTable
+                                                     on detailDoc.RefDocumentId equals refDocumentTable.Id
+                                                     join refDocView in context.USR_IND_IncomingDocuments_Table
+                                                     on refDocumentTable.Id equals refDocView.DocumentTableId
+                                                     where detailDoc.DocumentTableId == item.Id
+                                                     select refDocView).FirstOrDefault();
 
+                                subjectDoc = refINCDocView.DocumentSubject;
+                                break;
+                            case 3:
+                                var refPRTDocView = (from detailDoc in context.USR_TAS_DailyTasks_Table
+                                                     join refDocumentTable in context.DocumentTable
+                                                     on detailDoc.RefDocumentId equals refDocumentTable.Id
+                                                     join refDocView in context.USR_PRT_ProtocolDocuments_Table
+                                                     on refDocumentTable.Id equals refDocView.DocumentTableId
+                                                     where detailDoc.DocumentTableId == item.Id
+                                                     select refDocView).FirstOrDefault();
+                                if (refPRTDocView != null)
+                                {
+                                    subjectDoc = taskDoc.MainField;
+
+                                    detailTasksList.Add(new TaskReportModel
+                                    {
+                                        CardNumber = refPRTDocView.Subject,
+                                        TaskDescription = subjectDoc,
+                                        PlaneDate = taskDoc.ProlongationDate != null ? (DateTime)taskDoc.ProlongationDate : (DateTime)taskDoc.ExecutionDate,
+                                        Factdate = item.DocumentState == DocumentState.Closed ? closeDate : null,
+                                        Executor = executor,
+                                        Delegation = delegation,
+                                        Status = item.DocumentState == DocumentState.Closed ? true : false,
+                                        Text = item.DocumentState == DocumentState.Closed ? reportText : "",
+                                        Department = department,
+                                        DocType = DocumentType.Protocol,
+                                        DocNum = item.DocumentNum,
+                                        DocId = item.Id
+                                    });
+                                }
+                                else
+                                {
+                                    subjectDoc = String.Empty;
+                                    var refPRTDIRDocView = (from detailDoc in context.USR_TAS_DailyTasks_Table
+                                                            join refDocumentTable in context.DocumentTable
+                                                            on detailDoc.RefDocumentId equals refDocumentTable.Id
+                                                            join refDocView in context.USR_PRT_DirectorateDocuments_Table
+                                                            on refDocumentTable.Id equals refDocView.DocumentTableId
+                                                            where detailDoc.DocumentTableId == item.Id
+                                                            select refDocView).FirstOrDefault();
+                                    if (refPRTDIRDocView != null)
+                                    {
+                                        subjectDoc = taskDoc.MainField;
+
+                                        detailTasksListPRTDir.Add(new TaskReportModel
+                                        {
+                                            CardNumber = refPRTDIRDocView.Subject,
+                                            TaskDescription = subjectDoc,
+                                            PlaneDate = taskDoc.ProlongationDate != null ? (DateTime)taskDoc.ProlongationDate : (DateTime)taskDoc.ExecutionDate,
+                                            Factdate = item.DocumentState == DocumentState.Closed ? closeDate : null,
+                                            Executor = executor,
+                                            Delegation = delegation,
+                                            Status = item.DocumentState == DocumentState.Closed ? true : false,
+                                            Text = item.DocumentState == DocumentState.Closed ? reportText : "",
+                                            Department = department,
+                                            DocType = DocumentType.Protocol,
+                                            DocNum = item.DocumentNum,
+                                            DocId = item.Id
+                                        });
+                                    }
+                                }
+                                break;
+                            default:
+                                subjectDoc = taskDoc.MainField;
+                                break;
+                        }
+
+                        if (!String.IsNullOrEmpty(subjectDoc) && templateSheets != excelAppl.Worksheets.Count)
+                        {
+                            detailTasksList.Add(new TaskReportModel
+                            {
+                                CardNumber = item.DocumentNum,
+                                TaskDescription = subjectDoc,
+                                PlaneDate = taskDoc.ProlongationDate != null ? (DateTime)taskDoc.ProlongationDate : (DateTime)taskDoc.ExecutionDate,
+                                Factdate = item.DocumentState == DocumentState.Closed ? closeDate : null,
+                                Executor = executor,
+                                Delegation = delegation,
+                                Status = item.DocumentState == DocumentState.Closed ? true : false,
+                                Text = item.DocumentState == DocumentState.Closed ? reportText : "",
+                                Department = department,
+                                DocType = item.DocType,
+                                DocNum = item.DocumentNum,
+                                DocId = item.Id
+                            });
+                        }
+                        break;
                     }
                     i = 0;
                 }
-                excelWorksheet = (Worksheet)excelAppl.Worksheets[templateSheets];           
-                _ReportService.GetDepartmentTaskReport(firstDepartment, blockDepartment, detailTasksList, excelWorksheet, rowCount);
+                excelWorksheet = (Worksheet)excelAppl.Worksheets[templateSheets];
+
+                if (templateSheets == 3)
+                {
+                    rowCount = _ReportService.GetDepartmentTaskReport(firstDepartment, blockDepartment, detailTasksList, excelWorksheet, rowCount, true, templateSheets);
+                    _ReportService.GetDepartmentTaskReport(firstDepartment, blockDepartment, detailTasksListPRTDir, excelWorksheet, rowCount, true, templateSheets, "Поручения с протоколов директората");
+                }
+                else
+                    _ReportService.GetDepartmentTaskReport(firstDepartment, blockDepartment, detailTasksList, excelWorksheet, rowCount, true, templateSheets);
+                detailTasksList.Clear();
                 templateSheets++;
+                rowCount = 6;
             }    
             object misValue = System.Reflection.Missing.Value;
             string path = @"C:\Template\Result\" + Guid.NewGuid().ToString() + ".xlsx";
@@ -803,6 +915,8 @@ namespace RapidDoc.Controllers
         public string Text { get; set; }
         public string Department { get; set; }
         public DocumentType DocType { get; set; }
+        public string DocNum { get; set; }
+        public Guid DocId { get; set; }
     }
    
 }

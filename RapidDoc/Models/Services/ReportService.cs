@@ -29,7 +29,7 @@ namespace RapidDoc.Models.Services
             ProcessTable processTable);
         List<string> GetParentListDepartment(List<DepartmentTable> departmentList);
         int GetDepartmentTaskReport(List<DepartmentTable> departmentTable, Dictionary<string, int> blockDepartment,
-            List<TaskReportModel> taskReportModel, Excel.Worksheet excelWorksheet, int rowCount);
+            List<TaskReportModel> taskReportModel, Excel.Worksheet excelWorksheet, int rowCount, bool usesBlock, int worksheetNumber, string headerText = "");
     }
     
     public class ReportService: IReportService
@@ -208,19 +208,30 @@ namespace RapidDoc.Models.Services
         }
 
 
-        public int GetDepartmentTaskReport(List<DepartmentTable> departmentTable, Dictionary<string, int> blockDepartment, List<TaskReportModel> taskReportModel, Excel.Worksheet excelWorksheet, int rowCount)
+        public int GetDepartmentTaskReport(List<DepartmentTable> departmentTable, Dictionary<string, int> blockDepartment, List<TaskReportModel> taskReportModel, Excel.Worksheet excelWorksheet, int rowCount, bool usesBlock, int worksheetNumber, string headerText = "")
         {
-            int item , i= 1;
-            
+            int item, maxColumns = worksheetNumber == 3 ? 11 : 10, i = 1;
+            bool isBlocks = usesBlock;
             List<DepartmentTable> childDepartment = new List<DepartmentTable>();
-
+            if (!String.IsNullOrEmpty(headerText))
+            {
+                Excel.Range range = excelWorksheet.Range[excelWorksheet.Cells[rowCount, 2], excelWorksheet.Cells[rowCount + 2, maxColumns]];
+                    this.AllBordersBlock(range.Borders);                
+                range.Merge();
+                range.Font.Bold = true;
+                range.HorizontalAlignment = Excel.Constants.xlCenter;
+                excelWorksheet.Cells[rowCount, 2] = headerText;
+                rowCount += 2;
+            }
             foreach (var department in departmentTable)
             {
                 i = 1;
+                if (blockDepartment.TryGetValue(department.DepartmentName, out item) && isBlocks == false)
+                    continue;
 
-                if (blockDepartment.TryGetValue(department.DepartmentName, out item))
+                if (blockDepartment.TryGetValue(department.DepartmentName, out item) && isBlocks == true)
                 {
-                    Excel.Range range = excelWorksheet.Range[excelWorksheet.Cells[rowCount, 2], excelWorksheet.Cells[rowCount, 10]];
+                    Excel.Range range = excelWorksheet.Range[excelWorksheet.Cells[rowCount, 2], excelWorksheet.Cells[rowCount, maxColumns]];
                     this.AllBordersBlock(range.Borders);
                     range.Interior.Color = System.Drawing.ColorTranslator.ToOle(Color.FromArgb(204, 255, 204));
                     range.Merge();
@@ -229,7 +240,7 @@ namespace RapidDoc.Models.Services
                 }
                 else if (taskReportModel.Where(x => x.Department.Contains(department.Id.ToString())).Count() > 0)
                 {
-                    Excel.Range range = excelWorksheet.Range[excelWorksheet.Cells[rowCount, 2], excelWorksheet.Cells[rowCount, 10]];
+                    Excel.Range range = excelWorksheet.Range[excelWorksheet.Cells[rowCount, 2], excelWorksheet.Cells[rowCount, maxColumns]];
                     this.AllBordersBlock(range.Borders);
                     range.Interior.Color = System.Drawing.ColorTranslator.ToOle(Color.FromArgb(253, 233, 217));
                     range.Merge();
@@ -257,17 +268,24 @@ namespace RapidDoc.Models.Services
                         excelWorksheet.Cells[rowCount, 8] = task.Delegation;
                         excelWorksheet.Cells[rowCount, 9] = task.Status == true ? "исполнено" : "нет";
                         excelWorksheet.Cells[rowCount, 10] = _SystemService.DeleteAllTags(task.Text);
+                        if (task.DocType == DocumentType.Protocol) 
+                            excelWorksheet.Cells[rowCount, 11] = task.DocNum;
+
+                        Excel.Range rangeLink = task.DocType == DocumentType.Protocol ? excelWorksheet.Range[excelWorksheet.Cells[rowCount, 11], excelWorksheet.Cells[rowCount, 11]] : excelWorksheet.Range[excelWorksheet.Cells[rowCount, 3], excelWorksheet.Cells[rowCount, 3]];
+                        excelWorksheet.Hyperlinks.Add(rangeLink, String.Format("http://df.altyntau.com/ATK/Document/ShowDocument/{0}?isAfterView=True", task.DocId), Type.Missing, "Перейти к документу");
                         rowCount++;
                     }
-                    Excel.Range range = excelWorksheet.Range[excelWorksheet.Cells[startRowBlock, 2], excelWorksheet.Cells[rowCount - 1, 10]];
+                    Excel.Range range = excelWorksheet.Range[excelWorksheet.Cells[startRowBlock, 2], excelWorksheet.Cells[rowCount - 1, maxColumns]];
                     this.AllBordersBlockTasks(range.Borders);
                     range.HorizontalAlignment = Excel.Constants.xlCenter;
                     range.VerticalAlignment = Excel.Constants.xlCenter;
+
+                    
                 }
 
                 childDepartment = _DepartmentService.GetPartial(x => x.ParentDepartmentId == department.Id).ToList();
                 if (childDepartment.Count() > 0)
-                    rowCount = this.GetDepartmentTaskReport(childDepartment, blockDepartment, taskReportModel, excelWorksheet, rowCount);
+                    rowCount = this.GetDepartmentTaskReport(childDepartment, blockDepartment, taskReportModel, excelWorksheet, rowCount, false, worksheetNumber);
             }
             return rowCount;
             
