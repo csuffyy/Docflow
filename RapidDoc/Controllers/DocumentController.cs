@@ -1470,6 +1470,12 @@ namespace RapidDoc.Controllers
                 }
             }
 
+            if(String.IsNullOrEmpty(files.FileName) || files.FileName.Split('.').Count() == 1)
+            {
+                error = true;
+                errorText = ValidationRes.ValidationResource.ErrorFileWithoutType;
+            }
+
             DocumentTable document = _DocumentService.FirstOrDefault(x => x.FileId == fileId && x.DocType == process.DocType);
             if(document != null)
             {
@@ -1599,6 +1605,11 @@ namespace RapidDoc.Controllers
                 ProcessTable process = _ProcessService.Find(processId);
                 var statuses = new List<ViewDataUploadFilesResult>();
                 bool error = false;
+
+                if (String.IsNullOrEmpty(hpf.FileName) || hpf.FileName.Split('.').Count() == 1)
+                {
+                    error = true;
+                }
 
                 if (process.DocSize > 0)
                 {

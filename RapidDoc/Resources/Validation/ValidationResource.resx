@@ -186,4 +186,7 @@
   <data name="ErrorDocumentState" xml:space="preserve">
     <value>Документ закрыт или отменен</value>
   </data>
+  <data name="ErrorFileWithoutType" xml:space="preserve">
+    <value>Файл должен иметь расширение</value>
+  </data>
 </root>

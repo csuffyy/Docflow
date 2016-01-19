@@ -114,10 +114,8 @@ namespace RapidDoc.Models.Services
             {
                     items = (from document in contextQuery.DocumentTable
                             where
-                                (document.ApplicationUserCreatedId == user.Id  || document.Share == true 
-                                || contextQuery.WFTrackerTable.Any(x => x.DocumentTableId == document.Id && ((x.SignUserId == null && x.TrackerType == TrackerType.Waiting) ||
- 
-                                        (x.SignUserId == user.Id && (x.TrackerType == TrackerType.Approved || x.TrackerType == TrackerType.Cancelled))) || x.Users.Any(b => b.UserId == user.Id)) ||
+                                (document.ApplicationUserCreatedId == user.Id  || document.Share == true
+                                || contextQuery.WFTrackerTable.Any(x => x.DocumentTableId == document.Id && (x.SignUserId == user.Id || x.Users.Any(b => b.UserId == user.Id))) ||
 
                                     ((contextQuery.DocumentReaderTable.Any(r => r.DocumentTableId == document.Id && r.UserId == user.Id) || (
 
@@ -348,9 +346,7 @@ namespace RapidDoc.Models.Services
                          join tracker in contextQuery.WFTrackerTable on document.Id equals tracker.DocumentTableId
                          where
                              (document.ApplicationUserCreatedId == user.Id  || document.Share == true ||
-                                 contextQuery.WFTrackerTable.Any(x => x.DocumentTableId == document.Id && ((x.SignUserId == null && x.TrackerType == TrackerType.Waiting) ||
-
-                                     (x.SignUserId == user.Id && (x.TrackerType == TrackerType.Approved || x.TrackerType == TrackerType.Cancelled))) || x.Users.Any(b => b.UserId == user.Id)) ||
+                                 contextQuery.WFTrackerTable.Any(x => x.DocumentTableId == document.Id && (x.SignUserId == user.Id || x.Users.Any(b => b.UserId == user.Id))) ||
 
                                  ((contextQuery.DocumentReaderTable.Any(r => r.DocumentTableId == document.Id && r.UserId == user.Id) || (
 
