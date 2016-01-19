@@ -142,6 +142,15 @@ namespace ValidationRes {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Файл должен иметь расширение.
+        /// </summary>
+        public static string ErrorFileWithoutType {
+            get {
+                return ResourceManager.GetString("ErrorFileWithoutType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Неправильный E-mail.
         /// </summary>
         public static string ErrorInvalidEmail {

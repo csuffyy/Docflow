@@ -186,4 +186,7 @@
   <data name="ErrorDocumentState" xml:space="preserve">
     <value>-</value>
   </data>
+  <data name="ErrorFileWithoutType" xml:space="preserve">
+    <value>-</value>
+  </data>
 </root>
