@@ -179,6 +179,7 @@ namespace RapidDoc.Models.Services
                             item.ItemCaseName = _ItemCauseService.Find((Guid)documentView.ItemCauseTableId).CaseName;
                             item.DocumentTitle = documentView._DocumentTitle;
                             item.CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(item.CreatedDate), timeZoneInfo);
+                            item.ModCreatedDate = item.CreatedDate.ToShortDateString();
                             item.Folder = documentView.Folder;
                             editedItems.Add(item);
                         }
@@ -275,6 +276,7 @@ namespace RapidDoc.Models.Services
                             item.OrderNumber = documentView.Subject;
                         item.DocumentTitle = documentView.Subject;
                         item.CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(item.CreatedDate), timeZoneInfo);
+                        item.ModCreatedDate = item.CreatedDate.ToShortDateString();
                         item.ProtocolFolderId = documentView.ProtocolFoldersTableId;
                         item.ProtocolCode = documentView.Subject;
                     }

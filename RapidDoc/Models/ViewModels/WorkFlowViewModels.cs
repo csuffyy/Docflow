@@ -448,6 +448,7 @@ namespace RapidDoc.Models.ViewModels
         public string TrackerActivityName { get; set; }
         public string SignUser { get; set; }
         public string InOutOrganization { get; set; }
+        public string ModCreatedDate { get; set; }
         
     }
 

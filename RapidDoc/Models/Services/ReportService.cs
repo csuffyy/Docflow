@@ -266,7 +266,21 @@ namespace RapidDoc.Models.Services
 
                         excelWorksheet.Cells[rowCount, 7] = task.Executor;
                         excelWorksheet.Cells[rowCount, 8] = task.Delegation;
-                        excelWorksheet.Cells[rowCount, 9] = task.Status == true ? "исполнено" : "нет";
+                        switch (task.Status)
+                        {
+                            case ReportExecutionType.Done:
+                                excelWorksheet.Cells[rowCount, 9] = "исполнено";
+                                break;
+                            case ReportExecutionType.NoneDone:
+                                excelWorksheet.Cells[rowCount, 9] = "не исполнено";
+                                break;
+                            case ReportExecutionType.Disturbance:
+                                excelWorksheet.Cells[rowCount, 9] = "исполнено с нарушением сроков";
+                                Excel.Range rangeColor = excelWorksheet.Range[excelWorksheet.Cells[rowCount, 2], excelWorksheet.Cells[rowCount, maxColumns]];
+                                rangeColor.Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Red);
+                                break;
+                        }
+
                         excelWorksheet.Cells[rowCount, 10] = _SystemService.DeleteAllTags(task.Text);
                         if (task.DocType == DocumentType.Protocol) 
                             excelWorksheet.Cells[rowCount, 11] = task.DocNum;

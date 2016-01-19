@@ -1099,7 +1099,11 @@ namespace RapidDoc.Models.Repository
         ProcessName = 4,
 
         [Display(Name = "Папка")]
-        Folder = 5
+        Folder = 5,
+
+        [Display(Name = "По дате")]
+        CreateDate = 6
+
     }
 
     public enum TaskFilterType : byte
@@ -1217,20 +1221,23 @@ namespace RapidDoc.Models.Repository
         [Display(Name = "[Протокол] По папкам")]
         Folder = 3,
 
+        [Display(Name = "[Протокол] По дате")]
+        CreateDate = 4,
+
         [Display(Name = "[Поручения] По статусу")]
-        TaskStatus = 4,
+        TaskStatus = 5,
 
         [Display(Name = "[Поручения] По исполнителям")]
-        TaskExecutor = 5,
+        TaskExecutor = 6,
 
         [Display(Name = "[Продление сроков] По исполнителям")]
-        ProlongTaskExecutor = 6,
+        ProlongTaskExecutor = 7,
 
         [Display(Name = "[Продление сроков] По председателям")]
-        ProlongTaskChairman = 7,
+        ProlongTaskChairman = 8,
 
         [Display(Name = "[Продление сроков] По статусу")]
-        ProlongTaskStatus = 8
+        ProlongTaskStatus = 9
     }
 
     public enum ProtocolTaskDocumentBaseStatus : byte
@@ -1582,5 +1589,12 @@ namespace RapidDoc.Models.Repository
 
         [Display(Name = "Продление")]
         Continents = 1
+    }
+
+    public enum ReportExecutionType : byte
+    {     
+        Done = 0,       
+        NoneDone = 1,
+        Disturbance = 2
     } 
 }

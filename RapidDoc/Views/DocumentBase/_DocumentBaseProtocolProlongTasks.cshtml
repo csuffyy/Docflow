@@ -32,7 +32,7 @@
                                         </div>
                                         <div class="collapse" id="collapseArea_@itemGroupStatus.Key@num">
                                             <div class="panel-body">
-                                                @foreach (var itemGroupUserName in Model.Where(x => x.DepartmentName == itemGroupDepartment.Key && x.TaskStatus == itemGroupStatus.Key).GroupBy(x => x.UserName))
+                                                @foreach (var itemGroupUserName in Model.Where(x => x.DepartmentName == itemGroupDepartment.Key && x.TaskStatus == itemGroupStatus.Key).GroupBy(x => x.UserName).OrderBy(x => x.Key))
                                                 {
                                                     num1++;
                                                     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
@@ -72,7 +72,7 @@
             }
             break;
         case RapidDoc.Models.Repository.ProtocolFilterType.ProlongTaskExecutor:
-            foreach (var itemGroupUser in Model.GroupBy(x => x.UserName))
+            foreach (var itemGroupUser in Model.GroupBy(x => x.UserName).OrderBy(x => x.Key))
             {
                 num++;
                 <div class="panel panel-default">
@@ -97,7 +97,7 @@
             }
             break;
         case RapidDoc.Models.Repository.ProtocolFilterType.ProlongTaskChairman:
-            foreach (var itemGroupUser in Model.GroupBy(x => x.UserName))
+            foreach (var itemGroupUser in Model.GroupBy(x => x.UserName).OrderBy(x => x.Key))
             {
                 num++;
                 <div class="panel panel-default">

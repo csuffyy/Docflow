@@ -261,6 +261,7 @@ namespace RapidDoc.Controllers
         public FileContentResult GenerateTaskReport(ReportParametersBasicView model)
         {
             int i = 0;
+            ReportExecutionType taskType;
             string subjectDoc = String.Empty;
             List<TaskReportModel> detailTasksList = new List<TaskReportModel>();
             List<TaskReportModel> detailTasksListPRTDir = new List<TaskReportModel>();
@@ -340,6 +341,19 @@ namespace RapidDoc.Controllers
                             
                         }
 
+                        if (item.DocumentState != DocumentState.Closed)       
+                            taskType = ReportExecutionType.NoneDone;
+                        else
+                        {
+                            WFTrackerTable signTrack = _WorkflowTrackerService.FirstOrDefault(x => x.DocumentTableId == item.Id && x.SignDate != null);
+                            DateTime? performDate = _DocumentService.GetSLAPerformDate(signTrack.DocumentTableId, signTrack.StartDateSLA, signTrack.SLAOffset);
+                            if (performDate != null)
+                                taskType = performDate > signTrack.SignDate ? ReportExecutionType.Done : ReportExecutionType.Disturbance;
+                            else
+                                taskType = ReportExecutionType.Done;
+
+                        }
+
                         switch (templateSheets)
                         {
                             case 1:
@@ -386,7 +400,7 @@ namespace RapidDoc.Controllers
                                         Factdate = item.DocumentState == DocumentState.Closed ? closeDate : null,
                                         Executor = executor,
                                         Delegation = delegation,
-                                        Status = item.DocumentState == DocumentState.Closed ? true : false,
+                                        Status = taskType,
                                         Text = item.DocumentState == DocumentState.Closed ? reportText : "",
                                         Department = department,
                                         DocType = DocumentType.Protocol,
@@ -416,7 +430,7 @@ namespace RapidDoc.Controllers
                                             Factdate = item.DocumentState == DocumentState.Closed ? closeDate : null,
                                             Executor = executor,
                                             Delegation = delegation,
-                                            Status = item.DocumentState == DocumentState.Closed ? true : false,
+                                            Status = taskType,
                                             Text = item.DocumentState == DocumentState.Closed ? reportText : "",
                                             Department = department,
                                             DocType = DocumentType.Protocol,
@@ -441,7 +455,7 @@ namespace RapidDoc.Controllers
                                 Factdate = item.DocumentState == DocumentState.Closed ? closeDate : null,
                                 Executor = executor,
                                 Delegation = delegation,
-                                Status = item.DocumentState == DocumentState.Closed ? true : false,
+                                Status = taskType,
                                 Text = item.DocumentState == DocumentState.Closed ? reportText : "",
                                 Department = department,
                                 DocType = item.DocType,
@@ -911,7 +925,7 @@ namespace RapidDoc.Controllers
         public DateTime? Factdate { get; set; }
         public string Executor { get; set; }
         public string Delegation { get; set; }
-        public bool Status { get; set; }
+        public ReportExecutionType Status { get; set; }
         public string Text { get; set; }
         public string Department { get; set; }
         public DocumentType DocType { get; set; }

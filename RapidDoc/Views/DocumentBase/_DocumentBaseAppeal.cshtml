@@ -11,7 +11,7 @@
 
         case RapidDoc.Models.Repository.AppealFilterType.Initiator:
 
-            foreach (var itemGroup in Model.GroupBy(x => x.UserName))
+            foreach (var itemGroup in Model.GroupBy(x => x.UserName).OrderBy(x => x.Key))
             {
 
                 num++;
@@ -103,7 +103,7 @@
             }
             break;
         case RapidDoc.Models.Repository.AppealFilterType.Topic:
-            foreach (var itemGroup in Model.GroupBy(x => x.DocumentTitle))
+            foreach (var itemGroup in Model.GroupBy(x => x.DocumentTitle).OrderBy(x => x.Key))
             {
                 num++;
                 <div class="panel panel-default">
@@ -128,7 +128,7 @@
             }
             break;
         case RapidDoc.Models.Repository.AppealFilterType.Organization:
-            foreach (var itemGroup in Model.GroupBy(x => x.InOutOrganization))
+            foreach (var itemGroup in Model.GroupBy(x => x.InOutOrganization).OrderBy(x => x.Key))
             {
                 num++;
                 <div class="panel panel-default">

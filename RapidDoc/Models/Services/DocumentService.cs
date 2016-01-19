@@ -1428,15 +1428,14 @@ namespace RapidDoc.Models.Services
         {
             DocumentTable documentTable = Find(refDocumentid);
             ProcessView processView = _ProcessService.FindView(documentTable.ProcessTableId, currentUserId);
-
-            var document = GetDocumentView(documentTable.RefDocumentId, processView.TableName);
-
-            document.ProlongationDate = prolongationDate;
-            UpdateDocumentFields(document, processView);
             var trackers = _WorkflowTrackerService.GetCurrentStep(x => x.DocumentTableId == documentTable.Id);
+            var document = GetDocumentView(documentTable.RefDocumentId, processView.TableName);
 
             if (trackers != null)
             {
+                document.ProlongationDate = prolongationDate;
+                UpdateDocumentFields(document, processView);
+
                 foreach (var item in trackers)
                 {
                     item.SLAOffset = Convert.ToInt32(GetSLAHours(refDocumentid, item.StartDateSLA, prolongationDate));

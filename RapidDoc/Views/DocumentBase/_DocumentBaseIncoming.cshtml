@@ -5,13 +5,13 @@
 
 }
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-    @{int num = 0;}
+    @{int num = 0; int num1 = 0;}
     @switch ((RapidDoc.Models.Repository.IncomingFilterType)Enum.ToObject(typeof(RapidDoc.Models.Repository.IncomingFilterType), @ViewBag.FilterType))
     {
 
         case RapidDoc.Models.Repository.IncomingFilterType.Initiator:
 
-            foreach (var itemGroup in Model.GroupBy(x => x.UserName))
+            foreach (var itemGroup in Model.GroupBy(x => x.UserName).OrderBy(x => x.Key))
             {
 
                 num++;
@@ -46,23 +46,45 @@
                     </div>
                     <div class="collapse" id="collapseArea_@num">
                         <div class="panel-body">
-                            @foreach (var item in Model.Where(x => x.DepartmentName == itemGroup.Key).OrderByDescending(x => x.CreatedDate))
+                            @foreach (var itemGroupName in Model.Where(x => x.DepartmentName == itemGroup.Key).GroupBy(y => y.UserName).OrderBy(x => x.Key))
                             {
-                                <p>
-                                    @if (item.Executed == true)
-                                    {
-                                        <span class="fa fa-check text-success"></span>
-                                    }
-                                    <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins> - @item.ProcessName - @item.DocumentTitle (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)</a>
-                                </p>
+                                num1++;
+                                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" role="tab" id="heading@num1@num">
+                                            <p class="panel-title">
+                                                <a data-toggle="collapse" data-target="#collapseArea_@num1@num" aria-expanded="false" aria-controls="collapseArea_@num1@num">
+                                                    <strong>@itemGroupName.Key</strong>
+                                                </a>
+                                            </p>
+                                        </div>
+                                        <div class="collapse" id="collapseArea_@num1@num">
+                                            <div class="panel-body">
+
+
+                                                @foreach (var item in Model.Where(x => x.DepartmentName == itemGroup.Key && x.UserName == itemGroupName.Key).OrderByDescending(x => x.CreatedDate))
+                                                {
+                                                    <p>
+                                                        @if (item.Executed == true)
+                                                        {
+                                                            <span class="fa fa-check text-success"></span>
+                                                        }
+                                                        <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins> - @item.ProcessName - @item.DocumentTitle (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)</a>
+                                                    </p>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             }
+
                         </div>
                     </div>
                 </div>
             }
             break;
         case RapidDoc.Models.Repository.IncomingFilterType.Topic:
-            foreach (var itemGroup in Model.GroupBy(x => x.DocumentTitle))
+            foreach (var itemGroup in Model.GroupBy(x => x.DocumentTitle).OrderBy(x => x.Key))
             {
                 num++;
                 <div class="panel panel-default">
@@ -139,7 +161,7 @@
             }
             break;
         case RapidDoc.Models.Repository.IncomingFilterType.Organization:
-            foreach (var itemGroup in Model.GroupBy(x => x.InOutOrganization).Where(y => !String.IsNullOrEmpty(y.Key)))
+            foreach (var itemGroup in Model.GroupBy(x => x.InOutOrganization).Where(y => !String.IsNullOrEmpty(y.Key)).OrderBy(x => x.Key))
             {
                 num++;
                 <div class="panel panel-default">
