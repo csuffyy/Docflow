@@ -33,7 +33,7 @@
             }
             break;
         case RapidDoc.Models.Repository.OfficeMemoFilterType.Department:
-            foreach (var itemGroup in Model.GroupBy(x => x.DepartmentName))
+            foreach (var itemGroup in Model.GroupBy(x => x.DepartmentName).OrderBy(x => x.Key))
             {
                 num++;
                 <div class="panel panel-default">
@@ -73,7 +73,7 @@
             }
             break;
         case RapidDoc.Models.Repository.OfficeMemoFilterType.ItemCase:
-            foreach (var itemGroup in Model.GroupBy(x => new { ItemCaseNumber = x.ItemCaseNumber, ItemCaseName = x.ItemCaseName }))
+            foreach (var itemGroup in Model.GroupBy(x => new { ItemCaseNumber = x.ItemCaseNumber, ItemCaseName = x.ItemCaseName }).OrderBy(x => x.Key.ItemCaseName))
             {
                 num++;
                 <div class="panel panel-default">
@@ -116,7 +116,7 @@
             break;
         case RapidDoc.Models.Repository.OfficeMemoFilterType.ProcessName:
 
-            foreach (var itemGroup in Model.GroupBy(x => x.ProcessName))
+            foreach (var itemGroup in Model.GroupBy(x => x.ProcessName).OrderBy(x => x.Key))
             {
 
                 num++;
@@ -159,7 +159,7 @@
             break;
 
         case RapidDoc.Models.Repository.OfficeMemoFilterType.Folder:
-            foreach (var itemGroup in Model.GroupBy(x => x.Folder))
+            foreach (var itemGroup in Model.GroupBy(x => x.Folder).OrderBy(x => x.Key))
             {
                 num++;
                 <div class="panel panel-default">
@@ -181,7 +181,7 @@
             break;
 
         case RapidDoc.Models.Repository.OfficeMemoFilterType.CreateDate:
-            foreach (var itemGroup in Model.GroupBy(x => x.ModCreatedDate))
+            foreach (var itemGroup in Model.GroupBy(x => x.ModCreatedDate).OrderBy(x => x.Key))
             {
                 num++;
                 <div class="panel panel-default">

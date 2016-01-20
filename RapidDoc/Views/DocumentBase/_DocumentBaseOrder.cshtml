@@ -45,7 +45,7 @@
             }
             break;
         case RapidDoc.Models.Repository.OrderFilterType.Department:
-            foreach (var itemGroup in Model.GroupBy(x => x.DepartmentName))
+            foreach (var itemGroup in Model.GroupBy(x => x.DepartmentName).OrderBy(x => x.Key))
             {
                 num++;
                 <div class="panel panel-default">
@@ -99,7 +99,7 @@
             }
             break;
         case RapidDoc.Models.Repository.OrderFilterType.NumberOrder:
-            foreach (var itemGroupProcess in Model.Where(x => x.OrderNumber != null).GroupBy(x => x.ProcessName))
+            foreach (var itemGroupProcess in Model.Where(x => x.OrderNumber != null).GroupBy(x => x.ProcessName).OrderBy(x => x.Key))
             {
                 num++;
                 <div class="panel panel-default">
@@ -146,7 +146,7 @@
             }
             break;
         case RapidDoc.Models.Repository.OrderFilterType.Topic:
-            foreach (var itemGroup in Model.GroupBy(x => x.DocumentTitle).OrderBy(x => x.Key))
+            foreach (var itemGroup in Model.GroupBy(x => x.DocumentTitle).OrderBy(x => x.Key).OrderBy(x => x.Key))
             {
                 num++;
                 <div class="panel panel-default">
@@ -180,7 +180,7 @@
             break;
         case RapidDoc.Models.Repository.OrderFilterType.ProcessName:
 
-            foreach (var itemGroup in Model.GroupBy(x => x.ProcessName))
+            foreach (var itemGroup in Model.GroupBy(x => x.ProcessName).OrderBy(x => x.Key))
             {
 
                 num++;
@@ -256,7 +256,7 @@
             break;
         case RapidDoc.Models.Repository.OrderFilterType.OrderDate:
 
-            foreach (var itemGroup in Model.Where(y => y.OrderDate != null).GroupBy(x => x.OrderDate))
+            foreach (var itemGroup in Model.Where(y => y.OrderDate != null).GroupBy(x => x.OrderDate).OrderBy(x => x.Key))
             {
 
                 num++;

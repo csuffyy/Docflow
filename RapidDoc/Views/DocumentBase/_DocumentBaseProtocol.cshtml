@@ -33,7 +33,7 @@
             }
             break;
         case RapidDoc.Models.Repository.ProtocolFilterType.Department:
-            foreach (var itemGroup in Model.GroupBy(x => x.DepartmentName))
+            foreach (var itemGroup in Model.GroupBy(x => x.DepartmentName).OrderBy(x => x.Key))
             {
                 num++;
                 <div class="panel panel-default">

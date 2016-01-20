@@ -10,7 +10,7 @@
     @switch ((RapidDoc.Models.Repository.ProtocolFilterType)Enum.ToObject(typeof(RapidDoc.Models.Repository.ProtocolFilterType), @ViewBag.FilterType))
     {
         case RapidDoc.Models.Repository.ProtocolFilterType.TaskStatus:
-            foreach (var itemGroupDepartment in Model.GroupBy(x => x.DepartmentName))
+            foreach (var itemGroupDepartment in Model.GroupBy(x => x.DepartmentName).OrderBy(x => x.Key))
             {
                 num++;
                 <div class="panel panel-default">

@@ -11,7 +11,7 @@
 {
     if (nodes.Any(n => n.ProtocolFoldersParentId == parentId)) 
     {
-        foreach (var item in nodes.Where(n => n.ProtocolFoldersParentId == parentId))
+        foreach (var item in nodes.Where(n => n.ProtocolFoldersParentId == parentId).OrderBy(x => x.Key))
         {
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="heading@item.ProtocolFoldersId">

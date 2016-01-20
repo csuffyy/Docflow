@@ -37,7 +37,7 @@
             }
             break;
         case RapidDoc.Models.Repository.AppealFilterType.RegistrationNumber:
-            foreach (var itemGroupProcess in Model.Where(x => x.OrderNumber != null).GroupBy(x => x.ProcessName))
+            foreach (var itemGroupProcess in Model.Where(x => x.OrderNumber != null).GroupBy(x => x.ProcessName).OrderBy(x => x.Key))
             {
                 num++;
                 <div class="panel panel-default">
@@ -77,7 +77,7 @@
             break;
         case RapidDoc.Models.Repository.AppealFilterType.RegistrationDate:
 
-            foreach (var itemGroup in Model.Where(y => y.OrderDate != null).GroupBy(x => x.OrderDate))
+            foreach (var itemGroup in Model.Where(y => y.OrderDate != null).GroupBy(x => x.OrderDate).OrderBy(x => x.Key))
             {
 
                 num++;
@@ -153,7 +153,7 @@
             }
             break;
         case RapidDoc.Models.Repository.AppealFilterType.ItemCase:
-            foreach (var itemGroup in Model.GroupBy(x => new { ItemCaseNumber = x.ItemCaseNumber, ItemCaseName = x.ItemCaseName }))
+            foreach (var itemGroup in Model.GroupBy(x => new { ItemCaseNumber = x.ItemCaseNumber, ItemCaseName = x.ItemCaseName }).OrderBy(x => x.Key.ItemCaseName))
             {
                 num++;
                 <div class="panel panel-default">
