@@ -171,7 +171,8 @@ namespace RapidDoc.Controllers
                     {
                         PrincipalContext ctx = new PrincipalContext(ContextType.Domain, domainModel.DomainTable.LDAPServer, domainModel.DomainTable.LDAPBaseDN, domainModel.DomainTable.LDAPLogin, domainModel.DomainTable.LDAPPassword);
                         UserPrincipal user = UserPrincipal.FindByIdentity(ctx, viewModel.AccountDomainName);
-                        domainSID = user.Sid.ToString();
+                        if (user != null)
+                            domainSID = user.Sid.ToString();
                     }
                 }
 
