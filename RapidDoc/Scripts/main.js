@@ -195,6 +195,7 @@ function summernote_init(lang) {
                     var original = someNote.code();
                     var regex = new RegExp('<table border="0"', 'gi');
                     var cleaned = original.replace(regex, '<table class="table table-bordered table-condensed"');
+                    cleaned = cleanPastedHTML(cleaned);
                     someNote.code(cleaned);
                 };
 
@@ -429,16 +430,17 @@ function cleanPastedHTML(input) {
     output = output.replace(tagStripper, '');
     // 4. Remove everything in between and including tags '<style(.)style(.)>'
     var badTags = ['style', 'script', 'applet', 'embed', 'noframes', 'noscript', 'img'];
-
     for (var i = 0; i < badTags.length; i++) {
         tagStripper = new RegExp('<' + badTags[i] + '.*?' + badTags[i] + '(.*?)>', 'gi');
         output = output.replace(tagStripper, '');
     }
     // 5. remove attributes ' style="..."'
-    var badAttributes = ['style', 'start'];
-    for (var i = 0; i < badAttributes.length; i++) {
-        var attributeStripper = new RegExp(' ' + badAttributes[i] + '="(.*?)"', 'gi');
-        output = output.replace(attributeStripper, '');
+    if (output.indexOf('<table ') == -1) {
+        var badAttributes = ['style', 'start'];
+        for (var i = 0; i < badAttributes.length; i++) {
+            var attributeStripper = new RegExp(' ' + badAttributes[i] + '="(.*?)"', 'gi');
+            output = output.replace(attributeStripper, '');
+        }
     }
     return output;
 }

@@ -26,6 +26,7 @@
                 }
                 else if (Model.Type == 2)
                 {
+                    <br />
                     <table class="table table-min" style="margin-bottom: 0;">
                         <tbody>
                             <tr>
@@ -48,6 +49,7 @@
                 }
                 else
                 {
+                    <br />
                     <strong class="text-uppercase" style="white-space: nowrap;">Поручение №@ViewData["numDecision"].ToString()</strong>
                     <p style="margin-bottom: 0;">
                         @Html.Action("ProtocolDecisionText", "Custom", new { model = Model })

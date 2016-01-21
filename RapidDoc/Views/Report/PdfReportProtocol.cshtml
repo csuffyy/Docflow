@@ -244,6 +244,7 @@
                         numDecision++;
                         <div style="width:83%; float:right;">
                             <font size="4" face="Arial">
+                                <br />
                                 <strong>ПОРУЧЕНИЕ №@numDecision.ToString()</strong>
                             </font>
                             <br />
@@ -256,9 +257,9 @@
                     {
                         if (decision.Type != prevDecisionType)
                         {
-                            prevDecisionType = decision.Type;
                             <div style="width:83%; float:right;">
                                 <font size="4" face="Arial">
+                                    <br />
                                     <strong>РЕШЕНИЕ:</strong>
                                 </font>
                             </div>
@@ -284,6 +285,7 @@
                         numThreeDecision++;
                         <div style="width:83%; float:right;">
                             <font size="4" face="Arial">
+                                <br />
                                 <strong>РЕКОМЕНДОВАНО РУКОВОДСТВУ:</strong>
                             </font>
                         </div>
@@ -302,6 +304,8 @@
                             </div>
                         </div>
                     }
+
+                    prevDecisionType = decision.Type;
                 }
                 </div>
                 <br />

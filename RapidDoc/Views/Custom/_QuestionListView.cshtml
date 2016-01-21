@@ -30,12 +30,12 @@
                         }
                         
                         @if (question.DecisionList != null)
-                        {                         
+                        {
                             foreach (var decision in question.DecisionList)
                             {
                                 if (decision.Type == 1 && decision.Type != prevDecisionType)
                                 {
-                                    prevDecisionType = decision.Type;
+                                    <br />
                                     <table class="table table-min" style="margin-bottom: 0;">
                                         <tbody>
                                             <tr>
@@ -45,6 +45,8 @@
                                         </tbody>
                                     </table>
                                 }
+
+                                prevDecisionType = decision.Type;
 
                                 if (decision.Type == 0)
                                 {
