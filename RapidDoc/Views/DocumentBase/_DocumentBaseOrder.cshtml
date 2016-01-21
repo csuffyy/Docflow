@@ -108,7 +108,7 @@
                     </div>
                     <div class="collapse" id="collapseArea_@num">
                         <div class="panel-body">
-                            @foreach (var itemGroup in Model.Where(x => x.ProcessName == itemGroupProcess.Key).GroupBy(x => x.OrderNumber).Where(y => !String.IsNullOrEmpty(y.Key)).OrderBy(x => x.Key))
+                            @foreach (var itemGroup in Model.Where(x => x.ProcessName == itemGroupProcess.Key).GroupBy(x => x.OrderNumber).Where(y => !String.IsNullOrEmpty(y.Key)).OrderBy(c => c.Key.Length).ThenBy(c => c.Key))
                             {
                                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                                     <div class="panel panel-default">
