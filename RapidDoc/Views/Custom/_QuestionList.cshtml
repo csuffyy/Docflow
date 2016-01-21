@@ -1,4 +1,4 @@
-﻿@model RapidDoc.Models.DomainModels.PRT_QuestionList_Table
+﻿ @model RapidDoc.Models.DomainModels.PRT_QuestionList_Table
 @using RapidDoc.Extensions;
 @{
     Layout = "";
@@ -12,8 +12,8 @@
         <strong style="white-space: nowrap;">Вопрос №<span class="questionNumber"></span></strong>
     </div>
     <div class="col-xs-11">
-        <label class="radio-inline text-uppercase">@Html.RadioButtonFor(model => Model.IncludeText, false) Да</label>
-        <label class="radio-inline text-uppercase">@Html.RadioButtonFor(model => Model.IncludeText, true) Нет</label>
+        <label class="radio-inline text-uppercase">@Html.RadioButtonFor(model => Model.IncludeText, false) Нет</label>
+        <label class="radio-inline text-uppercase">@Html.RadioButtonFor(model => Model.IncludeText, true) Да</label>
         <h6 class="radio-inline"><small class="text-danger"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Включить текст вопроса в поручение</small></h6>
         @Html.TextAreaFor(model => Model.Question, new { @class = "form-control summernotelight" })
 

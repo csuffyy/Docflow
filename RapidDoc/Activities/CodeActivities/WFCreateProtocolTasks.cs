@@ -138,7 +138,7 @@ namespace RapidDoc.Activities.CodeActivities
                         USR_TAS_DailyTasks_View docModel = new USR_TAS_DailyTasks_View();
                         string folderName = _serviceProtocolFolders.GetProtocolFolderName(documentTable.ProcessTableId, documentView.ProtocolFoldersTableId, currentUserId);
 
-                        if (question.IncludeText == false)
+                        if (question.IncludeText == true)
                             docModel.MainField = strDecision + "<p>" + folderName + "</p>" + documentView.Subject + "\n" + question.Question + "\n" + decision.Decision;
                         else
                             docModel.MainField = strDecision + "<p>" + folderName + "</p>" + documentView.Subject + "\n" + decision.Decision;
