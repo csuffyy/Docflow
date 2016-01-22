@@ -4196,6 +4196,28 @@ namespace RapidDoc.Models.DomainModels
     }
     #endregion
 
+    #region УММ
+
+    public class USR_REQ_UMM_ManufactureItemsBGP_Table : BasicDocumentTable
+    {
+        public string Department { get; set; }
+        public string FIO { get; set; }
+        public string Telephone { get; set; }
+        public string NameItem { get; set; }
+        public string TechType { get; set; }
+        public string Amount { get; set; }
+        public DateTime? PlanDate { get; set; }
+
+        public string ActualUseMaterial { get; set; }
+        public string AmountMaterial { get; set; }
+        public DateTime? ActualDate { get; set; }
+
+        public string ItemName { get; set; }
+
+    }
+
+    #endregion
+
     #region Коммандировки
     public class USR_REQ_TRIP_RegistrationBusinessTripForeign_Table : BasicDocumentTable
     {
@@ -4577,8 +4599,8 @@ namespace RapidDoc.Models.DomainModels
     #region Приказы
 
     public class USR_ORD_MainActivity_Table : BasicOrderDefaultTable
-    {
-        
+    {       
+
     }
 
     public class USR_ORD_BusinessTrip_Table : BasicOrderTable
