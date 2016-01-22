@@ -1,0 +1,90 @@
+﻿@model RapidDoc.Models.ViewModels.USR_REQ_UMM_ManufactureItemsBGP_View
+@using RapidDoc.Extensions;
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.Department)
+</div>
+<div>
+    @Html.DisplayTextFor(model => Model.Department)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.FIO)
+</div>
+<div>
+    @Html.HtmlDisplayTagsFor(model => Model.FIO)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.Telephone)
+</div>
+<div>
+    @Html.DisplayTextFor(model => Model.Telephone)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.NameItem)
+</div>
+<div>
+    @Html.DisplayTextFor(model => Model.NameItem)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.Amount)
+</div>
+<div>
+    @Html.DisplayTextFor(model => Model.Amount)
+</div>
+
+@if (Model.PlanDate.HasValue && Model.PlanDate != DateTime.MinValue)
+{
+    
+    <div class="editor-label">
+        @Html.LabelFor(model => Model.PlanDate)
+    </div>
+    <div>
+        @Html.FormatValue(Model.PlanDate, "{0:dd.MM.yyyy}")
+    </div>
+}
+
+@if (!String.IsNullOrEmpty(Model.ActualUseMaterial))
+{
+    <hr />
+    <div class="editor-label">
+        @Html.LabelFor(model => Model.ActualUseMaterial)
+    </div>
+    <div>
+        @Html.DisplayTextFor(model => Model.ActualUseMaterial)
+    </div>
+}
+
+@if (!String.IsNullOrEmpty(Model.AmountMaterial))
+{
+    <div class="editor-label">
+        @Html.LabelFor(model => Model.AmountMaterial)
+    </div>
+    <div>
+        @Html.DisplayTextFor(model => Model.AmountMaterial)
+    </div>
+}
+
+@if (Model.ActualDate.HasValue && Model.ActualDate != DateTime.MinValue)
+{
+    <div class="editor-label">
+        @Html.LabelFor(model => Model.ActualDate)
+    </div>
+    <div>
+        @Html.FormatValue(Model.ActualDate, "{0:dd.MM.yyyy}")
+    </div>
+}
+
+@if (!String.IsNullOrEmpty(Model.ItemName))
+{
+    <hr />
+    <div class="editor-label">
+        @Html.LabelFor(model => Model.ItemName)
+    </div>
+    <div>
+        @Html.DisplayTextFor(model => Model.ItemName)
+    </div>
+}

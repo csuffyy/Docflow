@@ -1983,6 +1983,11 @@
     <Content Include="Views\Custom\USR_PRT_ManagementDocuments_View_Full.cshtml" />
     <Content Include="Views\Custom\USR_PRT_DirectorateDocuments_View_Full.cshtml" />
     <Content Include="Views\Custom\USR_PRT_BalanceCommissionDocuments_View_Full.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UMM_ManufactureItemsBGP_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UMM_ManufactureItemsBGP_View.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UMM_ManufactureItemsBGP_Edit_UMM.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UMM_ManufactureItemsBGP_Edit_TOIR.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UMM_ManufactureItemsBGP_View_Full.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -3736,6 +3741,12 @@
   </ItemGroup>
   <ItemGroup>
     <XamlAppDef Include="Activities\USR_APP_AppealIndividualDocuments.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USR_REQ_UMM_ManufactureItemsBGP.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </XamlAppDef>

@@ -10,6 +10,8 @@ using RapidDoc.Models.Repository;
 using RapidDoc.Models.ViewModels;
 using RapidDoc.Models.Infrastructure;
 using System.Globalization;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace RapidDoc.Controllers
 {
@@ -2787,6 +2789,30 @@ namespace RapidDoc.Controllers
             }
 
             return PartialView("_Empty");
+        }
+
+        public ActionResult GetRequestManufactureItemsBGP(RapidDoc.Models.ViewModels.USR_REQ_UMM_ManufactureItemsBGP_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+            string curUser = User.Identity.GetUserId();
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.SystemName == "UMMBGP") && current.FirstOrDefault(x => x.SystemName == "UMMBGP").Users.Any(x => x.UserId == curUser))
+                    {
+                        return PartialView("USR_REQ_UMM_ManufactureItemsBGP_Edit_TOIR", model);
+                    }
+
+                    if (current.Any(x => x.SystemName == "HighMasterUMM"))
+                    {
+                        return PartialView("USR_REQ_UMM_ManufactureItemsBGP_Edit_UMM", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_REQ_UMM_ManufactureItemsBGP_View_Full", model);
         }
 
         public ActionResult GetPRTTechCommitteeDocuments(RapidDoc.Models.ViewModels.USR_PRT_TechCommitteeDocuments_View model)

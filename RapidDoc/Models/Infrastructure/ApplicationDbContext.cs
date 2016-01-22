@@ -355,6 +355,7 @@ namespace RapidDoc.Models.Infrastructure
         public DbSet<USR_PRT_ManagementDocuments_Table> USR_PRT_ManagementDocuments_Table { get; set; }
         public DbSet<USR_PRT_TechCommitteeDocuments_Table> USR_PRT_TechCommitteeDocuments_Table { get; set; }
         public DbSet<USR_PRT_DirectorateDocuments_Table> USR_PRT_DirectorateDocuments_Table { get; set; }
+        public DbSet<USR_REQ_UMM_ManufactureItemsBGP_Table> USR_REQ_UMM_ManufactureItemsBGP_Table { get; set; }
 
         protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder)
         {
