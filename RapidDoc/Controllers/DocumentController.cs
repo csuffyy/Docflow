@@ -778,29 +778,34 @@ namespace RapidDoc.Controllers
         [MultipleButton(Name = "action", Argument = "ReturnTask")]
         public ActionResult ReturnTask(Guid processId, int type, Guid fileId, FormCollection collection, string actionModelName, Guid documentId)
         {
-            string currentUserId = User.Identity.GetUserId();
-            ProcessView process = _ProcessService.FindView(processId);
-            var documentIdNew = _DocumentService.GetDocumentView(_DocumentService.Find(documentId).RefDocumentId, process.TableName);
-
-            List<WFTrackerTable> trackerTableList = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == documentId).ToList();
-
-            foreach (var tracker in trackerTableList)
+            if (User.IsInRole("Administrator") || User.IsInRole("SetupAdministrator") || User.IsInRole("OpenDocuments"))
             {
-                tracker.TrackerType = TrackerType.Waiting;
-                tracker.SignDate = null;
-                tracker.SignUserId = null;
-                _WorkflowTrackerService.SaveDomain(tracker, currentUserId);
+                string currentUserId = User.Identity.GetUserId();
+                ProcessView process = _ProcessService.FindView(processId);
+                var documentIdNew = _DocumentService.GetDocumentView(_DocumentService.Find(documentId).RefDocumentId, process.TableName);
+
+                List<WFTrackerTable> trackerTableList = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == documentId).ToList();
+
+                foreach (var tracker in trackerTableList)
+                {
+                    tracker.TrackerType = TrackerType.Waiting;
+                    tracker.SignDate = null;
+                    tracker.SignUserId = null;
+                    _WorkflowTrackerService.SaveDomain(tracker, currentUserId);
+                }
+
+                DocumentTable documentTable = _DocumentService.Find(documentId);
+                documentTable.DocumentState = DocumentState.OnSign;
+                documentTable.ActivityName = "Исполнители";
+                _DocumentService.UpdateDocument(documentTable, currentUserId);
+
+                documentIdNew.ReportText = "";
+                _DocumentService.UpdateDocumentFields(documentIdNew, process);
+
+                return RedirectToAction("Index", "Document");
             }
 
-            DocumentTable documentTable = _DocumentService.Find(documentId);
-            documentTable.DocumentState = DocumentState.OnSign;
-            documentTable.ActivityName = "Исполнители";
-            _DocumentService.UpdateDocument(documentTable, currentUserId);
-
-            documentIdNew.ReportText = "";
-            _DocumentService.UpdateDocumentFields(documentIdNew, process);
-
-            return RedirectToAction("Index", "Document");
+            return RedirectToAction("PageNotFound", "Error");
         }
 
         [HttpPost]
@@ -1505,7 +1510,7 @@ namespace RapidDoc.Controllers
                 contentType = files.ContentType.ToString().ToUpper();
                 thumbnail = GetThumbnail(data, contentType);
 
-                if (document != null && document.DocumentState != DocumentState.Created && _DocumentService.GetAllFilesDocument(fileId).ToList().Exists(x => x.ApplicationUserCreatedId == User.Identity.GetUserId() && x.ApplicationUserCreatedId != document.ApplicationUserCreatedId && x.CreatedDate > DateTime.UtcNow.AddMinutes(-5)) == false)
+                if (document != null && document.DocumentState != DocumentState.Created && _DocumentService.GetAllFilesDocument(fileId).ToList().Exists(x => x.ApplicationUserCreatedId == User.Identity.GetUserId() && x.ApplicationUserCreatedId != document.ApplicationUserCreatedId && x.CreatedDate > DateTime.UtcNow.AddMinutes(-5)) == false && document.DocType != DocumentType.Task)
                 {
                     _EmailService.SendInitiatorEmailDocAdding(document.Id);
                 }

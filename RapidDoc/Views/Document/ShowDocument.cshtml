@@ -184,7 +184,7 @@
         }
         @if (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Task &&
                     (Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Closed ||
-        Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Cancelled) && (User.IsInRole("Administrator") || User.IsInRole("SetupAdministrator")))
+        Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Cancelled) && (User.IsInRole("Administrator") || User.IsInRole("SetupAdministrator") || User.IsInRole("OpenDocuments")))
         {
             <button type="submit" id="returnTask" class="btn btn-danger" name="action:ReturnTask">@UIElementRes.UIElement.ReturnTask</button>
         }
