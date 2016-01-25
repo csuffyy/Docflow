@@ -257,7 +257,13 @@ namespace RapidDoc.Models.Services
                             Thread.CurrentThread.CurrentCulture = ci;
                             Thread.CurrentThread.CurrentUICulture = ci;
                             string body = Razor.Parse(razorText, new { DocumentNum = String.Format("{0} - {1}", documentTable.DocumentNum, processName), DocumentUri = documentUri, EmplName = emplTable.FullName, BodyText = UIElementRes.UIElement.SendExecutorEmail, DocumentText = documentTable.DocumentText}, ViewBag, "emailTemplateDefaultWithCZ");
-                            SendEmail(emailParameter, new string[] { user.Email }, String.Format("Требуется ваша подпись, документ [{0}]", documentTable.DocumentNum), body);
+                            string subject = String.Empty;
+                            if (documentTable.DocType == DocumentType.Task)
+                                subject = String.Format("Поручение, документ [{0}]", documentTable.DocumentNum);
+                            else
+                                subject = String.Format("Требуется ваша подпись, документ [{0}]", documentTable.DocumentNum);
+
+                            SendEmail(emailParameter, new string[] { user.Email }, subject, body);
                             ci = CultureInfo.GetCultureInfo(currentLang);
                             Thread.CurrentThread.CurrentCulture = ci;
                             Thread.CurrentThread.CurrentUICulture = ci;

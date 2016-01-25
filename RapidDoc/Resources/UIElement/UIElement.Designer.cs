@@ -1033,6 +1033,15 @@ namespace UIElementRes {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Выполнить.
+        /// </summary>
+        public static string Perform {
+            get {
+                return ResourceManager.GetString("Perform", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Исполнение.
         /// </summary>
         public static string Performance {

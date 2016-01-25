@@ -657,4 +657,7 @@
   <data name="SendNotificationToMail" xml:space="preserve">
     <value>Отправить уведомление на почту</value>
   </data>
+  <data name="Perform" xml:space="preserve">
+    <value>Выполнить</value>
+  </data>
 </root>

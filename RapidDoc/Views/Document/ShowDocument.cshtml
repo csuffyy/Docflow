@@ -155,7 +155,16 @@
             }
             else
             {
-                <button type="button" class="btn btn-success btn-lg hidden-print" data-toggle="modal" data-target=".approvecz-modal-sm"><span class="visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">@UIElementRes.UIElement.Approve</span><span class="visible-xs-inline-block glyphicon glyphicon-ok-circle"></span></button>
+                <button type="button" class="btn btn-success btn-lg hidden-print" data-toggle="modal" data-target=".approvecz-modal-sm"><span class="visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+                    @if (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Task)
+                    {
+                        @UIElementRes.UIElement.Perform
+                    }
+                    else
+                    {
+                        @UIElementRes.UIElement.Approve
+                    }
+                    </span><span class="visible-xs-inline-block glyphicon glyphicon-ok-circle"></span></button>
                 <button type="button" class="btn btn-danger btn-lg hidden-print" data-toggle="modal" data-target=".rejectcz-modal-sm"><span class="visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">@UIElementRes.UIElement.Reject</span><span class="visible-xs-inline-block glyphicon glyphicon-remove-circle"></span></button>
             }
         }

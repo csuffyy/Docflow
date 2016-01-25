@@ -651,4 +651,7 @@
   <data name="SendNotificationToMail" xml:space="preserve">
     <value>Sent notification to email</value>
   </data>
+  <data name="Perform" xml:space="preserve">
+    <value>Perform</value>
+  </data>
 </root>
