@@ -9687,6 +9687,15 @@ namespace RapidDoc.Models.ViewModels
 
     #endregion
 
+    #region Служебные записки Kazzink Holdings
+
+    public class USK_OFM_Main_OfficeMemo_View : BasicDocumantOfficeMemoView
+    {
+
+    }
+
+    #endregion
+
     #region Задачи
 
     public class USR_TAS_DailyTasks_View : BasicDailyTasksView

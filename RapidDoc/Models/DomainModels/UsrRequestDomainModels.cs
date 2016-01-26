@@ -4440,7 +4440,7 @@ namespace RapidDoc.Models.DomainModels
     }
     #endregion
 
-    #region Служебные записки
+    #region Служебные записки ATK
 
     public class USR_OFM_UIT_OfficeMemo_Table : BasicDocumantOfficeMemoTable
     {
@@ -4572,6 +4572,15 @@ namespace RapidDoc.Models.DomainModels
 
     }
            
+    #endregion
+
+    #region Служебные записки Kazzink Holdings
+
+    public class USK_OFM_Main_OfficeMemo_Table : BasicDocumantOfficeMemoTable
+    {
+
+    }
+
     #endregion
 
     #region Задачи

@@ -4,6 +4,7 @@
     Layout = null;
 
 }
+<p><a href="#" class="btn btn-default openall"><span class="glyphicon glyphicon glyphicon-plus" aria-hidden="true"></span></a> <a href="#" class="btn btn-default closeall"><span class="glyphicon glyphicon glyphicon-minus" aria-hidden="true"></span></a></p>
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
     @{int num = 0;}
     @switch ((RapidDoc.Models.Repository.AppealFilterType)Enum.ToObject(typeof(RapidDoc.Models.Repository.AppealFilterType), @ViewBag.FilterType))
@@ -44,9 +45,9 @@
                     <div class="panel-heading" role="tab" id="heading@num">
                         <p class="panel-title"><a data-toggle="collapse" data-target="#collapseArea_@num" aria-expanded="false" aria-controls="collapseArea_@num"><strong>@itemGroupProcess.Key</strong></a></p>
                     </div>
-                    <div class="collapse" id="collapseArea_@num">
+                    <div class="panel-collapse collapse" id="collapseArea_@num">
                         <div class="panel-body">
-                            @foreach (var itemGroup in Model.Where(x => x.ProcessName == itemGroupProcess.Key).GroupBy(x => x.OrderNumber).Where(y => !String.IsNullOrEmpty(y.Key)).OrderBy(x => x.Key))
+                            @foreach (var itemGroup in Model.Where(x => x.ProcessName == itemGroupProcess.Key).GroupBy(x => x.OrderNumber).Where(y => !String.IsNullOrEmpty(y.Key)).OrderBy(c => c.Key.Length).ThenBy(c => c.Key))
                             {
                                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                                     <div class="panel panel-default">
@@ -110,7 +111,7 @@
                     <div class="panel-heading" role="tab" id="heading@num">
                         <p class="panel-title"><a data-toggle="collapse" data-target="#collapseArea_@num" aria-expanded="false" aria-controls="collapseArea_@num"><strong>@itemGroup.Key</strong></a></p>
                     </div>
-                    <div class="collapse" id="collapseArea_@num">
+                    <div class="panel-collapse collapse" id="collapseArea_@num">
                         <div class="panel-body">
                             @foreach (var item in Model.Where(x => x.DocumentTitle == itemGroup.Key).OrderByDescending(x => x.CreatedDate))
                             {
@@ -135,7 +136,7 @@
                     <div class="panel-heading" role="tab" id="heading@num">
                         <p class="panel-title"><a data-toggle="collapse" data-target="#collapseArea_@num" aria-expanded="false" aria-controls="collapseArea_@num"><strong>@itemGroup.Key</strong></a></p>
                     </div>
-                    <div class="collapse" id="collapseArea_@num">
+                    <div class="panel-collapse collapse" id="collapseArea_@num">
                         <div class="panel-body">
                             @foreach (var item in Model.Where(x => x.InOutOrganization == itemGroup.Key).OrderByDescending(x => x.CreatedDate))
                             {
@@ -160,7 +161,7 @@
                     <div class="panel-heading" role="tab" id="heading@num">
                         <p class="panel-title"><a data-toggle="collapse" data-target="#collapseArea_@num" aria-expanded="false" aria-controls="collapseArea_@num"><strong>@itemGroup.Key.ItemCaseNumber - @itemGroup.Key.ItemCaseName (@Model.Where(x => x.ItemCaseNumber == itemGroup.Key.ItemCaseNumber).Count())</strong></a></p>
                     </div>
-                    <div class="collapse" id="collapseArea_@num">
+                    <div class="panel-collapse collapse" id="collapseArea_@num">
                         <div class="panel-body">
                             @foreach (var item in Model.Where(x => x.ItemCaseNumber == itemGroup.Key.ItemCaseNumber).OrderByDescending(x => x.CreatedDate))
                             {
@@ -175,6 +176,17 @@
             break;
     }
 </div>
+
+<script type="text/javascript">
+    $('.closeall').click(function () {
+        $('.panel-collapse.in')
+          .collapse('hide');
+    });
+    $('.openall').click(function () {
+        $('.panel-collapse:not(".in")')
+          .collapse('show');
+    });
+</script>
 
 
 

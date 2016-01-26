@@ -192,7 +192,6 @@ namespace RapidDoc.Mappers
 
             Mapper.CreateMap<TripMRPTable, TripMRPView>();
             Mapper.CreateMap<TripMRPView, TripMRPTable>()
-                .ForMember(x => x.CompanyTableId, opt => opt.Ignore())
                 .ForMember(x => x.ApplicationUserCreatedId, opt => opt.Ignore())
                 .ForMember(x => x.ApplicationUserModified, opt => opt.Ignore())
                 .ForMember(x => x.CreatedDate, opt => opt.Ignore())

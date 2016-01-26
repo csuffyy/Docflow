@@ -1764,6 +1764,33 @@ namespace RapidDoc.Controllers
 
             return PartialView("USR_REQ_HY_RequestTRU_View_Full", model);
         }
+        public ActionResult GetManualOfficeMemo(BasicDocumantOfficeMemoView model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if (document == null)
+                return RedirectToAction("PageNotFound", "Error");
+
+            if (User.IsInRole("Administrator"))
+                return PartialView(document.ProcessTable.TableName + "_Edit_Part", model);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+
+                    if (current.Any(x => x.SystemName == "MidManager" || x.SystemName == "Manager"))
+                    {
+                        return PartialView(document.ProcessTable.TableName + "_Edit_Part", model);
+                    }
+                }
+            }
+
+            return PartialView(document.ProcessTable.TableName + "_View_Full", model);
+        }
+
+
         public ActionResult GetManualOfficeMemoUIT(RapidDoc.Models.ViewModels.USR_OFM_UIT_OfficeMemo_View model)
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);

@@ -890,7 +890,7 @@ namespace RapidDoc.Controllers
             EmplTable emplTable = _EmplService.FirstOrDefault(x => x.ApplicationUserId == userTable.Id && x.Enable == true);
             if (emplTable == null) return RedirectToAction("PageNotFound", "Error");
 
-            ProcessView process = _ProcessService.FirstOrDefaultView(x => x.TableName == tableName + "Prolongation");
+            ProcessView process = _ProcessService.FirstOrDefaultView(x => x.TableName == tableName + "Prolongation" && x.CompanyTableId == userTable.CompanyTableId);
 
             if (!String.IsNullOrEmpty(process.RoleId))
             {
@@ -926,7 +926,7 @@ namespace RapidDoc.Controllers
             EmplTable emplTable = _EmplService.FirstOrDefault(x => x.ApplicationUserId == userTable.Id && x.Enable == true);
             if (emplTable == null) return RedirectToAction("PageNotFound", "Error");
 
-            ProcessView process = _ProcessService.FirstOrDefaultView(x => x.TableName == "USR_TAS_DailyTasks");
+            ProcessView process = _ProcessService.FirstOrDefaultView(x => x.TableName == "USR_TAS_DailyTasks" && x.CompanyTableId == userTable.CompanyTableId);
 
             if (!String.IsNullOrEmpty(process.RoleId))
             {

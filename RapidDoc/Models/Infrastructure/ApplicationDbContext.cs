@@ -357,6 +357,8 @@ namespace RapidDoc.Models.Infrastructure
         public DbSet<USR_PRT_DirectorateDocuments_Table> USR_PRT_DirectorateDocuments_Table { get; set; }
         public DbSet<USR_REQ_UMM_ManufactureItemsBGP_Table> USR_REQ_UMM_ManufactureItemsBGP_Table { get; set; }
 
+        public DbSet<USK_OFM_Main_OfficeMemo_Table> USK_OFM_Main_OfficeMemo_Table { get; set; }
+
         protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();

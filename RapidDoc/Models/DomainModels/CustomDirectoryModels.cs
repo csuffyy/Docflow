@@ -83,7 +83,7 @@ namespace RapidDoc.Models.DomainModels
         public string Name { get; set; }
     }
 
-    public class TripMRPTable : BasicCompanyNullTable
+    public class TripMRPTable : BasicTable
     {
         public DateTime? FromDate { get; set; }
         public DateTime? ToDate { get; set; }

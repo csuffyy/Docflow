@@ -97,7 +97,7 @@ namespace RapidDoc.Activities.CodeActivities
                         docModel.RefDocumentId = documentId;
                         docModel.RefDocNum = document.DocumentNum;
                         ApplicationUser user = _serviceAccount.Find(currentUserId);
-                        ProcessTable processTable = _serviceProcess.FirstOrDefault(x => x.TableName == "USR_TAS_DailyTasks");
+                        ProcessTable processTable = _serviceProcess.FirstOrDefault(x => x.TableName == "USR_TAS_DailyTasks" && x.CompanyTableId == user.CompanyTableId);
                         var taskDocumentId = _service.SaveDocument(docModel, "USR_TAS_DailyTasks", processTable.Id, document.FileId, user, false, false);
                         DocumentTable documentTable = _service.Find(taskDocumentId);
 

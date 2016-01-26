@@ -45,8 +45,7 @@ namespace RapidDoc.Models.Services
 
         public IEnumerable<TripMRPTable> GetAll()
         {
-            ApplicationUser user = repoUser.GetById(HttpContext.Current.User.Identity.GetUserId());
-            return repo.FindAll(x => x.CompanyTableId == user.CompanyTableId);
+            return repo.All();
         }
 
         public IEnumerable<TripMRPView> GetAllView()
@@ -56,8 +55,7 @@ namespace RapidDoc.Models.Services
 
         public IEnumerable<TripMRPTable> GetPartial(Expression<Func<TripMRPTable, bool>> predicate)
         {
-            ApplicationUser user = repoUser.GetById(HttpContext.Current.User.Identity.GetUserId());
-            return repo.FindAll(predicate).Where(x => x.CompanyTableId == user.CompanyTableId);
+            return repo.FindAll(predicate);
         }
 
         public IEnumerable<TripMRPView> GetPartialView(Expression<Func<TripMRPTable, bool>> predicate)
@@ -109,7 +107,7 @@ namespace RapidDoc.Models.Services
         public void SaveDomain(TripMRPTable domainTable)
         {
             string userId = HttpContext.Current.User.Identity.GetUserId();
-            ApplicationUser user = repoUser.GetById(userId);
+
             if (domainTable.Id == Guid.Empty)
             {
                 domainTable.Id = Guid.NewGuid();
@@ -117,7 +115,6 @@ namespace RapidDoc.Models.Services
                 domainTable.ModifiedDate = domainTable.CreatedDate;
                 domainTable.ApplicationUserCreatedId = userId;
                 domainTable.ApplicationUserModifiedId = userId;
-                domainTable.CompanyTableId = user.CompanyTableId;
                 repo.Add(domainTable);
             }
             else
@@ -137,8 +134,7 @@ namespace RapidDoc.Models.Services
 
         public TripMRPTable Find(Guid id)
         {
-            ApplicationUser user = repoUser.GetById(HttpContext.Current.User.Identity.GetUserId());
-            return repo.Find(a => a.Id == id && a.CompanyTableId == user.CompanyTableId);
+            return repo.Find(a => a.Id == id);
         }
 
         public TripMRPView FindView(Guid id)

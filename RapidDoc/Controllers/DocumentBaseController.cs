@@ -123,6 +123,7 @@ namespace RapidDoc.Controllers
         [HttpPost]
         public ActionResult Search(DocumentType documentType, int filterType, DateTime? startDate, DateTime? endDate, Guid? processTableId)
         {
+            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
             ViewBag.FilterType = filterType;
             switch (documentType)
             {
@@ -183,7 +184,7 @@ namespace RapidDoc.Controllers
                              docBaseView = _Service.GetAllViewUserDocumentWithExecutors(DocumentType.Task, startDate, endDate);
                              foreach (var doc in docBaseView)
                              {
-                                 USR_TAS_DailyTasks_Table task = dbContext.USR_TAS_DailyTasks_Table.FirstOrDefault(x => x.DocumentTableId == doc.Id);
+                                USR_TAS_DailyTasks_Table task = dbContext.USR_TAS_DailyTasks_Table.FirstOrDefault(x => x.DocumentTableId == doc.Id);
 
                                 docTable = _DocumentService.Find(task.RefDocumentId);
 
@@ -200,7 +201,6 @@ namespace RapidDoc.Controllers
                                     var protocolTable = _DocumentService.GetDocument(docTable.RefDocumentId, docTable.ProcessTable.TableName);
                                     if (protocolTable.Subject != null)
                                     {
-
                                         protocolTasks.Add(new DocumentBaseProtocolTasksView { DocumentNum = doc.DocumentNum, CreatedDate = doc.CreatedDate, CreateTaskDate = doc.CreatedDate.ToShortDateString(), TaskStatus = Status, DepartmentName = doc.DepartmentName, Id = doc.Id, ProtocolNum = protocolTable.Subject, UserName = doc.UserName });
                                     }
                                 }
@@ -209,7 +209,7 @@ namespace RapidDoc.Controllers
                         case ProtocolFilterType.ProlongTaskExecutor:
                         case ProtocolFilterType.ProlongTaskStatus:
                         case ProtocolFilterType.ProlongTaskChairman:
-                            ProcessTable process = _ProcessService.FirstOrDefault(x => x.TableName == "USR_TAS_DailyTasksProlongation");
+                            ProcessTable process = _ProcessService.FirstOrDefault(x => x.TableName == "USR_TAS_DailyTasksProlongation" && x.CompanyTableId == user.CompanyTableId);
                             protocolProlongTasks = new List<DocumentBaseProtocolProlongTasksView>();
 
                             docBaseView = _Service.GetAllViewUserDocument(DocumentType.Task, startDate, endDate);

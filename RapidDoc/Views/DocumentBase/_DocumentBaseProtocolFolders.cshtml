@@ -4,20 +4,20 @@
     Layout = null;
 
 }
-
+<p><a href="#" class="btn btn-default openall"><span class="glyphicon glyphicon glyphicon-plus" aria-hidden="true"></span></a> <a href="#" class="btn btn-default closeall"><span class="glyphicon glyphicon glyphicon-minus" aria-hidden="true"></span></a></p>
 @BuildTree(Model, null)
 
 @helper BuildTree(IEnumerable<RapidDoc.Models.ViewModels.DocumentBaseProtocolFolderView> nodes, Guid? parentId)
 {
     if (nodes.Any(n => n.ProtocolFoldersParentId == parentId)) 
     {
-        foreach (var item in nodes.Where(n => n.ProtocolFoldersParentId == parentId).OrderBy(x => x.Key))
+        foreach (var item in nodes.Where(n => n.ProtocolFoldersParentId == parentId).OrderBy(x => x.ProtocolFolderName))
         {
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="heading@item.ProtocolFoldersId">
                     <p class="panel-title"><a data-toggle="collapse" data-target="#collapseArea_@item.ProtocolFoldersId" aria-expanded="false" aria-controls="collapseArea_@item.ProtocolFoldersId"><strong>@item.ProtocolFolderName </strong></a></p>
                 </div>
-                <div class="collapse" id="collapseArea_@item.ProtocolFoldersId">
+                <div class="panel-collapse collapse" id="collapseArea_@item.ProtocolFoldersId">
                     <div class="panel-body">
                         @if (item.documentBaseList.Count() > 0)
                         {
@@ -39,3 +39,14 @@
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 
 </div>
+
+<script type="text/javascript">
+    $('.closeall').click(function () {
+        $('.panel-collapse.in')
+          .collapse('hide');
+    });
+    $('.openall').click(function () {
+        $('.panel-collapse:not(".in")')
+          .collapse('show');
+    });
+</script>
