@@ -1994,6 +1994,10 @@
     <Content Include="Views\Custom\USR_REQ_UMM_ManufactureWeldingItemsBGP_Edit.cshtml" />
     <Content Include="Views\Custom\USR_REQ_UMM_ManufactureWeldingItemsBGP_View_Full.cshtml" />
     <Content Include="Views\Custom\USR_REQ_UMM_ManufactureWeldingItemsBGP_Edit_Executor.cshtml" />
+    <Content Include="Views\Custom\USK_OFM_Main_OfficeMemo_Edit.cshtml" />
+    <Content Include="Views\Custom\USK_OFM_Main_OfficeMemo_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USK_OFM_Main_OfficeMemo_View.cshtml" />
+    <Content Include="Views\Custom\USK_OFM_Main_OfficeMemo_View_Full.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -3765,6 +3769,20 @@
   </ItemGroup>
   <ItemGroup>
     <XamlAppDef Include="Activities\USR_REQ_UMM_ManufactureFromApplicant.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USK_IND_IncomingDocuments.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+    <XamlAppDef Include="Activities\USK_OFM_Main_OfficeMemo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+    <XamlAppDef Include="Activities\USK_OND_OutcomingDocuments.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </XamlAppDef>
