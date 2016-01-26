@@ -152,7 +152,6 @@ namespace RapidDoc.Mappers
 
             Mapper.CreateMap<OrganizationTable, OrganizationView>();
             Mapper.CreateMap<OrganizationView, OrganizationTable>()
-                .ForMember(x => x.CompanyTableId, opt => opt.Ignore())
                 .ForMember(x => x.ApplicationUserCreatedId, opt => opt.Ignore())
                 .ForMember(x => x.ApplicationUserModified, opt => opt.Ignore())
                 .ForMember(x => x.CreatedDate, opt => opt.Ignore())
@@ -160,7 +159,6 @@ namespace RapidDoc.Mappers
 
             Mapper.CreateMap<CountryTable, CountryView>();
             Mapper.CreateMap<CountryView, CountryTable>()
-                .ForMember(x => x.CompanyTableId, opt => opt.Ignore())
                 .ForMember(x => x.ApplicationUserCreatedId, opt => opt.Ignore())
                 .ForMember(x => x.ApplicationUserModified, opt => opt.Ignore())
                 .ForMember(x => x.CreatedDate, opt => opt.Ignore())

@@ -60,13 +60,13 @@ namespace RapidDoc.Models.DomainModels
         
     }
 
-    public class CountryTable : BasicCompanyNullTable
+    public class CountryTable : BasicTable
     {
         public string CountryName { get; set; }
         public string CityName { get; set; }
     }
 
-    public class OrganizationTable : BasicCompanyNullTable
+    public class OrganizationTable : BasicTable
     {
         public string OrgName { get; set; }
     }

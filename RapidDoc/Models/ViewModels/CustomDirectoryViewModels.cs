@@ -98,7 +98,7 @@ namespace RapidDoc.Models.ViewModels
         public string NamesTo { get; set; }
     }
 
-    public class CountryView : BasicCompanyNullView
+    public class CountryView : BasicView
     {
         [Display(Name = "Страна")]
         public string CountryName { get; set; }
@@ -107,7 +107,7 @@ namespace RapidDoc.Models.ViewModels
         public string CityName { get; set; }
     }
 
-    public class OrganizationView : BasicCompanyNullView
+    public class OrganizationView : BasicView
     {
         [Display(Name = "Организация")]
         public string OrgName { get; set; }
