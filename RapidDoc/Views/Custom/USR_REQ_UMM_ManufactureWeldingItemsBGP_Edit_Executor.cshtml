@@ -1,0 +1,75 @@
+﻿@model RapidDoc.Models.ViewModels.USR_REQ_UMM_ManufactureWeldingItemsBGP_View
+@using RapidDoc.Extensions;
+
+@Html.HiddenFor(model => model.Id)
+@Html.HiddenFor(model => model.DocumentTableId)
+@Html.HiddenFor(model => model.Department)
+@Html.HiddenFor(model => model.FIO)
+@Html.HiddenFor(model => model.Telephone)
+@Html.HiddenFor(model => model.NameItem)
+@Html.HiddenFor(model => model.Amount)
+@Html.HiddenFor(model => model.PlanDate)
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.Department)
+</div>
+<div>
+    @Html.DisplayTextFor(model => Model.Department)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.FIO)
+</div>
+<div>
+    @Html.HtmlDisplayTagsFor(model => Model.FIO)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.Telephone)
+</div>
+<div>
+    @Html.DisplayTextFor(model => Model.Telephone)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.NameItem)
+</div>
+<div>
+    @Html.DisplayTextFor(model => Model.NameItem)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.Amount)
+</div>
+<div>
+    @Html.DisplayTextFor(model => Model.Amount)
+</div>
+
+@if (Model.PlanDate.HasValue && Model.PlanDate != DateTime.MinValue)
+{
+    <div class="editor-label">
+        @Html.LabelFor(model => Model.PlanDate)
+    </div>
+    <div>
+        @Html.FormatValue(Model.PlanDate, "{0:dd.MM.yyyy}")
+    </div>
+}
+<hr />
+
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.AmountMaterial)
+</div>
+<div class="editor-field">
+    @Html.TextBoxFor(model => Model.AmountMaterial, new { @class = "form-control", placeholder = "Количество" })
+</div>
+
+<div class="row">
+    <div class="col-xs-3">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.ActualDate)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.ActualDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", data_date_format = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.ToLower(), placeholder = "Дата выдачи изделия", startDate = "" })
+        </div>
+    </div>
+</div>

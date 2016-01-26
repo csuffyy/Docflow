@@ -8961,6 +8961,75 @@ namespace RapidDoc.Models.ViewModels
         public string ItemName { get; set; }
     }
 
+    public class USR_REQ_UMM_ManufactureFromApplicant_View : BasicDocumentView
+    {
+        [Display(Name = "Подразделение")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string Department { get; set; }
+
+        [Display(Name = "Ф.И.О. должность")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string FIO { get; set; }
+
+        [Display(Name = "Номер тел. Вн. и сот.")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string Telephone { get; set; }
+
+        [Display(Name = "Наименование")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string NameItem { get; set; }
+
+        [Display(Name = "Вид техники, оборудование, позиция ")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string TechType { get; set; }
+
+        [Display(Name = "Количество")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string Amount { get; set; }
+
+        [Display(Name = "Требуемая дата исполнения заявки ")]
+        public DateTime? PlanDate { get; set; }
+    }
+
+    public class USR_REQ_UMM_ManufactureWeldingItemsBGP_View : BasicDocumentView
+    {
+        [Display(Name = "Подразделение")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string Department { get; set; }
+
+        [Display(Name = "Ф.И.О. должность")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string FIO { get; set; }
+
+        [Display(Name = "Номер тел. Вн. и сот.")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string Telephone { get; set; }
+
+        [Display(Name = "Наименование")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string NameItem { get; set; }
+
+        [Display(Name = "Вид техники")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string TechType { get; set; }
+
+        [Display(Name = "Количество")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string Amount { get; set; }
+
+        [Display(Name = "Требуемая дата исполнения заявки ")]
+        public DateTime? PlanDate { get; set; }
+
+        [Display(Name = "Количество")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string AmountMaterial { get; set; }
+
+        [Display(Name = "Дата выдачи изделия")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public DateTime? ActualDate { get; set; }
+
+    }
+
     #endregion
 
     #region Коммандировки

@@ -4216,6 +4216,33 @@ namespace RapidDoc.Models.DomainModels
 
     }
 
+
+    public class USR_REQ_UMM_ManufactureFromApplicant_Table : BasicDocumentTable
+    {
+        public string Department { get; set; }
+        public string FIO { get; set; }
+        public string Telephone { get; set; }
+        public string NameItem { get; set; }
+        public string TechType { get; set; }
+        public string Amount { get; set; }
+        public DateTime? PlanDate { get; set; }
+
+    }
+
+    public class USR_REQ_UMM_ManufactureWeldingItemsBGP_Table : BasicDocumentTable
+    {
+        public string Department { get; set; }
+        public string FIO { get; set; }
+        public string Telephone { get; set; }
+        public string NameItem { get; set; }
+        public string TechType { get; set; }
+        public string Amount { get; set; }
+        public DateTime? PlanDate { get; set; }
+
+        public string AmountMaterial { get; set; }
+        public DateTime? ActualDate { get; set; }
+
+    }
     #endregion
 
     #region Коммандировки

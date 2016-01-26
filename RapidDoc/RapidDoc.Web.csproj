@@ -1988,6 +1988,12 @@
     <Content Include="Views\Custom\USR_REQ_UMM_ManufactureItemsBGP_Edit_UMM.cshtml" />
     <Content Include="Views\Custom\USR_REQ_UMM_ManufactureItemsBGP_Edit_TOIR.cshtml" />
     <Content Include="Views\Custom\USR_REQ_UMM_ManufactureItemsBGP_View_Full.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UMM_ManufactureFromApplicant_View.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UMM_ManufactureFromApplicant_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UMM_ManufactureWeldingItemsBGP_View.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UMM_ManufactureWeldingItemsBGP_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UMM_ManufactureWeldingItemsBGP_View_Full.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UMM_ManufactureWeldingItemsBGP_Edit_Executor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -3747,6 +3753,18 @@
   </ItemGroup>
   <ItemGroup>
     <XamlAppDef Include="Activities\USR_REQ_UMM_ManufactureItemsBGP.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USR_REQ_UMM_ManufactureWeldingItemsBGP.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USR_REQ_UMM_ManufactureFromApplicant.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </XamlAppDef>

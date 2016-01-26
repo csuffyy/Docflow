@@ -2815,6 +2815,25 @@ namespace RapidDoc.Controllers
             return PartialView("USR_REQ_UMM_ManufactureItemsBGP_View_Full", model);
         }
 
+        public ActionResult GetRequestManufactureWeldingItemsBGP(RapidDoc.Models.ViewModels.USR_REQ_UMM_ManufactureWeldingItemsBGP_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+            string curUser = User.Identity.GetUserId();
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.SystemName == "HighMasterUMM"))
+                    {
+                        return PartialView("USR_REQ_UMM_ManufactureWeldingItemsBGP_Edit_Executor", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_REQ_UMM_ManufactureWeldingItemsBGP_View_Full", model);
+        }
+
         public ActionResult GetPRTTechCommitteeDocuments(RapidDoc.Models.ViewModels.USR_PRT_TechCommitteeDocuments_View model)
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
