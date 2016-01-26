@@ -1,0 +1,48 @@
+﻿@model RapidDoc.Models.ViewModels.USR_REQ_UMM_ManufactureFromApplicant_View
+@using RapidDoc.Extensions;
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.Department)
+</div>
+<div>
+    @Html.DisplayTextFor(model => Model.Department)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.FIO)
+</div>
+<div>
+    @Html.HtmlDisplayTagsFor(model => Model.FIO)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.Telephone)
+</div>
+<div>
+    @Html.DisplayTextFor(model => Model.Telephone)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.NameItem)
+</div>
+<div>
+    @Html.DisplayTextFor(model => Model.NameItem)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.Amount)
+</div>
+<div>
+    @Html.DisplayTextFor(model => Model.Amount)
+</div>
+
+@if (Model.PlanDate.HasValue && Model.PlanDate != DateTime.MinValue)
+{
+
+    <div class="editor-label">
+        @Html.LabelFor(model => Model.PlanDate)
+    </div>
+    <div>
+        @Html.FormatValue(Model.PlanDate, "{0:dd.MM.yyyy}")
+    </div>
+}
