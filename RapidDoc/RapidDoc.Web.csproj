@@ -16,7 +16,7 @@
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort />
+    <IISExpressSSLPort>44300</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
@@ -1998,6 +1998,63 @@
     <Content Include="Views\Custom\USK_OFM_Main_OfficeMemo_Edit_Part.cshtml" />
     <Content Include="Views\Custom\USK_OFM_Main_OfficeMemo_View.cshtml" />
     <Content Include="Views\Custom\USK_OFM_Main_OfficeMemo_View_Full.cshtml" />
+    <Content Include="Views\Custom\USK_PRT_DirectorateDocuments_Edit.cshtml" />
+    <Content Include="Views\Custom\USK_PRT_DirectorateDocuments_View.cshtml" />
+    <Content Include="Views\Custom\USK_PRT_DirectorateDocuments_View_Full.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_BusinessTrip_Edit.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_BusinessTrip_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_BusinessTrip_Edit_Registration.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_BusinessTrip_Edit_Translator.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_BusinessTrip_View.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_BusinessTrip_View_Full.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_ChangeStaff_Edit.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_ChangeStaff_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_ChangeStaff_Edit_Registration.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_ChangeStaff_Edit_Translator.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_ChangeStaff_View.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_ChangeStaff_View_Full.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_Dismissal_Edit.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_Dismissal_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_Dismissal_Edit_Registration.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_Dismissal_Edit_Translator.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_Dismissal_View.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_Dismissal_View_Full.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_Holiday_Edit.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_Holiday_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_Holiday_Edit_Registration.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_Holiday_Edit_Translator.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_Holiday_View.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_Holiday_View_Full.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_MainActivity_Edit.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_MainActivity_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_MainActivity_Edit_Registration.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_MainActivity_Edit_Translator.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_MainActivity_View.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_MainActivity_View_Full.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_Reception_Edit.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_Reception_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_Reception_Edit_Registration.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_Reception_Edit_Translator.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_Reception_View.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_Reception_View_Full.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_Sanction_Edit.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_Sanction_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_Sanction_Edit_Registration.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_Sanction_Edit_Translator.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_Sanction_View.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_Sanction_View_Full.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_Staff_Edit.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_Staff_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_Staff_Edit_Registration.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_Staff_Edit_Translator.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_Staff_View.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_Staff_View_Full.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_Transfer_Edit.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_Transfer_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_Transfer_Edit_Registration.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_Transfer_Edit_Translator.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_Transfer_View.cshtml" />
+    <Content Include="Views\Custom\USK_ORD_Transfer_View_Full.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -3787,6 +3844,66 @@
       <SubType>Designer</SubType>
     </XamlAppDef>
   </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USK_PRT_DirectorateDocuments.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USK_ORD_BusinessTrip.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USK_ORD_ChangeStaff.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USK_ORD_Dismissal.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USK_ORD_Holiday.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USK_ORD_MainActivity.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USK_ORD_Reception.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USK_ORD_Sanction.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USK_ORD_Staff.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USK_ORD_Transfer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -3805,7 +3922,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>57202</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:57203/</IISUrl>
+          <IISUrl>https://localhost:44300/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

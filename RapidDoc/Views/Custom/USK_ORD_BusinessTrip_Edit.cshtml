@@ -1,0 +1,498 @@
+﻿@model RapidDoc.Models.ViewModels.USK_ORD_BusinessTrip_View
+@using RapidDoc.Extensions;
+@{
+    Model.OrderDate = DateTime.Today;
+    Model.ControlDate = DateTime.Today.AddDays(2);
+}
+@Html.HiddenFor(model => model.CountDays)
+@Html.HiddenFor(model => model.NeedTranslate)
+@Html.ValidationSummary(true)
+
+<h4>Ввод работников:</h4>
+
+<div id="CompanyW">
+    @Html.TextBox("CompanyWorker", "", new { @class = "form-control", @data_role = "tagsinputEmplOne1", @size = 256, placeholder = "Работник" })
+</div>
+<br />
+<div id="CustomW">
+    <div class="row">
+        <div class="col-xs-4">
+            <div class="editor-field">
+                @Html.TextBox("FIO", "", new { @class = "form-control", placeholder = "ФИО" })
+            </div>
+        </div>
+
+        <div class="col-xs-4">
+            <div class="editor-field">
+                @Html.TextBox("Title", "", new { @class = "form-control", placeholder = "Должность" })
+            </div>
+        </div>
+
+        <div class="col-xs-4">
+            <div class="editor-field">
+                @Html.TextBox("Department", "", new { @class = "form-control", placeholder = "Подразделение" })
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<div class="editor-field">
+    <button type="button" id="addUser" class="btn btn-default btn-sm">@UIElementRes.UIElement.AddUsers</button>
+</div>
+
+<br />
+<div class="alert_placeholderWorker"></div>
+
+<div id="userlist" class="collapse">
+    <div class="editor-label">
+        @Html.LabelForRequired(model => Model.Workers)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(model => Model.Workers, new { @class = "form-control", @data_role = "tagsinput", placeholder = "Работник", })
+    </div>
+    <hr />
+</div>
+
+<h4>Сроки командировки:</h4>
+<div class="row">
+    <div class="col-xs-4">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.StartDate)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => Model.StartDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", placeholder = "c", startDate = "" })
+        </div>
+    </div>
+    <div class="col-xs-4">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.EndDate)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => Model.EndDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", placeholder = "по", startDate = "" })
+        </div>
+    </div>
+    <div class="col-xs-4">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.CountDays)
+        </div>
+        <div id="diffdays"></div>
+    </div>
+</div>
+
+<br />
+<div class="alert_placeholderDate"></div>
+
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.BusinessTripType)
+</div>
+<div class="editor-field">
+    @Html.EnumDropDownListFor(model => Model.BusinessTripType, new { @class = "selectpicker" })
+</div>
+
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.BusinessTripCategory)
+</div>
+<div class="editor-field">
+    @Html.EnumDropDownListFor(model => Model.BusinessTripCategory, new { @class = "selectpicker" })
+</div>
+
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.GoalTrip)
+</div>
+<div class="editor-field">
+    @Html.TextAreaFor(model => Model.GoalTrip, new { @class = "form-control", @row = 2, placeholder = "Цель командировки" })
+</div>
+
+<div class="row">
+    <div class="col-xs-4">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => model.CountryTableId)
+        </div>
+        @Html.Action("GetCountryORD", "Custom", new { @id = Model.CountryTableId })
+    </div>
+    <div class="col-xs-4">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Country)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => Model.Country, new { @class = "form-control", placeholder = "Опционально" })
+        </div>
+    </div>
+</div>
+
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.BusinessTripDestination)
+</div>
+<div class="editor-field">
+    @Html.EnumDropDownListFor(model => Model.BusinessTripDestination, new { @class = "selectpicker" })
+</div>
+
+
+<div class="row">
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.BusinessTrip_Plane)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.BusinessTrip_Plane)
+        </div>
+    </div>
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.BusinessTrip_Train)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.BusinessTrip_Train)
+        </div>
+    </div>
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.BusinessTrip_Car)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.BusinessTrip_Car)
+        </div>
+    </div>
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.BusinessTrip_Boat)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.BusinessTrip_Boat)
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-xs-4">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => model.OrganizationTableId)
+        </div>
+        <div class="editor-field">
+            @Html.Action("GetOrganizationORD", "Custom")
+        </div>
+    </div>
+    <div class="col-xs-4">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Organization)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => Model.Organization, new { @class = "form-control", placeholder = "Опционально" })
+        </div>
+    </div>
+</div>
+
+<hr />
+<h4>Оплата:</h4>
+
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.Transit)
+</div>
+<div class="editor-field">
+    @Html.EnumDropDownListFor(model => Model.Transit, new { @class = "selectpicker" })
+</div>
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.Accommodation)
+</div>
+<div class="editor-field">
+    @Html.EnumDropDownListFor(model => Model.Accommodation, new { @class = "selectpicker" })
+</div>
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.Money)
+</div>
+<div class="editor-field">
+    @Html.EnumDropDownListFor(model => Model.Money, new { @class = "selectpicker" })
+</div>
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.VisaRequired)
+</div>
+<div class="editor-field">
+    @Html.CheckBoxFor(model => model.VisaRequired)
+</div>
+
+<hr />
+<div class="row">
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.OrderDate)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.OrderDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", data_date_format = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.ToLower(), placeholder = "Дата приказа", startDate = "" })
+        </div>
+    </div>
+    @*<div class="col-xs-2">
+            <div class="editor-label">
+                @Html.LabelForRequired(model => Model.ControlDate)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.ControlDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", data_date_format = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.ToLower(), placeholder = "Срок исполнения", startDate = "" })
+            </div>
+        </div>*@
+
+    <div class="col-xs-8">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.CancelOrder)
+        </div>
+        <div class="editor-field">
+            <div class="row">
+                <div class="col-xs-2">
+                    <div class="editor-field">
+                        @Html.CheckBoxFor(model => model.CancelOrder)
+                    </div>
+                </div>
+                <div class="col-xs-10">
+                    <div class="editor-field">
+                        @Html.Action("GetRevocationORDKZH", "Custom", new { id = Model.CancelDocumentId, edit = true })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Addition)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.Addition)
+        </div>
+    </div>
+    <div id="additiontextid" style="visibility: hidden">
+        <div class="col-xs-10">
+            <div class="editor-label">
+                @Html.LabelForRequired(model => Model.Addition)
+            </div>
+            @Html.Action("GetAdditionORDKZH", "Custom", new { id = Model.AdditionDocumentId, edit = true })
+        </div>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-xs-12">
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <a href="#" class="hidden-print" data-toggle="modal" data-target=".listagreement-modal"><span class="fa fa-users fa-lg" aria-hidden="false"></span></a>
+                </span>
+                @Html.TextBoxFor(model => Model.ListAgreement, new { @class = "form-control", @data_role = "tagsinputGroup", @size = 256, placeholder = "Список согласования" })
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-8">
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <a href="#" class="hidden-print" data-toggle="modal" data-target=".listsubcription-modal"><span class="fa fa-users fa-lg" aria-hidden="false"></span></a>
+                        </span>
+                        @Html.TextBoxFor(model => Model.ListSubcription, new { @class = "form-control", @data_role = "tagsinputGroup2", @size = 256, placeholder = "Список рассылки" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-1">
+                <div class="editor-label">
+                    @Html.LabelForRequired(model => Model.AddReaders)
+                </div>
+            </div>
+            <div class="col-xs-1">
+                <div class="editor-field">
+                    @Html.CheckBoxFor(model => model.AddReaders)
+                </div>
+            </div>
+            <div class="col-xs-1">
+                <div class="editor-label">
+                    @Html.LabelForRequired(model => Model.AddAttachment)
+                </div>
+            </div>
+            <div class="col-xs-1">
+                <div class="editor-field">
+                    @Html.CheckBoxFor(model => model.AddAttachment)
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <a href="#" class="hidden-print"><span class="fa fa-pencil-square-o fa-lg" aria-hidden="false"></span></a>
+                </span>
+                @Html.TextBoxFor(model => Model.Sign, new { @class = "form-control", @data_role = "tagsinputEmplOneKZ", @size = 256, placeholder = "Подпись" })
+                @Html.TextBoxFor(model => Model.SignTitle, new { @class = "form-control", @size = 256, placeholder = "Должность на каз. яз." })
+            </div>
+        </div>
+    </div>
+</div>
+<h4>БҰЙРЫҚ</h4>
+<div class="editor-field">
+    @Html.TextAreaFor(model => Model.MainField, new { @class = "form-control summernote" })
+</div>
+<h4>ПРИКАЗ</h4>
+<div class="editor-field">
+    @Html.TextAreaFor(model => Model.MainFieldTranslate, new { @class = "form-control summernote" })
+</div>
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.ListFileName)
+</div>
+<div class="editor-field">
+    @Html.TextAreaFor(model => Model.ListFileName, new { @class = "form-control", placeholder = "Приложения" })
+</div>
+
+<div class="modal listagreement-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sidebar">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">@UIElementRes.UIElement.DistributionGroup</h4>
+            </div>
+            <div class="modal-body" style="min-height:700px;">
+                @Html.Action("RoleLookup", "Role", new { prefix = "listagreement" })
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal listsubcription-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sidebar">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">@UIElementRes.UIElement.DistributionGroup</h4>
+            </div>
+            <div class="modal-body" style="min-height:700px;">
+                @Html.Action("RoleLookup", "Role", new { prefix = "listsubcription" })
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        var buttoncancelorderstatus = true;
+        $('#CancelOrder').click(function (event) {
+            buttoncancelorderstatus = !buttoncancelorderstatus;
+            if (buttoncancelorderstatus) {
+                document.getElementById('buttoncancelorder').style.visibility = 'hidden';
+            } else {
+                document.getElementById('buttoncancelorder').style.visibility = 'visible';
+            }
+        });
+
+        var buttonadditionorderstatus = true;
+        $('#Addition').click(function (event) {
+            buttonadditionorderstatus = !buttonadditionorderstatus;
+            if (buttonadditionorderstatus) {
+                document.getElementById('additiontextid').style.visibility = 'hidden';
+            } else {
+                document.getElementById('additiontextid').style.visibility = 'visible';
+            }
+        });
+
+        $('.distributiongrouplink_listagreement').click(function (event) {
+            var element = $(event.target);
+            var tagId = element.attr('data-itemid') + ', ' + element.attr('data-rolename');
+            $('input[data-role=tagsinputGroup]').tagsinput('add', { value: tagId, text: element.text() });
+        });
+
+        $('.distributiongrouplink_listsubcription').click(function (event) {
+            var element = $(event.target);
+            var tagId = element.attr('data-itemid') + ', ' + element.attr('data-rolename');
+            $('input[data-role=tagsinputGroup2]').tagsinput('add', { value: tagId, text: element.text() });
+        });
+
+        if ($('#Workers').val() != '') {
+            $('#userlist').show();
+        }
+
+        $('#FIO').change(function (event) {
+            if ($('#FIO').val() == '' && $('#Department').val() == '' && $('#Title').val() == '') {
+                $('#CompanyW').show();               
+            }
+            else {
+                $('#CompanyW').hide();
+                $('input[data-role=tagsinputEmplOne1]').tagsinput('removeAll');
+            }
+        });
+
+        $('#CompanyWorker').change(function (event) {
+            if ($('#CompanyWorker').val() == '') {               
+                $('#CustomW').show();
+            }
+            else {
+                $('#CustomW').hide();
+                $('#FIO').val('');              
+                $('#Department').val('');
+                $('#Title').val('');
+            }
+        });
+
+        $('#addUser').click(function (event) {
+            event.preventDefault();
+            $('.alert_placeholderWorker').html("");
+            var value = $('#CompanyWorker').val();
+            if ($('#CompanyWorker').val() == '') {
+                if ($('#FIO').val() == '' || $('#Department').val() == '' || $('#Title').val() == '')
+                {
+                    $('.alert_placeholderWorker').html('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><span class="sr-only">Error:</span>' + " Не обходио ввести полные данные о сотруднике(ФИО-Подразделение-Должность)" + '</div>');
+                }
+                else
+                {
+                    $('input[data-role=tagsinput]').tagsinput('add', $('#FIO').val() + " - " + $('#Title').val() + " - " + $('#Department').val());
+
+                    $('#FIO').val('');
+                    $('#Department').val('');
+                    $('#Title').val('');
+                    $('#CompanyW').show();
+                    $('#userlist').show();
+                }
+            }
+            else {
+                $('#userlist').show();
+                var pattern = /\b[a-f\d-]{36}\b,/;
+                var result = value.replace(pattern, "");
+                $('input[data-role=tagsinput]').tagsinput('add', result);
+                $('input[data-role=tagsinputEmplOne1]').tagsinput('removeAll');
+            }
+        });
+
+        $('#CountryTableId').change(function (event) {
+            if($('#CountryTableId').val() == '') {
+                    $('#Country')[0].disabled = false;
+                }
+            else {
+                $('#Country')[0].disabled = true;
+                $('#Country').val('');
+            }
+         });
+    
+        $('#OrganizationTableId').change(function (event) {
+            if ($('#OrganizationTableId').val() == '') {
+                    $('#Organization')[0].disabled = false;
+                }
+            else {
+                $('#Organization')[0].disabled = true;
+                $('#Organization').val('');
+            }
+        });
+
+        $("[id*='Date']").change(function (event) {
+            var pattern = /(\d{2})\.(\d{2})\.(\d{4})/;
+            var startDate = new Date($("#StartDate").val().replace(pattern, '$3-$2-$1'));
+            var endDate = new Date($("#EndDate").val().replace(pattern, '$3-$2-$1'));
+            var diffDays = parseInt((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
+
+            if (startDate != null && endDate != null) {
+                if (diffDays <= 0) {
+                    $('.alert_placeholderDate').html('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><span class="sr-only">Error:</span>' + " Введите корректно даты коммандировки" + '</div>');
+                    $('#diffdays').html("");
+                    $('#CountDays').val(0);
+                } else {
+                    $('.alert_placeholderDate').html("");
+                    $('#CountDays').val(diffDays);
+                    $('#diffdays').html(diffDays);
+                }
+            }
+        });
+    });
+</script>

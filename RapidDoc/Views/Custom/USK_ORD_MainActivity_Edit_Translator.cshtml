@@ -1,0 +1,51 @@
+﻿@model RapidDoc.Models.ViewModels.USK_ORD_MainActivity_View
+@using RapidDoc.Extensions;
+
+@Html.HiddenFor(model => model.Id)
+@Html.HiddenFor(model => model.DocumentTableId)
+@Html.HiddenFor(model => model.NeedTranslate)
+@Html.HiddenFor(model => model.CancelOrder)
+@Html.HiddenFor(model => model.CancelDocumentId)
+@Html.HiddenFor(model => model.Addition)
+@Html.HiddenFor(model => model.AdditionDocumentId)
+@Html.HiddenFor(model => model.AdditionText)
+@Html.HiddenFor(model => model.ListAgreement)
+@Html.HiddenFor(model => model.ListSubcription)
+@Html.HiddenFor(model => model.AddReaders)
+@Html.HiddenFor(model => model.AddAttachment)
+@Html.HiddenFor(model => model.Sign)
+@Html.HiddenFor(model => model.OrderDate)
+@Html.HiddenFor(model => model.ControlDate)
+@Html.HiddenFor(model => model.ItemCauseTableId)
+@Html.HiddenFor(model => model.ListFileName)
+
+<div class="form-group">
+    <div class="input-group">
+        <span class="input-group-addon">
+            <span class="fa fa-tags fa-lg"></span>
+        </span>
+        @Html.TextBoxFor(model => Model.Subject, new { @class = "form-control", @size = 256, placeholder = "Тема" })
+    </div>
+</div>
+<h4>БҰЙРЫҚ</h4>
+<div class="editor-field">
+    @Html.TextAreaFor(model => Model.MainField, new { @class = "form-control summernote" })
+</div>
+<h4>ПРИКАЗ</h4>
+<div class="editor-field">
+    @Html.TextAreaFor(model => Model.MainFieldTranslate, new { @class = "form-control summernote" })
+</div>
+
+<div class="modal fade itemcause-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sidebar">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">@CustomRes.Custom.ItemCause</h4>
+            </div>
+            <div class="modal-body" style="min-height:700px;">
+                @Html.Action("ItemCausesListLookup", "ItemCause")
+            </div>
+        </div>
+    </div>
+</div>

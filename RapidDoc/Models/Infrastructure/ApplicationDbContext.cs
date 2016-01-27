@@ -298,6 +298,15 @@ namespace RapidDoc.Models.Infrastructure
         public DbSet<USR_ORD_Holiday_Table> USR_ORD_Holiday_Table { get; set; }
         public DbSet<USR_ORD_ChangeStaff_Table> USR_ORD_ChangeStaff_Table { get; set; }
         public DbSet<USR_ORD_Sanction_Table> USR_ORD_Sanction_Table { get; set; }
+        public DbSet<USK_ORD_MainActivity_Table> USK_ORD_MainActivity_Table { get; set; }
+        public DbSet<USK_ORD_BusinessTrip_Table> USK_ORD_BusinessTrip_Table { get; set; }
+        public DbSet<USK_ORD_Staff_Table> USK_ORD_Staff_Table { get; set; }
+        public DbSet<USK_ORD_Reception_Table> USK_ORD_Reception_Table { get; set; }
+        public DbSet<USK_ORD_Dismissal_Table> USK_ORD_Dismissal_Table { get; set; }
+        public DbSet<USK_ORD_Transfer_Table> USK_ORD_Transfer_Table { get; set; }
+        public DbSet<USK_ORD_Holiday_Table> USK_ORD_Holiday_Table { get; set; }
+        public DbSet<USK_ORD_ChangeStaff_Table> USK_ORD_ChangeStaff_Table { get; set; }
+        public DbSet<USK_ORD_Sanction_Table> USK_ORD_Sanction_Table { get; set; }
         public DbSet<USR_IND_IncomingDocuments_Table> USR_IND_IncomingDocuments_Table { get; set; }
         public DbSet<USR_OND_OutcomingDocuments_Table> USR_OND_OutcomingDocuments_Table { get; set; }
         public DbSet<USR_APP_AppealDocuments_Table> USR_APP_AppealDocuments_Table { get; set; }
@@ -360,6 +369,7 @@ namespace RapidDoc.Models.Infrastructure
         public DbSet<USR_REQ_UMM_ManufactureWeldingItemsBGP_Table> USR_REQ_UMM_ManufactureWeldingItemsBGP_Table { get; set; }
 
         public DbSet<USK_OFM_Main_OfficeMemo_Table> USK_OFM_Main_OfficeMemo_Table { get; set; }
+        public DbSet<USK_PRT_DirectorateDocuments_Table> USK_PRT_DirectorateDocuments_Table { get; set; }
 
         protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder)
         {

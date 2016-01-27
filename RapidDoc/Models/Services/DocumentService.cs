@@ -77,6 +77,8 @@ namespace RapidDoc.Models.Services
         void APPRegistration(Guid refDocumentid, string currentUserId);
         SelectList RevocationORDList(Guid? id, bool edit);
         SelectList AdditionORDList(Guid? id, bool edit);
+        SelectList AdditionORDKZHList(Guid? id, bool edit);
+        SelectList RevocationORDKZHList(Guid? id, bool edit);
         SelectList IncomingDocList();
         SelectList OutcomingDocList();
         Type GetTableType(string TableName);
@@ -1647,6 +1649,24 @@ namespace RapidDoc.Models.Services
             return new SelectList(result, "Id", "Name", id);
         }
 
+        public SelectList RevocationORDKZHList(Guid? id, bool edit)
+        {
+            List<USR_ORD_SelectListView> result = new List<USR_ORD_SelectListView>();
+            result.Insert(0, new USR_ORD_SelectListView { Name = UIElementRes.UIElement.NoValue, Id = null });
+
+            result.AddRange(GetOrderList<USK_ORD_MainActivity_Table>(id, edit));
+            result.AddRange(GetOrderList<USK_ORD_Staff_Table>(id, edit));
+            result.AddRange(GetOrderList<USK_ORD_Reception_Table>(id, edit));
+            result.AddRange(GetOrderList<USK_ORD_Dismissal_Table>(id, edit));
+            result.AddRange(GetOrderList<USK_ORD_Transfer_Table>(id, edit));
+            result.AddRange(GetOrderList<USK_ORD_Holiday_Table>(id, edit));
+            result.AddRange(GetOrderList<USK_ORD_ChangeStaff_Table>(id, edit));
+            result.AddRange(GetOrderList<USK_ORD_Sanction_Table>(id, edit));
+            result.AddRange(GetOrderList<USK_ORD_BusinessTrip_Table>(id, edit));
+
+            return new SelectList(result, "Id", "Name", id);
+        }
+
         public SelectList AdditionORDList(Guid? id, bool edit)
         {
             List<USR_ORD_SelectListView> result = new List<USR_ORD_SelectListView>();
@@ -1661,6 +1681,24 @@ namespace RapidDoc.Models.Services
             result.AddRange(GetOrderList<USR_ORD_ChangeStaff_Table>(id, edit, true));
             result.AddRange(GetOrderList<USR_ORD_Sanction_Table>(id, edit, true));
             result.AddRange(GetOrderList<USR_ORD_BusinessTrip_Table>(id, edit, true));
+
+            return new SelectList(result, "Id", "Name", id);
+        }
+
+        public SelectList AdditionORDKZHList(Guid? id, bool edit)
+        {
+            List<USR_ORD_SelectListView> result = new List<USR_ORD_SelectListView>();
+            result.Insert(0, new USR_ORD_SelectListView { Name = UIElementRes.UIElement.NoValue, Id = null });
+
+            result.AddRange(GetOrderList<USK_ORD_MainActivity_Table>(id, edit, true));
+            result.AddRange(GetOrderList<USK_ORD_Staff_Table>(id, edit, true));
+            result.AddRange(GetOrderList<USK_ORD_Reception_Table>(id, edit, true));
+            result.AddRange(GetOrderList<USK_ORD_Dismissal_Table>(id, edit, true));
+            result.AddRange(GetOrderList<USK_ORD_Transfer_Table>(id, edit, true));
+            result.AddRange(GetOrderList<USK_ORD_Holiday_Table>(id, edit, true));
+            result.AddRange(GetOrderList<USK_ORD_ChangeStaff_Table>(id, edit, true));
+            result.AddRange(GetOrderList<USK_ORD_Sanction_Table>(id, edit, true));
+            result.AddRange(GetOrderList<USK_ORD_BusinessTrip_Table>(id, edit, true));
 
             return new SelectList(result, "Id", "Name", id);
         }

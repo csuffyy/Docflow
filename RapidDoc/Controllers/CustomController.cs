@@ -170,9 +170,23 @@ namespace RapidDoc.Controllers
             return PartialView("USR_ORD_Revocation");
         }
 
+        public ActionResult GetRevocationORDKZH(Guid? id, bool edit)
+        {
+            ViewBag.ORDRevocationList = _DocumentService.RevocationORDKZHList(id, edit);
+            ViewBag.EditMode = edit;
+            return PartialView("USR_ORD_Revocation");
+        }
+
         public ActionResult GetAdditionORD(Guid? id, bool edit)
         {
             ViewBag.ORDAdditionList = _DocumentService.AdditionORDList(id, edit);
+            ViewBag.EditMode = edit;
+            return PartialView("USR_ORD_Addition");
+        }
+
+        public ActionResult GetAdditionORDKZH(Guid? id, bool edit)
+        {
+            ViewBag.ORDAdditionList = _DocumentService.AdditionORDKZHList(id, edit);
             ViewBag.EditMode = edit;
             return PartialView("USR_ORD_Addition");
         }
@@ -2466,6 +2480,35 @@ namespace RapidDoc.Controllers
             return PartialView("USR_OFM_JU_OfficeMemo_View_Full", model);
         }
 
+        public ActionResult GetManualORD(dynamic model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if (User.IsInRole("Administrator"))
+                return PartialView(document.ProcessTable.TableName + "_Edit_Part", model);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.SystemName == "Censor1") || current.Any(x => x.SystemName == "Censor2"))
+                    {
+                        return PartialView(document.ProcessTable.TableName + "_Edit_Part", model);
+                    }
+                    if (current.Any(x => x.SystemName == "Translator"))
+                    {
+                        return PartialView(document.ProcessTable.TableName + "_Edit_Translator", model);
+                    }
+                    if (current.Any(x => x.SystemName == "Registration"))
+                    {
+                        return PartialView(document.ProcessTable.TableName + "_Edit_Registration", model);
+                    }
+                }
+            }
+
+            return PartialView(document.ProcessTable.TableName + "_View_Full", model);
+        }
 
         public ActionResult GetManualORDMainActivity(RapidDoc.Models.ViewModels.USR_ORD_MainActivity_View model)
         {
@@ -2910,6 +2953,16 @@ namespace RapidDoc.Controllers
             return PartialView("USR_PRT_BalanceCommissionDocuments_View_Full", model);
         }
 
+        public ActionResult GetPRTDocuments(dynamic model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+            ViewBag.ProcessId = document.ProcessTableId;
+            if (User.IsInRole("Administrator"))
+                return PartialView(document.ProcessTable.TableName + "_Edit", model);
+
+            return PartialView(document.ProcessTable.TableName + "_View_Full", model);
+        }
+
         [HttpPost]
         public ActionResult UpdateCalcBTripPPTRIP(byte EmplTripType, byte TripDirection, byte TypeRequestTrip, int Day, int DayLive, int TicketSum)
         {
@@ -3017,7 +3070,7 @@ namespace RapidDoc.Controllers
                 }
 
                 if (!String.IsNullOrEmpty(result))
-                    result = String.Format("{2} <strong>ответ {0}срок {1}г.</strong>", result, model.ControlDate.Value.ToShortDateString(), _SystemService.DeleteLastTagSegment(model.Decision));
+                    result = String.Format("{2} <strong>ответ {0}срок {1}г.</strong>", result, model.ControlDate != null ? model.ControlDate.Value.ToShortDateString() : String.Empty, _SystemService.DeleteLastTagSegment(model.Decision));
                 else
                     result = _SystemService.DeleteLastTagSegment(model.Decision);
             }

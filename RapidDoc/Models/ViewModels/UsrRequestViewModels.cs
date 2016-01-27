@@ -9923,6 +9923,121 @@ namespace RapidDoc.Models.ViewModels
     }
     #endregion
 
+    #region Приказы Kazzinc Holdings
+
+    public class USK_ORD_MainActivity_View : BasicOrderDefaultView
+    {
+
+    }
+
+    public class USK_ORD_BusinessTrip_View : BasicOrderView
+    {
+        [Display(Name = "Тема")]
+        public string Subject { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Работники")]
+        public string Workers { get; set; }
+
+        [DataType(DataType.Date)]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Начальная дата")]
+        public DateTime? StartDate { get; set; }
+
+        [DataType(DataType.Date)]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Конечная дата")]
+        public DateTime? EndDate { get; set; }
+
+        [Display(Name = "Количество дней")]
+        public int CountDays { get; set; }
+
+        [Display(Name = "Вид командировки")]
+        public BusinessTripType BusinessTripType { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Цель командировки")]
+        public string GoalTrip { get; set; }
+
+        [Display(Name = "Категория")]
+        public BusinessTripCategory BusinessTripCategory { get; set; }
+
+        [Display(Name = "Город")]
+        public Guid? CountryTableId { get; set; }
+
+        [Display(Name = "Город")]
+        public string Country { get; set; }
+
+        [Display(Name = "Направление")]
+        public BusinessTripDestination BusinessTripDestination { get; set; }
+
+        [Display(Name = "Самолет")]
+        public bool BusinessTrip_Plane { get; set; }
+
+        [Display(Name = "Поезд")]
+        public bool BusinessTrip_Train { get; set; }
+
+        [Display(Name = "Автотранспорт")]
+        public bool BusinessTrip_Car { get; set; }
+
+        [Display(Name = "Водный транспорт")]
+        public bool BusinessTrip_Boat { get; set; }
+
+        [Display(Name = "Организация")]
+        public Guid? OrganizationTableId { get; set; }
+
+        [Display(Name = "Организация")]
+        public string Organization { get; set; }
+
+        [Display(Name = "Проезд")]
+        public PaymentType Transit { get; set; }
+
+        [Display(Name = "Проживание")]
+        public PaymentType Accommodation { get; set; }
+
+        [Display(Name = "Суточные")]
+        public PaymentType Money { get; set; }
+
+        [Display(Name = "Требуется виза")]
+        public bool VisaRequired { get; set; }
+    }
+
+    public class USK_ORD_Staff_View : BasicOrderDefaultView
+    {
+
+    }
+
+    public class USK_ORD_Reception_View : BasicOrderDefaultView
+    {
+
+    }
+
+    public class USK_ORD_Dismissal_View : BasicOrderDefaultView
+    {
+
+    }
+
+    public class USK_ORD_Transfer_View : BasicOrderDefaultView
+    {
+
+    }
+
+    public class USK_ORD_Holiday_View : BasicOrderDefaultView
+    {
+
+    }
+
+    public class USK_ORD_ChangeStaff_View : BasicOrderDefaultView
+    {
+
+    }
+
+    public class USK_ORD_Sanction_View : BasicOrderDefaultView
+    {
+
+    }
+    #endregion
+
     #region Входящие документы
 
     public class USR_IND_IncomingDocList
@@ -9990,6 +10105,15 @@ namespace RapidDoc.Models.ViewModels
     }
 
     public class USR_PRT_DirectorateDocuments_View : BasicProtocolDocumentsView
+    {
+
+    }
+
+    #endregion
+
+    #region Протоколы Kazzinc Holdings
+
+    public class USK_PRT_DirectorateDocuments_View : BasicProtocolDocumentsView
     {
 
     }

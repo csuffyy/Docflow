@@ -433,7 +433,7 @@ namespace RapidDoc.Controllers
             ApplicationDbContext context = new ApplicationDbContext();
             var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
 
-            foreach (ApplicationUser user in um.Users.Where(x => x.isDomainUser == true).ToList())
+            foreach (ApplicationUser user in um.Users.Where(x => x.isDomainUser == true && x.DomainTableId == _item.DomainTableId).ToList())
             {
                 DirectoryEntry entry = new DirectoryEntry("LDAP://" + _item.DomainTable.LDAPServer + ":"
                 + Convert.ToString(_item.DomainTable.LDAPPort)

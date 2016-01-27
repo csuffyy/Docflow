@@ -1,0 +1,202 @@
+﻿@model RapidDoc.Models.ViewModels.USK_ORD_BusinessTrip_View
+@using RapidDoc.Extensions;
+
+@Html.HiddenFor(model => model.Id)
+@Html.HiddenFor(model => model.DocumentTableId)
+@Html.HiddenFor(model => model.NeedTranslate)
+@Html.HiddenFor(model => model.CancelOrder)
+@Html.HiddenFor(model => model.CancelDocumentId)
+@Html.HiddenFor(model => model.Addition)
+@Html.HiddenFor(model => model.AdditionDocumentId)
+@Html.HiddenFor(model => model.AdditionText)
+@Html.HiddenFor(model => model.ListAgreement)
+@Html.HiddenFor(model => model.ListSubcription)
+@Html.HiddenFor(model => model.AddReaders)
+@Html.HiddenFor(model => model.AddAttachment)
+@Html.HiddenFor(model => model.Sign)
+@Html.HiddenFor(model => model.OrderDate)
+@Html.HiddenFor(model => model.ControlDate)
+@Html.HiddenFor(model => model.OrganizationTableId)
+@Html.HiddenFor(model => model.CountryTableId)
+@Html.HiddenFor(model => model.CountDays)
+@Html.HiddenFor(model => model.Workers)
+@Html.HiddenFor(model => model.BusinessTripType)
+@Html.HiddenFor(model => model.GoalTrip)
+@Html.HiddenFor(model => model.BusinessTripCategory)
+@Html.HiddenFor(model => model.Country)
+@Html.HiddenFor(model => model.BusinessTripDestination)
+@Html.HiddenFor(model => model.BusinessTrip_Plane)
+@Html.HiddenFor(model => model.BusinessTrip_Train)
+@Html.HiddenFor(model => model.BusinessTrip_Car)
+@Html.HiddenFor(model => model.BusinessTrip_Boat)
+@Html.HiddenFor(model => model.Organization)
+@Html.HiddenFor(model => model.Transit)
+@Html.HiddenFor(model => model.Accommodation)
+@Html.HiddenFor(model => model.Money)
+@Html.HiddenFor(model => model.VisaRequired)
+@Html.HiddenFor(model => model.ListFileName)
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.Workers)
+</div>
+<div class="editor-field">
+    @Html.HtmlDisplayTagsFor(model => Model.Workers)
+</div>
+<hr />
+<h4>Сроки командировки:</h4>
+<div class="row">
+    <div class="col-xs-3">
+        @Html.Partial("_DocumentViewFields", Model, new ViewDataDictionary(ViewData) { { "FieldName", "StartDate" } })
+    </div>
+    <div class="col-xs-3">
+        @Html.Partial("_DocumentViewFields", Model, new ViewDataDictionary(ViewData) { { "FieldName", "EndDate" } })
+    </div>
+    <div class="col-xs-3">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.CountDays)
+        </div>
+        <div class="editor-field">
+            @Html.DisplayTextFor(model => Model.CountDays)
+        </div>
+    </div>
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.BusinessTripType)
+</div>
+<div class="editor-field">
+    @Html.EnumToDescription(Model.BusinessTripType)
+</div>
+<div class="editor-label">
+    @Html.LabelFor(model => Model.BusinessTripCategory)
+</div>
+<div class="editor-field">
+    @Html.EnumToDescription(Model.BusinessTripCategory)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.GoalTrip)
+</div>
+<div class="editor-field">
+    @Html.DisplayTextFor(model => Model.GoalTrip)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.BusinessTripDestination)
+</div>
+<div class="editor-field">
+    @Html.EnumToDescription(Model.BusinessTripDestination)
+</div>
+@if (Model.CountryTableId != null)
+{
+    <div class="editor-label">
+        @Html.LabelFor(model => model.CountryTableId)
+    </div>
+    <div class="editor-field">
+        @Html.Action("GetCountryORD", "Custom", new { id = Model.CountryTableId, selected = true })
+    </div>
+}
+else
+{
+    <div class="editor-label">
+        @Html.LabelFor(model => Model.Country)
+    </div>
+    <div class="editor-field">
+        @Html.DisplayTextFor(model => Model.Country)
+    </div>
+}
+
+<div class="row">
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.BusinessTrip_Plane)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => Model.BusinessTrip_Plane, new { @disabled = true })
+        </div>
+    </div>
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.BusinessTrip_Train)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => Model.BusinessTrip_Train, new { @disabled = true })
+        </div>
+    </div>
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.BusinessTrip_Car)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => Model.BusinessTrip_Car, new { @disabled = true })
+        </div>
+    </div>
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.BusinessTrip_Boat)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => Model.BusinessTrip_Boat, new { @disabled = true })
+        </div>
+    </div>
+
+</div>
+<div class="row">
+    @if (Model.OrganizationTableId != null)
+    {
+        <div class="col-xs-2">
+            <div class="editor-label">
+                @Html.LabelFor(model => model.OrganizationTableId)
+            </div>
+            <div class="editor-field">
+                @Html.Action("GetOrganizationORD", "Custom", new { id = Model.OrganizationTableId, selected = true })
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="col-xs-2">
+            <div class="editor-label">
+                @Html.LabelFor(model => Model.Organization)
+            </div>
+            <div class="editor-field">
+                @Html.DisplayTextFor(model => Model.Organization)
+            </div>
+        </div>
+    }
+</div>
+<hr />
+<h4>Оплата:</h4>
+<div class="editor-label">
+    @Html.LabelFor(model => Model.Transit)
+</div>
+<div class="editor-field">
+    @Html.EnumToDescription(Model.Transit)
+</div>
+<div class="editor-label">
+    @Html.LabelFor(model => Model.Accommodation)
+</div>
+<div class="editor-field">
+    @Html.EnumToDescription(Model.Accommodation)
+</div>
+<div class="editor-label">
+    @Html.LabelFor(model => Model.Money)
+</div>
+<div class="editor-field">
+    @Html.EnumToDescription(Model.Money)
+</div>
+<div class="editor-label">
+    @Html.LabelFor(model => Model.VisaRequired)
+</div>
+<div class="editor-field">
+    @Html.CheckBoxFor(model => Model.VisaRequired, new { @disabled = true })
+</div>
+<hr />
+<h4>БҰЙРЫҚ</h4>
+<div class="editor-field">
+    @Html.TextAreaFor(model => Model.MainField, new { @class = "form-control summernote" })
+</div>
+<h4>ПРИКАЗ</h4>
+<div class="editor-field">
+    @Html.TextAreaFor(model => Model.MainFieldTranslate, new { @class = "form-control summernote" })
+</div>

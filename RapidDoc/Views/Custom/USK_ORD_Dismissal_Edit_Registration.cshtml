@@ -1,0 +1,206 @@
+﻿@model RapidDoc.Models.ViewModels.USK_ORD_Dismissal_View
+@using RapidDoc.Extensions;
+
+@{
+    Model.OrderDate = DateTime.Today;
+    Model.ControlDate = DateTime.Today.AddDays(2);
+}
+
+@Html.HiddenFor(model => model.Id)
+@Html.HiddenFor(model => model.DocumentTableId)
+@Html.HiddenFor(model => model.NeedTranslate)
+@Html.HiddenFor(model => model.CancelOrder)
+@Html.HiddenFor(model => model.CancelDocumentId)
+@Html.HiddenFor(model => model.ListAgreement)
+@Html.HiddenFor(model => model.Sign)
+@Html.HiddenFor(model => model.SignTitle)
+@Html.HiddenFor(model => model.SignName)
+@Html.HiddenFor(model => model.ItemCauseTableId)
+@Html.HiddenFor(model => model.MainField)
+@Html.HiddenFor(model => model.MainFieldTranslate)
+@Html.HiddenFor(model => model.Subject)
+@Html.HiddenFor(model => model.ListFileName)
+
+@if (Model.CancelOrder == true)
+{
+    <h5>
+        Аннулировать приказ:
+        @Html.Action("GetRevocationORDKZH", "Custom", new { id = Model.CancelDocumentId, edit = false })
+    </h5>
+}
+
+<div class="row">
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.OrderDate)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.OrderDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", data_date_format = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.ToLower(), placeholder = "Дата приказа", startDate = "" })
+        </div>
+    </div>
+    <div class="col-xs-3">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.NumberSeriesBookingTableId)
+        </div>
+        <div class="editor-field">
+            @Html.Action("GetBookingNumberORD", "Custom", new { documentId = Model.DocumentTableId })
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Addition)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.Addition)
+        </div>
+    </div>
+    <div id="additiontextid" style="visibility: hidden">
+        <div class="col-xs-10">
+            <div class="editor-label">
+                @Html.LabelForRequired(model => Model.Addition)
+            </div>
+            @Html.Action("GetAdditionORDKZH", "Custom", new { id = Model.AdditionDocumentId, edit = true })
+        </div>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.ControlDate)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.ControlDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", data_date_format = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.ToLower(), placeholder = "Срок исполнения", startDate = "" })
+        </div>
+    </div>
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.NoTask)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.NoTask)
+        </div>
+    </div>
+    <div class="col-xs-8">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.ControlUsers)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.ControlUsers, new { @class = "form-control", @data_role = "tagsinputEmplOne", @size = 256, placeholder = "ФИО сотрудника" })
+        </div>
+    </div>
+</div>
+
+<hr />
+<h4 class="text-center"><strong>БҰЙРЫҚ</strong></h4>
+<h4 class="text-center"><strong>№ @Html.DisplayTextFor(x => x.OrderNum)</strong></h4>
+
+<h5 class="text-center">
+    <strong>
+        ТАҚЫРЫБЫ:
+    </strong>
+    @Html.DisplayTextFor(x => x.Subject)
+</h5>
+<br />
+
+<hr style="height:1px;border:none;color:#333;background-color:#333;" />
+@Html.Raw(Model.MainField)
+<hr style="height:1px;border:none;color:#333;background-color:#333;" />
+@Html.Raw(Model.MainFieldTranslate)
+<br />
+<div class="row">
+    <div class="col-xs-8">
+        <div class="editor-label">
+            <strong>@Html.DisplayTextFor(x => x.SignTitle)</strong>
+        </div>
+    </div>
+    <div class="col-xs-4">
+        <div class="editor-label">
+            <strong>@Html.DisplayTextFor(x => x.SignName)</strong>
+        </div>
+    </div>
+</div>
+<br />
+<h6><span style="white-space: pre-line">@Html.Raw(Model.ListFileName)</span></h6>
+<hr />
+<div class="row">
+    <div class="col-xs-8">
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <a href="#" class="hidden-print" data-toggle="modal" data-target=".listsubcription-modal"><span class="fa fa-users fa-lg" aria-hidden="false"></span></a>
+                </span>
+                @Html.TextBoxFor(model => Model.ListSubcription, new { @class = "form-control", @data_role = "tagsinputGroup", @size = 256, placeholder = "Список рассылки" })
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-1">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.AddReaders)
+        </div>
+    </div>
+    <div class="col-xs-1">
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.AddReaders)
+        </div>
+    </div>
+    <div class="col-xs-1">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.AddAttachment)
+        </div>
+    </div>
+    <div class="col-xs-1">
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.AddAttachment)
+        </div>
+    </div>
+</div>
+
+<div class="modal listsubcription-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sidebar">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">@UIElementRes.UIElement.DistributionGroup</h4>
+            </div>
+            <div class="modal-body" style="min-height:700px;">
+                @Html.Action("RoleLookup", "Role", new { prefix = "listsubcription" })
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        @if(Model.Addition == false)
+        {
+            <text>
+            var buttonadditionorderstatus = true;
+            </text>
+        }
+        else
+        {
+            <text>
+            var buttonadditionorderstatus = false;
+            document.getElementById('additiontextid').style.visibility = 'visible';
+            </text>
+        }
+
+        $('#Addition').click(function (event) {
+            buttonadditionorderstatus = !buttonadditionorderstatus;
+            if (buttonadditionorderstatus) {
+                document.getElementById('additiontextid').style.visibility = 'hidden';
+            } else {
+                document.getElementById('additiontextid').style.visibility = 'visible';
+            }
+        });
+
+        $('.distributiongrouplink_listsubcription').click(function (event) {
+            var element = $(event.target);
+            var tagId = element.attr('data-itemid') + ', ' + element.attr('data-rolename');
+            $('input[data-role=tagsinputGroup]').tagsinput('add', { value: tagId, text: element.text() });
+        });
+    });
+</script>

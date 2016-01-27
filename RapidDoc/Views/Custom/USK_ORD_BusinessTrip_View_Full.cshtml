@@ -1,0 +1,292 @@
+﻿@model RapidDoc.Models.ViewModels.USK_ORD_BusinessTrip_View
+@using RapidDoc.Extensions;
+@using RapidDoc.Models.ViewModels;
+
+@Html.HiddenFor(model => model.MainField)
+@Html.HiddenFor(model => model.NeedTranslate)
+@Html.HiddenFor(model => model.OrganizationTableId)
+@Html.HiddenFor(model => model.CountryTableId)
+@Html.HiddenFor(model => model.CountDays)
+@Html.HiddenFor(model => model.Country)
+@Html.HiddenFor(model => model.Organization)
+@Html.HiddenFor(model => model.Subject)
+@Html.HiddenFor(model => model.Sign)
+@Html.HiddenFor(model => model.ListSubcription)
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.Workers)
+</div>
+<div class="editor-field">
+    @Html.HtmlDisplayTagsFor(model => Model.Workers)
+</div>
+<hr />
+<h4>Сроки командировки:</h4>
+<div class="row">
+    <div class="col-xs-3">
+        @Html.Partial("_DocumentViewFields", Model, new ViewDataDictionary(ViewData) { { "FieldName", "StartDate" } })
+    </div>
+    <div class="col-xs-3">
+        @Html.Partial("_DocumentViewFields", Model, new ViewDataDictionary(ViewData) { { "FieldName", "EndDate" } })
+    </div>
+    <div class="col-xs-3">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.CountDays)
+        </div>
+        <div class="editor-field">
+            @Html.DisplayTextFor(model => Model.CountDays)
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-3">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.BusinessTripType)
+        </div>
+        <div class="editor-field">
+            @Html.EnumToDescription(Model.BusinessTripType)
+        </div>
+    </div>
+    <div class="col-xs-3">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.BusinessTripCategory)
+        </div>
+        <div class="editor-field">
+            @Html.EnumToDescription(Model.BusinessTripCategory)
+        </div>
+    </div>
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.BusinessTripDestination)
+</div>
+<div class="editor-field">
+    @Html.EnumToDescription(Model.BusinessTripDestination)
+</div>
+@if (Model.CountryTableId != null)
+{
+    <div class="editor-label">
+        @Html.LabelFor(model => model.CountryTableId)
+    </div>
+    <div class="editor-field">
+        @Html.Action("GetCountryORD", "Custom", new { id = Model.CountryTableId, selected = true })
+    </div>
+}
+else
+{
+    <div class="editor-label">
+        @Html.LabelFor(model => Model.Country)
+    </div>
+    <div class="editor-field">
+        @Html.DisplayTextFor(model => Model.Country)
+    </div>
+}
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.GoalTrip)
+</div>
+<div class="editor-field">
+    @Html.DisplayTextFor(model => Model.GoalTrip)
+</div>
+
+<div class="row">
+    @if (Model.BusinessTrip_Plane == true)
+    { 
+    <div class="col-xs-3">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.BusinessTrip_Plane)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => Model.BusinessTrip_Plane, new { @disabled = true })
+        </div>
+    </div>
+    }
+    @if (Model.BusinessTrip_Train == true)
+    { 
+    <div class="col-xs-3">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.BusinessTrip_Train)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => Model.BusinessTrip_Train, new { @disabled = true })
+        </div>
+    </div>
+    }
+    @if (Model.BusinessTrip_Car == true)
+    {
+    <div class="col-xs-3">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.BusinessTrip_Car)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => Model.BusinessTrip_Car, new { @disabled = true })
+        </div>
+    </div>
+    }
+    @if (Model.BusinessTrip_Boat == true)
+    {
+    <div class="col-xs-3">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.BusinessTrip_Boat)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => Model.BusinessTrip_Boat, new { @disabled = true })
+        </div>
+    </div>
+    }
+</div>
+<div class="row">
+        @if (Model.OrganizationTableId != null)
+        {
+            <div class="col-xs-12">
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.OrganizationTableId)
+                    </div>
+                    <div class="editor-field">
+                        @Html.Action("GetOrganizationORD", "Custom", new { id = Model.OrganizationTableId, selected = true })
+                    </div>
+            </div>
+        }
+        else
+        {    
+            <div class="col-xs-12">
+                <div class="editor-label">
+                    @Html.LabelFor(model => Model.Organization)
+                </div>
+                <div class="editor-field">
+                    @Html.DisplayTextFor(model => Model.Organization)
+                </div>
+            </div>
+        }
+</div>
+<hr />
+<h4>Оплата:</h4>
+<div class="row">
+    <div class="col-xs-3">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.Transit)
+        </div>
+        <div class="editor-field">
+            @Html.EnumToDescription(Model.Transit)
+        </div>
+    </div>
+    <div class="col-xs-3">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.Accommodation)
+        </div>
+        <div class="editor-field">
+            @Html.EnumToDescription(Model.Accommodation)
+        </div>
+    </div>
+    <div class="col-xs-3">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.Money)
+        </div>
+        <div class="editor-field">
+            @Html.EnumToDescription(Model.Money)
+        </div>
+    </div>
+    <div class="col-xs-3">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.VisaRequired)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => Model.VisaRequired, new { @disabled = true })
+        </div>
+    </div>
+</div>
+<hr />
+
+@if (Model.Addition == true)
+{
+    <div class="row">
+        <div class="col-xs-12">
+            <h6>
+                Дополнение к:
+                @Html.Action("GetAdditionORDKZH", "Custom", new { id = Model.AdditionDocumentId, edit = false })
+            </h6>
+        </div>
+    </div>
+}
+@if (Model.CancelOrder == true)
+{
+    <div class="row">
+        <div class="col-xs-12">
+            <h6>
+                Аннулировать приказ:
+                @Html.Action("GetRevocationORDKZH", "Custom", new { id = Model.CancelDocumentId, edit = false })
+            </h6>
+        </div>
+    </div>
+}
+@if (!String.IsNullOrEmpty(Model.ControlUsers))
+{
+    <div class="row">
+        <div class="col-xs-10">
+            <h6>
+                Контролирует: @Html.HtmlDisplayTagsFor(model => model.ControlUsers)
+                @if (Model.NoTask == false)
+                {
+                    <text>-</text>
+                    @Model.ControlDate.Value.ToShortDateString()
+                }
+            </h6>
+        </div>
+        <div class="col-xs-2">
+            <div class="editor-label">
+                @Html.LabelForRequired(model => model.Executed)
+            </div>
+            <div class="editor-field">
+                @Html.CheckBoxFor(model => model.Executed, new { @disabled = true })
+            </div>
+        </div>
+    </div>
+}
+
+<h4 class="text-center"><strong>БҰЙРЫҚ</strong></h4>
+<h4 class="text-center"><strong>№ @Html.DisplayTextFor(x => x.OrderNum)</strong></h4>
+<h5 class="text-center"><strong>@Html.FormatValue(Model.OrderDate, "{0:dd.MM.yyyy}") ж.</strong></h5>
+
+@if(!String.IsNullOrEmpty(Model.Subject))
+{ 
+<h5 class="text-center">
+    <strong>
+        ТАҚЫРЫБЫ:
+    </strong>
+    @Html.DisplayTextFor(x => x.Subject)
+</h5>
+}
+<br />
+<hr style="height:1px;border:none;color:#333;background-color:#333;" />
+@Html.Raw(Model.MainField)
+<hr style="height:1px;border:none;color:#333;background-color:#333;" />
+@Html.Raw(Model.MainFieldTranslate)
+<br />
+<div class="row">
+    <div class="col-xs-8">
+        <div class="editor-label">
+            <strong>@Html.DisplayTextFor(x => x.SignTitle)</strong>
+        </div>
+    </div>
+    <div class="col-xs-4">
+        <div class="editor-label">
+            <strong>@Html.DisplayTextFor(x => x.SignName)</strong>
+        </div>
+    </div>
+</div>
+<br />
+<h6><span style="white-space: pre-line">@Html.Raw(Model.ListFileName)</span></h6>
+@if (!String.IsNullOrEmpty(Model.ListSubcription))
+{
+    <div class="editor-label">
+        @Html.LabelFor(model => Model.ListSubcription)
+    </div>
+    <div class="editor-field">
+        @Html.HtmlDisplayTagsFor(model => Model.ListSubcription)
+    </div>
+}
+
+
+
+
+

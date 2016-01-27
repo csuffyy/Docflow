@@ -4710,6 +4710,84 @@ namespace RapidDoc.Models.DomainModels
     }
     #endregion
 
+    #region Приказы Kazzinc Holdings
+
+    public class USK_ORD_MainActivity_Table : BasicOrderDefaultTable
+    {
+
+    }
+
+    public class USK_ORD_BusinessTrip_Table : BasicOrderTable
+    {
+        public string Subject { get; set; }
+
+        public string Workers { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
+        public int CountDays { get; set; }
+        public BusinessTripType BusinessTripType { get; set; }
+        public string GoalTrip { get; set; }
+        public BusinessTripCategory BusinessTripCategory { get; set; }
+
+        public Guid? CountryTableId { get; set; }
+        public virtual CountryTable CountryTable { get; set; }
+        public string Country { get; set; }
+
+        public BusinessTripDestination BusinessTripDestination { get; set; }
+
+        public bool BusinessTrip_Plane { get; set; }
+        public bool BusinessTrip_Train { get; set; }
+        public bool BusinessTrip_Car { get; set; }
+        public bool BusinessTrip_Boat { get; set; }
+
+
+        public Guid? OrganizationTableId { get; set; }
+        public virtual OrganizationTable OrganizationTable { get; set; }
+        public string Organization { get; set; }
+
+        public PaymentType Transit { get; set; }
+        public PaymentType Accommodation { get; set; }
+        public PaymentType Money { get; set; }
+
+        public bool VisaRequired { get; set; }
+    }
+
+    public class USK_ORD_Staff_Table : BasicOrderDefaultTable
+    {
+
+    }
+
+    public class USK_ORD_Reception_Table : BasicOrderDefaultTable
+    {
+
+    }
+
+    public class USK_ORD_Dismissal_Table : BasicOrderDefaultTable
+    {
+
+    }
+
+    public class USK_ORD_Transfer_Table : BasicOrderDefaultTable
+    {
+
+    }
+
+    public class USK_ORD_Holiday_Table : BasicOrderDefaultTable
+    {
+
+    }
+
+    public class USK_ORD_ChangeStaff_Table : BasicOrderDefaultTable
+    {
+
+    }
+
+    public class USK_ORD_Sanction_Table : BasicOrderDefaultTable
+    {
+
+    }
+    #endregion
+
     #region Входящие документы
 
     public class USR_IND_IncomingDocuments_Table : BasicIncomingDocumentsTable
@@ -4781,6 +4859,15 @@ namespace RapidDoc.Models.DomainModels
     }
 
     public class USR_PRT_DirectorateDocuments_Table : BasicProtocolDocumentsTable
+    {
+
+    }
+
+    #endregion
+
+    #region Протоколы Kazzinc Holdings
+
+    public class USK_PRT_DirectorateDocuments_Table : BasicProtocolDocumentsTable
     {
 
     }
