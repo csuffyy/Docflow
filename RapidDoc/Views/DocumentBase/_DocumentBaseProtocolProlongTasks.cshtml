@@ -7,7 +7,7 @@
 }
 <p><a href="#" class="btn btn-default openall"><span class="glyphicon glyphicon glyphicon-plus" aria-hidden="true"></span></a> <a href="#" class="btn btn-default closeall"><span class="glyphicon glyphicon glyphicon-minus" aria-hidden="true"></span></a></p>
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-    @{int num = 0, num1 = 0;}
+    @{int num = 0; string num1;}
     @switch ((RapidDoc.Models.Repository.ProtocolFilterType)Enum.ToObject(typeof(RapidDoc.Models.Repository.ProtocolFilterType), @ViewBag.FilterType))
     {
         case RapidDoc.Models.Repository.ProtocolFilterType.ProlongTaskStatus:
@@ -35,7 +35,7 @@
                                             <div class="panel-body">
                                                 @foreach (var itemGroupUserName in Model.Where(x => x.DepartmentName == itemGroupDepartment.Key && x.TaskStatus == itemGroupStatus.Key).GroupBy(x => x.UserName).OrderBy(x => x.Key))
                                                 {
-                                                    num1++;
+                                                    num1 = itemGroupUserName.Key.Replace(" ", String.Empty);
                                                     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                                                         <div class="panel panel-default">
                                                             <div class="panel-heading" role="tab" id="heading@num1@itemGroupStatus.Key@num">
