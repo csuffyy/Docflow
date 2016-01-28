@@ -945,7 +945,7 @@ namespace RapidDoc.Models.Services
                 }
             }
 
-            if (type == (new USR_IND_IncomingDocuments_View()).GetType())
+            if (type.IsSubclassOf(typeof(BasicIncomingDocumentsView)))
             {
                 if (String.IsNullOrEmpty(actionModel.NatureQuestion) && actionModel.NatureQuestionType == NatureIncomingQuestion.Element1)
                 {
@@ -965,7 +965,7 @@ namespace RapidDoc.Models.Services
                 }
             }
 
-            if (type == (new USR_OND_OutcomingDocuments_View()).GetType())
+            if (type.IsSubclassOf(typeof(BasicOutcomingDocumentsView)))
             {
                 if (String.IsNullOrEmpty(actionModel.DispatchType) && actionModel.OutcomingDispatchType == OutcomingDispatchType.Element1)
                 {
@@ -985,7 +985,7 @@ namespace RapidDoc.Models.Services
                 }
             }
 
-            if (type == (new USR_APP_AppealDocuments_View()).GetType())
+            if (type.IsSubclassOf(typeof(BasicAppealDocumentsView)))
             {
                 if (String.IsNullOrEmpty(actionModel.TypeAppealAddition) && actionModel.TypeAppeal == TypeAppeal.Element1)
                 {

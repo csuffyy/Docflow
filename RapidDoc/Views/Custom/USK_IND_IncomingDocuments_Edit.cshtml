@@ -1,23 +1,11 @@
-﻿@model RapidDoc.Models.ViewModels.USR_OND_OutcomingDocuments_View
+﻿@model RapidDoc.Models.ViewModels.USK_IND_IncomingDocuments_View
 @using RapidDoc.Extensions;
 @using RapidDoc.Models.Repository;
-
-@Html.HiddenFor(model => model.Id)
-@Html.HiddenFor(model => model.DocumentTableId)
-@Html.HiddenFor(model => model.ListAgreement)
-@Html.HiddenFor(model => model.NeedTranslate)
-
-<div class="row">
-    <div class="col-xs-4">
-        <div class="editor-label">
-            @Html.LabelForRequired(model => Model.NumberSeriesBookingTableId)
-        </div>
-        <div class="editor-field">
-            @Html.Action("GetBookingIncomingDoc", "Custom", new { type = Model.GetType() })
-        </div>
-    </div>
-</div>
-<br />
+@{
+    Model.OutgoingDate = DateTime.Today;
+    Model.RegistrationDate = DateTime.Today;
+    Model.ExecutionDate = DateTime.Today.AddMonths(1);
+}
 
 <div class="row">
     <div class="col-xs-8">
@@ -89,6 +77,34 @@
         </div>
     </div>
 </div>
+
+<br />
+<div class="row">
+    @if (Model.IncomingDocNum != null)
+    {
+        @Html.HiddenFor(model => model.IncomingDocNum)
+        <div class="col-xs-4">
+            <div class="editor-label">
+                @Html.LabelForRequired(model => Model.IncomingDocNum)
+            </div>
+            <div class="editor-field">
+                @Html.DisplayTextFor(model => Model.IncomingDocNum)
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="col-xs-4">
+            <div class="editor-label">
+                @Html.LabelForRequired(model => Model.NumberSeriesBookingTableId)
+            </div>
+            <div class="editor-field">
+                @Html.Action("GetBookingIncomingDoc", "Custom", new { type = Model.GetType() })
+            </div>
+        </div>
+    }
+</div>
+
 <div class="row">
     <div class="col-xs-4">
         <div class="editor-label">
@@ -98,9 +114,25 @@
             @Html.Action("GetOrganizationORD", "Custom", new { @id = Model.OrganizationTableId })
         </div>
     </div>
+    <div class="col-xs-8">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Receiver)
+        </div>
+        <div>
+            @Html.TextBoxFor(model => Model.Receiver, new { @class = "form-control", @data_role = "tagsinputEmplIntercompany", @size = 256, placeholder = "Получатель" })
+        </div>
+    </div>
 </div>
 
 <div class="row">
+    <div class="col-xs-4">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.OutgoingNumber)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => Model.OutgoingNumber, new { @class = "form-control", placeholder = "Исходящий номер" })
+        </div>
+    </div>
     <div class="col-xs-4">
         <div class="editor-label">
             @Html.LabelForRequired(model => Model.OutgoingDate)
@@ -108,32 +140,21 @@
         <div class="editor-field">
             @Html.TextBoxFor(model => Model.OutgoingDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", startDate = "" })
         </div>
-    </div>
+    </div> 
 </div>
-<br />
+
 <div class="row">
-    <div class="col-xs-2">
+    <div class="col-xs-4">
         <div class="editor-label">
-            @Html.LabelForRequired(model => Model.OutcomingDispatchType):
+            @Html.LabelForRequired(model => Model.RegistrationDate)
         </div>
-    </div>
-    <div class="col-xs-3">
         <div class="editor-field">
-            @Html.EnumDropDownListFor(model => Model.OutcomingDispatchType, new { @class = "selectpickerfull" })
+            @Html.TextBoxFor(model => Model.RegistrationDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", startDate = "" })
         </div>
     </div>
     <div class="col-xs-4">
-        <div class="editor-field">
-            @Html.TextBoxFor(model => Model.DispatchType, new { @class = "form-control", placeholder = "Опционально" })
-        </div>
+        <div id="dublicateBlock"></div>
     </div>
-</div>
-<br />
-<div class="editor-label">
-    @Html.LabelForRequired(model => Model.Signer)
-</div>
-<div>
-    @Html.TextBoxFor(model => Model.Signer, new { @class = "form-control", @data_role = "tagsinputEmplOne", @size = 256, placeholder = "За подписью" })
 </div>
 <hr />
 
@@ -150,17 +171,35 @@
     @Html.EnumDropDownListFor(model => Model.Priority, new { @class = "selectpicker" })
 </div>
 <div class="editor-label">
-    @Html.LabelForRequired(model => Model.BlankNumber)
-</div>
-<div>
-    @Html.TextBoxFor(model => Model.BlankNumber, new { @class = "form-control", placeholder = "Номер бланка" })
-</div>
-
-<div class="editor-label">
-    @Html.LabelForRequired(model => Model.IncomingNumberDocId)
+    @Html.LabelForRequired(model => Model.ExecutionDate)
 </div>
 <div class="editor-field">
-    @Html.Action("GetIncomingDoc", "Custom", new { @id = Model.IncomingNumberDocId })
+    @Html.TextBoxFor(model => Model.ExecutionDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control form-control-date", startDate = "" })
+</div>
+<br />
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.OutcomingNumberDocId)
+</div>
+<div class="editor-field">
+    @Html.Action("GetOutcomingDocKZH", "Custom", new { @id = Model.OutcomingNumberDocId })
+</div>
+<br />
+<div class="row">
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.NatureQuestion):
+        </div>
+    </div>
+    <div class="col-xs-3">
+        <div class="editor-field">
+            @Html.EnumDropDownListFor(model => Model.NatureQuestionType, new { @class = "selectpickerfull"})           
+        </div>
+    </div>
+    <div class="col-xs-4">
+        <div class="editor-field">
+            @Html.TextBoxFor(model => Model.NatureQuestion, new { @class = "form-control", placeholder = "Опционально" })
+        </div>
+    </div>
 </div>
 <br />
 <div class="row">
@@ -180,6 +219,7 @@
         </div>
     </div>
 </div>
+
 <hr />
 <div class="editor-label">
     @Html.LabelForRequired(model => Model.ListsCount)
@@ -202,15 +242,6 @@
     @Html.TextBoxFor(model => Model.DocumentSubject, new { @class = "form-control", placeholder = "Тема документа" })
 </div>
 
-<div class="editor-label">
-    <div class="editor-label">
-        @Html.LabelForRequired(model => Model.Content)
-    </div>
-    <div>
-        @Html.TextAreaFor(model => Model.Content, new { @class = "form-control summernotemin", placeholder = "" })
-    </div>
-</div>
-
 <div class="modal fade itemcause-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sidebar">
         <div class="modal-content">
@@ -226,40 +257,74 @@
 </div>
 
 <script type="text/javascript">
-        $(function () {
-            $('.itemcauseslink').click(function (event) {
-                var element = $(event.target);
-                $('#ItemCauseTableId').val(element.attr('data-itemid'));
-                $('#ItemCauseNumber').text(element.text());
-                $('#ItemCauseNumberTextId').val(element.text());
-            });
-
-            if ($('#OutcomingDispatchType').val() != 0) {
-                $('#DispatchType')[0].disabled = true;
-            }
-            if ($('#DocumentType').val() != 0) {
-                $('#DocumentTypeName')[0].disabled = true;
-            }
-
-            $('#OutcomingDispatchType').change(function (event) {
-                if ($('#OutcomingDispatchType').val() == 0) {
-                    $('#DispatchType')[0].disabled = false;
-                }
-                else {
-                    $('#DispatchType')[0].disabled = true;
-                    $('#DispatchType').val("");
-                }
-            });
-
-            $('#DocumentType').change(function (event) {
-                var amount = $('#DocumentType').val();
-                if ($('#DocumentType').val() == 0) {
-                    $('#DocumentTypeName')[0].disabled = false;
-                }
-                else {
-                    $('#DocumentTypeName')[0].disabled = true;
-                    $('#DocumentTypeName').val("");
-                }
-            });
+    $(function () {
+        $('.itemcauseslink').click(function (event) {
+            var element = $(event.target);
+            $('#ItemCauseTableId').val(element.attr('data-itemid'));
+            $('#ItemCauseNumber').text(element.text());
+            $('#ItemCauseNumberTextId').val(element.text());
         });
+
+        $('#NatureQuestionType').change(function (event) {
+            if ($('#NatureQuestionType').val() == 0) {
+                $('#NatureQuestion')[0].disabled = false;
+            }
+            else {
+                $('#NatureQuestion')[0].disabled = true;
+                $('#NatureQuestion').val("");
+            }
+        });
+
+        $('#DocumentType').change(function (event) {
+            var amount = $('#DocumentType').val();
+            if ($('#DocumentType').val() == 0) {
+                $('#DocumentTypeName')[0].disabled = false;
+            }
+            else {
+                $('#DocumentTypeName')[0].disabled = true;
+                $('#DocumentTypeName').val("");
+            }
+        });
+
+        $("#OrganizationTableId").change(function () {
+            checkIncomeDoc();
+        });
+
+        $('#OutgoingNumber').on('blur', function () {
+            checkIncomeDoc();
+        });
+
+        var outgoingDateCount = 0;
+        $("#OutgoingDate").change(function () {
+            if (outgoingDateCount == 0) {
+                checkIncomeDoc();
+                outgoingDateCount = 0;
+            }
+            outgoingDateCount = 1;
+        });
+    });
+
+    function checkIncomeDoc() {
+        var organizationId = $("#OrganizationTableId").val();
+        var outgoingNumber = $("#OutgoingNumber").val();
+        var outgoingDate = $("#OutgoingDate").val();
+
+        if (organizationId.length > 0 && outgoingNumber.length > 0 && outgoingDate.length > 0) {
+            var formData = new FormData();
+            formData.append('OrganizationId', organizationId);
+            formData.append('OutgoingNumber', outgoingNumber);
+            formData.append('OutgoingDate', outgoingDate);
+
+            $.ajax({
+                type: 'POST',
+                url: '/@ViewContext.RouteData.Values["company"]/Custom/CheckIncomeDocument/',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    $('#dublicateBlock').html(response);
+                }
+            });
+        }
+    }
 </script>

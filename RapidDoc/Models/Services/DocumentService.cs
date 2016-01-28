@@ -79,8 +79,9 @@ namespace RapidDoc.Models.Services
         SelectList AdditionORDList(Guid? id, bool edit);
         SelectList AdditionORDKZHList(Guid? id, bool edit);
         SelectList RevocationORDKZHList(Guid? id, bool edit);
-        SelectList IncomingDocList();
-        SelectList OutcomingDocList();
+        SelectList IncomingDocList<T>(Guid? id) where T : BasicIncomingDocumentsTable;
+        SelectList OutcomingDocList<T>(Guid? id) where T : BasicOutcomingDocumentsTable;
+        List<IncomingDublicateView> CheckIncomeDublicateDocument(Guid OrganizationId, string OutgoingNumber, DateTime OutgoingDate);
         Type GetTableType(string TableName);
         string ScrubHtml(string value);
         double GetSLAHours(Guid documentId, DateTime? startDate, DateTime? endDate);
@@ -260,14 +261,10 @@ namespace RapidDoc.Models.Services
             }
             else
             {
-                System.Diagnostics.Stopwatch sWatch = new System.Diagnostics.Stopwatch();
-                TimeSpan tSpan;
-                sWatch.Start();
-
                 var delegations = (from delegation in contextQuery.DelegationTable
                                       join emplTo in contextQuery.EmplTable on delegation.EmplTableToId equals emplTo.Id
                                       where delegation.DateFrom <= currentDate && delegation.DateTo >= currentDate && delegation.isArchive == false
-                                      && delegation.CompanyTableId == user.CompanyTableId
+                                      && delegation.CompanyTableId == user.CompanyTableId && emplTo.ApplicationUserId == user.Id
                                       select delegation).ToList();
 
                 List<Guid> childGroup = new List<Guid>();
@@ -351,9 +348,6 @@ namespace RapidDoc.Models.Services
                                 ProcessName = process.ProcessName,
                                 CreatedBy = empl.SecondName + " " + empl.FirstName
                             };
-
-                sWatch.Stop();
-                tSpan = sWatch.Elapsed;
                 /*
                 var items = from document in contextQuery.DocumentTable
                             where
@@ -1559,10 +1553,13 @@ namespace RapidDoc.Models.Services
 
             if (document.OutcomingNumberDocId != null)
             {
-                IRepository<USR_OND_OutcomingDocuments_Table> repoOUT = _uow.GetRepository<USR_OND_OutcomingDocuments_Table>();
-                Guid outcomingNumber = (Guid)document.OutcomingNumberDocId;
-                USR_OND_OutcomingDocuments_Table item = repoOUT.Find(x => x.DocumentTableId == outcomingNumber);
-                document.OutcomingNumber = item.OutcomingDocNum;
+                DocumentTable documentTableOut = Find(document.OutcomingNumberDocId);
+
+                if (documentTableOut != null)
+                {
+                    var item = GetDocumentView(documentTableOut.RefDocumentId, documentTableOut.ProcessTable.TableName);
+                    document.OutcomingNumber = item.OutcomingDocNum;
+                }
             }
 
             NumberSeriesTable numberSeq = _NumberSeqService.FirstOrDefault(x => x.TableName == processView.TableName);
@@ -1609,11 +1606,14 @@ namespace RapidDoc.Models.Services
 
             if (document.IncomingNumberDocId != null)
             {
-                IRepository<USR_IND_IncomingDocuments_Table> repoIND = _uow.GetRepository<USR_IND_IncomingDocuments_Table>();
-                Guid incomingNumber = (Guid)document.IncomingNumberDocId;
-                USR_IND_IncomingDocuments_Table item = repoIND.Find(x => x.DocumentTableId == incomingNumber);
-                document.IncomingNumber = item.IncomingDocNum;
-                document.IncomingDate = item.RegistrationDate;
+                DocumentTable documentTableInc = Find(document.IncomingNumberDocId);
+
+                if (documentTableInc != null)
+                {
+                    var item = GetDocumentView(documentTableInc.RefDocumentId, documentTableInc.ProcessTable.TableName);
+                    document.IncomingNumber = item.IncomingDocNum;
+                    document.IncomingDate = item.RegistrationDate;
+                }
             }
 
             NumberSeriesTable numberSeq = _NumberSeqService.FirstOrDefault(x => x.TableName == processView.TableName);
@@ -1703,30 +1703,30 @@ namespace RapidDoc.Models.Services
             return new SelectList(result, "Id", "Name", id);
         }
 
-        public SelectList IncomingDocList()
+        public SelectList IncomingDocList<T>(Guid? id) where T : BasicIncomingDocumentsTable
         {
             List<USR_IND_IncomingDocList> result = new List<USR_IND_IncomingDocList>();
             result.Insert(0, new USR_IND_IncomingDocList { Name = UIElementRes.UIElement.NoValue, Id = null });
 
-            IRepository<USR_IND_IncomingDocuments_Table> repo = _uow.GetRepository<USR_IND_IncomingDocuments_Table>();
-            List<USR_IND_IncomingDocuments_Table> items = repo.FindAll(x => !String.IsNullOrEmpty(x.IncomingDocNum) && x.Executed == true).OrderBy(x => x.IncomingDocNum).ToList();
+            IRepository<T> repo = _uow.GetRepository<T>();
+            List<T> items = repo.FindAll(x => !String.IsNullOrEmpty(x.IncomingDocNum) && x.Executed == true).OrderBy(x => x.IncomingDocNum).ToList();
 
             items.ForEach(x => result.Add(new USR_IND_IncomingDocList() { Name = x.IncomingDocNum + "/" + x.RegistrationDate.Value.ToShortDateString(), Id = x.DocumentTableId }));
 
-            return new SelectList(result, "Id", "Name", null);
+            return new SelectList(result, "Id", "Name", id);
         }
 
-        public SelectList OutcomingDocList()
+        public SelectList OutcomingDocList<T>(Guid? id) where T : BasicOutcomingDocumentsTable
         {
             List<USR_OND_OutcomingDocList> result = new List<USR_OND_OutcomingDocList>();
             result.Insert(0, new USR_OND_OutcomingDocList { Name = UIElementRes.UIElement.NoValue, Id = null });
 
-            IRepository<USR_OND_OutcomingDocuments_Table> repo = _uow.GetRepository<USR_OND_OutcomingDocuments_Table>();
-            List<USR_OND_OutcomingDocuments_Table> items = repo.FindAll(x => !String.IsNullOrEmpty(x.OutcomingDocNum)).OrderBy(x => x.OutcomingDocNum).ToList();
+            IRepository<T> repo = _uow.GetRepository<T>();
+            List<T> items = repo.FindAll(x => !String.IsNullOrEmpty(x.OutcomingDocNum)).OrderBy(x => x.OutcomingDocNum).ToList();
 
-            items.ForEach(x => result.Add(new USR_OND_OutcomingDocList() { Name = x.OutcomingDocNum, Id = x.DocumentTableId }));
+            items.ForEach(x => result.Add(new USR_OND_OutcomingDocList() { Name = x.OutcomingDocNum + "/" + x.OutgoingDate.Value.ToShortDateString(), Id = x.DocumentTableId }));
 
-            return new SelectList(result, "Id", "Name", null);
+            return new SelectList(result, "Id", "Name", id);
         }
 
         private List<USR_ORD_SelectListView> GetOrderList<T>(Guid? id, bool edit, bool addition = false) where T : BasicOrderTable
@@ -1748,6 +1748,38 @@ namespace RapidDoc.Models.Services
                 result.Add(new USR_ORD_SelectListView() { Name = item.OrderNum + ", " + item.OrderDate.Value.ToShortDateString(), Id = item.DocumentTableId });
             }
             return result;
+        }
+
+        public List<IncomingDublicateView> CheckIncomeDublicateDocument(Guid OrganizationId, string OutgoingNumber, DateTime OutgoingDate)
+        {
+            ApplicationDbContext contextQuery = _uow.GetDbContext<ApplicationDbContext>();
+            List<IncomingDublicateView> items = new List<IncomingDublicateView>();
+            items.AddRange(from item in contextQuery.USR_IND_IncomingDocuments_Table
+                           join document in contextQuery.DocumentTable on item.DocumentTableId equals document.Id
+                           join company in contextQuery.CompanyTable on document.CompanyTableId equals company.Id
+                           let empl = contextQuery.EmplTable.Where(p => p.ApplicationUserId == document.ApplicationUserCreatedId).OrderByDescending(p => p.Enable).FirstOrDefault()
+                           where item.OrganizationTableId == OrganizationId && item.OutgoingNumber == OutgoingNumber
+                           && item.OutgoingDate == OutgoingDate
+                           select new IncomingDublicateView
+                               {
+                                   RegistrationDate = item.RegistrationDate,
+                                   CreatedBy = empl.FirstName + " " + empl.SecondName + " " + empl.MiddleName,
+                                   CompanyName = company.AliasCompanyName
+                               });
+
+            items.AddRange(from item in contextQuery.USK_IND_IncomingDocuments_Table
+                           join document in contextQuery.DocumentTable on item.DocumentTableId equals document.Id
+                           join company in contextQuery.CompanyTable on document.CompanyTableId equals company.Id
+                           let empl = contextQuery.EmplTable.Where(p => p.ApplicationUserId == document.ApplicationUserCreatedId).OrderByDescending(p => p.Enable).FirstOrDefault()
+                           where item.OrganizationTableId == OrganizationId && item.OutgoingNumber == OutgoingNumber
+                           && item.OutgoingDate == OutgoingDate
+                           select new IncomingDublicateView
+                           {
+                               RegistrationDate = item.RegistrationDate,
+                               CreatedBy = empl.FirstName + " " + empl.SecondName + " " + empl.MiddleName,
+                               CompanyName = company.AliasCompanyName
+                           });
+            return items;
         }
 
         public Type GetTableType(string TableName)

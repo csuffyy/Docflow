@@ -10051,6 +10051,11 @@ namespace RapidDoc.Models.ViewModels
 
     }
 
+    public class USK_IND_IncomingDocuments_View : BasicIncomingDocumentsView
+    {
+
+    }
+
     #endregion
 
     #region Исходящие документы
@@ -10062,6 +10067,11 @@ namespace RapidDoc.Models.ViewModels
     }
 
     public class USR_OND_OutcomingDocuments_View : BasicOutcomingDocumentsView
+    {
+
+    }
+
+    public class USK_OND_OutcomingDocuments_View : BasicOutcomingDocumentsView
     {
 
     }

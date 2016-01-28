@@ -19,7 +19,9 @@ namespace RapidDoc.Models.Services
         IEnumerable<GroupProcessTable> GetAll();
         IEnumerable<GroupProcessView> GetAllView();
         IEnumerable<GroupProcessTable> GetPartial(Expression<Func<GroupProcessTable, bool>> predicate);
+        IEnumerable<GroupProcessTable> GetPartialIntercompany(Expression<Func<GroupProcessTable, bool>> predicate);
         IEnumerable<GroupProcessView> GetPartialView(Expression<Func<GroupProcessTable, bool>> predicate);
+        IEnumerable<GroupProcessView> GetPartialIntercompanyView(Expression<Func<GroupProcessTable, bool>> predicate);
         GroupProcessTable FirstOrDefault(Expression<Func<GroupProcessTable, bool>> predicate);
         GroupProcessView FirstOrDefaultView(Expression<Func<GroupProcessTable, bool>> predicate);
         bool Contains(Expression<Func<GroupProcessTable, bool>> predicate);
@@ -60,9 +62,18 @@ namespace RapidDoc.Models.Services
             ApplicationUser user = repoUser.GetById(HttpContext.Current.User.Identity.GetUserId());
             return repo.FindAll(predicate).Where(x => x.CompanyTableId == user.CompanyTableId);
         }
+        public IEnumerable<GroupProcessTable> GetPartialIntercompany(Expression<Func<GroupProcessTable, bool>> predicate)
+        {
+            return repo.FindAll(predicate);
+        }
         public IEnumerable<GroupProcessView> GetPartialView(Expression<Func<GroupProcessTable, bool>> predicate)
         {
             var items = Mapper.Map<IEnumerable<GroupProcessTable>, IEnumerable<GroupProcessView>>(GetPartial(predicate));
+            return items;
+        }
+        public IEnumerable<GroupProcessView> GetPartialIntercompanyView(Expression<Func<GroupProcessTable, bool>> predicate)
+        {
+            var items = Mapper.Map<IEnumerable<GroupProcessTable>, IEnumerable<GroupProcessView>>(GetPartialIntercompany(predicate));
             return items;
         }
         public GroupProcessTable FirstOrDefault(Expression<Func<GroupProcessTable, bool>> predicate)
@@ -141,7 +152,7 @@ namespace RapidDoc.Models.Services
         public List<Guid> GetGroupChildren(Guid? id)
         {
             List<Guid> ret = new List<Guid>();
-            var children = GetPartial(x => x.GroupProcessParentId == id);
+            var children = GetPartialIntercompany(x => x.GroupProcessParentId == id);
 
             foreach (var child in children)
             {

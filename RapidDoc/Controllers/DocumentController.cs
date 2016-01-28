@@ -869,6 +869,8 @@ namespace RapidDoc.Controllers
                     documentView.SignTitle = collection["SignTitleManual"].ToString();
                 }
 
+                ViewBag.CompanyAliasName = docTable.CompanyTable.AliasCompanyName;
+
                 return new ViewAsPdf("~/Views/Report/PdfReportTrip.cshtml", documentView)
                 {
                     IsGrayScale = true,

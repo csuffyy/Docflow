@@ -219,14 +219,25 @@ namespace RapidDoc.Controllers
             return PartialView("_QuestionRequest");
         }
 
-        public ActionResult GetIncomingDoc()
+        public ActionResult GetIncomingDoc(Guid? id = null)
         {
-            ViewBag.IncomingDocList = _DocumentService.IncomingDocList();
+            ViewBag.IncomingDocList = _DocumentService.IncomingDocList<USR_IND_IncomingDocuments_Table>(id);
             return PartialView("USR_IND_IncomingDocList");
         }
-        public ActionResult GetOutcomingDoc()
+        public ActionResult GetIncomingDocKZH(Guid? id = null)
         {
-            ViewBag.OutcomingDocList = _DocumentService.OutcomingDocList();
+            ViewBag.IncomingDocList = _DocumentService.IncomingDocList<USK_IND_IncomingDocuments_Table>(id);
+            return PartialView("USR_IND_IncomingDocList");
+        }
+        public ActionResult GetOutcomingDoc(Guid? id = null)
+        {
+            ViewBag.OutcomingDocList = _DocumentService.OutcomingDocList<USR_OND_OutcomingDocuments_Table>(id);
+            return PartialView("USR_OND_OutcomingDocList");
+        }
+
+        public ActionResult GetOutcomingDocKZH(Guid? id = null)
+        {
+            ViewBag.OutcomingDocList = _DocumentService.OutcomingDocList<USK_OND_OutcomingDocuments_Table>(id);
             return PartialView("USR_OND_OutcomingDocList");
         }
 
@@ -2823,7 +2834,7 @@ namespace RapidDoc.Controllers
             return PartialView("USR_REQ_HY_EmergencyRequestTRU_View_Full", model);
         }
 
-        public ActionResult GetOutcomingDocuments(RapidDoc.Models.ViewModels.USR_OND_OutcomingDocuments_View model)
+        public ActionResult GetOutcomingDocuments(dynamic model)
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
 
@@ -2834,12 +2845,12 @@ namespace RapidDoc.Controllers
                 {
                     if (current.Any(x => x.SystemName == "ONDRegistration"))
                     {
-                        return PartialView("USR_OND_OutcomingDocuments_Registration", model);
+                        return PartialView(document.ProcessTable.TableName + "_Registration", model);
                     }
                 }
             }
 
-            return PartialView("USR_OND_OutcomingDocuments_View_Full", model);
+            return PartialView(document.ProcessTable.TableName + "_View_Full", model);
         }
 
         public ActionResult GetManualRequestForExplanationNormalAct(RapidDoc.Models.ViewModels.USR_REQ_JU_RequestForExplanationNormalAct_View model)
@@ -3027,6 +3038,13 @@ namespace RapidDoc.Controllers
             }
 
             return PartialView("_Empty");
+        }
+
+        [HttpPost]
+        public ActionResult CheckIncomeDocument(Guid OrganizationId, string OutgoingNumber, DateTime OutgoingDate)
+        {
+            var model = _DocumentService.CheckIncomeDublicateDocument(OrganizationId, OutgoingNumber, OutgoingDate);
+            return PartialView("_IncomeDocumentDublicate", model);
         }
         public ActionResult GetWorkersOrdTrip(string Workers)
         {

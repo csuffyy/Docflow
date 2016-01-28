@@ -113,6 +113,7 @@ namespace RapidDoc.Controllers
             ViewBag.ManagerName = managerName;
             ViewBag.TableName = docTable.ProcessTable.TableName;
             ViewBag.Acquainted = acquainted;
+            ViewBag.CompanyAliasName = docTable.CompanyTable.AliasCompanyName;
 
             return new ViewAsPdf("PdfReport", documentView)
             {
@@ -160,6 +161,7 @@ namespace RapidDoc.Controllers
             ViewBag.Id = docTable.Id;
             ViewBag.Process = process;
             ViewBag.CommentsCZ = commentsCZ;
+            ViewBag.CompanyAliasName = docTable.CompanyTable.AliasCompanyName;
 
             return new ViewAsPdf("PdfReportCZ", documentView)
             {
@@ -248,6 +250,7 @@ namespace RapidDoc.Controllers
             ViewBag.ListFiles = filesResult;
             ViewBag.UserCreateName = emplTable.FullName;
             ViewBag.UserCreateTitleName = emplTable.TitleName;
+            ViewBag.CompanyAliasName = docTable.CompanyTable.AliasCompanyName;
 
             return new ViewAsPdf("PdfReportProtocol", documentView)
             {

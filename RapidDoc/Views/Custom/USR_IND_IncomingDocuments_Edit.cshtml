@@ -174,7 +174,7 @@
     @Html.LabelForRequired(model => Model.OutcomingNumberDocId)
 </div>
 <div class="editor-field">
-    @Html.Action("GetOutcomingDoc", "Custom")
+    @Html.Action("GetOutcomingDoc", "Custom", new { @id = Model.OutcomingNumberDocId })
 </div>
 <br />
 <div class="row">

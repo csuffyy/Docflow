@@ -4797,9 +4797,27 @@ namespace RapidDoc.Models.DomainModels
 
     #endregion
 
+    #region Входящие документы Kazzinc Holdings
+
+    public class USK_IND_IncomingDocuments_Table : BasicIncomingDocumentsTable
+    {
+
+    }
+
+    #endregion
+
     #region Исходящие документы
 
     public class USR_OND_OutcomingDocuments_Table : BasicOutcomingDocumentsTable
+    {
+
+    }
+
+    #endregion
+
+    #region Исходящие документы Kazzinc Holdings
+
+    public class USK_OND_OutcomingDocuments_Table : BasicOutcomingDocumentsTable
     {
 
     }

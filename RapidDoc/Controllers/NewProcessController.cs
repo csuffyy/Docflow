@@ -139,11 +139,14 @@ namespace RapidDoc.Controllers
         {
             var item = _GroupProcessService.Find(groupProcessId);
 
-            if (item.GroupProcessParentId != null && item.GroupProcessParentId != Guid.Empty)
+            if (item != null)
             {
-                breadCrumbsList = GetBreadCrumbs(breadCrumbsList, item.GroupProcessParentId.Value);
+                if (item.GroupProcessParentId != null && item.GroupProcessParentId != Guid.Empty)
+                {
+                    breadCrumbsList = GetBreadCrumbs(breadCrumbsList, item.GroupProcessParentId.Value);
+                }
+                breadCrumbsList.Add(item);
             }
-            breadCrumbsList.Add(item);
 
             return breadCrumbsList;
         }

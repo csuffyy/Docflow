@@ -309,6 +309,8 @@ namespace RapidDoc.Models.Infrastructure
         public DbSet<USK_ORD_Sanction_Table> USK_ORD_Sanction_Table { get; set; }
         public DbSet<USR_IND_IncomingDocuments_Table> USR_IND_IncomingDocuments_Table { get; set; }
         public DbSet<USR_OND_OutcomingDocuments_Table> USR_OND_OutcomingDocuments_Table { get; set; }
+        public DbSet<USK_IND_IncomingDocuments_Table> USK_IND_IncomingDocuments_Table { get; set; }
+        public DbSet<USK_OND_OutcomingDocuments_Table> USK_OND_OutcomingDocuments_Table { get; set; }
         public DbSet<USR_APP_AppealDocuments_Table> USR_APP_AppealDocuments_Table { get; set; }
         public DbSet<USR_APP_AppealIndividualDocuments_Table> USR_APP_AppealIndividualDocuments_Table { get; set; }
         public DbSet<USR_PRT_ProtocolDocuments_Table> USR_PRT_ProtocolDocuments_Table { get; set; }

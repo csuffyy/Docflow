@@ -370,6 +370,13 @@ namespace RapidDoc.Models.ViewModels
         public DateTime? EndDate { get; set; }
     }
 
+    public class IncomingDublicateView
+    {
+        public string CreatedBy { get; set; }
+        public string CompanyName { get; set; }
+        public DateTime? RegistrationDate { get; set; }
+    }
+
     public class OutcomingBaseView
     {
         [Display(Name = "Grouping", ResourceType = typeof(FieldNameRes.FieldNameResource))]

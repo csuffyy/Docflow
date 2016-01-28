@@ -1,23 +1,9 @@
-﻿@model RapidDoc.Models.ViewModels.USR_OND_OutcomingDocuments_View
+﻿@model RapidDoc.Models.ViewModels.USK_OND_OutcomingDocuments_View
 @using RapidDoc.Extensions;
 @using RapidDoc.Models.Repository;
-
-@Html.HiddenFor(model => model.Id)
-@Html.HiddenFor(model => model.DocumentTableId)
-@Html.HiddenFor(model => model.ListAgreement)
-@Html.HiddenFor(model => model.NeedTranslate)
-
-<div class="row">
-    <div class="col-xs-4">
-        <div class="editor-label">
-            @Html.LabelForRequired(model => Model.NumberSeriesBookingTableId)
-        </div>
-        <div class="editor-field">
-            @Html.Action("GetBookingIncomingDoc", "Custom", new { type = Model.GetType() })
-        </div>
-    </div>
-</div>
-<br />
+@{
+    Model.OutgoingDate = DateTime.Today;
+}
 
 <div class="row">
     <div class="col-xs-8">
@@ -38,6 +24,7 @@
         </div>
     </div>
 </div>
+
 <h4>Язык обращения:</h4>
 <div class="row">
     <div class="col-xs-2">
@@ -90,6 +77,21 @@
     </div>
 </div>
 <div class="row">
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.NeedTranslate):
+        </div>
+    </div>
+
+    <div class="col-xs-2">
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.NeedTranslate)
+        </div>
+    </div>
+</div>
+<br />
+
+<div class="row">
     <div class="col-xs-4">
         <div class="editor-label">
             @Html.LabelForRequired(model => model.OrganizationTableId)
@@ -108,7 +110,7 @@
         <div class="editor-field">
             @Html.TextBoxFor(model => Model.OutgoingDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", startDate = "" })
         </div>
-    </div>
+    </div>  
 </div>
 <br />
 <div class="row">
@@ -129,12 +131,20 @@
     </div>
 </div>
 <br />
+
 <div class="editor-label">
     @Html.LabelForRequired(model => Model.Signer)
 </div>
 <div>
     @Html.TextBoxFor(model => Model.Signer, new { @class = "form-control", @data_role = "tagsinputEmplOne", @size = 256, placeholder = "За подписью" })
 </div>
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.ListAgreement)
+</div>
+<div>
+    @Html.TextBoxFor(model => Model.ListAgreement, new { @class = "form-control", @data_role = "tagsinputEmplIntercompany", @size = 256, placeholder = "Список согласования" })
+</div>
+
 <hr />
 
 <div class="editor-label">
@@ -160,8 +170,9 @@
     @Html.LabelForRequired(model => Model.IncomingNumberDocId)
 </div>
 <div class="editor-field">
-    @Html.Action("GetIncomingDoc", "Custom", new { @id = Model.IncomingNumberDocId })
+    @Html.Action("GetIncomingDocKZH", "Custom", new { @id = Model.IncomingNumberDocId })
 </div>
+
 <br />
 <div class="row">
     <div class="col-xs-2">
@@ -211,21 +222,21 @@
     </div>
 </div>
 
-<div class="modal fade itemcause-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sidebar">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">@CustomRes.Custom.ItemCause</h4>
-            </div>
-            <div class="modal-body" style="min-height:700px;">
-                @Html.Action("ItemCausesListLookup", "ItemCause")
+    <div class="modal fade itemcause-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sidebar">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">@CustomRes.Custom.ItemCause</h4>
+                </div>
+                <div class="modal-body" style="min-height:700px;">
+                    @Html.Action("ItemCausesListLookup", "ItemCause")
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<script type="text/javascript">
+    <script type="text/javascript">
         $(function () {
             $('.itemcauseslink').click(function (event) {
                 var element = $(event.target);
@@ -233,13 +244,6 @@
                 $('#ItemCauseNumber').text(element.text());
                 $('#ItemCauseNumberTextId').val(element.text());
             });
-
-            if ($('#OutcomingDispatchType').val() != 0) {
-                $('#DispatchType')[0].disabled = true;
-            }
-            if ($('#DocumentType').val() != 0) {
-                $('#DocumentTypeName')[0].disabled = true;
-            }
 
             $('#OutcomingDispatchType').change(function (event) {
                 if ($('#OutcomingDispatchType').val() == 0) {
@@ -262,4 +266,4 @@
                 }
             });
         });
-</script>
+    </script>
