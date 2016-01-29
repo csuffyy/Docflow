@@ -152,7 +152,7 @@
             @Html.TextBoxFor(model => Model.RegistrationDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", startDate = "" })
         </div>
     </div>
-    <div class="col-xs-4">
+    <div class="col-xs-8">
         <div id="dublicateBlock"></div>
     </div>
 </div>
@@ -303,28 +303,4 @@
             outgoingDateCount = 1;
         });
     });
-
-    function checkIncomeDoc() {
-        var organizationId = $("#OrganizationTableId").val();
-        var outgoingNumber = $("#OutgoingNumber").val();
-        var outgoingDate = $("#OutgoingDate").val();
-
-        if (organizationId.length > 0 && outgoingNumber.length > 0 && outgoingDate.length > 0) {
-            var formData = new FormData();
-            formData.append('OrganizationId', organizationId);
-            formData.append('OutgoingNumber', outgoingNumber);
-            formData.append('OutgoingDate', outgoingDate);
-
-            $.ajax({
-                type: 'POST',
-                url: '/@ViewContext.RouteData.Values["company"]/Custom/CheckIncomeDocument/',
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function (response) {
-                    $('#dublicateBlock').html(response);
-                }
-            });
-        }
-    }
 </script>

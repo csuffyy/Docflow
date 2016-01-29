@@ -1224,3 +1224,27 @@ function custom_tagsinputEmplBothOpt2_init(url_json) {
     }
 }
 
+function checkIncomeDoc() {
+    var organizationId = $("#OrganizationTableId").val();
+    var outgoingNumber = $("#OutgoingNumber").val();
+    var outgoingDate = $("#OutgoingDate").val();
+
+    if (organizationId.length > 0 && outgoingNumber.length > 0 && outgoingDate.length > 0) {
+        var formData = new FormData();
+        formData.append('OrganizationId', organizationId);
+        formData.append('OutgoingNumber', outgoingNumber);
+        formData.append('OutgoingDate', outgoingDate);
+
+        $.ajax({
+            type: 'POST',
+            url: '/@ViewContext.RouteData.Values["company"]/Custom/CheckIncomeDocument/',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                $('#dublicateBlock').html(response);
+            }
+        });
+    }
+}
+
