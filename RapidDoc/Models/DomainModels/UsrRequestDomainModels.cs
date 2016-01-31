@@ -1164,7 +1164,16 @@ namespace RapidDoc.Models.DomainModels
         public string NumberDoc { get; set; }
         public string Purpose { get; set; }
         public TypeJUDocument TypeDocument { get; set; }
-    }  
+    }
+
+    public class USR_REQ_JU_RequestFoTakeContractByScanner_Table : BasicDocumentTable
+    {
+        public string Users { get; set; }
+        public string Department { get; set; }
+        public string NumberDoc { get; set; }
+        public TypeJUPurposeRequest TypeDocument { get; set; }
+        public string Purpose { get; set; }
+    }
     #endregion
 
     #region ФЭУ
@@ -4806,6 +4815,15 @@ namespace RapidDoc.Models.DomainModels
 
     #endregion
 
+    #region Входящие документы Kazzinc
+
+    public class USC_IND_IncomingDocuments_Table : BasicIncomingDocumentsTable
+    {
+
+    }
+
+    #endregion
+
     #region Исходящие документы
 
     public class USR_OND_OutcomingDocuments_Table : BasicOutcomingDocumentsTable
@@ -4818,6 +4836,15 @@ namespace RapidDoc.Models.DomainModels
     #region Исходящие документы Kazzinc Holdings
 
     public class USK_OND_OutcomingDocuments_Table : BasicOutcomingDocumentsTable
+    {
+
+    }
+    
+    #endregion
+
+    #region Исходящие документы Kazzinc
+
+    public class USC_OND_OutcomingDocuments_Table : BasicOutcomingDocumentsTable
     {
 
     }

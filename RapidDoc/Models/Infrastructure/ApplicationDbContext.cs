@@ -369,9 +369,12 @@ namespace RapidDoc.Models.Infrastructure
         public DbSet<USR_REQ_UMM_ManufactureItemsBGP_Table> USR_REQ_UMM_ManufactureItemsBGP_Table { get; set; }
         public DbSet<USR_REQ_UMM_ManufactureFromApplicant_Table> USR_REQ_UMM_ManufactureFromApplicant_Table { get; set; }
         public DbSet<USR_REQ_UMM_ManufactureWeldingItemsBGP_Table> USR_REQ_UMM_ManufactureWeldingItemsBGP_Table { get; set; }
+        public DbSet<USR_REQ_JU_RequestFoTakeContractByScanner_Table> USR_REQ_JU_RequestFoTakeContractByScanner_Table { get; set; }
 
         public DbSet<USK_OFM_Main_OfficeMemo_Table> USK_OFM_Main_OfficeMemo_Table { get; set; }
         public DbSet<USK_PRT_DirectorateDocuments_Table> USK_PRT_DirectorateDocuments_Table { get; set; }
+        public DbSet<USC_OND_OutcomingDocuments_Table> USC_OND_OutcomingDocuments_Table { get; set; }
+        public DbSet<USC_IND_IncomingDocuments_Table> USC_IND_IncomingDocuments_Table { get; set; }
 
         protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder)
         {

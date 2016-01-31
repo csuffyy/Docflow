@@ -2063,6 +2063,14 @@
     <Content Include="Views\Custom\USK_OND_OutcomingDocuments_View.cshtml" />
     <Content Include="Views\Custom\USK_OND_OutcomingDocuments_View_Full.cshtml" />
     <Content Include="Views\Custom\_IncomeDocumentDublicate.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_JU_RequestFoTakeContractByScanner_View.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_JU_RequestFoTakeContractByScanner_Edit.cshtml" />
+    <Content Include="Views\Custom\USC_IND_IncomingDocuments_Edit.cshtml" />
+    <Content Include="Views\Custom\USC_IND_IncomingDocuments_View.cshtml" />
+    <Content Include="Views\Custom\USC_OND_OutcomingDocuments_Edit.cshtml" />
+    <Content Include="Views\Custom\USC_OND_OutcomingDocuments_Registration.cshtml" />
+    <Content Include="Views\Custom\USC_OND_OutcomingDocuments_View.cshtml" />
+    <Content Include="Views\Custom\USC_OND_OutcomingDocuments_View_Full.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -3908,6 +3916,24 @@
   </ItemGroup>
   <ItemGroup>
     <XamlAppDef Include="Activities\USK_ORD_Transfer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USR_REQ_JU_RequestFoTakeContractByScanner.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USC_IND_IncomingDocuments.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USC_OND_OutcomingDocuments.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </XamlAppDef>

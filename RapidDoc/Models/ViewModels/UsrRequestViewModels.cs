@@ -2295,6 +2295,32 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Вид документа для предоставления")]
         public TypeJUDocument TypeDocument { get; set; }
     }
+
+    public class USR_REQ_JU_RequestFoTakeContractByScanner_View : BasicDocumentView
+    {
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "ФИО Заказчика")]
+        public string Users { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Подразделение-инициатор")]
+        public string Department { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Наименование документа с указанием номера и даты")]
+        public string NumberDoc { get; set; }
+     
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Вид документа для предоставления")]
+        public TypeJUPurposeRequest TypeDocument { get; set; }
+
+        [DataType(DataType.MultilineText)]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Примечание")]
+        public string Purpose { get; set; }
+    }
+
+    
     #endregion
 
     #region ФЭУ
@@ -10056,6 +10082,11 @@ namespace RapidDoc.Models.ViewModels
 
     }
 
+    public class USC_IND_IncomingDocuments_View : BasicIncomingDocumentsView
+    {
+
+    }
+
     #endregion
 
     #region Исходящие документы
@@ -10072,6 +10103,11 @@ namespace RapidDoc.Models.ViewModels
     }
 
     public class USK_OND_OutcomingDocuments_View : BasicOutcomingDocumentsView
+    {
+
+    }
+
+    public class USC_OND_OutcomingDocuments_View : BasicOutcomingDocumentsView
     {
 
     }

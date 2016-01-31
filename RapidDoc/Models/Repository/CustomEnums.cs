@@ -406,6 +406,15 @@ namespace RapidDoc.Models.Repository
         Element2 = 1
     }
 
+    public enum TypeJUPurposeRequest: byte
+    {
+        [Display(Name = "Принять в работу (активация договора и переход в JDE)")]
+        Element1 = 0,
+
+        [Display(Name = "Изменить статус")]
+        Element2 = 1
+    }
+
     public enum PipeName : byte
     {
         [Display(Name = "Хоз. Пит.")]

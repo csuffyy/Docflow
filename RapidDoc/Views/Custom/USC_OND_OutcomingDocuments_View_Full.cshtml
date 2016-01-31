@@ -1,0 +1,241 @@
+﻿@model RapidDoc.Models.ViewModels.USC_OND_OutcomingDocuments_View
+@using RapidDoc.Extensions;
+
+@Html.HiddenFor(model => model.OrganizationTableId)
+@Html.HiddenFor(model => model.DocumentTypeName)
+@Html.HiddenFor(model => model.DocumentType)
+@Html.HiddenFor(model => model.DispatchType)
+@Html.HiddenFor(model => model.OutcomingDispatchType)
+@Html.HiddenFor(model => model.Language_Kazakh)
+@Html.HiddenFor(model => model.Language_Russian)
+@Html.HiddenFor(model => model.Language_English)
+@Html.HiddenFor(model => model.Language_Chinese)
+@Html.HiddenFor(model => model.Language_French)
+@Html.HiddenFor(model => model.Language_Other)
+@Html.HiddenFor(model => model.NeedTranslate)
+@Html.HiddenFor(model => model.IncomingNumberDocId)
+
+@if (Model.OutcomingDocNum != null)
+{  
+    <h4 class="text-center">№: @String.Format("{0}/{1}", Model.ItemCauseNumberCode, Model.OutcomingDocNum)</h4>
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <div>
+            <h4 class="text-center">@Html.DisplayTextFor(model => Model.DocumentSubject)</h4>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <div>
+            <h6>@Html.DisplayTextFor(model => Model.ItemCauseNumber)</h6>
+        </div>
+    </div>
+</div>
+
+<h4>Язык обращения:</h4>
+<div class="row">
+    @if (Model.Language_Kazakh == true)
+    { 
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.Language_Kazakh)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => Model.Language_Kazakh, new { @disabled = true })
+        </div>
+    </div>
+    }
+    @if (Model.Language_Russian == true)
+    {
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.Language_Russian)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => Model.Language_Russian, new { @disabled = true })
+        </div>
+    </div>
+    }
+    @if (Model.Language_English == true)
+    {
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.Language_English)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => Model.Language_English, new { @disabled = true })
+        </div>
+    </div>
+    }
+    @if (Model.Language_Chinese == true)
+    {
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.Language_Chinese)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => Model.Language_Chinese, new { @disabled = true })
+        </div>
+    </div>
+    }
+    @if (Model.Language_French == true)
+    {
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.Language_French)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => Model.Language_French, new { @disabled = true })
+        </div>
+    </div>
+    }
+    @if (Model.Language_Other == true)
+    {
+        <div class="col-xs-2">
+            <div class="editor-label">
+                @Html.LabelFor(model => Model.Language_Other)
+            </div>
+            <div class="editor-field">
+                @Html.CheckBoxFor(model => Model.Language_Other, new { @disabled = true })
+            </div>
+        </div>
+    }
+</div>
+<div class="row">
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.NeedTranslate):
+        </div>
+    </div>
+
+    <div class="col-xs-2">
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.NeedTranslate, new { @disabled = true })
+        </div>
+    </div>
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.OrganizationTableId)
+</div>
+<div class="editor-field">
+    @Html.Action("GetOrganizationORD", "Custom", new { id = Model.OrganizationTableId, selected = true })
+</div>
+<br />
+
+@if (Model.IncomingNumber != null)
+{ 
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.IncomingNumberDocId)
+</div>
+@Html.ActionLink(Model.IncomingNumber.ToString() + "/" + Model.IncomingDate.Value.ToShortDateString(), "ShowDocument", "Document", new { id = Model.IncomingNumberDocId, isAfterView = true }, null)
+}
+<br />
+<div class="row">
+    <div class="col-xs-4">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.OutgoingDate)
+        </div>
+        <div class="editor-field">
+            @Html.FormatValue(Model.OutgoingDate, "{0:dd.MM.yyyy}")
+        </div>
+    </div>
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.DispatchType):
+</div>
+@if (Model.DispatchType != null && Model.DispatchType != "")
+{
+    <div class="editor-field">
+        @Html.DisplayTextFor(model => Model.DispatchType)
+    </div>
+}
+else
+{
+    <div class="editor-field">
+        @Html.EnumToDescription(Model.OutcomingDispatchType)
+    </div>
+}
+<br />
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.Signer)
+</div>
+<div class="editor-field">
+    @Html.HtmlDisplayTagsFor(model => Model.Signer)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.ListAgreement)
+</div>
+<div class="editor-field">
+    @Html.HtmlDisplayTagsFor(model => Model.ListAgreement)
+</div>
+<hr />
+<div class="row">
+    <div class="col-xs-6">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.ControlType)
+        </div>
+        <div class="editor-field">
+            @Html.EnumToDescription(Model.ControlType)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.Priority)
+        </div>
+        <div class="editor-field">
+            @Html.EnumToDescription(Model.Priority)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.BlankNumber)
+        </div>
+        <div class="editor-field">
+            @Html.DisplayTextFor(model => Model.BlankNumber)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.DocumentTypeName):
+        </div>
+        @if (Model.DocumentTypeName != null && Model.DocumentTypeName != "")
+        {
+            <div class="editor-field">
+                @Html.DisplayTextFor(model => Model.DocumentTypeName)
+            </div>
+        }
+        else
+        {
+            <div class="editor-field">
+                @Html.EnumToDescription(Model.DocumentType)
+            </div>
+        }
+    </div>
+    <div class="col-xs-6">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.ListsCount)
+        </div>
+        <div class="editor-field">
+            @Html.DisplayTextFor(model => Model.ListsCount)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.ApplicationsCount)
+        </div>
+        <div class="editor-field">
+            @Html.DisplayTextFor(model => Model.ApplicationsCount)
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.Content)
+        </div>
+        <div class="editor-field">
+            @Html.Raw(Model.Content)
+        </div>
+    </div>
+</div>
