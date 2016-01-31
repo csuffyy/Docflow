@@ -877,6 +877,31 @@ namespace RapidDoc.Models.Services
                 return true;
             }
 
+            if (documentTable.DocType == DocumentType.Task)
+            {
+                var task = GetDocument(documentTable.RefDocumentId, documentTable.ProcessTable.TableName);
+                if(task != null)
+                {
+                    var refDocument = Find(task.RefDocumentId);
+                    if (refDocument != null && refDocument.DocType == DocumentType.Protocol)
+                    {
+                        var protocol = GetDocument(refDocument.RefDocumentId, refDocument.ProcessTable.TableName);
+                        if(protocol != null && !String.IsNullOrEmpty(protocol.Chairman))
+                        {
+                            string[] chairman = GetUserListFromStructure(protocol.Chairman);
+
+                            if(chairman.Count() > 0)
+                            {
+                                Guid emplId = Guid.Parse(chairman[0]);
+                                var empl = _EmplService.FirstOrDefault(x => x.Id == emplId);
+                                if (empl != null && empl.ApplicationUserId == user.Id)
+                                    return true;
+                            }
+                        }
+                    }
+                }
+            }
+
             return false;
         }
 
