@@ -1804,6 +1804,19 @@ namespace RapidDoc.Models.Services
                                CreatedBy = empl.FirstName + " " + empl.SecondName + " " + empl.MiddleName,
                                CompanyName = company.AliasCompanyName
                            });
+
+            items.AddRange(from item in contextQuery.USC_IND_IncomingDocuments_Table
+                           join document in contextQuery.DocumentTable on item.DocumentTableId equals document.Id
+                           join company in contextQuery.CompanyTable on document.CompanyTableId equals company.Id
+                           let empl = contextQuery.EmplTable.Where(p => p.ApplicationUserId == document.ApplicationUserCreatedId).OrderByDescending(p => p.Enable).FirstOrDefault()
+                           where item.OrganizationTableId == OrganizationId && item.OutgoingNumber == OutgoingNumber
+                           && item.OutgoingDate == OutgoingDate && document.DocumentState != DocumentState.Cancelled && document.DocumentState != DocumentState.Created
+                           select new IncomingDublicateView
+                           {
+                               RegistrationDate = item.RegistrationDate,
+                               CreatedBy = empl.FirstName + " " + empl.SecondName + " " + empl.MiddleName,
+                               CompanyName = company.AliasCompanyName
+                           });
             return items;
         }
 
