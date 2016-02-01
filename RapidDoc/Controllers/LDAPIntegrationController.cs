@@ -40,12 +40,19 @@ namespace RapidDoc.Controllers
 
         public void Get()
         {
-            var companies = _CompanyService.GetAll().ToList();
+            var companies = _CompanyService.GetAll().Where(x => x.AliasCompanyName == "KZC").ToList();
             foreach (var company in companies)
             {
-                BuildTreeLDAP(company, company.DomainTable.LDAPBaseDN, "");
-                BuildTreeLDAP(company, company.DomainTable.LDAPBaseDN, "", true);
-                CheckActiveUsers(company);
+                if (company.AliasCompanyName == "KZC")
+                {
+                    getUsersDepartmentKZC(company, company.DomainTable.LDAPBaseDN);
+                }
+                else
+                {
+                    BuildTreeLDAP(company, company.DomainTable.LDAPBaseDN, "");
+                    BuildTreeLDAP(company, company.DomainTable.LDAPBaseDN, "", true);
+                    CheckActiveUsers(company);
+                }
             }
 
             DeleteNotUsedTitle();
@@ -190,6 +197,51 @@ namespace RapidDoc.Controllers
             }
         }
 
+        private void getUsersDepartmentKZC(CompanyTable _item, string _LDAPpath)
+        {
+            DirectoryEntry entry = new DirectoryEntry("LDAP://" + _item.DomainTable.LDAPServer + ":"
+                + Convert.ToString(_item.DomainTable.LDAPPort) + "/"
+                + _LDAPpath, _item.DomainTable.LDAPLogin, _item.DomainTable.LDAPPassword, AuthenticationTypes.None);
+            DirectorySearcher ds = new DirectorySearcher(entry);
+            string ldapData;
+
+            ds.SearchScope = SearchScope.OneLevel;
+            ds.Filter = "(&(objectClass=*))";
+            ds.PropertiesToLoad.Add("mail");
+            ds.PropertiesToLoad.Add("cn");
+            ds.PropertiesToLoad.Add("uid");
+            ds.PropertiesToLoad.Add("companyname");
+
+            foreach (SearchResult result in ds.FindAll())
+            {
+                if (result.Properties.Contains("cn") && result.Properties.Contains("mail") && result.Properties.Contains("companyname"))
+                {
+                    string mail = string.Empty;
+                    string userid = string.Empty;
+                    string userName = string.Empty;
+                    string companyName = string.Empty;
+
+                    companyName = result.Properties["companyname"][0].ToString();
+
+                    if (companyName == "Ustkam ID" || companyName == "Ustkam MK" || companyName == "Astana")
+                    {
+                        ldapData = result.Properties["cn"][0].ToString();
+                        mail = result.Properties["mail"][0].ToString();
+
+                        if (result.Properties.Contains("uid"))
+                        {
+                            userid = result.Properties["uid"][0].ToString();
+                        }
+
+                        if (!String.IsNullOrEmpty(userid))
+                        {
+                            String ApplicationUserId = UserIntegration(userid, mail, String.Empty, _item);
+                        }
+                    }
+                }
+            }
+        }
+
         private void EmplUpdateIntegration(Guid _globalId, string _firstname, string _secondname, string _middlename, Guid _company, string _managerUserId)
         {
             Guid? manageId = null;
@@ -306,10 +358,14 @@ namespace RapidDoc.Controllers
                     domainModel.CompanyTableId = _item.Id;
                     domainModel.DomainTableId = _item.DomainTableId;
                     domainModel.AccountDomainName = _userId;
+                    domainModel.Enable = true;
                     um.Create(domainModel);
 
-                    var loginInfo = new UserLoginInfo("Windows", _sid);
-                    um.AddLogin(domainModel.Id, loginInfo);
+                    if (!String.IsNullOrEmpty(_sid))
+                    {
+                        var loginInfo = new UserLoginInfo("Windows", _sid);
+                        um.AddLogin(domainModel.Id, loginInfo);
+                    }
                     um.AddToRole(domainModel.Id, "ActiveUser");
 
                     domainModel = context.Users.FirstOrDefault(x => x.DomainTableId == _item.DomainTableId && x.AccountDomainName == _userId && x.isDomainUser == true);
