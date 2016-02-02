@@ -694,3 +694,8 @@ input[type='checkbox']:checked.pseudo-checkbox + label:before{/*checked icon*/
 .bootstrap-duallistbox-container .btn.remove {
   width: 100%;
 }
+
+.nopadding {
+   padding: 0 !important;
+   margin: 0 !important;
+}
