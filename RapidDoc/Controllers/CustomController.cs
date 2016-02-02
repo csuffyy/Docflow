@@ -229,6 +229,12 @@ namespace RapidDoc.Controllers
             ViewBag.IncomingDocList = _DocumentService.IncomingDocList<USK_IND_IncomingDocuments_Table>(id);
             return PartialView("USR_IND_IncomingDocList");
         }
+        public ActionResult GetIncomingDocKZC(Guid? id = null)
+        {
+            ViewBag.IncomingDocList = _DocumentService.IncomingDocList<USC_IND_IncomingDocuments_Table>(id);
+            return PartialView("USR_IND_IncomingDocList");
+        }
+
         public ActionResult GetOutcomingDoc(Guid? id = null)
         {
             ViewBag.OutcomingDocList = _DocumentService.OutcomingDocList<USR_OND_OutcomingDocuments_Table>(id);
@@ -238,6 +244,12 @@ namespace RapidDoc.Controllers
         public ActionResult GetOutcomingDocKZH(Guid? id = null)
         {
             ViewBag.OutcomingDocList = _DocumentService.OutcomingDocList<USK_OND_OutcomingDocuments_Table>(id);
+            return PartialView("USR_OND_OutcomingDocList");
+        }
+
+        public ActionResult GetOutcomingDocKZC(Guid? id = null)
+        {
+            ViewBag.OutcomingDocList = _DocumentService.OutcomingDocList<USC_OND_OutcomingDocuments_Table>(id);
             return PartialView("USR_OND_OutcomingDocList");
         }
 
