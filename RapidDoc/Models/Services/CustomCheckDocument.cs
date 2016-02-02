@@ -949,9 +949,9 @@ namespace RapidDoc.Models.Services
                 }
             }
 
-            if (type.IsSubclassOf(typeof(BasicOrderView)))
+            if (type.IsSubclassOf(typeof(BasicOrderView)) || type == (new USR_ORD_BusinessTrip_View()).GetType() || type == (new USK_ORD_BusinessTrip_View()).GetType())
             {
-                if (actionModel.NeedTranslate == false && String.IsNullOrEmpty(actionModel.MainField))
+                if (actionModel.NeedTranslate == false && (String.IsNullOrEmpty(actionModel.MainField) || !_SystemService.CheckTextExists(actionModel.MainField)))
                 {
                     errorList.Add("Необходимо заполнить поле приказа на казахском языке");
                 }
@@ -1346,12 +1346,11 @@ namespace RapidDoc.Models.Services
                 }
             }
 
-            if (type.IsSubclassOf(typeof(BasicOrderView)))
+            if (type.IsSubclassOf(typeof(BasicOrderView)) || type == (new USR_ORD_BusinessTrip_View()).GetType() || type == (new USK_ORD_BusinessTrip_View()).GetType())
             {
                 if (current.Any(x => x.SystemName == "TranslatorORD") && isSign == true)
                 {
-
-                    if (actionModel.NeedTranslate == true && String.IsNullOrEmpty(actionModel.MainField))
+                    if (actionModel.NeedTranslate == true && (String.IsNullOrEmpty(actionModel.MainField) || !_SystemService.CheckTextExists(actionModel.MainField)))
                     {
                         errorList.Add("Необходимо заполнить поле перевод");
                     }
@@ -1416,7 +1415,7 @@ namespace RapidDoc.Models.Services
                 }
             }
 
-            if (type.IsSubclassOf(typeof(BasicOrderView)) || type == (new USR_ORD_BusinessTrip_View()).GetType())
+            if (type.IsSubclassOf(typeof(BasicOrderView)) || type == (new USR_ORD_BusinessTrip_View()).GetType() || type == (new USK_ORD_BusinessTrip_View()).GetType())
             {
                 if (!String.IsNullOrEmpty(actionModel.Sign))
                 {

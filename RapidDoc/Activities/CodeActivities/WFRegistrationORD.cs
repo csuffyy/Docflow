@@ -127,7 +127,7 @@ namespace RapidDoc.Activities.CodeActivities
                 else if ((bool)documentData["NoTask"] == true && !String.IsNullOrEmpty((string)documentData["ControlUsers"])) {
                     string[] users = _serviceSystem.GuidsFromText((string)documentData["ControlUsers"]);
                     _serviceEmail.SendControlORDUserNotification(documentId, Guid.Parse(users[0]));
-                    List<string> readers = _serviceWorkflow.EmplAndRolesToReaders(users);
+                    List<string> readers = _serviceWorkflow.EmplAndRolesToReaders(documentId, users);
                     _serviceDocumentReader.SaveOrderReader(documentId, readers.ToArray(), currentUserId);
                 }
             }
@@ -172,13 +172,13 @@ namespace RapidDoc.Activities.CodeActivities
                     List<FileTable> docFile = new List<FileTable>();
 
                     string[] usersAndRoles = _service.GetUserListFromStructure((string)documentData["ListSubcription"]);
-                    List<string> users = _serviceWorkflow.EmplAndRolesToUserList(usersAndRoles);
+                    List<string> users = _serviceWorkflow.EmplAndRolesToUserList(documentId, usersAndRoles);
                     _serviceDocumentSubcriptionService.SaveSubscriberMapper(documentId, users.ToArray(), currentUserId);
                     IEmailService _EmailService = DependencyResolver.Current.GetService<IEmailService>();
                     var documentModel = _service.GetDocumentView(document.RefDocumentId, document.ProcessTable.TableName);
                     if ((bool)documentData["AddReaders"] == true)
                     {
-                        List<string> readers = _serviceWorkflow.EmplAndRolesToReaders(usersAndRoles);
+                        List<string> readers = _serviceWorkflow.EmplAndRolesToReaders(documentId, usersAndRoles);
                         _serviceDocumentReader.SaveOrderReader(documentId, readers.ToArray(), currentUserId);
                     }
 

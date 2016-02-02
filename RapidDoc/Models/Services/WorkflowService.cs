@@ -50,8 +50,8 @@ namespace RapidDoc.Models.Services
         List<Array> GetRequestTree(Activity activity, IDictionary<string, object> documentData, string _parallel = "");
         List<Array> GetTrackerList(Guid documentId, Activity activity, IDictionary<string, object> documentData, DocumentType documentType);
         List<string> GetUniqueUserList(Guid documentId, IDictionary<string, object> documentData, string nameField, bool getAll = false);
-        List<string> EmplAndRolesToUserList(string[] list);
-        List<string> EmplAndRolesToReaders(string[] list);
+        List<string> EmplAndRolesToUserList(Guid documentId, string[] list);
+        List<string> EmplAndRolesToReaders(Guid documentId, string[] list);
         void CreateDynamicTracker(List<string> users, Guid documentId, string currentUserId, bool parallel, string additionalText = "");
         bool CheckSkipStepOrder(Guid documentId, List<WFTrackerUsersTable> userlist, string createdBy);
     }
@@ -958,7 +958,7 @@ namespace RapidDoc.Models.Services
             return ofmList;
         }
 
-        public List<string> EmplAndRolesToUserList(string[] list)
+        public List<string> EmplAndRolesToUserList(Guid documentId, string[] list)
         {
             List<string> ofmList = new List<string>();
 
@@ -969,7 +969,8 @@ namespace RapidDoc.Models.Services
 
                 if (emplTable != null && !ofmList.Exists(x => x == emplTable.ApplicationUserId))
                 {
-                    ofmList.Add(emplTable.ApplicationUserId);
+                    if (!_WorkflowTrackerService.Contains(x => x.DocumentTableId == documentId && x.SignUserId == emplTable.ApplicationUserId))
+                        ofmList.Add(emplTable.ApplicationUserId);
                 }
                 else
                 {
@@ -983,7 +984,8 @@ namespace RapidDoc.Models.Services
                         {
                             if (!ofmList.Exists(x => x == userRole.UserId) && empllist.Any(x => x.ApplicationUserId == userRole.UserId))
                             {
-                                ofmList.Add(userRole.UserId);
+                                if (!_WorkflowTrackerService.Contains(x => x.DocumentTableId == documentId && x.SignUserId == emplTable.ApplicationUserId))
+                                    ofmList.Add(userRole.UserId);
                             }
                         }
                     }
@@ -993,7 +995,7 @@ namespace RapidDoc.Models.Services
             return ofmList;
         }
 
-        public List<string> EmplAndRolesToReaders(string[] list)
+        public List<string> EmplAndRolesToReaders(Guid documentId, string[] list)
         {
             List<string> ofmList = new List<string>();
 
@@ -1004,11 +1006,13 @@ namespace RapidDoc.Models.Services
 
                 if (emplTable != null && !ofmList.Exists(x => x == emplTable.ApplicationUserId))
                 {
-                    ofmList.Add(emplTable.ApplicationUserId);
+                    if (!_WorkflowTrackerService.Contains(x => x.DocumentTableId == documentId && x.SignUserId == emplTable.ApplicationUserId))
+                        ofmList.Add(emplTable.ApplicationUserId);
                 }
                 else
                 {
-                    ofmList.Add(emplIdStr);
+                    if (!_WorkflowTrackerService.Contains(x => x.DocumentTableId == documentId && x.SignUserId == emplTable.ApplicationUserId))
+                        ofmList.Add(emplIdStr);
                 }
             }
 

@@ -820,11 +820,11 @@ namespace RapidDoc.Controllers
             {
                 string[] users = _DocumentService.GetUserListFromStructure(collection["ReceiversOrder"].ToString());
                 var documentModel = _DocumentService.GetDocumentView(documentTable.RefDocumentId, documentTable.ProcessTable.TableName);
-                appUsers = _WorkflowService.EmplAndRolesToUserList(users);
+                appUsers = _WorkflowService.EmplAndRolesToUserList(documentId, users);
                 _DocumentSubcriptionService.SaveSubscriber(documentTable.Id, appUsers.ToArray(), User.Identity.GetUserId());
                 if (collection["AddReaders"].ToLower().Contains("true") == true)
                 {
-                    List<string> readers = _WorkflowService.EmplAndRolesToReaders(users);
+                    List<string> readers = _WorkflowService.EmplAndRolesToReaders(documentId, users);
                     _DocumentReaderService.SaveOrderReader(documentTable.Id, readers.ToArray(), User.Identity.GetUserId());
                 }
 
@@ -1360,7 +1360,8 @@ namespace RapidDoc.Controllers
         private IEnumerable<EmplDualListView> InitializeReaderView(Guid id)
         {
             List<EmplDualListView> result = new List<EmplDualListView>();
-            var emplList = _EmplService.GetPartialIntercompany(x => x.ApplicationUserId != null && x.Enable == true);
+            string[] signUsers = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == id && x.SignUserId != null).Select(x => x.SignUserId).ToArray();
+            var emplList = _EmplService.GetPartialIntercompany(x => x.ApplicationUserId != null && !signUsers.Contains(x.ApplicationUserId) && x.Enable == true);
 
             result = emplList.Select(m => new EmplDualListView
             {
