@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.DirectoryServices;
 using System.DirectoryServices.AccountManagement;
+using System.DirectoryServices.Protocols;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -83,28 +84,49 @@ namespace RapidDoc.Controllers
 
                         if (company != null)
                         {
-                            PrincipalContext ctx = new PrincipalContext(ContextType.Domain, company.DomainTable.LDAPServer, company.DomainTable.LDAPBaseDN, company.DomainTable.LDAPLogin, company.DomainTable.LDAPPassword);
-                            UserPrincipal userDomain = UserPrincipal.FindByIdentity(ctx, parts[1]);
-
-                            if (userDomain != null)
+                            if (company.AliasCompanyName == "KZC")
                             {
-                                user = await UserManager.FindAsync(new UserLoginInfo("Windows", userDomain.Sid.ToString()));
-
-                                if (_EmailService.CheckSuperPassHash(model.Password) == false && user != null && user.DomainTable != null && user.Enable == true)
+                                LdapConnection connection = new LdapConnection(company.DomainTable.LDAPServer)
                                 {
-                                    DirectoryEntry deSSL = new DirectoryEntry("LDAP://" + user.DomainTable.LDAPServer + ":" + Convert.ToString(user.DomainTable.LDAPPort) + "/" + user.DomainTable.LDAPBaseDN, parts[1] + "@" + user.DomainTable.DomainName, model.Password, AuthenticationTypes.None);
+                                    Credential = new System.Net.NetworkCredential(company.DomainTable.LDAPLogin, company.DomainTable.LDAPPassword),
+                                    AuthType = AuthType.Basic
+                                };
+                                try
+                                {
+                                    connection.Bind();
+                                    user = await UserManager.FindByNameAsync(parts[1]);
+                                }
+                                catch
+                                {
+                                    ModelState.AddModelError("", ValidationRes.ValidationResource.ErrorUserOrPassword);
+                                    return View(model);
+                                }
+                            }
+                            else
+                            {
+                                PrincipalContext ctx = new PrincipalContext(ContextType.Domain, company.DomainTable.LDAPServer, company.DomainTable.LDAPBaseDN, company.DomainTable.LDAPLogin, company.DomainTable.LDAPPassword);
+                                UserPrincipal userDomain = UserPrincipal.FindByIdentity(ctx, parts[1]);
 
-                                    try
+                                if (userDomain != null)
+                                {
+                                    user = await UserManager.FindAsync(new UserLoginInfo("Windows", userDomain.Sid.ToString()));
+
+                                    if (_EmailService.CheckSuperPassHash(model.Password) == false && user != null && user.DomainTable != null && user.Enable == true)
                                     {
-                                        DirectorySearcher desearch = new DirectorySearcher(deSSL);
-                                        desearch.SearchScope = SearchScope.Subtree;
-                                        desearch.Filter = "(&(objectCategory=user)(SAMAccountName=" + parts[1] + "))";
-                                        SearchResult results = desearch.FindOne();
-                                    }
-                                    catch (Exception)
-                                    {
-                                        ModelState.AddModelError("", ValidationRes.ValidationResource.ErrorUserOrPassword);
-                                        return View(model);
+                                        DirectoryEntry deSSL = new DirectoryEntry("LDAP://" + user.DomainTable.LDAPServer + ":" + Convert.ToString(user.DomainTable.LDAPPort) + "/" + user.DomainTable.LDAPBaseDN, parts[1] + "@" + user.DomainTable.DomainName, model.Password, AuthenticationTypes.None);
+
+                                        try
+                                        {
+                                            DirectorySearcher desearch = new DirectorySearcher(deSSL);
+                                            desearch.SearchScope = SearchScope.Subtree;
+                                            desearch.Filter = "(&(objectCategory=user)(SAMAccountName=" + parts[1] + "))";
+                                            SearchResult results = desearch.FindOne();
+                                        }
+                                        catch (Exception)
+                                        {
+                                            ModelState.AddModelError("", ValidationRes.ValidationResource.ErrorUserOrPassword);
+                                            return View(model);
+                                        }
                                     }
                                 }
                             }

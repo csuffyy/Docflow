@@ -42,7 +42,7 @@ namespace RapidDoc.Controllers
 
         public void Get()
         {
-            var companies = _CompanyService.GetAll().Where(x => x.AliasCompanyName == "KZC").ToList();
+            var companies = _CompanyService.GetAll().ToList();
             foreach (var company in companies)
             {
                 if (company.AliasCompanyName == "KZC")
