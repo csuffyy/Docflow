@@ -16,6 +16,7 @@ using RapidDoc.Models.DomainModels;
 using RapidDoc.Models.Infrastructure;
 using RapidDoc.Models.Repository;
 using RapidDoc.Models.Services;
+using RapidDoc.Models.ViewModels;
 
 namespace RapidDoc.Controllers
 {
@@ -199,6 +200,30 @@ namespace RapidDoc.Controllers
 
         private void getUsersDepartmentKZC(CompanyTable _item, string _LDAPpath)
         {
+            List<KZCInfoData_View> infoDataList = new List<KZCInfoData_View>();
+            string connectionString = "Server = 192.168.22.20; Database = webinternal; Uid = userinfo; Pwd = U$er!nf0;";
+
+            var connection = new MySql.Data.MySqlClient.MySqlConnection(connectionString);
+            connection.Open();
+            using (MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand("SELECT * FROM webinternal.view_User;", connection))
+            {
+                using (MySql.Data.MySqlClient.MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        infoDataList.Add(new KZCInfoData_View {
+                            Login = reader["Login"].ToString(),
+                            Surname = reader["Surname"].ToString(),
+                            Name = reader["Name"].ToString(),
+                            SecondName = reader["SecondName"].ToString(),
+                            Email = reader["Email"].ToString(),
+                            Subdivision = reader["Subdivision"].ToString(),
+                            Position = reader["Position"].ToString()
+                        });
+                    }
+                }
+            }
+
             DirectoryEntry entry = new DirectoryEntry("LDAP://" + _item.DomainTable.LDAPServer + ":"
                 + Convert.ToString(_item.DomainTable.LDAPPort) + "/"
                 + _LDAPpath, _item.DomainTable.LDAPLogin, _item.DomainTable.LDAPPassword, AuthenticationTypes.None);
@@ -211,15 +236,19 @@ namespace RapidDoc.Controllers
             ds.PropertiesToLoad.Add("cn");
             ds.PropertiesToLoad.Add("uid");
             ds.PropertiesToLoad.Add("companyname");
+            ds.PropertiesToLoad.Add("dominocertificate");
 
             foreach (SearchResult result in ds.FindAll())
             {
-                if (result.Properties.Contains("cn") && result.Properties.Contains("mail") && result.Properties.Contains("companyname"))
+                if (result.Properties.Contains("cn") && result.Properties.Contains("mail") && result.Properties.Contains("companyname") && result.Properties.Contains("uid") && result.Properties.Contains("dominocertificate"))
                 {
                     string mail = string.Empty;
                     string userid = string.Empty;
                     string userName = string.Empty;
                     string companyName = string.Empty;
+                    string dominocertificate = string.Empty;
+                    byte[] GlobalId = null;
+                    Guid GlobalGuid = Guid.Empty;
 
                     companyName = result.Properties["companyname"][0].ToString();
 
@@ -227,15 +256,27 @@ namespace RapidDoc.Controllers
                     {
                         ldapData = result.Properties["cn"][0].ToString();
                         mail = result.Properties["mail"][0].ToString();
-
-                        if (result.Properties.Contains("uid"))
-                        {
-                            userid = result.Properties["uid"][0].ToString();
-                        }
+                        userid = result.Properties["uid"][0].ToString();
+                        GlobalId = (byte[])result.Properties["dominocertificate"][0];
+                        GlobalGuid = new Guid(GlobalId);
 
                         if (!String.IsNullOrEmpty(userid))
                         {
                             String ApplicationUserId = UserIntegration(userid, mail, String.Empty, _item);
+
+                            var infoItem = infoDataList.FirstOrDefault(x => x.Email == mail && x.Login == userid);
+
+                            if (infoItem == null) continue;
+
+                            Guid depId = Guid.Empty;
+                            Guid titleId = Guid.Empty;
+
+                            if (!String.IsNullOrEmpty(infoItem.Subdivision) && !String.IsNullOrEmpty(infoItem.Position))
+                            {
+                                depId = DepartmentIntegration(infoItem.Subdivision, String.Empty, _item.Id);
+                                titleId = TitleIntegration(infoItem.Position);
+                                EmplIntegration(GlobalGuid, infoItem.Name, infoItem.Surname, infoItem.SecondName, String.Empty, String.Empty, ApplicationUserId, depId, titleId, _item.Id, String.Empty);
+                            }
                         }
                     }
                 }

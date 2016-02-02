@@ -10165,4 +10165,15 @@ namespace RapidDoc.Models.ViewModels
     }
 
     #endregion
+
+    public class KZCInfoData_View
+    {
+        public string Login { get; set; }
+        public string Surname { get; set; }
+        public string Name { get; set; }
+        public string SecondName { get; set; }
+        public string Email { get; set; }
+        public string Subdivision { get; set; }
+        public string Position { get; set; }
+    }
 }
