@@ -88,7 +88,7 @@ namespace RapidDoc.Controllers
                             {
                                 LdapConnection connection = new LdapConnection(company.DomainTable.LDAPServer)
                                 {
-                                    Credential = new System.Net.NetworkCredential(company.DomainTable.LDAPLogin, company.DomainTable.LDAPPassword),
+                                    Credential = new System.Net.NetworkCredential(parts[1], model.Password),
                                     AuthType = AuthType.Basic
                                 };
                                 try
