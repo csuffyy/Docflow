@@ -118,7 +118,7 @@ namespace RapidDoc.Controllers
                                         try
                                         {
                                             DirectorySearcher desearch = new DirectorySearcher(deSSL);
-                                            desearch.SearchScope = SearchScope.Subtree;
+                                            desearch.SearchScope = System.DirectoryServices.SearchScope.Subtree;
                                             desearch.Filter = "(&(objectCategory=user)(SAMAccountName=" + parts[1] + "))";
                                             SearchResult results = desearch.FindOne();
                                         }
