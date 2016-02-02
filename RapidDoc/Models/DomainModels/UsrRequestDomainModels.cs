@@ -4469,11 +4469,68 @@ namespace RapidDoc.Models.DomainModels
     }
     #endregion
 
-    #region Заявки Kazzink Holdings ИТ служба
+    #region Заявки Kazzink Holdings
+
     public class USK_REQ_IT_CTP_IncidentIT_Table : BasicDocumentRequestTable
     {
         public string Phone { get; set; }
     }
+
+    public class USK_REQ_IT_CAP_CreateUserAD_Table : BasicDocumentTable
+    {
+        public bool ActiveDirectory { get; set; }
+        public bool Exchange { get; set; }
+        public string Name { get; set; }
+        public string Title { get; set; }
+        public string Department { get; set; }
+    }
+
+    public class USK_REQ_IT_CAP_ChangeRoute_Table : BasicDocumentTable
+    {
+        public string Name { get; set; }
+        public string OldRoute { get; set; }
+        public string NewRoute { get; set; }
+        public string Reason { get; set; }
+        public string Contact { get; set; }
+    }
+
+    public class USK_REQ_IT_ChangeRouteName_Table : BasicDocumentTable
+    {
+        public string RouteName { get; set; }
+        public string FIORouteName { get; set; }
+        public string FIOChangeRouteName { get; set; }
+        public DateTime? FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
+    }
+
+    public class USK_REQ_TRIP_Registration_Table : BasicDocumentTable
+    {
+        public string Purpose { get; set; }
+        public string Users { get; set; }
+        public DateTime? FlyAwayDate { get; set; }
+        public TimeSpan FlyAwayTime { get; set; }
+        public bool NeedMeet { get; set; }
+
+
+        public Guid? OrganizationTableId { get; set; }
+        public virtual OrganizationTable OrganizationTable { get; set; }
+        public string Organization { get; set; }
+
+
+        public DateTime? FlyBackDate { get; set; }
+        public TimeSpan FlyBackTime { get; set; }
+        public bool NeedSeeOff { get; set; }
+        public DateTime? FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
+
+        public Guid? CountryTableId { get; set; }
+        public virtual CountryTable CountryTable { get; set; }
+        public string Country { get; set; }
+
+        public string Note { get; set; }
+
+    }
+
     #endregion
 
     #region Служебные записки ATK

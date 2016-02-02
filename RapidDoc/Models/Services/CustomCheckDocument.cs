@@ -666,6 +666,18 @@ namespace RapidDoc.Models.Services
                 }
             }
 
+            if (type == (new USK_REQ_TRIP_Registration_View()).GetType())
+            {
+                if ((actionModel.CountryTableId == null) && String.IsNullOrEmpty(actionModel.Country))
+                {
+                    errorList.Add("Город должен быть указан");
+                }
+
+                if ((actionModel.OrganizationTableId == null) && String.IsNullOrEmpty(actionModel.Organization))
+                {
+                    errorList.Add("Организация должна быть указана");
+                }
+            }
             return errorList;
         }
 

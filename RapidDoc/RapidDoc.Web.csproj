@@ -2071,6 +2071,14 @@
     <Content Include="Views\Custom\USC_OND_OutcomingDocuments_Registration.cshtml" />
     <Content Include="Views\Custom\USC_OND_OutcomingDocuments_View.cshtml" />
     <Content Include="Views\Custom\USC_OND_OutcomingDocuments_View_Full.cshtml" />
+    <Content Include="Views\Custom\USK_REQ_IT_CAP_CreateUserAD_View.cshtml" />
+    <Content Include="Views\Custom\USK_REQ_IT_CAP_CreateUserAD_Edit.cshtml" />
+    <Content Include="Views\Custom\USK_REQ_IT_CAP_ChangeRoute_View.cshtml" />
+    <Content Include="Views\Custom\USK_REQ_IT_CAP_ChangeRoute_Edit.cshtml" />
+    <Content Include="Views\Custom\USK_REQ_IT_ChangeRouteName_View.cshtml" />
+    <Content Include="Views\Custom\USK_REQ_IT_ChangeRouteName_Edit.cshtml" />
+    <Content Include="Views\Custom\USK_REQ_TRIP_Registration_View.cshtml" />
+    <Content Include="Views\Custom\USK_REQ_TRIP_Registration_Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -3934,6 +3942,30 @@
   </ItemGroup>
   <ItemGroup>
     <XamlAppDef Include="Activities\USC_OND_OutcomingDocuments.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USK_REQ_IT_CAP_CreateUserAD.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USK_REQ_IT_CAP_ChangeRoute.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USK_REQ_IT_ChangeRouteName.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USK_REQ_TRIP_Registration.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </XamlAppDef>
