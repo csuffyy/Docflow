@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Mail;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -247,7 +248,7 @@ namespace RapidDoc.Controllers
                     string userName = string.Empty;
                     string companyName = string.Empty;
                     string dominocertificate = string.Empty;
-                    byte[] GlobalId = null;
+                    string GlobalId = String.Empty;
                     Guid GlobalGuid = Guid.Empty;
 
                     companyName = result.Properties["companyname"][0].ToString();
@@ -257,8 +258,14 @@ namespace RapidDoc.Controllers
                         ldapData = result.Properties["cn"][0].ToString();
                         mail = result.Properties["mail"][0].ToString();
                         userid = result.Properties["uid"][0].ToString();
-                        GlobalId = (byte[])result.Properties["dominocertificate"][0];
-                        GlobalGuid = new Guid(GlobalId);
+                        GlobalId = result.Properties["dominocertificate"][0].ToString();
+                        GlobalId = GlobalId.Replace(" ", "");
+
+                        using (MD5 md5 = MD5.Create())
+                        {
+                            byte[] hash = md5.ComputeHash(Encoding.Default.GetBytes(GlobalId));
+                            GlobalGuid = new Guid(hash);
+                        }
 
                         if (!String.IsNullOrEmpty(userid))
                         {
