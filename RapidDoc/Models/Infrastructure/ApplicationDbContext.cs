@@ -376,6 +376,13 @@ namespace RapidDoc.Models.Infrastructure
         public DbSet<USC_OND_OutcomingDocuments_Table> USC_OND_OutcomingDocuments_Table { get; set; }
         public DbSet<USC_IND_IncomingDocuments_Table> USC_IND_IncomingDocuments_Table { get; set; }
 
+        public DbSet<USK_REQ_IT_CAP_CreateUserAD_Table> USK_REQ_IT_CAP_CreateUserAD_Table { get; set; }
+        public DbSet<USK_REQ_IT_CAP_ChangeRoute_Table> USK_REQ_IT_CAP_ChangeRoute_Table { get; set; }
+        public DbSet<USK_REQ_IT_ChangeRouteName_Table> USK_REQ_IT_ChangeRouteName_Table { get; set; }
+        public DbSet<USK_REQ_TRIP_Registration_Table> USK_REQ_TRIP_Registration_Table { get; set; }
+
+
+
         protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();

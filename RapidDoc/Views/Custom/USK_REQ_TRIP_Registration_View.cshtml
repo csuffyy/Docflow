@@ -1,0 +1,135 @@
+﻿@model RapidDoc.Models.ViewModels.USK_REQ_TRIP_Registration_View
+@using RapidDoc.Extensions;
+
+@Html.HiddenFor(model => model.Organization)
+@Html.HiddenFor(model => model.Country)
+@Html.HiddenFor(model => model.CountryTableId)
+@Html.HiddenFor(model => model.OrganizationTableId)
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.Purpose)
+</div>
+<div class="editor-field">
+    @Html.DisplayTextFor(model => Model.Purpose)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.Users)
+</div>
+<div class="editor-field">
+    @Html.HtmlDisplayTagsFor(model => Model.Users)
+</div>
+
+<div class="editor-field">
+    @Html.Partial("_DocumentViewFields", Model, new ViewDataDictionary(ViewData) { { "FieldName", "FlyAwayDate" } })
+</div>
+
+<div class="row">
+    <div class="col-xs-3">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.FlyAwayTime)
+        </div>
+        <div class="editor-field">
+            @Html.DisplayTextFor(model => Model.FlyAwayTime)
+        </div>
+    </div>
+    <div class="col-xs-3">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.NeedMeet)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => Model.NeedMeet, new { @disabled = true })
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    @if (Model.OrganizationTableId != null)
+    {
+        <div class="col-xs-12">
+            <div class="editor-label">
+                @Html.LabelFor(model => model.OrganizationTableId)
+            </div>
+            <div class="editor-field">
+                @Html.Action("GetOrganizationORD", "Custom", new { id = Model.OrganizationTableId, selected = true })
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="col-xs-12">
+            <div class="editor-label">
+                @Html.LabelFor(model => Model.Organization)
+            </div>
+            <div class="editor-field">
+                @Html.DisplayTextFor(model => Model.Organization)
+            </div>
+        </div>
+    }
+</div>
+
+<hr />
+
+<div class="editor-field">
+    @Html.Partial("_DocumentViewFields", Model, new ViewDataDictionary(ViewData) { { "FieldName", "FlyBackDate" } })
+</div>
+
+<div class="row">
+    <div class="col-xs-3">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.FlyBackTime)
+        </div>
+        <div class="editor-field">
+            @Html.DisplayTextFor(model => Model.FlyBackTime)
+        </div>
+    </div>
+    <div class="col-xs-3">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.NeedSeeOff)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => Model.NeedSeeOff, new { @disabled = true })
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-4">
+       
+        <div class="editor-field">
+            @Html.Partial("_DocumentViewFields", Model, new ViewDataDictionary(ViewData) { { "FieldName", "FromDate" } })
+        </div>
+    </div>
+    <div class="col-xs-4">
+        
+        <div class="editor-field">
+            @Html.Partial("_DocumentViewFields", Model, new ViewDataDictionary(ViewData) { { "FieldName", "ToDate" } })
+        </div>
+    </div>
+</div>
+
+@if (Model.CountryTableId != null)
+{
+    <div class="editor-label">
+        @Html.LabelFor(model => model.CountryTableId)
+    </div>
+    <div class="editor-field">
+        @Html.Action("GetCountryORD", "Custom", new { id = Model.CountryTableId, selected = true })
+    </div>
+}
+else
+{
+    <div class="editor-label">
+        @Html.LabelFor(model => Model.Country)
+    </div>
+    <div class="editor-field">
+        @Html.DisplayTextFor(model => Model.Country)
+    </div>
+}
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.Purpose)
+</div>
+<div class="editor-field">
+    @Html.DisplayTextFor(model => Model.Purpose)
+</div>

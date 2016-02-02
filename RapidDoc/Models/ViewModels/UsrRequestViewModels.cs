@@ -9639,13 +9639,145 @@ namespace RapidDoc.Models.ViewModels
     }
     #endregion
 
-    #region Заявки Kazzink Holdings ИТ служба
+    #region Заявки Kazzink Holdings 
+
     public class USK_REQ_IT_CTP_IncidentIT_View : BasicDocumentRequestView
     {
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         [Display(Name = "Контактный номер телефона")]
         public string Phone { get; set; } 
     }
+
+    public class USK_REQ_IT_CAP_CreateUserAD_View : BasicDocumentView
+    {
+        [Display(Name = "Active Directory")]
+        public bool ActiveDirectory { get; set; }
+
+        [Display(Name = "Exchange (Outlook)")]
+        public bool Exchange { get; set; }
+
+        [Display(Name = "ФИО")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string Name { get; set; }   
+
+        [Display(Name = "Должность")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string Title { get; set; }
+
+        [Display(Name = "Подразделение")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string Department { get; set; }
+    }
+
+    public class USK_REQ_IT_CAP_ChangeRoute_View : BasicDocumentView
+    {
+        [DataType(DataType.MultilineText)]
+        [Display(Name = "Наименование запроса/маршрута согласования")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string Name { get; set; }
+
+        [Display(Name = "Старый маршрут")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string OldRoute { get; set; }
+
+        [Display(Name = "Новый маршрут")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string NewRoute { get; set; }
+
+        [DataType(DataType.MultilineText)]
+        [Display(Name = "Обоснование")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string Reason { get; set; }
+
+        [Display(Name = "Контактный телефон")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string Contact { get; set; }
+    }
+
+    public class USK_REQ_IT_ChangeRouteName_View : BasicDocumentView
+    {
+        [DataType(DataType.MultilineText)]
+        [Display(Name = "Наименование маршрута согласования")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string RouteName { get; set; }
+   
+        [Display(Name = "Фамилия в маршруте")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string FIORouteName { get; set; }
+
+        [Display(Name = "Фамилия заменяющего")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string FIOChangeRouteName { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "С даты")]
+        public DateTime? FromDate { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "До даты")]
+        public DateTime? ToDate { get; set; }      
+    }
+
+    public class USK_REQ_TRIP_Registration_View : BasicDocumentView
+    {
+        [DataType(DataType.MultilineText)]
+        [Display(Name = "Цель")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string Purpose { get; set; }
+
+        [Display(Name = "ФИО")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string Users { get; set; }
+
+        [Display(Name = "Дата вылета туда")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public DateTime? FlyAwayDate { get; set; }
+
+        [Display(Name = "Примерное время вылета")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public TimeSpan FlyAwayTime { get; set; }
+
+        [Display(Name = "Необходимость встречать")]
+        public bool NeedMeet { get; set; }
+
+        [Display(Name = "Организация")]
+        public Guid? OrganizationTableId { get; set; }
+
+        [Display(Name = "Организация")]
+        public string Organization { get; set; }
+
+        [Display(Name = "Дата вылета обратно")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public DateTime? FlyBackDate { get; set; }
+
+        [Display(Name = "Примерное время вылета")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public TimeSpan FlyBackTime { get; set; }
+
+        [Display(Name = "Необходимость провожать")]
+        public bool NeedSeeOff { get; set; }
+
+        [DataType(DataType.Date)]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "С даты")]
+        public DateTime? FromDate { get; set; }
+
+        [DataType(DataType.Date)]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "До даты")]
+        public DateTime? ToDate { get; set; }
+    
+        [Display(Name = "Город")]
+        public Guid? CountryTableId { get; set; }
+
+        [Display(Name = "Город")]
+        public string Country { get; set; }
+
+        [Display(Name = "Примечание")]
+        public string Note { get; set; }
+
+    }
+
     #endregion
 
     #region Служебные записки
