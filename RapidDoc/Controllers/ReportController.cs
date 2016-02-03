@@ -252,6 +252,12 @@ namespace RapidDoc.Controllers
             ViewBag.UserCreateTitleName = emplTable.TitleName;
             ViewBag.CompanyAliasName = docTable.CompanyTable.AliasCompanyName;
 
+            var taskModel = _DocumentService.GetDocumentRefTask(id);
+            if (taskModel != null)
+                taskModel.ForEach(y => y.DocumentText = _SystemService.DeleteAllTags(y.DocumentText));
+
+            ViewBag.TaskModel = taskModel;
+
             return new ViewAsPdf("PdfReportProtocol", documentView)
             {
                 IsGrayScale = true,

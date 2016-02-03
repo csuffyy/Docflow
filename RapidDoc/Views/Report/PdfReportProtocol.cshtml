@@ -322,56 +322,90 @@
             </p>
             foreach (FileTable file in ViewBag.ListFiles)
             {
-                <font size="4" face="Arial">                           
-                    @file.FileName                          
-                </font>
+                <p>
+                    <font size="4" face="Arial">
+                        @file.FileName
+                    </font>
+                </p>
             }
         }   
         <font size="4" face="Arial">
             @Html.Raw(Model.Addition)
         </font>
         <br /> 
-        <table width="900">
-            @if (((List<WFTrackerListView>)ViewBag.Tracker).Count > 0)
+        @if (((List<WFTrackerListView>)ViewBag.Tracker).Count > 0)
+        {
+            foreach (WFTrackerListView tracker in ViewBag.Tracker)
             {
-                foreach (WFTrackerListView tracker in ViewBag.Tracker)
-                {
-                    <tr>
-                        <td align="left">
-                            <ul>
-                                <li>
-                                    <font size="4" face="Arial">
-                                        @tracker.Executors - @tracker.ActivityName (@tracker.SignDate) -
+                <ul>
+                    <li>
+                        <font size="4" face="Arial">
+                            @tracker.Executors - @tracker.ActivityName (@tracker.SignDate) -
 
-                                        @if (tracker.TrackerType == RapidDoc.Models.Repository.TrackerType.Approved)
-                                        {
-                                            @UIElementRes.UIElement.Yes
-                                            if (tracker.Comments != null && tracker.Comments != String.Empty)
-                                            {
-                                                <span><em>(@tracker.Comments)</em></span>
-                                            }
-                                        }
-                                        @if (tracker.TrackerType == RapidDoc.Models.Repository.TrackerType.Cancelled)
-                                        {
-                                            @UIElementRes.UIElement.No
-                                            if (tracker.Comments != null && tracker.Comments != String.Empty)
-                                            {
-                                                <span><em>( @tracker.Comments )</em></span>
-                                            }
-                                        }
-                                    </font>
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
-                }
+                            @if (tracker.TrackerType == RapidDoc.Models.Repository.TrackerType.Approved)
+                            {
+                                @UIElementRes.UIElement.Yes
+                                if (tracker.Comments != null && tracker.Comments != String.Empty)
+                                {
+                                    <span><em>(@tracker.Comments)</em></span>
+                                }
+                            }
+                            @if (tracker.TrackerType == RapidDoc.Models.Repository.TrackerType.Cancelled)
+                            {
+                                @UIElementRes.UIElement.No
+                                if (tracker.Comments != null && tracker.Comments != String.Empty)
+                                {
+                                    <span><em>( @tracker.Comments )</em></span>
+                                }
+                            }
+                        </font>
+                    </li>
+                </ul>
             }
-        </table>
+        }
+
         @if (Model.Duration != null && Model.Duration != String.Empty)
         {        
             <font size="4" face="Arial">
                 <span><strong>Время проведения совещания - @Model.Duration</strong></span>
             </font>   
+        }
+        
+        @if (ViewBag.TaskModel != null)
+        {
+            <br />
+            <br />
+            foreach (TaskDelegationView item in ViewBag.TaskModel)
+            {
+                <p>
+                    <strong>
+                        @if (item.DocumentState == RapidDoc.Models.Repository.DocumentState.Closed)
+                        {
+                            <text>[Выполнено]</text>
+                        }
+                        else if (item.DocumentState == RapidDoc.Models.Repository.DocumentState.Cancelled)
+                        {
+                            <text>[Отменено]</text>
+                        }
+                        @item.DocumentNum - @item.UserCreate (<small>@item.DateCreate.ToShortDateString()</small>)
+                    </strong>
+                </p>
+                <p>
+                    @FieldNameRes.FieldNameResource.Executor: @Html.HtmlDisplayTags(item.Users) Срок: @Html.FormatValue(item.ExecutionDate, "{0:dd.MM.yyyy}")
+                    @if (item.ProlongationDate != null)
+                    {
+                        <span>Продление: @Html.FormatValue(item.ProlongationDate, "{0:dd.MM.yyyy}")</span>
+                    }
+                </p>
+                <p>
+                    <span>@item.DocumentText.Substring(0, ((int)Math.Min(item.DocumentText.Length, 100))) ...</span>
+                </p>
+                <p>
+                    <em>@Html.Raw(item.ReportText)</em>
+                </p>
+                <hr />
+                <br />
+            }
         }
 </div>
 </body>
