@@ -9,6 +9,7 @@
 @Html.HiddenFor(model => model.NameItem)
 @Html.HiddenFor(model => model.Amount)
 @Html.HiddenFor(model => model.PlanDate)
+@Html.HiddenFor(model => model.TechType)
 
 <div class="editor-label">
     @Html.LabelFor(model => Model.Department)
@@ -37,6 +38,14 @@
 <div>
     @Html.DisplayTextFor(model => Model.NameItem)
 </div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.TechType)
+</div>
+<div class="editor-field">
+    @Html.DisplayTextFor(model => Model.TechType)
+</div>
+
 
 <div class="editor-label">
     @Html.LabelFor(model => Model.Amount)

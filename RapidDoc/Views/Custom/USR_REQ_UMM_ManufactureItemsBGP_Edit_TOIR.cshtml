@@ -12,6 +12,7 @@
 @Html.HiddenFor(model => model.ActualUseMaterial)
 @Html.HiddenFor(model => model.AmountMaterial)
 @Html.HiddenFor(model => model.ActualDate)
+@Html.HiddenFor(model => model.TechType)
 
 
 
@@ -42,6 +43,14 @@
 <div>
     @Html.DisplayTextFor(model => Model.NameItem)
 </div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.TechType)
+</div>
+<div class="editor-field">
+    @Html.DisplayTextFor(model => Model.TechType)
+</div>
+
 
 <div class="editor-label">
     @Html.LabelFor(model => Model.Amount)
