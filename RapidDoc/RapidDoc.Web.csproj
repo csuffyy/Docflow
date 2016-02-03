@@ -2084,6 +2084,7 @@
     <Content Include="Views\Custom\USK_REQ_IT_ChangeRouteName_Edit.cshtml" />
     <Content Include="Views\Custom\USK_REQ_TRIP_Registration_View.cshtml" />
     <Content Include="Views\Custom\USK_REQ_TRIP_Registration_Edit.cshtml" />
+    <Content Include="Views\NewProcess\_CompanyQuestion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

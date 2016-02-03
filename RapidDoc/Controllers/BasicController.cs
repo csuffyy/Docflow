@@ -16,6 +16,7 @@ using RapidDoc.Models.DomainModels;
 using Microsoft.AspNet.Identity;
 using RapidDoc.Models.Infrastructure;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Web.Routing;
 
 namespace RapidDoc.Controllers
 {
@@ -41,33 +42,51 @@ namespace RapidDoc.Controllers
 
             if (filterContext.RouteData.Values.Any(x => x.Key == "company"))
             {
-                var companyId = filterContext.RouteData.Values["company"].ToString();
-                if (filterContext.RouteData.RouteHandler != null && !String.IsNullOrEmpty(companyId))
+                if (filterContext.ActionParameters.Count() == 0)
                 {
+                    var companyId = filterContext.RouteData.Values["company"].ToString();
                     ApplicationUser user = _AccountService.Find(User.Identity.GetUserId());
-                    if (user != null)
-                    {
-                        if (user.AliasCompanyName != companyId)
-                        {
-                            using (ApplicationDbContext dbContext = new ApplicationDbContext())
-                            {
-                                UserManager<ApplicationUser> UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(dbContext));
 
-                                if (UserManager.IsInRole(user.Id, "ChangeCompany") || UserManager.IsInRole(user.Id, "Administrator"))
+                    if (companyId != user.AliasCompanyName)
+                    {
+                        filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary { 
+                            { "controller", filterContext.RouteData.Values["controller"].ToString() }, 
+                            { "action", filterContext.RouteData.Values["action"].ToString() }, 
+                            { "company", user.AliasCompanyName } 
+                        });
+                        return;
+                    }
+                }
+                else
+                {
+                    var companyId = filterContext.RouteData.Values["company"].ToString();
+                    if (filterContext.RouteData.RouteHandler != null && !String.IsNullOrEmpty(companyId))
+                    {
+                        ApplicationUser user = _AccountService.Find(User.Identity.GetUserId());
+                        if (user != null)
+                        {
+                            if (user.AliasCompanyName != companyId)
+                            {
+                                using (ApplicationDbContext dbContext = new ApplicationDbContext())
                                 {
-                                    var companyList = _CompanyService.GetAll().ToList();
-                                    if (companyList != null)
+                                    UserManager<ApplicationUser> UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(dbContext));
+
+                                    if (UserManager.IsInRole(user.Id, "ChangeCompany") || UserManager.IsInRole(user.Id, "Administrator"))
                                     {
-                                        var company = companyList.FirstOrDefault(x => x.AliasCompanyName == companyId);
-                                        if (company != null)
+                                        var companyList = _CompanyService.GetAll().ToList();
+                                        if (companyList != null)
                                         {
-                                            user.CompanyTableId = company.Id;
-                                            _AccountService.SaveDomain(user);
+                                            var company = companyList.FirstOrDefault(x => x.AliasCompanyName == companyId);
+                                            if (company != null)
+                                            {
+                                                user.CompanyTableId = company.Id;
+                                                _AccountService.SaveDomain(user);
+                                            }
                                         }
                                     }
+                                    UserManager.Dispose();
+                                    UserManager = null;
                                 }
-                                UserManager.Dispose();
-                                UserManager = null;
                             }
                         }
                     }

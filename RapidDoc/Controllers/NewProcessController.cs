@@ -36,8 +36,8 @@ namespace RapidDoc.Controllers
             RoleManager = new RoleManager<ApplicationRole>(new RoleStore<ApplicationRole>(dbContext));
         }
 
-        [OutputCache(Duration = 86400, VaryByParam = "id;lang")]
-        public ActionResult Index(string id, string lang)
+        [OutputCache(Duration = 86400, VaryByParam = "id;lang;company")]
+        public ActionResult Index(string id, string lang, string company)
         {
             ApplicationUser user = _AccountService.Find(id);
             EmplTable emplTable = _EmplService.FirstOrDefault(x => x.ApplicationUserId == user.Id && x.Enable == true );
@@ -176,6 +176,23 @@ namespace RapidDoc.Controllers
             }
 
             return null;
+        }
+
+        public ActionResult ChangeCompanyQuestion()
+        {
+            ApplicationUser user = _AccountService.Find(User.Identity.GetUserId());
+
+            if (user.CompanyTable.DomainTableId != user.DomainTableId)
+            {
+                CompanyTable company = _CompanyService.FirstOrDefault(x => x.DomainTableId == user.DomainTableId);
+                string result = String.Format(UIElementRes.UIElement.ChangeCompanyQuestion, user.CompanyTable.CompanyName, company.CompanyName);
+
+                ViewBag.AliasCompanyName = company.AliasCompanyName;
+                ViewBag.Text = result;
+                return PartialView("~/Views/NewProcess/_CompanyQuestion.cshtml");
+            }
+
+            return PartialView("_Empty");
         }
 
         protected override void Dispose(bool disposing)

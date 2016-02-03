@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = UIElementRes.UIElement.CreateProcess;
 }
-<h1>@UIElementRes.UIElement.CreateProcess</h1>
+<h1>@UIElementRes.UIElement.CreateProcess @Html.Action("ChangeCompanyQuestion", "NewProcess")</h1>
 <hr />
 @using (Ajax.BeginForm("SearchProcess", new AjaxOptions { UpdateTargetId = "searchResult", OnComplete = "clearTextSearch" }))
 {

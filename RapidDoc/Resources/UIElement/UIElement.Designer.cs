@@ -223,6 +223,15 @@ namespace UIElementRes {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Вы вошли в компанию {0}, поменять на {1}?.
+        /// </summary>
+        public static string ChangeCompanyQuestion {
+            get {
+                return ResourceManager.GetString("ChangeCompanyQuestion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Изменение пароля.
         /// </summary>
         public static string ChangePassword {

@@ -654,4 +654,7 @@
   <data name="Perform" xml:space="preserve">
     <value>Perform</value>
   </data>
+  <data name="ChangeCompanyQuestion" xml:space="preserve">
+    <value>You are logged into the company {0} changed to {1}?</value>
+  </data>
 </root>

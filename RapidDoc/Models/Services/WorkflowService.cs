@@ -967,7 +967,7 @@ namespace RapidDoc.Models.Services
                 Guid emplId = Guid.Parse(emplIdStr);
                 var emplTable = _EmplService.FirstOrDefault(x => x.Id == emplId && x.Enable == true);
 
-                if (emplTable != null && !ofmList.Exists(x => x == emplTable.ApplicationUserId))
+                if (emplTable != null && !ofmList.Exists(x => x == emplTable.ApplicationUserId) && repoUser.Any(x => x.Id == emplTable.ApplicationUserId && x.Enable == true))
                 {
                     if (!_WorkflowTrackerService.Contains(x => x.DocumentTableId == documentId && x.SignUserId == emplTable.ApplicationUserId))
                         ofmList.Add(emplTable.ApplicationUserId);
@@ -982,7 +982,7 @@ namespace RapidDoc.Models.Services
 
                         foreach (IdentityUserRole userRole in role.Users)
                         {
-                            if (!ofmList.Exists(x => x == userRole.UserId) && empllist.Any(x => x.ApplicationUserId == userRole.UserId))
+                            if (!ofmList.Exists(x => x == userRole.UserId) && empllist.Any(x => x.ApplicationUserId == userRole.UserId) && repoUser.Any(x => x.Id == userRole.UserId && x.Enable == true))
                             {
                                 if (!_WorkflowTrackerService.Contains(x => x.DocumentTableId == documentId && x.SignUserId == userRole.UserId))
                                     ofmList.Add(userRole.UserId);

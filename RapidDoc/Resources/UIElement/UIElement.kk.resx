@@ -654,4 +654,7 @@
   <data name="Perform" xml:space="preserve">
     <value>-</value>
   </data>
+  <data name="ChangeCompanyQuestion" xml:space="preserve">
+    <value>Сіз {0} компаниясына кірдіңіз, {1} компаниясына ауыстыру керек пе?</value>
+  </data>
 </root>
