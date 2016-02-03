@@ -672,7 +672,7 @@ namespace RapidDoc.Controllers
                 _HistoryUserService.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = Models.Repository.HistoryType.DelegateTask }, User.Identity.GetUserId());
             }
 
-            return RedirectToAction("ShowDocument", new { id = documentId, isAfterView = true }); 
+            return RedirectToAction("Index", "Document");
         }
 
         [HttpPost]

@@ -283,9 +283,20 @@ namespace RapidDoc.Models.Services
                                             where document.ApplicationUserCreatedId == user.Id && document.DocType != DocumentType.Task
                                             select document.Id);
 
+                /*
                 documentAccessList.AddRange(from tracker in contextQuery.WFTrackerTable
                                             where tracker.TrackerType == TrackerType.Waiting && tracker.Users.Any(x => x.UserId == user.Id)
                                             select tracker.DocumentTableId);
+                */
+                documentAccessList.AddRange(from document in contextQuery.DocumentTable
+                                            join tracker in contextQuery.WFTrackerTable on document.Id equals tracker.DocumentTableId
+                                            where document.DocType != DocumentType.Task && tracker.TrackerType == TrackerType.Waiting && tracker.Users.Any(x => x.UserId == user.Id)
+                                            select document.Id);
+
+                documentAccessList.AddRange(from document in contextQuery.DocumentTable
+                                            from tracker in contextQuery.WFTrackerTable.Where(x => x.DocumentTableId == document.Id).OrderByDescending(x => x.LineNum).Take(1)
+                                            where document.DocType == DocumentType.Task && tracker.TrackerType == TrackerType.Waiting && tracker.Users.Any(x => x.UserId == user.Id)
+                                            select document.Id);
 
                 documentAccessList.AddRange(from document in contextQuery.DocumentTable
                                             join modification in contextQuery.ModificationUsersTable on document.Id equals modification.DocumentTableId

@@ -984,7 +984,7 @@ namespace RapidDoc.Models.Services
                         {
                             if (!ofmList.Exists(x => x == userRole.UserId) && empllist.Any(x => x.ApplicationUserId == userRole.UserId))
                             {
-                                if (!_WorkflowTrackerService.Contains(x => x.DocumentTableId == documentId && x.SignUserId == emplTable.ApplicationUserId))
+                                if (!_WorkflowTrackerService.Contains(x => x.DocumentTableId == documentId && x.SignUserId == userRole.UserId))
                                     ofmList.Add(userRole.UserId);
                             }
                         }
@@ -1011,8 +1011,7 @@ namespace RapidDoc.Models.Services
                 }
                 else
                 {
-                    if (!_WorkflowTrackerService.Contains(x => x.DocumentTableId == documentId && x.SignUserId == emplTable.ApplicationUserId))
-                        ofmList.Add(emplIdStr);
+                    ofmList.Add(emplIdStr);
                 }
             }
 

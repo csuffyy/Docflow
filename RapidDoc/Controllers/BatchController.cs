@@ -171,6 +171,13 @@ namespace RapidDoc.Controllers
                             {
                                 if (_ReviewDocLogService.isArchive(document.Id, "", item) == false)
                                 {
+                                    if (document.DocType == DocumentType.Task)
+                                    {
+                                        var tracker = _WorkflowTrackerService.GetPartial(x => x.TrackerType == TrackerType.Waiting && x.DocumentTableId == document.Id).OrderByDescending(x => x.LineNum).FirstOrDefault();
+                                        if (tracker != null && !tracker.Users.Any(x => x.UserId == item.Id))
+                                            continue;
+                                    }
+
                                     result.Add(item);
                                 }
                             }
@@ -298,5 +305,4 @@ namespace RapidDoc.Controllers
         public DocumentTable DocumentTable { get; set; }
         public List<ApplicationUser> Users { get; set; }
     }
-
 }
