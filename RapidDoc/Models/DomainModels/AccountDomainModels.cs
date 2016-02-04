@@ -51,16 +51,31 @@ namespace RapidDoc.Models.DomainModels
             this.Name = name;
         }
 
-        public ApplicationRole(string name, string description, RoleType roleType)
+        public ApplicationRole(string name, string description, RoleType roleType, Guid? companyTableId)
             : base()
         {
             this.Name = name;
             this.Description = description;
             this.RoleType = roleType;
+            this.CompanyTableId = companyTableId;
         }
 
         public string Description { get; set; }
 
         public RoleType RoleType { get; set; }
+
+        public Guid? CompanyTableId { get; set; }
+        public virtual CompanyTable CompanyTable { get; set; }
+
+        public string AliasCompanyName
+        {
+            get
+            {
+                if (this.CompanyTable != null)
+                    return this.CompanyTable.AliasCompanyName;
+
+                return string.Empty;
+            }
+        }
     }
 }

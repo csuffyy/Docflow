@@ -93,6 +93,11 @@ namespace RapidDoc.Models.ViewModels
 
         [Display(Name = "Type", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public RoleType RoleType { get; set; }
+
+        public Guid? CompanyTableId { get; set; }
+
+        [Display(Name = "CompanyName", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public string AliasCompanyName { get; set; }
     }
 
     public class UserViewModel

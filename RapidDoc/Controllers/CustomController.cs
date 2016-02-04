@@ -2515,7 +2515,7 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.SystemName == "Censor1") || current.Any(x => x.SystemName == "Censor2"))
+                    if (current.Any(x => x.SystemName == "Censor1") || current.Any(x => x.SystemName == "Censor2") || current.Any(x => x.SystemName == "Censor"))
                     {
                         return PartialView(document.ProcessTable.TableName + "_Edit_Part", model);
                     }

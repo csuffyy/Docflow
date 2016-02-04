@@ -58,6 +58,7 @@ namespace RapidDoc.Controllers
 
         public ActionResult Create()
         {
+            ViewBag.CompanyList = _CompanyService.GetDropListCompanyNull(null);
             return View();
         }
 
@@ -66,7 +67,7 @@ namespace RapidDoc.Controllers
         {
             if (ModelState.IsValid)
             {
-                var domainModel = new ApplicationRole(viewModel.Name, viewModel.Description, viewModel.RoleType);
+                var domainModel = new ApplicationRole(viewModel.Name, viewModel.Description, viewModel.RoleType, viewModel.CompanyTableId);
                 var roleresult = await RoleManager.CreateAsync(domainModel);
                 if (!roleresult.Succeeded)
                 {
@@ -77,6 +78,7 @@ namespace RapidDoc.Controllers
             }
             else
             {
+                ViewBag.CompanyList = _CompanyService.GetDropListCompanyNull(viewModel.CompanyTableId);
                 return View();
             }
         }
@@ -94,6 +96,7 @@ namespace RapidDoc.Controllers
             }
 
             var viewModel = Mapper.Map<ApplicationRole, RoleViewModel>(domainModel);
+            ViewBag.CompanyList = _CompanyService.GetDropListCompanyNull(viewModel.CompanyTableId);
             return View(viewModel);
         }
 
@@ -111,16 +114,19 @@ namespace RapidDoc.Controllers
                 domainModel.Name = viewModel.Name;
                 domainModel.Description = viewModel.Description;
                 domainModel.RoleType = viewModel.RoleType;
+                domainModel.CompanyTableId = viewModel.CompanyTableId;
                 var result = await RoleManager.UpdateAsync(domainModel);
                 if (!result.Succeeded)
                 {
                     ModelState.AddModelError("", result.Errors.First().ToString());
+                    ViewBag.CompanyList = _CompanyService.GetDropListCompanyNull(viewModel.CompanyTableId);
                     return View();
                 }
                 return RedirectToAction("Index");
             }
             else
             {
+                ViewBag.CompanyList = _CompanyService.GetDropListCompanyNull(viewModel.CompanyTableId);
                 return View();
             }
         }
@@ -257,7 +263,8 @@ namespace RapidDoc.Controllers
         [AllowAnonymous]
         public ActionResult RoleLookup(string prefix)
         {
-            var items = Mapper.Map<IEnumerable<ApplicationRole>, IEnumerable<RoleViewModel>>(RoleManager.Roles.Where(x => x.RoleType == Models.Repository.RoleType.Group || x.RoleType == Models.Repository.RoleType.GroupOrder).OrderBy(x => x.Name));
+            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+            var items = Mapper.Map<IEnumerable<ApplicationRole>, IEnumerable<RoleViewModel>>(RoleManager.Roles.Where(x => x.CompanyTableId == user.CompanyTableId && (x.RoleType == Models.Repository.RoleType.Group || x.RoleType == Models.Repository.RoleType.GroupOrder)).OrderBy(x => x.Name));
             ViewBag.PrefixOfficeMemo = prefix;
             return PartialView("_RoleLookup", items);
         }

@@ -4,7 +4,6 @@
     Model.OrderDate = DateTime.Today;
     Model.ControlDate = DateTime.Today.AddDays(2);
 }
-@Html.HiddenFor(model => model.NeedTranslate)
 @Html.ValidationSummary(true)
 <div class="row">
     <div class="col-xs-2">
@@ -23,6 +22,22 @@
             @Html.TextBoxFor(model => model.ControlDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", data_date_format = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.ToLower(), placeholder = "Срок исполнения", startDate = "" })
         </div>
     </div>*@
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.NeedTranslate)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.NeedTranslate)
+        </div>
+    </div>
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.NeedTranslate)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.NeedTranslate)
+        </div>
+    </div>
     <div class="col-xs-6">
         <div class="editor-label">
             @Html.LabelFor(model => model.ItemCauseNumber)
