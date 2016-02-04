@@ -178,15 +178,15 @@
     <value>Файлдардың максималды ұйғарынды саны 20</value>
   </data>
   <data name="ErrorDelegationDate" xml:space="preserve">
-    <value>-</value>
+    <value>Қызметкерлердің айырмашылығы болу керек</value>
   </data>
   <data name="ErrorDelegationUser" xml:space="preserve">
-    <value>-</value>
+    <value>Кейінгі дата бастапқы датадан кіші болу керек</value>
   </data>
   <data name="ErrorDocumentState" xml:space="preserve">
-    <value>-</value>
+    <value>Құжат жабық немесе күші жойылған</value>
   </data>
   <data name="ErrorFileWithoutType" xml:space="preserve">
-    <value>-</value>
+    <value>Файлдың кеңейтілуі болу керек</value>
   </data>
 </root>

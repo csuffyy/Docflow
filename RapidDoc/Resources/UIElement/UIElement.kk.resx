@@ -634,25 +634,25 @@
     <value>Шығыс корреспонденциясы</value>
   </data>
   <data name="TaskReport" xml:space="preserve">
-    <value>-</value>
+    <value>Тапсырмалар бойынша есептеме</value>
   </data>
   <data name="ProtocolFolders" xml:space="preserve">
-    <value>-</value>
+    <value>Хаттамалар папкалары</value>
   </data>
   <data name="ProtocolBase" xml:space="preserve">
-    <value>-</value>
+    <value>Хаттамалар</value>
   </data>
   <data name="ReturnTask" xml:space="preserve">
-    <value>-</value>
+    <value>Тапсырманы қайтару</value>
   </data>
   <data name="MyFavorite" xml:space="preserve">
-    <value>-</value>
+    <value>Таңдалған</value>
   </data>
   <data name="SendNotificationToMail" xml:space="preserve">
-    <value>-</value>
+    <value>Поштаға хабарлама жіберу</value>
   </data>
   <data name="Perform" xml:space="preserve">
-    <value>-</value>
+    <value>Орындау</value>
   </data>
   <data name="ChangeCompanyQuestion" xml:space="preserve">
     <value>Сіз {0} компаниясына кірдіңіз, {1} компаниясына ауыстыру керек пе?</value>

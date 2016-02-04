@@ -127,7 +127,7 @@
     <value>Мекемелер</value>
   </data>
   <data name="ProtocolFolders" xml:space="preserve">
-    <value>-</value>
+    <value>Хаттамалар папкалары</value>
   </data>
   <data name="QuestionRequest" xml:space="preserve">
     <value>Өтініш мәселесі</value>
@@ -139,7 +139,7 @@
     <value>Cұраныс мәтіні</value>
   </data>
   <data name="TripMRP" xml:space="preserve">
-    <value>-</value>
+    <value>АЕК анықтамалығы</value>
   </data>
   <data name="TripSettings" xml:space="preserve">
     <value>Іссапарлар нормасы</value>

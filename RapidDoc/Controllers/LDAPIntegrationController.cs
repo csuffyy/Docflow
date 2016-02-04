@@ -489,7 +489,7 @@ namespace RapidDoc.Controllers
 
             DepartmentTable department = _DepartmentService.FirstOrDefault(x => x.DepartmentName == _department && x.CompanyTableId == _companyId);
 
-            if (department != null && department.ParentDepartmentName != _parentDepartmentName)
+            if (department != null && department.ParentDepartmentName != _parentDepartmentName && _parentDepartmentName != string.Empty)
             {
                 Guid parentGuid = _DepartmentService.FirstOrDefault(x => x.CompanyTableId == _companyId && x.DepartmentName == _parentDepartmentName).Id;
                 department.ParentDepartmentId = parentGuid;

@@ -307,7 +307,7 @@ namespace RapidDoc.Controllers
             {
                 firstDepartment.Add(_DepartmentService.FirstOrDefault(x => x.DepartmentName == block.Key && x.CompanyTableId == currentUser.CompanyTableId));
             }
-             //= _DepartmentService.GetPartial(x => x.DepartmentName == "ATK").ToList();
+
             int templateSheets = 1;
             while (templateSheets <= excelAppl.Worksheets.Count)
             {
@@ -322,6 +322,8 @@ namespace RapidDoc.Controllers
                                          ((documentRef.DocType == DocumentType.Order && templateSheets == 1)  ||
                                          (documentRef.DocType == DocumentType.IncomingDoc && templateSheets == 2) ||
                                          (documentRef.DocType == DocumentType.Protocol && templateSheets == 3))
+                                         && ((detailDoc.ExecutionDate >= model.StartDate && detailDoc.ExecutionDate <= model.EndDate) ||
+                                                (detailDoc.ProlongationDate >= model.StartDate && detailDoc.ProlongationDate <= model.EndDate))
                                      select document).ToList();
 
                 foreach (var item in allTasksList)

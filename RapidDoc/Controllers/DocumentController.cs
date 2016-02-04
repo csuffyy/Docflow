@@ -1319,10 +1319,13 @@ namespace RapidDoc.Controllers
             string currentUserId = User.Identity.GetUserId();
             int checkCount = 0;
 
-            foreach (var item in listdata)
+            if (listdata != null)
             {
-                if (!String.IsNullOrEmpty(item) && !_DocumentReaderService.Contains(x => x.DocumentTableId == id && x.UserId == item))
-                    checkCount++;
+                foreach (var item in listdata)
+                {
+                    if (!String.IsNullOrEmpty(item) && !_DocumentReaderService.Contains(x => x.DocumentTableId == id && x.UserId == item))
+                        checkCount++;
+                }
             }
 
             var currentReaders = _DocumentReaderService.GetPartial(x => x.DocumentTableId == id && x.ApplicationUserCreatedId == currentUserId).GroupBy(x => x.UserId).ToList();
@@ -1361,7 +1364,12 @@ namespace RapidDoc.Controllers
         {
             List<EmplDualListView> result = new List<EmplDualListView>();
             string[] signUsers = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == id && x.SignUserId != null).Select(x => x.SignUserId).ToArray();
-            var emplList = _EmplService.GetPartialIntercompany(x => x.ApplicationUserId != null && !signUsers.Contains(x.ApplicationUserId) && x.Enable == true);
+            List<EmplTable> emplList = new List<EmplTable>();
+
+            if (User.IsInRole("Administrator") || User.IsInRole("GlobalReaders"))
+                emplList.AddRange(_EmplService.GetPartialIntercompany(x => x.ApplicationUserId != null && !signUsers.Contains(x.ApplicationUserId) && x.Enable == true).ToList());
+            else
+                emplList.AddRange(_EmplService.GetPartial(x => x.ApplicationUserId != null && !signUsers.Contains(x.ApplicationUserId) && x.Enable == true).ToList());
 
             result = emplList.Select(m => new EmplDualListView
             {

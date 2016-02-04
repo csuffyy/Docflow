@@ -129,40 +129,46 @@ namespace RapidDoc.Models.Services
             var currentReaders = GetPartial(x => x.DocumentTableId == documentId && x.RoleId == null).ToList();
             var currentReadersGroup = GetPartial(x => x.DocumentTableId == documentId && x.RoleId != null).GroupBy(x => new { RoleId = x.RoleId, CreateUserId = x.ApplicationUserCreatedId }).ToList();
             if(listdata == null)
-                Delete(documentId);
+                Delete(x => x.DocumentTableId == documentId && x.ApplicationUserCreatedId == currentUserId); 
 
             foreach (var item in currentReaders)
             {
-                if(listdata != null)
+                if (item.ApplicationUserCreatedId == currentUserId)
                 {
-                    if (listdata.Contains(item.UserId) == false && item.ApplicationUserCreatedId == currentUserId)
+                    if (listdata != null)
+                    {
+                        if (listdata.Contains(item.UserId) == false)
+                        {
+                            var empl = _EmplService.GetEmployer(item.UserId, currentUser.CompanyTableId);
+                            removeReadersDescription += empl.FullName + "; ";
+                            Delete(x => x.DocumentTableId == documentId && x.UserId == item.UserId && x.RoleId == null);
+                        }
+                    }
+                    else
                     {
                         var empl = _EmplService.GetEmployer(item.UserId, currentUser.CompanyTableId);
                         removeReadersDescription += empl.FullName + "; ";
-                        Delete(x => x.DocumentTableId == documentId && x.UserId == item.UserId && x.RoleId == null);
                     }
-                }
-                else
-                {
-                    var empl = _EmplService.GetEmployer(item.UserId, currentUser.CompanyTableId);
-                    removeReadersDescription += empl.FullName + "; ";
                 }
             }
 
             foreach (var item in currentReadersGroup)
             {
-                ApplicationRole role = RoleManager.FindById(item.Key.RoleId);
-                if (listdata != null)
+                if (item.Key.CreateUserId == currentUserId)
                 {
-                    if (listdata.Contains(item.Key.RoleId) == false && item.Key.CreateUserId == currentUserId)
-                    {                   
-                        removeReadersDescription += role.Description + "; ";
-                        Delete(x => x.DocumentTableId == documentId && x.RoleId == item.Key.RoleId);
+                    ApplicationRole role = RoleManager.FindById(item.Key.RoleId);
+                    if (listdata != null)
+                    {
+                        if (listdata.Contains(item.Key.RoleId) == false && item.Key.CreateUserId == currentUserId)
+                        {
+                            removeReadersDescription += role.Description + "; ";
+                            Delete(x => x.DocumentTableId == documentId && x.RoleId == item.Key.RoleId);
+                        }
                     }
-                }
-                else
-                {
-                    removeReadersDescription += role.Description + "; ";
+                    else
+                    {
+                        removeReadersDescription += role.Description + "; ";
+                    }
                 }
             }
 
