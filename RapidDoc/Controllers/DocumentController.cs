@@ -1949,6 +1949,7 @@ namespace RapidDoc.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public FileContentResult DownloadFile(Guid Id)
         {
             FileTable fileTable = _DocumentService.GetFile(Id);

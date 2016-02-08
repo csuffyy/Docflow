@@ -41,7 +41,7 @@ namespace RapidDoc.Models.ViewModels
         public string UserName { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
-        [StringLength(256, ErrorMessageResourceName = "ErrorFieldSize", ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), MinimumLength = 8)]
+        [StringLength(256, ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisLong")]
         [DataType(DataType.Password)]
         [Display(Name = "Password", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public string Password { get; set; }
