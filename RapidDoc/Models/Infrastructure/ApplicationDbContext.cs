@@ -381,7 +381,9 @@ namespace RapidDoc.Models.Infrastructure
         public DbSet<USK_REQ_IT_ChangeRouteName_Table> USK_REQ_IT_ChangeRouteName_Table { get; set; }
         public DbSet<USK_REQ_TRIP_Registration_Table> USK_REQ_TRIP_Registration_Table { get; set; }
 
-
+        public DbSet<USR_REQ_UMM_ManufactureItemsWeekends_Table> USR_REQ_UMM_ManufactureItemsWeekends_Table { get; set; }
+        public DbSet<USR_REQ_UMM_WeldingItemsBGPWeekends_Table> USR_REQ_UMM_WeldingItemsBGPWeekends_Table { get; set; }
+        public DbSet<USR_REQ_UMM_FluxingWork_Table> USR_REQ_UMM_FluxingWork_Table { get; set; }
 
         protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder)
         {

@@ -2085,6 +2085,18 @@
     <Content Include="Views\Custom\USK_REQ_TRIP_Registration_View.cshtml" />
     <Content Include="Views\Custom\USK_REQ_TRIP_Registration_Edit.cshtml" />
     <Content Include="Views\NewProcess\_CompanyQuestion.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UMM_ManufactureItemsWeekends_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UMM_ManufactureItemsWeekends_View.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UMM_ManufactureItemsWeekends_View_Full.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UMM_ManufactureItemsWeekends_Edit_Executor.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UMM_WeldingItemsBGPWeekends_View.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UMM_WeldingItemsBGPWeekends_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UMM_WeldingItemsBGPWeekends_View_Full.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UMM_WeldingItemsBGPWeekends_Edit_Executor.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UMM_FluxingWork_View.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UMM_FluxingWork_View_Full.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UMM_FluxingWork_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UMM_FluxingWork_Edit_Executor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -3972,6 +3984,24 @@
   </ItemGroup>
   <ItemGroup>
     <XamlAppDef Include="Activities\USK_REQ_TRIP_Registration.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USR_REQ_UMM_ManufactureItemsWeekends.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USR_REQ_UMM_WeldingItemsBGPWeekends.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USR_REQ_UMM_FluxingWork.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </XamlAppDef>

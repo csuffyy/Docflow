@@ -1,0 +1,62 @@
+﻿@model RapidDoc.Models.ViewModels.USR_REQ_UMM_ManufactureItemsWeekends_View
+@using RapidDoc.Extensions;
+
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.Department)
+</div>
+<div class="editor-field">
+    @Html.TextBoxFor(model => Model.Department, new { @class = "form-control", placeholder = "Подразделение" })
+</div>
+
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.FIO1)
+</div>
+<div class="editor-field">
+    @Html.TextBoxFor(model => Model.FIO1, new { @class = "form-control", @data_role = "tagsinputEmpl", placeholder = "Ф.И.О. должность" })
+</div>
+
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.Telephone)
+</div>
+<div class="editor-field">
+    @Html.TextBoxFor(model => Model.Telephone, new { @class = "form-control", placeholder = "Номер тел. Вн. и сот." })
+</div>
+
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.NameItem)
+</div>
+<div class="editor-field">
+    @Html.TextBoxFor(model => Model.NameItem, new { @class = "form-control", placeholder = "Наименование" })
+</div>
+
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.TechType)
+</div>
+<div class="editor-field">
+    @Html.TextBoxFor(model => Model.TechType, new { @class = "form-control", placeholder = "Вид техники" })
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.Amount)
+</div>
+<div>
+    @Html.TextBoxFor(model => Model.Amount, new { @class = "form-control", placeholder = "Количество" })
+</div>
+
+<div class="row">
+    <div class="col-xs-3">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.PlanDate)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.PlanDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", data_date_format = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.ToLower(), placeholder = "Требуемая дата выдачи", startDate = "" })
+        </div>
+    </div>
+</div>
+
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.FIO2)
+</div>
+<div class="editor-field">
+    @Html.TextBoxFor(model => Model.FIO2, new { @class = "form-control", @data_role = "tagsinputEmpl2", placeholder = "Ф.И.О. принимающего заявку" })
+</div>

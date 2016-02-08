@@ -2927,6 +2927,63 @@ namespace RapidDoc.Controllers
             return PartialView("USR_REQ_UMM_ManufactureWeldingItemsBGP_View_Full", model);
         }
 
+        public ActionResult GetRequestManufactureItemsWeekends(RapidDoc.Models.ViewModels.USR_REQ_UMM_ManufactureItemsWeekends_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+            string curUser = User.Identity.GetUserId();
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.SystemName == "HighMasterUMM"))
+                    {
+                        return PartialView("USR_REQ_UMM_ManufactureItemsWeekends_Edit_Executor", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_REQ_UMM_ManufactureItemsWeekends_View_Full", model);
+        }
+
+        public ActionResult GetRequestWeldingItemsBGPWeekends(RapidDoc.Models.ViewModels.USR_REQ_UMM_WeldingItemsBGPWeekends_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+            string curUser = User.Identity.GetUserId();
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.SystemName == "HighMasterUMM"))
+                    {
+                        return PartialView("USR_REQ_UMM_WeldingItemsBGPWeekends_Edit_Executor", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_REQ_UMM_WeldingItemsBGPWeekends_View_Full", model);
+        }
+
+        public ActionResult GetRequestFluxingWork(RapidDoc.Models.ViewModels.USR_REQ_UMM_FluxingWork_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+            string curUser = User.Identity.GetUserId();
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.SystemName == "HighMasterUMM"))
+                    {
+                        return PartialView("USR_REQ_UMM_FluxingWork_Edit_Executor", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_REQ_UMM_FluxingWork_View_Full", model);
+        }
+
         public ActionResult GetPRTTechCommitteeDocuments(RapidDoc.Models.ViewModels.USR_PRT_TechCommitteeDocuments_View model)
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);

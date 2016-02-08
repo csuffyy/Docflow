@@ -4252,6 +4252,53 @@ namespace RapidDoc.Models.DomainModels
         public DateTime? ActualDate { get; set; }
 
     }
+
+    public class USR_REQ_UMM_ManufactureItemsWeekends_Table : BasicDocumentTable
+    {
+        public string Department { get; set; }
+        public string FIO1 { get; set; }
+        public string Telephone { get; set; }
+        public string NameItem { get; set; }
+        public string TechType { get; set; }
+        public string Amount { get; set; }
+        public DateTime? PlanDate { get; set; }
+
+        public string FIO2 { get; set; }
+
+        public string AmountMaterial { get; set; }
+        public DateTime? ActualDate { get; set; }
+
+    }
+
+    public class USR_REQ_UMM_WeldingItemsBGPWeekends_Table : BasicDocumentTable
+    {
+        public string Department { get; set; }
+        public string FIO { get; set; }
+        public string Telephone { get; set; }
+        public string NameItem { get; set; }
+        public string TechType { get; set; }
+        public string Amount { get; set; }
+        public DateTime? PlanDate { get; set; }
+
+        public string AmountMaterial { get; set; }
+        public DateTime? ActualDate { get; set; }
+    }
+
+    public class USR_REQ_UMM_FluxingWork_Table : BasicDocumentTable
+    {
+        public string Department { get; set; }
+        public string FIO1 { get; set; }
+        public string Telephone { get; set; }
+        public string NameItem { get; set; }
+        public string TechType { get; set; }
+        public string Amount { get; set; }
+        public DateTime? PlanDate { get; set; }
+
+        public string FIO2 { get; set; }
+
+        public string AmountMaterial { get; set; }
+        public DateTime? ActualDate { get; set; }
+    }
     #endregion
 
     #region Коммандировки

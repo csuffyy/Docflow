@@ -1,0 +1,83 @@
+﻿@model RapidDoc.Models.ViewModels.USR_REQ_UMM_FluxingWork_View
+@using RapidDoc.Extensions;
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.Department)
+</div>
+<div>
+    @Html.DisplayTextFor(model => Model.Department)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.FIO1)
+</div>
+<div>
+    @Html.HtmlDisplayTagsFor(model => Model.FIO1)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.Telephone)
+</div>
+<div>
+    @Html.DisplayTextFor(model => Model.Telephone)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.NameItem)
+</div>
+<div>
+    @Html.DisplayTextFor(model => Model.NameItem)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.TechType)
+</div>
+<div class="editor-field">
+    @Html.DisplayTextFor(model => Model.TechType)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.Amount)
+</div>
+<div>
+    @Html.DisplayTextFor(model => Model.Amount)
+</div>
+
+@if (Model.PlanDate.HasValue && Model.PlanDate != DateTime.MinValue)
+{
+
+    <div class="editor-label">
+        @Html.LabelFor(model => Model.PlanDate)
+    </div>
+    <div>
+        @Html.FormatValue(Model.PlanDate, "{0:dd.MM.yyyy}")
+    </div>
+}
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.FIO2)
+</div>
+<div>
+    @Html.HtmlDisplayTagsFor(model => Model.FIO2)
+</div>
+
+@if (!String.IsNullOrEmpty(Model.AmountMaterial))
+{
+    <div class="editor-label">
+        @Html.LabelFor(model => Model.AmountMaterial)
+    </div>
+    <div>
+        @Html.DisplayTextFor(model => Model.AmountMaterial)
+    </div>
+}
+
+@if (Model.ActualDate.HasValue && Model.ActualDate != DateTime.MinValue)
+{
+    <div class="editor-label">
+        @Html.LabelFor(model => Model.ActualDate)
+    </div>
+    <div>
+        @Html.FormatValue(Model.ActualDate, "{0:dd.MM.yyyy}")
+    </div>
+}
+
