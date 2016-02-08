@@ -458,7 +458,7 @@ namespace RapidDoc.Controllers
             DateTime startTime = new DateTime(date.Year, date.Month, date.Day) + process.StartWorkTime;
             DateTime endTime = new DateTime(date.Year, date.Month, date.Day) + process.EndWorkTime;
             if ((startTime > date || date > endTime) && process.StartWorkTime != process.EndWorkTime) return RedirectToAction("PageNotFound", "Error");
-
+            /*
             if (!String.IsNullOrEmpty(process.RoleId))
             {
                 string roleName = RoleManager.FindById(process.RoleId).Name;
@@ -467,6 +467,7 @@ namespace RapidDoc.Controllers
                     return RedirectToAction("PageNotFound", "Error");
                 }
             }
+            */
             _HistoryUserService.SaveDomain(new HistoryUserTable { DocumentTableId = documentIdNew, HistoryType = Models.Repository.HistoryType.ModifiedDocument }, User.Identity.GetUserId());
 
             var view = PostDocument(processId, type, OperationType.SaveDraft, documentIdNew, fileId, collection, actionModelName);
@@ -509,7 +510,7 @@ namespace RapidDoc.Controllers
             DocumentTable documentTable = _DocumentService.FirstOrDefault(x => x.Id == documentId);
             SearchTable searchTable = _SearchService.FirstOrDefault(x => x.DocumentTableId == documentId);
 
-            if (documentTable.ApplicationUserCreatedId == User.Identity.GetUserId() && documentTable.DocumentState == DocumentState.Created)
+            if ((documentTable.ApplicationUserCreatedId == User.Identity.GetUserId() || User.IsInRole("Administrator") || User.IsInRole("SetupAdministrator")) && documentTable.DocumentState == DocumentState.Created)
             {
                 _DocumentService.DeleteFiles(documentId);
                 if (searchTable != null)

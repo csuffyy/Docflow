@@ -275,12 +275,14 @@ namespace RapidDoc.Controllers
 
                             if (infoItem == null) continue;
 
-                            Guid depId = Guid.Empty;
+                            Guid? depId = null;
                             Guid titleId = Guid.Empty;
 
-                            if (!String.IsNullOrEmpty(infoItem.Subdivision) && !String.IsNullOrEmpty(infoItem.Position))
+                            if (!String.IsNullOrEmpty(infoItem.Position))
                             {
-                                depId = DepartmentIntegration(infoItem.Subdivision, String.Empty, _item.Id);
+                                if (!String.IsNullOrEmpty(infoItem.Subdivision))
+                                    depId = DepartmentIntegration(infoItem.Subdivision, String.Empty, _item.Id);
+
                                 titleId = TitleIntegration(infoItem.Position);
                                 EmplIntegration(GlobalGuid, infoItem.Name, infoItem.Surname, infoItem.SecondName, String.Empty, String.Empty, ApplicationUserId, depId, titleId, _item.Id, String.Empty);
                             }
@@ -315,7 +317,7 @@ namespace RapidDoc.Controllers
             }
         }
 
-        private void EmplIntegration(Guid _globalId, string _firstname, string _secondname, string _middlename, string _workphone, string _mobilephone, string _userId, Guid _departmentId, Guid _titleId, Guid _company, string _managerUserId)
+        private void EmplIntegration(Guid _globalId, string _firstname, string _secondname, string _middlename, string _workphone, string _mobilephone, string _userId, Guid? _departmentId, Guid _titleId, Guid _company, string _managerUserId)
         {
             Guid? manageId = null;
 
@@ -344,7 +346,7 @@ namespace RapidDoc.Controllers
             if (!_EmplService.Contains(x => x.CompanyTableId == _company
                 && x.LDAPGlobalId == _globalId))
             {
-                if (_titleId != Guid.Empty && _departmentId != Guid.Empty)
+                if (_titleId != Guid.Empty)
                 {
                     _EmplService.SaveDomain(new EmplTable()
                     {
@@ -365,7 +367,7 @@ namespace RapidDoc.Controllers
             }
             else
             {
-                if (_titleId != Guid.Empty && _departmentId != Guid.Empty)
+                if (_titleId != Guid.Empty)
                 {
                     EmplTable empl = _EmplService.FirstOrDefault(x => x.CompanyTableId == _company
                         && x.LDAPGlobalId == _globalId);

@@ -90,7 +90,12 @@ namespace RapidDoc.Activities.CodeActivities
                         docModel.RefDocNum = document.DocumentNum;
                         ApplicationUser user = _serviceAccount.Find(currentUserId);
                         ProcessTable processTable = _serviceProcess.FirstOrDefault(x => x.TableName == "USR_TAS_DailyTasks" && x.CompanyTableId == user.CompanyTableId);
-                        var taskDocumentId = _service.SaveDocument(docModel, "USR_TAS_DailyTasks", processTable.Id, document.FileId, user, false, false);
+
+                        List<FileTable> docFile = _service.GetAllFilesDocument(document.FileId).ToList();
+                        Guid newDocFileId = Guid.NewGuid();
+                        docFile.ForEach(x => _service.DuplicateFile(x, newDocFileId));
+
+                        var taskDocumentId = _service.SaveDocument(docModel, "USR_TAS_DailyTasks", processTable.Id, newDocFileId, user, false, false);
                         DocumentTable documentTable = _service.Find(taskDocumentId);
 
                         Task.Run(() =>
