@@ -142,8 +142,7 @@ namespace RapidDoc.Models.Services
 
         public ItemCauseTable Find(Guid id)
         {
-            ApplicationUser user = repoUser.GetById(HttpContext.Current.User.Identity.GetUserId());
-            return repo.Find(a => a.Id == id && a.CompanyTableId == user.CompanyTableId);
+            return repo.Find(a => a.Id == id);
         }
 
         public ItemCauseView FindView(Guid id)
