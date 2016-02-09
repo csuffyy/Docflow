@@ -61,6 +61,13 @@
         </div>
 
         <div class="editor-label">
+            @Html.LabelForRequired(model => model.DocumentBaseRoleName)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("DocumentBaseRoleId", (IEnumerable<SelectListItem>)ViewBag.DocumentBaseRolesList, new { @class = "selectpicker", @data_live_search = "true", @data_size = "10" })
+        </div>
+
+        <div class="editor-label">
             @Html.LabelForRequired(model => model.StartReaderRoleName)
         </div>
         <div class="editor-field">

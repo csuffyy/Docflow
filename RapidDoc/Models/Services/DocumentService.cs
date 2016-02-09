@@ -283,11 +283,6 @@ namespace RapidDoc.Models.Services
                                             where document.ApplicationUserCreatedId == user.Id && document.DocType != DocumentType.Task
                                             select document.Id);
 
-                /*
-                documentAccessList.AddRange(from tracker in contextQuery.WFTrackerTable
-                                            where tracker.TrackerType == TrackerType.Waiting && tracker.Users.Any(x => x.UserId == user.Id)
-                                            select tracker.DocumentTableId);
-                */
                 documentAccessList.AddRange(from document in contextQuery.DocumentTable
                                             join tracker in contextQuery.WFTrackerTable on document.Id equals tracker.DocumentTableId
                                             where document.DocType != DocumentType.Task && tracker.TrackerType == TrackerType.Waiting && tracker.Users.Any(x => x.UserId == user.Id)
@@ -884,6 +879,12 @@ namespace RapidDoc.Models.Services
 
             if (_ProcessService.GetPartial(x => x.Id == documentTable.ProcessTableId).Any(p =>
                 RoleManager.Roles.Where( pr => pr.Id == p.StartReaderRoleId).ToList().Any(x => x.Users.ToList().Any(z => z.UserId == user.Id ))))
+            {
+                return true;
+            }
+
+            if (_ProcessService.GetPartial(x => x.Id == documentTable.ProcessTableId).Any(p =>
+                RoleManager.Roles.Where(pr => pr.Id == p.DocumentBaseRoleId).ToList().Any(x => x.Users.ToList().Any(z => z.UserId == user.Id))))
             {
                 return true;
             }

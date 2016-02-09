@@ -187,7 +187,7 @@
     <value>Запомнить?</value>
   </data>
   <data name="RoleName" xml:space="preserve">
-    <value>Роль (Доступ)</value>
+    <value>Роль (Доступ на создание)</value>
   </data>
   <data name="SecondName" xml:space="preserve">
     <value>Фамилия</value>
@@ -352,7 +352,7 @@
     <value>Роль (Добавление читателей при закрытии)</value>
   </data>
   <data name="StartReaderRoleName" xml:space="preserve">
-    <value>Полный просмотр</value>
+    <value>Роль (Полный просмотр)</value>
   </data>
   <data name="Type" xml:space="preserve">
     <value>Тип</value>
@@ -386,5 +386,8 @@
   </data>
   <data name="DateUpTo" xml:space="preserve">
     <value>Дата до</value>
+  </data>
+  <data name="DocumentBaseRoleName" xml:space="preserve">
+    <value>Роль (Просмотр База документов)</value>
   </data>
 </root>

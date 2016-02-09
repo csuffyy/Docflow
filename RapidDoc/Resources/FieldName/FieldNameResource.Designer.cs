@@ -259,6 +259,15 @@ namespace FieldNameRes {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Роль (Просмотр База документов).
+        /// </summary>
+        public static string DocumentBaseRoleName {
+            get {
+                return ResourceManager.GetString("DocumentBaseRoleName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Номер документа.
         /// </summary>
         public static string DocumentNum {
@@ -682,7 +691,7 @@ namespace FieldNameRes {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Роль (Доступ).
+        ///   Looks up a localized string similar to Роль (Доступ на создание).
         /// </summary>
         public static string RoleName {
             get {
@@ -745,7 +754,7 @@ namespace FieldNameRes {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Полный просмотр.
+        ///   Looks up a localized string similar to Роль (Полный просмотр).
         /// </summary>
         public static string StartReaderRoleName {
             get {

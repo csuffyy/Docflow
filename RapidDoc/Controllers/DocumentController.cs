@@ -1103,6 +1103,7 @@ namespace RapidDoc.Controllers
                 {
                     _SearchService.SaveSearchData(documentId, docModel, actionModelName);
 
+                    /*
                     if (documentTable.ProcessTable != null && !String.IsNullOrEmpty(documentTable.ProcessTable.StartReaderRoleId))
                     {
                         try
@@ -1116,6 +1117,7 @@ namespace RapidDoc.Controllers
                         }
                         catch { }
                     }
+                    */
                     _WorkflowService.RunWorkflow(documentTable, processView.TableName, documentData);
 
                     return RedirectToAction("Index", "Document");

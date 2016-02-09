@@ -56,6 +56,9 @@ namespace RapidDoc.Models.DomainModels
         public string RoleId { get; set; }
         public virtual ApplicationRole IdentityRole { get; set; }
 
+        public string DocumentBaseRoleId { get; set; }
+        public virtual ApplicationRole DocumentBaseRole { get; set; }
+
         public string StartReaderRoleId { get; set; }
         public virtual ApplicationRole StartReaderIdentityRole { get; set; }
 

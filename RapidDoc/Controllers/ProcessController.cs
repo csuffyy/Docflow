@@ -66,6 +66,7 @@ namespace RapidDoc.Controllers
             var items = Mapper.Map<IEnumerable<ApplicationRole>, IEnumerable<RoleViewModel>>(RoleManager.Roles).ToList();
             items.Insert(0, new RoleViewModel { Name = UIElementRes.UIElement.NoValue, Id = String.Empty });
             ViewBag.RolesList = new SelectList(items, "Id", "Name", null);
+            ViewBag.DocumentBaseRolesList = new SelectList(items, "Id", "Name", null);
             ViewBag.StartReaderRolesList = new SelectList(items, "Id", "Name", null);
             ViewBag.AfterEndRolesList = new SelectList(items, "Id", "Name", null);
             ViewBag.GroupProcessList = _GroupProcessService.GetDropListGroupProcess(null);
@@ -95,6 +96,7 @@ namespace RapidDoc.Controllers
             var items = Mapper.Map<IEnumerable<ApplicationRole>, IEnumerable<RoleViewModel>>(RoleManager.Roles).ToList();
             items.Insert(0, new RoleViewModel { Name = UIElementRes.UIElement.NoValue, Id = String.Empty });
             ViewBag.RolesList = new SelectList(items, "Id", "Name", null);
+            ViewBag.DocumentBaseRolesList = new SelectList(items, "Id", "Name", null);
             ViewBag.StartReaderRolesList = new SelectList(items, "Id", "Name", null);
             ViewBag.AfterEndRolesList = new SelectList(items, "Id", "Name", null);
             ViewBag.GroupProcessList = _GroupProcessService.GetDropListGroupProcess(null);
@@ -117,6 +119,7 @@ namespace RapidDoc.Controllers
                 var items = Mapper.Map<IEnumerable<ApplicationRole>, IEnumerable<RoleViewModel>>(RoleManager.Roles).ToList();
                 items.Insert(0, new RoleViewModel { Name = UIElementRes.UIElement.NoValue, Id = String.Empty });
                 ViewBag.RolesList = new SelectList(items, "Id", "Name", model.RoleId);
+                ViewBag.DocumentBaseRolesList = new SelectList(items, "Id", "Name", model.DocumentBaseRoleId);
                 ViewBag.StartReaderRolesList = new SelectList(items, "Id", "Name", model.StartReaderRoleId);
                 ViewBag.AfterEndRolesList = new SelectList(items, "Id", "Name", model.AfterEndReaderRoleId);
                 ViewBag.GroupProcessList = _GroupProcessService.GetDropListGroupProcess(model.GroupProcessTableId);
@@ -158,6 +161,7 @@ namespace RapidDoc.Controllers
             var items = Mapper.Map<IEnumerable<ApplicationRole>, IEnumerable<RoleViewModel>>(RoleManager.Roles).ToList();
             items.Insert(0, new RoleViewModel { Name = UIElementRes.UIElement.NoValue, Id = String.Empty });
             ViewBag.RolesList = new SelectList(items, "Id", "Name", model.RoleId);
+            ViewBag.DocumentBaseRolesList = new SelectList(items, "Id", "Name", model.DocumentBaseRoleId);
             ViewBag.StartReaderRolesList = new SelectList(items, "Id", "Name", model.StartReaderRoleId);
             ViewBag.AfterEndRolesList = new SelectList(items, "Id", "Name", model.AfterEndReaderRoleId);
             ViewBag.GroupProcessList = _GroupProcessService.GetDropListGroupProcess(model.GroupProcessTableId);
