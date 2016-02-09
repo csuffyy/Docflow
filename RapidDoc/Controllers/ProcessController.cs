@@ -290,7 +290,7 @@ namespace RapidDoc.Controllers
                 doc.Data = data;
                 doc.Thumbnail = thumbnail;
 
-                Guid Id = _DocumentService.SaveFile(doc);
+                Guid Id = _DocumentService.SaveFile(doc, User.Identity.GetUserId());
 
                 if (thumbnail.Length == 0)
                 {
@@ -354,7 +354,7 @@ namespace RapidDoc.Controllers
                     doc.Data = data;
                     doc.Version = Convert.ToString(Convert.ToInt32(currentVersion) + 1);
                     doc.VersionName = "Version " + Convert.ToString(Convert.ToInt32(currentVersion) + 1);
-                    _DocumentService.SaveFile(doc);
+                    _DocumentService.SaveFile(doc, User.Identity.GetUserId());
 
                     return DownloadFileWF(id);
                 }

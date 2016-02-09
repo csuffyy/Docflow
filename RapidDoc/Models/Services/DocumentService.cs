@@ -49,7 +49,7 @@ namespace RapidDoc.Models.Services
         IEnumerable<WFTrackerTable> GetCurrentSignStep(Guid documentId, string currentUserId = "", ApplicationUser user = null);
         SLAStatusList SLAStatus(Guid documentId, string currentUserId = "", ApplicationUser user = null);
         void SaveSignData(IEnumerable<WFTrackerTable> trackerTables, TrackerType trackerType, bool changeSignUser = true);
-        Guid SaveFile(FileTable file);
+        Guid SaveFile(FileTable file, string userId);
         void UpdateFile(FileTable file);
         bool FileContains(Guid documentFileId);
         FileTable GetFile(Guid Id);
@@ -85,7 +85,7 @@ namespace RapidDoc.Models.Services
         Type GetTableType(string TableName);
         string ScrubHtml(string value);
         double GetSLAHours(Guid documentId, DateTime? startDate, DateTime? endDate);
-        Guid DuplicateFile(FileTable fileTable, Guid? docFileId = null);
+        Guid DuplicateFile(FileTable fileTable, string userId, Guid? docFileId = null);
         WFTrackerTable FirstOrDefaultTrackerItem(ProcessTable process, Guid documentId, string userId);
     }
 
@@ -1116,10 +1116,9 @@ namespace RapidDoc.Models.Services
                 }
             }
         }
-          
-        public Guid SaveFile(FileTable file)
+
+        public Guid SaveFile(FileTable file, string userId)
         {
-            string userId = HttpContext.Current.User.Identity.GetUserId();
             file.ApplicationUserCreatedId = userId;
             file.ApplicationUserModifiedId = userId;
             file.CreatedDate = DateTime.UtcNow;
@@ -1878,7 +1877,7 @@ namespace RapidDoc.Models.Services
             return Math.Round(minutes);
         }
 
-        public Guid DuplicateFile(FileTable fileTable, Guid? docFileId = null)
+        public Guid DuplicateFile(FileTable fileTable, string userId, Guid? docFileId = null)
         {
             FileTable doc = new FileTable();
 
@@ -1895,7 +1894,7 @@ namespace RapidDoc.Models.Services
             doc.Version = "1";
             doc.VersionName = "Version 1";
 
-            Guid Id = SaveFile(doc);
+            Guid Id = SaveFile(doc, userId);
 
             return doc.DocumentFileId;
         }

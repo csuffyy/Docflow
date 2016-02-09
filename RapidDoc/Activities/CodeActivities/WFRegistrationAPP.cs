@@ -93,7 +93,7 @@ namespace RapidDoc.Activities.CodeActivities
 
                         List<FileTable> docFile = _service.GetAllFilesDocument(document.FileId).ToList();
                         Guid newDocFileId = Guid.NewGuid();
-                        docFile.ForEach(x => _service.DuplicateFile(x, newDocFileId));
+                        docFile.ForEach(x => _service.DuplicateFile(x, user.Id, newDocFileId));
 
                         var taskDocumentId = _service.SaveDocument(docModel, "USR_TAS_DailyTasks", processTable.Id, newDocFileId, user, false, false);
                         DocumentTable documentTable = _service.Find(taskDocumentId);

@@ -965,7 +965,7 @@ namespace RapidDoc.Controllers
 
             List<FileTable> docFile = _DocumentService.GetAllFilesDocument(docTable.FileId).ToList();
             Guid newDocFileId = Guid.NewGuid();
-            docFile.ForEach(x => _DocumentService.DuplicateFile(x, newDocFileId));
+            docFile.ForEach(x => _DocumentService.DuplicateFile(x, userTable.Id, newDocFileId));
             var docView = _DocumentService.GetDocumentView(_DocumentService.Find(documentId).RefDocumentId, process.TableName);
             if (docTable.DocType == DocumentType.Task)
             {
@@ -1539,7 +1539,7 @@ namespace RapidDoc.Controllers
                 doc.Version = "1";
                 doc.VersionName = "Version 1";
 
-                Guid Id = _DocumentService.SaveFile(doc);
+                Guid Id = _DocumentService.SaveFile(doc, User.Identity.GetUserId());
 
                 string createdUser = String.Empty;
                 EmplTable emplTable = _EmplService.GetEmployer(doc.ApplicationUserCreatedId, process.CompanyTableId);
@@ -1681,7 +1681,7 @@ namespace RapidDoc.Controllers
                         doc.ReplaceRef = fileDocId;
                     }
 
-                    Guid Id = _DocumentService.SaveFile(doc);
+                    Guid Id = _DocumentService.SaveFile(doc, User.Identity.GetUserId());
 
                     string createdUser = String.Empty;
                     EmplTable emplTable = _EmplService.GetEmployer(doc.ApplicationUserCreatedId, process.CompanyTableId);
@@ -1875,7 +1875,7 @@ namespace RapidDoc.Controllers
                     doc.Version = "1";
                     doc.VersionName = "Version 1";
 
-                    Guid Id = _DocumentService.SaveFile(doc);
+                    Guid Id = _DocumentService.SaveFile(doc, User.Identity.GetUserId());
                     result = @"/Document/DownloadFile/" + Id.ToString();
                 }
             }
