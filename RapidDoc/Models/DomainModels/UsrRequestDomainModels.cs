@@ -4279,6 +4279,7 @@ namespace RapidDoc.Models.DomainModels
         public string TechType { get; set; }
         public string Amount { get; set; }
         public DateTime? PlanDate { get; set; }
+        public string FIO2 { get; set; }
 
         public string AmountMaterial { get; set; }
         public DateTime? ActualDate { get; set; }

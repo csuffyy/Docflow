@@ -10,6 +10,7 @@
 @Html.HiddenFor(model => model.Amount)
 @Html.HiddenFor(model => model.PlanDate)
 @Html.HiddenFor(model => model.TechType)
+@Html.HiddenFor(model => model.FIO2)
 
 <div class="editor-label">
     @Html.LabelFor(model => Model.Department)
@@ -62,7 +63,15 @@
         @Html.FormatValue(Model.PlanDate, "{0:dd.MM.yyyy}")
     </div>
 }
-
+@if (!String.IsNullOrEmpty(Model.FIO2))
+{ 
+    <div class="editor-label">
+        @Html.LabelFor(model => Model.FIO2)
+    </div>
+    <div>
+        @Html.HtmlDisplayTagsFor(model => Model.FIO2)
+    </div>
+}
 <hr />
 
 <div class="editor-label">

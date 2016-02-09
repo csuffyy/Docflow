@@ -54,3 +54,9 @@
     </div>
 </div>
 
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.FIO2)
+</div>
+<div class="editor-field">
+    @Html.TextBoxFor(model => Model.FIO2, new { @class = "form-control", @data_role = "tagsinputEmpl2", placeholder = "Ф.И.О. принимающего заявку" })
+</div>

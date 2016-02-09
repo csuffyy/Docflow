@@ -222,11 +222,14 @@
                 }
                 @if (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Task &&
                     (Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement ||
-                    Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.OnSign) && (Model.DocumentView.CreatedBy != User.Identity.Name))
+                    Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.OnSign))
                 {
-                    <li>
-                        <a href="#" data-toggle="modal" data-target=".delegatetask-modal-sm">@UIElementRes.UIElement.Delegate</a>
-                    </li>
+                    if (Model.DocumentView.CreatedBy != User.Identity.Name)
+                    { 
+                        <li>
+                            <a href="#" data-toggle="modal" data-target=".delegatetask-modal-sm">@UIElementRes.UIElement.Delegate</a>
+                        </li>
+                    }
                     if (Model.docData.ExecutionDate >= DateTime.UtcNow.Date || Model.docData.ProlongationDate >= DateTime.UtcNow.Date)
                     { 
                     <li>

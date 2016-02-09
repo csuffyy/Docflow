@@ -9128,6 +9128,9 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Требуемая дата выдачи")]
         public DateTime? PlanDate { get; set; }
 
+        [Display(Name = "Ф.И.О. принимающего заявку: мастера смен/ ст. мастер УММ")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string FIO2 { get; set; }
 
         [Display(Name = "Использованный материал ")]
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
