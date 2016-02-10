@@ -657,4 +657,7 @@
   <data name="ChangeCompanyQuestion" xml:space="preserve">
     <value>Сіз {0} компаниясына кірдіңіз, {1} компаниясына ауыстыру керек пе?</value>
   </data>
+  <data name="SendExecutorRegEmail" xml:space="preserve">
+    <value>-</value>
+  </data>
 </root>

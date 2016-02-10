@@ -318,8 +318,16 @@ namespace RapidDoc.Models.Services
                     LoadAOrCompleteInstance(documentId, DocumentState.Agreement, TrackerType.Approved, documentData, instanceStore, activity, instanceInfo, bookmark);
                     DeleteInstanceStoreOwner(instanceStore);
                     _HistoryUserService.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = Models.Repository.HistoryType.ApproveDocument }, HttpContext.Current.User.Identity.GetUserId());
-                    _EmailService.SendExecutorEmail(documentId, documentData.ContainsKey("AdditionalText") ? (string)documentData["AdditionalText"] : "");
                     DocumentTable docTable = _DocumentService.FirstOrDefault(x => x.Id == documentId);
+                    if (docTable.DocType == DocumentType.Order)
+                    {
+                        int stepCount = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == docTable.Id && (x.TrackerType == TrackerType.NonActive || x.TrackerType == TrackerType.Waiting)).OrderByDescending(x => x.LineNum).Count();
+                        _EmailService.SendExecutorEmail(documentId, documentData.ContainsKey("AdditionalText") ? (string)documentData["AdditionalText"] : "", stepCount == 1 ? true : false);
+                    }
+                    else
+                        _EmailService.SendExecutorEmail(documentId, documentData.ContainsKey("AdditionalText") ? (string)documentData["AdditionalText"] : "");
+
+                    
                     if (docTable.IsNotified == true)
                     {
                         foreach (var user in _DocumentService.GetSignUsersDirect(docTable))

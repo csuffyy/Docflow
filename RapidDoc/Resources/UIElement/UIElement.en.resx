@@ -657,4 +657,7 @@
   <data name="ChangeCompanyQuestion" xml:space="preserve">
     <value>You are logged into the company {0} changed to {1}?</value>
   </data>
+  <data name="SendExecutorRegEmail" xml:space="preserve">
+    <value>You have been received new document for registration</value>
+  </data>
 </root>

@@ -169,7 +169,7 @@
             @Html.LabelForRequired(model => model.OrganizationTableId)
         </div>
         <div class="editor-field">
-            @Html.Action("GetOrganizationORD", "Custom")
+            @Html.Action("GetOrganizationORD", "Custom", new { @id = Model.OrganizationTableId })
         </div>
     </div>
     <div class="col-xs-4">
@@ -376,6 +376,23 @@
 <script type="text/javascript">
     $(function () {
         var buttoncancelorderstatus = true;
+
+        if ($('#CountryTableId').val() != '') {
+            $('#Country')[0].disabled = true;
+            $('#Country').val('');
+        }
+        if ($('#Country').val() != '') {
+            $('#CountryTableId').val('');
+        }
+
+        if ($('#OrganizationTableId').val() != '') {
+            $('#Organization')[0].disabled = true;
+            $('#Organization').val('');
+        }
+        if ($('#Organization').val() != '') {
+            $('#OrganizationTableId').val('');
+        }
+
         $('#CancelOrder').click(function (event) {
             buttoncancelorderstatus = !buttoncancelorderstatus;
             if (buttoncancelorderstatus) {

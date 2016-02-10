@@ -39,7 +39,7 @@ namespace RapidDoc.Models.Services
         void SendInitiatorEmail(Guid documentId);
         void SendInitiatorEmailSignCZ(Guid documentId, string userId);
         void SendInitiatorEmailDocAdding(Guid documentId);
-        void SendExecutorEmail(Guid documentId, string additionalTextCZ = "");
+        void SendExecutorEmail(Guid documentId, string additionalTextCZ = "", bool ordRegistration = false);
         void SendInitiatorRejectEmail(Guid documentId);
         void SendInitiatorClosedEmail(Guid documentId);
         void SendInitiatorCommentEmail(Guid documentId, string lastComment);
@@ -221,7 +221,7 @@ namespace RapidDoc.Models.Services
             }
         }
 
-        public void SendExecutorEmail(Guid documentId, string additionalTextCZ = "")
+        public void SendExecutorEmail(Guid documentId, string additionalTextCZ = "", bool ordRegistration = false)
         {
             var documentTable = _DocumentService.Find(documentId);
             if (documentTable == null || (documentTable.DocumentState != DocumentState.Agreement && documentTable.DocumentState != DocumentState.Execution && documentTable.DocType != DocumentType.Task))
@@ -256,12 +256,21 @@ namespace RapidDoc.Models.Services
                             CultureInfo ci = CultureInfo.GetCultureInfo(user.Lang);
                             Thread.CurrentThread.CurrentCulture = ci;
                             Thread.CurrentThread.CurrentUICulture = ci;
-                            string body = Razor.Parse(razorText, new { DocumentNum = String.Format("{0} - {1}", documentTable.DocumentNum, processName), DocumentUri = documentUri, EmplName = emplTable.FullName, BodyText = UIElementRes.UIElement.SendExecutorEmail, DocumentText = documentTable.DocumentText}, ViewBag, "emailTemplateDefaultWithCZ");
+
                             string subject = String.Empty;
+                            string bodyText = UIElementRes.UIElement.SendExecutorEmail;
                             if (documentTable.DocType == DocumentType.Task)
                                 subject = String.Format("Поручение, документ [{0}]", documentTable.DocumentNum);
+                            else if (documentTable.DocType == DocumentType.Order && ordRegistration == true)
+                            {
+                                bodyText = UIElementRes.UIElement.SendExecutorRegEmail;
+                                subject = String.Format("Требуется регистрация, приказ [{0}]", documentTable.DocumentNum);
+                            }
                             else
                                 subject = String.Format("Требуется ваша подпись, документ [{0}]", documentTable.DocumentNum);
+
+                            string body = Razor.Parse(razorText, new { DocumentNum = String.Format("{0} - {1}", documentTable.DocumentNum, processName), DocumentUri = documentUri, EmplName = emplTable.FullName, BodyText = bodyText, DocumentText = documentTable.DocumentText }, ViewBag, "emailTemplateDefaultWithCZ");
+                            
 
                             SendEmail(emailParameter, new string[] { user.Email }, subject, body);
                             ci = CultureInfo.GetCultureInfo(currentLang);

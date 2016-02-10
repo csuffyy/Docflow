@@ -663,4 +663,7 @@
   <data name="ChangeCompanyQuestion" xml:space="preserve">
     <value>Вы вошли в компанию {0}, поменять на {1}?</value>
   </data>
+  <data name="SendExecutorRegEmail" xml:space="preserve">
+    <value>Вам назначен документ на регистрацию</value>
+  </data>
 </root>
