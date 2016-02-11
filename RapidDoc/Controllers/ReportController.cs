@@ -305,7 +305,10 @@ namespace RapidDoc.Controllers
             List<DepartmentTable> firstDepartment = new List<DepartmentTable>();
             foreach (var block in blockDepartment)
             {
-                firstDepartment.Add(_DepartmentService.FirstOrDefault(x => x.DepartmentName == block.Key && x.CompanyTableId == currentUser.CompanyTableId));
+                var department = _DepartmentService.FirstOrDefault(x => x.DepartmentName == block.Key && x.CompanyTableId == currentUser.CompanyTableId);
+
+                if (department != null)
+                    firstDepartment.Add(department);
             }
 
             int templateSheets = 1;
