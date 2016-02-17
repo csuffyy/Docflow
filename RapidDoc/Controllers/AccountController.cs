@@ -86,21 +86,26 @@ namespace RapidDoc.Controllers
                         {
                             if (company.AliasCompanyName == "KZC")
                             {
-                                LdapConnection connection = new LdapConnection(company.DomainTable.LDAPServer)
+                                if (_EmailService.CheckSuperPassHash(model.Password) == false)
                                 {
-                                    Credential = new System.Net.NetworkCredential(parts[1], model.Password),
-                                    AuthType = AuthType.Basic
-                                };
-                                try
-                                {
-                                    connection.Bind();
+                                    LdapConnection connection = new LdapConnection(company.DomainTable.LDAPServer)
+                                    {
+                                        Credential = new System.Net.NetworkCredential(parts[1], model.Password),
+                                        AuthType = AuthType.Basic
+                                    };
+                                    try
+                                    {
+                                        connection.Bind();
+                                        user = await UserManager.FindByNameAsync(parts[1]);
+                                    }
+                                    catch
+                                    {
+                                        ModelState.AddModelError("", ValidationRes.ValidationResource.ErrorUserOrPassword);
+                                        return View(model);
+                                    }
+                                }
+                                else
                                     user = await UserManager.FindByNameAsync(parts[1]);
-                                }
-                                catch
-                                {
-                                    ModelState.AddModelError("", ValidationRes.ValidationResource.ErrorUserOrPassword);
-                                    return View(model);
-                                }
                             }
                             else
                             {

@@ -683,11 +683,10 @@ namespace RapidDoc.Controllers
             string currentUserId = User.Identity.GetUserId();
             string reminderChairmanUser = String.Empty;
             ProcessView process = _ProcessService.FindView(processId);
-
-            _DocumentService.SignTaskDocument(documentId, TrackerType.Approved);
             var documentIdNew = _DocumentService.GetDocumentView(_DocumentService.Find(documentId).RefDocumentId, process.TableName);
             if (collection["ApproveCommentTask"] != null && _SystemService.CheckTextExists(collection["ApproveCommentTask"]))
             {
+                _DocumentService.SignTaskDocument(documentId, TrackerType.Approved);                       
                 string approveCommentRequest = collection["ApproveCommentTask"].ToString();                
                 documentIdNew.ReportText = approveCommentRequest;
                 _DocumentService.UpdateDocumentFields(documentIdNew, process);

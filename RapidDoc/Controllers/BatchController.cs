@@ -137,7 +137,7 @@ namespace RapidDoc.Controllers
                     foreach (var document in allDocument.Where(x => x.DocumentState == Models.Repository.DocumentState.Closed
                         || x.DocumentState == Models.Repository.DocumentState.Cancelled
                         || x.DocumentState == Models.Repository.DocumentState.Created
-                        || x.DocumentState == Models.Repository.DocumentState.OnSign).ToList())
+                        || (x.DocumentState == Models.Repository.DocumentState.OnSign && x.DocType != DocumentType.Task)).ToList())
                     {
                         IEnumerable<ReviewDocLogTable> reviewDocuments = _ReviewDocLogService.GetPartial(x => x.DocumentTableId == document.Id && x.isArchive == false && x.isFavorite == false).ToList();
 
