@@ -682,6 +682,9 @@
     <Content Include="Content\Bootstrap\css\fonts\lato\LatoLatin-Italic.ttf" />
     <Content Include="Content\Bootstrap\css\fonts\lato\LatoLatin-Italic.woff" />
     <Content Include="App_Browsers\qt.browser" />
+    <Content Include="Content\Summernote\font\summernote.eot" />
+    <Content Include="Content\Summernote\font\summernote.ttf" />
+    <Content Include="Content\Summernote\font\summernote.woff" />
     <None Include="LICENSE" />
     <None Include="NOTICE" />
     <Content Include="Rotativa\wkhtmltopdf.exe" />
@@ -883,6 +886,7 @@
     <Content Include="Scripts\qrcode.min.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\scaffolding.js" />
+    <Content Include="Scripts\summernote-ext-insertfile.js" />
     <Content Include="Scripts\summernote.js" />
     <Content Include="Scripts\summernote.min.js" />
     <Content Include="Scripts\FileUpload\tmpl.min.js" />

@@ -58,6 +58,7 @@ namespace RapidDoc
                         "~/Scripts/typeahead.js",
                         "~/Scripts/hogan-{version}.js",
                         "~/Scripts/summernote.js",
+                        "~/Scripts/summernote-ext-insertfile.js",
                         "~/Scripts/summernote_locals/summernote-ru-RU.js",
                         "~/Scripts/summernote_locals/summernote-kk-KZ.js",
                         "~/Scripts/bootstrap-formhelpers-number.js",

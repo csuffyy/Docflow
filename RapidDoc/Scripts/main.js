@@ -189,19 +189,23 @@ function summernote_init(lang) {
                 //['help', ['help']] //no help button
             ],
             styleTags: ['p', 'h6'],
-            onPaste: function (e) {
-                var thisNote = $(this);
-                var updatePastedText = function (someNote) {
-                    var original = someNote.code();
-                    var regex = new RegExp('<table border="0"', 'gi');
-                    var cleaned = original.replace(regex, '<table class="table table-bordered table-condensed"');
-                    cleaned = cleanPastedHTML(cleaned);
-                    someNote.code(cleaned);
-                };
+            callbacks: {
+                onPaste: function (e) {
+                    var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
+                    alert(bufferText);
 
-                setTimeout(function () {
-                    updatePastedText(thisNote);
-                }, 10);
+                    /*
+                    var thisNote = $(this);
+                    var updatePastedText = function (someNote) {
+                        var original = someNote.code();
+                        someNote.code(original);
+                    };
+
+                    setTimeout(function () {
+                        updatePastedText(thisNote);
+                    }, 10);
+                    */
+                }
             }
         });
     }
@@ -211,148 +215,6 @@ function summernotelight_init(lang) {
     if ((lang == "") || (lang == "")) {
         lang = 'en-US';
     }
-
-    var tmpl = $.summernote.renderer.getTemplate();
-    var range = $.summernote.core.range;
-    var dom = $.summernote.core.dom;
-
-    var getTextOnRange = function ($editable) {
-        $editable.focus();
-
-        var rng = range.create();
-
-        // if range on anchor, expand range with anchor
-        if (rng.isOnAnchor()) {
-            var anchor = dom.ancestor(rng.sc, dom.isAnchor);
-            rng = range.createFromNode(anchor);
-        }
-
-        return rng.toString();
-    };
-
-    var toggleBtn = function ($btn, isEnable) {
-        $btn.toggleClass('disabled', !isEnable);
-        $btn.attr('disabled', !isEnable);
-    };
-
-    var showInsertFileDialog = function($editable, $dialog, editor, text) {
-        return $.Deferred(function (deferred) {
-            var $insertFileDialog = $dialog.find('.note-insertfile-dialog');
-
-            var $videoUrl = $insertFileDialog.find('.note-insertfile-input'),
-            $videoBtn = $insertFileDialog.find('.note-insertfile-btn');
-            $insertFileDialog.one('shown.bs.modal', function () {
-                $videoUrl.on('change', function () {
-                toggleBtn($videoBtn, $videoUrl.val());
-            }).trigger('focus');
-
-            $videoBtn.click(function (event) {
-                event.preventDefault();
-                var files = $videoUrl[0].files[0];
-                if (window.FormData !== undefined) {
-                    var formData = new FormData();
-                    formData.append("fileInput", files);
-
-                    $.ajax({
-                        type: "POST",
-                        url: '/Document/UploadFile/',
-                        data: formData,
-                        contentType: false,
-                        processData: false,
-                        success: function (result) {
-                            editor.createLink($editable, {
-                                text: files.name,
-                                url: result,
-                                isNewWindow: true
-                            });
-                        },
-                        error: function (xhr, status, p3) {
-                            alert(xhr.responseText);
-                        }
-                    });
-                }
-                
-                deferred.resolve($videoUrl.val());
-                $insertFileDialog.modal('hide');
-            });
-        }).one('hidden.bs.modal', function () {
-            $videoUrl.off('input');
-            $videoBtn.off('click');
-
-            if (deferred.state() === 'pending') {
-                deferred.reject();
-            }
-        }).modal('show');
-      });
-    };
-
-    $.summernote.addPlugin({
-        /** @property {String} name name of plugin */      
-        name: 'insertfile',
-        /**
-         * @property {Object} buttons
-         * @property {function(object): string} buttons.video
-         */
-        buttons: {
-            insertfile: function (lang) {
-                return tmpl.iconButton('fa fa-paperclip', {
-                    event: 'showVideoDialog',
-                    title: lang.image.selectFromFiles,
-                    hide: true
-                });
-            }
-        },
-
-        /**
-         * @property {Object} dialogs
-         * @property {function(object, object): string} dialogs.video
-        */      
-        dialogs: {
-            insertfile: function (lang) {
-                var body =  '<div class="form-group row note-group-select-from-files">' +
-                                '<input class="note-insertfile-input form-control" type="file" name="fileinput" />' +
-                            '</div>'
-                var footer = '<button href="#" class="btn btn-primary note-insertfile-btn disabled" disabled>' + 'OK' + '</button>';
-                return tmpl.dialog('note-insertfile-dialog', lang.image.selectFromFiles, body, footer);
-            }
-        },
-        /**
-         * @property {Object} events
-         * @property {Function} events.showVideoDialog
-         */
-        events: {
-            showVideoDialog: function (event, editor, layoutInfo) {
-                var $dialog = layoutInfo.dialog(),
-                    $editable = layoutInfo.editable(),
-                    text = getTextOnRange($editable);
-
-                // save current range
-                editor.saveRange($editable);
-
-                showInsertFileDialog($editable, $dialog, editor, text).then(function (url) {
-                    // when ok button clicked
-
-                    // restore range
-                    editor.restoreRange($editable);
-
-                    // insert video node
-                }).fail(function () {
-                    // when cancel button clicked
-                    editor.restoreRange($editable);
-                });
-            }
-        },
-        langs: {
-            'en-US': {
-                video: {
-                    video: 'Video',
-                    videoLink: 'Video Link',
-                    insert: 'Insert Video',
-                    url: 'Video URL?'
-                }
-            },
-        }
-    });
 
     if ($(".summernotelight")[0]) {
         $('.summernotelight').summernote({
@@ -367,7 +229,7 @@ function summernotelight_init(lang) {
                 //['color', ['color']],
                 ['para', ['ul', 'ol', 'paragraph']],
                 //['height', ['height']],
-                ['insert', ['link']], // no insert buttons
+                ['insert', ['link', 'insertfile']], // no insert buttons
                 //['table', ['table']], // no table button
                 ['misc', ['undo', 'redo']]
                 //['help', ['help']] //no help button
