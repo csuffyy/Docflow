@@ -84,7 +84,7 @@ namespace RapidDoc.Controllers
                             foreach(var item in checkUser)
                             {
                                 ApplicationUser user =  users.FirstOrDefault(x => x.Id == item.UserId);
-                                if (user != null && _ReviewDocLogService.isArchive(document.Id, "", user) == false)
+                                if (user != null && (_ReviewDocLogService.isArchive(document.Id, "", user) == false || document.DocType == DocumentType.Task))
                                 {
                                     tmpTrackerUsers.Add(item);
                                 }
@@ -116,7 +116,7 @@ namespace RapidDoc.Controllers
                             foreach (var item in checkUser)
                             {
                                 ApplicationUser user = users.FirstOrDefault(x => x.Id == item.UserId);
-                                if (user != null && _ReviewDocLogService.isArchive(document.Id, "", user) == false)
+                                if (user != null && (_ReviewDocLogService.isArchive(document.Id, "", user) == false || document.DocType == DocumentType.Task))
                                 {
                                     tmpTrackerUsers.Add(item);
                                 }
@@ -169,7 +169,7 @@ namespace RapidDoc.Controllers
 
                             foreach(var item in usersReminder)
                             {
-                                if (_ReviewDocLogService.isArchive(document.Id, "", item) == false)
+                                if (_ReviewDocLogService.isArchive(document.Id, "", item) == false || document.DocType == DocumentType.Task)
                                 {
                                     if (document.DocType == DocumentType.Task)
                                     {
