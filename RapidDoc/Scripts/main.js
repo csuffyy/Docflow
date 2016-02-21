@@ -1,4 +1,4 @@
-﻿ function calendar_init(url_json_calendar) {
+﻿function calendar_init(url_json_calendar) {
     var date = new Date();
     var workScheduleId = $('#WorkScheduleId').val();
 
@@ -174,6 +174,7 @@ function summernote_init(lang) {
         $('.summernote').summernote({
             height: 350,
             focus: false,
+            disableDragAndDrop: true,
             lang: lang,
             defaultFontName: 'Arial',
             toolbar: [
@@ -191,20 +192,59 @@ function summernote_init(lang) {
             styleTags: ['p', 'h6'],
             callbacks: {
                 onPaste: function (e) {
-                    var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
-                    alert(bufferText);
+                    var startNote = $(this);
+                    var before = startNote.summernote('code');
+                    var plainText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
+                    var bufferText = "";
 
-                    /*
-                    var thisNote = $(this);
-                    var updatePastedText = function (someNote) {
-                        var original = someNote.code();
-                        someNote.code(original);
-                    };
+                    // Opera 8.0+
+                    var isOpera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
+                    // Firefox 1.0+
+                    var isFirefox = typeof InstallTrigger !== 'undefined';
+                    // At least Safari 3+: "[object HTMLElementConstructor]"
+                    var isSafari = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;
+                    // Internet Explorer 6-11
+                    var isIE = /*@cc_on!@*/false || !!document.documentMode;
+                    // Edge 20+
+                    var isEdge = !isIE && !!window.StyleMedia;
+                    // Chrome 1+
+                    var isChrome = !!window.chrome && !!window.chrome.webstore;
+                    // Blink engine detection
+                    var isBlink = (isChrome || isOpera) && !!window.CSS;
+
+                    if (isSafari || isChrome) {
+                        bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('text/html');
+                    }
+
+                    //var ieClipboardDiv = $('#ie-clipboard-contenteditable');
+                    //startNote.summernote('saveRange');
+                    //ieClipboardDiv.focus();
 
                     setTimeout(function () {
-                        updatePastedText(thisNote);
+                        //bufferText = ieClipboardDiv.html();
+                        //console.log('bufferText: ' + bufferText);
+                        //console.log('plainText: ' + plainText);
+
+                        //ieClipboardDiv.empty();
+                        //startNote.summernote('restoreRange');
+
+                        if (bufferText != '') {
+                            if (checkSupportTags(bufferText)) {
+                                bufferText = plainText;
+                            }
+                            else {
+                                bufferText = cleanPastedHTML(bufferText);
+                            }
+                            console.log('bufferText: ' + bufferText);
+                            var node = $('<span></span>').html(bufferText)[0];
+                            startNote.summernote('insertNode', node);
+                        }
                     }, 10);
-                    */
+
+                    if (isSafari || isChrome) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }
                 }
             }
         });
@@ -220,6 +260,7 @@ function summernotelight_init(lang) {
         $('.summernotelight').summernote({
             focus: false,
             lang: lang,
+            disableDragAndDrop: true,
             defaultFontName: 'Arial',
             toolbar: [
                 ['style', ['style']], // no style button
@@ -235,18 +276,62 @@ function summernotelight_init(lang) {
                 //['help', ['help']] //no help button
             ],
             styleTags: ['p'],
-            onPaste: function (e) {
-                var thisNote = $(this);
-                var updatePastedText = function (someNote) {
-                    var original = someNote.code();
-                    var regex = new RegExp('<table border="0"', 'gi');
-                    var cleaned = original.replace(regex, '<table class="table table-bordered table-condensed"');
-                    someNote.code(cleaned);
-                };
+            callbacks: {
+                onPaste: function (e) {
+                    var startNote = $(this);
+                    var before = startNote.summernote('code');
+                    var plainText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
+                    var bufferText = "";
 
-                setTimeout(function () {
-                    updatePastedText(thisNote);
-                }, 10);
+                    // Opera 8.0+
+                    var isOpera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
+                    // Firefox 1.0+
+                    var isFirefox = typeof InstallTrigger !== 'undefined';
+                    // At least Safari 3+: "[object HTMLElementConstructor]"
+                    var isSafari = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;
+                    // Internet Explorer 6-11
+                    var isIE = /*@cc_on!@*/false || !!document.documentMode;
+                    // Edge 20+
+                    var isEdge = !isIE && !!window.StyleMedia;
+                    // Chrome 1+
+                    var isChrome = !!window.chrome && !!window.chrome.webstore;
+                    // Blink engine detection
+                    var isBlink = (isChrome || isOpera) && !!window.CSS;
+
+                    if (isSafari || isChrome) {
+                        bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('text/html');
+                    }
+
+                    //var ieClipboardDiv = $('#ie-clipboard-contenteditable');
+                    //startNote.summernote('saveRange');
+                    //ieClipboardDiv.focus();
+
+                    setTimeout(function () {
+                        //bufferText = ieClipboardDiv.html();
+                        //console.log('bufferText: ' + bufferText);
+                        //console.log('plainText: ' + plainText);
+
+                        //ieClipboardDiv.empty();
+                        //startNote.summernote('restoreRange');
+
+                        if (bufferText != '') {
+                            if (checkSupportTags(bufferText)) {
+                                bufferText = plainText;
+                            }
+                            else {
+                                bufferText = cleanPastedHTML(bufferText);
+                            }
+                            console.log('bufferText: ' + bufferText);
+                            var node = $('<span></span>').html(bufferText)[0];
+                            startNote.summernote('insertNode', node);
+                        }
+                    }, 10);
+
+                    if (isSafari || isChrome) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }
+                }
             }
         });
     }
@@ -262,25 +347,83 @@ function summernotemin_init(lang) {
             height: 100,
             focus: false,
             lang: lang,
+            disableDragAndDrop: true,
             defaultFontName: 'Arial',
             toolbar: [],
-            onPaste: function (e) {
-                var thisNote = $(this);
-                var updatePastedText = function (someNote) {
-                    var original = someNote.code();
-                    var cleaned = cleanPastedHTML(original); //this is where to call whatever clean function you want. I have mine in a different file, called CleanPastedHTML.
-                    someNote.code(cleaned);
-                };
+            callbacks: {
+                onPaste: function (e) {
+                    var startNote = $(this);
+                    var before = startNote.summernote('code');
+                    var plainText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
+                    var bufferText = "";
 
-                setTimeout(function () {
-                    updatePastedText(thisNote);
-                }, 10);
+                    // Opera 8.0+
+                    var isOpera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
+                    // Firefox 1.0+
+                    var isFirefox = typeof InstallTrigger !== 'undefined';
+                    // At least Safari 3+: "[object HTMLElementConstructor]"
+                    var isSafari = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;
+                    // Internet Explorer 6-11
+                    var isIE = /*@cc_on!@*/false || !!document.documentMode;
+                    // Edge 20+
+                    var isEdge = !isIE && !!window.StyleMedia;
+                    // Chrome 1+
+                    var isChrome = !!window.chrome && !!window.chrome.webstore;
+                    // Blink engine detection
+                    var isBlink = (isChrome || isOpera) && !!window.CSS;
+
+                    if (isSafari || isChrome) {
+                        bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('text/html');
+                    }
+
+                    //var ieClipboardDiv = $('#ie-clipboard-contenteditable');
+                    //startNote.summernote('saveRange');
+                    //ieClipboardDiv.focus();
+
+                    setTimeout(function () {
+                        //bufferText = ieClipboardDiv.html();
+                        //console.log('bufferText: ' + bufferText);
+                        //console.log('plainText: ' + plainText);
+
+                        //ieClipboardDiv.empty();
+                        //startNote.summernote('restoreRange');
+
+                        if (bufferText != '') {
+                            if (checkSupportTags(bufferText)) {
+                                bufferText = plainText;
+                            }
+                            else {
+                                bufferText = cleanPastedHTML(bufferText);
+                            }
+                            console.log('bufferText: ' + bufferText);
+                            var node = $('<span></span>').html(bufferText)[0];
+                            startNote.summernote('insertNode', node);
+                        }
+                    }, 10);
+
+                    if (isSafari || isChrome) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }
+                }
             }
         });
     }
 }
 
+function checkSupportTags(input) {
+    if (input.indexOf('<table') == -1 && input.indexOf('<a href') == -1) {
+        return true;
+    }
+
+    return false;
+}
+
 function cleanPastedHTML(input) {
+    if (input.indexOf('Mso') != -1 && input.indexOf('<!--EndFragment-->') != -1) {
+        input = input.substr(0, input.indexOf('<!--EndFragment-->')+38);
+    }
+
     // 1. remove line breaks / Mso classes
     var stringStripper = /(\n|\r| class=(")?Mso[a-zA-Z]+(")?)/g;
     var output = input.replace(stringStripper, ' ');
@@ -304,6 +447,13 @@ function cleanPastedHTML(input) {
             output = output.replace(attributeStripper, '');
         }
     }
+
+    var regex = new RegExp('<table border="0"', 'gi');
+    output = output.replace(regex, '<table class="table table-bordered table-condensed"');
+
+    var regex = new RegExp('<table border=0', 'gi');
+    output = output.replace(regex, '<table class="table table-bordered table-condensed"');
+
     return output;
 }
 
