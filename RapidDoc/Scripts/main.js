@@ -212,7 +212,7 @@ function summernote_init(lang) {
                     // Blink engine detection
                     var isBlink = (isChrome || isOpera) && !!window.CSS;
 
-                    if (isChrome) {
+                    if (isChrome || isFirefox) {
                         bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('text/html');
                     }
 
@@ -228,20 +228,22 @@ function summernote_init(lang) {
                         //ieClipboardDiv.empty();
                         //startNote.summernote('restoreRange');
 
-                        if (bufferText != '') {
-                            if (checkSupportTags(bufferText)) {
-                                bufferText = plainText;
+                        if (isChrome || isFirefox) {
+                            if (bufferText != '' || (bufferText == '' && plainText != '')) {
+                                if (checkSupportTags(bufferText)) {
+                                    bufferText = plainText;
+                                }
+                                else {
+                                    bufferText = cleanPastedHTML(bufferText);
+                                }
+                                console.log('bufferText: ' + bufferText);
+                                var node = $('<span></span>').html(bufferText)[0];
+                                startNote.summernote('insertNode', node);
                             }
-                            else {
-                                bufferText = cleanPastedHTML(bufferText);
-                            }
-                            console.log('bufferText: ' + bufferText);
-                            var node = $('<span></span>').html(bufferText)[0];
-                            startNote.summernote('insertNode', node);
                         }
                     }, 10);
 
-                    if (isChrome) {
+                    if (isChrome || isFirefox) {
                         e.preventDefault();
                         e.stopPropagation();
                     }
@@ -298,7 +300,7 @@ function summernotelight_init(lang) {
                     // Blink engine detection
                     var isBlink = (isChrome || isOpera) && !!window.CSS;
 
-                    if (isChrome) {
+                    if (isChrome || isFirefox) {
                         bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('text/html');
                     }
 
@@ -314,20 +316,22 @@ function summernotelight_init(lang) {
                         //ieClipboardDiv.empty();
                         //startNote.summernote('restoreRange');
 
-                        if (bufferText != '') {
-                            if (checkSupportTags(bufferText)) {
-                                bufferText = plainText;
+                        if (isChrome || isFirefox) {
+                            if (bufferText != '' || (bufferText == '' && plainText != '')) {
+                                if (checkSupportTags(bufferText)) {
+                                    bufferText = plainText;
+                                }
+                                else {
+                                    bufferText = cleanPastedHTML(bufferText);
+                                }
+                                console.log('bufferText: ' + bufferText);
+                                var node = $('<span></span>').html(bufferText)[0];
+                                startNote.summernote('insertNode', node);
                             }
-                            else {
-                                bufferText = cleanPastedHTML(bufferText);
-                            }
-                            console.log('bufferText: ' + bufferText);
-                            var node = $('<span></span>').html(bufferText)[0];
-                            startNote.summernote('insertNode', node);
                         }
                     }, 10);
 
-                    if (isChrome) {
+                    if (isChrome || isFirefox) {
                         e.preventDefault();
                         e.stopPropagation();
                     }
@@ -372,7 +376,7 @@ function summernotemin_init(lang) {
                     // Blink engine detection
                     var isBlink = (isChrome || isOpera) && !!window.CSS;
 
-                    if (isChrome) {
+                    if (isChrome || isFirefox) {
                         bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('text/html');
                     }
 
@@ -388,20 +392,22 @@ function summernotemin_init(lang) {
                         //ieClipboardDiv.empty();
                         //startNote.summernote('restoreRange');
 
-                        if (bufferText != '') {
-                            if (checkSupportTags(bufferText)) {
-                                bufferText = plainText;
+                        if (isChrome || isFirefox) {
+                            if (bufferText != '' || (bufferText == '' && plainText != '')) {
+                                if (checkSupportTags(bufferText)) {
+                                    bufferText = plainText;
+                                }
+                                else {
+                                    bufferText = cleanPastedHTML(bufferText);
+                                }
+                                console.log('bufferText: ' + bufferText);
+                                var node = $('<span></span>').html(bufferText)[0];
+                                startNote.summernote('insertNode', node);
                             }
-                            else {
-                                bufferText = cleanPastedHTML(bufferText);
-                            }
-                            console.log('bufferText: ' + bufferText);
-                            var node = $('<span></span>').html(bufferText)[0];
-                            startNote.summernote('insertNode', node);
                         }
                     }, 10);
 
-                    if (isChrome) {
+                    if (isChrome || isFirefox) {
                         e.preventDefault();
                         e.stopPropagation();
                     }

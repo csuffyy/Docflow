@@ -690,8 +690,6 @@ namespace RapidDoc.Models.Services
                                     && contextQuery.WFTrackerTable.Any(w => w.DocumentTableId == document.Id && w.SignUserId == null && w.TrackerType == TrackerType.Waiting && w.Users.Any(b => b.UserId == d.EmplTableFrom.ApplicationUserId))
                                     ))
                                 )
-                                &&
-                                !(contextQuery.ReviewDocLogTable.Any(x => x.ApplicationUserCreatedId == user.Id && x.DocumentTableId == document.Id && x.isArchive == true))
                         join company in contextQuery.CompanyTable on document.CompanyTableId equals company.Id
                         join process in contextQuery.ProcessTable on document.ProcessTableId equals process.Id
                         join documentData in contextQuery.USR_TAS_DailyTasks_Table on document.Id equals documentData.DocumentTableId
