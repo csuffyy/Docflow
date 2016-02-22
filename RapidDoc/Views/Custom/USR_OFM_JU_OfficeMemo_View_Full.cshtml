@@ -146,7 +146,7 @@
                 <h4 class="modal-title">Отмена документа</h4>
             </div>
             <div class="modal-body" style="min-height:250px;">
-                @Html.TextArea("RejectComment", new { @class = "form-control", @placeholder = "Обязательно укажите причину отмены" })
+                @Html.TextArea("RejectComment", new { @class = "form-control summernotemin", @placeholder = "Обязательно укажите причину отмены" })
                 <br>
                 <div class="modal-footer">
                     <button type="submit" id="rejectCZ" class="btn btn-danger" name="action:RejectDocumentCZ">@UIElementRes.UIElement.Reject</button>
@@ -164,7 +164,7 @@
                 <h4 class="modal-title">Утверждение документа</h4>
             </div>
             <div class="modal-body" style="min-height:200px;">
-                @Html.TextArea("ApproveComment", new { @class = "form-control", @placeholder = "Замечания" })
+                @Html.TextArea("ApproveComment", new { @class = "form-control summernotemin", @placeholder = "Замечания" })
                 <br>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success" name="action:ApproveDocumentCZ">@UIElementRes.UIElement.Approve</button>
