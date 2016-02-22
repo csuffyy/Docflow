@@ -504,7 +504,7 @@
                 event.preventDefault();
                 return false;
             }
-        });
+        });      
 
         $('#lastComment').keydown(function (e) {
             var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
@@ -557,6 +557,14 @@
 
     $('.bs-approve-modal-sm').on('shown.bs.modal', function (e) {
         $('#ApproveCommentRequest').summernote('code', $('#lastComment').summernote('code'));
+    })
+
+    $('.rejectcz-modal-sm').on('shown.bs.modal', function (e) {
+        $('#RejectComment').summernote('code', $('#lastComment').summernote('code'));
+    })
+
+    $('.approvecz-modal-sm').on('shown.bs.modal', function (e) {
+        $('#ApproveComment').summernote('code', $('#lastComment').summernote('code'));
     })
 
     $(this).on('shown.bs.modal', function (e) {

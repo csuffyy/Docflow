@@ -552,7 +552,7 @@ namespace RapidDoc.Controllers
             string comment = String.Empty;
             if(collection["ApproveComment"] != null && _SystemService.CheckTextExists(collection["ApproveComment"]))
             {
-                comment = collection["ApproveComment"];
+                comment = _SystemService.DeleteAllSpecialCharacters(_SystemService.DeleteAllTags(collection["ApproveComment"]));
             }
 
             var users = _DocumentService.SignDocumentCZ(documentId, TrackerType.Approved, comment);
@@ -580,7 +580,7 @@ namespace RapidDoc.Controllers
             string comment = String.Empty;
             if (collection["RejectComment"] != null && _SystemService.CheckTextExists(collection["RejectComment"]))
             {
-                comment = collection["RejectComment"];
+                comment = _SystemService.DeleteAllSpecialCharacters(_SystemService.DeleteAllTags(collection["RejectComment"]));
             }
             else
             {
