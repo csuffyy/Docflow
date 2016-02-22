@@ -212,7 +212,7 @@ function summernote_init(lang) {
                     // Blink engine detection
                     var isBlink = (isChrome || isOpera) && !!window.CSS;
 
-                    if (isChrome || isFirefox) {
+                    if (isChrome || isFirefox || isOpera || isSafari) {
                         bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('text/html');
                     }
 
@@ -228,7 +228,7 @@ function summernote_init(lang) {
                         //ieClipboardDiv.empty();
                         //startNote.summernote('restoreRange');
 
-                        if (isChrome || isFirefox) {
+                        if (isChrome || isFirefox || isOpera || isSafari) {
                             if (bufferText != '' || (bufferText == '' && plainText != '')) {
                                 if (checkSupportTags(bufferText)) {
                                     bufferText = plainText;
@@ -243,7 +243,7 @@ function summernote_init(lang) {
                         }
                     }, 10);
 
-                    if (isChrome || isFirefox) {
+                    if (isChrome || isFirefox || isOpera || isSafari) {
                         e.preventDefault();
                         e.stopPropagation();
                     }
@@ -300,7 +300,7 @@ function summernotelight_init(lang) {
                     // Blink engine detection
                     var isBlink = (isChrome || isOpera) && !!window.CSS;
 
-                    if (isChrome || isFirefox) {
+                    if (isChrome || isFirefox || isOpera || isSafari) {
                         bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('text/html');
                     }
 
@@ -316,7 +316,7 @@ function summernotelight_init(lang) {
                         //ieClipboardDiv.empty();
                         //startNote.summernote('restoreRange');
 
-                        if (isChrome || isFirefox) {
+                        if (isChrome || isFirefox || isOpera || isSafari) {
                             if (bufferText != '' || (bufferText == '' && plainText != '')) {
                                 if (checkSupportTags(bufferText)) {
                                     bufferText = plainText;
@@ -331,7 +331,7 @@ function summernotelight_init(lang) {
                         }
                     }, 10);
 
-                    if (isChrome || isFirefox) {
+                    if (isChrome || isFirefox || isOpera || isSafari) {
                         e.preventDefault();
                         e.stopPropagation();
                     }
@@ -353,7 +353,10 @@ function summernotemin_init(lang) {
             lang: lang,
             disableDragAndDrop: true,
             defaultFontName: 'Arial',
-            toolbar: [],
+            toolbar: [
+                ['style', ['bold', 'clear']],
+                ['misc', ['undo', 'redo']]
+            ],
             callbacks: {
                 onPaste: function (e) {
                     var startNote = $(this);
@@ -376,7 +379,7 @@ function summernotemin_init(lang) {
                     // Blink engine detection
                     var isBlink = (isChrome || isOpera) && !!window.CSS;
 
-                    if (isChrome || isFirefox) {
+                    if (isChrome || isFirefox || isOpera || isSafari) {
                         bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('text/html');
                     }
 
@@ -392,7 +395,7 @@ function summernotemin_init(lang) {
                         //ieClipboardDiv.empty();
                         //startNote.summernote('restoreRange');
 
-                        if (isChrome || isFirefox) {
+                        if (isChrome || isFirefox || isOpera || isSafari) {
                             if (bufferText != '' || (bufferText == '' && plainText != '')) {
                                 if (checkSupportTags(bufferText)) {
                                     bufferText = plainText;
@@ -407,7 +410,7 @@ function summernotemin_init(lang) {
                         }
                     }, 10);
 
-                    if (isChrome || isFirefox) {
+                    if (isChrome || isFirefox || isOpera || isSafari) {
                         e.preventDefault();
                         e.stopPropagation();
                     }
