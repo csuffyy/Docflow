@@ -212,7 +212,7 @@ function summernote_init(lang) {
                     // Blink engine detection
                     var isBlink = (isChrome || isOpera) && !!window.CSS;
 
-                    if (isSafari || isChrome) {
+                    if (isChrome) {
                         bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('text/html');
                     }
 
@@ -241,7 +241,7 @@ function summernote_init(lang) {
                         }
                     }, 10);
 
-                    if (isSafari || isChrome) {
+                    if (isChrome) {
                         e.preventDefault();
                         e.stopPropagation();
                     }
@@ -298,7 +298,7 @@ function summernotelight_init(lang) {
                     // Blink engine detection
                     var isBlink = (isChrome || isOpera) && !!window.CSS;
 
-                    if (isSafari || isChrome) {
+                    if (isChrome) {
                         bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('text/html');
                     }
 
@@ -327,7 +327,7 @@ function summernotelight_init(lang) {
                         }
                     }, 10);
 
-                    if (isSafari || isChrome) {
+                    if (isChrome) {
                         e.preventDefault();
                         e.stopPropagation();
                     }
@@ -372,7 +372,7 @@ function summernotemin_init(lang) {
                     // Blink engine detection
                     var isBlink = (isChrome || isOpera) && !!window.CSS;
 
-                    if (isSafari || isChrome) {
+                    if (isChrome) {
                         bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('text/html');
                     }
 
@@ -401,7 +401,7 @@ function summernotemin_init(lang) {
                         }
                     }, 10);
 
-                    if (isSafari || isChrome) {
+                    if (isChrome) {
                         e.preventDefault();
                         e.stopPropagation();
                     }
