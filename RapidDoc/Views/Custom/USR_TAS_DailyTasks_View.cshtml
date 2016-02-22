@@ -126,7 +126,7 @@
         $('#alert_placeholderReport').html('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><span class="sr-only">Error:</span>' + message + '</div>')
     }
     $('#approveTask').click(function (event) {
-        var comment = $('#ApproveCommentTask').code();
+        var comment = $('#ApproveCommentTask').summernote('code');
         if (checkTextExists(comment) == false) {
             bootstrap_alertReport.warning('Необходимо заполнить отчет о закрытии');
             event.preventDefault();
@@ -135,7 +135,7 @@
     });
 
     $('#rejectTask').click(function (event) {
-        var comment = $('#RejectCommentTask').code();
+        var comment = $('#RejectCommentTask').summernote('code');
         if (checkTextExists(comment) == false) {
             bootstrap_alert.warning('Необходимо заполнить причину отклонения');
             event.preventDefault();
@@ -144,10 +144,10 @@
     });
 
     $('.rejectcz-modal-sm').on('shown.bs.modal', function (e) {
-        $('#RejectCommentTask').code($('#lastComment').code());
+        $('#RejectCommentTask').summernote('code', $('#lastComment').summernote('code'));
     })
 
     $('.approvecz-modal-sm').on('shown.bs.modal', function (e) {
-        $('#ApproveCommentTask').code($('#lastComment').code());
+        $('#ApproveCommentTask').summernote('code', $('#lastComment').summernote('code'));
     })
 </script>

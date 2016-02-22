@@ -327,7 +327,6 @@
     <a href=@Url.Action("Index", "Document") class="btn btn-default btn-sm hidden-print visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" role="button">@UIElementRes.UIElement.Close</a>
 </fieldset>
     }
-
     <p>
         <h4 class="text-right hidden-print">@UIElementRes.UIElement.AddComment</h4>
         @using (Ajax.BeginForm("GetAllComment", new { documentId = Model.DocumentView.Id }, new AjaxOptions { UpdateTargetId = "comments", OnComplete = "clearTextAreaComment" }, new { name = "commentForm" }))
@@ -499,7 +498,7 @@
         }
 
         $('#rejectRequest').click(function (event) {
-            var comment = $('#RejectCommentRequest').code();
+            var comment = $('#RejectCommentRequest').summernote('code');
             if (checkTextExists(comment) == false) {
                 bootstrap_alert.warning('Необходимо заполнить причину отклонения');
                 event.preventDefault();
@@ -553,11 +552,11 @@
     });
 
     $('.bs-reject-modal-sm').on('shown.bs.modal', function (e) {
-        $('#RejectCommentRequest').code($('#lastComment').code());
+        $('#RejectCommentRequest').summernote('code', $('#lastComment').summernote('code'));
     })
 
     $('.bs-approve-modal-sm').on('shown.bs.modal', function (e) {
-        $('#ApproveCommentRequest').code($('#lastComment').code());
+        $('#ApproveCommentRequest').summernote('code', $('#lastComment').summernote('code'));
     })
 
     $(this).on('shown.bs.modal', function (e) {

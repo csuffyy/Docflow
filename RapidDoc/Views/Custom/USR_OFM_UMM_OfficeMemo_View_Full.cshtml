@@ -188,7 +188,7 @@
         });
 
         $('#rejectCZ').click(function (event) {
-            var comment = $('#RejectComment').code();
+            var comment = $('#RejectComment').summernote('code');
             if (checkTextExists(comment) == false) {
                 bootstrap_alert.warning('Необходимо заполнить причину отмены');
                 event.preventDefault();
