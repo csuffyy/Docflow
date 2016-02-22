@@ -912,6 +912,20 @@ namespace RapidDoc.Models.Services
                 }
             }
 
+            if (documentTable.DocType == DocumentType.OfficeMemo)
+            {
+                var documentsRef = GetDocumentRefTask(documentTable.Id);
+
+                foreach (var item in documentsRef)
+                {
+                    trackerTables = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == item.DocumentId);
+                    if (checkTrackUsers(trackerTables, user.Id))
+                    {
+                        return true;
+                    }
+                }
+            }
+
             return false;
         }
 
