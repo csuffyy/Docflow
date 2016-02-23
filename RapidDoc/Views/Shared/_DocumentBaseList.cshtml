@@ -1,0 +1,61 @@
+﻿@model IEnumerable<RapidDoc.Models.Repository.DocumentType>
+
+@foreach (var item in Model)
+{
+    if (item == RapidDoc.Models.Repository.DocumentType.Request)
+    {
+        <li class="dropdown">
+            @Html.ActionLink(UIElementRes.UIElement.RequestBase, "IndexRequest", "DocumentBase")
+        </li>
+    }
+
+    if (item == RapidDoc.Models.Repository.DocumentType.OfficeMemo)
+    {
+        <li class="dropdown">
+            @Html.ActionLink(UIElementRes.UIElement.OfficeMemoBase, "IndexOfficeMemo", "DocumentBase")
+        </li>
+    }
+
+    if (item == RapidDoc.Models.Repository.DocumentType.Task)
+    {
+        <li class="dropdown">
+            @Html.ActionLink(UIElementRes.UIElement.TaskBase, "IndexTask", "DocumentBase")
+        </li>
+    }
+
+    if (item == RapidDoc.Models.Repository.DocumentType.Order)
+    {
+        <li class="dropdown">
+            @Html.ActionLink(UIElementRes.UIElement.OrderBase, "IndexOrder", "DocumentBase")
+        </li>
+    }
+
+    if (item == RapidDoc.Models.Repository.DocumentType.IncomingDoc)
+    {
+        <li class="dropdown">
+            @Html.ActionLink(UIElementRes.UIElement.IncomingBase, "IndexIncoming", "DocumentBase")
+        </li>
+    }
+
+    if (item == RapidDoc.Models.Repository.DocumentType.OutcomingDoc)
+    {
+        <li class="dropdown">
+            @Html.ActionLink(UIElementRes.UIElement.OutcomingBase, "IndexOutcoming", "DocumentBase")
+        </li>
+    }
+
+    if (item == RapidDoc.Models.Repository.DocumentType.AppealDoc)
+    {
+        <li class="dropdown">
+            @Html.ActionLink(UIElementRes.UIElement.AppealBase, "IndexAppeal", "DocumentBase")
+        </li>
+    }
+
+    if (item == RapidDoc.Models.Repository.DocumentType.Protocol)
+    {
+        <li class="dropdown">
+            @Html.ActionLink(UIElementRes.UIElement.ProtocolBase, "IndexProtocol", "DocumentBase")
+        </li>
+    }
+}
+

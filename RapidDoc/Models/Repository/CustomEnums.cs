@@ -1329,14 +1329,17 @@ namespace RapidDoc.Models.Repository
         [Display(Name = "Особый контроль")]
         Element2 = 1,
 
-        [Display(Name = "Контроль отдела")]
+        [Display(Name = "К исполнению")]
         Element3 = 2,
 
         [Display(Name = "Для ознакомления")]
         Element4 = 3,
 
         [Display(Name = "Ответ на запрос")]
-        Element5 = 4
+        Element5 = 4,
+
+        [Display(Name = "На рассмотрение")]
+        Element6 = 5
     }
 
     public enum NatureIncomingQuestion : byte

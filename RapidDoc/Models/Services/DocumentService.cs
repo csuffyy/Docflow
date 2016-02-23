@@ -32,6 +32,7 @@ namespace RapidDoc.Models.Services
         IEnumerable<DocumentTable> GetPartial(Expression<Func<DocumentTable, bool>> predicate);
         DocumentTable FirstOrDefault(Expression<Func<DocumentTable, bool>> predicate);
         DocumentView FirstOrDefaultView(Expression<Func<DocumentTable, bool>> predicate);
+        bool Contains(Expression<Func<DocumentTable, bool>> predicate);
         IQueryable<DocumentView> GetAgreedDocument();
         DocumentTable Find(Guid? id);
         DocumentView FindView(Guid? id);
@@ -739,6 +740,11 @@ namespace RapidDoc.Models.Services
         public DocumentView FindView(Guid? id)
         {
             return Mapper.Map<DocumentTable, DocumentView>(Find(id));
+        }
+
+        public bool Contains(Expression<Func<DocumentTable, bool>> predicate)
+        {
+            return repoDocument.Contains(predicate);
         }
 
         public DocumentView Document2View(DocumentTable documentTable)

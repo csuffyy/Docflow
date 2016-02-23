@@ -2556,5 +2556,25 @@ namespace RapidDoc.Controllers
 
             return rootList;
         }
+
+        [AllowAnonymous]
+        [OutputCache(Duration = 43200, VaryByParam = "id;lang;company")]
+        public ActionResult GetDocumentBaseList(string id, string lang, string company)
+        {
+            ApplicationUser user = _AccountService.Find(id);
+            var companyTable = _CompanyService.FirstOrDefault(x => x.AliasCompanyName == company);
+
+            if (user == null || companyTable == null)
+                return PartialView("_Empty");
+
+            List<DocumentType> model = new List<DocumentType>();
+            foreach (DocumentType item in Enum.GetValues(typeof(DocumentType)))
+            {
+                if (_DocumentService.Contains(x => x.DocType == item && x.CompanyTableId == companyTable.Id))
+                    model.Add(item);
+            }
+
+            return PartialView("_DocumentBaseList", model);
+        }
 	}
 }

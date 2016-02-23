@@ -68,30 +68,7 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-database"></span> <span class="visible-xs-inline">@UIElementRes.UIElement.DocumentBase</span> <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li class="dropdown">
-                                @Html.ActionLink(UIElementRes.UIElement.RequestBase, "IndexRequest", "DocumentBase")
-                            </li>
-                            <li class="dropdown">
-                                @Html.ActionLink(UIElementRes.UIElement.OfficeMemoBase, "IndexOfficeMemo", "DocumentBase")
-                            </li>
-                            <li class="dropdown">
-                                @Html.ActionLink(UIElementRes.UIElement.TaskBase, "IndexTask", "DocumentBase")
-                            </li>
-                            <li class="dropdown">
-                                @Html.ActionLink(UIElementRes.UIElement.OrderBase, "IndexOrder", "DocumentBase")
-                            </li>
-                            <li class="dropdown">
-                                @Html.ActionLink(UIElementRes.UIElement.IncomingBase, "IndexIncoming", "DocumentBase")
-                            </li>
-                            <li class="dropdown">
-                                @Html.ActionLink(UIElementRes.UIElement.OutcomingBase, "IndexOutcoming", "DocumentBase")
-                            </li>
-                            <li class="dropdown">
-                                @Html.ActionLink(UIElementRes.UIElement.AppealBase, "IndexAppeal", "DocumentBase")
-                            </li>
-                            <li class="dropdown">
-                                @Html.ActionLink(UIElementRes.UIElement.ProtocolBase, "IndexProtocol", "DocumentBase")
-                            </li>
+                            @Html.Action("GetDocumentBaseList", "Document", new { id = User.Identity.GetUserId(), lang = UICulture, company = ViewContext.RouteData.Values["company"] })
                         </ul>
                     </li>
                     @if (User.IsInRole("Administrator") || User.IsInRole("Reports"))

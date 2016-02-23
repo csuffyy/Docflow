@@ -51,6 +51,7 @@ namespace RapidDoc.Models.Services
         void SendSLADisturbanceEmail(string userId, IEnumerable<DocumentTable> documents);
         void SendReminderEmail(ApplicationUser user, List<DocumentTable> documents);
         void SendReminderTasksEmail(ApplicationUser user, List<DocumentTable> documents, List<USR_TAS_DailyTasks_Table> listDocuments);
+        void SendStatusExecutionBatch(string statusText, bool error = false);
         void SendFailedRoutesAdministrator(List<ReportProcessesView> listProcesses);
         void SendNewModificationUserEmail(Guid documentId, string userId, string additionalTextCZ = "");
         void SendNoteReadyModificationUserEmail(Guid documentId, string userId, string additionalTextCZ = "");
@@ -744,6 +745,45 @@ namespace RapidDoc.Models.Services
                         Thread.CurrentThread.CurrentCulture = ci;
                         Thread.CurrentThread.CurrentUICulture = ci;
                     }).Start();
+                }
+            }
+        }
+
+        public void SendStatusExecutionBatch(string statusText, bool error = false)
+        {
+            RoleManager<ApplicationRole> RoleManager = new RoleManager<ApplicationRole>(new RoleStore<ApplicationRole>(_uow.GetDbContext<ApplicationDbContext>()));
+
+            if (RoleManager.RoleExists("SetupAdministrator"))
+            {
+                var names = RoleManager.FindByName("SetupAdministrator").Users;
+                if (names != null && names.Count() > 0)
+                {
+                    foreach (IdentityUserRole name in names)
+                    {
+                        ApplicationUser user = repoUser.Find(x => (x.UserName == name.UserId || x.Id == name.UserId) && x.Enable == true);
+                        if (!String.IsNullOrEmpty(user.Email) && user.Enable == true)
+                        {
+                            EmailParameterTable emailParameter = FirstOrDefault(x => x.SmtpServer != String.Empty);
+                            if (emailParameter == null)
+                                return;
+
+                            new Task(() =>
+                            {
+                                string absFile = HostingEnvironment.ApplicationPhysicalPath + @"Views\\EmailTemplate\\StatusExecEmailTemplate.cshtml";
+                                string razorText = System.IO.File.ReadAllText(absFile);
+
+                                string currentLang = Thread.CurrentThread.CurrentCulture.Name;
+                                CultureInfo ci = CultureInfo.GetCultureInfo(user.Lang);
+                                Thread.CurrentThread.CurrentCulture = ci;
+                                Thread.CurrentThread.CurrentUICulture = ci;
+                                string body = Razor.Parse(razorText, new { BodyText = statusText, Error = error }, "statusExecEmailTemplate");
+                                SendEmail(emailParameter, new string[] { user.Email }, statusText, body);
+                                ci = CultureInfo.GetCultureInfo(currentLang);
+                                Thread.CurrentThread.CurrentCulture = ci;
+                                Thread.CurrentThread.CurrentUICulture = ci;
+                            }).Start();
+                        }
+                    }
                 }
             }
         }

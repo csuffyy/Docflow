@@ -236,9 +236,10 @@ function summernote_init(lang) {
                                 else {
                                     bufferText = cleanPastedHTML(bufferText);
                                 }
-                                console.log('bufferText: ' + bufferText);
-                                var node = $('<span></span>').html(bufferText)[0];
+                                //console.log('bufferText: ' + bufferText);
+                                var node = $('<span />').html(bufferText)[0];
                                 startNote.summernote('insertNode', node);
+                                //console.log('Text: ' + startNote.summernote('code'));
                             }
                         }
                     }, 10);
@@ -325,7 +326,7 @@ function summernotelight_init(lang) {
                                     bufferText = cleanPastedHTML(bufferText);
                                 }
                                 console.log('bufferText: ' + bufferText);
-                                var node = $('<span></span>').html(bufferText)[0];
+                                var node = $('<span />').html(bufferText)[0];
                                 startNote.summernote('insertNode', node);
                             }
                         }
@@ -404,7 +405,7 @@ function summernotemin_init(lang) {
                                     bufferText = cleanPastedHTML(bufferText);
                                 }
                                 console.log('bufferText: ' + bufferText);
-                                var node = $('<span></span>').html(bufferText)[0];
+                                var node = $('<span />').html(bufferText)[0];
                                 startNote.summernote('insertNode', node);
                             }
                         }

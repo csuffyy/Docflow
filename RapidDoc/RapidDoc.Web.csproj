@@ -2101,6 +2101,8 @@
     <Content Include="Views\Custom\USR_REQ_UMM_FluxingWork_View_Full.cshtml" />
     <Content Include="Views\Custom\USR_REQ_UMM_FluxingWork_Edit.cshtml" />
     <Content Include="Views\Custom\USR_REQ_UMM_FluxingWork_Edit_Executor.cshtml" />
+    <Content Include="Views\EmailTemplate\StatusExecEmailTemplate.cshtml" />
+    <Content Include="Views\Shared\_DocumentBaseList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
