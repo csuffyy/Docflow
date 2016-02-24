@@ -16,50 +16,48 @@
     </style>
 </head>
 <body>
-    <div>
-        <div style="border: 1px solid black; padding: 5px;">
-            <br />
-            <div class="container" style="width: 800px; text-align: right;">
-                <div>
-                    <img src="@Url.Content(String.Format("~/Content/Custom/image-icon/logo-{0}.png", ViewBag.CompanyAliasName))">
-                </div>
+    <div style="border: 1px solid black; padding: 5px;">
+        <br />
+        <div class="container" style="width: 800px; text-align: right;">
+            <div>
+                <img src="@Url.Content(String.Format("~/Content/Custom/image-icon/logo-{0}.png", ViewBag.CompanyAliasName))">
             </div>
-            <br />
-            <h4 align="center">
+        </div>
+        <br />
+        <h4 align="center">
+            <strong>
+                <font size="4" face="Arial">
+                    БҰЙРЫҚ<br /><br />
+                    № @Model.OrderNum от @Model.OrderDate.ToShortDateString() г.<br /><br />
+                </font>
+            </strong>
+            <font size="4" face="Arial">
+                @Model.Subject
+            </font>
+        </h4>
+        <font size="4" face="Arial">
+            @Html.Raw(@Model.MainField)
+        </font>
+        <hr style="height:1px;border:none;color:#333;background-color:#333;" />
+        <font size="4" face="Arial">
+            @Html.Raw(@Model.MainFieldTranslate)
+        </font>
+        <br />
+        <br />
+        <div class="container" style="width: 800px; text-align: right;">
+            <div style="width:60%; vertical-align:top; float:left; text-align: left;">
                 <strong>
                     <font size="4" face="Arial">
-                        БҰЙРЫҚ<br /><br />
-                        № @Model.OrderNum от @Model.OrderDate.ToShortDateString() г.<br /><br />
+                        @Model.SignTitle
                     </font>
                 </strong>
-                <font size="4" face="Arial">
-                    @Model.Subject
-                </font>
-            </h4>
-            <font size="4" face="Arial">
-                @Html.Raw(@Model.MainField)
-            </font>
-            <hr style="height:1px;border:none;color:#333;background-color:#333;" />
-            <font size="4" face="Arial">
-                @Html.Raw(@Model.MainFieldTranslate)
-            </font>
-            <br />
-            <br />
-            <div class="container" style="width: 800px; text-align: right;">
-                <div style="width:60%; vertical-align:top; float:left; text-align: left;">
-                    <strong>
-                        <font size="4" face="Arial">
-                            @Model.SignTitle
-                        </font>
-                    </strong>
-                </div>
-                <div style="width:40%; float:right;">
-                    <strong>
-                        <font size="4" face="Arial">
-                            @Model.SignName
-                        </font>
-                    </strong>
-                </div>
+            </div>
+            <div style="width:40%; float:right;">
+                <strong>
+                    <font size="4" face="Arial">
+                        @Model.SignName
+                    </font>
+                </strong>
             </div>
         </div>
         <div class="container" style="width: 800px;">
