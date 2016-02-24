@@ -1390,6 +1390,27 @@ namespace RapidDoc.Models.Repository
         Element15 = 14
     }
 
+    public enum NatureIncomingQuestionKZC : byte
+    {
+        [Display(Name = "Нет")]
+        Element1 = 0,
+
+        [Display(Name = "Обогащение")]
+        Element2 = 1,
+
+        [Display(Name = "Недропользование")]
+        Element3 = 2,
+
+        [Display(Name = "Кадровые вопросы")]
+        Element4 = 3,
+
+        [Display(Name = "Объемы производства")]
+        Element5 = 4,
+
+        [Display(Name = "Комплексный запрос")]
+        Element6 = 5
+    }
+
     public enum IncomingDocumentType : byte
     {
         [Display(Name = "Нет")]
@@ -1435,6 +1456,102 @@ namespace RapidDoc.Models.Repository
         Element14 = 13
     }
 
+    public enum IncomingDocumentKZHCType : byte
+    {
+        [Display(Name = "Нет")]
+        Element1 = 0,
+
+        [Display(Name = "Запрос информации")]
+        Element49 = 50,
+
+        [Display(Name = "Приглашение")]
+        Element50 = 51,
+
+        [Display(Name = "НПА")]
+        Element51 = 52,
+
+        [Display(Name = "Коммерческое предложение")]
+        Element52 = 53,
+
+        [Display(Name = "Спонсорская помощь")]
+        Element53 = 54,
+
+        [Display(Name = "Предложение о сотрудничестве")]
+        Element54 = 55,
+
+        [Display(Name = "Просьба о содействии")]
+        Element55 = 56,
+
+        [Display(Name = "Повестка")]
+        Element56 = 57,
+
+        [Display(Name = "Предписание")]
+        Element57 = 58,
+
+        [Display(Name = "Уведоление")]
+        Element14 = 13
+    }
+
+    public enum OutcomingDocumentKZHCType : byte
+    {
+        [Display(Name = "Нет")]
+        Element1 = 0,
+
+        [Display(Name = "Запрос информации")]
+        Element49 = 50,
+
+        [Display(Name = "Приглашение")]
+        Element50 = 51,
+
+        [Display(Name = "Ответ на запрос")]
+        Element51 = 52,
+
+        [Display(Name = "Коммерческое предложение")]
+        Element52 = 53,
+
+        [Display(Name = "Спонсорская помощь")]
+        Element53 = 54,
+
+        [Display(Name = "Предложение о сотрудничестве")]
+        Element54 = 55,
+
+        [Display(Name = "Просьба о содействии")]
+        Element55 = 56,
+
+        [Display(Name = "Результат рассмотрения")]
+        Element56 = 57,
+
+        [Display(Name = "Согласие/отказ")]
+        Element57 = 58,
+
+        [Display(Name = "Заявка")]
+        Element58 = 59,
+
+        [Display(Name = "Подтверждение участия")]
+        Element59 = 60,
+
+        [Display(Name = "Уведоление")]
+        Element14 = 13
+    }
+
+    public enum IncomingAdmissionMethodType : byte
+    {
+        [Display(Name = "Почта")]
+        Element1 = 0,
+
+        [Display(Name = "Электронная почта")]
+        Element2 = 1,
+
+        [Display(Name = "Факс")]
+        Element3 = 2,
+
+        [Display(Name = "Нарочно")]
+        Element4 = 3,
+
+        [Display(Name = "Телефонограмма")]
+        Element5 = 4
+    }
+
     public enum OutcomingDispatchType : byte
     {
         [Display(Name = "Нет")]
@@ -1469,6 +1586,27 @@ namespace RapidDoc.Models.Repository
 
         [Display(Name = "Фельдсвязь")]
         Element11 = 10
+    }
+
+    public enum OutcomingDispatchTypeKZHC : byte
+    {
+        [Display(Name = "Нет")]
+        Element1 = 0,
+
+        [Display(Name = "Почта")]
+        Element2 = 1,
+
+        [Display(Name = "Электронная почта")]
+        Element3 = 2,
+
+        [Display(Name = "Факс")]
+        Element4 = 3,
+
+        [Display(Name = "Нарочно")]
+        Element5 = 4,
+
+        [Display(Name = "Телефонограмма")]
+        Element6 = 5
     }
 
     public enum CategoryPerson : byte

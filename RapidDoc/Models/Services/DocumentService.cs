@@ -1765,7 +1765,7 @@ namespace RapidDoc.Models.Services
             IRepository<T> repo = _uow.GetRepository<T>();
             List<T> items = repo.FindAll(x => !String.IsNullOrEmpty(x.IncomingDocNum) && x.Executed == true).OrderBy(x => x.IncomingDocNum).ToList();
 
-            items.ForEach(x => result.Add(new USR_IND_IncomingDocList() { Name = x.IncomingDocNum + "/" + x.RegistrationDate.Value.ToShortDateString(), Id = x.DocumentTableId }));
+            items.ForEach(x => result.Add(new USR_IND_IncomingDocList() { Name = x.IncomingDocNum + "/" + x.RegistrationDate.Value.ToShortDateString() + " " + x.DocumentSubject, Id = x.DocumentTableId }));
 
             return new SelectList(result, "Id", "Name", id);
         }
@@ -1778,7 +1778,7 @@ namespace RapidDoc.Models.Services
             IRepository<T> repo = _uow.GetRepository<T>();
             List<T> items = repo.FindAll(x => !String.IsNullOrEmpty(x.OutcomingDocNum)).OrderBy(x => x.OutcomingDocNum).ToList();
 
-            items.ForEach(x => result.Add(new USR_OND_OutcomingDocList() { Name = x.OutcomingDocNum + "/" + x.OutgoingDate.Value.ToShortDateString(), Id = x.DocumentTableId }));
+            items.ForEach(x => result.Add(new USR_OND_OutcomingDocList() { Name = x.OutcomingDocNum + "/" + x.OutgoingDate.Value.ToShortDateString() + " " + x.DocumentSubject, Id = x.DocumentTableId }));
 
             return new SelectList(result, "Id", "Name", id);
         }

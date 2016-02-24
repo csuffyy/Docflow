@@ -234,8 +234,6 @@ namespace RapidDoc.Models.ViewModels
         public DateTime? ExecutionDate { get; set; }
 
         [Display(Name = "Характер вопроса")]
-        public NatureIncomingQuestion NatureQuestionType { get; set; }
-        [Display(Name = "Характер вопроса")]
         public string NatureQuestion { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
@@ -249,8 +247,6 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Тема документа")]
         public string DocumentSubject { get; set; }
 
-        [Display(Name = "Тип документа")]
-        public IncomingDocumentType DocumentType { get; set; }
         [Display(Name = "Тип документа")]
         public string DocumentTypeName { get; set; }
 
@@ -282,8 +278,6 @@ namespace RapidDoc.Models.ViewModels
         public bool Language_Other { get; set; }
 
         [Display(Name = "Вид отправки")]
-        public OutcomingDispatchType OutcomingDispatchType { get; set; }
-        [Display(Name = "Вид отправки")]
         public string DispatchType { get; set; }
 
         [Display(Name = "Номер документа")]
@@ -306,13 +300,8 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Список согласования")]
         public string ListAgreement { get; set; }
 
-        [Display(Name = "Тип контроля")]
-        public ControlType ControlType { get; set; }
         [Display(Name = "Приоритет")]
         public ServiceIncidientPriority Priority { get; set; }
-
-        [Display(Name = "Номер бланка")]
-        public string BlankNumber { get; set; }
 
         [Display(Name = "Ответ на входящий")]
         public Guid? IncomingNumberDocId { get; set; }
@@ -330,8 +319,6 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Тема документа")]
         public string DocumentSubject { get; set; }
 
-        [Display(Name = "Тип документа")]
-        public IncomingDocumentType DocumentType { get; set; }
         [Display(Name = "Тип документа")]
         public string DocumentTypeName { get; set; }
 

@@ -218,6 +218,12 @@
                 @Html.EnumToDescription(Model.DocumentType)
             </div>
         }
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.AdmissionMethodType):
+        </div>
+        <div class="editor-field">
+            @Html.EnumToDescription(Model.AdmissionMethodType)
+        </div>
     </div>
     <div class="col-xs-6">
         <div class="editor-label">

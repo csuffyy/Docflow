@@ -145,7 +145,6 @@ namespace RapidDoc.Models.DomainModels
 
         public DateTime? ExecutionDate { get; set; }
 
-        public NatureIncomingQuestion NatureQuestionType { get; set; }
         public string NatureQuestion { get; set; }
 
         public string ListsCount { get; set; }
@@ -153,8 +152,6 @@ namespace RapidDoc.Models.DomainModels
         public string ApplicationsCount { get; set; }
         public string IncomingDocNum { get; set; }
         public string DocumentSubject { get; set; }
-
-        public IncomingDocumentType DocumentType { get; set; }
         public string DocumentTypeName { get; set; }
         public bool Executed { get; set; }
 
@@ -183,7 +180,6 @@ namespace RapidDoc.Models.DomainModels
         public bool Language_Other { get; set; }
 
         public DateTime? OutgoingDate { get; set; }
-        public OutcomingDispatchType OutcomingDispatchType { get; set; }
         public string DispatchType { get; set; }
 
         public Guid? OrganizationTableId { get; set; }
@@ -194,9 +190,7 @@ namespace RapidDoc.Models.DomainModels
 
         public string Signer { get; set; }
 
-        public ControlType ControlType { get; set; }
         public ServiceIncidientPriority Priority { get; set; }
-        public string BlankNumber { get; set; }
 
         public Guid? IncomingNumberDocId { get; set; }
         public string IncomingNumber { get; set; }
@@ -207,7 +201,6 @@ namespace RapidDoc.Models.DomainModels
         public string OutcomingDocNum { get; set; }
         public string DocumentSubject { get; set; }
 
-        public IncomingDocumentType DocumentType { get; set; }
         public string DocumentTypeName { get; set; }
         public string ListAgreement { get; set; }
 

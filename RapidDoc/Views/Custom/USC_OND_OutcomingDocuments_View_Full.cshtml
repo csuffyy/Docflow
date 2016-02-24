@@ -104,19 +104,6 @@
         </div>
     }
 </div>
-<div class="row">
-    <div class="col-xs-2">
-        <div class="editor-label">
-            @Html.LabelForRequired(model => Model.NeedTranslate):
-        </div>
-    </div>
-
-    <div class="col-xs-2">
-        <div class="editor-field">
-            @Html.CheckBoxFor(model => model.NeedTranslate, new { @disabled = true })
-        </div>
-    </div>
-</div>
 
 <div class="editor-label">
     @Html.LabelFor(model => model.OrganizationTableId)
@@ -179,24 +166,12 @@ else
 <div class="row">
     <div class="col-xs-6">
         <div class="editor-label">
-            @Html.LabelFor(model => Model.ControlType)
-        </div>
-        <div class="editor-field">
-            @Html.EnumToDescription(Model.ControlType)
-        </div>
-        <div class="editor-label">
             @Html.LabelFor(model => Model.Priority)
         </div>
         <div class="editor-field">
             @Html.EnumToDescription(Model.Priority)
         </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => Model.BlankNumber)
-        </div>
-        <div class="editor-field">
-            @Html.DisplayTextFor(model => Model.BlankNumber)
-        </div>
         <div class="editor-label">
             @Html.LabelFor(model => Model.DocumentTypeName):
         </div>

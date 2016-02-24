@@ -144,15 +144,8 @@
 <div>
     @Html.TextBoxFor(model => Model.ListAgreement, new { @class = "form-control", @data_role = "tagsinputEmplIntercompany", @size = 256, placeholder = "Список согласования" })
 </div>
-
 <hr />
 
-<div class="editor-label">
-    @Html.LabelForRequired(model => Model.ControlType)
-</div>
-<div class="editor-field">
-    @Html.EnumDropDownListFor(model => Model.ControlType, new { @class = "selectpicker" })
-</div>
 <div class="editor-label">
     @Html.LabelForRequired(model => Model.Priority)
 </div>

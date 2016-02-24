@@ -10333,17 +10333,35 @@ namespace RapidDoc.Models.ViewModels
 
     public class USR_IND_IncomingDocuments_View : BasicIncomingDocumentsView
     {
+        [Display(Name = "Характер вопроса")]
+        public NatureIncomingQuestion NatureQuestionType { get; set; }
 
+        [Display(Name = "Тип документа")]
+        public IncomingDocumentType DocumentType { get; set; }
     }
 
     public class USK_IND_IncomingDocuments_View : BasicIncomingDocumentsView
     {
+        [Display(Name = "Характер вопроса")]
+        public NatureIncomingQuestion NatureQuestionType { get; set; }
 
+        [Display(Name = "Тип документа")]
+        public IncomingDocumentKZHCType DocumentType { get; set; }
+
+        [Display(Name = "Способ поступления")]
+        public IncomingAdmissionMethodType AdmissionMethodType { get; set; }
     }
 
     public class USC_IND_IncomingDocuments_View : BasicIncomingDocumentsView
     {
+        [Display(Name = "Характер вопроса")]
+        public NatureIncomingQuestionKZC NatureQuestionType { get; set; }
 
+        [Display(Name = "Тип документа")]
+        public IncomingDocumentKZHCType DocumentType { get; set; }
+
+        [Display(Name = "Способ поступления")]
+        public IncomingAdmissionMethodType AdmissionMethodType { get; set; }
     }
 
     #endregion
@@ -10358,17 +10376,32 @@ namespace RapidDoc.Models.ViewModels
 
     public class USR_OND_OutcomingDocuments_View : BasicOutcomingDocumentsView
     {
+        [Display(Name = "Вид отправки")]
+        public OutcomingDispatchType OutcomingDispatchType { get; set; }
 
+        [Display(Name = "Номер бланка")]
+        public string BlankNumber { get; set; }
+
+        [Display(Name = "Тип документа")]
+        public IncomingDocumentType DocumentType { get; set; }
     }
 
     public class USK_OND_OutcomingDocuments_View : BasicOutcomingDocumentsView
     {
+        [Display(Name = "Вид отправки")]
+        public OutcomingDispatchTypeKZHC OutcomingDispatchType { get; set; }
 
+        [Display(Name = "Тип документа")]
+        public OutcomingDocumentKZHCType DocumentType { get; set; }
     }
 
     public class USC_OND_OutcomingDocuments_View : BasicOutcomingDocumentsView
     {
+        [Display(Name = "Вид отправки")]
+        public OutcomingDispatchTypeKZHC OutcomingDispatchType { get; set; }
 
+        [Display(Name = "Тип документа")]
+        public OutcomingDocumentKZHCType DocumentType { get; set; }
     }
 
     #endregion

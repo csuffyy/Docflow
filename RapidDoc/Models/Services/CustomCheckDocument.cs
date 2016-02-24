@@ -957,7 +957,7 @@ namespace RapidDoc.Models.Services
                 }
             }
 
-            if (type.IsSubclassOf(typeof(BasicIncomingDocumentsView)))
+            if (type == (new USR_IND_IncomingDocuments_View()).GetType())
             {
                 if (String.IsNullOrEmpty(actionModel.NatureQuestion) && actionModel.NatureQuestionType == NatureIncomingQuestion.Element1)
                 {
@@ -967,6 +967,34 @@ namespace RapidDoc.Models.Services
                 {
                     errorList.Add("Необходимо заполнить тип документа ");
                 }
+            }
+
+            if (type == (new USK_IND_IncomingDocuments_View()).GetType())
+            {
+                if (String.IsNullOrEmpty(actionModel.NatureQuestion) && actionModel.NatureQuestionType == NatureIncomingQuestion.Element1)
+                {
+                    errorList.Add("Необходимо заполнить характер вопроса ");
+                }
+                if (String.IsNullOrEmpty(actionModel.DocumentTypeName) && actionModel.DocumentType == IncomingDocumentKZHCType.Element1)
+                {
+                    errorList.Add("Необходимо заполнить тип документа ");
+                }
+            }
+
+            if (type == (new USC_IND_IncomingDocuments_View()).GetType())
+            {
+                if (String.IsNullOrEmpty(actionModel.NatureQuestion) && actionModel.NatureQuestionType == NatureIncomingQuestionKZC.Element1)
+                {
+                    errorList.Add("Необходимо заполнить характер вопроса ");
+                }
+                if (String.IsNullOrEmpty(actionModel.DocumentTypeName) && actionModel.DocumentType == IncomingDocumentKZHCType.Element1)
+                {
+                    errorList.Add("Необходимо заполнить тип документа ");
+                }
+            }
+
+            if (type.IsSubclassOf(typeof(BasicIncomingDocumentsView)))
+            {
                 if (actionModel.OrganizationTableId == null || (Guid?)actionModel.OrganizationTableId == Guid.Empty)
                 {
                     errorList.Add("Необходимо выбрать Корреспондента");
@@ -977,7 +1005,7 @@ namespace RapidDoc.Models.Services
                 }
             }
 
-            if (type.IsSubclassOf(typeof(BasicOutcomingDocumentsView)))
+            if (type == (new USR_OND_OutcomingDocuments_View()).GetType())
             {
                 if (String.IsNullOrEmpty(actionModel.DispatchType) && actionModel.OutcomingDispatchType == OutcomingDispatchType.Element1)
                 {
@@ -987,6 +1015,34 @@ namespace RapidDoc.Models.Services
                 {
                     errorList.Add("Необходимо заполнить тип документа ");
                 }
+            }
+
+            if (type == (new USK_OND_OutcomingDocuments_View()).GetType())
+            {
+                if (String.IsNullOrEmpty(actionModel.DispatchType) && actionModel.OutcomingDispatchType == OutcomingDispatchTypeKZHC.Element1)
+                {
+                    errorList.Add("Необходимо заполнить вид отправки ");
+                }
+                if (String.IsNullOrEmpty(actionModel.DocumentTypeName) && actionModel.DocumentType == OutcomingDocumentKZHCType.Element1)
+                {
+                    errorList.Add("Необходимо заполнить тип документа ");
+                }
+            }
+
+            if (type == (new USC_OND_OutcomingDocuments_View()).GetType())
+            {
+                if (String.IsNullOrEmpty(actionModel.DispatchType) && actionModel.OutcomingDispatchType == OutcomingDispatchTypeKZHC.Element1)
+                {
+                    errorList.Add("Необходимо заполнить вид отправки ");
+                }
+                if (String.IsNullOrEmpty(actionModel.DocumentTypeName) && actionModel.DocumentType == OutcomingDocumentKZHCType.Element1)
+                {
+                    errorList.Add("Необходимо заполнить тип документа ");
+                }
+            }
+
+            if (type.IsSubclassOf(typeof(BasicOutcomingDocumentsView)))
+            {
                 if (actionModel.OrganizationTableId == null || (Guid?)actionModel.OrganizationTableId == Guid.Empty)
                 {
                     errorList.Add("Необходимо выбрать Получателя");

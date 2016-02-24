@@ -5,6 +5,7 @@
     Model.OutgoingDate = DateTime.Today;
 }
 
+@Html.HiddenFor(model => Model.NeedTranslate)
 <div class="row">
     <div class="col-xs-8">
         <div class="editor-label">
@@ -76,19 +77,6 @@
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-xs-2">
-        <div class="editor-label">
-            @Html.LabelForRequired(model => Model.NeedTranslate):
-        </div>
-    </div>
-
-    <div class="col-xs-2">
-        <div class="editor-field">
-            @Html.CheckBoxFor(model => model.NeedTranslate)
-        </div>
-    </div>
-</div>
 <br />
 
 <div class="row">
@@ -144,26 +132,13 @@
 <div>
     @Html.TextBoxFor(model => Model.ListAgreement, new { @class = "form-control", @data_role = "tagsinputEmplIntercompany", @size = 256, placeholder = "Список согласования" })
 </div>
-
 <hr />
 
-<div class="editor-label">
-    @Html.LabelForRequired(model => Model.ControlType)
-</div>
-<div class="editor-field">
-    @Html.EnumDropDownListFor(model => Model.ControlType, new { @class = "selectpicker" })
-</div>
 <div class="editor-label">
     @Html.LabelForRequired(model => Model.Priority)
 </div>
 <div class="editor-field">
     @Html.EnumDropDownListFor(model => Model.Priority, new { @class = "selectpicker" })
-</div>
-<div class="editor-label">
-    @Html.LabelForRequired(model => Model.BlankNumber)
-</div>
-<div>
-    @Html.TextBoxFor(model => Model.BlankNumber, new { @class = "form-control", placeholder = "Номер бланка" })
 </div>
 
 <div class="editor-label">

@@ -4906,7 +4906,8 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_IND_IncomingDocuments_Table : BasicIncomingDocumentsTable
     {
-            
+        public NatureIncomingQuestion NatureQuestionType { get; set; }
+        public IncomingDocumentType DocumentType { get; set; }
     }
 
     #endregion
@@ -4915,7 +4916,9 @@ namespace RapidDoc.Models.DomainModels
 
     public class USK_IND_IncomingDocuments_Table : BasicIncomingDocumentsTable
     {
-
+        public NatureIncomingQuestion NatureQuestionType { get; set; }
+        public IncomingDocumentKZHCType DocumentType { get; set; }
+        public IncomingAdmissionMethodType AdmissionMethodType { get; set; }
     }
 
     #endregion
@@ -4924,7 +4927,9 @@ namespace RapidDoc.Models.DomainModels
 
     public class USC_IND_IncomingDocuments_Table : BasicIncomingDocumentsTable
     {
-
+        public NatureIncomingQuestionKZC NatureQuestionType { get; set; }
+        public IncomingDocumentKZHCType DocumentType { get; set; }
+        public IncomingAdmissionMethodType AdmissionMethodType { get; set; }
     }
 
     #endregion
@@ -4933,7 +4938,9 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_OND_OutcomingDocuments_Table : BasicOutcomingDocumentsTable
     {
-
+        public OutcomingDispatchType OutcomingDispatchType { get; set; }
+        public string BlankNumber { get; set; }
+        public IncomingDocumentType DocumentType { get; set; }
     }
 
     #endregion
@@ -4942,7 +4949,8 @@ namespace RapidDoc.Models.DomainModels
 
     public class USK_OND_OutcomingDocuments_Table : BasicOutcomingDocumentsTable
     {
-
+        public OutcomingDispatchTypeKZHC OutcomingDispatchType { get; set; }
+        public OutcomingDocumentKZHCType DocumentType { get; set; }
     }
     
     #endregion
@@ -4951,7 +4959,8 @@ namespace RapidDoc.Models.DomainModels
 
     public class USC_OND_OutcomingDocuments_Table : BasicOutcomingDocumentsTable
     {
-
+        public OutcomingDispatchTypeKZHC OutcomingDispatchType { get; set; }
+        public OutcomingDocumentKZHCType DocumentType { get; set; }
     }
 
     #endregion
