@@ -71,6 +71,13 @@ namespace RapidDoc.Models.ViewModels
         public bool Enable { get; set; }
     }
 
+    public class PortalParametersView : BasicCompanyNullView
+    {
+        [Display(Name = "Отчетные подразделения")]
+        public string ReportDepartments { get; set; }
+       
+    }
+
     public class TaskDelegationView
     {
         public string DocumentNum { get; set; }

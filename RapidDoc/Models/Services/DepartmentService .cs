@@ -36,6 +36,8 @@ namespace RapidDoc.Models.Services
 
         DepartmentTable getParentDepartment(Guid? id, Guid companyId);
         bool checkParentDepartment(List<string> groupName, string userId);
+
+        object GetJsonDepartmentCompany();
     }
 
     public class DepartmentService : IDepartmentService
@@ -186,6 +188,19 @@ namespace RapidDoc.Models.Services
             return groupName.Select(x => x)
                           .Intersect(userManager.GetRoles(userId))
                           .Any(); ;
+        }
+
+
+        public object GetJsonDepartmentCompany()
+        {
+            var jsondata = from c in GetAll()
+                           select new
+                           {
+                               value = string.Format("{0},({1})", c.Id, c.DepartmentName),
+                               text = string.Format("{0}", c.DepartmentName)
+                           };
+
+            return jsondata;
         }
     }
 }

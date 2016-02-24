@@ -29,7 +29,7 @@ namespace RapidDoc.Models.Services
             ProcessTable processTable);
         List<string> GetParentListDepartment(List<DepartmentTable> departmentList);
         int GetDepartmentTaskReport(List<DepartmentTable> departmentTable, Dictionary<string, int> blockDepartment,
-            List<TaskReportModel> taskReportModel, Excel.Worksheet excelWorksheet, int rowCount, bool usesBlock, int worksheetNumber, string headerText = "");
+            List<TaskReportModel> taskReportModel, Excel.Worksheet excelWorksheet, int rowCount, bool usesBlock, int worksheetNumber, bool otherCompany, string headerText = "");
     }
     
     public class ReportService: IReportService
@@ -208,7 +208,7 @@ namespace RapidDoc.Models.Services
         }
 
 
-        public int GetDepartmentTaskReport(List<DepartmentTable> departmentTable, Dictionary<string, int> blockDepartment, List<TaskReportModel> taskReportModel, Excel.Worksheet excelWorksheet, int rowCount, bool usesBlock, int worksheetNumber, string headerText = "")
+        public int GetDepartmentTaskReport(List<DepartmentTable> departmentTable, Dictionary<string, int> blockDepartment, List<TaskReportModel> taskReportModel, Excel.Worksheet excelWorksheet, int rowCount, bool usesBlock, int worksheetNumber, bool otherCompany, string headerText = "")
         {
             int item, maxColumns = worksheetNumber == 3 ? 11 : 10, i = 1;
             bool isBlocks = usesBlock;
@@ -229,7 +229,7 @@ namespace RapidDoc.Models.Services
                 if (blockDepartment.TryGetValue(department.DepartmentName, out item) && isBlocks == false)
                     continue;
 
-                if (blockDepartment.TryGetValue(department.DepartmentName, out item) && isBlocks == true)
+                if (blockDepartment.TryGetValue(department.DepartmentName, out item) && isBlocks == true && ((otherCompany == false) || (otherCompany == true && taskReportModel.Where(x => x.Department.Contains(department.Id.ToString())).Count() > 0)))
                 {
                     Excel.Range range = excelWorksheet.Range[excelWorksheet.Cells[rowCount, 2], excelWorksheet.Cells[rowCount, maxColumns]];
                     this.AllBordersBlock(range.Borders);
@@ -299,7 +299,7 @@ namespace RapidDoc.Models.Services
 
                 childDepartment = _DepartmentService.GetPartial(x => x.ParentDepartmentId == department.Id).ToList();
                 if (childDepartment.Count() > 0)
-                    rowCount = this.GetDepartmentTaskReport(childDepartment, blockDepartment, taskReportModel, excelWorksheet, rowCount, false, worksheetNumber);
+                    rowCount = this.GetDepartmentTaskReport(childDepartment, blockDepartment, taskReportModel, excelWorksheet, rowCount, false, worksheetNumber, otherCompany);
             }
             return rowCount;
             

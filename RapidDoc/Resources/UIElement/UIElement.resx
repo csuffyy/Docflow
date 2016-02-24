@@ -666,4 +666,7 @@
   <data name="SendExecutorRegEmail" xml:space="preserve">
     <value>Вам назначен документ на регистрацию</value>
   </data>
+  <data name="PortalParameters" xml:space="preserve">
+    <value>Параметры портала</value>
+  </data>
 </root>

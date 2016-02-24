@@ -60,6 +60,12 @@ namespace RapidDoc.Models.DomainModels
         
     }
 
+    public class PortalParametersTable : BasicCompanyNullTable
+    {
+        public string ReportDepartments { get; set; }
+
+    }
+
     public class CountryTable : BasicTable
     {
         public string CountryName { get; set; }

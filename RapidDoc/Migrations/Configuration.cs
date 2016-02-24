@@ -15,6 +15,13 @@
 
         protected override void Seed(RapidDoc.Models.Infrastructure.ApplicationDbContext context)
         {
+            //context.PortalParametersTable.AddOrUpdate(
+            //      p => p.ReportDepartments,
+            //      new RapidDoc.Models.DomainModels.PortalParametersTable { ReportDepartments = "", CreatedDate = DateTime.UtcNow, ModifiedDate = DateTime.UtcNow, CompanyTableId = new Guid("5C42F5F4-C101-E411-846A-082E5F0C35C2") },
+            //      new RapidDoc.Models.DomainModels.PortalParametersTable { ReportDepartments = "", CreatedDate = DateTime.UtcNow, ModifiedDate = DateTime.UtcNow, CompanyTableId = new Guid("C4D56B2A-55C6-E511-9D2C-0050569BB4B0") },
+            //      new RapidDoc.Models.DomainModels.PortalParametersTable { ReportDepartments = "", CreatedDate = DateTime.UtcNow, ModifiedDate = DateTime.UtcNow, CompanyTableId = new Guid("5B42F5F4-C101-E411-846A-082E5F0C35C2") }
+            //    );
+
             //  This method will be called after migrating to the latest version.
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 

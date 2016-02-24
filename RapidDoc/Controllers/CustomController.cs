@@ -30,9 +30,10 @@ namespace RapidDoc.Controllers
         private readonly IQuestionRequestService _QuestionRequestService;
         private readonly IProtocolFoldersService _ProtocolFoldersService;
         private readonly IProcessService _ProcessService;
+        private readonly IDepartmentService _DepartmentService;
 
         public CustomController(IEmplService emplService, ISystemService systemService, IDocumentService documentService, IServiceIncidentService serviceIncidentService, ICompanyService companyService, IAccountService accountService, ITripSettingsService tripSettingsService, INumberSeqService numberSeqService, ICountryService countryService, IOrganizationService organizationService, IProcessService processService,
-            IReasonRequestService reasonRequestService, IQuestionRequestService questionRequestService, IProtocolFoldersService protocolFoldersService, ITripMRPService iTripMRPService)
+            IReasonRequestService reasonRequestService, IQuestionRequestService questionRequestService, IProtocolFoldersService protocolFoldersService, ITripMRPService iTripMRPService, IDepartmentService departmentService)
             : base(companyService, accountService)
         {
             _EmplService = emplService;
@@ -48,6 +49,7 @@ namespace RapidDoc.Controllers
             _QuestionRequestService = questionRequestService;
             _ProtocolFoldersService = protocolFoldersService;
             _ITripMRPService = iTripMRPService;
+            _DepartmentService = departmentService;
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
@@ -112,7 +114,13 @@ namespace RapidDoc.Controllers
             var jsondata = _EmplService.GetJsonEmplBothOption();
             return Json(jsondata, JsonRequestBehavior.AllowGet);
         }
-        
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public JsonResult JsonDepartmentCompany()
+        {
+            var jsondata = _DepartmentService.GetJsonDepartmentCompany();
+            return Json(jsondata, JsonRequestBehavior.AllowGet);
+        }
 
         //Custom
         public ActionResult GetIncidentAdminData(RapidDoc.Models.ViewModels.USR_REQ_IT_CTP_IncidentIT_View model)
