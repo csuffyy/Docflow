@@ -8,184 +8,144 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>PdfReport</title>
+    <style type="text/css">
+        p {
+            margin: 0;
+            text-align: justify;
+        }
+
+        .container {
+            height: auto;
+            overflow: hidden;
+        }
+    </style>
 </head>
 <body>
     <div>
-        <br />
-        <table width="900">
-            <tr>
-                <td align="right">
+        <div style="border: 1px solid black; padding: 5px;">
+            <br />
+            <div class="container" style="width: 800px; text-align: right;">
+                <div>
                     <img src="@Url.Content(String.Format("~/Content/Custom/image-icon/logo-{0}.png", ViewBag.CompanyAliasName))">
-                </td>
-            </tr>
-        </table>
-        <br />
-        <h4 align="center">
-            <strong>
+                </div>
+            </div>
+            <br />
+            <h4 align="center">
+                <strong>
+                    <font size="4" face="Arial">
+                        БҰЙРЫҚ<br /><br />
+                        № @Model.OrderNum от @Model.OrderDate.ToShortDateString() г.<br /><br />
+                    </font>
+                </strong>
                 <font size="4" face="Arial">
-                    БҰЙРЫҚ<br /><br />
-                    № @Model.OrderNum от @Model.OrderDate.ToShortDateString() г.<br /><br />
+                    @Model.Subject
                 </font>
-            </strong>
+            </h4>
             <font size="4" face="Arial">
-                @Model.Subject
+                @Html.Raw(@Model.MainField)
             </font>
-        </h4>
-        <font size="4" face="Arial">
-            @Html.Raw(@Model.MainField)
-        </font>
-        <hr style="height:1px;border:none;color:#333;background-color:#333;" />
-        <font size="4" face="Arial">
-            @Html.Raw(@Model.MainFieldTranslate)
-        </font>
-        <br />
-        <br />
-        <table width="800">
-            <tr>
-                <td align="left">
+            <hr style="height:1px;border:none;color:#333;background-color:#333;" />
+            <font size="4" face="Arial">
+                @Html.Raw(@Model.MainFieldTranslate)
+            </font>
+            <br />
+            <br />
+            <div class="container" style="width: 800px; text-align: right;">
+                <div style="width:60%; vertical-align:top; float:left; text-align: left;">
                     <strong>
                         <font size="4" face="Arial">
                             @Model.SignTitle
                         </font>
                     </strong>
-                </td>
-                <td align="right" nowrap>
+                </div>
+                <div style="width:40%; float:right;">
                     <strong>
                         <font size="4" face="Arial">
                             @Model.SignName
                         </font>
                     </strong>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <br />
-                    <font size="4" face="Arial">
-                        @Html.Raw(Model.ListFileName)
-                    </font>
-                </td>
-            </tr>
-            @if (ViewBag.Acquainted == true)
-            { 
-            <tr>
-                <td align="left">
+                </div>
+            </div>
+        </div>
+        <div class="container" style="width: 800px;">
+            <div style="text-align: left;">
+                <br />
+                <font size="4" face="Arial">
+                    @Html.Raw(Model.ListFileName)
+                </font>
+            </div>
+        </div>
+
+        @if (ViewBag.Acquainted == true)
+        {
+            <div class="container" style="width: 800px;">
+                <div style="text-align: left;">
                     <br />
                     <font size="4" face="Arial">
                         Бұйрықпен таныстым:
                     </font>
-                </td>
-            </tr>
-            <tr>
-                <td align="left">  
+                </div>
+            </div>
+            <div class="container" style="width: 800px;">
+                <div style="text-align: left;">
                     <font size="4" face="Arial">
                         С приказом ознакомлен(а):
                     </font>
-                </td>
-            </tr>
-            }
-            <tr>
-                <td>
-                    <br />
-                </td>
-            </tr>
-            @*
-    @if (((List<FileTable>)ViewBag.ListFiles).Count > 0)
-    {
-        <tr>
-            <td align="left">
-                <strong>
-                    <font size="4" face="Arial">
-                        Вложенные файлы:
-                    </font>
-                </strong>
-            </td>
-        </tr>
-        foreach (FileTable file in ViewBag.ListFiles)
-        {
-            <tr>
-
-                    <td align="left">
-                        <font size="4" face="Arial">
-                                @file.FileName
-                        </font>
-                    </td>
-
-            </tr>
+                </div>
+            </div>
         }
-        <tr>
-            <td>
-                <br />
-            </td>
-        </tr>
-    }
-            *@
-            @if ((DocumentState)ViewBag.DocState == DocumentState.Closed)
-            {         
-                <tr>
-                    <td align="left">
-                        <strong>
-                            <font size="3" face="Arial">
-                                Согласовано:
-                            </font>
-                        </strong>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <br />
-                    </td>
-                </tr>
-                foreach (EmplTable item in ViewBag.ListUsers)
-                {
-                    <tr>
-                               
-                            <td align="left">
-                                <font size="3" face="Arial">                           
-                                        @item.TitleName                          
-                                </font>
-                            </td>
-                            <td align="right">
-                                <font size="3" face="Arial">
-                                       @item.ShortFullNameType2
-                                </font>
-                            </td>
-                    
-                    </tr>
-                }
-                <tr>
-                    <td>
-                        <br />
-                    </td>
-                </tr>
-            }        
-            <tr>
-                <td align="left">
+        <br />
+        @if ((DocumentState)ViewBag.DocState == DocumentState.Closed)
+        {
+            <div class="container" style="width: 800px;">
+                <div style="text-align: left;">
                     <strong>
                         <font size="3" face="Arial">
-                            Подготовлено:
+                            Согласовано:
                         </font>
                     </strong>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <br />
-                </td>
-            </tr>
-            <tr>
-                <td align="left">
+                </div>
+            </div>
+            <br />
+            foreach (EmplTable item in ViewBag.ListUsers)
+            {
+                <div class="container" style="width: 800px; text-align: right;">
+                    <div style="width:50%; vertical-align:top; float:left; text-align: left;">
+                        <font size="3" face="Arial">
+                            @item.TitleName
+                        </font>
+                    </div>
+                    <div style="width:50%; float:right;">
+                        <font size="3" face="Arial">
+                            @item.ShortFullNameType2
+                        </font>
+                    </div>
+                </div>
+            }
+            <br />
+        }
+        <div class="container" style="width: 800px;">
+            <div style="text-align: left;">
+                <strong>
                     <font size="3" face="Arial">
-                        @ViewBag.Department
+                        Подготовлено:
                     </font>
-                </td>
-                <td align="right" nowrap>
-                    <font size="3" face="Arial">
-                        @ViewBag.ManagerName
-                    </font>
-                </td>
-            </tr>
-            
-        </table>
+                </strong>
+            </div>
+        </div>
+        <br />
+        <div class="container" style="width: 800px; text-align: right;">
+            <div style="width:50%; vertical-align:top; float:left; text-align: left;">
+                <font size="3" face="Arial">
+                    @ViewBag.Department
+                </font>
+            </div>
+            <div style="width:50%; float:right;">
+                <font size="3" face="Arial">
+                    @ViewBag.ManagerName
+                </font>
+            </div>
+        </div>
     </div>
 </body>
 </html>
