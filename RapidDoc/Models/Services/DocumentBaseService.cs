@@ -35,6 +35,7 @@ namespace RapidDoc.Models.Services
         private IUnitOfWork _uow;
         private readonly IDocumentService _DocumentService;
         private readonly ISystemService _SystemService;
+        private readonly IGroupProcessService _GroupProcessService;
         private readonly IItemCauseService _ItemCauseService;
         private readonly IProtocolFoldersService _ProtocolFoldersService;
         private readonly IOrganizationService _OrganizationService;  
@@ -43,7 +44,7 @@ namespace RapidDoc.Models.Services
 
         protected UserManager<ApplicationUser> UserManager { get; private set; }
 
-        public DocumentBaseService(IUnitOfWork uow, IDocumentService documentService, ISystemService systemService, IItemCauseService itemCauseService, IProtocolFoldersService protocolFoldersService, IOrganizationService organizationService)
+        public DocumentBaseService(IUnitOfWork uow, IDocumentService documentService, ISystemService systemService, IItemCauseService itemCauseService, IProtocolFoldersService protocolFoldersService, IOrganizationService organizationService, IGroupProcessService groupProcessService)
         {
             _uow = uow;
             repo = uow.GetRepository<SearchTable>();
@@ -54,6 +55,7 @@ namespace RapidDoc.Models.Services
             _ItemCauseService = itemCauseService;
             _ProtocolFoldersService = protocolFoldersService;
             _OrganizationService = organizationService;
+            _GroupProcessService = groupProcessService;
 
             UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_uow.GetDbContext<ApplicationDbContext>()));
         }
@@ -112,6 +114,103 @@ namespace RapidDoc.Models.Services
             }
             else
             {
+                var delegations = (from delegation in contextQuery.DelegationTable
+                                   join emplTo in contextQuery.EmplTable on delegation.EmplTableToId equals emplTo.Id
+                                   where delegation.DateFrom <= currentDate && delegation.DateTo >= currentDate && delegation.isArchive == false
+                                   && delegation.CompanyTableId == user.CompanyTableId && emplTo.ApplicationUserId == user.Id
+                                   select delegation).ToList();
+
+                List<Guid> childGroup = new List<Guid>();
+
+                foreach (var item in delegations.Where(x => x.GroupProcessTableId != null))
+                {
+                    childGroup.AddRange(_GroupProcessService.GetGroupChildren(item.GroupProcessTableId));
+                    childGroup.Add((Guid)item.GroupProcessTableId);
+                }
+
+                var childGroupArray = childGroup.Distinct().ToArray();
+
+                List<Guid> documentAccessList = new List<Guid>();
+
+                documentAccessList.AddRange(from document in contextQuery.DocumentTable
+                                            where (document.ApplicationUserCreatedId == user.Id || document.Share == true) && document.DocumentState != DocumentState.Created && document.DocType == type && (document.CreatedDate >= startDate && document.CreatedDate <= endDate) && user.CompanyTableId == document.CompanyTableId
+                                            select document.Id);
+
+                documentAccessList.AddRange(from document in contextQuery.DocumentTable
+                                            join tracker in contextQuery.WFTrackerTable on document.Id equals tracker.DocumentTableId
+                                            where (tracker.Users.Any(x => x.UserId == user.Id) || tracker.SignUserId == user.Id) && document.DocumentState != DocumentState.Created && document.DocType == type && (document.CreatedDate >= startDate && document.CreatedDate <= endDate) && user.CompanyTableId == document.CompanyTableId
+                                            select document.Id);
+
+                documentAccessList.AddRange(from document in contextQuery.DocumentTable
+                                            join process in contextQuery.ProcessTable on document.ProcessTableId equals process.Id
+                                            join role in contextQuery.Roles on process.StartReaderRoleId equals role.Id
+                                            where (process.StartReaderRoleId != null && role.Users.Any(x => x.UserId == user.Id)) && document.DocumentState != DocumentState.Created && document.DocType == type && (document.CreatedDate >= startDate && document.CreatedDate <= endDate) && user.CompanyTableId == document.CompanyTableId
+                                            select document.Id);
+
+                documentAccessList.AddRange(from document in contextQuery.DocumentTable
+                                            join process in contextQuery.ProcessTable on document.ProcessTableId equals process.Id
+                                            join role in contextQuery.Roles on process.DocumentBaseRoleId equals role.Id
+                                            where (process.DocumentBaseRoleId != null && role.Users.Any(x => x.UserId == user.Id)) && document.DocumentState != DocumentState.Created && document.DocType == type && (document.CreatedDate >= startDate && document.CreatedDate <= endDate) && user.CompanyTableId == document.CompanyTableId
+                                            select document.Id);
+
+                documentAccessList.AddRange(from document in contextQuery.DocumentTable
+                                            join reader in contextQuery.DocumentReaderTable on document.Id equals reader.DocumentTableId
+                                            where document.DocumentState != DocumentState.Created && document.DocType == type && (document.CreatedDate >= startDate && document.CreatedDate <= endDate) && user.CompanyTableId == document.CompanyTableId && reader.UserId == user.Id
+                                            select document.Id);
+
+                documentAccessList.AddRange(from document in contextQuery.DocumentTable
+                                            join reader in contextQuery.DocumentReaderTable on document.Id equals reader.DocumentTableId
+                                            join role in contextQuery.Roles on reader.RoleId equals role.Id
+                                            where document.DocumentState != DocumentState.Created && document.DocType == type && (document.CreatedDate >= startDate && document.CreatedDate <= endDate) && user.CompanyTableId == document.CompanyTableId && reader.RoleId != null && role.Users.Any(x => x.UserId == user.Id)
+                                            select document.Id);
+
+                if (delegations.Count() > 0)
+                {
+                    documentAccessList.AddRange(from document in contextQuery.DocumentTable
+                                                where (contextQuery.DelegationTable.Any(d => d.EmplTableTo.ApplicationUserId == user.Id && d.DateFrom <= currentDate && d.DateTo >= currentDate && d.isArchive == false
+                                                && d.CompanyTableId == user.CompanyTableId
+                                                && document.DocumentState != DocumentState.Created && document.DocType == type && (document.CreatedDate >= startDate && document.CreatedDate <= endDate) && user.CompanyTableId == document.CompanyTableId
+                                                && (d.GroupProcessTableId == null || (d.GroupProcessTableId != null && childGroupArray.Any(x => x == document.ProcessTable.GroupProcessTableId)))
+                                                && (d.ProcessTableId == null || d.ProcessTableId == document.ProcessTableId)
+                                                && contextQuery.WFTrackerTable.Any(w => w.DocumentTableId == document.Id && w.TrackerType == TrackerType.Waiting && w.Users.Any(b => b.UserId == d.EmplTableFrom.ApplicationUserId))))
+                                                select document.Id);
+                }
+
+                documentAccessList.Distinct();
+                var documentAccessListArray = documentAccessList.ToArray();
+
+                items = (from document in contextQuery.DocumentTable
+                            where documentAccessListArray.Contains(document.Id)
+                            join company in contextQuery.CompanyTable on document.CompanyTableId equals company.Id
+                            join process in contextQuery.ProcessTable on document.ProcessTableId equals process.Id
+                            let empl = contextQuery.EmplTable.Where(p => p.ApplicationUserId == document.ApplicationUserCreatedId).OrderByDescending(p => p.Enable).FirstOrDefault()
+                            join department in contextQuery.DepartmentTable on empl.DepartmentTableId equals department.Id
+                            orderby String.IsNullOrEmpty(document.ActivityName), document.ModifiedDate descending
+                            select new DocumentBaseView
+                            {
+                                ActivityName = document.ActivityName,
+                                ApplicationUserCreatedId = document.ApplicationUserCreatedId,
+                                ApplicationUserModifiedId = document.ApplicationUserModifiedId,
+                                CompanyTableId = document.CompanyTableId,
+                                CreatedDate = document.CreatedDate,
+                                DocumentNum = document.DocumentNum,
+                                DocumentState = document.DocumentState,
+                                Id = document.Id,
+                                ModifiedDate = document.ModifiedDate,
+                                ProcessTableId = document.ProcessTableId,
+                                AliasCompanyName = company.AliasCompanyName,
+                                ProcessName = process.ProcessName,
+                                CreatedBy = empl.SecondName + " " + empl.FirstName,
+                                DepartmentName = department.DepartmentName,
+                                UserName = empl.SecondName + " " + empl.FirstName + " " + empl.MiddleName,
+                                DocumentRefId = document.RefDocumentId,
+                                ProcessTableName = process.TableName,
+                                Cancel = document.Cancel,
+                                Executed = document.Executed,
+                                DocumentText = document.DocumentText
+                            }).ToList();
+
+                /*
                     items = (from document in contextQuery.DocumentTable
                             where
                                 (document.ApplicationUserCreatedId == user.Id  || document.Share == true
@@ -159,7 +258,8 @@ namespace RapidDoc.Models.Services
                                 Cancel = document.Cancel,
                                 Executed = document.Executed,
                                 DocumentText = document.DocumentText
-                            }).ToList();                       
+                            }).ToList();   
+                 */
             }
 
             switch (type)
