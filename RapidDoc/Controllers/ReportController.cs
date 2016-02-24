@@ -37,8 +37,9 @@ namespace RapidDoc.Controllers
         private readonly ICommentService _CommentService;
         private readonly IProtocolFoldersService _ProtocolFoldersService;
         private readonly ISystemService _SystemService;
+        private readonly IPortalParametersService _PortalParametersService;
 
-        public ReportController(IWorkflowTrackerService workflowTrackerService, IDocumentService documentService, IDepartmentService departmentService, ICompanyService companyService, IAccountService accountService, IProcessService processService, IEmplService emplService, IReportService reportService, IWorkScheduleService workScheduleService, IEmailService emailService, IWorkflowService workflowService, ICommentService commentService, IProtocolFoldersService protocolFoldersService, ISystemService systemService)
+        public ReportController(IWorkflowTrackerService workflowTrackerService, IDocumentService documentService, IDepartmentService departmentService, ICompanyService companyService, IAccountService accountService, IProcessService processService, IEmplService emplService, IReportService reportService, IWorkScheduleService workScheduleService, IEmailService emailService, IWorkflowService workflowService, ICommentService commentService, IProtocolFoldersService protocolFoldersService, ISystemService systemService, IPortalParametersService portalParametersService)
             : base(companyService, accountService)
         {
             _WorkflowTrackerService = workflowTrackerService;
@@ -53,6 +54,7 @@ namespace RapidDoc.Controllers
             _CommentService = commentService;
             _ProtocolFoldersService = protocolFoldersService;
             _SystemService = systemService;
+            _PortalParametersService = portalParametersService;
         }
 
         public ActionResult PerformanceDepartment()
@@ -269,13 +271,15 @@ namespace RapidDoc.Controllers
         [HttpPost]
         public FileContentResult GenerateTaskReport(ReportParametersBasicView model)
         {
-            int i = 0;
+            int i = 0, j = 0, templateSheets = 1;
+            
             ReportExecutionType taskType;
             string subjectDoc = String.Empty;
             List<TaskReportModel> detailTasksList = new List<TaskReportModel>();
             List<TaskReportModel> detailTasksListPRTDir = new List<TaskReportModel>();
             string currentUserId = User.Identity.GetUserId();
             ApplicationUser currentUser = _AccountService.Find(currentUserId);
+            bool otherCompany = currentUser.CompanyTable.AliasCompanyName != "ATK" ? true : false;
 
             EmailParameterTable emailParameter = _EmailService.FirstOrDefault(x => x.SmtpServer != String.Empty);
             WrapperImpersonationContext contextImpersonation = new WrapperImpersonationContext(emailParameter.ReportAdminDomain, emailParameter.ReportAdminUser, emailParameter.ReportAdminPassword);
@@ -290,41 +294,67 @@ namespace RapidDoc.Controllers
             excelAppl = new Excel.Application();
             excelAppl.Visible = false;
             excelAppl.DisplayAlerts = false;
-            excelWorkbook = excelAppl.Workbooks.Add(@"C:\Template\TaskReport.xlsx");
-
+            excelWorkbook = currentUser.CompanyTable.AliasCompanyName != "ATK" ? excelAppl.Workbooks.Add(@"C:\Template\TaskReportOther.xlsx") : excelAppl.Workbooks.Add(@"C:\Template\TaskReport.xlsx");
             Dictionary<string, int> blockDepartment = new Dictionary<string, int>();
-            blockDepartment.Add("Руководство", 1);
-            blockDepartment.Add("Заместитель Генерального директора по производству", 2);
-            blockDepartment.Add("Производственно-техническое управление", 3);
-            blockDepartment.Add("Блок горного производства", 4);
-            blockDepartment.Add("Блок промышленной безопасности и вспомогательного производства", 5);
-            blockDepartment.Add("Финансовый блок", 6);
-            blockDepartment.Add("Золотоизвлекательная фабрика", 7);
-            blockDepartment.Add("Административный блок", 8);
-            blockDepartment.Add("Заместитель исполнительного директора по ПБиВП", 9);
+
+            PortalParametersTable portalParameters = _PortalParametersService.GetAll().FirstOrDefault();
+            List<string> departments = _SystemService.GuidsFromText(portalParameters.ReportDepartments).ToList();
+            
+            //blockDepartment.Add("Руководство", 1);
+            //blockDepartment.Add("Заместитель Генерального директора по производству", 2);
+            //blockDepartment.Add("Производственно-техническое управление", 3);
+            //blockDepartment.Add("Блок горного производства", 4);
+            //blockDepartment.Add("Блок промышленной безопасности и вспомогательного производства", 5);
+            //blockDepartment.Add("Финансовый блок", 6);
+            //blockDepartment.Add("Золотоизвлекательная фабрика", 7);
+            //blockDepartment.Add("Административный блок", 8);
+            //blockDepartment.Add("Заместитель исполнительного директора по ПБиВП", 9);
+            
             List<DepartmentTable> firstDepartment = new List<DepartmentTable>();
-            foreach (var block in blockDepartment)
+            if (otherCompany == true)
             {
-                var department = _DepartmentService.FirstOrDefault(x => x.DepartmentName == block.Key && x.CompanyTableId == currentUser.CompanyTableId);
-
-                if (department != null)
-                    firstDepartment.Add(department);
+                foreach (var department in _DepartmentService.GetAll())
+                {
+                    if (department != null)
+                    {
+                        j++;
+                        firstDepartment.Add(department);
+                        blockDepartment.Add(department.DepartmentName, j);
+                    }
+                }    
             }
+            else
+            {
+                foreach (var block in departments)
+                {
+                    Guid departmentId = new Guid(block);
+                    var department = _DepartmentService.FirstOrDefault(x => x.Id == departmentId && x.CompanyTableId == currentUser.CompanyTableId);
 
-            int templateSheets = 1;
+                    if (department != null)
+                    {
+                        j++;
+                        firstDepartment.Add(department);
+                        blockDepartment.Add(department.DepartmentName, j);
+                    }
+                }
+            }
             while (templateSheets <= excelAppl.Worksheets.Count)
             {
-
+                if (otherCompany == true)
+                    templateSheets = 4;
+                
                 var allTasksList = (from document in context.DocumentTable
                                      join detailDoc in context.USR_TAS_DailyTasks_Table
                                      on document.Id equals detailDoc.DocumentTableId
                                      join documentRef in context.DocumentTable
                                      on detailDoc.RefDocumentId equals documentRef.Id
                                      where document.DocType == DocumentType.Task &&
+                                          document.CompanyTableId == currentUser.CompanyTableId && 
                                          detailDoc.RefDocumentId != null &&
-                                         ((documentRef.DocType == DocumentType.Order && templateSheets == 1)  ||
+                                         (((documentRef.DocType == DocumentType.Order && templateSheets == 1)  ||
                                          (documentRef.DocType == DocumentType.IncomingDoc && templateSheets == 2) ||
-                                         (documentRef.DocType == DocumentType.Protocol && templateSheets == 3))
+                                         (documentRef.DocType == DocumentType.Protocol && templateSheets == 3)) || 
+                                         otherCompany == true)
                                          && ((detailDoc.ExecutionDate >= model.StartDate && detailDoc.ExecutionDate <= model.EndDate) ||
                                                 (detailDoc.ProlongationDate >= model.StartDate && detailDoc.ProlongationDate <= model.EndDate))
                                      select document).ToList();
@@ -457,7 +487,7 @@ namespace RapidDoc.Controllers
                             default:
                                 subjectDoc = taskDoc.MainField;
                                 break;
-                        }
+                        }                        
 
                         if (!String.IsNullOrEmpty(subjectDoc) && templateSheets != excelAppl.Worksheets.Count)
                         {
@@ -481,15 +511,16 @@ namespace RapidDoc.Controllers
                     }
                     i = 0;
                 }
-                excelWorksheet = (Worksheet)excelAppl.Worksheets[templateSheets];
+                excelWorksheet = 
+                    (Worksheet)excelAppl.Worksheets[otherCompany == true ? Convert.ToInt32(otherCompany) : templateSheets];
 
                 if (templateSheets == 3)
                 {
-                    rowCount = _ReportService.GetDepartmentTaskReport(firstDepartment, blockDepartment, detailTasksList, excelWorksheet, rowCount, true, templateSheets);
-                    _ReportService.GetDepartmentTaskReport(firstDepartment, blockDepartment, detailTasksListPRTDir, excelWorksheet, rowCount, true, templateSheets, "Поручения с протоколов директората");
+                    rowCount = _ReportService.GetDepartmentTaskReport(firstDepartment, blockDepartment, detailTasksList, excelWorksheet, rowCount, true, templateSheets, otherCompany);
+                    _ReportService.GetDepartmentTaskReport(firstDepartment, blockDepartment, detailTasksListPRTDir, excelWorksheet, rowCount, true, templateSheets, otherCompany, "Поручения с протоколов директората");
                 }
                 else
-                    _ReportService.GetDepartmentTaskReport(firstDepartment, blockDepartment, detailTasksList, excelWorksheet, rowCount, true, templateSheets);
+                    _ReportService.GetDepartmentTaskReport(firstDepartment, blockDepartment, detailTasksList, excelWorksheet, rowCount, true, otherCompany == true ? Convert.ToInt32(otherCompany) : templateSheets, otherCompany);
                 detailTasksList.Clear();
                 templateSheets++;
                 rowCount = 6;

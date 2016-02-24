@@ -1,0 +1,44 @@
+﻿@model RapidDoc.Models.ViewModels.PortalParametersView
+@using RapidDoc.Extensions;
+
+@{
+    ViewBag.Title = UIElementRes.UIElement.PortalParameters;
+}
+
+<h2>@UIElementRes.UIElement.PortalParameters</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend></legend>
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ReportDepartments)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.ReportDepartments, new { @class = "form-control", @data_role = "tagsinputDepartment", placeholder = "Список подразделений" })
+        </div>
+
+        <br>
+        <p>
+            <input class="btn btn-primary btn-sm" type="submit" value=@UIElementRes.UIElement.Save />
+            @Html.ActionLink(UIElementRes.UIElement.Back, "Index", "Document")
+        </p>
+    </fieldset>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/editentity")
+}
+@section jslaunch {
+    <script type="text/javascript">
+    $(function () {
+        selectpicker_init();
+        custom_tagsinputDepartment_init("@Url.Action("JsonDepartmentCompany", "Custom")");
+});
+    </script>
+}

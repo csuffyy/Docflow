@@ -660,4 +660,7 @@
   <data name="SendExecutorRegEmail" xml:space="preserve">
     <value>You have been received new document for registration</value>
   </data>
+  <data name="PortalParameters" xml:space="preserve">
+    <value>Portal's parameters</value>
+  </data>
 </root>

@@ -29,8 +29,9 @@ namespace RapidDoc.Controllers
         protected readonly ITitleService _TitleService;
         protected readonly IDepartmentService _DepartmentService;
         protected readonly IItemCauseService _ItemCauseService;
+        private readonly IPortalParametersService _PortalParametersService;
 
-        public LDAPIntegrationController(ICompanyService companyService, IEmplService emplService, IWorkScheduleService workScheduleService, ITitleService titleService, IDepartmentService departmentService, IItemCauseService itemCauseService)
+        public LDAPIntegrationController(ICompanyService companyService, IEmplService emplService, IWorkScheduleService workScheduleService, ITitleService titleService, IDepartmentService departmentService, IItemCauseService itemCauseService, IPortalParametersService portalParametersService)
         {
             _CompanyService = companyService;
             _EmplService = emplService;
@@ -38,6 +39,7 @@ namespace RapidDoc.Controllers
             _TitleService = titleService;
             _DepartmentService = departmentService;
             _ItemCauseService = itemCauseService;
+            _PortalParametersService = portalParametersService;
         }
 
         public void Get()
@@ -627,11 +629,13 @@ namespace RapidDoc.Controllers
 
         private void DeleteNotUsedDepartment()
         {
+            PortalParametersTable portalParameters = _PortalParametersService.GetAll().FirstOrDefault();
             var departments = _DepartmentService.GetPartialIntercompany(x => x.DepartmentName != null).ToList();
 
             foreach (var department in departments)
             {
-                if (department.ParentDepartmentId == null && !_EmplService.Contains(x => x.DepartmentTableId == department.Id) && !_ItemCauseService.Contains(x => x.DepartmentTableId == department.Id))
+                if (department.ParentDepartmentId == null && !_EmplService.Contains(x => x.DepartmentTableId == department.Id) && !_ItemCauseService.Contains(x => x.DepartmentTableId == department.Id) && 
+                    !portalParameters.ReportDepartments.Contains(department.Id.ToString()))
                 {
                     _DepartmentService.Delete(department.Id);
                 }

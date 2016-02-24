@@ -316,6 +316,7 @@
     <Compile Include="Controllers\DocumentController.cs" />
     <Compile Include="Controllers\MonitoringController.cs" />
     <Compile Include="Controllers\ProtocolFoldersController.cs" />
+    <Compile Include="Controllers\PortalParametersController.cs" />
     <Compile Include="Controllers\QuestionRequestController.cs" />
     <Compile Include="Controllers\ReasonRequestController.cs" />
     <Compile Include="Controllers\OrganizationController.cs" />
@@ -397,6 +398,7 @@
     <Compile Include="Models\Repository\CompanyConstraint.cs" />
     <Compile Include="Models\Services\DocumentSubcriptionService.cs" />
     <Compile Include="Models\Services\ProtocolFoldersService.cs" />
+    <Compile Include="Models\Services\PortalParametersService.cs" />
     <Compile Include="Models\Services\QuestionRequestService.cs" />
     <Compile Include="Models\Services\ReasonRequestService.cs" />
     <Compile Include="Models\Services\CountryService.cs" />
@@ -2101,6 +2103,7 @@
     <Content Include="Views\Custom\USR_REQ_UMM_FluxingWork_View_Full.cshtml" />
     <Content Include="Views\Custom\USR_REQ_UMM_FluxingWork_Edit.cshtml" />
     <Content Include="Views\Custom\USR_REQ_UMM_FluxingWork_Edit_Executor.cshtml" />
+    <Content Include="Views\PortalParameters\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -4010,6 +4013,7 @@
       <SubType>Designer</SubType>
     </XamlAppDef>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

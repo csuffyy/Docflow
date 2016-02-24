@@ -1069,6 +1069,15 @@ namespace UIElementRes {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Параметры портала.
+        /// </summary>
+        public static string PortalParameters {
+            get {
+                return ResourceManager.GetString("PortalParameters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Печать.
         /// </summary>
         public static string Print {
