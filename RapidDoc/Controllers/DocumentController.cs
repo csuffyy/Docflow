@@ -2316,7 +2316,7 @@ namespace RapidDoc.Controllers
 
         [HttpPost]
         [MultipleButton(Name = "action", Argument = "SaveChanges")]
-        [Authorize(Roles = "Administrator, SetupAdministrator")]
+        //[Authorize(Roles = "Administrator, SetupAdministrator")]
         public ActionResult SaveChanges(Guid processId, int type, Guid fileId, FormCollection collection, string actionModelName, Guid documentId)
         {
             IDictionary<string, IList> listData = new Dictionary<string, IList>();

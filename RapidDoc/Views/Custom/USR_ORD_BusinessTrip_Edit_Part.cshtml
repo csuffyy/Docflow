@@ -319,6 +319,11 @@
             <div class="editor-field">
                 @Html.TextBoxFor(model => Model.SignTitle, new { @class = "form-control", @size = 256, placeholder = "Подпись должность" })
             </div>
+            <br />
+            @if (!User.IsInRole("Administrator"))
+            {
+                <button type="submit" id="saveChanges" class="btn btn-default btn-sm" name="action:SaveChanges">@UIElementRes.UIElement.Save</button>
+            }
         </div>
 
         <div role="tabpanel" class="tab-pane" id="view">
