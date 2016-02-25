@@ -95,12 +95,7 @@
     else
     {
         <div class="col-xs-4">
-            <div class="editor-label">
-                @Html.LabelForRequired(model => Model.NumberSeriesBookingTableId)
-            </div>
-            <div class="editor-field">
-                @Html.Action("GetBookingIncomingDoc", "Custom", new { type = Model.GetType() })
-            </div>
+            @Html.HiddenFor(x => x.NumberSeriesBookingTableId)
         </div>
     }
 </div>

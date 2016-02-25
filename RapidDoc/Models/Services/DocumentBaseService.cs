@@ -81,7 +81,7 @@ namespace RapidDoc.Models.Services
                 (UserManager.IsInRole(user.Id, "FullView_Task") && type == DocumentType.Task))
             {
                 items = (from document in contextQuery.DocumentTable
-                         where document.DocType == type && (document.CreatedDate >= startDate && document.CreatedDate <= endDate) && document.DocumentState != DocumentState.Created
+                         where document.DocType == type && (document.CreatedDate >= startDate && document.CreatedDate <= endDate) && document.DocumentState != DocumentState.Created && user.CompanyTableId == document.CompanyTableId
                             join company in contextQuery.CompanyTable on document.CompanyTableId equals company.Id
                             join process in contextQuery.ProcessTable on document.ProcessTableId equals process.Id
                             let empl = contextQuery.EmplTable.Where(p => p.ApplicationUserId == document.ApplicationUserCreatedId).OrderByDescending(p => p.Enable).FirstOrDefault()
@@ -407,7 +407,7 @@ namespace RapidDoc.Models.Services
                 (UserManager.IsInRole(user.Id, "FullView_Task") && type == DocumentType.Task))
             {
                 items = (from document in contextQuery.DocumentTable
-                         where document.DocumentState != DocumentState.Created &&
+                         where document.DocumentState != DocumentState.Created && user.CompanyTableId == document.CompanyTableId &&
                          ((processId == null)||(processId != null && document.ProcessTableId == processId))
                          join company in contextQuery.CompanyTable on document.CompanyTableId equals company.Id
                          join process in contextQuery.ProcessTable on document.ProcessTableId equals process.Id
