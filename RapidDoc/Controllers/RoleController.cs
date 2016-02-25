@@ -174,6 +174,7 @@ namespace RapidDoc.Controllers
 
             ViewBag.RoleId = id;
             ViewBag.Users = usersManual;
+            ViewBag.RoleName = roleTable.Name;
             return View();
         }
 
@@ -218,17 +219,24 @@ namespace RapidDoc.Controllers
         public async Task<ActionResult> AddUsersManual(string id, string Users)
         {
             var roleTable = await RoleManager.FindByIdAsync(id);
-
+            List<UserViewModel> usersOfRole = new List<UserViewModel>();
             if (roleTable == null)
             {
                 return HttpNotFound();
             }
-
+            
             var allUsers = Mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<UserViewModel>>(UserManager.Users);
 
-            foreach (var user in allUsers)
+            RoleManager.Roles.Where(z => z.Id == id).FirstOrDefault().Users.ToList().ForEach( y => 
+            usersOfRole.Add(allUsers.FirstOrDefault(x => x.Id == y.UserId))
+                );
+
+            if (usersOfRole.Count > 0)
             {
-                UserManager.RemoveFromRole(user.Id, roleTable.Name);
+                foreach (var user in usersOfRole)
+                {
+                    UserManager.RemoveFromRole(user.Id, roleTable.Name);
+                }
             }
 
             if(!String.IsNullOrEmpty(Users))
@@ -257,6 +265,7 @@ namespace RapidDoc.Controllers
 
             ViewBag.RoleId = id;
             ViewBag.Users = usersManual;
+            ViewBag.RoleName = roleTable.Name;
             return View();
         }
 
