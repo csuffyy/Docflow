@@ -9,6 +9,10 @@
     <meta name="viewport" content="width=device-width" />
     <title>PdfReport</title>
     <style type="text/css">
+        p {
+            margin: 0;
+            text-align: justify;
+        }
         .container {
             height: auto;
             overflow: hidden;
@@ -16,7 +20,7 @@
     </style>
 </head>
 <body>
-    <div style="border: 1px solid black; padding: 5px;">
+    <div style="border: 1px solid black; padding: 5px; margin-left: 45px;">
         <br />
         <div class="container" style="width: 800px; text-align: right;">
             <div>
@@ -35,11 +39,11 @@
                 @Model.Subject
             </font>
         </h4>
-        <font size="4" face="Arial">
+        <font size="4" face="Arial" style="white-space: pre-wrap;">
             @Html.Raw(@Model.MainField)
         </font>
         <hr style="height:1px;border:none;color:#333;background-color:#333;" />
-        <font size="4" face="Arial">
+        <font size="4" face="Arial" style="white-space: pre-wrap;">
             @Html.Raw(@Model.MainFieldTranslate)
         </font>
         <br />
