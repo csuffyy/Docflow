@@ -100,7 +100,7 @@ namespace RapidDoc.Controllers
                                     _Emailservice.SendSLAWarningEmail(user.Id, userDocuments);
                             }
                         }                                                
-                        _Emailservice.SendStatusExecutionBatch(String.Format("Procedure {0} was completed.", id.ToString()), false);
+                        //_Emailservice.SendStatusExecutionBatch(String.Format("Procedure {0} was completed in the {1} company.", id.ToString(), company.AliasCompanyName), false);
                         break;
                     case 2:
                         if (!_WorkScheduleService.CheckDayType(_WorkScheduleService.FirstOrDefault(x => x.WorkScheduleName == "8x5").Id, DateTime.UtcNow.Date))
@@ -133,7 +133,7 @@ namespace RapidDoc.Controllers
                                     _Emailservice.SendSLADisturbanceEmail(user.Id, userDocuments);
                             }
                         }
-                        _Emailservice.SendStatusExecutionBatch(String.Format("Procedure {0} was completed.", id.ToString()), false);
+                        //_Emailservice.SendStatusExecutionBatch(String.Format("Procedure {0} was completed in the {1} company.", id.ToString(), company.AliasCompanyName), false);
                         break;
                     case 3:
                         foreach (var document in allDocument.Where(x => x.DocumentState == Models.Repository.DocumentState.Closed
@@ -155,7 +155,7 @@ namespace RapidDoc.Controllers
                                 }
                             }
                         }
-                        _Emailservice.SendStatusExecutionBatch(String.Format("Procedure {0} was completed.", id.ToString()), false);
+                        //_Emailservice.SendStatusExecutionBatch(String.Format("Procedure {0} was completed in the {1} company.", id.ToString(), company.AliasCompanyName), false);
                         break;
                     case 4:
                         if (!_WorkScheduleService.CheckDayType(_WorkScheduleService.FirstOrDefault(x => x.WorkScheduleName == "8x5").Id, DateTime.UtcNow.Date))
@@ -195,7 +195,7 @@ namespace RapidDoc.Controllers
                                     _Emailservice.SendReminderEmail(user, userDocuments);
                             }
                         }
-                        _Emailservice.SendStatusExecutionBatch(String.Format("Procedure {0} was completed.", id.ToString()), false);
+                        //_Emailservice.SendStatusExecutionBatch(String.Format("Procedure {0} was completed in the {1} company.", id.ToString(), company.AliasCompanyName), false);
                         break;
                     case 5:
                         List<ReportProcessesView> listProcesses = new List<ReportProcessesView>();
@@ -218,7 +218,7 @@ namespace RapidDoc.Controllers
                         {
                             _Emailservice.SendFailedRoutesAdministrator(listProcesses.Where(x => x.Color == Color.LightPink).ToList());
                         }
-                        _Emailservice.SendStatusExecutionBatch(String.Format("Procedure {0} was completed.", id.ToString()), false);
+                        //_Emailservice.SendStatusExecutionBatch(String.Format("Procedure {0} was completed in the {1} company.", id.ToString(), company.AliasCompanyName), false);
                         break;
                     /*case 6:
                         if (_WorkScheduleService.CheckWorkTime(null, DateTime.UtcNow))
@@ -274,7 +274,7 @@ namespace RapidDoc.Controllers
                             }
 
                         }
-                        _Emailservice.SendStatusExecutionBatch(String.Format("Procedure {0} was completed.", id.ToString()), false);
+                        //_Emailservice.SendStatusExecutionBatch(String.Format("Procedure {0} was completed in the {1} company.", id.ToString(), company.AliasCompanyName), false);
                         break;
                     case 8:
                         foreach (var document in allDocument.Where(x => x.DocType == DocumentType.Order && x.DocumentState == DocumentState.Agreement).Join(_WorkflowTrackerService.GetPartial(w => w.TrackerType == TrackerType.Waiting && w.SystemName == "ORDCustomUserAssign"), x => x.Id, w => w.DocumentTableId, (x, w) => new { Doc = x, Tracker = w }).ToList())
@@ -284,13 +284,13 @@ namespace RapidDoc.Controllers
                                 _WorkflowService.ActiveWorkflowApprove(document.Doc.Id, document.Doc.ProcessTable.TableName, document.Doc.WWFInstanceId, document.Doc.ProcessTableId, new Dictionary<string, object>(), document.Tracker.Users.First().UserId);
                             }
                         }
-                        _Emailservice.SendStatusExecutionBatch(String.Format("Procedure {0} was completed.", id.ToString()), false);
+                        //_Emailservice.SendStatusExecutionBatch(String.Format("Procedure {0} was completed in the {1} company.", id.ToString(), company.AliasCompanyName), false);
                         break;
                 }
             }
             catch (Exception e)
             {
-                _Emailservice.SendStatusExecutionBatch(String.Format("Procedure {0} was failed. Message is ({1}).", id.ToString(), e.Message), true);
+                _Emailservice.SendStatusExecutionBatch(String.Format("Procedure {0} was failed in the {1} company. Message is ({2}).", id.ToString(), company.AliasCompanyName, e.Message), true);
             }
         }      
     }
