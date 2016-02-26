@@ -4,14 +4,21 @@
 @{
     Layout = null;
 }
+<!DOCTYPE html>
 <html>
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width" />
     <title>PdfReport</title>
     <style type="text/css">
+        body {
+            width: 22cm;       /* cm, in or mm make more sense for PDF */
+            margin-left: 45px;
+            text-rendering: geometricPrecision;
+        }
         p {
             margin: 0;
-            text-align: justify;
+            text-align:justify;
         }
         .container {
             height: auto;
@@ -20,9 +27,9 @@
     </style>
 </head>
 <body>
-    <div style="border: 1px solid black; padding: 5px; margin-left: 45px;">
+    <div style="border: 1px solid black; padding: 5px;">
         <br />
-        <div class="container" style="width: 800px; text-align: right;">
+        <div class="container" style="text-align: right;">
             <div>
                 <img src="@Url.Content(String.Format("~/Content/Custom/image-icon/logo-{0}.png", ViewBag.CompanyAliasName))">
             </div>
@@ -39,16 +46,16 @@
                 @Model.Subject
             </font>
         </h4>
-        <font size="4" face="Arial" style="white-space: pre-wrap;">
+        <font size="4" face="Arial">
             @Html.Raw(@Model.MainField)
         </font>
         <hr style="height:1px;border:none;color:#333;background-color:#333;" />
-        <font size="4" face="Arial" style="white-space: pre-wrap;">
+        <font size="4" face="Arial">
             @Html.Raw(@Model.MainFieldTranslate)
         </font>
         <br />
         <br />
-        <div class="container" style="width: 800px; text-align: right;">
+        <div class="container" style="text-align: right;">
             <div style="width:60%; vertical-align:top; float:left; text-align: left;">
                 <strong>
                     <font size="4" face="Arial">
@@ -64,7 +71,7 @@
                 </strong>
             </div>
         </div>
-        <div class="container" style="width: 800px;">
+        <div class="container">
             <div style="text-align: left;">
                 <br />
                 <font size="4" face="Arial">
@@ -75,7 +82,7 @@
 
         @if (ViewBag.Acquainted == true)
         {
-            <div class="container" style="width: 800px;">
+            <div class="container">
                 <div style="text-align: left;">
                     <br />
                     <font size="4" face="Arial">
@@ -83,7 +90,7 @@
                     </font>
                 </div>
             </div>
-            <div class="container" style="width: 800px;">
+            <div class="container">
                 <div style="text-align: left;">
                     <font size="4" face="Arial">
                         С приказом ознакомлен(а):
@@ -94,7 +101,7 @@
         <br />
         @if ((DocumentState)ViewBag.DocState == DocumentState.Closed)
         {
-            <div class="container" style="width: 800px;">
+            <div class="container">
                 <div style="text-align: left;">
                     <strong>
                         <font size="3" face="Arial">
@@ -106,7 +113,7 @@
             <br />
             foreach (EmplTable item in ViewBag.ListUsers)
             {
-                <div class="container" style="width: 800px; text-align: right;">
+                <div class="container" style="text-align: right;">
                     <div style="width:50%; vertical-align:top; float:left; text-align: left;">
                         <font size="3" face="Arial">
                             @item.TitleName
@@ -121,7 +128,7 @@
             }
             <br />
         }
-        <div class="container" style="width: 800px;">
+        <div class="container">
             <div style="text-align: left;">
                 <strong>
                     <font size="3" face="Arial">
@@ -131,7 +138,7 @@
             </div>
         </div>
         <br />
-        <div class="container" style="width: 800px; text-align: right;">
+        <div class="container" style="text-align: right;">
             <div style="width:50%; vertical-align:top; float:left; text-align: left;">
                 <font size="3" face="Arial">
                     @ViewBag.Department
