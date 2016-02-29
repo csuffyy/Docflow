@@ -132,6 +132,9 @@ namespace RapidDoc.Models.Services
         public void SaveDomain(EmplTable domainTable, string currentUserName = "", Guid? companyId = null)
         {
             ApplicationUser user = getCurrentUserName(currentUserName);
+            domainTable.FirstName = domainTable.FirstName.Trim();
+            domainTable.SecondName = domainTable.SecondName.Trim();
+            domainTable.MiddleName = domainTable.MiddleName.Trim();
 
             if (domainTable.Id == Guid.Empty)
             {

@@ -105,6 +105,8 @@ namespace RapidDoc.Models.Services
         public void SaveDomain(TitleTable domainTable, string currentUserName = "")
         {
             ApplicationUser user = getCurrentUserName(currentUserName);
+            domainTable.TitleName = domainTable.TitleName.Trim();
+
             if (domainTable.Id == Guid.Empty)
             {
                 domainTable.CreatedDate = DateTime.UtcNow;
