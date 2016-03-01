@@ -1532,6 +1532,12 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Контактный телефон")]
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         public string Contact { get; set; }
+
+        [Display(Name = "Тип приказа")]
+        public ChangeOrderType ChangeOrderType { get; set; }
+
+        [Display(Name = "Касается начисления ЗП")]
+        public bool IsWage { get; set; }
     }
 
     public class USR_REQ_IT_CAP_ChangeOrderWage_View : BasicDocumentView 
