@@ -14,7 +14,6 @@
 
             foreach (var itemGroup in Model.GroupBy(x => x.UserName).OrderBy(x => x.Key))
             {
-
                 num++;
                 <div class="panel panel-default">
                     <div class="panel-heading" role="tab" id="heading@num">
@@ -109,30 +108,32 @@
                     </div>
                     <div class="panel-collapse collapse" id="collapseArea_@num">
                         <div class="panel-body">
-                            @foreach (var itemGroup in Model.Where(x => x.ProcessName == itemGroupProcess.Key).GroupBy(x => x.OrderNumber).Where(y => !String.IsNullOrEmpty(y.Key)).OrderBy(c => c.Key.Length).ThenBy(c => c.Key))
+                            @foreach (var itemGroup in Model.Where(x => x.ProcessName == itemGroupProcess.Key).GroupBy(x => new { x.Id, x.OrderNumber, x.Cancel, x.Addition, x.Executed }).Where(y => !String.IsNullOrEmpty(y.Key.OrderNumber)).OrderBy(c => c.Key.OrderNumber.Length).ThenBy(c => c.Key.OrderNumber))
                             {
                                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                                     <div class="panel panel-default">
                                         <div class="panel-heading" role="tab" id="heading@itemGroup.Key@num">
-                                            <p class="panel-title"><a data-toggle="collapse" data-target="#collapseArea_@itemGroup.Key@num" aria-expanded="true" aria-controls="collapseArea_@itemGroup.Key@num"><strong>@itemGroup.Key</strong></a></p>
+                                            <p class="panel-title"><a data-toggle="collapse" data-target="#collapseArea_@itemGroup.Key.Id@num" aria-expanded="true" aria-controls="collapseArea_@itemGroup.Key.OrderNumber@num">  
+                                                @if (itemGroup.Key.Cancel == true)
+                                                {
+                                                    <span class="fa fa-times text-danger"></span>
+                                                }
+                                                @if (itemGroup.Key.Addition == true)
+                                                {
+                                                    <span class="fa fa-code-fork"></span>
+                                                }
+                                                @if (itemGroup.Key.Executed == true)
+                                                {
+                                                    <span class="fa fa-check text-success"></span>
+                                                }
+                                                <strong>@itemGroup.Key.OrderNumber</strong></a>
+                                            </p>
                                         </div>
-                                        <div class="collapse" id="collapseArea_@itemGroup.Key@num">
+                                        <div class="collapse" id="collapseArea_@itemGroup.Key.Id@num">
                                             <div class="panel-body">
-                                                @foreach (var item in Model.Where(x => x.OrderNumber == itemGroup.Key && x.ProcessName == itemGroupProcess.Key).OrderByDescending(x => x.CreatedDate))
+                                                @foreach (var item in Model.Where(x => x.Id == itemGroup.Key.Id && x.ProcessName == itemGroupProcess.Key).OrderByDescending(x => x.CreatedDate))
                                                 {
                                                     <p>
-                                                        @if (item.Cancel == true)
-                                                        {
-                                                            <span class="fa fa-times text-danger"></span>
-                                                        }
-                                                        @if (item.Addition == true)
-                                                        {
-                                                            <span class="fa fa-code-fork"></span>
-                                                        }
-                                                        @if (item.Executed == true)
-                                                        {
-                                                            <span class="fa fa-check text-success"></span>
-                                                        }
                                                         <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins> - @item.ProcessName - @item.DocumentTitle (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)</a>
                                                     </p>
                                                 }
