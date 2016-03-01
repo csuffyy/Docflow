@@ -1746,5 +1746,14 @@ namespace RapidDoc.Models.Repository
         Done = 0,       
         NoneDone = 1,
         Disturbance = 2
+    }
+
+    public enum ChangeOrderType : byte
+    {
+        [Display(Name = "Кадровый приказ")]
+        Element1 = 1,
+
+        [Display(Name = "По основной деятельности")]
+        Element2 = 2
     } 
 }

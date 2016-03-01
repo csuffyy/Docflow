@@ -604,6 +604,7 @@ namespace RapidDoc.Models.Services
                 inputArguments.Add("inputStep", _state);
                 inputArguments.Add("inputCurrentUser", currentUserId);
                 inputArguments.Add("documentData", null);
+                inputArguments.Add("isWithdraw", true);
 
                 WorkflowApplication application = new WorkflowApplication(activity, instanceInfo.DefinitionIdentity);
                 application.InstanceStore = instanceStore;
