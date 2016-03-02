@@ -2106,6 +2106,8 @@
     <Content Include="Views\EmailTemplate\StatusExecEmailTemplate.cshtml" />
     <Content Include="Views\Shared\_DocumentBaseList.cshtml" />
     <Content Include="Views\PortalParameters\Edit.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_IT_CTS_ProblemWithWS_View.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_IT_CTS_ProblemWithWS_Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -4015,7 +4017,12 @@
       <SubType>Designer</SubType>
     </XamlAppDef>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USR_REQ_IT_CTS_ProblemWithWS.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

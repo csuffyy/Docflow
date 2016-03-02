@@ -186,6 +186,14 @@ namespace RapidDoc.Models.ViewModels
         public string Phone { get; set; }
     }
 
+    public class USR_REQ_IT_CTS_ProblemWithWS_View : BasicDocumentView
+    {
+        [DataType(DataType.MultilineText)]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Описание проблемы")]
+        public string Problem { get; set; }
+    }
+
     public class USR_REQ_IT_CTS_SetUpDVO_View : BasicDocumentView
     {
         [Display(Name = "Тип переадресации")]

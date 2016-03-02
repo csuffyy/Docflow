@@ -67,6 +67,11 @@ namespace RapidDoc.Models.DomainModels
         public bool AccessPublic { get; set; }
     }
 
+    public class USR_REQ_IT_CTS_ProblemWithWS_Table : BasicDocumentTable
+    {
+        public string Problem { get; set; }
+    }
+
     public class USR_REQ_IT_CTS_ProblemWithPhone_Table : BasicDocumentTable
     {
         public ProblemTypeCTS ProblemType { get; set; }
