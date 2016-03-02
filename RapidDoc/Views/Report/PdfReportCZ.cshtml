@@ -6,11 +6,16 @@
 @{
     Layout = null;
 }
+<!DOCTYPE html>
 <html>
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width" />
     <title>PdfReportCZ</title>
     <style type="text/css">
+        body {
+            text-rendering: geometricPrecision;
+        }
         p {
             margin: 0;
         }
@@ -33,64 +38,69 @@
         <br /> 
         <h4 align ="center">
             <strong>
-                <font size="4" face="Arial">
+                <font size="4" face="Times New Roman">
                     СЛУЖЕБНАЯ ЗАПИСКА <a href="@String.Format("http://" + System.Configuration.ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/{0}/Document/ShowDocument/{1}?isAfterView=true", ViewBag.AliasCompanyName, ViewBag.Id)">@ViewBag.DocumentNum</a><br />
                 </font>
             </strong>
         </h4>
-        <h5 align="right">@Html.EnumToDescription("RapidDoc.Models.Repository.Folder", (string)(Model.Folder.ToString())) / @ViewBag.Process.ProcessName / @Model.ItemCauseNumber / @ViewBag.UserCreated.ShortFullNameType2</h5>
+        <font face="Times New Roman">
+            <h5 align="right">@Html.EnumToDescription("RapidDoc.Models.Repository.Folder", (string)(Model.Folder.ToString())) / @ViewBag.Process.ProcessName / @Model.ItemCauseNumber / @ViewBag.UserCreated.ShortFullNameType2</h5>
+        </font>
         <table width="900">
             <tr>
                 <td style="width:10%; vertical-align:top;">
-                    <font size="4" face="Arial">
+                    <font size="4" face="Times New Roman">
                         <span><strong>Кому:</strong></span>
                     </font>
                 </td>
                 <td>
-                    <font size="4" face="Arial">
+                    <font size="4" face="Times New Roman">
                         <span style="white-space: pre-line;">@Model.Whom</span>
                     </font>
                 </td>
             </tr>
+            @if (!String.IsNullOrEmpty(Model.DocumentCopy))
+            { 
             <tr>
                 <td style="width:10%; vertical-align:top;">
-                    <font size="4" face="Arial">
+                    <font size="4" face="Times New Roman">
                         <span><strong>Копия:</strong></span>
                     </font>
                 </td>
                 <td>
-                    <font size="4" face="Arial">
+                    <font size="4" face="Times New Roman">
                         <span style="white-space: pre-line;">@Model.DocumentCopy</span>
                     </font>
                 </td>
             </tr>
+            }
             <tr>
                 <td style="width:10%;">
-                    <font size="4" face="Arial">
+                    <font size="4" face="Times New Roman">
                         <span><strong>От кого:</strong></span>
                     </font>
                 </td>
                 <td>
-                    <font size="4" face="Arial">
+                    <font size="4" face="Times New Roman">
                         <span style="white-space: pre-line;">@Model.FromWhom</span>
                     </font>
                 </td>
             </tr>
             <tr>
                 <td style="width:10%;">
-                    <font size="4" face="Arial">
+                    <font size="4" face="Times New Roman">
                         <span><strong>Тема:</strong></span>
                     </font>
                 </td>
                 <td>
-                    <font size="4" face="Arial">
+                    <font size="4" face="Times New Roman">
                         <span style="white-space: pre-line;">@Model._DocumentTitle</span>
                     </font>
                 </td>
             </tr>
         </table>
         <br />
-        <font size="4" face="Arial">
+        <font size="4" face="Times New Roman">
             @Html.Raw(@Model.MainField)
         </font>
         <br />
@@ -101,7 +111,7 @@
                 <tr>
                     <td align="left">
                         <strong>
-                            <font size="4" face="Arial">
+                            <font size="4" face="Times New Roman">
                                 Вложенные файлы:
                             </font>
                         </strong>
@@ -112,8 +122,8 @@
                     <tr>
                                
                             <td align="left">
-                                <font size="4" face="Arial">                           
-                                        @file.FileName                          
+                                <font size="4" face="Times New Roman">
+                                    @file.FileName
                                 </font>
                             </td>
                     
@@ -135,9 +145,9 @@
                         <td align="left">
                             <ul>
                                 <li>
-                                    <font size="4" face="Arial">
-                                        @tracker.Executors - @tracker.ActivityName (@tracker.SignDate) - 
-                                       
+                                    <font size="4" face="Times New Roman">
+                                        @tracker.Executors - @tracker.ActivityName (@tracker.SignDate) -
+
                                         @if (tracker.TrackerType == RapidDoc.Models.Repository.TrackerType.Approved)
                                         {
                                             @UIElementRes.UIElement.Yes
@@ -166,7 +176,7 @@
         
     @if (((List<ReportCZComments>)ViewBag.CommentsCZ).Count > 0)
     {
-        <font size="4" face="Arial">
+        <font size="4" face="Times New Roman">
             <span><strong>Комментарии:</strong></span>
         </font>
         <table width="900">
@@ -176,7 +186,7 @@
                 <td align="left">
                     <ul>
                         <li>
-                            <font size="4" face="Arial">
+                            <font size="4" face="Times New Roman">
                                 @commentCZ.UserName - @commentCZ.UserTitle (@commentCZ.CreateDate):
                                 <br />
                                 <span><em>@Html.Raw(commentCZ.Comment)</em></span>

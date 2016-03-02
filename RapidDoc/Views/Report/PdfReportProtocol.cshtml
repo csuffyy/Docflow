@@ -12,11 +12,16 @@
     int prevDecisionType = 0;
 }
 
+<!DOCTYPE html>
 <html>
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width" />
     <title>PdfReportCZ</title>
     <style type="text/css">
+        body {
+            text-rendering: geometricPrecision;
+        }
         p {
             margin: 0;
             text-align: justify;
@@ -41,12 +46,12 @@
         <table width="900" cellpadding="7" cellspacing="0">
             <tr>
                 <td style="width:10%; vertical-align:top;">
-                    <font size="4" face="Arial">
+                    <font size="4" face="Times New Roman">
                         <span><strong>ХАТТАМА</strong></span>
                     </font>
                 </td>
                 <td style="width:10%; vertical-align:top; text-align:right">
-                    <font size="4" face="Arial">
+                    <font size="4" face="Times New Roman">
                         <span><strong>ПРОТОКОЛ</strong></span>
                     </font>
                 </td>
@@ -55,7 +60,7 @@
         <br />
         <h4 align="center">
             <strong>
-                <font size="4" face="Arial">
+                <font size="4" face="Times New Roman">
                     @Model.Subject
                 </font>
             </strong>
@@ -63,24 +68,24 @@
         <table width="900">
             <tr>
                 <td style="width:10%; vertical-align:top;">
-                    <font size="4" face="Arial">
+                    <font size="4" face="Times New Roman">
                         <span><strong>Папка:</strong></span>
                     </font>
                 </td>
                 <td style="width:10%; vertical-align:top;">
-                    <font size="4" face="Arial">
+                    <font size="4" face="Times New Roman">
                         <span><strong>Место проведения:</strong></span>
                     </font>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <font size="4" face="Arial">
+                    <font size="4" face="Times New Roman">
                         <span style="white-space: pre-line;">@ViewBag.FolderText </span>
                     </font>
                 </td>
                 <td>
-                    <font size="4" face="Arial">
+                    <font size="4" face="Times New Roman">
                         <span style="white-space: pre-line;">@Model.Location</span>
                     </font>
                 </td>
@@ -90,14 +95,14 @@
         <table width="900">
             <tr>               
                 <td style="width:10%; vertical-align:top;">
-                    <font size="4" face="Arial">
+                    <font size="4" face="Times New Roman">
                         <span><strong>Председатель:</strong></span>
                     </font>
                 </td>
                 @if (@ViewBag.ListAttended != null && ((List<string>)@ViewBag.ListAttended).Count > 0)
                 {
                     <td style="width:10%; vertical-align:top;">
-                        <font size="4" face="Arial">
+                        <font size="4" face="Times New Roman">
                             <span><strong>Присутствовали:</strong></span>
                         </font>
                     </td>
@@ -105,7 +110,7 @@
             </tr>
             <tr>              
                 <td style="vertical-align:top;">
-                    <font size="4" face="Arial">
+                    <font size="4" face="Times New Roman">
                         <span style="white-space: pre-line;">@ViewBag.Chairman (@ViewBag.ChairmanTitle)</span>
                     </font>
                 </td>
@@ -114,7 +119,7 @@
                     <td>
                         @foreach (string attended in @ViewBag.ListAttended)
                         {
-                            <font size="4" face="Arial">
+                            <font size="4" face="Times New Roman">
                                 <span style="white-space: pre-line;">@attended</span>
                             </font>
                             <br />
@@ -124,14 +129,14 @@
             </tr>
             <tr>
                 <td style="width:10%; vertical-align:top;">
-                    <font size="4" face="Arial">
+                    <font size="4" face="Times New Roman">
                         <span><strong>Секретарь:</strong></span>
                     </font>
                 </td>
                 @if (@ViewBag.ListInvited != null && ((List<string>)@ViewBag.ListInvited).Count > 0)
                 {
                     <td style="vertical-align:top;">
-                        <font size="4" face="Arial">
+                        <font size="4" face="Times New Roman">
                             <span><strong>Приглашенные:</strong></span>
                         </font>
                     </td>
@@ -139,7 +144,7 @@
             </tr>
             <tr>
                 <td style="vertical-align:top;">
-                    <font size="4" face="Arial">
+                    <font size="4" face="Times New Roman">
                         <span style="white-space: pre-line;">
                             @ViewBag.UserCreateName (@ViewBag.UserCreateTitleName)
                         </span>
@@ -150,7 +155,7 @@
                     <td>
                         @foreach (string invited in @ViewBag.ListInvited)
                         {
-                            <font size="4" face="Arial">
+                            <font size="4" face="Times New Roman">
                                 <span style="white-space: pre-line;">@invited</span>
                             </font>
                             <br />
@@ -166,7 +171,7 @@
                 @if (@ViewBag.ListAbsent != null && ((List<string>)@ViewBag.ListAbsent).Count > 0)
                 {
                     <td>
-                        <font size="4" face="Arial">
+                        <font size="4" face="Times New Roman">
                             <span><strong>Отсутствовали:</strong></span>
                         </font>
                     </td>
@@ -182,7 +187,7 @@
                     <td>
                         @foreach (string absent in @ViewBag.ListAbsent)
                         {
-                            <font size="4" face="Arial">
+                            <font size="4" face="Times New Roman">
                                 <span style="white-space: pre-line;">@absent</span>
                             </font>
                             <br />
@@ -195,13 +200,13 @@
         <table width="900">
             <tr>
                 <td style="width:10%; vertical-align:top;">
-                    <font size="4" face="Arial">
+                    <font size="4" face="Times New Roman">
                         <span><strong>Повестка:</strong></span>
                     </font>
                 </td>
                 <td>
                     <p style="text-align: justify;">
-                        <font size="4" face="Arial">
+                        <font size="4" face="Times New Roman">
                             <strong><span style="white-space: pre-line;">@Model.Agenda</span></strong>
                         </font>
                     </p>
@@ -211,7 +216,7 @@
         <hr />       
         @if (Model.QuestionList != null && ((List<RapidDoc.Models.DomainModels.PRT_QuestionList_Table>)Model.QuestionList).Count > 0)
         {
-            <font size="4" face="Arial">
+            <font size="4" face="Times New Roman">
                 <span><strong>Список вопросов:</strong></span>
             </font>
             <br />
@@ -224,12 +229,12 @@
                 {
                     numQuestion++;
                     <div style="width:15%; vertical-align:top; float:left;">
-                        <font size="4" face="Arial">
+                        <font size="4" face="Times New Roman">
                             <strong>Вопрос №@numQuestion.ToString()</strong>
                         </font>
                     </div>
                     <div style="width:85%; float:right;">
-                        <font size="4" face="Arial">
+                        <font size="4" face="Times New Roman">
                             @Html.Raw(@querstion.Question)
                         </font>
                     </div>
@@ -243,12 +248,12 @@
                     {
                         numDecision++;
                         <div style="width:83%; float:right;">
-                            <font size="4" face="Arial">
+                            <font size="4" face="Times New Roman">
                                 <br />
                                 <strong>ПОРУЧЕНИЕ №@numDecision.ToString()</strong>
                             </font>
                             <br />
-                            <font size="4" face="Arial">
+                            <font size="4" face="Times New Roman">
                                 @Html.Action("ProtocolDecisionText", "Custom", new { model = decision })
                             </font>
                         </div>
@@ -258,7 +263,7 @@
                         if (decision.Type != prevDecisionType)
                         {
                             <div style="width:83%; float:right;">
-                                <font size="4" face="Arial">
+                                <font size="4" face="Times New Roman">
                                     <br />
                                     <strong>РЕШЕНИЕ:</strong>
                                 </font>
@@ -268,12 +273,12 @@
                         <div style="width:83%; float:right;">
                             <div class="container">
                                 <div style="width:3%; vertical-align:top; float:left;">
-                                    <font size="4" face="Arial">
+                                    <font size="4" face="Times New Roman">
                                         <strong class="text-uppercase" style="white-space: nowrap;">@numTwoDecision.ToString().</strong>
                                     </font>
                                 </div>
                                 <div style="width:97%; float:right;">
-                                    <font size="4" face="Arial">
+                                    <font size="4" face="Times New Roman">
                                         @Html.Action("ProtocolDecisionText", "Custom", new { model = decision })
                                     </font>
                                 </div>
@@ -284,7 +289,7 @@
                     {
                         numThreeDecision++;
                         <div style="width:83%; float:right;">
-                            <font size="4" face="Arial">
+                            <font size="4" face="Times New Roman">
                                 <br />
                                 <strong>РЕКОМЕНДОВАНО РУКОВОДСТВУ:</strong>
                             </font>
@@ -292,12 +297,12 @@
                         <div style="width:83%; float:right;">
                             <div class="container">
                                 <div style="width:3%; vertical-align:top; float:left;">
-                                    <font size="4" face="Arial">
+                                    <font size="4" face="Times New Roman">
                                         <strong class="text-uppercase" style="white-space: nowrap;">@numThreeDecision.ToString().</strong>
                                     </font>
                                 </div>
                                 <div style="width:97%; float:right;">
-                                    <font size="4" face="Arial">
+                                    <font size="4" face="Times New Roman">
                                         @Html.Action("ProtocolDecisionText", "Custom", new { model = decision })
                                     </font>
                                 </div>
@@ -315,7 +320,7 @@
         {
             <p>
                 <strong>
-                    <font size="4" face="Arial">
+                    <font size="4" face="Times New Roman">
                         Вложенные файлы:
                     </font>
                 </strong>
@@ -323,13 +328,13 @@
             foreach (FileTable file in ViewBag.ListFiles)
             {
                 <p>
-                    <font size="4" face="Arial">
+                    <font size="4" face="Times New Roman">
                         @file.FileName
                     </font>
                 </p>
             }
         }   
-        <font size="4" face="Arial">
+        <font size="4" face="Times New Roman">
             @Html.Raw(Model.Addition)
         </font>
         <br /> 
@@ -339,7 +344,7 @@
             {
                 <ul>
                     <li>
-                        <font size="4" face="Arial">
+                        <font size="4" face="Times New Roman">
                             @tracker.Executors - @tracker.ActivityName (@tracker.SignDate) -
 
                             @if (tracker.TrackerType == RapidDoc.Models.Repository.TrackerType.Approved)
@@ -365,10 +370,10 @@
         }
 
         @if (Model.Duration != null && Model.Duration != String.Empty)
-        {        
-            <font size="4" face="Arial">
+        {
+            <font size="4" face="Times New Roman">
                 <span><strong>Время проведения совещания - @Model.Duration</strong></span>
-            </font>   
+            </font>
         }
         
         @if (ViewBag.TaskModel != null)
