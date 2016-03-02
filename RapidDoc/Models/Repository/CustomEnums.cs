@@ -1395,20 +1395,89 @@ namespace RapidDoc.Models.Repository
         [Display(Name = "Нет")]
         Element1 = 0,
 
-        [Display(Name = "Обогащение")]
+        [Display(Name = "Комплексный запрос")]
         Element2 = 1,
 
-        [Display(Name = "Недропользование")]
+        [Display(Name = "Вопросы, связанные с приобретением либо продажей Компанией доли в юридических лицах")]
         Element3 = 2,
 
-        [Display(Name = "Кадровые вопросы")]
+        [Display(Name = "Геологоразведка, минерально-сырьевая база")]
         Element4 = 3,
 
-        [Display(Name = "Объемы производства")]
+        [Display(Name = "Горное производство, добыча, обогащение")]
         Element5 = 4,
 
-        [Display(Name = "Комплексный запрос")]
-        Element6 = 5
+        [Display(Name = "Деятельность профсоюзной организации")]
+        Element6 = 5,
+
+        [Display(Name = "Инвестиционные проекты")]
+        Element7 = 6,
+
+        [Display(Name = "Инновационная деятельность")]
+        Element8 = 7,
+
+        [Display(Name = "Исполнение обязательств казахстанского содержания")]
+        Element9 = 8,
+
+        [Display(Name = "Кадровые вопросы")]
+        Element10 = 9,
+
+        [Display(Name = "Контакты с международными организациями")]
+        Element11 = 10,
+
+        [Display(Name = "Лизензирование, стандартизация и сертификация")]
+        Element12 = 11,
+
+        [Display(Name = "Налогообложение")]
+        Element13 = 12,
+
+        [Display(Name = "Недропользование")]
+        Element14 = 13,
+
+        [Display(Name = "Объемы производства")]
+        Element15 = 14,
+
+        [Display(Name = "Приобретение материалов и оборудования")]
+        Element16 = 15,
+
+        [Display(Name = "Промышленная безопасность")]
+        Element17 = 16,
+
+        [Display(Name = "Разрешение проблемных вопросов в деятельности дочерних предприятий")]
+        Element18 = 17,
+
+        [Display(Name = "Рынки сбыта, экспорт")]
+        Element19 = 18,
+
+        [Display(Name = "Социальные вопросы")]
+        Element20 = 19,
+
+        [Display(Name = "Стоимость и себестоимость  продукции")]
+        Element21 = 20,
+
+        [Display(Name = "Страхование")]
+        Element22 = 21,
+
+        [Display(Name = "Таможенное оформление и регулирование")]
+        Element23 = 22,
+
+        [Display(Name = "Тендерная площадка")]
+        Element24 = 23,
+
+        [Display(Name = "Технологическое развитие")]
+        Element25 = 24,
+
+        [Display(Name = "Трудовые отношения (заработная плата, численность работников, потребность в персонале и т.п.)")]
+        Element26 = 25,
+
+        [Display(Name = "Финансирование проектов")]
+        Element27 = 26,
+
+        [Display(Name = "Экология (отходы, вода, воздух)")]
+        Element28 = 27,
+
+        [Display(Name = "Энергосбережение, энергоснабжение и энергоэффективность")]
+        Element29 = 28
     }
 
     public enum IncomingDocumentType : byte

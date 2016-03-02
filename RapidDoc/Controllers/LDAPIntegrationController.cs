@@ -57,10 +57,11 @@ namespace RapidDoc.Controllers
                     BuildTreeLDAP(company, company.DomainTable.LDAPBaseDN, "", true);
                     CheckActiveUsers(company);
                 }
+
+                DeleteNotUsedDepartment(company);
             }
 
             DeleteNotUsedTitle();
-            DeleteNotUsedDepartment();
         }
 
         private void BuildTreeLDAP(CompanyTable _item, string _LDAPpath, string _parentDepartmentName = "", bool afterUpdate = false)
@@ -255,7 +256,7 @@ namespace RapidDoc.Controllers
 
                     companyName = result.Properties["companyname"][0].ToString();
 
-                    if (companyName == "Ustkam ID" || companyName == "Ustkam MK" || companyName == "Astana")
+                    if (companyName == "Ustkam ID" || companyName == "Ustkam MK" || companyName == "Astana" || companyName == "Almaty")
                     {
                         ldapData = result.Properties["cn"][0].ToString();
                         mail = result.Properties["mail"][0].ToString();
@@ -627,15 +628,15 @@ namespace RapidDoc.Controllers
             }
         }
 
-        private void DeleteNotUsedDepartment()
+        private void DeleteNotUsedDepartment(CompanyTable _item)
         {
-            PortalParametersTable portalParameters = _PortalParametersService.GetAll().FirstOrDefault();
+            PortalParametersTable portalParameters = _PortalParametersService.GetPartialIntercompany(x => x.CompanyTableId == _item.Id).FirstOrDefault();
             var departments = _DepartmentService.GetPartialIntercompany(x => x.DepartmentName != null).ToList();
 
             foreach (var department in departments)
             {
                 if (department.ParentDepartmentId == null && !_EmplService.Contains(x => x.DepartmentTableId == department.Id) && !_ItemCauseService.Contains(x => x.DepartmentTableId == department.Id) && 
-                    !portalParameters.ReportDepartments.Contains(department.Id.ToString()))
+                    (portalParameters == null || !portalParameters.ReportDepartments.Contains(department.Id.ToString())))
                 {
                     _DepartmentService.Delete(department.Id);
                 }
