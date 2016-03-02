@@ -262,8 +262,8 @@ namespace RapidDoc.Models.Services
             }
             else
             {
-                var delegations = (from delegation in contextQuery.DelegationTable
-                                      join emplTo in contextQuery.EmplTable on delegation.EmplTableToId equals emplTo.Id
+                var delegations = (from delegation in contextQuery.DelegationTable.AsNoTracking()
+                                   join emplTo in contextQuery.EmplTable.AsNoTracking() on delegation.EmplTableToId equals emplTo.Id
                                       where delegation.DateFrom <= currentDate && delegation.DateTo >= currentDate && delegation.isArchive == false
                                       && delegation.CompanyTableId == user.CompanyTableId && emplTo.ApplicationUserId == user.Id
                                       select delegation).ToList();
@@ -280,45 +280,45 @@ namespace RapidDoc.Models.Services
 
                 List<Guid> documentAccessList = new List<Guid>();
 
-                documentAccessList.AddRange(from document in contextQuery.DocumentTable
+                documentAccessList.AddRange(from document in contextQuery.DocumentTable.AsNoTracking()
                                             where document.ApplicationUserCreatedId == user.Id && document.DocType != DocumentType.Task
                                             select document.Id);
 
-                documentAccessList.AddRange(from document in contextQuery.DocumentTable
-                                            join tracker in contextQuery.WFTrackerTable on document.Id equals tracker.DocumentTableId
+                documentAccessList.AddRange(from document in contextQuery.DocumentTable.AsNoTracking()
+                                            join tracker in contextQuery.WFTrackerTable.AsNoTracking() on document.Id equals tracker.DocumentTableId
                                             where document.DocType != DocumentType.Task && tracker.TrackerType == TrackerType.Waiting && tracker.Users.Any(x => x.UserId == user.Id)
                                             select document.Id);
 
-                documentAccessList.AddRange(from document in contextQuery.DocumentTable
+                documentAccessList.AddRange(from document in contextQuery.DocumentTable.AsNoTracking()
                                             from tracker in contextQuery.WFTrackerTable.Where(x => x.DocumentTableId == document.Id).OrderByDescending(x => x.LineNum).Take(1)
                                             where document.DocType == DocumentType.Task && tracker.TrackerType == TrackerType.Waiting && tracker.Users.Any(x => x.UserId == user.Id)
                                             select document.Id);
 
-                documentAccessList.AddRange(from document in contextQuery.DocumentTable
-                                            join modification in contextQuery.ModificationUsersTable on document.Id equals modification.DocumentTableId
+                documentAccessList.AddRange(from document in contextQuery.DocumentTable.AsNoTracking()
+                                            join modification in contextQuery.ModificationUsersTable.AsNoTracking() on document.Id equals modification.DocumentTableId
                                             where modification.UserId == user.Id && document.DocumentState == DocumentState.Created
                                             select document.Id);
 
-                documentAccessList.AddRange(from document in contextQuery.DocumentTable
-                                            join process in contextQuery.ProcessTable on document.ProcessTableId equals process.Id
+                documentAccessList.AddRange(from document in contextQuery.DocumentTable.AsNoTracking()
+                                            join process in contextQuery.ProcessTable.AsNoTracking() on document.ProcessTableId equals process.Id
                                             join role in contextQuery.Roles on process.StartReaderRoleId equals role.Id
                                             where process.StartReaderRoleId != null && role.Users.Any(x => x.UserId == user.Id)
                                             select document.Id);
 
-                documentAccessList.AddRange(from document in contextQuery.DocumentTable
-                                            join reader in contextQuery.DocumentReaderTable on document.Id equals reader.DocumentTableId
+                documentAccessList.AddRange(from document in contextQuery.DocumentTable.AsNoTracking()
+                                            join reader in contextQuery.DocumentReaderTable.AsNoTracking() on document.Id equals reader.DocumentTableId
                                             where document.DocumentState != DocumentState.Created && reader.UserId == user.Id
                                             select document.Id);
 
-                documentAccessList.AddRange(from document in contextQuery.DocumentTable
-                                            join reader in contextQuery.DocumentReaderTable on document.Id equals reader.DocumentTableId
+                documentAccessList.AddRange(from document in contextQuery.DocumentTable.AsNoTracking()
+                                            join reader in contextQuery.DocumentReaderTable.AsNoTracking() on document.Id equals reader.DocumentTableId
                                             join role in contextQuery.Roles on reader.RoleId equals role.Id
                                             where document.DocumentState != DocumentState.Created && reader.RoleId != null && role.Users.Any(x => x.UserId == user.Id)
                                             select document.Id);
 
                 if (delegations.Count() > 0)
                 {
-                    documentAccessList.AddRange(from document in contextQuery.DocumentTable
+                    documentAccessList.AddRange(from document in contextQuery.DocumentTable.AsNoTracking()
                                                     where (contextQuery.DelegationTable.Any(d => d.EmplTableTo.ApplicationUserId == user.Id && d.DateFrom <= currentDate && d.DateTo >= currentDate && d.isArchive == false
                                                     && d.CompanyTableId == user.CompanyTableId
                                                     && (d.GroupProcessTableId == null || (d.GroupProcessTableId != null && childGroupArray.Any(x => x == document.ProcessTable.GroupProcessTableId)))
@@ -330,11 +330,11 @@ namespace RapidDoc.Models.Services
                 documentAccessList.Distinct();
                 var documentAccessListArray = documentAccessList.ToArray();
 
-                var items = from document in contextQuery.DocumentTable
+                var items = from document in contextQuery.DocumentTable.AsNoTracking()
                             where !(contextQuery.ReviewDocLogTable.Any(x => x.ApplicationUserCreatedId == user.Id && x.DocumentTableId == document.Id && x.isArchive == true))
                             && documentAccessListArray.Contains(document.Id)
-                            join company in contextQuery.CompanyTable on document.CompanyTableId equals company.Id
-                            join process in contextQuery.ProcessTable on document.ProcessTableId equals process.Id
+                            join company in contextQuery.CompanyTable.AsNoTracking() on document.CompanyTableId equals company.Id
+                            join process in contextQuery.ProcessTable.AsNoTracking() on document.ProcessTableId equals process.Id
                             let empl = contextQuery.EmplTable.Where(p => p.ApplicationUserId == document.ApplicationUserCreatedId).OrderByDescending(p => p.Enable).FirstOrDefault()
                             orderby String.IsNullOrEmpty(document.ActivityName), document.ModifiedDate descending
                             select new DocumentView
