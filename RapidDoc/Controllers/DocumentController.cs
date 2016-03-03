@@ -1957,6 +1957,26 @@ namespace RapidDoc.Controllers
             return File(fileTable.Data, fileTable.ContentType, fileTable.FileName);
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult DownloadFileNew(Guid Id)
+        {
+            FileTable fileTable = _DocumentService.GetFile(Id);
+
+            HttpResponseBase response = ControllerContext.HttpContext.Response;
+            response.ContentType = fileTable.ContentType;
+            response.AppendHeader("Content-Disposition", String.Format("attachment;filename={0}", fileTable.FileName));
+
+            MemoryStream ms = new MemoryStream(fileTable.Data);
+            FileStreamResult document = new FileStreamResult(ms, fileTable.ContentType);
+
+            document.FileStream.Seek(0, SeekOrigin.Begin);
+            document.FileStream.CopyTo(response.OutputStream, (int)document.FileStream.Length);
+
+            response.Flush();
+            return new EmptyResult();
+        }
+
         [AcceptVerbs(HttpVerbs.Delete)]
         public JsonResult DeleteFile(Guid Id)
         {
