@@ -256,7 +256,7 @@ namespace RapidDoc.Controllers
 
                     companyName = result.Properties["companyname"][0].ToString();
 
-                    if (companyName == "Ustkam ID" || companyName == "Ustkam MK" || companyName == "Astana" || companyName == "Almaty")
+                    if (companyName == "Ustkam ID" || companyName == "Ustkam MK" || companyName == "Astana" || companyName == "Almaty" || companyName == "Kazzinc-GEO")
                     {
                         ldapData = result.Properties["cn"][0].ToString();
                         mail = result.Properties["mail"][0].ToString();

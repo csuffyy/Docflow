@@ -1401,10 +1401,10 @@ namespace RapidDoc.Models.Repository
         [Display(Name = "Вопросы, связанные с приобретением либо продажей Компанией доли в юридических лицах")]
         Element3 = 2,
 
-        [Display(Name = "Геологоразведка, минерально-сырьевая база")]
+        [Display(Name = "Геологоразведка")]
         Element4 = 3,
 
-        [Display(Name = "Горное производство, добыча, обогащение")]
+        [Display(Name = "Горное производство")]
         Element5 = 4,
 
         [Display(Name = "Деятельность профсоюзной организации")]
@@ -1431,7 +1431,7 @@ namespace RapidDoc.Models.Repository
         [Display(Name = "Налогообложение")]
         Element13 = 12,
 
-        [Display(Name = "Недропользование")]
+        [Display(Name = "Обогатительное производство")]
         Element14 = 13,
 
         [Display(Name = "Объемы производства")]
