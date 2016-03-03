@@ -140,7 +140,7 @@
   <Flowchart DisplayName="Запрос на внесение изменений в зарегистрированный приказ в Lotus Notes" sap2010:WorkflowViewState.IdRef="Flowchart_2">
     <Flowchart.Variables>
       <Variable x:TypeArguments="x:String" Name="bookmarkName" />
-      <Variable x:TypeArguments="x:String" Name="department" />
+      <Variable x:TypeArguments="x:String" Name="dynamic" />
     </Flowchart.Variables>
     <Flowchart.StartNode>
       <FlowDecision x:Name="__ReferenceID26" DisplayName="Статус документа" sap2010:WorkflowViewState.IdRef="FlowDecision_20">
@@ -157,7 +157,7 @@
                 <Assign sap2010:WorkflowViewState.IdRef="Assign_11">
                   <Assign.To>
                     <OutArgument x:TypeArguments="x:String">
-                      <mca:CSharpReference x:TypeArguments="x:String">department</mca:CSharpReference>
+                      <mca:CSharpReference x:TypeArguments="x:String">dynamic</mca:CSharpReference>
                     </OutArgument>
                   </Assign.To>
                   <Assign.Value>
@@ -179,7 +179,7 @@
                       </local1:WFChooseStaffStructure.inputDocumentId>
                       <local1:WFChooseStaffStructure.inputPredicate>
                         <InArgument x:TypeArguments="sle:Expression(s:Func(local2:EmplTable, x:Boolean))">
-                          <mca:CSharpValue x:TypeArguments="sle:Expression(s:Func(local2:EmplTable, x:Boolean))">x =&gt; x.DepartmentTable.DepartmentName == department &amp;&amp; x.TitleTable.TitleName == "Начальник службы"</mca:CSharpValue>
+                          <mca:CSharpValue x:TypeArguments="sle:Expression(s:Func(local2:EmplTable, x:Boolean))">x =&gt; x.DepartmentTable.DepartmentName == dynamic &amp;&amp; x.TitleTable.TitleName == "Начальник службы"</mca:CSharpValue>
                         </InArgument>
                       </local1:WFChooseStaffStructure.inputPredicate>
                       <local1:WFChooseStaffStructure.inputStep>
@@ -572,7 +572,7 @@
                 <Assign sap2010:WorkflowViewState.IdRef="Assign_18">
                   <Assign.To>
                     <OutArgument x:TypeArguments="x:String">
-                      <mca:CSharpReference x:TypeArguments="x:String">department</mca:CSharpReference>
+                      <mca:CSharpReference x:TypeArguments="x:String">dynamic</mca:CSharpReference>
                     </OutArgument>
                   </Assign.To>
                   <Assign.Value>
@@ -690,7 +690,7 @@
     <x:Reference>__ReferenceID25</x:Reference>
     <x:Reference>__ReferenceID4</x:Reference>
     <x:Reference>__ReferenceID26</x:Reference>
-    <sads:DebugSymbol.Symbol>d0VEOlxHaXRIdWJcRG9jRmxvd1xSYXBpZERvY1xBY3Rpdml0aWVzXFVTUl9SRVFfSVRfQ0FQX0NoYW5nZU9yZGVyLnhhbWxqHAccZwEDAZUBAZsBAQKMAQO2BQ8CAQGUAQuUAW8DAYIGzwQN7gQrAwHCBfIEE/IEaAMBuAX5BBWOBTYDAY8FmQEPmQGaAQMBhQW8BBHFBBoDAfkEqQEVzQE1AwGxBNEBG9EBcAMBpwSZBB2uBD4DAf4D1gEf1gGDAQMB9AOHBCGSBCoDAd8D2gEh/gFBAwGXA4ICJ4ICfAMBjQPmAyn7A0oDAeQChwIrhwKPAQMB2gLUAy3fAzYDAcUCiwItrwJNAwH9AbMCM7MCiAEDAfMBswM1yANWAwHKAbgCN7gCmwEDAcABoQM5rANCAwGrAbwCOdsCUwIBa94CPfMCXgIBQvcCQ/cCpwECATiLA0WWA04CASP7AkWGA04CAQ6dARGmARoCAQLcBBPcBGUDAfgFzwSFAs8EjAIDAfcF5gQT5gRoAwHtBeEEE+EEZQMB4wXrBBPrBG4DAdkFzwTiAc8E6gEDAdgFzwT0Ac8E+gEDAdcF1wQT1wReAwHNBdIEE9IEYQMBwwWBBRuBBW0DAa4FhgUbhgVxAwGkBfwEG/wEZQMBmgWLBRuLBXYDAZAFwwQ8wwRJAwGEBb8EF78EZwMB+gS7ARu7AW0DAe8EqQH/AakBhgIDAe4ExQEbxQFwAwHkBMABG8ABbQMB2gTKARvKAXYDAdAEsQEbsQFmAwHGBKwBG6wBaQMBvAS2ARu2AfIBAwGyBKEEI6EEdQMBnQSmBCOmBHkDAZMEnAQjnARtAwGJBKsEI6sEfgMB/wOPBCePBHoDAeoDigQnigSCAQMB4APsASfsAXkDAdUD2gGWAtoBnQIDAdQD9gEn9gF8AwHKA/EBJ/EBeQMBwAP7ASf7AYIBAwG2A+IBJ+IBcgMBrAPdASfdAXUDAaID5wEn5wGjAgMBmAPuAy/uA4EBAwGDA/MDL/MDhQEDAfkC6QMv6QN5AwHvAvgDL/gDigEDAeUC3AMz3AOGAQMB0ALXAzPXA44BAwHGAp0CM50ChQEDAbsCiwKfAosCpgIDAboCpwIzpwKIAQMBsAKiAjOiAoUBAwGmAqwCM6wCjgEDAZwCkwIzkwJ+AwGSAo4CM44CgQEDAYgCmAIzmAKkAgMB/gG7Azu7A40BAwHpAcADO8ADkQEDAd8BtgM7tgOFAQMB1QHFAzvFA5YBAwHLAakDP6kDkgEDAbYBpAM/pAOaAQMBrAHJAj/JApEBAwGhAbwCtgK8Ar0CAwGgAdMCP9MClAEDAZYBzgI/zgKRAQMBjAG8AocCvAKNAgMBiwHYAj/YApoBAwGBAbwCnAK8AqsCAwGAAcQCP8QCigECAXa/Aj+/Ao0BAgFs5gJD5gKVAQIBYesCQ+sCmQECAVfhAkPhAo0BAgFN8AJD8AKeAQIBQ5MDS5MDqwECAS6OA0uOA6YBAgEkgwNLgwOoAQIBGf4CS/4CpgECAQ+kATykAV0CAQ2gARegAWcCAQM=</sads:DebugSymbol.Symbol>
+    <sads:DebugSymbol.Symbol>d0VEOlxHaXRIdWJcRG9jRmxvd1xSYXBpZERvY1xBY3Rpdml0aWVzXFVTUl9SRVFfSVRfQ0FQX0NoYW5nZU9yZGVyLnhhbWxqHAccZwEDAZUBAZsBAQKMAQO2BQ8CAQGUAQuUAW8DAYIGzwQN7gQrAwHCBfIEE/IEaAMBuAX5BBWOBTYDAY8FmQEPmQGaAQMBhQW8BBHFBBoDAfkEqQEVzQE1AwGxBNEBG9EBcAMBpwSZBB2uBD4DAf4D1gEf1gGDAQMB9AOHBCGSBCoDAd8D2gEh/gFBAwGXA4ICJ4ICfAMBjQPmAyn7A0oDAeQChwIrhwKPAQMB2gLUAy3fAzYDAcUCiwItrwJNAwH9AbMCM7MCiAEDAfMBswM1yANWAwHKAbgCN7gCmwEDAcABoQM5rANCAwGrAbwCOdsCUwIBa94CPfMCXgIBQvcCQ/cCpwECATiLA0WWA04CASP7AkWGA04CAQ6dARGmARoCAQLcBBPcBGUDAfgFzwSFAs8EjAIDAfcF5gQT5gRoAwHtBeEEE+EEZQMB4wXrBBPrBG4DAdkFzwTiAc8E6gEDAdgFzwT0Ac8E+gEDAdcF1wQT1wReAwHNBdIEE9IEYQMBwwWBBRuBBW0DAa4FhgUbhgVxAwGkBfwEG/wEZQMBmgWLBRuLBXYDAZAFwwQ8wwRJAwGEBb8EF78EZAMB+gS7ARu7AW0DAe8EqQH/AakBhgIDAe4ExQEbxQFwAwHkBMABG8ABbQMB2gTKARvKAXYDAdAEsQEbsQFmAwHGBKwBG6wBaQMBvAS2ARu2Ae8BAwGyBKEEI6EEdQMBnQSmBCOmBHkDAZMEnAQjnARtAwGJBKsEI6sEfgMB/wOPBCePBHoDAeoDigQnigSCAQMB4APsASfsAXkDAdUD2gGWAtoBnQIDAdQD9gEn9gF8AwHKA/EBJ/EBeQMBwAP7ASf7AYIBAwG2A+IBJ+IBcgMBrAPdASfdAXUDAaID5wEn5wGjAgMBmAPuAy/uA4EBAwGDA/MDL/MDhQEDAfkC6QMv6QN5AwHvAvgDL/gDigEDAeUC3AMz3AOGAQMB0ALXAzPXA44BAwHGAp0CM50ChQEDAbsCiwKfAosCpgIDAboCpwIzpwKIAQMBsAKiAjOiAoUBAwGmAqwCM6wCjgEDAZwCkwIzkwJ+AwGSAo4CM44CgQEDAYgCmAIzmAKkAgMB/gG7Azu7A40BAwHpAcADO8ADkQEDAd8BtgM7tgOFAQMB1QHFAzvFA5YBAwHLAakDP6kDkgEDAbYBpAM/pAOaAQMBrAHJAj/JApEBAwGhAbwCtgK8Ar0CAwGgAdMCP9MClAEDAZYBzgI/zgKRAQMBjAG8AocCvAKNAgMBiwHYAj/YApoBAwGBAbwCnAK8AqsCAwGAAcQCP8QCigECAXa/Aj+/Ao0BAgFs5gJD5gKVAQIBYesCQ+sCmQECAVfhAkPhAo0BAgFN8AJD8AKeAQIBQ5MDS5MDqwECAS6OA0uOA6YBAgEkgwNLgwOoAQIBGf4CS/4CpgECAQ+kATykAV0CAQ2gARegAWQCAQM=</sads:DebugSymbol.Symbol>
   </Flowchart>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>

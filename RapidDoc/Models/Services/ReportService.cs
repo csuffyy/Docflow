@@ -107,28 +107,34 @@ namespace RapidDoc.Models.Services
                         stageName = activity.DisplayName;
                         break;
                     case 1:
-                        var activityStaffStructure = activity as WFChooseStaffStructure;
-                        var activityExpressionStaff = activityStaffStructure.inputPredicate.Expression as Microsoft.CSharp.Activities.CSharpValue<Expression<Func<EmplTable, bool>>>;
+                        
+                            var activityStaffStructure = activity as WFChooseStaffStructure;
+                            var activityExpressionStaff = activityStaffStructure.inputPredicate.Expression as Microsoft.CSharp.Activities.CSharpValue<Expression<Func<EmplTable, bool>>>;
 
-                        if (activityExpressionStaff != null)
-                        {                          
-                            stageName = activity.DisplayName;
-                            filterText = activityExpressionStaff.ExpressionText;                     
-                            filterType = FilterType.Predicate;
-
-                            System.Linq.Expressions.Expression expressionTree = activityExpressionStaff.GetExpressionTree();
-                            dynamic dynamicExpression = expressionTree;
-                            Expression<Func<EmplTable, bool>> expressionEmpl = dynamicExpression.Body.Operand;
-                            if (expressionEmpl != null)
+                            if (activityExpressionStaff != null)
                             {
-                                namesList = _EmplService.GetPartialIntercompany(expressionEmpl).Where(x => x.Enable == true).ToList();
-                                if (namesList.Count <= 0)
-                                    color = Color.LightPink;
-                            }
-                            else
-                                color = Color.LightPink;
-                        }
-
+                                stageName = activity.DisplayName;
+                                filterText = activityExpressionStaff.ExpressionText;
+                                filterType = FilterType.Predicate;
+                                if (filterText.Contains("dynamic"))
+                                {
+                                    namesList.Add(new EmplTable  {FirstName = "Dynamic"});
+                                }
+                                else
+                                {
+                                    System.Linq.Expressions.Expression expressionTree = activityExpressionStaff.GetExpressionTree();
+                                    dynamic dynamicExpression = expressionTree;
+                                    Expression<Func<EmplTable, bool>> expressionEmpl = dynamicExpression.Body.Operand;
+                                    if (expressionEmpl != null)
+                                    {
+                                        namesList = _EmplService.GetPartialIntercompany(expressionEmpl).Where(x => x.Enable == true).ToList();
+                                        if (namesList.Count <= 0)
+                                            color = Color.LightPink;
+                                    }
+                                    else
+                                        color = Color.LightPink;
+                                }
+                            }                     
                         break;
                     case 3:
                         var activitySpecifyUser = activity as WFChooseSpecificUser;
@@ -255,7 +261,7 @@ namespace RapidDoc.Models.Services
                     {
                         excelWorksheet.Cells[rowCount, 2] = i++;
                         excelWorksheet.Cells[rowCount, 3] = task.CardNumber;
-                        excelWorksheet.Cells[rowCount, 4] = _SystemService.DeleteAllTags(task.TaskDescription);
+                        excelWorksheet.Cells[rowCount, 4] = _SystemService.DeleteAllSpecialCharacters(_SystemService.DeleteAllTags(task.TaskDescription));
                         excelWorksheet.Cells[rowCount, 5] = task.PlaneDate.ToString() == "" ? "" : task.PlaneDate.ToShortDateString();
 
                         if (task.Factdate != null)
@@ -273,11 +279,11 @@ namespace RapidDoc.Models.Services
                                 break;
                             case ReportExecutionType.NoneDone:
                                 excelWorksheet.Cells[rowCount, 9] = "не исполнено";
+                                Excel.Range rangeColor = excelWorksheet.Range[excelWorksheet.Cells[rowCount, 2], excelWorksheet.Cells[rowCount, maxColumns]];
+                                rangeColor.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Red);
                                 break;
                             case ReportExecutionType.Disturbance:
-                                excelWorksheet.Cells[rowCount, 9] = "исполнено с нарушением сроков";
-                                Excel.Range rangeColor = excelWorksheet.Range[excelWorksheet.Cells[rowCount, 2], excelWorksheet.Cells[rowCount, maxColumns]];
-                                rangeColor.Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Red);
+                                excelWorksheet.Cells[rowCount, 9] = "исполнено с нарушением сроков";                            
                                 break;
                         }
 
