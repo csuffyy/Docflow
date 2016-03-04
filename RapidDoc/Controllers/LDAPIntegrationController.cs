@@ -25,15 +25,17 @@ namespace RapidDoc.Controllers
     {
         protected readonly ICompanyService _CompanyService;
         protected readonly IEmplService _EmplService;
+        protected readonly IEmailService _Emailservice;
         protected readonly IWorkScheduleService _WorkScheduleService;
         protected readonly ITitleService _TitleService;
         protected readonly IDepartmentService _DepartmentService;
         protected readonly IItemCauseService _ItemCauseService;
-        private readonly IPortalParametersService _PortalParametersService;
+        protected readonly IPortalParametersService _PortalParametersService;
 
-        public LDAPIntegrationController(ICompanyService companyService, IEmplService emplService, IWorkScheduleService workScheduleService, ITitleService titleService, IDepartmentService departmentService, IItemCauseService itemCauseService, IPortalParametersService portalParametersService)
+        public LDAPIntegrationController(ICompanyService companyService, IEmailService emailservice, IEmplService emplService, IWorkScheduleService workScheduleService, ITitleService titleService, IDepartmentService departmentService, IItemCauseService itemCauseService, IPortalParametersService portalParametersService)
         {
             _CompanyService = companyService;
+            _Emailservice = emailservice;
             _EmplService = emplService;
             _WorkScheduleService = workScheduleService;
             _TitleService = titleService;
@@ -44,24 +46,31 @@ namespace RapidDoc.Controllers
 
         public void Get()
         {
-            var companies = _CompanyService.GetAll().ToList();
-            foreach (var company in companies)
+            try
             {
-                if (company.AliasCompanyName == "KZC")
+                var companies = _CompanyService.GetAll().ToList();
+                foreach (var company in companies)
                 {
-                    getUsersDepartmentKZC(company, company.DomainTable.LDAPBaseDN);
-                }
-                else
-                {
-                    BuildTreeLDAP(company, company.DomainTable.LDAPBaseDN, "");
-                    BuildTreeLDAP(company, company.DomainTable.LDAPBaseDN, "", true);
-                    CheckActiveUsers(company);
+                    if (company.AliasCompanyName == "KZC")
+                    {
+                        getUsersDepartmentKZC(company, company.DomainTable.LDAPBaseDN);
+                    }
+                    else
+                    {
+                        BuildTreeLDAP(company, company.DomainTable.LDAPBaseDN, "");
+                        BuildTreeLDAP(company, company.DomainTable.LDAPBaseDN, "", true);
+                        CheckActiveUsers(company);
+                    }
+
+                    DeleteNotUsedDepartment(company);
                 }
 
-                DeleteNotUsedDepartment(company);
+                DeleteNotUsedTitle();
             }
-
-            DeleteNotUsedTitle();
+            catch (Exception e)
+            {
+                _Emailservice.SendStatusExecutionBatch(String.Format("Procedure LDAP Integration was failed. Message is ({0}).", e.Message), true);
+            }
         }
 
         private void BuildTreeLDAP(CompanyTable _item, string _LDAPpath, string _parentDepartmentName = "", bool afterUpdate = false)
@@ -167,21 +176,10 @@ namespace RapidDoc.Controllers
                         {
                             try
                             {
-                                DirectoryEntry entryManager = new DirectoryEntry("LDAP://" + _item.DomainTable.LDAPServer + ":"
-                                    + Convert.ToString(_item.DomainTable.LDAPPort) + "/"
-                                    + manager, _item.DomainTable.LDAPLogin, _item.DomainTable.LDAPPassword, AuthenticationTypes.None);
+                                string managerUserId = GetManagerUserId(manager, _item);
 
-                                if (entryManager.Properties.Contains("sAMAccountName"))
-                                {
-                                    string ManagerUserId = entryManager.Properties["sAMAccountName"].Value.ToString();
-
-                                    ApplicationDbContext context = new ApplicationDbContext();
-                                    var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-                                    var userTable = um.FindByName(ManagerUserId);
-                                    manager = userTable != null ? userTable.Id : String.Empty;
-
-                                    EmplUpdateIntegration(GlobalGuid, emplName[1], emplName[0], emplName[2], _item.Id, manager);
-                                }
+                                if (!String.IsNullOrEmpty(managerUserId))
+                                    EmplUpdateIntegration(GlobalGuid, emplName[1], emplName[0], emplName[2], _item.Id, managerUserId);
                             }
                             catch 
                             { 
@@ -190,16 +188,44 @@ namespace RapidDoc.Controllers
                         }
                         else
                         {
-                            PrincipalContext ctx = new PrincipalContext(ContextType.Domain, _item.DomainTable.LDAPServer, _item.DomainTable.LDAPBaseDN, _item.DomainTable.LDAPLogin, _item.DomainTable.LDAPPassword);
-                            UserPrincipal user = UserPrincipal.FindByIdentity(ctx, userid);
-                            string domainSID = user.Sid.ToString();
+                            try
+                            {
+                                string managerUserId = GetManagerUserId(manager, _item);
 
-                            String ApplicationUserId = UserIntegration(userid, mail, domainSID, _item);
-                            EmplIntegration(GlobalGuid, emplName[1], emplName[0], emplName[2], telephone, mobile, ApplicationUserId, _department, titleId, _item.Id, manager);
+                                PrincipalContext ctx = new PrincipalContext(ContextType.Domain, _item.DomainTable.LDAPServer, _item.DomainTable.LDAPBaseDN, _item.DomainTable.LDAPLogin, _item.DomainTable.LDAPPassword);
+                                UserPrincipal user = UserPrincipal.FindByIdentity(ctx, userid);
+                                string domainSID = user.Sid.ToString();
+
+                                String ApplicationUserId = UserIntegration(userid, mail, domainSID, _item);
+                                EmplIntegration(GlobalGuid, emplName[1], emplName[0], emplName[2], telephone, mobile, ApplicationUserId, _department, titleId, _item.Id, managerUserId);
+                            }
+                            catch
+                            {
+                                continue;
+                            }
                         }
                     }
                 }
             }
+        }
+
+        private string GetManagerUserId(string manager, CompanyTable _item)
+        {
+            DirectoryEntry entryManager = new DirectoryEntry("LDAP://" + _item.DomainTable.LDAPServer + ":"
+                + Convert.ToString(_item.DomainTable.LDAPPort) + "/"
+                + manager, _item.DomainTable.LDAPLogin, _item.DomainTable.LDAPPassword, AuthenticationTypes.None);
+
+            if (entryManager.Properties.Contains("sAMAccountName"))
+            {
+                string ManagerUserLogin = entryManager.Properties["sAMAccountName"].Value.ToString();
+
+                ApplicationDbContext context = new ApplicationDbContext();
+                var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+                var userTable = um.FindByName(ManagerUserLogin);
+                return userTable != null ? userTable.Id : String.Empty;
+            }
+
+            return String.Empty;
         }
 
         private void getUsersDepartmentKZC(CompanyTable _item, string _LDAPpath)
