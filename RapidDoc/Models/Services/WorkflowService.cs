@@ -321,8 +321,8 @@ namespace RapidDoc.Models.Services
                     DocumentTable docTable = _DocumentService.FirstOrDefault(x => x.Id == documentId);
                     if (docTable.DocType == DocumentType.Order)
                     {
-                        int stepCount = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == docTable.Id && (x.TrackerType == TrackerType.NonActive || x.TrackerType == TrackerType.Waiting)).OrderByDescending(x => x.LineNum).Count();
-                        _EmailService.SendExecutorEmail(documentId, documentData.ContainsKey("AdditionalText") ? (string)documentData["AdditionalText"] : "", stepCount == 1 ? true : false);
+                        WFTrackerTable stepCount = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == docTable.Id).OrderByDescending(x => x.LineNum).FirstOrDefault(x => x.SystemName != null);
+                        _EmailService.SendExecutorEmail(documentId, documentData.ContainsKey("AdditionalText") ? (string)documentData["AdditionalText"] : "", stepCount != null && _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == docTable.Id && x.LineNum > stepCount.LineNum).Count() == 1 ? true : false);
                     }
                     else
                         _EmailService.SendExecutorEmail(documentId, documentData.ContainsKey("AdditionalText") ? (string)documentData["AdditionalText"] : "");
