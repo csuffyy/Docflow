@@ -1521,7 +1521,7 @@ namespace RapidDoc.Models.Repository
         [Display(Name = "Телефонограмма")]
         Element13 =12,
 
-        [Display(Name = "Уведоление")]
+        [Display(Name = "Уведомление")]
         Element14 = 13
     }
 
