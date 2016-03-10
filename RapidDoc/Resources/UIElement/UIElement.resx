@@ -669,4 +669,10 @@
   <data name="PortalParameters" xml:space="preserve">
     <value>Параметры портала</value>
   </data>
+  <data name="Show" xml:space="preserve">
+    <value>Показать</value>
+  </data>
+  <data name="RefreshActiveDocument" xml:space="preserve">
+    <value>Поступили новые документы. Обновить?</value>
+  </data>
 </root>

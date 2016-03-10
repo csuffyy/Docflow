@@ -20,17 +20,78 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/gridmvc")
+    @Scripts.Render("~/bundles/pnotify")
 }
 
 @section jslaunch {
 <script type="text/javascript">
-$(function () {
-    grid_init("@Url.Action("GetDocumentList", "Document")");
-    popover_init();
+    var currentDocCount = 0;
+    var timerCheckDocActive;
+    var jsonStrCheckDocActive = "@Url.Action("GetActiveDocumentCount", "Document")";
+    var showUser = 0;
 
-    pageGrids.ordersGrid.onRowSelect(function (e) {
-        window.location.href = '/' + e.row.AliasCompanyName + '/' + 'Document/ShowDocument/' + e.row.Id;
+    $(function () {
+        grid_init("@Url.Action("GetDocumentList", "Document")");
+        popover_init();
+
+        pageGrids.ordersGrid.onRowSelect(function (e) {
+            window.location.href = '/' + e.row.AliasCompanyName + '/' + 'Document/ShowDocument/' + e.row.Id;
+        });
+
+        $.getJSON(jsonStrCheckDocActive, null,
+        function (data) {
+            currentDocCount = data.doccount;
+        });
+
+        timerCheckDocActive = setInterval(checkNewActiveDoc, 1000);
     });
-});
+
+    function checkNewActiveDoc() {
+        try {
+            $.getJSON(jsonStrCheckDocActive, null,
+            function (data) {
+                var doccount = data.doccount;
+
+                if (doccount > currentDocCount) {
+                    document.title = "DOCFLOW - (" + Math.floor(doccount - currentDocCount) + ")";
+
+                    if (showUser == 0) {
+                        showUser = 1;
+
+                        new PNotify({
+                            title: '@UIElementRes.UIElement.Dashboard',
+                            text: '@UIElementRes.UIElement.RefreshActiveDocument',
+                            icon: 'glyphicon glyphicon-question-sign',
+                            hide: false,
+                            type: 'info',
+                            addclass: 'hidden-print',
+                            confirm: {
+                                confirm: true,
+                                buttons: [{
+                                    text: 'OK',
+                                    addClass: 'btn-info btn-sm',
+                                    click: function (notice) {
+                                        window.location.reload();
+                                    }
+                                }, null]
+                            },
+                            buttons: {
+                                closer: true,
+                                sticker: false
+                            },
+                            history: {
+                                history: false
+                            }
+                        });
+                    }
+                }
+            }).error(function () {
+                clearInterval(timerCheckDocActive);
+            });
+        }
+        catch (e) {
+            clearInterval(timerCheckDocActive);
+        }
+    }
 </script>
 }

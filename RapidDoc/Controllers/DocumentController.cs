@@ -2596,5 +2596,11 @@ namespace RapidDoc.Controllers
 
             return PartialView("_DocumentBaseList", model);
         }
+
+        public JsonResult GetActiveDocumentCount()
+        {
+            var items = _DocumentService.GetAllView();
+            return Json(new { doccount = items.Count() }, JsonRequestBehavior.AllowGet);
+        }
 	}
 }
