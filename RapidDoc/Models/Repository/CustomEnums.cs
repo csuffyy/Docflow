@@ -1557,7 +1557,7 @@ namespace RapidDoc.Models.Repository
         [Display(Name = "Предписание")]
         Element57 = 58,
 
-        [Display(Name = "Уведоление")]
+        [Display(Name = "Уведомление")]
         Element14 = 13
     }
 
@@ -1599,7 +1599,7 @@ namespace RapidDoc.Models.Repository
         [Display(Name = "Подтверждение участия")]
         Element59 = 60,
 
-        [Display(Name = "Уведоление")]
+        [Display(Name = "Уведомление")]
         Element14 = 13
     }
 
