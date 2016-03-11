@@ -1,0 +1,51 @@
+﻿@model RapidDoc.Models.ViewModels.USR_REQ_UMM_ProvisionOfWelder_View
+@using RapidDoc.Extensions;
+
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.Department)
+</div>
+<div class="editor-field">
+    @Html.TextBoxFor(model => Model.Department, new { @class = "form-control", placeholder = "Подразделение" })
+</div>
+
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.FIO1)
+</div>
+<div class="editor-field">
+    @Html.TextBoxFor(model => Model.FIO1, new { @class = "form-control", @data_role = "tagsinputEmpl", placeholder = "Ф.И.О. должность" })
+</div>
+
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.TechType)
+</div>
+<div class="editor-field">
+    @Html.TextBoxFor(model => Model.TechType, new { @class = "form-control", placeholder = "Вид техники/оборудования" })
+</div>
+
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.WeldingDescription)
+</div>
+<div class="editor-field">
+    @Html.TextAreaFor(model => Model.WeldingDescription, new { @class = "form-control", @row = 5, placeholder = "Описание сварочных работ" })
+</div>
+
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.WorkPermitDescription)
+</div>
+<div class="editor-field">
+    @Html.TextAreaFor(model => Model.WorkPermitDescription, new { @class = "form-control", @row = 5, placeholder = "Информация по наряд-допускам" })
+</div>
+
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.UserChooseManual1)
+</div>
+<div class="editor-field">
+    @Html.TextBoxFor(model => Model.UserChooseManual1, new { @class = "form-control", @data_role = "tagsinputEmpl2", placeholder = "Мастер УММ" })
+</div>
+
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.UserChooseManual2)
+</div>
+<div class="editor-field">
+    @Html.TextBoxFor(model => Model.UserChooseManual2, new { @class = "form-control", @data_role = "tagsinputEmpl3", placeholder = "Диспетчер" })
+</div>

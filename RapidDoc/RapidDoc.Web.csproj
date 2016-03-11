@@ -2108,6 +2108,11 @@
     <Content Include="Views\PortalParameters\Edit.cshtml" />
     <Content Include="Views\Custom\USR_REQ_IT_CTS_ProblemWithWS_View.cshtml" />
     <Content Include="Views\Custom\USR_REQ_IT_CTS_ProblemWithWS_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UMM_ProvisionOfWelder_View.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UMM_ProvisionOfWelder_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UMM_ProvisionOfWelder_View_Full.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UMM_ProvisionOfWelder_Edit_UMM.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UMM_ProvisionOfWelder_Edit_Disp.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -4019,6 +4024,12 @@
   </ItemGroup>
   <ItemGroup>
     <XamlAppDef Include="Activities\USR_REQ_IT_CTS_ProblemWithWS.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USR_REQ_UMM_ProvisionOfWelder.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </XamlAppDef>

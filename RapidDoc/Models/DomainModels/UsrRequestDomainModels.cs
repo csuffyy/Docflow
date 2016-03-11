@@ -4307,6 +4307,19 @@ namespace RapidDoc.Models.DomainModels
         public string AmountMaterial { get; set; }
         public DateTime? ActualDate { get; set; }
     }
+
+    public class USR_REQ_UMM_ProvisionOfWelder_Table : BasicDocumentTable
+    {
+        public string Department { get; set; }
+        public string FIO1 { get; set; }
+        public string TechType { get; set; }
+        public string WeldingDescription { get; set; }
+        public string WorkPermitDescription { get; set; }
+        public string UserChooseManual1 { get; set; }
+        public string UserChooseManual2 { get; set; }
+        public DateTime? FinishDate { get; set; }
+        public string FIO2 { get; set; }
+    }
     #endregion
 
     #region Коммандировки

@@ -1392,6 +1392,29 @@ namespace RapidDoc.Controllers
             return PartialView("USR_REQ_YT_PassangerTransportTrip_View_Show", model);
         }
 
+        public ActionResult GetRequestProvisionOfWelder(RapidDoc.Models.ViewModels.USR_REQ_UMM_ProvisionOfWelder_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+         
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.SystemName == "MasterUMM"))
+                    {
+                        return PartialView("USR_REQ_UMM_ProvisionOfWelder_Edit_UMM", model);
+                    }
+                    if (current.Any(x => x.SystemName == "DispUMM"))
+                    {
+                        return PartialView("USR_REQ_UMM_ProvisionOfWelder_Edit_Disp", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_REQ_UMM_ProvisionOfWelder_View_Full", model);
+        }
+
         public ActionResult GetRequestPassangerTransportTripManage(RapidDoc.Models.ViewModels.USR_REQ_YT_PassangerTransportTripManage_View model)
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
