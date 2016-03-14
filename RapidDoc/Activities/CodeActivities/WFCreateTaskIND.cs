@@ -61,6 +61,7 @@ namespace RapidDoc.Activities.CodeActivities
             _serviceProcess = DependencyResolver.Current.GetService<IProcessService>();
             _serviceSearch = DependencyResolver.Current.GetService<ISearchService>();
             _serviceWorkflow = DependencyResolver.Current.GetService<IWorkflowService>();
+            _serviceDocumentReader = DependencyResolver.Current.GetService<IDocumentReaderService>();
 
             Dictionary<string, Object> documentData = context.GetValue(this.inputDocumentData);
             Guid documentId = context.GetValue(this.inputDocumentId);
@@ -113,6 +114,13 @@ namespace RapidDoc.Activities.CodeActivities
                             _ReviewDocLogServiceTask.SaveDomain(new ReviewDocLogTable { DocumentTableId = documentId }, "", user);
                             _HistoryUserServiceTask.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = Models.Repository.HistoryType.NewDocument }, user.Id);
                         });
+
+                        if (!String.IsNullOrWhiteSpace((string)documentData["ListReaders"]))
+                        {
+                            string[] usersAndRoles = _service.GetUserListFromStructure((string)documentData["ListReaders"]);
+                            List<string> readers = _serviceWorkflow.EmplAndRolesToReaders(documentId, usersAndRoles);
+                            _serviceDocumentReader.SaveOrderReader(documentId, readers.ToArray(), currentUserId);
+                        }
 
                         _serviceSearch.SaveSearchData(taskDocumentId, docModel, "USR_TAS_DailyTasks", currentUserId);
                         Dictionary<string, object> taskDocumentData = new Dictionary<string, object>();

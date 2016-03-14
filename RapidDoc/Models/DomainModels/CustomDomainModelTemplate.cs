@@ -154,6 +154,7 @@ namespace RapidDoc.Models.DomainModels
         public string DocumentSubject { get; set; }
         public string DocumentTypeName { get; set; }
         public bool Executed { get; set; }
+        public string ListReaders { get; set; }
 
         public Guid? ItemCauseTableId { get; set; }
         public virtual ItemCauseTable ItemCauseTable { get; set; }

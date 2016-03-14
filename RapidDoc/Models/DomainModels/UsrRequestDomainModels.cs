@@ -4601,6 +4601,15 @@ namespace RapidDoc.Models.DomainModels
 
     #endregion
 
+    #region Заявки Kazzinc
+    public class USС_REQ_IT_CAP_ChangeDocument_Table : BasicDocumentTable
+    {
+        public string OrderNum { get; set; }
+        public string Description { get; set; }
+        public string Reason { get; set; }
+    }
+    #endregion
+
     #region Служебные записки ATK
 
     public class USR_OFM_UIT_OfficeMemo_Table : BasicDocumantOfficeMemoTable

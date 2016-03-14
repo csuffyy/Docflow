@@ -1544,7 +1544,7 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Тип приказа")]
         public ChangeOrderType ChangeOrderType { get; set; }
 
-        [Display(Name = "Касается начисления ЗП")]
+        [Display(Name = "Касается денежных выплат")]
         public bool IsWage { get; set; }
     }
 
@@ -9958,6 +9958,27 @@ namespace RapidDoc.Models.ViewModels
 
     }
 
+    #endregion
+
+    #region Заявки Kazzinc
+    public class USС_REQ_IT_CAP_ChangeDocument_View : BasicDocumentView
+    {
+        [Display(Name = "№ Документа")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string OrderNum { get; set; }
+
+        [DataType(DataType.MultilineText)]
+        [Display(Name = "Необходимые изменения")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string Description { get; set; }
+
+        [DataType(DataType.MultilineText)]
+        [Display(Name = "Причина")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string Reason { get; set; }
+
+       
+    }
     #endregion
 
     #region Служебные записки
