@@ -39,6 +39,7 @@ namespace RapidDoc.Models.Services
         DocumentView Document2View(DocumentTable documentTable);
         dynamic GetDocument(Guid refDocumentId, string tableName);
         dynamic GetDocumentView(Guid refDocumentId, string tableName);
+        IEnumerable<dynamic> GetDocumentAll(string tableName);
         dynamic RouteCustomModelView(string customModel);
         dynamic RouteCustomModelDomain(string customModel);
         dynamic RouteCustomRepository(string customModel);
@@ -767,6 +768,12 @@ namespace RapidDoc.Models.Services
             Mapper.CreateMap(typeDomain, typeDomainView);
             Mapper.Map(domainTable, viewTable, typeDomain, typeDomainView);
             return viewTable;
+        }
+
+        public IEnumerable<dynamic> GetDocumentAll(string tableName)
+        {
+            var domainModel = RouteCustomRepository(tableName).All();
+            return domainModel;
         }
 
         public void UpdateDocument(DocumentTable domainTable, string currentUserId = "")

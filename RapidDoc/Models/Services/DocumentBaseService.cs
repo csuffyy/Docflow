@@ -208,57 +208,6 @@ namespace RapidDoc.Models.Services
                                 Executed = document.Executed,
                                 DocumentText = document.DocumentText
                             }).ToList();
-
-                /*
-                    items = (from document in contextQuery.DocumentTable
-                            where
-                                (document.ApplicationUserCreatedId == user.Id  || document.Share == true
-                                || contextQuery.WFTrackerTable.Any(x => x.DocumentTableId == document.Id && (x.SignUserId == user.Id || x.Users.Any(b => b.UserId == user.Id)))
-                                || contextQuery.ProcessTable.Any(p => p.Id == document.ProcessTableId && contextQuery.Roles.Where(pr => pr.Id == p.StartReaderRoleId).ToList().Any(x => x.Users.ToList().Any(z => z.UserId == user.Id)))
-                                || contextQuery.ProcessTable.Any(p => p.Id == document.ProcessTableId && contextQuery.Roles.Where(pr => pr.Id == p.DocumentBaseRoleId).ToList().Any(x => x.Users.ToList().Any(z => z.UserId == user.Id))) ||
-
-                                    ((contextQuery.DocumentReaderTable.Any(r => r.DocumentTableId == document.Id && r.UserId == user.Id) || (
-
-                                    contextQuery.DocumentReaderTable.Any(d => d.RoleId != null && d.DocumentTableId == document.Id && contextQuery.Roles.Where(r => r.Id == d.RoleId).ToList().Any(x => x.Users.ToList().Any(z => z.UserId == user.Id)))
-
-
-                                        )) && document.DocumentState != DocumentState.Created) ||
-                                    (contextQuery.DelegationTable.Any(d => d.EmplTableTo.ApplicationUserId == user.Id && d.DateFrom <= currentDate && d.DateTo >= currentDate && d.isArchive == false
-                                    && d.CompanyTableId == user.CompanyTableId
-                                    && (d.GroupProcessTableId == document.ProcessTable.Id || d.GroupProcessTableId == null)
-                                    && (d.ProcessTableId == document.ProcessTableId || d.ProcessTableId == null)
-                                    && contextQuery.WFTrackerTable.Any(w => w.DocumentTableId == document.Id && w.SignUserId == null && w.TrackerType == TrackerType.Waiting && w.Users.Any(b => b.UserId == d.EmplTableFrom.ApplicationUserId))
-                                    ))
-                                ) && document.DocType == type && (document.CreatedDate >= startDate && document.CreatedDate <= endDate) && document.DocumentState != DocumentState.Created && user.CompanyTableId == document.CompanyTableId
-                            join company in contextQuery.CompanyTable on document.CompanyTableId equals company.Id
-                            join process in contextQuery.ProcessTable on document.ProcessTableId equals process.Id
-                            let empl = contextQuery.EmplTable.Where(p => p.ApplicationUserId == document.ApplicationUserCreatedId).OrderByDescending(p => p.Enable).FirstOrDefault()
-                            join department in contextQuery.DepartmentTable on empl.DepartmentTableId equals department.Id
-                            orderby String.IsNullOrEmpty(document.ActivityName), document.ModifiedDate descending
-                            select new DocumentBaseView
-                            {
-                                ActivityName = document.ActivityName,
-                                ApplicationUserCreatedId = document.ApplicationUserCreatedId,
-                                ApplicationUserModifiedId = document.ApplicationUserModifiedId,
-                                CompanyTableId = document.CompanyTableId,
-                                CreatedDate = document.CreatedDate,
-                                DocumentNum = document.DocumentNum,
-                                DocumentState = document.DocumentState,
-                                Id = document.Id,
-                                ModifiedDate = document.ModifiedDate,
-                                ProcessTableId = document.ProcessTableId,
-                                AliasCompanyName = company.AliasCompanyName,
-                                ProcessName = process.ProcessName,
-                                CreatedBy = empl.SecondName + " " + empl.FirstName,
-                                DepartmentName = department.DepartmentName,
-                                UserName = empl.SecondName + " " + empl.FirstName + " " + empl.MiddleName,
-                                DocumentRefId = document.RefDocumentId,
-                                ProcessTableName = process.TableName,
-                                Cancel = document.Cancel,
-                                Executed = document.Executed,
-                                DocumentText = document.DocumentText
-                            }).ToList();   
-                 */
             }
 
             switch (type)
@@ -291,29 +240,13 @@ namespace RapidDoc.Models.Services
                         }
                         return items;
                 case DocumentType.Order:
-                        List<BasicOrderTable> documentCache = new List<BasicOrderTable>();
-                        documentCache.AddRange(contextQuery.USR_ORD_BusinessTrip_Table.ToList());
-                        documentCache.AddRange(contextQuery.USR_ORD_ChangeStaff_Table.ToList());
-                        documentCache.AddRange(contextQuery.USR_ORD_Dismissal_Table.ToList());
-                        documentCache.AddRange(contextQuery.USR_ORD_Holiday_Table.ToList());
-                        documentCache.AddRange(contextQuery.USR_ORD_MainActivity_Table.ToList());
-                        documentCache.AddRange(contextQuery.USR_ORD_Reception_Table.ToList());
-                        documentCache.AddRange(contextQuery.USR_ORD_Sanction_Table.ToList());
-                        documentCache.AddRange(contextQuery.USR_ORD_Staff_Table.ToList());
-                        documentCache.AddRange(contextQuery.USR_ORD_Transfer_Table.ToList());
-                        documentCache.AddRange(contextQuery.USK_ORD_BusinessTrip_Table.ToList());
-                        documentCache.AddRange(contextQuery.USK_ORD_ChangeStaff_Table.ToList());
-                        documentCache.AddRange(contextQuery.USK_ORD_Dismissal_Table.ToList());
-                        documentCache.AddRange(contextQuery.USK_ORD_Holiday_Table.ToList());
-                        documentCache.AddRange(contextQuery.USK_ORD_MainActivity_Table.ToList());
-                        documentCache.AddRange(contextQuery.USK_ORD_Reception_Table.ToList());
-                        documentCache.AddRange(contextQuery.USK_ORD_Sanction_Table.ToList());
-                        documentCache.AddRange(contextQuery.USK_ORD_Staff_Table.ToList());
-                        documentCache.AddRange(contextQuery.USK_ORD_Transfer_Table.ToList());
+                        List<BasicOrderTable> documentFetch = new List<BasicOrderTable>();
+                        foreach (var process in items.GroupBy(x => x.ProcessTableName))
+                            documentFetch.AddRange((IEnumerable<BasicOrderTable>)_DocumentService.GetDocumentAll(process.Key));
 
                         foreach (var item in items)
                         {
-                            var documentView = documentCache.FirstOrDefault(x => x.Id == item.DocumentRefId);
+                            var documentView = documentFetch.FirstOrDefault(x => x.Id == item.DocumentRefId);
                             if (!String.IsNullOrEmpty(documentView.OrderNum))
                                 item.OrderNumber = documentView.OrderNum;
                             item.DocumentTitle = documentView.Subject;
