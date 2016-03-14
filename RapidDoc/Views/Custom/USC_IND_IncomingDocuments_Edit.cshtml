@@ -250,6 +250,13 @@
     @Html.TextBoxFor(model => Model.DocumentSubject, new { @class = "form-control", placeholder = "Тема документа" })
 </div>
 
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.ListReaders)
+</div>
+<div>
+    @Html.TextBoxFor(model => Model.ListReaders, new { @class = "form-control", @data_role = "tagsinputEmplIntercompany1", placeholder = "Читатели" })
+</div>
+
 <div class="modal itemcause-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sidebar">
         <div class="modal-content">

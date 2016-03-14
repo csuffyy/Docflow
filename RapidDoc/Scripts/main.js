@@ -931,6 +931,52 @@ function custom_tagsinputEmplIntercompany_init(url_json) {
     }
 }
 
+function custom_tagsinputEmplIntercompany1_init(url_json) {
+    try {
+        var element = document.getSelection('input[data-role=tagsinputEmplIntercompany1]');
+        if (typeof (element) != 'undefined' && element != null) {
+            elt = $('input[data-role=tagsinputEmplIntercompany1]');
+            elt.tagsinput({
+                itemValue: 'value',
+                itemText: 'text',
+                tagClass: function (item) {
+                    return 'label label-primary bts-tags';
+                }
+            });
+
+            elt.tagsinput('input').typeahead({
+                valueKey: 'text',
+                prefetch: url_json,
+                template: '<p>{{text}}</p>',
+                engine: Hogan
+
+            }).bind('typeahead:selected', $.proxy(function (obj, datum) {
+                this.tagsinput('add', datum);
+                this.tagsinput('input').typeahead('setQuery', '');
+            }, elt));
+
+            currentValue = $('input[data-role=tagsinputEmplIntercompany1]').val();
+            if (currentValue != null) {
+                currentArrData = currentValue.split(",");
+                $('input[data-role=tagsinputEmplIntercompany1]').val('');
+
+                if (currentArrData.length > 1) {
+                    for (var i = 0; i < currentArrData.length; i += 2) {
+                        var key = currentArrData[i];
+                        var numValue = i;
+                        numValue++;
+                        var value = currentArrData[numValue];
+                        if (value.length > 0)
+                            $('input[data-role=tagsinputEmplIntercompany1]').tagsinput('add', { "value": key + "," + value, "text": value });
+                    }
+                }
+            }
+        }
+    }
+    catch (e) {
+    }
+}
+
 function custom_tagsinputOnlyGroup_init(url_json) {
     try {
         var element = document.getSelection('input[data-role=tagsinputOnlyGroup]');

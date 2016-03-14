@@ -1544,7 +1544,7 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Тип приказа")]
         public ChangeOrderType ChangeOrderType { get; set; }
 
-        [Display(Name = "Касается начисления ЗП")]
+        [Display(Name = "Касается денежных выплат")]
         public bool IsWage { get; set; }
     }
 
@@ -9197,6 +9197,45 @@ namespace RapidDoc.Models.ViewModels
         public DateTime? ActualDate { get; set; }
     }
 
+    public class USR_REQ_UMM_ProvisionOfWelder_View : BasicDocumentView
+    {
+        [Display(Name = "Подразделение")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string Department { get; set; }
+
+        [Display(Name = "Ф.И.О. должность")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string FIO1 { get; set; }
+
+        [Display(Name = "Вид техники/оборудования")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string TechType { get; set; }
+
+        [Display(Name = "Описание сварочных работ")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string WeldingDescription { get; set; }
+
+        [Display(Name = "Лицо ответственного за выдачу наряд-допуска и разрешение на производство огневых работ к наряду-допуску")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string WorkPermitDescription { get; set; }
+
+        [Display(Name = "Мастер УММ")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string UserChooseManual1 { get; set; }
+
+        [Display(Name = "Диспетчер")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string UserChooseManual2 { get; set; }
+
+        [Display(Name = "Время окончание сварочного ремонта")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public DateTime? FinishDate { get; set; }
+
+        [Display(Name = "Ф.И.О электрогазосварщика")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string FIO2 { get; set; }
+    }
+
     #endregion
 
     #region Коммандировки
@@ -9919,6 +9958,27 @@ namespace RapidDoc.Models.ViewModels
 
     }
 
+    #endregion
+
+    #region Заявки Kazzinc
+    public class USС_REQ_IT_CAP_ChangeDocument_View : BasicDocumentView
+    {
+        [Display(Name = "№ Документа")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string OrderNum { get; set; }
+
+        [DataType(DataType.MultilineText)]
+        [Display(Name = "Необходимые изменения")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string Description { get; set; }
+
+        [DataType(DataType.MultilineText)]
+        [Display(Name = "Причина")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string Reason { get; set; }
+
+       
+    }
     #endregion
 
     #region Служебные записки

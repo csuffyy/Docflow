@@ -4307,6 +4307,19 @@ namespace RapidDoc.Models.DomainModels
         public string AmountMaterial { get; set; }
         public DateTime? ActualDate { get; set; }
     }
+
+    public class USR_REQ_UMM_ProvisionOfWelder_Table : BasicDocumentTable
+    {
+        public string Department { get; set; }
+        public string FIO1 { get; set; }
+        public string TechType { get; set; }
+        public string WeldingDescription { get; set; }
+        public string WorkPermitDescription { get; set; }
+        public string UserChooseManual1 { get; set; }
+        public string UserChooseManual2 { get; set; }
+        public DateTime? FinishDate { get; set; }
+        public string FIO2 { get; set; }
+    }
     #endregion
 
     #region Коммандировки
@@ -4586,6 +4599,15 @@ namespace RapidDoc.Models.DomainModels
 
     }
 
+    #endregion
+
+    #region Заявки Kazzinc
+    public class USС_REQ_IT_CAP_ChangeDocument_Table : BasicDocumentTable
+    {
+        public string OrderNum { get; set; }
+        public string Description { get; set; }
+        public string Reason { get; set; }
+    }
     #endregion
 
     #region Служебные записки ATK

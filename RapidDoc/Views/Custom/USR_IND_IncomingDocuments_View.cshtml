@@ -15,7 +15,7 @@
 @Html.HiddenFor(model => model.OutcomingNumber)
 @Html.HiddenFor(model => model.Receiver)
 @Html.HiddenFor(model => model.ExecutionDate)
-
+@Html.HiddenFor(model => model.ListReaders)
 
 
 <div class="row">
@@ -237,3 +237,13 @@
         </div>
     </div>
 </div>
+
+@if (!String.IsNullOrWhiteSpace(Model.ListReaders))
+{
+    <div class="editor-label">
+        @Html.LabelFor(model => Model.ListReaders)
+    </div>
+    <div class="editor-field">
+        @Html.HtmlDisplayTagsFor(model => Model.ListReaders)
+    </div>
+}

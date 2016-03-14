@@ -1,0 +1,76 @@
+﻿@model RapidDoc.Models.ViewModels.USR_REQ_UMM_ProvisionOfWelder_View
+@using RapidDoc.Extensions;
+
+@Html.HiddenFor(model => model.Id)
+@Html.HiddenFor(model => model.DocumentTableId)
+@Html.HiddenFor(model => model.Department)
+@Html.HiddenFor(model => model.FIO1)
+@Html.HiddenFor(model => model.TechType)
+@Html.HiddenFor(model => model.WeldingDescription)
+@Html.HiddenFor(model => model.WorkPermitDescription)
+@Html.HiddenFor(model => model.UserChooseManual1)
+@Html.HiddenFor(model => model.UserChooseManual2)
+@Html.HiddenFor(model => model.FIO2)
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.Department)
+</div>
+<div>
+    @Html.DisplayTextFor(model => Model.Department)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.FIO1)
+</div>
+<div>
+    @Html.HtmlDisplayTagsFor(model => Model.FIO1)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.TechType)
+</div>
+<div class="editor-field">
+    @Html.DisplayTextFor(model => Model.TechType)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.WeldingDescription)
+</div>
+<div>
+    @Html.DisplayTextFor(model => Model.WeldingDescription)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.WorkPermitDescription)
+</div>
+<div>
+    @Html.DisplayTextFor(model => Model.WorkPermitDescription)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.UserChooseManual1)
+</div>
+<div>
+    @Html.HtmlDisplayTagsFor(model => Model.UserChooseManual1)
+</div>
+<div class="editor-label">
+    @Html.LabelFor(model => Model.UserChooseManual2)
+</div>
+<div>
+    @Html.HtmlDisplayTagsFor(model => Model.UserChooseManual2)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.FIO2)
+</div>
+<div class="editor-field">
+    @Html.DisplayTextFor(model => Model.FIO2)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.FinishDate)
+</div>
+<div class="editor-field">
+    @Html.TextBoxFor(model => model.FinishDate, new { @class = "datetimepicker form-control form-control-date", startDate = "" })
+    @Html.ValidationMessageFor(model => model.FinishDate)
+</div>

@@ -260,6 +260,9 @@ namespace RapidDoc.Models.ViewModels
 
         [Display(Name = "Исполнен")]
         public bool Executed { get; set; }
+
+        [Display(Name = "Список читателей")]
+        public string ListReaders { get; set; }
     }
 
     public abstract class BasicOutcomingDocumentsView : BasicDocumentView

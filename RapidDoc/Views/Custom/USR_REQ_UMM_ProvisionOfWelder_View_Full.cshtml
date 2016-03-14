@@ -1,0 +1,71 @@
+﻿@model RapidDoc.Models.ViewModels.USR_REQ_UMM_ProvisionOfWelder_View
+@using RapidDoc.Extensions;
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.Department)
+</div>
+<div>
+    @Html.DisplayTextFor(model => Model.Department)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.FIO1)
+</div>
+<div>
+    @Html.HtmlDisplayTagsFor(model => Model.FIO1)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.TechType)
+</div>
+<div class="editor-field">
+    @Html.DisplayTextFor(model => Model.TechType)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.WeldingDescription)
+</div>
+<div>
+    @Html.DisplayTextFor(model => Model.WeldingDescription)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.WorkPermitDescription)
+</div>
+<div>
+    @Html.DisplayTextFor(model => Model.WorkPermitDescription)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.UserChooseManual1)
+</div>
+<div>
+    @Html.HtmlDisplayTagsFor(model => Model.UserChooseManual1)
+</div>
+<div class="editor-label">
+    @Html.LabelFor(model => Model.UserChooseManual2)
+</div>
+<div>
+    @Html.HtmlDisplayTagsFor(model => Model.UserChooseManual2)
+</div>
+
+@if (!String.IsNullOrEmpty(Model.FIO2))
+{
+    <div class="editor-label">
+        @Html.LabelFor(model => Model.FIO2)
+    </div>
+    <div>
+        @Html.DisplayTextFor(model => Model.FIO2)
+    </div>
+}
+
+@if (Model.FinishDate.HasValue && Model.FinishDate != DateTime.MinValue)
+{
+
+    <div class="editor-label">
+        @Html.LabelFor(model => Model.FinishDate)
+    </div>
+    <div>
+      @Html.FormatValue(Model.FinishDate, "{0:dd.MM.yyyy HH:mm}")
+    </div>
+}
