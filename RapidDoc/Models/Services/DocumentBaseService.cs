@@ -110,7 +110,6 @@ namespace RapidDoc.Models.Services
                                 Executed = document.Executed,
                                 DocumentText = document.DocumentText
                             }).ToList();
-
             }
             else
             {
@@ -273,7 +272,7 @@ namespace RapidDoc.Models.Services
                 case DocumentType.OfficeMemo:
                         foreach (var item in items)
                         {                          
-                            var documentView = _DocumentService.GetDocumentView(item.DocumentRefId, item.ProcessTableName);
+                            var documentView = _DocumentService.GetDocument(item.DocumentRefId, item.ProcessTableName);
                             item.ItemCaseNumber = documentView.ItemCauseNumber;
                             if (documentView.ItemCauseTableId != Guid.Empty && documentView.ItemCauseTableId != null)
                             item.ItemCaseName = _ItemCauseService.Find((Guid)documentView.ItemCauseTableId).CaseName;
@@ -292,9 +291,29 @@ namespace RapidDoc.Models.Services
                         }
                         return items;
                 case DocumentType.Order:
+                        List<BasicOrderTable> documentCache = new List<BasicOrderTable>();
+                        documentCache.AddRange(contextQuery.USR_ORD_BusinessTrip_Table.ToList());
+                        documentCache.AddRange(contextQuery.USR_ORD_ChangeStaff_Table.ToList());
+                        documentCache.AddRange(contextQuery.USR_ORD_Dismissal_Table.ToList());
+                        documentCache.AddRange(contextQuery.USR_ORD_Holiday_Table.ToList());
+                        documentCache.AddRange(contextQuery.USR_ORD_MainActivity_Table.ToList());
+                        documentCache.AddRange(contextQuery.USR_ORD_Reception_Table.ToList());
+                        documentCache.AddRange(contextQuery.USR_ORD_Sanction_Table.ToList());
+                        documentCache.AddRange(contextQuery.USR_ORD_Staff_Table.ToList());
+                        documentCache.AddRange(contextQuery.USR_ORD_Transfer_Table.ToList());
+                        documentCache.AddRange(contextQuery.USK_ORD_BusinessTrip_Table.ToList());
+                        documentCache.AddRange(contextQuery.USK_ORD_ChangeStaff_Table.ToList());
+                        documentCache.AddRange(contextQuery.USK_ORD_Dismissal_Table.ToList());
+                        documentCache.AddRange(contextQuery.USK_ORD_Holiday_Table.ToList());
+                        documentCache.AddRange(contextQuery.USK_ORD_MainActivity_Table.ToList());
+                        documentCache.AddRange(contextQuery.USK_ORD_Reception_Table.ToList());
+                        documentCache.AddRange(contextQuery.USK_ORD_Sanction_Table.ToList());
+                        documentCache.AddRange(contextQuery.USK_ORD_Staff_Table.ToList());
+                        documentCache.AddRange(contextQuery.USK_ORD_Transfer_Table.ToList());
+
                         foreach (var item in items)
                         {
-                            var documentView = _DocumentService.GetDocumentView(item.DocumentRefId, item.ProcessTableName);
+                            var documentView = documentCache.FirstOrDefault(x => x.Id == item.DocumentRefId);
                             if (!String.IsNullOrEmpty(documentView.OrderNum))
                                 item.OrderNumber = documentView.OrderNum;
                             item.DocumentTitle = documentView.Subject;
@@ -303,11 +322,12 @@ namespace RapidDoc.Models.Services
                             item.CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(item.CreatedDate), timeZoneInfo);
                             editedItems.Add(item);
                         }
+
                         return editedItems;
                 case DocumentType.IncomingDoc:
                     foreach (var item in items)
                     {
-                        var documentView = _DocumentService.GetDocumentView(item.DocumentRefId, item.ProcessTableName);
+                        var documentView = _DocumentService.GetDocument(item.DocumentRefId, item.ProcessTableName);
                         if (!String.IsNullOrEmpty(documentView.IncomingDocNum))
                             item.OrderNumber = documentView.IncomingDocNum;
                         item.OrderDate = documentView.RegistrationDate;
@@ -328,7 +348,7 @@ namespace RapidDoc.Models.Services
                 case DocumentType.OutcomingDoc:
                     foreach (var item in items)
                     {
-                        var documentView = _DocumentService.GetDocumentView(item.DocumentRefId, item.ProcessTableName);
+                        var documentView = _DocumentService.GetDocument(item.DocumentRefId, item.ProcessTableName);
                         if (!String.IsNullOrEmpty(documentView.OutcomingDocNum))
                             item.OrderNumber = documentView.OutcomingDocNum;
                         item.OrderDate = documentView.OutgoingDate;
@@ -349,7 +369,7 @@ namespace RapidDoc.Models.Services
                 case DocumentType.AppealDoc:
                     foreach (var item in items)
                     {
-                        var documentView = _DocumentService.GetDocumentView(item.DocumentRefId, item.ProcessTableName);
+                        var documentView = _DocumentService.GetDocument(item.DocumentRefId, item.ProcessTableName);
                         if (!String.IsNullOrEmpty(documentView.RegistrationNum))
                             item.OrderNumber = documentView.RegistrationNum;
                         item.OrderDate = documentView.RegistrationDate;
@@ -371,7 +391,7 @@ namespace RapidDoc.Models.Services
                 case DocumentType.Protocol:
                     foreach (var item in items)
                     {
-                        var documentView = _DocumentService.GetDocumentView(item.DocumentRefId, item.ProcessTableName);
+                        var documentView = _DocumentService.GetDocument(item.DocumentRefId, item.ProcessTableName);
                         if (!String.IsNullOrEmpty(documentView.Subject))
                             item.OrderNumber = documentView.Subject;
                         item.DocumentTitle = documentView.Subject;

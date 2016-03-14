@@ -94,6 +94,8 @@ namespace RapidDoc.Models.DomainModels
         public virtual NumberSeriesBookingTable NumberSeriesBookingTable { get; set; }
 
         public int AdditionCount { get; set; }
+
+        public string Subject { get; set; }
     }
 
     public abstract class BasicOrderDefaultTable : BasicOrderTable
@@ -111,8 +113,6 @@ namespace RapidDoc.Models.DomainModels
                 return String.Empty;
             }
         }
-
-        public string Subject { get; set; }
     }
 
     public abstract class BasicIncomingDocumentsTable : BasicDocumentTable

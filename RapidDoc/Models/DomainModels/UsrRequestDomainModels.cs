@@ -4762,8 +4762,6 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_ORD_BusinessTrip_Table : BasicOrderTable
     {
-        public string Subject { get; set; }
-
         public string Workers { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
@@ -4840,8 +4838,6 @@ namespace RapidDoc.Models.DomainModels
 
     public class USK_ORD_BusinessTrip_Table : BasicOrderTable
     {
-        public string Subject { get; set; }
-
         public string Workers { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
