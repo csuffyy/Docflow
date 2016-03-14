@@ -1221,7 +1221,11 @@ namespace RapidDoc.Controllers
                                 string seprateUser = item + "," + arrayTempStructrue[Array.IndexOf(arrayTempStructrue, item) + 1];
                                 docModel.Users = seprateUser;
                                 documentData["Users"] = seprateUser;
-                                this.CreateSeparateTasks(processView, operationType, docModel, fileId, actionModelName, documentData);
+
+                                List<FileTable> docFile = _DocumentService.GetAllFilesDocument(fileId).ToList();
+                                Guid newDocFileId = Guid.NewGuid();
+                                docFile.ForEach(x => _DocumentService.DuplicateFile(x, User.Identity.GetUserId(), newDocFileId));
+                                this.CreateSeparateTasks(processView, operationType, docModel, newDocFileId, actionModelName, documentData);
                             }
 
                             return RedirectToAction("MyDocuments", "Document");
