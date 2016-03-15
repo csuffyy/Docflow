@@ -675,4 +675,7 @@
   <data name="RefreshActiveDocument" xml:space="preserve">
     <value>Поступили новые документы. Обновить?</value>
   </data>
+  <data name="MonitoringTask" xml:space="preserve">
+    <value>Мониторинг задач</value>
+  </data>
 </root>

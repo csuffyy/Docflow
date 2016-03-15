@@ -669,4 +669,7 @@
   <data name="RefreshActiveDocument" xml:space="preserve">
     <value>Refresh active documents?</value>
   </data>
+  <data name="MonitoringTask" xml:space="preserve">
+    <value>Monitoring of tasks</value>
+  </data>
 </root>

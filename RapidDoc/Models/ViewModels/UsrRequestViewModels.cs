@@ -9961,7 +9961,7 @@ namespace RapidDoc.Models.ViewModels
     #endregion
 
     #region Заявки Kazzinc
-    public class USС_REQ_IT_CAP_ChangeDocument_View : BasicDocumentView
+    public class USC_REQ_IT_CAP_ChangeDocument_View : BasicDocumentView
     {
         [Display(Name = "№ Документа")]
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]

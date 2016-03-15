@@ -3188,7 +3188,7 @@ namespace RapidDoc.Controllers
                 }
 
                 if (!String.IsNullOrEmpty(result))
-                    result = String.Format("{2} <strong>ответ {0}срок {1}г.</strong>", result, model.ControlDate != null ? model.ControlDate.Value.ToShortDateString() : String.Empty, _SystemService.DeleteLastTagSegment(model.Decision));
+                    result = String.Format("{2} <strong>Ответ. {0}срок {1}г.</strong>", result, model.ControlDate != null ? model.ControlDate.Value.ToShortDateString() : String.Empty, _SystemService.DeleteLastTagSegment(model.Decision));
                 else
                     result = _SystemService.DeleteLastTagSegment(model.Decision);
             }

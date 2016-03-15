@@ -4602,7 +4602,7 @@ namespace RapidDoc.Models.DomainModels
     #endregion
 
     #region Заявки Kazzinc
-    public class USС_REQ_IT_CAP_ChangeDocument_Table : BasicDocumentTable
+    public class USC_REQ_IT_CAP_ChangeDocument_Table : BasicDocumentTable
     {
         public string OrderNum { get; set; }
         public string Description { get; set; }

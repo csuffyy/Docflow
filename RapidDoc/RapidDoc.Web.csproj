@@ -2113,8 +2113,9 @@
     <Content Include="Views\Custom\USR_REQ_UMM_ProvisionOfWelder_View_Full.cshtml" />
     <Content Include="Views\Custom\USR_REQ_UMM_ProvisionOfWelder_Edit_UMM.cshtml" />
     <Content Include="Views\Custom\USR_REQ_UMM_ProvisionOfWelder_Edit_Disp.cshtml" />
-    <Content Include="Views\Custom\USС_REQ_IT_CAP_ChangeDocument_View.cshtml" />
-    <Content Include="Views\Custom\USС_REQ_IT_CAP_ChangeDocument_Edit.cshtml" />
+    <Content Include="Views\Custom\USC_REQ_IT_CAP_ChangeDocument_View.cshtml" />
+    <Content Include="Views\Custom\USC_REQ_IT_CAP_ChangeDocument_Edit.cshtml" />
+    <Content Include="Views\Monitoring\IndexTask.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -4037,7 +4038,7 @@
     </XamlAppDef>
   </ItemGroup>
   <ItemGroup>
-    <XamlAppDef Include="Activities\USС_REQ_IT_CAP_ChangeDocument.xaml">
+    <XamlAppDef Include="Activities\USC_REQ_IT_CAP_ChangeDocument.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </XamlAppDef>

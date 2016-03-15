@@ -734,7 +734,11 @@ namespace RapidDoc.Controllers
 
             _HistoryUserService.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = Models.Repository.HistoryType.ApproveDocument }, User.Identity.GetUserId());
             if (documentIdNew.RefDocumentId != null)
-                _EmailService.SendUsersClosedEmail(documentTable.Id, new List<string> { documentTable.ApplicationUserCreatedId, _DocumentService.Find(documentIdNew.RefDocumentId).ApplicationUserCreatedId, reminderChairmanUser });
+            {
+                DocumentTable refDocumentTable = _DocumentService.Find(documentIdNew.RefDocumentId);
+                _EmailService.SendUsersClosedEmail(documentTable.Id, new List<string> { documentTable.ApplicationUserCreatedId, 
+                    refDocumentTable.DocType != DocumentType.Order ? refDocumentTable.ApplicationUserCreatedId : null, reminderChairmanUser });
+            }
             else
                 _EmailService.SendInitiatorClosedEmail(documentTable.Id);
 

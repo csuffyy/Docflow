@@ -387,7 +387,7 @@ namespace RapidDoc.Models.Infrastructure
         public DbSet<USR_REQ_UMM_FluxingWork_Table> USR_REQ_UMM_FluxingWork_Table { get; set; }
         public DbSet<USR_REQ_IT_CTS_ProblemWithWS_Table> USR_REQ_IT_CTS_ProblemWithWS_Table { get; set; }
         public DbSet<USR_REQ_UMM_ProvisionOfWelder_Table> USR_REQ_UMM_ProvisionOfWelder_Table { get; set; }
-        public DbSet<USС_REQ_IT_CAP_ChangeDocument_Table> USС_REQ_IT_CAP_ChangeDocument_Table { get; set; }
+        public DbSet<USC_REQ_IT_CAP_ChangeDocument_Table> USC_REQ_IT_CAP_ChangeDocument_Table { get; set; }
                      
         protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder)
         {
