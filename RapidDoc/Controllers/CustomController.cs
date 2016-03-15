@@ -3187,10 +3187,31 @@ namespace RapidDoc.Controllers
                     }
                 }
 
+                string decisionText = _SystemService.DeleteLastTagSegment(model.Decision);
+
+                while (decisionText.EndsWith(".") || decisionText.EndsWith(",") || (decisionText.EndsWith(";") && !decisionText.EndsWith("&nbsp;")))
+                    decisionText = decisionText.Substring(0, decisionText.Length - 1).TrimEnd();
+
+                string decisionCleanText = _SystemService.DeleteAllTags(decisionText);
+                
+                while (decisionCleanText.EndsWith("&nbsp;"))
+                {
+                    decisionText = _SystemService.ReplaceLastOccurrence(decisionText, "&nbsp;", String.Empty).TrimEnd();
+                    decisionCleanText = _SystemService.ReplaceLastOccurrence(decisionCleanText, "&nbsp;", String.Empty).TrimEnd();
+                }
+
+                decisionCleanText = _SystemService.DeleteAllTags(decisionCleanText);
+
+                while (decisionCleanText.EndsWith(".") || decisionCleanText.EndsWith(",") || (decisionCleanText.EndsWith(";") && !decisionCleanText.EndsWith("&nbsp;")))
+                {
+                    decisionText = _SystemService.ReplaceLastOccurrence(decisionText, decisionCleanText.Last().ToString(), "").TrimEnd();
+                    decisionCleanText = _SystemService.ReplaceLastOccurrence(decisionCleanText, decisionCleanText.Last().ToString(), "").TrimEnd();
+                }
+
                 if (!String.IsNullOrEmpty(result))
-                    result = String.Format("{2} <strong>Ответ. {0}срок {1}г.</strong>", result, model.ControlDate != null ? model.ControlDate.Value.ToShortDateString() : String.Empty, _SystemService.DeleteLastTagSegment(model.Decision));
+                    result = String.Format("{2}. <strong>Ответ. {0}срок {1}г.</strong>", result, model.ControlDate != null ? model.ControlDate.Value.ToShortDateString() : String.Empty, decisionText);
                 else
-                    result = _SystemService.DeleteLastTagSegment(model.Decision);
+                    result = decisionText + '.';
             }
 
             return PartialView("USR_PRT_DecisionText", result);

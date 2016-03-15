@@ -20,6 +20,7 @@ namespace RapidDoc.Models.Services
         bool CheckTextExists(string text);
         string DeleteGuidText(string text);
         string DeleteLastTagSegment(string text);
+        string ReplaceLastOccurrence(string source, string find, string replace);
     }
 
     public class SystemService : ISystemService
@@ -110,6 +111,17 @@ namespace RapidDoc.Models.Services
                 return false;
 
             return true;
+        }
+
+        public string ReplaceLastOccurrence(string source, string find, string replace)
+        {
+            int place = source.LastIndexOf(find);
+
+            if (place == -1)
+                return source;
+
+            string result = source.Remove(place, find.Length).Insert(place, replace);
+            return result;
         }
     }
 }
