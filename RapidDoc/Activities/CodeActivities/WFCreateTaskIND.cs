@@ -45,6 +45,10 @@ namespace RapidDoc.Activities.CodeActivities
         [Inject]
         public ISystemService _serviceSystem { get; set; }
 
+        [Browsable(false)]
+        [Inject]
+        public IEmailService _serviceEmail { get; set; }
+
         [RequiredArgument]
         public InArgument<Dictionary<string, Object>> inputDocumentData { get; set; }
 
@@ -62,6 +66,7 @@ namespace RapidDoc.Activities.CodeActivities
             _serviceSearch = DependencyResolver.Current.GetService<ISearchService>();
             _serviceWorkflow = DependencyResolver.Current.GetService<IWorkflowService>();
             _serviceDocumentReader = DependencyResolver.Current.GetService<IDocumentReaderService>();
+            _serviceEmail = DependencyResolver.Current.GetService<IEmailService>();
 
             Dictionary<string, Object> documentData = context.GetValue(this.inputDocumentData);
             Guid documentId = context.GetValue(this.inputDocumentId);
@@ -119,7 +124,8 @@ namespace RapidDoc.Activities.CodeActivities
                         {
                             string[] usersAndRoles = _service.GetUserListFromStructure((string)documentData["ListReaders"]);
                             List<string> readers = _serviceWorkflow.EmplAndRolesToReaders(documentId, usersAndRoles);
-                            _serviceDocumentReader.SaveOrderReader(documentId, readers.ToArray(), currentUserId);
+                            List<string> newReader = _serviceDocumentReader.SaveOrderReader(documentId, readers.ToArray(), currentUserId);
+                            _serviceEmail.SendReaderEmail(documentId, newReader.Distinct().ToList());
                         }
 
                         _serviceSearch.SaveSearchData(taskDocumentId, docModel, "USR_TAS_DailyTasks", currentUserId);

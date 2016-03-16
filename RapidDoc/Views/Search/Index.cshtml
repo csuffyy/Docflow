@@ -68,7 +68,7 @@
         {
             <div class="bs-callout bs-callout-info">
                 <h4>
-                    @Html.ActionLink((string)item.DocumentNum, "ShowDocument", "Document", new { id = item.DocumentTableId, isAfterView = true }, null)
+                    @Html.ActionLink((string)item.DocumentNum, "ShowDocument", "Document", new { id = item.DocumentTableId, company = item.AliasCompanyName, isAfterView = true }, null)
                 </h4>
                 <p>@(((string)item.DocumentText).Length > 4048 ? ((string)item.DocumentText).Substring(0, 4048) + " ..." : item.DocumentText)</p>
                 <h6 class="pull-right">@item.CreatedUserName</h6>

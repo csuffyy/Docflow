@@ -38,10 +38,14 @@
             window.location.href = '/' + e.row.AliasCompanyName + '/' + 'Document/ShowDocument/' + e.row.Id;
         });
 
-        $.getJSON(jsonStrCheckDocActive, null,
-        function (data) {
-            currentDocCount = data.doccount;
-        });
+        try {
+            $.getJSON(jsonStrCheckDocActive, null,
+            function (data) {
+                currentDocCount = data.doccount;
+            });
+        }
+        catch (e) {
+        }
 
         timerCheckDocActive = setInterval(checkNewActiveDoc, 15000);
     });

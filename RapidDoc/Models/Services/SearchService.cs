@@ -15,6 +15,7 @@ using Microsoft.AspNet.Identity;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace RapidDoc.Models.Services
 {
@@ -41,8 +42,11 @@ namespace RapidDoc.Models.Services
         private IUnitOfWork _uow;
         private readonly IDocumentService _DocumentService;
         private readonly ISystemService _SystemService;
+        private readonly IGroupProcessService _GroupProcessService;
 
-        public SearchService(IUnitOfWork uow, IDocumentService documentService,  ISystemService systemService)
+        protected UserManager<ApplicationUser> UserManager { get; private set; }
+
+        public SearchService(IUnitOfWork uow, IDocumentService documentService, ISystemService systemService, IGroupProcessService groupProcessService)
         {
             _uow = uow;
             repo = uow.GetRepository<SearchTable>();
@@ -50,6 +54,9 @@ namespace RapidDoc.Models.Services
             repoEmpl = uow.GetRepository<EmplTable>();
             _DocumentService = documentService;
             _SystemService = systemService;
+            _GroupProcessService = groupProcessService;
+
+            UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_uow.GetDbContext<ApplicationDbContext>()));
         }
         public IEnumerable<SearchTable> GetPartial(Expression<Func<SearchTable, bool>> predicate)
         {
@@ -114,6 +121,9 @@ namespace RapidDoc.Models.Services
         public Tuple<int, List<SearchView>> GetDocuments(int blockNumber, int blockSize, SearchFormView model)
         {
             List<SearchView> result = new List<SearchView>();
+            DateTime currentDate = DateTime.UtcNow;
+            ApplicationUser currentUser = repoUser.GetById(HttpContext.Current.User.Identity.GetUserId());
+
             int startIndex = (blockNumber - 1) * blockSize;
             string createdUserId = null;
             string searchString = null;
@@ -134,12 +144,80 @@ namespace RapidDoc.Models.Services
 
             ApplicationDbContext contextQuery = _uow.GetDbContext<ApplicationDbContext>();
 
+            List<Guid> documentAccessList = new List<Guid>();
+            if (UserManager.IsInRole(currentUser.Id, "Administrator"))
+                documentAccessList.AddRange(from document in contextQuery.DocumentTable select document.Id);
+            else
+            {
+                var delegations = (from delegation in contextQuery.DelegationTable.AsNoTracking()
+                                   join emplTo in contextQuery.EmplTable.AsNoTracking() on delegation.EmplTableToId equals emplTo.Id
+                                   where delegation.DateFrom <= currentDate && delegation.DateTo >= currentDate && delegation.isArchive == false
+                                   && delegation.CompanyTableId == currentUser.CompanyTableId && emplTo.ApplicationUserId == currentUser.Id
+                                   select delegation).ToList();
+
+                List<Guid> childGroup = new List<Guid>();
+
+                foreach (var item in delegations.Where(x => x.GroupProcessTableId != null))
+                {
+                    childGroup.AddRange(_GroupProcessService.GetGroupChildren(item.GroupProcessTableId));
+                    childGroup.Add((Guid)item.GroupProcessTableId);
+                }
+
+                var childGroupArray = childGroup.Distinct().ToArray();
+
+                documentAccessList.AddRange(from document in contextQuery.DocumentTable.AsNoTracking()
+                                            where document.ApplicationUserCreatedId == currentUser.Id
+                                            select document.Id);
+
+                documentAccessList.AddRange(from document in contextQuery.DocumentTable.AsNoTracking()
+                                            join tracker in contextQuery.WFTrackerTable.AsNoTracking() on document.Id equals tracker.DocumentTableId
+                                            where tracker.Users.Any(x => x.UserId == currentUser.Id) || tracker.SignUserId == currentUser.Id
+                                            select document.Id);
+
+                documentAccessList.AddRange(from document in contextQuery.DocumentTable.AsNoTracking()
+                                            join modification in contextQuery.ModificationUsersTable.AsNoTracking() on document.Id equals modification.DocumentTableId
+                                            where modification.UserId == currentUser.Id && document.DocumentState == DocumentState.Created
+                                            select document.Id);
+
+                documentAccessList.AddRange(from document in contextQuery.DocumentTable.AsNoTracking()
+                                            join process in contextQuery.ProcessTable.AsNoTracking() on document.ProcessTableId equals process.Id
+                                            join role in contextQuery.Roles on process.StartReaderRoleId equals role.Id
+                                            where process.StartReaderRoleId != null && role.Users.Any(x => x.UserId == currentUser.Id)
+                                            select document.Id);
+
+                documentAccessList.AddRange(from document in contextQuery.DocumentTable.AsNoTracking()
+                                            join reader in contextQuery.DocumentReaderTable.AsNoTracking() on document.Id equals reader.DocumentTableId
+                                            where document.DocumentState != DocumentState.Created && reader.UserId == currentUser.Id
+                                            select document.Id);
+
+                documentAccessList.AddRange(from document in contextQuery.DocumentTable.AsNoTracking()
+                                            join reader in contextQuery.DocumentReaderTable.AsNoTracking() on document.Id equals reader.DocumentTableId
+                                            join role in contextQuery.Roles on reader.RoleId equals role.Id
+                                            where document.DocumentState != DocumentState.Created && reader.RoleId != null && role.Users.Any(x => x.UserId == currentUser.Id)
+                                            select document.Id);
+
+                if (delegations.Count() > 0)
+                {
+                    documentAccessList.AddRange(from document in contextQuery.DocumentTable.AsNoTracking()
+                                                where (contextQuery.DelegationTable.Any(d => d.EmplTableTo.ApplicationUserId == currentUser.Id && d.DateFrom <= currentDate && d.DateTo >= currentDate && d.isArchive == false
+                                                && d.CompanyTableId == currentUser.CompanyTableId
+                                                && (d.GroupProcessTableId == null || (d.GroupProcessTableId != null && childGroupArray.Any(x => x == document.ProcessTable.GroupProcessTableId)))
+                                                && (d.ProcessTableId == null || d.ProcessTableId == document.ProcessTableId)
+                                                && contextQuery.WFTrackerTable.Any(w => w.DocumentTableId == document.Id && w.TrackerType == TrackerType.Waiting && w.Users.Any(b => b.UserId == d.EmplTableFrom.ApplicationUserId))))
+                                                select document.Id);
+                }
+
+                documentAccessList.Distinct();
+            }
+
+            var documentAccessListArray = documentAccessList.ToArray();
             var prepareResult = from search in contextQuery.SearchTable
                 where (search.CreatedDate >= model.StartDate || model.StartDate == null) &&
                     (search.CreatedDate <= model.EndDate || model.EndDate == null) &&
                     (search.DocumentTable.CompanyTableId == model.CompanyTableId || model.CompanyTableId == null) &&
                     (search.DocumentTable.ProcessTableId == model.ProcessTableId || model.ProcessTableId == null) &&
                     (search.DocumentTable.ApplicationUserCreatedId == createdUserId || createdUserId == null) &&
+                    documentAccessListArray.Contains(search.DocumentTable.Id) &&
                     (search.DocumentText.Contains(searchString) || (search.DocumentTable.DocumentNum.Contains(searchString)) || searchString == null || searchString == String.Empty)
                 orderby search.CreatedDate descending
                 select new SearchView
@@ -152,19 +230,18 @@ namespace RapidDoc.Models.Services
                     DocumentText = search.DocumentText,
                     ProcessName = search.DocumentTable.ProcessTable.ProcessName,
                     ModifiedDate = search.ModifiedDate,
-                    Id = search.Id
+                    Id = search.Id,
+                    AliasCompanyName = search.DocumentTable.CompanyTable.AliasCompanyName,
+                    CompanyTableId = search.DocumentTable.CompanyTableId
                 };
             int count = prepareResult.Count();
             result = prepareResult.Skip(startIndex).Take(blockSize).ToList();
             List<ApplicationUser> users = repoUser.All().ToList();
             List<EmplTable> empls = repoEmpl.All().ToList();
-            ApplicationUser currentUser = users.FirstOrDefault(x => x.Id == HttpContext.Current.User.Identity.GetUserId());
 
             foreach (var item in result)
             {
-                DocumentTable docuTable = _DocumentService.Find(item.DocumentTableId);
-                item.isShow = _DocumentService.isShowDocument(docuTable, currentUser, true);
-
+                item.isShow = true;
                 ApplicationUser user = users.FirstOrDefault(x => x.Id == item.ApplicationUserCreatedId);
                 EmplTable empl = empls.FirstOrDefault(x => x.ApplicationUserId == user.Id && x.CompanyTableId == user.CompanyTableId);
                 if (empl != null)

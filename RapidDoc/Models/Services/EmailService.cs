@@ -412,7 +412,7 @@ namespace RapidDoc.Models.Services
         public void SendInitiatorCommentEmail(Guid documentId, string lastComment)
         {
             var documentTable = _DocumentService.Find(documentId);
-            if (documentTable == null || documentTable.DocType != DocumentType.Request)
+            if (documentTable == null)
                 return;
 
             var users = repoUser.FindAll(x => x.Id == documentTable.ApplicationUserCreatedId).ToList();

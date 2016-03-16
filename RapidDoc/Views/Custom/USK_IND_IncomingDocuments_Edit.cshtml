@@ -2,9 +2,9 @@
 @using RapidDoc.Extensions;
 @using RapidDoc.Models.Repository;
 @{
-    Model.OutgoingDate = DateTime.Today;
-    Model.RegistrationDate = DateTime.Today;
-    Model.ExecutionDate = DateTime.Today.AddMonths(1);
+    Model.OutgoingDate = Model.OutgoingDate ?? DateTime.Today;
+    Model.RegistrationDate = Model.RegistrationDate ?? DateTime.Today;
+    Model.ExecutionDate = Model.ExecutionDate ?? DateTime.Today.AddMonths(1);
 }
 
 <div class="row">

@@ -276,7 +276,7 @@ namespace RapidDoc.Models.ViewModels
         public string CreatedEmplDepartment { get; set; }
     }
 
-    public class SearchView : BasicView
+    public class SearchView : BasicCompanyNullView
     {
         public string DocumentText { get; set; }
         public Guid DocumentTableId { get; set; }

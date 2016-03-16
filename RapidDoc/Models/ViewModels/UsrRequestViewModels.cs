@@ -9963,7 +9963,7 @@ namespace RapidDoc.Models.ViewModels
     #region Заявки Kazzinc
     public class USC_REQ_IT_CAP_ChangeDocument_View : BasicDocumentView
     {
-        [Display(Name = "№ Документа")]
+        [Display(Name = "Системный номер документа TSK..., CRS...")]
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         public string OrderNum { get; set; }
 

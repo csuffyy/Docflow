@@ -2,7 +2,7 @@
 @using RapidDoc.Extensions;
 @using RapidDoc.Models.Repository;
 @{
-    Model.OutgoingDate = DateTime.Today;
+    Model.OutgoingDate = Model.OutgoingDate ?? DateTime.Today;
 }
 
 <div class="row">

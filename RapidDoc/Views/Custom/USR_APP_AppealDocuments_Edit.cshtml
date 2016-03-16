@@ -3,7 +3,7 @@
 @using RapidDoc.Models.Repository;
 @{
     Model.RegistrationDate = DateTime.Today;
-    Model.ExecutionDate = DateTime.Today.AddMonths(1);
+    Model.ExecutionDate = Model.ExecutionDate ?? DateTime.Today.AddMonths(1);
 }
 
 <h4>Язык обращения:</h4>
