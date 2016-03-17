@@ -67,6 +67,7 @@ namespace RapidDoc.Models.Services
 
         public string DeleteAllSpecialCharacters(string text)
         {
+            text = text.Replace("&nbsp;", String.Empty);
             return Regex.Replace(text, @"&\w+;", String.Empty, RegexOptions.Compiled);
         }
 
