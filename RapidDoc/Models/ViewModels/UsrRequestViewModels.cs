@@ -1521,6 +1521,7 @@ namespace RapidDoc.Models.ViewModels
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         public string OrderNum { get; set; }
 
+        [DataType(DataType.Date)]
         [Display(Name = "Дата регистрации")]
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         public DateTime? OrderDate { get; set; }
@@ -1546,6 +1547,10 @@ namespace RapidDoc.Models.ViewModels
 
         [Display(Name = "Касается денежных выплат")]
         public bool IsWage { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Подписант приказа")]
+        public string UserChooseManual1 { get; set; }
     }
 
     public class USR_REQ_IT_CAP_ChangeOrderWage_View : BasicDocumentView 
