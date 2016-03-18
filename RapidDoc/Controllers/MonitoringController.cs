@@ -57,7 +57,6 @@ namespace RapidDoc.Controllers
                                     DocumentRefType = documentRef.DocType,
                                     SignDate = document.ModifiedDate,
                                     CreateDate = document.CreatedDate,
-                                    DocumentText = document.DocumentText,
                                     DocumentId = document.Id,
                                     ExecutionDate = detailDoc.ProlongationDate != null ? detailDoc.ProlongationDate.Value : detailDoc.ExecutionDate,
                                     Year = detailDoc.ProlongationDate != null ? detailDoc.ProlongationDate.Value.Year.ToString() : detailDoc.ExecutionDate.Value.Year.ToString()
@@ -67,12 +66,12 @@ namespace RapidDoc.Controllers
             {
                 item.Month = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(item.ExecutionDate.Value.Month);
 
-                if (item.DocumentState != DocumentState.Closed)
-                    item.TaskType = ReportExecutionType.NoneDone;
+                if (item.DocumentState == DocumentState.Closed && item.ExecutionDate >= item.SignDate.Value.Date)
+                    item.TaskType = ReportExecutionType.Done;
+                else if (item.ExecutionDate < item.SignDate.Value.Date)
+                    item.TaskType = ReportExecutionType.OverDate;
                 else
-                {
-                    item.TaskType = item.SignDate <= item.ExecutionDate ? ReportExecutionType.Done : ReportExecutionType.Disturbance;
-                }
+                    item.TaskType = ReportExecutionType.NoneDone;
             }
             return View(allTasksList);
         }

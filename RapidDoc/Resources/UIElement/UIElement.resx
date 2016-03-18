@@ -676,6 +676,6 @@
     <value>Поступили новые документы. Обновить?</value>
   </data>
   <data name="MonitoringTask" xml:space="preserve">
-    <value>Мониторинг задач</value>
+    <value>Мониторинг поручений</value>
   </data>
 </root>

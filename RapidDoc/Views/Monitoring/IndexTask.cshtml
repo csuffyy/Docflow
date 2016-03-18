@@ -10,9 +10,9 @@
   string type;}
 <div>
     <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active"><a href="#orderds" aria-controls="edit" role="tab" data-toggle="tab"><span class="fa fa-paperclip" aria-hidden="true"></span> Поручения с приказов</a></li>
+        <li role="presentation" class="active"><a href="#orderds" aria-controls="edit" role="tab" data-toggle="tab"><span class="fa fa-file-text-o" aria-hidden="true"></span> Поручения с приказов</a></li>
         <li role="presentation"><a href="#inoutdocs" aria-controls="view" role="tab" data-toggle="tab"><span class="fa fa-envelope-o" aria-hidden="true"></span> Поручения с корреспонденции</a></li>
-        <li role="presentation"><a href="#protocols" aria-controls="view" role="tab" data-toggle="tab"><span class="fa fa-file-text-o" aria-hidden="true"></span> Поручения с протоколов</a></li>
+        <li role="presentation"><a href="#protocols" aria-controls="view" role="tab" data-toggle="tab"><span class="fa fa-users" aria-hidden="true"></span> Поручения с протоколов</a></li>
     </ul>
 
     <div class="tab-content">
@@ -43,8 +43,6 @@
                                         </div>
                                         <div class="collapse" id="collapseArea_@type@num1@itemGroupName.Key">
                                             <div class="panel-body">
-
-
                                                 @foreach (var item in Model.Where(x => x.Year == itemGroup.Key && x.Month == itemGroupName.Key && x.DocumentRefType == RapidDoc.Models.Repository.DocumentType.Order).OrderByDescending(x => x.ExecutionDate))
                                                 {
                                                     <p>
@@ -52,13 +50,9 @@
                                                         {
                                                             <span class="fa fa-check text-success"></span>
                                                         }
-                                                        @if (item.TaskType == RapidDoc.Models.Repository.ReportExecutionType.Disturbance)
+                                                        @if (item.DocumentState == RapidDoc.Models.Repository.DocumentState.Closed && item.TaskType == RapidDoc.Models.Repository.ReportExecutionType.OverDate)
                                                         {
-                                                            <span class="fa fa-times text-danger"></span>
-                                                        }
-                                                        @if (item.TaskType == RapidDoc.Models.Repository.ReportExecutionType.NoneDone)
-                                                        {
-                                                            <span class="fa fa-code-fork"></span>
+                                                            <span class="fa fa-check text-warning"></span>
                                                         }
                                                         <a href="@Url.Action("ShowDocument", "Document", new { id = item.DocumentId, isAfterView = true })" target="_blank"><ins>@item.DocumentNumber</ins> - @item.DocumentText (@item.CreateDate) => @Html.EnumToDescription(item.DocumentState)</a>
                                                     </p>
@@ -114,15 +108,11 @@
                                                             {
                                                                 <span class="fa fa-check text-success"></span>
                                                             }
-                                                            @if (item.TaskType == RapidDoc.Models.Repository.ReportExecutionType.Disturbance)
+                                                            @if (item.DocumentState == RapidDoc.Models.Repository.DocumentState.Closed && item.TaskType == RapidDoc.Models.Repository.ReportExecutionType.OverDate)
                                                             {
-                                                                <span class="fa fa-times text-danger"></span>
+                                                                <span class="fa fa-check text-warning"></span>
                                                             }
-                                                            @if (item.TaskType == RapidDoc.Models.Repository.ReportExecutionType.NoneDone)
-                                                            {
-                                                                <span class="fa fa-code-fork"></span>
-                                                            }
-                                                            <a href="@Url.Action("ShowDocument", "Document", new { id = item.DocumentId, isAfterView = true })" target="_blank"><ins>@item.DocumentNumber</ins> - @item.DocumentText (@item.CreateDate) => @Html.EnumToDescription(item.DocumentState)</a>
+                                                            <a href="@Url.Action("ShowDocument", "Document", new { id = item.DocumentId, isAfterView = true })" target="_blank"><ins>@item.DocumentNumber</ins> - @item.DocumentText</a>
                                                         </p>
                                                     }
                                                 </div>
@@ -174,13 +164,9 @@
                                                             {
                                                                 <span class="fa fa-check text-success"></span>
                                                             }
-                                                            @if (item.TaskType == RapidDoc.Models.Repository.ReportExecutionType.Disturbance)
+                                                            @if (item.DocumentState == RapidDoc.Models.Repository.DocumentState.Closed && item.TaskType == RapidDoc.Models.Repository.ReportExecutionType.OverDate)
                                                             {
-                                                                <span class="fa fa-times text-danger"></span>
-                                                            }
-                                                            @if (item.TaskType == RapidDoc.Models.Repository.ReportExecutionType.NoneDone)
-                                                            {
-                                                                <span class="fa fa-code-fork"></span>
+                                                                <span class="fa fa-check text-warning"></span>
                                                             }
                                                             <a href="@Url.Action("ShowDocument", "Document", new { id = item.DocumentId, isAfterView = true })" target="_blank"><ins>@item.DocumentNumber</ins> - @item.DocumentText (@item.CreateDate) => @Html.EnumToDescription(item.DocumentState)</a>
                                                         </p>

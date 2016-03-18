@@ -392,7 +392,7 @@ namespace RapidDoc.Controllers
                             WFTrackerTable signTrack = _WorkflowTrackerService.FirstOrDefault(x => x.DocumentTableId == item.Id && x.SignDate != null);
                             DateTime? performDate = _DocumentService.GetSLAPerformDate(signTrack.DocumentTableId, signTrack.StartDateSLA, signTrack.SLAOffset);
                             if (performDate != null)
-                                taskType = performDate > signTrack.SignDate ? ReportExecutionType.Done : ReportExecutionType.Disturbance;
+                                taskType = performDate > signTrack.SignDate ? ReportExecutionType.Done : ReportExecutionType.OverDate;
                             else
                                 taskType = ReportExecutionType.Done;
 
