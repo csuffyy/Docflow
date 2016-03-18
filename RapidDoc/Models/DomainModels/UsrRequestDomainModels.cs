@@ -863,6 +863,7 @@ namespace RapidDoc.Models.DomainModels
         public string Contact { get; set; }
         public ChangeOrderType ChangeOrderType { get; set; }
         public bool IsWage { get; set; }
+        public string UserChooseManual1 { get; set; }
     }
 
     public class USR_REQ_IT_CAP_ChangeOrderWage_Table : BasicDocumentTable
