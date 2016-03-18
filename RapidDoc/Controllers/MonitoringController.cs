@@ -8,6 +8,8 @@ using RapidDoc.Models.Repository;
 using RapidDoc.Models.Services;
 using RapidDoc.Models.DomainModels;
 using Microsoft.AspNet.Identity;
+using RapidDoc.Models.ViewModels;
+using System.Globalization;
 
 namespace RapidDoc.Controllers
 {
@@ -29,6 +31,50 @@ namespace RapidDoc.Controllers
         {
             ViewBag.DepartmentList = _DepartmentService.GetDropListDepartmentNull(null);
             return View();
+        }
+
+        public ActionResult IndexTask()
+        {
+            ApplicationDbContext context = new ApplicationDbContext();
+            string currentUserId = User.Identity.GetUserId();
+            ApplicationUser currentUser = _AccountService.Find(currentUserId);
+
+            var allTasksList = (from document in context.DocumentTable
+                                join detailDoc in context.USR_TAS_DailyTasks_Table
+                                on document.Id equals detailDoc.DocumentTableId
+                                join documentRef in context.DocumentTable
+                                on detailDoc.RefDocumentId equals documentRef.Id
+                                where document.DocType == DocumentType.Task &&
+                                     document.CompanyTableId == currentUser.CompanyTableId &&
+                                    detailDoc.RefDocumentId != null &&
+                                    ((documentRef.DocType == DocumentType.Order && context.USR_ORD_MainActivity_Table.Any(x => x.DocumentTableId == documentRef.Id)) ||
+                                    (documentRef.DocType == DocumentType.IncomingDoc && context.USR_IND_IncomingDocuments_Table.Any(x => x.DocumentTableId == documentRef.Id)) ||
+                                    (documentRef.DocType == DocumentType.Protocol && context.USR_PRT_ProtocolDocuments_Table.Any(x => x.DocumentTableId == documentRef.Id)))
+                                select new MonitoringTasksView
+                                { 
+                                    DocumentNumber = document.DocumentNum,
+                                    DocumentState = document.DocumentState,
+                                    DocumentRefType = documentRef.DocType,
+                                    SignDate = document.ModifiedDate,
+                                    CreateDate = document.CreatedDate,
+                                    DocumentText = document.DocumentText,
+                                    DocumentId = document.Id,
+                                    ExecutionDate = detailDoc.ProlongationDate != null ? detailDoc.ProlongationDate.Value : detailDoc.ExecutionDate,
+                                    Year = detailDoc.ProlongationDate != null ? detailDoc.ProlongationDate.Value.Year.ToString() : detailDoc.ExecutionDate.Value.Year.ToString()
+                                }).ToList();
+
+            foreach (var item in allTasksList)
+            {
+                item.Month = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(item.ExecutionDate.Value.Month);
+
+                if (item.DocumentState != DocumentState.Closed)
+                    item.TaskType = ReportExecutionType.NoneDone;
+                else
+                {
+                    item.TaskType = item.SignDate <= item.ExecutionDate ? ReportExecutionType.Done : ReportExecutionType.Disturbance;
+                }
+            }
+            return View(allTasksList);
         }
 
         public List<string> GetParentListDepartment(List<DepartmentTable> departmentList)

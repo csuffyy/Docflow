@@ -41,4 +41,20 @@ namespace RapidDoc.Models.ViewModels
         public DateTime CreateDate { get; set; }
         public string Comment { get; set; }
     }
+
+    public class MonitoringTasksView
+    {
+
+        public string DocumentNumber { get; set; }
+        public DocumentType DocumentRefType { get; set; }      
+        public DocumentState DocumentState { get; set; }
+        public DateTime? SignDate { get; set; }
+        public DateTime CreateDate { get; set; }
+        public string DocumentText { get; set; }
+        public Guid DocumentId { get; set; }
+        public DateTime? ExecutionDate { get; set; }
+        public string Month { get; set; }
+        public string Year { get; set; }
+        public ReportExecutionType TaskType { get; set; }
+    }
 }

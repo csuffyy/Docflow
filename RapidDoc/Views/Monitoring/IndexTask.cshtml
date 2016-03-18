@@ -1,0 +1,231 @@
+@model List<RapidDoc.Models.ViewModels.MonitoringTasksView>
+@using RapidDoc.Extensions;
+
+@{
+    ViewBag.Title = UIElementRes.UIElement.MonitoringTask;
+}
+
+<h2>@UIElementRes.UIElement.MonitoringTask</h2>
+@{int num1 = 0; int num2 = 0; int num3 = 0;
+  string type;}
+<div>
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#orderds" aria-controls="edit" role="tab" data-toggle="tab"><span class="fa fa-paperclip" aria-hidden="true"></span> Поручения с приказов</a></li>
+        <li role="presentation"><a href="#inoutdocs" aria-controls="view" role="tab" data-toggle="tab"><span class="fa fa-envelope-o" aria-hidden="true"></span> Поручения с корреспонденции</a></li>
+        <li role="presentation"><a href="#protocols" aria-controls="view" role="tab" data-toggle="tab"><span class="fa fa-file-text-o" aria-hidden="true"></span> Поручения с протоколов</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="orderds">
+            <br />
+            <p><a href="#" class="btn btn-default btn-sm openallOrder"><span class="glyphicon glyphicon glyphicon-plus" aria-hidden="true"></span></a> <a href="#" class="btn btn btn-default btn-sm closeallOrder"><span class="glyphicon glyphicon glyphicon-minus" aria-hidden="true"></span></a></p>
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                @{type = RapidDoc.Models.Repository.DocumentType.Order.ToString();}
+                @foreach (var itemGroup in Model.Where(y => y.DocumentRefType == RapidDoc.Models.Repository.DocumentType.Order).GroupBy(x => x.Year).OrderBy(x => x.Key))
+                {
+                    num1++;
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="heading@type@num1">
+                        <p class="panel-title"><a data-toggle="collapse" data-target="#collapseArea_@type@num1" aria-expanded="false" aria-controls="collapseArea_@type@num1"><strong>@itemGroup.Key (@Model.Where(x => x.DocumentRefType == RapidDoc.Models.Repository.DocumentType.Order && x.Year == itemGroup.Key).Count())</strong></a></p>
+                    </div>
+                    <div class="panel-collapse collapse" id="collapseArea_@type@num1">
+                        <div class="panel-body">
+                            @foreach (var itemGroupName in Model.Where(x => x.DocumentRefType == RapidDoc.Models.Repository.DocumentType.Order && x.Year == itemGroup.Key).GroupBy(y => y.Month).OrderBy(x => x.Key))
+                            {
+                                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" role="tab" id="heading@type@num1@itemGroupName.Key">
+                                            <p class="panel-title">
+                                                <a data-toggle="collapse" data-target="#collapseArea_@type@num1@itemGroupName.Key" aria-expanded="false" aria-controls="collapseArea_@type@num1@itemGroupName.Key">
+                                                    <strong>@itemGroupName.Key</strong>
+                                                </a>
+                                            </p>
+                                        </div>
+                                        <div class="collapse" id="collapseArea_@type@num1@itemGroupName.Key">
+                                            <div class="panel-body">
+
+
+                                                @foreach (var item in Model.Where(x => x.Year == itemGroup.Key && x.Month == itemGroupName.Key && x.DocumentRefType == RapidDoc.Models.Repository.DocumentType.Order).OrderByDescending(x => x.ExecutionDate))
+                                                {
+                                                    <p>
+                                                        @if (item.TaskType == RapidDoc.Models.Repository.ReportExecutionType.Done)
+                                                        {
+                                                            <span class="fa fa-check text-success"></span>
+                                                        }
+                                                        @if (item.TaskType == RapidDoc.Models.Repository.ReportExecutionType.Disturbance)
+                                                        {
+                                                            <span class="fa fa-times text-danger"></span>
+                                                        }
+                                                        @if (item.TaskType == RapidDoc.Models.Repository.ReportExecutionType.NoneDone)
+                                                        {
+                                                            <span class="fa fa-code-fork"></span>
+                                                        }
+                                                        <a href="@Url.Action("ShowDocument", "Document", new { id = item.DocumentId, isAfterView = true })" target="_blank"><ins>@item.DocumentNumber</ins> - @item.DocumentText (@item.CreateDate) => @Html.EnumToDescription(item.DocumentState)</a>
+                                                    </p>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+                }
+
+             </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="inoutdocs">
+            <br />
+            <p><a href="#" class="btn btn-default btn-sm openallInoutdocs"><span class="glyphicon glyphicon glyphicon-plus" aria-hidden="true"></span></a> <a href="#" class="btn btn-default btn-sm closeallInoutdocs"><span class="glyphicon glyphicon glyphicon-minus" aria-hidden="true"></span></a></p>
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                <br />
+                @{type = RapidDoc.Models.Repository.DocumentType.IncomingDoc.ToString();}
+                @foreach (var itemGroup in Model.Where(y => y.DocumentRefType == RapidDoc.Models.Repository.DocumentType.IncomingDoc).GroupBy(x => x.Year).OrderBy(x => x.Key))
+                {
+                    num2++;
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="heading@type@num2">
+                            <p class="panel-title"><a data-toggle="collapse" data-target="#collapseArea_@type@num2" aria-expanded="false" aria-controls="collapseArea_@type@num2"><strong>@itemGroup.Key (@Model.Where(x => x.DocumentRefType == RapidDoc.Models.Repository.DocumentType.IncomingDoc && x.Year == itemGroup.Key).Count())</strong></a></p>
+                        </div>
+                        <div class="panel-collapse collapse" id="collapseArea_@type@num2">
+                            <div class="panel-body">
+                                @foreach (var itemGroupName in Model.Where(x => x.DocumentRefType == RapidDoc.Models.Repository.DocumentType.IncomingDoc && x.Year == itemGroup.Key).GroupBy(y => y.Month).OrderBy(x => x.Key))
+                                {
+                                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading" role="tab" id="heading@type@num2@itemGroupName.Key">
+                                                <p class="panel-title">
+                                                    <a data-toggle="collapse" data-target="#collapseArea_@type@num2@itemGroupName.Key" aria-expanded="false" aria-controls="collapseArea_@type@num2@itemGroupName.Key">
+                                                        <strong>@itemGroupName.Key</strong>
+                                                    </a>
+                                                </p>
+                                            </div>
+                                            <div class="collapse" id="collapseArea_@type@num2@itemGroupName.Key">
+                                                <div class="panel-body">
+
+
+                                                    @foreach (var item in Model.Where(x => x.Year == itemGroup.Key && x.Month == itemGroupName.Key && x.DocumentRefType == RapidDoc.Models.Repository.DocumentType.IncomingDoc).OrderByDescending(x => x.ExecutionDate))
+                                                    {
+                                                        <p>
+                                                            @if (item.TaskType == RapidDoc.Models.Repository.ReportExecutionType.Done)
+                                                            {
+                                                                <span class="fa fa-check text-success"></span>
+                                                            }
+                                                            @if (item.TaskType == RapidDoc.Models.Repository.ReportExecutionType.Disturbance)
+                                                            {
+                                                                <span class="fa fa-times text-danger"></span>
+                                                            }
+                                                            @if (item.TaskType == RapidDoc.Models.Repository.ReportExecutionType.NoneDone)
+                                                            {
+                                                                <span class="fa fa-code-fork"></span>
+                                                            }
+                                                            <a href="@Url.Action("ShowDocument", "Document", new { id = item.DocumentId, isAfterView = true })" target="_blank"><ins>@item.DocumentNumber</ins> - @item.DocumentText (@item.CreateDate) => @Html.EnumToDescription(item.DocumentState)</a>
+                                                        </p>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="protocols">
+            <br />
+            <p><a href="#" class="btn btn-default btn-sm openallProtocol"><span class="glyphicon glyphicon glyphicon-plus" aria-hidden="true"></span></a> <a href="#" class="btn btn-default btn-sm closeallProtocol"><span class="glyphicon glyphicon glyphicon-minus" aria-hidden="true"></span></a></p>
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true"> 
+                @{type = RapidDoc.Models.Repository.DocumentType.Protocol.ToString();}
+                @foreach (var itemGroup in Model.Where(y => y.DocumentRefType == RapidDoc.Models.Repository.DocumentType.Order).GroupBy(x => x.Year).OrderBy(x => x.Key))
+                {
+                    num3++;
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="heading@type@num3">
+                            <p class="panel-title"><a data-toggle="collapse" data-target="#collapseArea_@type@num3" aria-expanded="false" aria-controls="collapseArea_@type@num3"><strong>@itemGroup.Key (@Model.Where(x => x.DocumentRefType == RapidDoc.Models.Repository.DocumentType.Protocol && x.Year == itemGroup.Key).Count())</strong></a></p>
+                        </div>
+                        <div class="panel-collapse collapse" id="collapseArea_@type@num3">
+                            <div class="panel-body">
+                                @foreach (var itemGroupName in Model.Where(x => x.DocumentRefType == RapidDoc.Models.Repository.DocumentType.Protocol && x.Year == itemGroup.Key).GroupBy(y => y.Month).OrderBy(x => x.Key))
+                                {
+                                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading" role="tab" id="heading@type@num3@itemGroupName.Key">
+                                                <p class="panel-title">
+                                                    <a data-toggle="collapse" data-target="#collapseArea_@type@num3@itemGroupName.Key" aria-expanded="false" aria-controls="collapseArea_@type@num3@itemGroupName.Key">
+                                                        <strong>@itemGroupName.Key</strong>
+                                                    </a>
+                                                </p>
+                                            </div>
+                                            <div class="collapse" id="collapseArea_@type@num3@itemGroupName.Key">
+                                                <div class="panel-body">
+
+
+                                                    @foreach (var item in Model.Where(x => x.Year == itemGroup.Key && x.Month == itemGroupName.Key && x.DocumentRefType == RapidDoc.Models.Repository.DocumentType.Protocol).OrderByDescending(x => x.ExecutionDate))
+                                                    {
+                                                        <p>
+                                                            @if (item.TaskType == RapidDoc.Models.Repository.ReportExecutionType.Done)
+                                                            {
+                                                                <span class="fa fa-check text-success"></span>
+                                                            }
+                                                            @if (item.TaskType == RapidDoc.Models.Repository.ReportExecutionType.Disturbance)
+                                                            {
+                                                                <span class="fa fa-times text-danger"></span>
+                                                            }
+                                                            @if (item.TaskType == RapidDoc.Models.Repository.ReportExecutionType.NoneDone)
+                                                            {
+                                                                <span class="fa fa-code-fork"></span>
+                                                            }
+                                                            <a href="@Url.Action("ShowDocument", "Document", new { id = item.DocumentId, isAfterView = true })" target="_blank"><ins>@item.DocumentNumber</ins> - @item.DocumentText (@item.CreateDate) => @Html.EnumToDescription(item.DocumentState)</a>
+                                                        </p>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $('.closeallOrder').click(function () {
+        $('div[id*="Order"]')
+          .collapse('hide');
+    });
+    $('.openallOrder').click(function () {
+        $('div[id*="Order"]')
+          .collapse('show');
+    });
+
+    $('.closeallInoutdocs').click(function () {
+        $('div[id*="IncomingDoc"]')
+          .collapse('hide');
+    });
+    $('.openallInoutdocs').click(function () {
+        $('div[id*="IncomingDoc"]')
+          .collapse('show');
+    });
+
+    $('.closeallProtocol').click(function () {
+        $('div[id*="Protocol"]')
+          .collapse('hide');
+    });
+    $('.openallProtocol').click(function () {
+        $('div[id*="Protocol"]')
+          .collapse('show');
+    });
+    
+</script>
