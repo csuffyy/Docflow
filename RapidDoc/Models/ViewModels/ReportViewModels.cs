@@ -54,7 +54,10 @@ namespace RapidDoc.Models.ViewModels
         public Guid DocumentId { get; set; }
         public DateTime? ExecutionDate { get; set; }
         public string Month { get; set; }
+        public int MonthNumber { get; set; }
         public string Year { get; set; }
         public ReportExecutionType TaskType { get; set; }
+        public DateTime? SignDateTime { get; set; }
+        public Guid RefDocId { get; set; }
     }
 }

@@ -18,13 +18,17 @@ namespace RapidDoc.Controllers
         private readonly IDocumentService _DocumentService;
         private readonly IDepartmentService _DepartmentService;
         private readonly IEmplService       _EmplService;
+        private readonly IWorkflowTrackerService _WorkflowTrackerService;
+        private readonly ISystemService _SystemService;
 
-        public MonitoringController(IDocumentService documentService, IDepartmentService departmentService, IEmplService emplService, ICompanyService companyService, IAccountService accountService)
+        public MonitoringController(IDocumentService documentService, IDepartmentService departmentService, IEmplService emplService, ICompanyService companyService, IAccountService accountService, IWorkflowTrackerService workflowTrackerService, ISystemService systemService)
             : base(companyService, accountService)
         {
             _DocumentService = documentService;
             _DepartmentService = departmentService;
             _EmplService = emplService;
+            _WorkflowTrackerService = workflowTrackerService;
+            _SystemService = systemService;
         }
 
         public ActionResult Index()
@@ -59,6 +63,7 @@ namespace RapidDoc.Controllers
                                     CreateDate = document.CreatedDate,
                                     DocumentText = document.DocumentText,
                                     DocumentId = document.Id,
+                                    RefDocId = documentRef.Id,
                                     ExecutionDate = detailDoc.ProlongationDate != null ? detailDoc.ProlongationDate.Value : detailDoc.ExecutionDate,
                                     Year = detailDoc.ProlongationDate != null ? detailDoc.ProlongationDate.Value.Year.ToString() : detailDoc.ExecutionDate.Value.Year.ToString()
                                 }).ToList();
@@ -66,13 +71,33 @@ namespace RapidDoc.Controllers
             foreach (var item in allTasksList)
             {
                 item.Month = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(item.ExecutionDate.Value.Month);
-
+                item.MonthNumber = item.ExecutionDate.Value.Month;
                 if (item.DocumentState != DocumentState.Closed)
                     item.TaskType = ReportExecutionType.NoneDone;
                 else
                 {
                     item.TaskType = item.SignDate <= item.ExecutionDate ? ReportExecutionType.Done : ReportExecutionType.Disturbance;
+                    WFTrackerTable signTrack = _WorkflowTrackerService.FirstOrDefault(x => x.DocumentTableId == item.DocumentId && x.SignDate != null);
+                    item.SignDateTime = _SystemService.ConvertDateTimeToLocal(currentUser, signTrack.SignDate.Value);
                 }
+
+                switch (item.DocumentRefType)
+                {
+
+                    case DocumentType.Order:
+                        USR_ORD_MainActivity_Table order = context.USR_ORD_MainActivity_Table.FirstOrDefault(x => x.DocumentTableId == item.RefDocId);
+                        item.DocumentText = String.Format(@"({0})/({1})", order.OrderNum, order.Subject);
+                        break;
+                    case DocumentType.IncomingDoc:
+                        USR_IND_IncomingDocuments_Table incoming = context.USR_IND_IncomingDocuments_Table.FirstOrDefault(x => x.DocumentTableId == item.RefDocId);
+                        item.DocumentText = String.Format(@"({0})/({1})", incoming.IncomingDocNum, incoming.DocumentSubject);
+                        break;
+                    case DocumentType.Protocol:
+                        USR_PRT_ProtocolDocuments_Table protocol = context.USR_PRT_ProtocolDocuments_Table.FirstOrDefault(x => x.DocumentTableId == item.RefDocId);
+                        item.DocumentText = protocol.Subject;
+                        break;
+                }
+
             }
             return View(allTasksList);
         }

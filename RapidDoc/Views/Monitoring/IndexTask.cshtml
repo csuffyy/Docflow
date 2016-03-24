@@ -19,6 +19,7 @@
         <div role="tabpanel" class="tab-pane active" id="orderds">
             <br />
             <p><a href="#" class="btn btn-default btn-sm openallOrder"><span class="glyphicon glyphicon glyphicon-plus" aria-hidden="true"></span></a> <a href="#" class="btn btn btn-default btn-sm closeallOrder"><span class="glyphicon glyphicon glyphicon-minus" aria-hidden="true"></span></a></p>
+            <br />
             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                 @{type = RapidDoc.Models.Repository.DocumentType.Order.ToString();}
                 @foreach (var itemGroup in Model.Where(y => y.DocumentRefType == RapidDoc.Models.Repository.DocumentType.Order).GroupBy(x => x.Year).OrderBy(x => x.Key))
@@ -30,37 +31,40 @@
                     </div>
                     <div class="panel-collapse collapse" id="collapseArea_@type@num1">
                         <div class="panel-body">
-                            @foreach (var itemGroupName in Model.Where(x => x.DocumentRefType == RapidDoc.Models.Repository.DocumentType.Order && x.Year == itemGroup.Key).GroupBy(y => y.Month).OrderBy(x => x.Key))
+                            @foreach (var itemGroupName in Model.Where(x => x.DocumentRefType == RapidDoc.Models.Repository.DocumentType.Order && x.Year == itemGroup.Key).GroupBy(y => new {y.Month, y.MonthNumber}).OrderBy(x => x.Key.MonthNumber))
                             {
                                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                                     <div class="panel panel-default">
-                                        <div class="panel-heading" role="tab" id="heading@type@num1@itemGroupName.Key">
+                                        <div class="panel-heading" role="tab" id="heading@type@num1@itemGroupName.Key.Month">
                                             <p class="panel-title">
-                                                <a data-toggle="collapse" data-target="#collapseArea_@type@num1@itemGroupName.Key" aria-expanded="false" aria-controls="collapseArea_@type@num1@itemGroupName.Key">
-                                                    <strong>@itemGroupName.Key</strong>
+                                                <a data-toggle="collapse" data-target="#collapseArea_@type@num1@itemGroupName.Key.Month" aria-expanded="false" aria-controls="collapseArea_@type@num1@itemGroupName.Key.Month">
+                                                    <strong>@itemGroupName.Key.Month</strong>
                                                 </a>
                                             </p>
                                         </div>
-                                        <div class="collapse" id="collapseArea_@type@num1@itemGroupName.Key">
+                                        <div class="collapse" id="collapseArea_@type@num1@itemGroupName.Key.Month">
                                             <div class="panel-body">
 
 
-                                                @foreach (var item in Model.Where(x => x.Year == itemGroup.Key && x.Month == itemGroupName.Key && x.DocumentRefType == RapidDoc.Models.Repository.DocumentType.Order).OrderByDescending(x => x.ExecutionDate))
+                                                @foreach (var item in Model.Where(x => x.Year == itemGroup.Key && x.Month == itemGroupName.Key.Month && x.DocumentRefType == RapidDoc.Models.Repository.DocumentType.Order).OrderByDescending(x => x.ExecutionDate))
                                                 {
                                                     <p>
                                                         @if (item.TaskType == RapidDoc.Models.Repository.ReportExecutionType.Done)
                                                         {
                                                             <span class="fa fa-check text-success"></span>
+                                                            <a href="@Url.Action("ShowDocument", "Document", new { id = item.DocumentId, isAfterView = true })" target="_blank"><ins>@item.DocumentNumber</ins> - @item.DocumentText (@item.SignDateTime) => @Html.EnumToDescription(item.DocumentState)</a>
                                                         }
                                                         @if (item.TaskType == RapidDoc.Models.Repository.ReportExecutionType.Disturbance)
                                                         {
                                                             <span class="fa fa-times text-danger"></span>
+                                                            <a href="@Url.Action("ShowDocument", "Document", new { id = item.DocumentId, isAfterView = true })" target="_blank"><ins>@item.DocumentNumber</ins> - @item.DocumentText (@item.SignDateTime) => @Html.EnumToDescription(item.DocumentState)</a>
                                                         }
                                                         @if (item.TaskType == RapidDoc.Models.Repository.ReportExecutionType.NoneDone)
                                                         {
                                                             <span class="fa fa-code-fork"></span>
+                                                            <a href="@Url.Action("ShowDocument", "Document", new { id = item.DocumentId, isAfterView = true })" target="_blank"><ins>@item.DocumentNumber</ins> - @item.DocumentText (@item.CreateDate) => @Html.EnumToDescription(item.DocumentState)</a>
                                                         }
-                                                        <a href="@Url.Action("ShowDocument", "Document", new { id = item.DocumentId, isAfterView = true })" target="_blank"><ins>@item.DocumentNumber</ins> - @item.DocumentText (@item.CreateDate) => @Html.EnumToDescription(item.DocumentState)</a>
+                                                        
                                                     </p>
                                                 }
                                             </div>
@@ -92,22 +96,22 @@
                         </div>
                         <div class="panel-collapse collapse" id="collapseArea_@type@num2">
                             <div class="panel-body">
-                                @foreach (var itemGroupName in Model.Where(x => x.DocumentRefType == RapidDoc.Models.Repository.DocumentType.IncomingDoc && x.Year == itemGroup.Key).GroupBy(y => y.Month).OrderBy(x => x.Key))
+                                @foreach (var itemGroupName in Model.Where(x => x.DocumentRefType == RapidDoc.Models.Repository.DocumentType.IncomingDoc && x.Year == itemGroup.Key).GroupBy(y => new { y.Month, y.MonthNumber }).OrderBy(x => x.Key.MonthNumber))
                                 {
                                     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                                         <div class="panel panel-default">
-                                            <div class="panel-heading" role="tab" id="heading@type@num2@itemGroupName.Key">
+                                            <div class="panel-heading" role="tab" id="heading@type@num2@itemGroupName.Key.Month">
                                                 <p class="panel-title">
-                                                    <a data-toggle="collapse" data-target="#collapseArea_@type@num2@itemGroupName.Key" aria-expanded="false" aria-controls="collapseArea_@type@num2@itemGroupName.Key">
-                                                        <strong>@itemGroupName.Key</strong>
+                                                    <a data-toggle="collapse" data-target="#collapseArea_@type@num2@itemGroupName.Key.Month" aria-expanded="false" aria-controls="collapseArea_@type@num2@itemGroupName.Key.Month">
+                                                        <strong>@itemGroupName.Key.Month</strong>
                                                     </a>
                                                 </p>
                                             </div>
-                                            <div class="collapse" id="collapseArea_@type@num2@itemGroupName.Key">
+                                            <div class="collapse" id="collapseArea_@type@num2@itemGroupName.Key.Month">
                                                 <div class="panel-body">
 
 
-                                                    @foreach (var item in Model.Where(x => x.Year == itemGroup.Key && x.Month == itemGroupName.Key && x.DocumentRefType == RapidDoc.Models.Repository.DocumentType.IncomingDoc).OrderByDescending(x => x.ExecutionDate))
+                                                    @foreach (var item in Model.Where(x => x.Year == itemGroup.Key && x.Month == itemGroupName.Key.Month && x.DocumentRefType == RapidDoc.Models.Repository.DocumentType.IncomingDoc).OrderByDescending(x => x.ExecutionDate))
                                                     {
                                                         <p>
                                                             @if (item.TaskType == RapidDoc.Models.Repository.ReportExecutionType.Done)
@@ -141,6 +145,7 @@
         <div role="tabpanel" class="tab-pane" id="protocols">
             <br />
             <p><a href="#" class="btn btn-default btn-sm openallProtocol"><span class="glyphicon glyphicon glyphicon-plus" aria-hidden="true"></span></a> <a href="#" class="btn btn-default btn-sm closeallProtocol"><span class="glyphicon glyphicon glyphicon-minus" aria-hidden="true"></span></a></p>
+            <br />
             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true"> 
                 @{type = RapidDoc.Models.Repository.DocumentType.Protocol.ToString();}
                 @foreach (var itemGroup in Model.Where(y => y.DocumentRefType == RapidDoc.Models.Repository.DocumentType.Order).GroupBy(x => x.Year).OrderBy(x => x.Key))
@@ -152,22 +157,22 @@
                         </div>
                         <div class="panel-collapse collapse" id="collapseArea_@type@num3">
                             <div class="panel-body">
-                                @foreach (var itemGroupName in Model.Where(x => x.DocumentRefType == RapidDoc.Models.Repository.DocumentType.Protocol && x.Year == itemGroup.Key).GroupBy(y => y.Month).OrderBy(x => x.Key))
+                                @foreach (var itemGroupName in Model.Where(x => x.DocumentRefType == RapidDoc.Models.Repository.DocumentType.Protocol && x.Year == itemGroup.Key).GroupBy(y => new { y.Month, y.MonthNumber }).OrderBy(x => x.Key.MonthNumber))
                                 {
                                     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                                         <div class="panel panel-default">
-                                            <div class="panel-heading" role="tab" id="heading@type@num3@itemGroupName.Key">
+                                            <div class="panel-heading" role="tab" id="heading@type@num3@itemGroupName.Key.Month">
                                                 <p class="panel-title">
-                                                    <a data-toggle="collapse" data-target="#collapseArea_@type@num3@itemGroupName.Key" aria-expanded="false" aria-controls="collapseArea_@type@num3@itemGroupName.Key">
-                                                        <strong>@itemGroupName.Key</strong>
+                                                    <a data-toggle="collapse" data-target="#collapseArea_@type@num3@itemGroupName.Key.Month" aria-expanded="false" aria-controls="collapseArea_@type@num3@itemGroupName.Key.Month">
+                                                        <strong>@itemGroupName.Key.Month</strong>
                                                     </a>
                                                 </p>
                                             </div>
-                                            <div class="collapse" id="collapseArea_@type@num3@itemGroupName.Key">
+                                            <div class="collapse" id="collapseArea_@type@num3@itemGroupName.Key.Month">
                                                 <div class="panel-body">
 
 
-                                                    @foreach (var item in Model.Where(x => x.Year == itemGroup.Key && x.Month == itemGroupName.Key && x.DocumentRefType == RapidDoc.Models.Repository.DocumentType.Protocol).OrderByDescending(x => x.ExecutionDate))
+                                                    @foreach (var item in Model.Where(x => x.Year == itemGroup.Key && x.Month == itemGroupName.Key.Month && x.DocumentRefType == RapidDoc.Models.Repository.DocumentType.Protocol).OrderByDescending(x => x.ExecutionDate))
                                                     {
                                                         <p>
                                                             @if (item.TaskType == RapidDoc.Models.Repository.ReportExecutionType.Done)
