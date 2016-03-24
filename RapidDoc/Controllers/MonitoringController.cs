@@ -76,7 +76,7 @@ namespace RapidDoc.Controllers
                     item.TaskType = ReportExecutionType.NoneDone;
                 else
                 {
-                    item.TaskType = item.SignDate <= item.ExecutionDate ? ReportExecutionType.Done : ReportExecutionType.Disturbance;
+                    item.TaskType = item.SignDate <= item.ExecutionDate ? ReportExecutionType.Done : ReportExecutionType.OverDate;
                     WFTrackerTable signTrack = _WorkflowTrackerService.FirstOrDefault(x => x.DocumentTableId == item.DocumentId && x.SignDate != null);
                     item.SignDateTime = _SystemService.ConvertDateTimeToLocal(currentUser, signTrack.SignDate.Value);
                 }

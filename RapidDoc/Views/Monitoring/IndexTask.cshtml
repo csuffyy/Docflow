@@ -54,15 +54,14 @@
                                                             <span class="fa fa-check text-success"></span>
                                                             <a href="@Url.Action("ShowDocument", "Document", new { id = item.DocumentId, isAfterView = true })" target="_blank"><ins>@item.DocumentNumber</ins> - @item.DocumentText (@item.SignDateTime) => @Html.EnumToDescription(item.DocumentState)</a>
                                                         }
-                                                        @if (item.DocumentState == RapidDoc.Models.Repository.DocumentState.Closed && item.TaskType == RapidDoc.Models.Repository.ReportExecutionType.OverDate)
+                                                        else if (item.DocumentState == RapidDoc.Models.Repository.DocumentState.Closed && item.TaskType == RapidDoc.Models.Repository.ReportExecutionType.OverDate)
                                                         {
                                                             <span class="fa fa-times text-danger"></span>
                                                             <a href="@Url.Action("ShowDocument", "Document", new { id = item.DocumentId, isAfterView = true })" target="_blank"><ins>@item.DocumentNumber</ins> - @item.DocumentText (@item.SignDateTime) => @Html.EnumToDescription(item.DocumentState)</a>
                                                         }
-                                                        @if (item.TaskType == RapidDoc.Models.Repository.ReportExecutionType.NoneDone)
+                                                        else
                                                         {
-                                                            <span class="fa fa-code-fork"></span>
-                                                        <a href="@Url.Action("ShowDocument", "Document", new { id = item.DocumentId, isAfterView = true })" target="_blank"><ins>@item.DocumentNumber</ins> - @item.DocumentText (@item.CreateDate) => @Html.EnumToDescription(item.DocumentState)</a>
+                                                            <a href="@Url.Action("ShowDocument", "Document", new { id = item.DocumentId, isAfterView = true })" target="_blank"><ins>@item.DocumentNumber</ins> - @item.DocumentText (@item.CreateDate) => @Html.EnumToDescription(item.DocumentState)</a>
                                                         }
                                                         
                                                     </p>
@@ -117,12 +116,17 @@
                                                             @if (item.TaskType == RapidDoc.Models.Repository.ReportExecutionType.Done)
                                                             {
                                                                 <span class="fa fa-check text-success"></span>
+                                                                <a href="@Url.Action("ShowDocument", "Document", new { id = item.DocumentId, isAfterView = true })" target="_blank"><ins>@item.DocumentNumber</ins> - @item.DocumentText (@item.SignDateTime) => @Html.EnumToDescription(item.DocumentState)</a>
                                                             }
-                                                            @if (item.DocumentState == RapidDoc.Models.Repository.DocumentState.Closed && item.TaskType == RapidDoc.Models.Repository.ReportExecutionType.OverDate)
+                                                            else if (item.DocumentState == RapidDoc.Models.Repository.DocumentState.Closed && item.TaskType == RapidDoc.Models.Repository.ReportExecutionType.OverDate)
                                                             {
-                                                                <span class="fa fa-check text-warning"></span>
+                                                                <span class="fa fa-times text-danger"></span>
+                                                                <a href="@Url.Action("ShowDocument", "Document", new { id = item.DocumentId, isAfterView = true })" target="_blank"><ins>@item.DocumentNumber</ins> - @item.DocumentText (@item.SignDateTime) => @Html.EnumToDescription(item.DocumentState)</a>
                                                             }
-                                                            <a href="@Url.Action("ShowDocument", "Document", new { id = item.DocumentId, isAfterView = true })" target="_blank"><ins>@item.DocumentNumber</ins> - @item.DocumentText</a>
+                                                            else
+                                                            {
+                                                                <a href="@Url.Action("ShowDocument", "Document", new { id = item.DocumentId, isAfterView = true })" target="_blank"><ins>@item.DocumentNumber</ins> - @item.DocumentText (@item.CreateDate) => @Html.EnumToDescription(item.DocumentState)</a>
+                                                            }
                                                         </p>
                                                     }
                                                 </div>
@@ -174,12 +178,17 @@
                                                             @if (item.TaskType == RapidDoc.Models.Repository.ReportExecutionType.Done)
                                                             {
                                                                 <span class="fa fa-check text-success"></span>
+                                                                <a href="@Url.Action("ShowDocument", "Document", new { id = item.DocumentId, isAfterView = true })" target="_blank"><ins>@item.DocumentNumber</ins> - @item.DocumentText (@item.SignDateTime) => @Html.EnumToDescription(item.DocumentState)</a>
                                                             }
-                                                            @if (item.DocumentState == RapidDoc.Models.Repository.DocumentState.Closed && item.TaskType == RapidDoc.Models.Repository.ReportExecutionType.OverDate)
+                                                            else if (item.DocumentState == RapidDoc.Models.Repository.DocumentState.Closed && item.TaskType == RapidDoc.Models.Repository.ReportExecutionType.OverDate)
                                                             {
-                                                                <span class="fa fa-check text-warning"></span>
+                                                                <span class="fa fa-times text-danger"></span>
+                                                                <a href="@Url.Action("ShowDocument", "Document", new { id = item.DocumentId, isAfterView = true })" target="_blank"><ins>@item.DocumentNumber</ins> - @item.DocumentText (@item.SignDateTime) => @Html.EnumToDescription(item.DocumentState)</a>
                                                             }
-                                                            <a href="@Url.Action("ShowDocument", "Document", new { id = item.DocumentId, isAfterView = true })" target="_blank"><ins>@item.DocumentNumber</ins> - @item.DocumentText (@item.CreateDate) => @Html.EnumToDescription(item.DocumentState)</a>
+                                                            else
+                                                            {
+                                                                <a href="@Url.Action("ShowDocument", "Document", new { id = item.DocumentId, isAfterView = true })" target="_blank"><ins>@item.DocumentNumber</ins> - @item.DocumentText (@item.CreateDate) => @Html.EnumToDescription(item.DocumentState)</a>
+                                                            }
                                                         </p>
                                                     }
                                                 </div>
