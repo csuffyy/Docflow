@@ -1814,7 +1814,7 @@ namespace RapidDoc.Models.Repository
     {     
         Done = 0,       
         NoneDone = 1,
-        Disturbance = 2
+        OverDate = 2
     }
 
     public enum ChangeOrderType : byte

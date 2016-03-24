@@ -282,7 +282,7 @@ namespace RapidDoc.Models.Services
                                 Excel.Range rangeColor = excelWorksheet.Range[excelWorksheet.Cells[rowCount, 2], excelWorksheet.Cells[rowCount, maxColumns]];
                                 rangeColor.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Red);
                                 break;
-                            case ReportExecutionType.Disturbance:
+                            case ReportExecutionType.OverDate:
                                 excelWorksheet.Cells[rowCount, 9] = "исполнено с нарушением сроков";                            
                                 break;
                         }

@@ -670,12 +670,8 @@ input[type='checkbox']:checked.pseudo-checkbox + label:before{/*checked icon*/
     content: "\e006";
 }
 
-.note-editable > h6 {
+.note-editor p, .note-editable > h6, .note-editor > h6, .textblock > h6 {
     margin: 0;
-}
-
-.textblock > h6 {
-   margin: 0;
 }
 
 .bootstrap-duallistbox-container .btn.moveall,
