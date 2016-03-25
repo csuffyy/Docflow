@@ -72,13 +72,16 @@ namespace RapidDoc.Controllers
             {
                 item.Month = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(item.ExecutionDate.Value.Month);
                 item.MonthNumber = item.ExecutionDate.Value.Month;
-                if (item.DocumentState != DocumentState.Closed)
-                    item.TaskType = ReportExecutionType.NoneDone;
+                if (item.DocumentState == DocumentState.Closed)
+                {
+                    WFTrackerTable signTrack = _WorkflowTrackerService.FirstOrDefault(x => x.DocumentTableId == item.DocumentId && x.SignDate != null);
+                    item.SignDate = signTrack.SignDate;
+                    item.TaskType = item.SignDate.Value.Date <= item.ExecutionDate ? ReportExecutionType.Done : ReportExecutionType.OverDate;
+                    item.SignDateTime = _SystemService.ConvertDateTimeToLocal(currentUser, signTrack.SignDate.Value);
+                }
                 else
                 {
-                    item.TaskType = item.SignDate <= item.ExecutionDate ? ReportExecutionType.Done : ReportExecutionType.OverDate;
-                    WFTrackerTable signTrack = _WorkflowTrackerService.FirstOrDefault(x => x.DocumentTableId == item.DocumentId && x.SignDate != null);
-                    item.SignDateTime = _SystemService.ConvertDateTimeToLocal(currentUser, signTrack.SignDate.Value);
+                    item.TaskType = DateTime.UtcNow.Date <= item.ExecutionDate ? ReportExecutionType.NoneDone : ReportExecutionType.OverDate;
                 }
 
                 switch (item.DocumentRefType)
