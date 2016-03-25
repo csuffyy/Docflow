@@ -50,7 +50,7 @@ namespace RapidDoc.Models.Services
         bool isSignDocument(Guid documentId, ApplicationUser user = null);
         IEnumerable<WFTrackerTable> GetCurrentSignStep(Guid documentId, string currentUserId = "", ApplicationUser user = null);
         SLAStatusList SLAStatus(Guid documentId, string currentUserId = "", ApplicationUser user = null);
-        void SaveSignData(IEnumerable<WFTrackerTable> trackerTables, TrackerType trackerType, bool changeSignUser = true);
+        void SaveSignData(IEnumerable<WFTrackerTable> trackerTables, TrackerType trackerType, bool changeSignUser = true, string currentUserId = "");
         Guid SaveFile(FileTable file, string userId);
         void UpdateFile(FileTable file);
         bool FileContains(Guid documentFileId);
@@ -1083,7 +1083,7 @@ namespace RapidDoc.Models.Services
             }
             IEnumerable<WFTrackerTable> trackerTables = _WorkflowTrackerService.GetCurrentStep(x => x.DocumentTableId == documentId && x.TrackerType == TrackerType.Waiting);
             DocumentTable document = Find(documentId);
-            ProcessTable process = _ProcessService.Find(document.ProcessTableId);
+            ProcessTable process = _ProcessService.Find(document.ProcessTableId, currentUserId);
             List<WFTrackerTable> signStep = new List<WFTrackerTable>();
 
             if (trackerTables != null)
@@ -1111,7 +1111,7 @@ namespace RapidDoc.Models.Services
             return signStep;
         }
 
-        public void SaveSignData(IEnumerable<WFTrackerTable> trackerTables, TrackerType trackerType, bool changeSignUser = true)
+        public void SaveSignData(IEnumerable<WFTrackerTable> trackerTables, TrackerType trackerType, bool changeSignUser = true, string currentUserId = "")
         {
             string userId = HttpContext.Current.User.Identity.GetUserId(); 
 
@@ -1126,10 +1126,10 @@ namespace RapidDoc.Models.Services
                         if (changeSignUser == true)
                         {
                             trackerTable.SignDate = DateTime.UtcNow;
-                            trackerTable.SignUserId = userId;
+                            trackerTable.SignUserId = String.IsNullOrWhiteSpace(userId) ? currentUserId : userId;
                         }                    
                         trackerTable.TrackerType = trackerType;
-                        _WorkflowTrackerService.SaveDomain(trackerTable);
+                        _WorkflowTrackerService.SaveDomain(trackerTable, String.IsNullOrWhiteSpace(userId) ? currentUserId : userId);
                         break;
                     }
                     catch
