@@ -365,7 +365,7 @@ namespace RapidDoc.Models.Services
         public void ActiveWorkflowApprove(Guid documentId, string TableName, Guid WWFInstanceId, Guid processId, IDictionary<string, object> documentData, string currentUser)
         {
             IEnumerable<WFTrackerTable> bookmarks = _DocumentService.GetCurrentSignStep(documentId, currentUser).ToList();
-            _DocumentService.SaveSignData(bookmarks, TrackerType.Active, String.IsNullOrEmpty(currentUser) ? true : false);
+            _DocumentService.SaveSignData(bookmarks, TrackerType.Active, String.IsNullOrEmpty(currentUser) ? true : false, currentUser);
             if (bookmarks != null)
             {
                 foreach (var bookmark in bookmarks)
