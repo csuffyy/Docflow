@@ -425,12 +425,15 @@ namespace RapidDoc.Models.Services
             }
 
             var signUsers = _DocumentService.GetSignUsersDirect(documentTable);
-            foreach (var signUser in signUsers)
+            if (signUsers != null && signUsers.Count() < 31)
             {
-                if (users.Any(x => x.Id == signUser.Id))
-                    continue;
-                else
-                    users.Add(signUser);
+                foreach (var signUser in signUsers)
+                {
+                    if (users.Any(x => x.Id == signUser.Id))
+                        continue;
+                    else
+                        users.Add(signUser);
+                }
             }
 
             foreach (var user in users)

@@ -3,6 +3,7 @@
 @{
     Model.OrderDate = Model.OrderDate ?? DateTime.Today;
     Model.ControlDate = Model.ControlDate ?? DateTime.Today.AddDays(2);
+    Model.NeedTranslate = true;
 }
 @Html.HiddenFor(model => model.CountDays)
 @Html.HiddenFor(model => model.NeedTranslate)

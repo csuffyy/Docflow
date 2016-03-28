@@ -65,14 +65,22 @@
     <!--[if lte IE 9]>
       @Scripts.Render("~/bundles/oldBrowsers")
     <![endif]-->
-
-    @*<noscript>
-        @UIElementRes.UIElement.NoJS
-    </noscript>*@
 </head>
 <body>
-
     @Html.Partial("_Menu")
+    <div class="row">
+        <div class="col-xs-12">
+            <noscript>
+                <div class="alert alert-danger">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <span class="text-center"><strong>@UIElementRes.UIElement.Attention: </strong> @UIElementRes.UIElement.NoJS <a href="http://enable-javascript.com/ru/" class="alert-link">@UIElementRes.UIElement.NoJSLink</a></span>
+                </div>
+            </noscript>
+            <div id="alert_browserVersion" class="hide">
+                <div class="alert alert-danger" role="alert">@UIElementRes.UIElement.OldBrowser</div>
+            </div>
+        </div>
+    </div>
 
     <div class="container body-content">
         @RenderBody()
@@ -117,6 +125,10 @@
     }
 
     <script type="text/javascript">
+        if (!Modernizr.canvas) {
+            document.getElementById("alert_browserVersion").className = "well";
+        }
+
         $(function () {
             $.validator.addMethod("date",
                 function (value, element) {
