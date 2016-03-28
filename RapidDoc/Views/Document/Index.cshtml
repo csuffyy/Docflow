@@ -4,16 +4,6 @@
 }
 
 <br class="hidden-print">
-
-<!-- NoScript Alert -->
-<noscript>
-    <div class="alert alert-danger">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-        <span class="text-center"><strong>Внимание: </strong> JavaScript не включен. <a href="http://enable-javascript.com/ru/" class="alert-link">Пожалуйста включите поддержку JavaScript</a>.</span>
-    </div>
-</noscript>
-<div id="alert_browserVersion"></div>
-
 <ul class="nav nav-tabs" role="tablist">
     <li class="active"><a href="#"><strong><span class="glyphicon glyphicon-tasks" aria-hidden="true"></span> <span class="visible-md-inline-block visible-lg-inline-block">@UIElementRes.UIElement.MyProcesses</span></strong></a></li>
     <li><a href="@Url.Action("AgreedDocuments", "Document")"><span class="glyphicon glyphicon-check" aria-hidden="true"></span> <span class="visible-md-inline-block visible-lg-inline-block">@UIElementRes.UIElement.AgreedDocument</span></a></li>
@@ -39,13 +29,6 @@
     var timerCheckDocActive;
     var jsonStrCheckDocActive = "@Url.Action("GetActiveDocumentCount", "Document")";
     var showUser = 0;
-
-    if (Modernizr.canvas) {
-        // enhance!
-    } else {
-        var elem = document.getElementById("alert_browserVersion");
-        elem.insertAdjacentHTML('afterend', '<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><span class="sr-only">Error:</span> Ваша версия браузера не поддерживает HTML5. Пожайлуста используете другой или обновите текущий. </div>')
-    }
 
     $(function () {
        

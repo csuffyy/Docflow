@@ -397,7 +397,7 @@
     <value>kk</value>
   </data>
   <data name="NoJS" xml:space="preserve">
-    <value>Сізде JavaScript ажыратылған. Сайт қате көрсетілуі мүмкін. JavaScript қосуды ұсынамыз.</value>
+    <value>Сізде JavaScript ажыратылған.</value>
   </data>
   <data name="ProgramDescription" xml:space="preserve">
     <value>Компания процесстерін басқару жүйесі</value>
@@ -670,6 +670,15 @@
     <value>-</value>
   </data>
   <data name="MonitoringTask" xml:space="preserve">
+    <value>-</value>
+  </data>
+  <data name="Attention" xml:space="preserve">
+    <value>-</value>
+  </data>
+  <data name="NoJSLink" xml:space="preserve">
+    <value>-</value>
+  </data>
+  <data name="OldBrowser" xml:space="preserve">
     <value>-</value>
   </data>
 </root>

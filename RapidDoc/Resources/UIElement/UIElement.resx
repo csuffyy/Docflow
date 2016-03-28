@@ -397,7 +397,7 @@
     <value>ru</value>
   </data>
   <data name="NoJS" xml:space="preserve">
-    <value>У вас отключен JavaScript. Сайт может отображаться некорректно. Рекомендуем включить JavaScript.</value>
+    <value>У вас отключен JavaScript.</value>
   </data>
   <data name="ProgramDescription" xml:space="preserve">
     <value>Система управления процессами компании</value>
@@ -677,5 +677,14 @@
   </data>
   <data name="MonitoringTask" xml:space="preserve">
     <value>Мониторинг поручений</value>
+  </data>
+  <data name="Attention" xml:space="preserve">
+    <value>Внимание</value>
+  </data>
+  <data name="NoJSLink" xml:space="preserve">
+    <value>Пожалуйста включите поддержку JavaScript.</value>
+  </data>
+  <data name="OldBrowser" xml:space="preserve">
+    <value>Ваша версия браузера не поддерживает HTML5. Пожайлуста используйте другой поддерживаемый браузер или обновите текущий.</value>
   </data>
 </root>

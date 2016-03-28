@@ -178,6 +178,15 @@ namespace UIElementRes {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Внимание.
+        /// </summary>
+        public static string Attention {
+            get {
+                return ResourceManager.GetString("Attention", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Назад.
         /// </summary>
         public static string Back {
@@ -952,11 +961,20 @@ namespace UIElementRes {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to У вас отключен JavaScript. Сайт может отображаться некорректно. Рекомендуем включить JavaScript..
+        ///   Looks up a localized string similar to У вас отключен JavaScript..
         /// </summary>
         public static string NoJS {
             get {
                 return ResourceManager.GetString("NoJS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Пожалуйста включите поддержку JavaScript..
+        /// </summary>
+        public static string NoJSLink {
+            get {
+                return ResourceManager.GetString("NoJSLink", resourceCulture);
             }
         }
         
@@ -984,6 +1002,15 @@ namespace UIElementRes {
         public static string OfficeMemoBase {
             get {
                 return ResourceManager.GetString("OfficeMemoBase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ваша версия браузера не поддерживает HTML5. Пожайлуста используйте другой поддерживаемый браузер или обновите текущий..
+        /// </summary>
+        public static string OldBrowser {
+            get {
+                return ResourceManager.GetString("OldBrowser", resourceCulture);
             }
         }
         

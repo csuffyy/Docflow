@@ -397,7 +397,7 @@
     <value>en</value>
   </data>
   <data name="NoJS" xml:space="preserve">
-    <value>You have disabled JavaScript. The Website may not be displayed correctly. We recommend to enable JavaScript.</value>
+    <value>You have disabled JavaScript.</value>
   </data>
   <data name="ProgramDescription" xml:space="preserve">
     <value>System Management Workflow Company</value>
@@ -671,5 +671,14 @@
   </data>
   <data name="MonitoringTask" xml:space="preserve">
     <value>Monitoring of tasks</value>
+  </data>
+  <data name="Attention" xml:space="preserve">
+    <value>Attention</value>
+  </data>
+  <data name="NoJSLink" xml:space="preserve">
+    <value>Please enable JavaScript</value>
+  </data>
+  <data name="OldBrowser" xml:space="preserve">
+    <value>Your browser version does not support HTML5. Please use another supported browser or refresh current.</value>
   </data>
 </root>
