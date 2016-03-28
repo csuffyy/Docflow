@@ -331,6 +331,15 @@ namespace UIElementRes {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Корреспонденция.
+        /// </summary>
+        public static string Correspondence {
+            get {
+                return ResourceManager.GetString("Correspondence", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Добавить.
         /// </summary>
         public static string Create {

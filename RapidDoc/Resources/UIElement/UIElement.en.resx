@@ -681,4 +681,7 @@
   <data name="OldBrowser" xml:space="preserve">
     <value>Your browser version does not support HTML5. Please use another supported browser or refresh current.</value>
   </data>
+  <data name="Correspondence" xml:space="preserve">
+    <value>Correspondence</value>
+  </data>
 </root>

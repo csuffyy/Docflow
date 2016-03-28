@@ -681,4 +681,7 @@
   <data name="OldBrowser" xml:space="preserve">
     <value>-</value>
   </data>
+  <data name="Correspondence" xml:space="preserve">
+    <value>Корреспонденциясы</value>
+  </data>
 </root>

@@ -10,9 +10,9 @@
   string type;}
 <div>
     <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active"><a href="#orderds" aria-controls="edit" role="tab" data-toggle="tab"><span class="fa fa-file-text-o" aria-hidden="true"></span> Поручения с приказов</a></li>
-        <li role="presentation"><a href="#inoutdocs" aria-controls="view" role="tab" data-toggle="tab"><span class="fa fa-envelope-o" aria-hidden="true"></span> Поручения с корреспонденции</a></li>
-        <li role="presentation"><a href="#protocols" aria-controls="view" role="tab" data-toggle="tab"><span class="fa fa-users" aria-hidden="true"></span> Поручения с протоколов</a></li>
+        <li role="presentation" class="active"><a href="#orderds" aria-controls="edit" role="tab" data-toggle="tab"><span class="fa fa-file-text-o" aria-hidden="true"></span> @UIElementRes.UIElement.OrderBase</a></li>
+        <li role="presentation"><a href="#inoutdocs" aria-controls="view" role="tab" data-toggle="tab"><span class="fa fa-envelope-o" aria-hidden="true"></span> @UIElementRes.UIElement.Correspondence</a></li>
+        <li role="presentation"><a href="#protocols" aria-controls="view" role="tab" data-toggle="tab"><span class="fa fa-users" aria-hidden="true"></span> @UIElementRes.UIElement.ProtocolBase</a></li>
     </ul>
 
     <div class="tab-content">
@@ -31,7 +31,7 @@
                     </div>
                     <div class="panel-collapse collapse" id="collapseArea_@type@num1">
                         <div class="panel-body">
-                            @foreach (var itemGroupName in Model.Where(x => x.DocumentRefType == RapidDoc.Models.Repository.DocumentType.Order && x.Year == itemGroup.Key).GroupBy(y => new {y.Month, y.MonthNumber}).OrderBy(x => x.Key.MonthNumber))
+                            @foreach (var itemGroupName in Model.Where(x => x.DocumentRefType == RapidDoc.Models.Repository.DocumentType.Order && x.Year == itemGroup.Key).GroupBy(y => new { y.Month, y.MonthNumber }).OrderBy(x => x.Key.MonthNumber))
                             {
                                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                                     <div class="panel panel-default">
@@ -49,7 +49,7 @@
                                                 @foreach (var item in Model.Where(x => x.Year == itemGroup.Key && x.Month == itemGroupName.Key.Month && x.DocumentRefType == RapidDoc.Models.Repository.DocumentType.Order).OrderByDescending(x => x.ExecutionDate))
                                                 {
                                                     <p>
-                                                        @if (item.TaskType == RapidDoc.Models.Repository.ReportExecutionType.Done)
+                                                        @if (item.DocumentState == RapidDoc.Models.Repository.DocumentState.Closed)
                                                         {
                                                             <span class="fa fa-check text-success"></span>
                                                         }
@@ -57,8 +57,7 @@
                                                         {
                                                             <span class="fa fa-times text-danger"></span>
                                                         }
-                                                        
-                                                        @if (item.DocumentState != RapidDoc.Models.Repository.DocumentState.Cancelled && item.TaskType == RapidDoc.Models.Repository.ReportExecutionType.OverDate)
+                                                        else if (item.DocumentState == RapidDoc.Models.Repository.DocumentState.OnSign && item.TaskType == RapidDoc.Models.Repository.ReportExecutionType.OverDate)
                                                         {
                                                             <span class="fa fa-exclamation text-danger"></span>
                                                         }
@@ -113,7 +112,7 @@
                                                     @foreach (var item in Model.Where(x => x.Year == itemGroup.Key && x.Month == itemGroupName.Key.Month && x.DocumentRefType == RapidDoc.Models.Repository.DocumentType.IncomingDoc).OrderByDescending(x => x.ExecutionDate))
                                                     {
                                                         <p>
-                                                            @if (item.TaskType == RapidDoc.Models.Repository.ReportExecutionType.Done)
+                                                            @if (item.DocumentState == RapidDoc.Models.Repository.DocumentState.Closed)
                                                             {
                                                                 <span class="fa fa-check text-success"></span>
                                                             }
@@ -121,8 +120,7 @@
                                                             {
                                                                 <span class="fa fa-times text-danger"></span>
                                                             }
-
-                                                            @if (item.DocumentState != RapidDoc.Models.Repository.DocumentState.Cancelled && item.TaskType == RapidDoc.Models.Repository.ReportExecutionType.OverDate)
+                                                            else if (item.DocumentState == RapidDoc.Models.Repository.DocumentState.OnSign && item.TaskType == RapidDoc.Models.Repository.ReportExecutionType.OverDate)
                                                             {
                                                                 <span class="fa fa-exclamation text-danger"></span>
                                                             }
@@ -174,7 +172,7 @@
                                                     @foreach (var item in Model.Where(x => x.Year == itemGroup.Key && x.Month == itemGroupName.Key.Month && x.DocumentRefType == RapidDoc.Models.Repository.DocumentType.Protocol).OrderByDescending(x => x.ExecutionDate))
                                                     {
                                                         <p>
-                                                            @if (item.TaskType == RapidDoc.Models.Repository.ReportExecutionType.Done)
+                                                            @if (item.DocumentState == RapidDoc.Models.Repository.DocumentState.Closed)
                                                             {
                                                                 <span class="fa fa-check text-success"></span>
                                                             }
@@ -182,8 +180,7 @@
                                                             {
                                                                 <span class="fa fa-times text-danger"></span>
                                                             }
-
-                                                            @if (item.DocumentState != RapidDoc.Models.Repository.DocumentState.Cancelled && item.TaskType == RapidDoc.Models.Repository.ReportExecutionType.OverDate)
+                                                            else if (item.DocumentState == RapidDoc.Models.Repository.DocumentState.OnSign && item.TaskType == RapidDoc.Models.Repository.ReportExecutionType.OverDate)
                                                             {
                                                                 <span class="fa fa-exclamation text-danger"></span>
                                                             }

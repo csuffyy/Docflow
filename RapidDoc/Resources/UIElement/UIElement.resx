@@ -687,4 +687,7 @@
   <data name="OldBrowser" xml:space="preserve">
     <value>Ваша версия браузера не поддерживает HTML5. Пожайлуста используйте другой поддерживаемый браузер или обновите текущий.</value>
   </data>
+  <data name="Correspondence" xml:space="preserve">
+    <value>Корреспонденция</value>
+  </data>
 </root>
