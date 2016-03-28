@@ -3208,10 +3208,16 @@ namespace RapidDoc.Controllers
                     decisionCleanText = _SystemService.ReplaceLastOccurrence(decisionCleanText, decisionCleanText.Last().ToString(), "").TrimEnd();
                 }
 
-                if (!String.IsNullOrEmpty(result))
+                decisionText = _SystemService.DeleteEmptyTag(decisionText);
+
+                if (!String.IsNullOrEmpty(result) && !decisionText.EndsWith(">"))
                     result = String.Format("{2}. <strong>Ответ. {0}срок {1}г.</strong>", result, model.ControlDate != null ? model.ControlDate.Value.ToShortDateString() : String.Empty, decisionText);
-                else
+                else if(!String.IsNullOrEmpty(result) && decisionText.EndsWith(">"))
+                    result = String.Format("{2} <strong>Ответ. {0}срок {1}г.</strong>", result, model.ControlDate != null ? model.ControlDate.Value.ToShortDateString() : String.Empty, decisionText);
+                else if (!decisionText.EndsWith(">"))
                     result = decisionText + '.';
+                else
+                    result = decisionText;
             }
 
             return PartialView("USR_PRT_DecisionText", result);

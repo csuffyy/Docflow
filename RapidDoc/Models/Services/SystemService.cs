@@ -20,6 +20,7 @@ namespace RapidDoc.Models.Services
         bool CheckTextExists(string text);
         string DeleteGuidText(string text);
         string DeleteLastTagSegment(string text);
+        string DeleteEmptyTag(string text);
         string ReplaceLastOccurrence(string source, string find, string replace);
     }
 
@@ -83,13 +84,13 @@ namespace RapidDoc.Models.Services
 
         public string DeleteLastTagSegment(string text)
         {
-            //if (!String.IsNullOrEmpty(text) && text.Substring(0, 3) == "<p>")
             if (!String.IsNullOrEmpty(text))
             {
-                while (text.StartsWith("<p>"))
+                while (text.StartsWith("<p>") && text.EndsWith("</p>"))
+                {
                     text = text.Substring(3);
-                while (text.EndsWith("</p>"))
                     text = text.Substring(0, text.Length - 4);
+                }
 
                 while (text.StartsWith("<br>"))
                     text = text.Substring(4);
@@ -98,6 +99,11 @@ namespace RapidDoc.Models.Services
             }
 
             return text.Trim();
+        }
+
+        public string DeleteEmptyTag(string text)
+        {
+            return Regex.Replace(text, "<[^>/][^>]*></[^>]*>", "");
         }
 
         public bool CheckTextExists(string text)
