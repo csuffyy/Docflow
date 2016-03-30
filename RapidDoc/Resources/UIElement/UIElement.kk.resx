@@ -658,28 +658,28 @@
     <value>Сіз {0} компаниясына кірдіңіз, {1} компаниясына ауыстыру керек пе?</value>
   </data>
   <data name="SendExecutorRegEmail" xml:space="preserve">
-    <value>-</value>
+    <value>Сізге тіркеуге құжат тағайындалды</value>
   </data>
   <data name="PortalParameters" xml:space="preserve">
-    <value>-</value>
+    <value>Портал параметрлері</value>
   </data>
   <data name="Show" xml:space="preserve">
-    <value>-</value>
+    <value>Көрсету</value>
   </data>
   <data name="RefreshActiveDocument" xml:space="preserve">
-    <value>-</value>
+    <value>Жаңа құжаттар түсті. Жаңарту қажет пе?</value>
   </data>
   <data name="MonitoringTask" xml:space="preserve">
-    <value>-</value>
+    <value>Тапсырмалар мониторингі</value>
   </data>
   <data name="Attention" xml:space="preserve">
-    <value>-</value>
+    <value>Назар аударыңыз</value>
   </data>
   <data name="NoJSLink" xml:space="preserve">
-    <value>-</value>
+    <value>JavaScript қолдауын қосыңыз</value>
   </data>
   <data name="OldBrowser" xml:space="preserve">
-    <value>-</value>
+    <value>Сіздің браузеріңіздің нұсқасы HTML5 қолдамайды. Басқа қолдайтын браузерді қолданыңыз немесе  бұл браузерді жаңартыңыз</value>
   </data>
   <data name="Correspondence" xml:space="preserve">
     <value>Корреспонденциясы</value>
