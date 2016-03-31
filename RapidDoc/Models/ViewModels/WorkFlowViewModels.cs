@@ -460,7 +460,9 @@ namespace RapidDoc.Models.ViewModels
         public string SignUser { get; set; }
         public string InOutOrganization { get; set; }
         public string ModCreatedDate { get; set; }
-        
+        public string Month { get; set; }
+        public int MonthNumber { get; set; }
+        public string Year { get; set; }
     }
 
     public class DocumentBaseProtocolFolderView : BasicCompanyNullView

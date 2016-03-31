@@ -16,6 +16,7 @@ using RapidDoc.Models.Interfaces;
 using RapidDoc.Models.Repository;
 using RapidDoc.Models.ViewModels;
 using System.Text.RegularExpressions;
+using System.Globalization;
 
 namespace RapidDoc.Models.Services
 {
@@ -216,6 +217,9 @@ namespace RapidDoc.Models.Services
                     foreach (var item in items)
                     {
                         item.CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(item.CreatedDate), timeZoneInfo);
+                        item.Month = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(item.CreatedDate.Month);
+                        item.MonthNumber = item.CreatedDate.Month;
+                        item.Year = item.CreatedDate.Year.ToString();
                     }
                     return items;           
                 case DocumentType.OfficeMemo:
@@ -228,6 +232,9 @@ namespace RapidDoc.Models.Services
                             item.DocumentTitle = documentView._DocumentTitle;
                             item.CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(item.CreatedDate), timeZoneInfo);
                             item.ModCreatedDate = item.CreatedDate.ToShortDateString();
+                            item.Month = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(item.CreatedDate.Month);
+                            item.MonthNumber = item.CreatedDate.Month;
+                            item.Year = item.CreatedDate.Year.ToString();
                             item.Folder = documentView.Folder;
                             editedItems.Add(item);
                         }
@@ -237,6 +244,9 @@ namespace RapidDoc.Models.Services
                         foreach (var item in items)
                         {
                             item.CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(item.CreatedDate), timeZoneInfo);
+                            item.Month = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(item.CreatedDate.Month);
+                            item.MonthNumber = item.CreatedDate.Month;
+                            item.Year = item.CreatedDate.Year.ToString();
                         }
                         return items;
                 case DocumentType.Order:
@@ -253,6 +263,9 @@ namespace RapidDoc.Models.Services
                             item.Addition = documentView.Addition;
                             item.OrderDate = documentView.OrderDate;
                             item.CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(item.CreatedDate), timeZoneInfo);
+                            item.Month = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(item.OrderDate.Value.Month);
+                            item.MonthNumber = item.OrderDate.Value.Month;
+                            item.Year = item.OrderDate.Value.Year.ToString();
                             editedItems.Add(item);
                         }
 
@@ -264,6 +277,9 @@ namespace RapidDoc.Models.Services
                         if (!String.IsNullOrEmpty(documentView.IncomingDocNum))
                             item.OrderNumber = documentView.IncomingDocNum;
                         item.OrderDate = documentView.RegistrationDate;
+                        item.Month = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(item.OrderDate.Value.Month);
+                        item.MonthNumber = item.OrderDate.Value.Month;
+                        item.Year = item.OrderDate.Value.Year.ToString();
                         item.ItemCaseNumber = documentView.ItemCauseNumber;
                         if (documentView.ItemCauseTableId != Guid.Empty && documentView.ItemCauseTableId != null)
                             item.ItemCaseName = _ItemCauseService.Find((Guid)documentView.ItemCauseTableId).CaseName;
@@ -285,6 +301,9 @@ namespace RapidDoc.Models.Services
                         if (!String.IsNullOrEmpty(documentView.OutcomingDocNum))
                             item.OrderNumber = documentView.OutcomingDocNum;
                         item.OrderDate = documentView.OutgoingDate;
+                        item.Month = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(item.OrderDate.Value.Month);
+                        item.MonthNumber = item.OrderDate.Value.Month;
+                        item.Year = item.OrderDate.Value.Year.ToString();
                         item.ItemCaseNumber = documentView.ItemCauseNumber;
                         if (documentView.ItemCauseTableId != Guid.Empty && documentView.ItemCauseTableId != null)
                             item.ItemCaseName = _ItemCauseService.Find((Guid)documentView.ItemCauseTableId).CaseName;
@@ -306,6 +325,9 @@ namespace RapidDoc.Models.Services
                         if (!String.IsNullOrEmpty(documentView.RegistrationNum))
                             item.OrderNumber = documentView.RegistrationNum;
                         item.OrderDate = documentView.RegistrationDate;
+                        item.Month = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(item.OrderDate.Value.Month);
+                        item.MonthNumber = item.OrderDate.Value.Month;
+                        item.Year = item.OrderDate.Value.Year.ToString();
                         item.ItemCaseNumber = documentView.ItemCauseNumber;
                         if (documentView.ItemCauseTableId != Guid.Empty && documentView.ItemCauseTableId != null)
                             item.ItemCaseName = _ItemCauseService.Find((Guid)documentView.ItemCauseTableId).CaseName;
@@ -329,6 +351,9 @@ namespace RapidDoc.Models.Services
                             item.OrderNumber = documentView.Subject;
                         item.DocumentTitle = documentView.Subject;
                         item.CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(item.CreatedDate), timeZoneInfo);
+                        item.Month = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(item.CreatedDate.Month);
+                        item.MonthNumber = item.CreatedDate.Month;
+                        item.Year = item.CreatedDate.Year.ToString();
                         item.ModCreatedDate = item.CreatedDate.ToShortDateString();
                         item.ProtocolFolderId = documentView.ProtocolFoldersTableId;
                         item.ProtocolCode = documentView.Subject;
