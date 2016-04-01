@@ -687,6 +687,7 @@
     <Content Include="Content\Summernote\font\summernote.eot" />
     <Content Include="Content\Summernote\font\summernote.ttf" />
     <Content Include="Content\Summernote\font\summernote.woff" />
+    <Content Include="cstrings.config" />
     <None Include="LICENSE" />
     <None Include="NOTICE" />
     <Content Include="Rotativa\wkhtmltopdf.exe" />
