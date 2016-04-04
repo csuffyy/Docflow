@@ -9,7 +9,7 @@
 </div>
 <hr />
 <h4 class="text-info" style="text-align:left;">Прошу вас согласовать изменение графиков выходов:</h4>
-<div class="table-responsivelarge" style="font-size: small;">
+<div class="table-responsivelarge_" style="font-size: small;">
     <table class="table table-condensed table-bordered table-bordered-bold">
         <thead>
             <tr>
@@ -21,14 +21,15 @@
                 <th><label class="label-required">Продолжительность рабочей смены</label><span class="required">*</span></th>
                 <th><label class="label-required">График скорректированный</label><span class="required">*</span></th>
                 <th><label class="label-required">Продолжительность рабочей смены</label><span class="required">*</span></th>
-                <th><label class="label-required">Причина изменения</label><span class="required">*</span></th>
+                <th style="min-width: 180px"><label class="label-required">Причина изменения</label><span class="required">*</span></th>
                 <th style="min-width: 350px"><label class="label-required">Период изменения</label><span class="required">*</span></th>
             </tr>
         </thead>
         <tbody>
         @for (int i = 1; i < 11; i++)
         {
-            <tr>
+
+            <tr id="@String.Format("graphtimeline{0}", i)" @if (i > 3) { <text> class="hidden" </text>  }>
                 <td>@i.ToString()</td>
                 <td>
                     <div class="input-group input-group-sm">
@@ -59,14 +60,14 @@
                 </td>
                 <td>
                     <div class="input-group input-group-sm">
-                    @if(i == 1)
-                    {
-                        @Html.TextArea("Reason" + i.ToString(), new { @class = "form-control", placeholder = "Убедительная просьба расписывать причину полностью, не применяя слово 'Производственная необходиость'", @maxlength = 256 })
-                    }
-                    else
-                    {
-                        @Html.TextArea("Reason" + i.ToString(), new { @class = "form-control", @maxlength = 256 })
-                    }
+                        @if (i == 1)
+                        {
+                            @Html.TextArea("Reason" + i.ToString(), new { @class = "form-control", placeholder = "", @maxlength = 256 })
+                        }
+                        else
+                        {
+                            @Html.TextArea("Reason" + i.ToString(), new { @class = "form-control", @maxlength = 256 })
+                        }
                     </div>
                 </td>
                 <td>
@@ -86,4 +87,27 @@
         </tbody>
     </table>
 </div>
-<hr />
+<a href="#" id="graphtimecreateline">@UIElementRes.UIElement.Create</a>
+<br />
+<br />
+<div class="alert alert-info" role="alert">
+    <p>Убедительная просьба расписывать причину полностью, не применяя слово 'Производственная необходиость'</p>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $("#graphtimecreateline").click(function (e) {
+            for (num = 4; num < 11; num++) {
+                var element = $('#graphtimeline' + num);
+
+                if (element.hasClass('hidden')) {
+                    element.toggleClass('hidden');
+                    break;
+                }
+
+                if(num == 9) {
+                    $("#graphtimecreateline").toggleClass('hidden');
+                }
+            }
+        });
+    });
+</script>
