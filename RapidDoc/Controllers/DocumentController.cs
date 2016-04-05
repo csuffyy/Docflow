@@ -729,7 +729,8 @@ namespace RapidDoc.Controllers
             string reminderChairmanUser = String.Empty;
             ProcessView process = _ProcessService.FindView(processId);
             var documentIdNew = _DocumentService.GetDocumentView(_DocumentService.Find(documentId).RefDocumentId, process.TableName);
-            if (collection["ApproveCommentTask"] != null && _SystemService.CheckTextExists(collection["ApproveCommentTask"]))
+            if (collection["ApproveCommentTask"] != null && _SystemService.CheckTextExists(collection["ApproveCommentTask"])
+                && _SystemService.DeleteAllTags(collection["ApproveCommentTask"]).Length > 3)
             {
                 _DocumentService.SignTaskDocument(documentId, TrackerType.Approved);                       
                 string approveCommentRequest = collection["ApproveCommentTask"].ToString();                
@@ -805,7 +806,8 @@ namespace RapidDoc.Controllers
             ProcessView process = _ProcessService.FindView(processId);
             var documentIdNew = _DocumentService.GetDocumentView(_DocumentService.Find(documentId).RefDocumentId, process.TableName);
 
-            if (collection["RejectCommentTask"] != null && _SystemService.CheckTextExists(collection["RejectCommentTask"]))
+            if (collection["RejectCommentTask"] != null && _SystemService.CheckTextExists(collection["RejectCommentTask"])
+                && ((string)collection["ApproveCommentTask"]).Length > 3)
             {
                 string rejectCommentRequest = collection["RejectCommentTask"].ToString();
                 documentIdNew.ReportText = rejectCommentRequest;

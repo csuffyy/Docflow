@@ -144,6 +144,12 @@
             event.preventDefault();
             return false;
         }
+
+        if (getClearText(comment).length <= 3) {
+            bootstrap_alertReport.warning('Необходимо заполнить более 3 символов');
+            event.preventDefault();
+            return false;
+        }
     });
 
     $('#rejectTask').click(function (event) {
@@ -153,6 +159,11 @@
             event.preventDefault();
             return false;
         }
+        if (getClearText(comment).length <= 3) {
+            bootstrap_alert.warning('Необходимо заполнить более 3 символов');
+            event.preventDefault();
+            return false;
+        }     
     });
 
     $('.rejectcz-modal-sm').on('shown.bs.modal', function (e) {

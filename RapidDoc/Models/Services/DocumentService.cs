@@ -96,6 +96,7 @@ namespace RapidDoc.Models.Services
         List<List<WFTrackerUsersTable>> GetUsersUpProlongatedTask(Guid documentId, string process);
         Guid FindRootTaskDocument(Guid documentId, string processTableName);
         void ApplyProlongateDate(Guid documentId, DateTime prolongationDate, string currentUserId, ProcessView process);
+        void ProlongateDate(Guid documentId, DateTime prolongationDate, string currentUserId, ProcessView process);
         
     }
 
@@ -1595,9 +1596,13 @@ namespace RapidDoc.Models.Services
             }
 
             DocumentTable parentDocumentSourceTable = Find(document.RefDocumentId);
-            if (parentDocumentSourceTable.DocType == DocumentType.Task && parentDocumentSourceTable.Executed == false)
+            if (parentDocumentSourceTable != null && parentDocumentSourceTable.DocType == DocumentType.Task && parentDocumentSourceTable.Executed == false)
             {
                 Guid rootDocId = FindRootTaskDocument(parentDocumentSourceTable.Id, processView.TableName);
+                DocumentTable rootDocumentSourceTable = Find(rootDocId);
+
+                if (rootDocumentSourceTable.DocType == DocumentType.Task)
+                    ProlongateDate(rootDocId, prolongationDate, currentUserId, processView);
 
                 ApplyProlongateDate(rootDocId, prolongationDate, currentUserId, processView);
             }
@@ -2011,7 +2016,7 @@ namespace RapidDoc.Models.Services
                 var documentIdNew = CloseTask(docTable, userTable, jointMainRelatedText, documentChildTasks.FirstOrDefault().ApplicationUserCreatedId, TrackerType.Approved);
 
                 DocumentTable parentDocumentSourceTable = Find(documentIdNew.RefDocumentId);
-                if (parentDocumentSourceTable.DocType == DocumentType.Task && parentDocumentSourceTable.Executed == false)
+                if (parentDocumentSourceTable != null && parentDocumentSourceTable.DocType == DocumentType.Task && parentDocumentSourceTable.Executed == false)
                 {
                     CloseUpRelatedTasks(parentDocumentSourceTable.Id, userTable);
                 }
@@ -2077,11 +2082,11 @@ namespace RapidDoc.Models.Services
             var documentIdNew = GetDocumentView(Find(documentId).RefDocumentId, process);
             DocumentTable parentDocumentSourceTable = Find(documentIdNew.RefDocumentId);
 
-            if (parentDocumentSourceTable.DocType == DocumentType.Task && parentDocumentSourceTable.Executed == false)
+            if (parentDocumentSourceTable != null && parentDocumentSourceTable.DocType == DocumentType.Task && parentDocumentSourceTable.Executed == false)
             {
                 listUsersBufId = GetUsersUpProlongatedTask(parentDocumentSourceTable.Id, process);
             }
-            else if(parentDocumentSourceTable.DocType == DocumentType.Protocol)
+            else if (parentDocumentSourceTable != null && parentDocumentSourceTable.DocType == DocumentType.Protocol)
             {
                 var protocolDoc = GetDocumentView(parentDocumentSourceTable.RefDocumentId, process);
                 if (!String.IsNullOrEmpty(protocolDoc.Chairman))
@@ -2095,24 +2100,26 @@ namespace RapidDoc.Models.Services
                     }
                 }
             }
-            else
+            else if (parentDocumentSourceTable != null)
             {
                 listUsersBufId.Add(new List<WFTrackerUsersTable> { new WFTrackerUsersTable { UserId = parentDocumentSourceTable.ApplicationUserCreatedId } });
             }
 
-            foreach (var listUserId in listUsersId)
+            if (listUsersBufId.Count() > 0)
             {
-                foreach (var userId in listUserId)
+                foreach (var listUserId in listUsersId)
                 {
-                    if (listUsersBufId.Any(x => x.Any(y => y.UserId == userId.UserId)))
+                    foreach (var userId in listUserId)
                     {
-                        listUsersBufId.ForEach(x => x.RemoveAll(y => y.UserId == userId.UserId));
+                        if (listUsersBufId.Any(x => x.Any(y => y.UserId == userId.UserId)))
+                        {
+                            listUsersBufId.ForEach(x => x.RemoveAll(y => y.UserId == userId.UserId));
+                        }
                     }
                 }
+
+                listUsersBufId.Where(x => x.Count() > 0).ToList().ForEach(y => listUsersId.Add(y));
             }
-
-            listUsersBufId.Where(x => x.Count() > 0).ToList().ForEach(y => listUsersId.Add(y));
-
             return listUsersId;
         }
 
@@ -2123,12 +2130,15 @@ namespace RapidDoc.Models.Services
             var documentIdRef = GetDocumentView(Find(documentId).RefDocumentId, processTableName);
             DocumentTable parentDocumentSourceTable = Find(documentIdRef.RefDocumentId);
 
-            if (parentDocumentSourceTable.DocType == DocumentType.Task)
+            if (parentDocumentSourceTable != null && parentDocumentSourceTable.DocType == DocumentType.Task)
+            {
                 id = FindRootTaskDocument(parentDocumentSourceTable.Id, processTableName);
-            else
+                return id;
+            }
+            else if (parentDocumentSourceTable != null)
                 return parentDocumentSourceTable.Id;
 
-            return id;
+            return documentId;
         }
 
 
@@ -2140,24 +2150,29 @@ namespace RapidDoc.Models.Services
             {
                 foreach (var childTask in childTasks)
                 {
-                    DocumentTable taskDoc = Find(childTask.DocumentTableId);
-                    var trackers = _WorkflowTrackerService.GetCurrentStep(x => x.DocumentTableId == taskDoc.Id);
-                    var document = GetDocumentView(taskDoc.RefDocumentId, process.TableName);
+                    ProlongateDate(childTask.DocumentTableId, prolongationDate, currentUserId, process);
 
-                    
-                    if (trackers != null)
-                    {
-                        document.ProlongationDate = prolongationDate;
-                        UpdateDocumentFields(document, process);
+                    ApplyProlongateDate(childTask.DocumentTableId, prolongationDate, currentUserId, process);
+                }
+            }
+        }
 
-                        foreach (var item in trackers)
-                        {
-                            item.SLAOffset = Convert.ToInt32(GetSLAHours(taskDoc.Id, item.StartDateSLA, prolongationDate));
-                            _WorkflowTrackerService.SaveDomain(item, currentUserId);
-                        }
-                    }
 
-                    ApplyProlongateDate(taskDoc.Id, prolongationDate,  currentUserId, process);
+        public void ProlongateDate(Guid documentId, DateTime prolongationDate, string currentUserId, ProcessView process)
+        {
+            DocumentTable taskDoc = Find(documentId);
+            var trackers = _WorkflowTrackerService.GetCurrentStep(x => x.DocumentTableId == taskDoc.Id);
+            
+            if (trackers != null)
+            {
+                var document = GetDocumentView(taskDoc.RefDocumentId, process.TableName);
+                document.ProlongationDate = prolongationDate;
+                UpdateDocumentFields(document, process);
+
+                foreach (var item in trackers)
+                {
+                    item.SLAOffset = Convert.ToInt32(GetSLAHours(taskDoc.Id, item.StartDateSLA, prolongationDate));
+                    _WorkflowTrackerService.SaveDomain(item, currentUserId);
                 }
             }
         }

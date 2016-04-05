@@ -123,6 +123,14 @@ function checkTextExists(text) {
     return prepare !== "";
 }
 
+function getClearText(text) {
+    //var prepare = text.replace(/<([^>]+?)([^>]*?)>(.*?)<\/\1>/ig, "");
+    var prepare = text.replace(/(<([^>]+)>)/ig, "");
+    // prepare = prepare.replace(/[^\w\s]/gi, '');
+    prepare = prepare.trim();
+    return prepare;
+}
+
 function qrcode_init() {
     var qrcode = new QRCode(document.getElementById("qrcode"), {
         width: 100,

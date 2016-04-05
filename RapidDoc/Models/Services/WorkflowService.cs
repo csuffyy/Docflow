@@ -797,13 +797,13 @@ namespace RapidDoc.Models.Services
                 bool protocol = false;
                 bool task = false;
                 if (documentTable.RefDocumentId != null)
-                {
-                    task = true;
+                {                
                     var taskTable = (USR_TAS_DailyTasks_Table)_DocumentService.GetDocument(documentTable.RefDocumentId, documentTable.ProcessTable.TableName);
                     var refTaskDocument = _DocumentService.Find(taskTable.RefDocumentId);
 
                     if (refTaskDocument != null && refTaskDocument.DocType == DocumentType.Task)
                     {
+                        task = true;
                         List<List<WFTrackerUsersTable>> listUsersId = new List<List<WFTrackerUsersTable>>();
                         string process = "USR_TAS_DailyTasks";
                         listUsersId = _DocumentService.GetUsersUpProlongatedTask(refTaskDocument.Id, process);
