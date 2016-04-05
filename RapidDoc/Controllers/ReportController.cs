@@ -349,13 +349,13 @@ namespace RapidDoc.Controllers
                                      join documentRef in context.DocumentTable
                                      on detailDoc.RefDocumentId equals documentRef.Id
                                      where document.DocType == DocumentType.Task &&
-                                          document.CompanyTableId == currentUser.CompanyTableId && 
+                                          document.CompanyTableId == currentUser.CompanyTableId &&
                                          detailDoc.RefDocumentId != null &&
                                          (((documentRef.DocType == DocumentType.Order && templateSheets == 1)  ||
                                          (documentRef.DocType == DocumentType.IncomingDoc && templateSheets == 2) ||
                                          (documentRef.DocType == DocumentType.Protocol && templateSheets == 3)) || 
                                          otherCompany == true)
-                                         && ((detailDoc.ExecutionDate >= model.StartDate && detailDoc.ExecutionDate <= model.EndDate) ||
+                                         && ((detailDoc.ExecutionDate >= model.StartDate && detailDoc.ExecutionDate <= model.EndDate && detailDoc.ProlongationDate == null) ||
                                                 (detailDoc.ProlongationDate >= model.StartDate && detailDoc.ProlongationDate <= model.EndDate))
                                      select document).ToList();
 
@@ -389,12 +389,10 @@ namespace RapidDoc.Controllers
                             taskType = ReportExecutionType.NoneDone;
                         else
                         {
+                            DateTime performDate = taskDoc.ProlongationDate != null ? (DateTime)taskDoc.ProlongationDate : (DateTime)taskDoc.ExecutionDate;
+                            //DateTime? performDate = _DocumentService.GetSLAPerformDate(signTrack.DocumentTableId, signTrack.StartDateSLA, signTrack.SLAOffset);
                             WFTrackerTable signTrack = _WorkflowTrackerService.FirstOrDefault(x => x.DocumentTableId == item.Id && x.SignDate != null);
-                            DateTime? performDate = _DocumentService.GetSLAPerformDate(signTrack.DocumentTableId, signTrack.StartDateSLA, signTrack.SLAOffset);
-                            if (performDate != null)
-                                taskType = performDate > signTrack.SignDate ? ReportExecutionType.Done : ReportExecutionType.OverDate;
-                            else
-                                taskType = ReportExecutionType.Done;
+                            taskType = performDate.Date >= signTrack.SignDate.Value.Date ? ReportExecutionType.Done : ReportExecutionType.OverDate;
 
                         }
 

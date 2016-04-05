@@ -15,6 +15,8 @@
             width: 22cm;       /* cm, in or mm make more sense for PDF */
             margin-left: 45px;
             text-rendering: geometricPrecision;
+            font-family: Times New Roman;
+            font-size: 20px;
         }
         p {
             margin: 0;
@@ -37,44 +39,32 @@
         <br />
         <h4 align="center">
             <strong>
-                <font size="4" face="Times New Roman">
-                    БҰЙРЫҚ<br /><br />
-                    № @Model.OrderNum от @Model.OrderDate.ToShortDateString() г.<br /><br />
-                </font>
+                БҰЙРЫҚ<br /><br />
+                № @Model.OrderNum от @Model.OrderDate.ToShortDateString() г.<br /><br />
             </strong>
-            <font size="4" face="Times New Roman">
-                @Model.Subject
-            </font>
+            @Model.Subject
         </h4>
-        <font size="4" face="Times New Roman">
-            @Html.Raw(@Model.MainField)
-        </font>
+        @Html.Raw(@Model.MainField)
         <hr style="height:1px;border:none;color:#333;background-color:#333;" />
-        <font size="4" face="Times New Roman">
-            @Html.Raw(@Model.MainFieldTranslate)
-        </font>
+        @Html.Raw(@Model.MainFieldTranslate)
         <br />
         <br />
         <div class="container" style="text-align: right;">
             <div style="width:60%; vertical-align:top; float:left; text-align: left;">
                 <strong>
-                    <font size="4" face="Times New Roman">
-                        @Model.SignTitle
-                    </font>
+                    @Model.SignTitle
                 </strong>
             </div>
             <div style="width:40%; float:right;">
                 <strong>
-                    <font size="4" face="Times New Roman">
-                        @Model.SignName
-                    </font>
+                    @Model.SignName
                 </strong>
             </div>
         </div>
         <div class="container">
             <div style="text-align: left;">
                 <br />
-                <font size="4" face="Times New Roman">
+                <font size="3">
                     @Html.Raw(Model.ListFileName)
                 </font>
             </div>
@@ -85,14 +75,14 @@
             <div class="container">
                 <div style="text-align: left;">
                     <br />
-                    <font size="4" face="Times New Roman">
+                    <font size="3">
                         Бұйрықпен таныстым, келісемін:
                     </font>
                 </div>
             </div>
             <div class="container">
                 <div style="text-align: left;">
-                    <font size="4" face="Times New Roman">
+                    <font size="3">
                         С приказом ознакомлен(а), согласен (на):
                     </font>
                 </div>
@@ -104,7 +94,7 @@
             <div class="container">
                 <div style="text-align: left;">
                     <strong>
-                        <font size="3" face="Times New Roman">
+                        <font size="3">
                             Согласовано:
                         </font>
                     </strong>
@@ -115,12 +105,12 @@
             {
                 <div class="container" style="text-align: right;">
                     <div style="width:50%; vertical-align:top; float:left; text-align: left;">
-                        <font size="3" face="Times New Roman">
+                        <font size="3">
                             @item.TitleName
                         </font>
                     </div>
                     <div style="width:50%; float:right;">
-                        <font size="3" face="Times New Roman">
+                        <font size="3">
                             @item.ShortFullNameType2
                         </font>
                     </div>
@@ -131,7 +121,7 @@
         <div class="container">
             <div style="text-align: left;">
                 <strong>
-                    <font size="3" face="Times New Roman">
+                    <font size="3">
                         Подготовлено:
                     </font>
                 </strong>
@@ -140,12 +130,12 @@
         <br />
         <div class="container" style="text-align: right;">
             <div style="width:50%; vertical-align:top; float:left; text-align: left;">
-                <font size="3" face="Times New Roman">
+                <font size="3">
                     @ViewBag.Department
                 </font>
             </div>
             <div style="width:50%; float:right;">
-                <font size="3" face="Times New Roman">
+                <font size="3">
                     @ViewBag.ManagerName
                 </font>
             </div>

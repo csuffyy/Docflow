@@ -15,11 +15,16 @@
     <style type="text/css">
         body {
             text-rendering: geometricPrecision;
+            font-family: Times New Roman;
+            font-size: 20px;
         }
         p {
             margin: 0;
         }
         h6 {
+            margin: 0;
+        }
+        ul, li {
             margin: 0;
         }
     </style>
@@ -34,76 +39,52 @@
                 </td>
             </tr>
         </table>
-        <br />
         <br /> 
         <h4 align ="center">
             <strong>
-                <font size="4" face="Times New Roman">
-                    СЛУЖЕБНАЯ ЗАПИСКА <a href="@String.Format("http://" + System.Configuration.ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/{0}/Document/ShowDocument/{1}?isAfterView=true", ViewBag.AliasCompanyName, ViewBag.Id)">@ViewBag.DocumentNum</a><br />
-                </font>
+                СЛУЖЕБНАЯ ЗАПИСКА <a href="@String.Format("http://" + System.Configuration.ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/{0}/Document/ShowDocument/{1}?isAfterView=true", ViewBag.AliasCompanyName, ViewBag.Id)">@ViewBag.DocumentNum</a><br />
             </strong>
         </h4>
-        <font face="Times New Roman">
-            <h5 align="right">@Html.EnumToDescription("RapidDoc.Models.Repository.Folder", (string)(Model.Folder.ToString())) / @ViewBag.Process.ProcessName / @Model.ItemCauseNumber / @ViewBag.UserCreated.ShortFullNameType2</h5>
-        </font>
+        <h5 align="right">@Html.EnumToDescription("RapidDoc.Models.Repository.Folder", (string)(Model.Folder.ToString())) / @ViewBag.Process.ProcessName / @Model.ItemCauseNumber / @ViewBag.UserCreated.ShortFullNameType2</h5>
         <table width="900">
             <tr>
                 <td style="width:10%; vertical-align:top;">
-                    <font size="4" face="Times New Roman">
-                        <span><strong>Кому:</strong></span>
-                    </font>
+                    <span><strong>Кому:</strong></span>
                 </td>
                 <td>
-                    <font size="4" face="Times New Roman">
-                        <span style="white-space: pre-line;">@Model.Whom</span>
-                    </font>
+                    <span style="white-space: pre-line;">@Model.Whom</span>
                 </td>
             </tr>
             @if (!String.IsNullOrEmpty(Model.DocumentCopy))
             { 
             <tr>
                 <td style="width:10%; vertical-align:top;">
-                    <font size="4" face="Times New Roman">
-                        <span><strong>Копия:</strong></span>
-                    </font>
+                    <span><strong>Копия:</strong></span>
                 </td>
                 <td>
-                    <font size="4" face="Times New Roman">
-                        <span style="white-space: pre-line;">@Model.DocumentCopy</span>
-                    </font>
+                    <span style="white-space: pre-line;">@Model.DocumentCopy</span>
                 </td>
             </tr>
             }
             <tr>
                 <td style="width:10%;">
-                    <font size="4" face="Times New Roman">
-                        <span><strong>От кого:</strong></span>
-                    </font>
+                    <span><strong>От кого:</strong></span>
                 </td>
                 <td>
-                    <font size="4" face="Times New Roman">
-                        <span style="white-space: pre-line;">@Model.FromWhom</span>
-                    </font>
+                    <span style="white-space: pre-line;">@Model.FromWhom</span>
                 </td>
             </tr>
             <tr>
                 <td style="width:10%;">
-                    <font size="4" face="Times New Roman">
-                        <span><strong>Тема:</strong></span>
-                    </font>
+                    <span><strong>Тема:</strong></span>
                 </td>
                 <td>
-                    <font size="4" face="Times New Roman">
-                        <span style="white-space: pre-line;">@Model._DocumentTitle</span>
-                    </font>
+                    <span style="white-space: pre-line;">@Model._DocumentTitle</span>
                 </td>
             </tr>
         </table>
         <br />
-        <font size="4" face="Times New Roman">
-            @Html.Raw(@Model.MainField)
-        </font>
-        <br />
+        @Html.Raw(@Model.MainField)
         <br />
         <table width="900">
             @if (((List<FileTable>)ViewBag.ListFiles).Count > 0)
@@ -111,22 +92,16 @@
                 <tr>
                     <td align="left">
                         <strong>
-                            <font size="4" face="Times New Roman">
-                                Вложенные файлы:
-                            </font>
+                            Вложенные файлы:
                         </strong>
                     </td>
                 </tr>
                 foreach (FileTable file in ViewBag.ListFiles)
                 {
                     <tr>
-                               
-                            <td align="left">
-                                <font size="4" face="Times New Roman">
-                                    @file.FileName
-                                </font>
-                            </td>
-                    
+                        <td align="left">
+                            @file.FileName
+                        </td>
                     </tr>
                 }
                 <tr>
@@ -145,26 +120,24 @@
                         <td align="left">
                             <ul>
                                 <li>
-                                    <font size="4" face="Times New Roman">
-                                        @tracker.Executors - @tracker.ActivityName (@tracker.SignDate) -
+                                    @tracker.Executors - @tracker.ActivityName (@tracker.SignDate) -
 
-                                        @if (tracker.TrackerType == RapidDoc.Models.Repository.TrackerType.Approved)
+                                    @if (tracker.TrackerType == RapidDoc.Models.Repository.TrackerType.Approved)
+                                    {
+                                        @UIElementRes.UIElement.Yes
+                                        if (tracker.Comments != null && tracker.Comments != String.Empty)
                                         {
-                                            @UIElementRes.UIElement.Yes
-                                            if (tracker.Comments != null && tracker.Comments != String.Empty)
-                                            {
-                                                <span><em>(@tracker.Comments)</em></span>
-                                            }
+                                            <span><em>(@tracker.Comments)</em></span>
                                         }
-                                        @if (tracker.TrackerType == RapidDoc.Models.Repository.TrackerType.Cancelled)
+                                    }
+                                    @if (tracker.TrackerType == RapidDoc.Models.Repository.TrackerType.Cancelled)
+                                    {
+                                        @UIElementRes.UIElement.No
+                                        if (tracker.Comments != null && tracker.Comments != String.Empty)
                                         {
-                                            @UIElementRes.UIElement.No
-                                            if (tracker.Comments != null && tracker.Comments != String.Empty)
-                                            {
-                                                <span><em>( @tracker.Comments )</em></span>
-                                            }
+                                            <span><em>( @tracker.Comments )</em></span>
                                         }
-                                    </font>
+                                    }
                                 </li>
                             </ul>
                         </td>
@@ -176,9 +149,7 @@
         
     @if (((List<ReportCZComments>)ViewBag.CommentsCZ).Count > 0)
     {
-        <font size="4" face="Times New Roman">
-            <span><strong>Комментарии:</strong></span>
-        </font>
+        <span><strong>Комментарии:</strong></span>
         <table width="900">
             @foreach (ReportCZComments commentCZ in ViewBag.CommentsCZ)
             {
@@ -186,11 +157,9 @@
                 <td align="left">
                     <ul>
                         <li>
-                            <font size="4" face="Times New Roman">
-                                @commentCZ.UserName - @commentCZ.UserTitle (@commentCZ.CreateDate):
-                                <br />
-                                <span><em>@Html.Raw(commentCZ.Comment)</em></span>
-                            </font>
+                            @commentCZ.UserName - @commentCZ.UserTitle (@commentCZ.CreateDate):
+                            <br />
+                            <span><em>@Html.Raw(commentCZ.Comment)</em></span>
                         </li>
                     </ul>
                 </td>
@@ -198,7 +167,6 @@
             }
         </table>
     }
-        
     </div>
 </body>
 </html>

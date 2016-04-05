@@ -5,10 +5,18 @@
     Layout = null;
     string workers = Model.Workers;
 }
+<!DOCTYPE html>
 <html>
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width" />
     <title>PdfReportTrip</title>
+    <style type="text/css">
+        body {
+            font-family: Times New Roman;
+            font-size: 20px;
+        }
+    </style>
 </head>
 <body>
     <div>
@@ -20,9 +28,7 @@
                 <td >
                     <h4 align="left">
                         <strong>
-                            <font size="4" face="Times New Roman">
-                                КОМАНДИРОВОЧНОЕ УДОСТОВЕРЕНИЕ
-                            </font>
+                            КОМАНДИРОВОЧНОЕ УДОСТОВЕРЕНИЕ
                         </strong>
                     </h4>
                 </td>
@@ -31,60 +37,50 @@
             <tr>
                 <td></td>
                 <td>
-                    <font size="4" face="Times New Roman">
-                        Командирован(а): @ViewBag.Worker<br />
-                    </font>
+                    Командирован(а): @ViewBag.Worker<br />
                 </td>
                 <td></td>
             </tr>
             <tr>
                 <td></td>
                 <td>
-                    <font size="4" face="Times New Roman">
-                        @if (Model.CountryTableId != null)
-                        {
-                            <div class="row">
-                                Маршрут: @Html.Action("GetCountryORD", "Custom", new { id = Model.CountryTableId, selected = true })
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="row">
-                                Маршрут: @Model.Country
-                            </div>
-                        }
-                    </font>
+                    @if (Model.CountryTableId != null)
+                    {
+                        <div class="row">
+                            Маршрут: @Html.Action("GetCountryORD", "Custom", new { id = Model.CountryTableId, selected = true })
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="row">
+                            Маршрут: @Model.Country
+                        </div>
+                    }
                 </td>
                 <td></td>
             </tr>
             <tr>
                 <td></td>
                 <td>
-                    <font size="4" face="Times New Roman">
-                        Срок командировки: с @Model.StartDate.ToString("dd/MM/yyyy") по @Model.EndDate.ToString("dd/MM/yyyy")<br />
-                    </font>
+                    Срок командировки: с @Model.StartDate.ToString("dd/MM/yyyy") по @Model.EndDate.ToString("dd/MM/yyyy")<br />
                 </td>
                 <td></td>
             </tr>
             <tr>
                 <td></td>
                 <td>
-                    <font size="4" face="Times New Roman">
-                        Основание: Приказ №
-                        @if (Model.OrderNum != null)
-                        { @Model.OrderNum} от @Html.FormatValue(Model.OrderDate, "{0:dd.MM.yyyy}")<br />
-                    </font>
+                    Основание: Приказ №
+                    @if (Model.OrderNum != null)
+                    { @Model.OrderNum} от @Html.FormatValue(Model.OrderDate, "{0:dd.MM.yyyy}")<br />
                 </td>
                 <td></td>
             </tr>
             <tr>
                 <td></td>
                 <td colspan="2">
-                    <font size="4" face="Times New Roman">
                         Действителен по предъявлении паспорта<br />
                         серия №______________________________<br />
                         Уд. личности №________________________
-                    </font>
                     <br />
                     <br />
                 </td>
@@ -93,18 +89,14 @@
 
             <tr>
                 <td colspan="3" align="center">
-                    <font size="4" face="Times New Roman">
-                        @Model.SignTitle ___________________ @Model.SignName<br />
-                    </font>
+                    @Model.SignTitle ___________________ @Model.SignName<br />
                     <br />
                     <br />
                 </td>
             </tr>
             <tr>
                 <td colspan="3" align="left">
-                    <font size="4" face="Times New Roman">
-                        Отметки о прибытии в пункты назначения и выбытия из них:
-                    </font>
+                    Отметки о прибытии в пункты назначения и выбытия из них:
                     <br />
                     <br />
                 </td>
@@ -114,18 +106,14 @@
             { 
                 <tr>
                     <td>
-                        <font size="4" face="Times New Roman">
-                            убыл __________________
-                            <span style="padding-left:44px;">____________201__ г.</span><br />
-                            подпись _______________
-                        </font>      
+                        убыл __________________
+                        <span style="padding-left:44px;">____________201__ г.</span><br />
+                        подпись _______________    
                     </td>
                     <td align="center">
-                        <font size="4" face="Times New Roman">
-                            <span style="padding-left:85px;">прибыл в    __________________</span><br />
-                            <span style="padding-left:172px;">____________201__  г.</span><br />
-                            <span style="padding-left:89px;">подпись      ___________________</span>
-                        </font>
+                        <span style="padding-left:85px;">прибыл в    __________________</span><br />
+                        <span style="padding-left:172px;">____________201__  г.</span><br />
+                        <span style="padding-left:89px;">подпись      ___________________</span>
                         <br />
                         <br />
                     </td>

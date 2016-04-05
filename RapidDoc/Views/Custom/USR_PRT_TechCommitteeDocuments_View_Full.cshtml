@@ -96,6 +96,10 @@
 {
     Html.RenderPartial("~/Views/Custom/_QuestionListView.cshtml", Model.QuestionList);
 }
-<div>@Html.Raw(Model.Addition)</div>
+@if (!String.IsNullOrEmpty(Model.Addition))
+{
+    <div><small>@Html.Raw(Model.Addition)</small></div>
+    <br />
+}
 <strong>Время проведения совещания - @Html.DisplayTextFor(model => Model.Duration)</strong>
 

@@ -365,7 +365,7 @@ namespace RapidDoc.Controllers
 
         public ActionResult DownloadFileWF(Guid processId)
         {
-            var files = _DocumentService.GetAllFilesDocument(processId).Where(x => x.ContentType == "APPLICATION/XAML+XML").ToList();
+            var files = _DocumentService.GetAllFilesDocument(processId).Where(x => x.ContentType == "APPLICATION/XAML+XML").OrderByDescending(x => x.CreatedDate).ToList();
             return PartialView("_DownloadFileWF", files);
         }
 

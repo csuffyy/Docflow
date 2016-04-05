@@ -257,34 +257,68 @@
             }
             break;
         case RapidDoc.Models.Repository.OrderFilterType.OrderDate:
-
-            foreach (var itemGroup in Model.Where(y => y.OrderDate != null).GroupBy(x => x.OrderDate).OrderBy(x => x.Key))
+            foreach (var itemGroup in Model.GroupBy(x => x.Year).OrderBy(x => x.Key))
             {
-
                 num++;
                 <div class="panel panel-default">
                     <div class="panel-heading" role="tab" id="heading@num">
-                        <p class="panel-title"><a data-toggle="collapse" data-target="#collapseArea_@num" aria-expanded="false" aria-controls="collapseArea_@num"><strong>@Html.FormatValue(itemGroup.Key, "{0:dd.MM.yyyy}") (@Model.Where(x => x.OrderDate == itemGroup.Key).Count())</strong></a></p>
+                        <p class="panel-title"><a data-toggle="collapse" data-target="#collapseArea_@num" aria-expanded="false" aria-controls="collapseArea_@num"><strong>@itemGroup.Key</strong></a></p>
                     </div>
                     <div class="panel-collapse collapse" id="collapseArea_@num">
                         <div class="panel-body">
-                            @foreach (var item in Model.Where(x => x.OrderDate == itemGroup.Key).OrderByDescending(x => x.CreatedDate))
+                            @foreach (var itemGroupName in Model.Where(x => x.Year == itemGroup.Key).GroupBy(y => new { y.Month, y.MonthNumber }).OrderBy(x => x.Key.MonthNumber))
                             {
-                                <p>
-                                    @if (item.Cancel == true)
-                                    {
-                                        <span class="fa fa-times text-danger"></span>
-                                    }
-                                    @if (item.Addition == true)
-                                    {
-                                        <span class="fa fa-code-fork text-primary"></span>
-                                    }
-                                    @if (item.Executed == true)
-                                    {
-                                        <span class="fa fa-check text-success"></span>
-                                    }
-                                    <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins> @item.ProcessName - @item.DocumentTitle (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)</a>
-                                </p>
+                                <div class="panel-group" id="headingTwo@num" role="tablist" aria-multiselectable="true">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" role="tab" id="headingTwo@num@itemGroupName.Key.Month">
+                                            <p class="panel-title">
+                                                <a data-toggle="collapse" data-target="#collapseArea_@num@itemGroup.Key@itemGroupName.Key.MonthNumber" aria-expanded="false" aria-controls="collapseArea_@num@itemGroup.Key@itemGroupName.Key.MonthNumber">
+                                                    <strong>@itemGroupName.Key.Month</strong>
+                                                </a>
+                                            </p>
+                                        </div>
+                                        <div class="collapse" id="collapseArea_@num@itemGroup.Key@itemGroupName.Key.MonthNumber">
+                                            <div class="panel-body">
+                                                @foreach (var itemGroupTwoName in Model.Where(x => x.Year == itemGroup.Key && x.MonthNumber == itemGroupName.Key.MonthNumber).GroupBy(y => y.OrderDate).OrderBy(x => x.Key))
+                                                {
+                                                    <div class="panel-group" id="headingThree@num" role="tablist" aria-multiselectable="true">
+                                                        <div class="panel panel-default">
+                                                            <div class="panel-heading" role="tab" id="headingThree@num@itemGroupTwoName.Key">
+                                                                <p class="panel-title">
+                                                                    <a data-toggle="collapse" data-target="#collapseArea_@Html.FormatValue(itemGroupTwoName.Key, "{0:ddMMyyyy}")" aria-expanded="false" aria-controls="collapseArea_@Html.FormatValue(itemGroupTwoName.Key, "{0:ddMMyyyy}")">
+                                                                        <strong>@Html.FormatValue(itemGroupTwoName.Key, "{0:dd.MM.yyyy}") (@Model.Where(x => x.OrderDate == itemGroupTwoName.Key).Count())</strong>
+                                                                    </a>
+                                                                </p>
+                                                            </div>
+                                                            <div class="collapse" id="collapseArea_@Html.FormatValue(itemGroupTwoName.Key, "{0:ddMMyyyy}")">
+                                                                <div class="panel-body">
+                                                                    @foreach (var item in Model.Where(x => x.OrderDate == itemGroupTwoName.Key).OrderByDescending(x => x.CreatedDate))
+                                                                    {
+                                                                        <p>
+                                                                            @if (item.Cancel == true)
+                                                                            {
+                                                                                <span class="fa fa-times text-danger"></span>
+                                                                            }
+                                                                            @if (item.Addition == true)
+                                                                            {
+                                                                                <span class="fa fa-code-fork text-primary"></span>
+                                                                            }
+                                                                            @if (item.Executed == true)
+                                                                            {
+                                                                                <span class="fa fa-check text-success"></span>
+                                                                            }
+                                                                            <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins> @item.ProcessName - @item.DocumentTitle (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)</a>
+                                                                        </p>
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             }
                         </div>
                     </div>
