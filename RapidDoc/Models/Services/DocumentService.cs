@@ -2010,7 +2010,7 @@ namespace RapidDoc.Models.Services
                 foreach (var childTask in childTasks)
                 {
                     string executor = documentChildTasks.FirstOrDefault(x => x.Id == childTask.DocumentTableId).ApplicationUserModifiedId;
-                    jointMainRelatedText += "Отчет: " + _EmplService.FirstOrDefault(e => e.ApplicationUserId == executor).ShortFullNameType2 + ": " + childTask.ReportText + "\n";
+                    jointMainRelatedText += "Исполнено: " + _EmplService.FirstOrDefault(e => e.ApplicationUserId == executor).ShortFullNameType2 + ": " + childTask.ReportText + "\n";
                 }
 
                 var documentIdNew = CloseTask(docTable, userTable, jointMainRelatedText, documentChildTasks.FirstOrDefault().ApplicationUserCreatedId, TrackerType.Approved);
