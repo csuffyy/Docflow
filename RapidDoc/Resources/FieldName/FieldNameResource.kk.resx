@@ -381,4 +381,7 @@
   <data name="DocumentBaseRoleName" xml:space="preserve">
     <value>Рөл (Құжаттар базасын қарау)</value>
   </data>
+  <data name="CreateTasks" xml:space="preserve">
+    <value>-</value>
+  </data>
 </root>

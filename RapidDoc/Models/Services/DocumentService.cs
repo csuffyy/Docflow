@@ -69,7 +69,7 @@ namespace RapidDoc.Models.Services
         void DeleteDocumentDraft(Guid documentId, string tableName, Guid refDocumentId);
         void Delete(Guid Id);
         List<string> SignDocumentCZ(Guid documentId, TrackerType trackerType, string comment = "");
-        void SignTaskDocument(Guid documentId, TrackerType trackerType);
+        void SignTaskDocument(Guid documentId, TrackerType trackerType, string userId = "");
         List<TaskDelegationView> GetDocumentRefTask(Guid documentId);
         string[] GetUserListFromStructure(string users);
         Guid? UpdateProlongationDate(Guid refDocumentid, DateTime prolongationDate, string currentUserId);
@@ -89,6 +89,14 @@ namespace RapidDoc.Models.Services
         double GetSLAHours(Guid documentId, DateTime? startDate, DateTime? endDate);
         Guid DuplicateFile(FileTable fileTable, string userId, Guid? docFileId = null);
         WFTrackerTable FirstOrDefaultTrackerItem(ProcessTable process, Guid documentId, string userId);
+        DocumentComposite CreateViewBodyTaskFromDocument(DocumentTable docTable, ProcessView process, ApplicationUser userTable);
+        void CloseUpRelatedTasks(Guid documentId, ApplicationUser userTable);
+        void CloseDownRelatedTasks(Guid documentId, ApplicationUser userTable, TrackerType trackerType);
+        dynamic CloseTask(DocumentTable docTable, ApplicationUser userTable, string mainCloseText, string closeUserId, TrackerType trackerType);
+        List<List<WFTrackerUsersTable>> GetUsersUpProlongatedTask(Guid documentId, string process);
+        Guid FindRootTaskDocument(Guid documentId, string processTableName);
+        void ApplyProlongateDate(Guid documentId, DateTime prolongationDate, string currentUserId, ProcessView process);
+        
     }
 
     public class DocumentService : IDocumentService
@@ -108,6 +116,8 @@ namespace RapidDoc.Models.Services
         private readonly IReviewDocLogService _ReviewDocLogService;
         private readonly IEmplService _EmplService;
         private readonly IModificationUsersService _ModificationUsersService;
+        private readonly ISystemService _SystemService;
+       
 
         protected UserManager<ApplicationUser> UserManager { get; private set; }
         protected RoleManager<ApplicationRole> RoleManager { get; private set; }
@@ -115,7 +125,7 @@ namespace RapidDoc.Models.Services
         public DocumentService(IUnitOfWork uow, INumberSeqService numberSeqService, IProcessService processService, 
             IWorkflowTrackerService workflowTrackerService,
             IDelegationService delegationService, IDocumentReaderService documentReaderService, IWorkScheduleService workScheduleService,
-            IReviewDocLogService reviewDocLogService, IEmplService emplService, IModificationUsersService modificationUsersService, IGroupProcessService groupProcessService)
+            IReviewDocLogService reviewDocLogService, IEmplService emplService, IModificationUsersService modificationUsersService, IGroupProcessService groupProcessService, ISystemService systemService)
         {
             _uow = uow;
             repoProcess = uow.GetRepository<ProcessTable>();
@@ -132,7 +142,8 @@ namespace RapidDoc.Models.Services
             _EmplService = emplService;
             _ModificationUsersService = modificationUsersService;
             _GroupProcessService = groupProcessService;
-
+            _SystemService = systemService;
+            
             UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_uow.GetDbContext<ApplicationDbContext>()));
             RoleManager = new RoleManager<ApplicationRole>(new RoleStore<ApplicationRole>(_uow.GetDbContext<ApplicationDbContext>()));
         }
@@ -1113,7 +1124,7 @@ namespace RapidDoc.Models.Services
 
         public void SaveSignData(IEnumerable<WFTrackerTable> trackerTables, TrackerType trackerType, bool changeSignUser = true, string currentUserId = "")
         {
-            string userId = HttpContext.Current.User.Identity.GetUserId(); 
+            string userId = String.IsNullOrWhiteSpace(currentUserId) ? HttpContext.Current.User.Identity.GetUserId() : currentUserId; 
 
             foreach (var trackerTable in trackerTables)
             {
@@ -1126,10 +1137,10 @@ namespace RapidDoc.Models.Services
                         if (changeSignUser == true)
                         {
                             trackerTable.SignDate = DateTime.UtcNow;
-                            trackerTable.SignUserId = String.IsNullOrWhiteSpace(userId) ? currentUserId : userId;
+                            trackerTable.SignUserId = userId;
                         }                    
                         trackerTable.TrackerType = trackerType;
-                        _WorkflowTrackerService.SaveDomain(trackerTable, String.IsNullOrWhiteSpace(userId) ? currentUserId : userId);
+                        _WorkflowTrackerService.SaveDomain(trackerTable, userId);
                         break;
                     }
                     catch
@@ -1441,9 +1452,9 @@ namespace RapidDoc.Models.Services
             return ret;
         }
 
-        public void SignTaskDocument(Guid documentId, TrackerType trackerType)
+        public void SignTaskDocument(Guid documentId, TrackerType trackerType, string userId = "")
         {
- 	        string currentUserId = HttpContext.Current.User.Identity.GetUserId();
+            string currentUserId = String.IsNullOrEmpty(userId) ? HttpContext.Current.User.Identity.GetUserId() : userId;
             bool isSign = false;
 
             var document = Find(documentId);
@@ -1477,7 +1488,7 @@ namespace RapidDoc.Models.Services
                             trackerTable = _WorkflowTrackerService.FirstOrDefault(x => x.DocumentTableId == documentId && x.SignUserId == null && x.TrackerType == TrackerType.Waiting && x.Users.Any(p => p.UserId == item.ApplicationUserId));
                             if (trackerTable != null)
                             {
-                                SaveSignData(new List<WFTrackerTable>{ trackerTable }, trackerType);
+                                SaveSignData(new List<WFTrackerTable> { trackerTable }, trackerType, true, userId);
                                 isSign = true;
                                 break;
                             }
@@ -1488,7 +1499,7 @@ namespace RapidDoc.Models.Services
             }
             else
             {
-                SaveSignData(new List<WFTrackerTable> { trackerTable }, trackerType);
+                SaveSignData(new List<WFTrackerTable> { trackerTable }, trackerType, true, userId);
             }
 
             var trackerTables = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == documentId && x.SignUserId == null && x.TrackerType == TrackerType.Waiting).ToList();
@@ -1581,7 +1592,18 @@ namespace RapidDoc.Models.Services
                     item.SLAOffset = Convert.ToInt32(GetSLAHours(refDocumentid, item.StartDateSLA, prolongationDate));
                     _WorkflowTrackerService.SaveDomain(item, currentUserId);
                 }
-            }    
+            }
+
+            DocumentTable parentDocumentSourceTable = Find(document.RefDocumentId);
+            if (parentDocumentSourceTable.DocType == DocumentType.Task && parentDocumentSourceTable.Executed == false)
+            {
+                Guid rootDocId = FindRootTaskDocument(parentDocumentSourceTable.Id, processView.TableName);
+
+                ApplyProlongateDate(rootDocId, prolongationDate, currentUserId, processView);
+            }
+
+            
+
             return document.RefDocumentId;
         }
 
@@ -1942,6 +1964,202 @@ namespace RapidDoc.Models.Services
             }
 
             return trackerTableUser;
+        }
+
+        public DocumentComposite CreateViewBodyTaskFromDocument(DocumentTable docTable, ProcessView process, ApplicationUser userTable)
+        {
+            var refDocument = GetDocument(docTable.RefDocumentId, docTable.ProcessTable.TableName);
+
+            var viewModel = new DocumentComposite();
+            viewModel.ProcessView = process;
+            viewModel.docData = RouteCustomModelView(process.TableName);
+
+            viewModel.docData.RefDocumentId = docTable.Id;
+            viewModel.docData.RefDocNum = docTable.DocumentNum;
+            if (docTable.DocType == DocumentType.Task)
+            {
+                viewModel.docData.MainField = refDocument.MainField;
+                viewModel.docData.ExecutionDate = refDocument.ProlongationDate != null ? refDocument.ProlongationDate : refDocument.ExecutionDate;
+            }
+            viewModel.fileId = Guid.NewGuid();
+            viewModel.ProcessTemplates = GetAllTemplatesDocument((Guid)process.Id);
+
+            return viewModel;
+        }
+
+
+
+        public void CloseUpRelatedTasks(Guid documentId, ApplicationUser userTable)
+        {
+            List<DocumentTable> documentChildTasks = new List<DocumentTable>();
+            string jointMainRelatedText = "";
+            
+            DocumentTable docTable = Find(documentId);
+
+            List<USR_TAS_DailyTasks_Table> childTasks = _uow.GetDbContext<ApplicationDbContext>().USR_TAS_DailyTasks_Table.Where(x => x.RefDocumentId == docTable.Id).ToList();
+
+            childTasks.ForEach(x => documentChildTasks.Add(Find(x.DocumentTableId)));
+
+            if (documentChildTasks.Where(x => x.DocumentState != DocumentState.Closed && x.DocumentState != DocumentState.Cancelled).Count() == 0 && documentChildTasks.Where(x => x.DocumentState == DocumentState.Closed).Count() > 0)
+            {
+                foreach (var childTask in childTasks)
+                {
+                    string executor = documentChildTasks.FirstOrDefault(x => x.Id == childTask.DocumentTableId).ApplicationUserModifiedId;
+                    jointMainRelatedText += childTask.ReportText + " Отчет: " + _EmplService.FirstOrDefault(e => e.ApplicationUserId == executor).ShortFullNameType2 + "\n";
+                }
+
+                var documentIdNew = CloseTask(docTable, userTable, jointMainRelatedText, documentChildTasks.FirstOrDefault().ApplicationUserCreatedId, TrackerType.Approved);
+
+                DocumentTable parentDocumentSourceTable = Find(documentIdNew.RefDocumentId);
+                if (parentDocumentSourceTable.DocType == DocumentType.Task && parentDocumentSourceTable.Executed == false)
+                {
+                    CloseUpRelatedTasks(parentDocumentSourceTable.Id, userTable);
+                }
+            }
+        }
+
+        public dynamic CloseTask(DocumentTable docTable, ApplicationUser userTable, string mainCloseText, string closeUserId, TrackerType trackerType)
+        {
+            ProcessView process = _ProcessService.FirstOrDefaultView(x => x.TableName == "USR_TAS_DailyTasks" && x.CompanyTableId == userTable.CompanyTableId);
+
+            var documentIdNew = GetDocumentView(Find(docTable.Id).RefDocumentId, process.TableName);
+
+            SignTaskDocument(docTable.Id, trackerType, closeUserId);
+            documentIdNew.ReportText = mainCloseText;
+            UpdateDocumentFields(documentIdNew, process);
+
+            docTable.DocumentState = trackerType == TrackerType.Approved ? DocumentState.Closed : DocumentState.Cancelled;
+            UpdateDocument(docTable, closeUserId);
+
+            return documentIdNew;
+        }
+
+
+        public void CloseDownRelatedTasks(Guid documentId, ApplicationUser userTable, TrackerType trackerType)
+        {
+            DocumentTable docTable = Find(documentId);
+            string closeText = "Закрыто автоматически";
+
+            List<USR_TAS_DailyTasks_Table> childTasks = _uow.GetDbContext<ApplicationDbContext>().USR_TAS_DailyTasks_Table.Where(x => x.RefDocumentId == docTable.Id && x.ReportText == null).ToList();
+
+            if (childTasks.Count() > 0)
+            {
+                foreach (var childTask in childTasks)
+                {
+                    DocumentTable childDocTask = Find(childTask.DocumentTableId);
+                    WFTrackerTable defaultExecutor = _WorkflowTrackerService.GetCurrentStep(x => x.DocumentTableId == childDocTask.Id && x.SignUserId == null).FirstOrDefault();
+
+                    CloseTask(childDocTask, userTable, closeText, defaultExecutor.Users.FirstOrDefault().UserId, trackerType);
+
+                    CloseDownRelatedTasks(childDocTask.Id, userTable, trackerType);
+                }
+            }
+        }
+
+        public List<List<WFTrackerUsersTable>> GetUsersUpProlongatedTask(Guid documentId, string process)
+        {
+            List<List<WFTrackerUsersTable>> listUsersId = new List<List<WFTrackerUsersTable>>();
+            List<List<WFTrackerUsersTable>> listUsersBufId = new List<List<WFTrackerUsersTable>>();
+            DocumentTable docTable = Find(documentId);
+            List<WFTrackerTable> trackerUsers = _WorkflowTrackerService.GetCurrentStep(x => x.DocumentTableId == documentId && x.TrackerType == TrackerType.Waiting).OrderByDescending(y => y.LineNum).ToList();
+
+            foreach (var trackerUser in trackerUsers)
+            {
+                List<WFTrackerUsersTable> userListTracker = new List<WFTrackerUsersTable>();
+                foreach (var user in trackerUser.Users)
+                {
+                    userListTracker.Add( new WFTrackerUsersTable { UserId = user.UserId });
+                }
+                if (userListTracker.Count() > 0)
+                    listUsersId.Add(userListTracker);  
+            }
+
+            var documentIdNew = GetDocumentView(Find(documentId).RefDocumentId, process);
+            DocumentTable parentDocumentSourceTable = Find(documentIdNew.RefDocumentId);
+
+            if (parentDocumentSourceTable.DocType == DocumentType.Task && parentDocumentSourceTable.Executed == false)
+            {
+                listUsersBufId = GetUsersUpProlongatedTask(parentDocumentSourceTable.Id, process);
+            }
+            else if(parentDocumentSourceTable.DocType == DocumentType.Protocol)
+            {
+                var protocolDoc = GetDocumentView(parentDocumentSourceTable.RefDocumentId, process);
+                if (!String.IsNullOrEmpty(protocolDoc.Chairman))
+                {
+                    Guid chairmanEmplId = Guid.Parse(_SystemService.GuidsFromText(protocolDoc.Chairman)[0]);
+                    EmplTable chairmanEmpl = _EmplService.Find(chairmanEmplId);
+                    if (chairmanEmpl != null)
+                    {
+                        string chairmanId = chairmanEmpl.ApplicationUserId;
+                        listUsersBufId.Add(new List<WFTrackerUsersTable> { new WFTrackerUsersTable { UserId = chairmanId } });
+                    }
+                }
+            }
+            else
+            {
+                listUsersBufId.Add(new List<WFTrackerUsersTable> { new WFTrackerUsersTable { UserId = parentDocumentSourceTable.ApplicationUserCreatedId } });
+            }
+
+            foreach (var listUserId in listUsersId)
+            {
+                foreach (var userId in listUserId)
+                {
+                    if (listUsersBufId.Any(x => x.Any(y => y.UserId == userId.UserId)))
+                    {
+                        listUsersBufId.ForEach(x => x.RemoveAll(y => y.UserId == userId.UserId));
+                    }
+                }
+            }
+
+            listUsersBufId.Where(x => x.Count() > 0).ToList().ForEach(y => listUsersId.Add(y));
+
+            return listUsersId;
+        }
+
+
+        public Guid FindRootTaskDocument(Guid documentId, string processTableName)
+        {
+            Guid id = new Guid();
+            var documentIdRef = GetDocumentView(Find(documentId).RefDocumentId, processTableName);
+            DocumentTable parentDocumentSourceTable = Find(documentIdRef.RefDocumentId);
+
+            if (parentDocumentSourceTable.DocType == DocumentType.Task)
+                id = FindRootTaskDocument(parentDocumentSourceTable.Id, processTableName);
+            else
+                return parentDocumentSourceTable.Id;
+
+            return id;
+        }
+
+
+        public void ApplyProlongateDate(Guid documentId, DateTime prolongationDate,  string currentUserId, ProcessView process)
+        {         
+            List<USR_TAS_DailyTasks_Table> childTasks = _uow.GetDbContext<ApplicationDbContext>().USR_TAS_DailyTasks_Table.Where(x => x.RefDocumentId == documentId && x.ReportText == null).ToList();
+
+            if (childTasks.Count() > 0)
+            {
+                foreach (var childTask in childTasks)
+                {
+                    DocumentTable taskDoc = Find(childTask.DocumentTableId);
+                    var trackers = _WorkflowTrackerService.GetCurrentStep(x => x.DocumentTableId == taskDoc.Id);
+                    var document = GetDocumentView(taskDoc.RefDocumentId, process.TableName);
+
+                    
+                    if (trackers != null)
+                    {
+                        document.ProlongationDate = prolongationDate;
+                        UpdateDocumentFields(document, process);
+
+                        foreach (var item in trackers)
+                        {
+                            item.SLAOffset = Convert.ToInt32(GetSLAHours(taskDoc.Id, item.StartDateSLA, prolongationDate));
+                            _WorkflowTrackerService.SaveDomain(item, currentUserId);
+                        }
+                    }
+
+                    ApplyProlongateDate(taskDoc.Id, prolongationDate,  currentUserId, process);
+                }
+            }
         }
     }
 }
