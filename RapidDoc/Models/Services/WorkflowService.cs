@@ -28,6 +28,8 @@ using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Core.Objects;
 using RapidDoc.Activities.CodeActivities;
 using System.Data;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace RapidDoc.Models.Services
 {
@@ -54,6 +56,8 @@ namespace RapidDoc.Models.Services
         List<string> EmplAndRolesToReaders(Guid documentId, string[] list);
         void CreateDynamicTracker(List<string> users, Guid documentId, string currentUserId, bool parallel, string additionalText = "");
         bool CheckSkipStepOrder(Guid documentId, List<WFTrackerUsersTable> userlist, string createdBy);
+        void CreateSeparateTasks(ProcessView processView, dynamic docModel, Guid fileId, String actionModelName, IDictionary<string, object> documentData, ApplicationUser userTable);
+        Guid GuidNull2Guid(Guid? value);      
     }
 
     public class WorkflowService : IWorkflowService
@@ -71,6 +75,7 @@ namespace RapidDoc.Models.Services
         private readonly IProcessService _ProcessService;
         private readonly ISystemService _SystemService;
         private readonly INotificationUsersService _NotificationUsersService;
+        private readonly ISearchService _SearchService;
 
         protected RoleManager<ApplicationRole> RoleManager { get; private set; }
         
@@ -78,7 +83,7 @@ namespace RapidDoc.Models.Services
 
         public WorkflowService(IUnitOfWork uow, IDocumentService documentService, IEmplService emplService, 
             IWorkflowTrackerService workflowTrackerService, IEmailService emailService, IHistoryUserService historyUserService,
-            IReviewDocLogService reviewDocLogService, ICustomCheckDocument customCheckDocument, IProcessService processService, ISystemService systemService, INotificationUsersService notificationUsersService)
+            IReviewDocLogService reviewDocLogService, ICustomCheckDocument customCheckDocument, IProcessService processService, ISystemService systemService, INotificationUsersService notificationUsersService, ISearchService searchService)
         {
             repoUser = uow.GetRepository<ApplicationUser>();
             repoIncident = uow.GetRepository<ServiceIncidentTable>();
@@ -93,6 +98,7 @@ namespace RapidDoc.Models.Services
             _ProcessService = processService;
             _SystemService = systemService;
             _NotificationUsersService = notificationUsersService;
+            _SearchService = searchService;
 
             RoleManager = new RoleManager<ApplicationRole>(new RoleStore<ApplicationRole>(_uow.GetDbContext<ApplicationDbContext>()));
         }
@@ -789,11 +795,29 @@ namespace RapidDoc.Models.Services
                 });
 
                 bool protocol = false;
-
+                bool task = false;
                 if (documentTable.RefDocumentId != null)
                 {
+                    task = true;
                     var taskTable = (USR_TAS_DailyTasks_Table)_DocumentService.GetDocument(documentTable.RefDocumentId, documentTable.ProcessTable.TableName);
                     var refTaskDocument = _DocumentService.Find(taskTable.RefDocumentId);
+
+                    if (refTaskDocument != null && refTaskDocument.DocType == DocumentType.Task)
+                    {
+                        List<List<WFTrackerUsersTable>> listUsersId = new List<List<WFTrackerUsersTable>>();
+                        string process = "USR_TAS_DailyTasks";
+                        listUsersId = _DocumentService.GetUsersUpProlongatedTask(refTaskDocument.Id, process);
+                        if (listUsersId.Count() > 0)
+                        {
+                            endListUsers.AddRange(listUsersId);
+
+                            for (int y = 1; y <= listUsersId.Count(); y++)
+			                {
+                                allSteps.Add(new string[3] { "Исполнитель", (++i).ToString(), ""});
+			                }                         
+                        }
+                    }
+
                     if (refTaskDocument != null && refTaskDocument.DocType == DocumentType.Protocol)
                     {
                         protocol = true;
@@ -812,7 +836,7 @@ namespace RapidDoc.Models.Services
                     }
                 }
 
-                if (protocol == false)
+                if (protocol == false && task == false)
                 {
                     endListUsers.Add(new List<WFTrackerUsersTable> { new WFTrackerUsersTable { UserId = documentTable.ApplicationUserCreatedId } });
                     allSteps.Add(new string[3] { "Инициатор", (++i).ToString(), "" });
@@ -858,7 +882,7 @@ namespace RapidDoc.Models.Services
                 }
             }
 
-            if ((activity is Parallel) || (activity is ParallelForEach<string>))
+            if ((activity is System.Activities.Statements.Parallel) || (activity is ParallelForEach<string>))
                 _parallel = activity.Id;
 
             IEnumerator<Activity> list = WorkflowInspectionServices.GetActivities(activity).Where(x => x.GetType() != typeof(EnvironmentLocationReference<List<String>>)).GetEnumerator();
@@ -868,7 +892,7 @@ namespace RapidDoc.Models.Services
                 var allStepsBuf = allSteps.Concat(GetRequestTree(list.Current, _documentData, _parallel));
                 allSteps = allStepsBuf.ToList();
             }
-            if ((activity is Parallel) && (activity.Id == _parallel))
+            if ((activity is System.Activities.Statements.Parallel) && (activity.Id == _parallel))
                 _parallel = "";
             return allSteps;
         }
@@ -1181,5 +1205,32 @@ namespace RapidDoc.Models.Services
             }
         }
 
+        public void CreateSeparateTasks(ProcessView processView, dynamic docModel, Guid fileId, String actionModelName, IDictionary<string, object> documentData, ApplicationUser userTable)
+        {
+            var documentId = _DocumentService.SaveDocument(docModel, processView.TableName, GuidNull2Guid(processView.Id), fileId, userTable, documentData.ContainsKey("IsNotified") ? (bool)documentData["IsNotified"] : false, documentData.ContainsKey("Share") ? (bool)documentData["Share"] : false);
+            DocumentTable documentTable = _DocumentService.Find(documentId);
+
+            Task.Run(() =>
+            {
+                IReviewDocLogService _ReviewDocLogServiceTask = DependencyResolver.Current.GetService<IReviewDocLogService>();
+                IHistoryUserService _HistoryUserServiceTask = DependencyResolver.Current.GetService<IHistoryUserService>();
+                _ReviewDocLogServiceTask.SaveDomain(new ReviewDocLogTable { DocumentTableId = documentId }, "", userTable);
+                _HistoryUserServiceTask.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = Models.Repository.HistoryType.NewDocument }, userTable.Id);
+            });
+
+            _SearchService.SaveSearchData(documentId, docModel, actionModelName, userTable.Id);
+
+            RunWorkflow(documentTable, processView.TableName, documentData, userTable.Id);
+
+        }
+
+        public Guid GuidNull2Guid(Guid? value)
+        {
+            return value ?? Guid.Empty;
+        }
+
+
+
+       
     }
 }

@@ -237,8 +237,7 @@
                     </li>
                     }
                 }
-                @if (Model.DocumentView.DocType != RapidDoc.Models.Repository.DocumentType.Task &&
-                    Model.DocumentView.DocumentState != RapidDoc.Models.Repository.DocumentState.Created)
+                @if (Model.DocumentView.DocumentState != RapidDoc.Models.Repository.DocumentState.Created)
                 {
                     <li>
                         <a href=@Url.Action("CreateTaskFromDocument", new {documentId = Model.DocumentView.Id})>@UIElementRes.UIElement.CreateTask</a>

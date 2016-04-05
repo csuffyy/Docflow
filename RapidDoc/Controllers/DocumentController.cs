@@ -634,11 +634,13 @@ namespace RapidDoc.Controllers
         [MultipleButton(Name = "action", Argument = "DelegateDocumentTask")]
         public ActionResult DelegateDocumentTask(Guid processId, int type, Guid fileId, FormCollection collection, string actionModelName, Guid documentId)
         {
-            string currentUserId = User.Identity.GetUserId();
+            ApplicationUser userTable = _AccountService.Find(User.Identity.GetUserId());
+            DocumentTable docTable = _DocumentService.Find(documentId);
             IDictionary<string, object> documentData = new Dictionary<string, object>();
             List<WFTrackerUsersTable> userList = new List<WFTrackerUsersTable>();
-
-            if (collection["Flow"] != null && collection["Flow"] != String.Empty)
+            EmplTable emplTable = _EmplService.FirstOrDefault(x => x.ApplicationUserId == userTable.Id && x.Enable == true);
+         
+            if ((collection["Flow"] != null && collection["Flow"] != String.Empty) && (collection["IsCreateTask"] != null && collection["IsCreateTask"].ToLower().Contains("true") != true))
             {
                 documentData.Add("Flow", collection["Flow"]);
 
@@ -654,23 +656,65 @@ namespace RapidDoc.Controllers
                     trackerTable.TrackerType = TrackerType.Waiting;
                     trackerTable.StartDateSLA = activeTrackerTable.StartDateSLA;
                     trackerTable.SLAOffset = activeTrackerTable.SLAOffset;
-                    _WorkflowTrackerService.SaveDomain(trackerTable, currentUserId);
-                }   
+                    _WorkflowTrackerService.SaveDomain(trackerTable, userTable.Id);
+                }
 
-                DocumentTable documentTable = _DocumentService.Find(documentId);
-                _DocumentService.UpdateDocument(documentTable, currentUserId);
+                _DocumentService.UpdateDocument(docTable, userTable.Id);
 
                 if (collection["IsNotifyTask"].ToLower().Contains("true") == true)
                 {
                     foreach (var user in users)
                     {
-                        _NotificationUsersService.CreateNotifyForUser(documentId, currentUserId, user);
+                        _NotificationUsersService.CreateNotifyForUser(documentId, userTable.Id, user);
                     }
                 }
 
                 _EmailService.SendNewExecutorEmail(documentId, users);
 
                 _HistoryUserService.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = Models.Repository.HistoryType.DelegateTask }, User.Identity.GetUserId());
+            }
+            else 
+            {               
+                if (userTable == null) return RedirectToAction("PageNotFound", "Error");
+                
+                if (emplTable == null) return RedirectToAction("PageNotFound", "Error");
+
+                ProcessView process = _ProcessService.FirstOrDefaultView(x => x.TableName == "USR_TAS_DailyTasks" && x.CompanyTableId == userTable.CompanyTableId);
+
+                if (!String.IsNullOrEmpty(process.RoleId))
+                {
+                    string roleName = RoleManager.FindById(process.RoleId).Name;
+                    if (!UserManager.IsInRole(userTable.Id, roleName))
+                    {
+                        return RedirectToAction("PageNotFound", "Error");
+                    }
+                }
+
+                _HistoryUserService.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = Models.Repository.HistoryType.NewDocument }, User.Identity.GetUserId());
+
+                var viewBodyTask = _DocumentService.CreateViewBodyTaskFromDocument(docTable, process, userTable);
+
+                string initailStructure = (string)collection["Flow"];
+                string[] arrayTempStructrue = initailStructure.Split(',');
+
+                string[] usersAndRoles = _DocumentService.GetUserListFromStructure((string)collection["Flow"]);
+
+                if (usersAndRoles.Count() > 0)
+                {
+                    foreach (var item in usersAndRoles)
+                    {
+                        string seprateUser = item + "," + arrayTempStructrue[Array.IndexOf(arrayTempStructrue, item) + 1];
+                        viewBodyTask.docData.Users = seprateUser;
+                        documentData["Users"] = seprateUser;
+                        documentData["ExecutionDate"] = viewBodyTask.docData.ExecutionDate;
+                        if (collection["IsNotifyTask"].ToLower().Contains("true") == true)
+                            documentData["IsNotified"] = true;
+                        List<FileTable> docFile = _DocumentService.GetAllFilesDocument(fileId).ToList();
+                        Guid newDocFileId = Guid.NewGuid();
+                        docFile.ForEach(x => _DocumentService.DuplicateFile(x, User.Identity.GetUserId(), newDocFileId));
+                        _WorkflowService.CreateSeparateTasks(process, viewBodyTask.docData, newDocFileId, actionModelName, documentData, userTable);
+                    }
+                }                    
             }
 
             return RedirectToAction("Index", "Document");
@@ -681,6 +725,7 @@ namespace RapidDoc.Controllers
         public ActionResult ApproveDocumentTask(Guid processId, int type, Guid fileId, FormCollection collection, string actionModelName, Guid documentId)
         {
             string currentUserId = User.Identity.GetUserId();
+            ApplicationUser user = _AccountService.Find(currentUserId);
             string reminderChairmanUser = String.Empty;
             ProcessView process = _ProcessService.FindView(processId);
             var documentIdNew = _DocumentService.GetDocumentView(_DocumentService.Find(documentId).RefDocumentId, process.TableName);
@@ -700,6 +745,8 @@ namespace RapidDoc.Controllers
             DocumentTable documentTable = _DocumentService.Find(documentId);
             documentTable.DocumentState = DocumentState.Closed;
             _DocumentService.UpdateDocument(documentTable, userId);
+
+            _DocumentService.CloseDownRelatedTasks(documentId, user, TrackerType.Approved);
 
             if(collection["RefDocumentId"] != null)
             {
@@ -729,6 +776,10 @@ namespace RapidDoc.Controllers
                             reminderChairmanUser = chairmanEmpl.ApplicationUserId;
                         }
                     }
+                    if (documentSourceTable.DocType == DocumentType.Task && documentSourceTable.Executed == false)
+                    {
+                        _DocumentService.CloseUpRelatedTasks(documentSourceTable.Id, user);
+                    }
                 }
             }
 
@@ -750,6 +801,7 @@ namespace RapidDoc.Controllers
         public ActionResult RejectDocumentTask(Guid processId, int type, Guid fileId, FormCollection collection, string actionModelName, Guid documentId)
         {
             string currentUserId = User.Identity.GetUserId();
+            ApplicationUser user = _AccountService.Find(currentUserId);
             ProcessView process = _ProcessService.FindView(processId);
             var documentIdNew = _DocumentService.GetDocumentView(_DocumentService.Find(documentId).RefDocumentId, process.TableName);
 
@@ -772,6 +824,23 @@ namespace RapidDoc.Controllers
             _DocumentService.UpdateDocument(documentTable, User.Identity.GetUserId());
            /* _DocumentService.SaveSignData(_DocumentService.GetCurrentSignStep(documentId, currentUserId).ToList(), TrackerType.Cancelled);*/
             _DocumentService.SignTaskDocument(documentId, TrackerType.Cancelled);
+
+            _DocumentService.CloseDownRelatedTasks(documentId, user, TrackerType.Cancelled);
+
+            if (collection["RefDocumentId"] != null)
+            {
+                Guid sourceDocumentId = Guid.Parse(collection["RefDocumentId"]);
+                DocumentTable documentSourceTable = _DocumentService.Find(sourceDocumentId);
+
+                if (documentSourceTable != null)
+                {
+                    if (documentSourceTable.DocType == DocumentType.Task && documentSourceTable.Executed == false)
+                    {
+                        _DocumentService.CloseUpRelatedTasks(documentSourceTable.Id, user);
+                    }
+                }
+            }
+
             _HistoryUserService.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = Models.Repository.HistoryType.CancelledDocument }, User.Identity.GetUserId());
             _EmailService.SendInitiatorRejectEmail(documentTable.Id);
 
@@ -926,7 +995,6 @@ namespace RapidDoc.Controllers
         {
             ApplicationUser userTable = _AccountService.Find(User.Identity.GetUserId());
             DocumentTable docTable = _DocumentService.Find(documentId);
-            var refDocument = _DocumentService.GetDocument(docTable.RefDocumentId, docTable.ProcessTable.TableName);
             if (userTable == null) return RedirectToAction("PageNotFound", "Error");
 
             EmplTable emplTable = _EmplService.FirstOrDefault(x => x.ApplicationUserId == userTable.Id && x.Enable == true);
@@ -944,16 +1012,13 @@ namespace RapidDoc.Controllers
             }
 
             _HistoryUserService.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = Models.Repository.HistoryType.NewDocument }, User.Identity.GetUserId());
-            
-            var viewModel = new DocumentComposite();
-            viewModel.ProcessView = process;
-            viewModel.docData = _DocumentService.RouteCustomModelView(process.TableName);
-            viewModel.docData.RefDocumentId = documentId;
-            viewModel.docData.RefDocNum = docTable.DocumentNum;
-            viewModel.fileId = Guid.NewGuid();
-            viewModel.ProcessTemplates = _DocumentService.GetAllTemplatesDocument((Guid)process.Id);
-            return View("Create", viewModel);
+
+            var viewBodyTask = _DocumentService.CreateViewBodyTaskFromDocument(docTable, process, userTable);
+
+
+            return View("Create", viewBodyTask);
         }
+
         public ActionResult CopyDocument(Guid processId, Guid fileId,Guid documentId)
         {
             ApplicationUser userTable = _AccountService.Find(User.Identity.GetUserId());
@@ -1215,7 +1280,7 @@ namespace RapidDoc.Controllers
                     {
                         string initailStructure = (string)documentData["Users"];
                         string[] arrayTempStructrue = initailStructure.Split(',');
-
+                        ApplicationUser userTable = _AccountService.Find(User.Identity.GetUserId());
                         Regex isGuid = new Regex(@"^(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}$", RegexOptions.Compiled);
                         string[] arrayStructure = arrayTempStructrue.Where(a => isGuid.IsMatch(a) == true).ToArray();
                         if (arrayStructure.Count() > 0)
@@ -1229,7 +1294,7 @@ namespace RapidDoc.Controllers
                                 List<FileTable> docFile = _DocumentService.GetAllFilesDocument(fileId).ToList();
                                 Guid newDocFileId = Guid.NewGuid();
                                 docFile.ForEach(x => _DocumentService.DuplicateFile(x, User.Identity.GetUserId(), newDocFileId));
-                                this.CreateSeparateTasks(processView, operationType, docModel, newDocFileId, actionModelName, documentData);
+                                _WorkflowService.CreateSeparateTasks(processView, docModel, newDocFileId, actionModelName, documentData, userTable);
                             }
 
                             return RedirectToAction("MyDocuments", "Document");
@@ -2304,42 +2369,6 @@ namespace RapidDoc.Controllers
                 RoleManager = null;
             }
             base.Dispose(disposing);
-        }
-
-        private void CreateSeparateTasks(ProcessView processView, OperationType operationType, dynamic docModel, Guid fileId, String actionModelName, IDictionary<string, object> documentData)
-        {
-            ApplicationUser user = _AccountService.Find(User.Identity.GetUserId());
-            var documentId = _DocumentService.SaveDocument(docModel, processView.TableName, GuidNull2Guid(processView.Id), fileId, user, documentData.ContainsKey("IsNotified") ? (bool)documentData["IsNotified"] : false, documentData.ContainsKey("Share") ? (bool)documentData["Share"] : false);
-            DocumentTable documentTable = _DocumentService.Find(documentId);
-
-            Task.Run(() =>
-            {
-                IReviewDocLogService _ReviewDocLogServiceTask = DependencyResolver.Current.GetService<IReviewDocLogService>();
-                IHistoryUserService _HistoryUserServiceTask = DependencyResolver.Current.GetService<IHistoryUserService>();
-                _ReviewDocLogServiceTask.SaveDomain(new ReviewDocLogTable { DocumentTableId = documentId }, "", user);
-                _HistoryUserServiceTask.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = Models.Repository.HistoryType.NewDocument }, user.Id);
-            });
-
-            _SearchService.SaveSearchData(documentId, docModel, actionModelName);
-
-            if (operationType == OperationType.ApproveDocument)
-            {
-                //Previous code for startReaderRole
-                /*if (documentTable.ProcessTable != null && !String.IsNullOrEmpty(documentTable.ProcessTable.StartReaderRoleId))
-                {
-                    try
-                    {
-                        var role = RoleManager.FindById(documentTable.ProcessTable.StartReaderRoleId);
-                        if (role != null && role.Users != null && role.Users.Count > 0)
-                        {
-                            List<string> newReader = _DocumentReaderService.AddReader(documentTable.Id, role.Users.ToList());
-                            _EmailService.SendReaderEmail(documentTable.Id, newReader);
-                        }
-                    }
-                    catch { }
-                }*/
-                _WorkflowService.RunWorkflow(documentTable, processView.TableName, documentData);
-            }
         }
 
         [HttpPost]

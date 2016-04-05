@@ -390,4 +390,7 @@
   <data name="DocumentBaseRoleName" xml:space="preserve">
     <value>Роль (Просмотр База документов)</value>
   </data>
+  <data name="CreateTasks" xml:space="preserve">
+    <value>Создание задач</value>
+  </data>
 </root>
