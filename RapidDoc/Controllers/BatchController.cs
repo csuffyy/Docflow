@@ -71,22 +71,22 @@ namespace RapidDoc.Controllers
                 {
                     case 1:
                         if (!_WorkScheduleService.CheckDayType(_WorkScheduleService.FirstOrDefault(x => x.WorkScheduleName == "8x5").Id, DateTime.UtcNow.Date))
-                        {
+                        {                           
                             var users = _AccountService.GetPartial(x => x.Email != null && x.Enable == true).ToList();
                             List<CheckSLAStatus> checkData = new List<CheckSLAStatus>();
 
                             foreach (var document in allDocument.Where(x => x.DocumentState == Models.Repository.DocumentState.Agreement
                             || x.DocumentState == Models.Repository.DocumentState.Execution || x.DocumentState == Models.Repository.DocumentState.OnSign).ToList())
                             {
-                                var checkUser = _Documentservice.GetUsersSLAStatus(document, SLAStatusList.Warning).ToList();
-
+                                var checkUser = _Documentservice.GetUsersSLAStatus(document, SLAStatusList.Warning).ToList();                             
                                 List<WFTrackerUsersTable> tmpTrackerUsers = new List<WFTrackerUsersTable>();
                                 foreach (var item in checkUser)
                                 {
+                                    
                                     ApplicationUser user = users.FirstOrDefault(x => x.Id == item.UserId);
                                     if (user != null && (_ReviewDocLogService.isArchive(document.Id, "", user) == false || document.DocType == DocumentType.Task))
-                                    {
-                                        tmpTrackerUsers.Add(item);
+                                    {                                          
+                                        tmpTrackerUsers.Add(item);                                   
                                     }
                                 }
                                 checkData.Add(new CheckSLAStatus(document, tmpTrackerUsers));
@@ -160,13 +160,22 @@ namespace RapidDoc.Controllers
                     case 4:
                         if (!_WorkScheduleService.CheckDayType(_WorkScheduleService.FirstOrDefault(x => x.WorkScheduleName == "8x5").Id, DateTime.UtcNow.Date))
                         {
+                            USR_TAS_DailyTasks_Table childTask = new USR_TAS_DailyTasks_Table();
+                            ApplicationDbContext context = new ApplicationDbContext(); 
                             var users = _AccountService.GetPartial(x => x.Email != null && x.Enable == true).ToList();
                             List<ReminderUsers> checkData = new List<ReminderUsers>();
 
-                            foreach (var document in allDocument.Where(x => x.DocumentState == Models.Repository.DocumentState.Agreement
+                            foreach (var document in allDocument.Where(x => (x.DocumentState == Models.Repository.DocumentState.Agreement
                             || x.DocumentState == Models.Repository.DocumentState.Execution
-                            || x.DocumentState == Models.Repository.DocumentState.OnSign).ToList())
+                            || x.DocumentState == Models.Repository.DocumentState.OnSign) && x.DocType == DocumentType.Task).ToList())
                             {
+                                if (document.DocType == DocumentType.Task)
+                                {
+                                    childTask = context.USR_TAS_DailyTasks_Table.Where(x => x.RefDocumentId == document.Id && x.ReportText == null).FirstOrDefault();
+                                    if (childTask != null)
+                                        continue;
+                                }
+
                                 List<ApplicationUser> result = new List<ApplicationUser>();
                                 var usersReminder = _Documentservice.GetSignUsersDirect(document).ToList();
 

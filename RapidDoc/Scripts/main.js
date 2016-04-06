@@ -124,8 +124,9 @@ function checkTextExists(text) {
 }
 
 function getClearText(text) {
-    //var prepare = text.replace(/<([^>]+?)([^>]*?)>(.*?)<\/\1>/ig, "");
+    //var prepare = text.replace(/<([^>]+?)([^>]*s?)>(.*?)<\/\1>/ig, "");
     var prepare = text.replace(/(<([^>]+)>)/ig, "");
+    var prepare = prepare.replace(/&nbsp;/gi, '');
     // prepare = prepare.replace(/[^\w\s]/gi, '');
     prepare = prepare.trim();
     return prepare;
