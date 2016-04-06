@@ -807,7 +807,7 @@ namespace RapidDoc.Controllers
             var documentIdNew = _DocumentService.GetDocumentView(_DocumentService.Find(documentId).RefDocumentId, process.TableName);
 
             if (collection["RejectCommentTask"] != null && _SystemService.CheckTextExists(collection["RejectCommentTask"])
-                && ((string)collection["ApproveCommentTask"]).Length > 3)
+                && ((string)collection["RejectCommentTask"]).Length > 3)
             {
                 string rejectCommentRequest = collection["RejectCommentTask"].ToString();
                 documentIdNew.ReportText = rejectCommentRequest;
