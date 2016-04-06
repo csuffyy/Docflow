@@ -24,8 +24,9 @@
                             foreach (var docBase in item.documentBaseList.OrderBy(x => x.CreatedDate))
                             {
                                 <p>
-                                    <a href="@Url.Action("ShowDocument", "Document", new { id = docBase.Id, isAfterView = true })" target="_blank"><ins>@docBase.DocumentNum</ins> - @*@docBase.OrderNumber /*@ @docBase.DocumentTitle (@docBase.CreatedDate) => @Html.EnumToDescription(docBase.DocumentState)</a>
+                                    <a href="@Url.Action("ShowDocument", "Document", new { id = docBase.Id, isAfterView = true })" target="_blank"><ins>@docBase.DocumentNum</ins></a> - @docBase.DocumentTitle (@docBase.CreatedDate) => @Html.EnumToDescription(docBase.DocumentState)
                                 </p>
+                                <br />
                             }
                         }
                         @BuildTree(Model, item.ProtocolFoldersId)

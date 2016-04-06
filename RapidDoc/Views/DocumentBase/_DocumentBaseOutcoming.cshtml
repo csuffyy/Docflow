@@ -25,8 +25,9 @@
                             @foreach (var item in Model.Where(x => x.UserName == itemGroup.Key).OrderByDescending(x => x.CreatedDate))
                             {
                                 <p>
-                                    <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins> - @item.ProcessName - @item.DocumentTitle (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)</a>
+                                    <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins></a> - @item.ProcessName - @item.DocumentTitle (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)
                                 </p>
+                                <br />
                             }
                         </div>
                     </div>
@@ -62,8 +63,9 @@
                                                 @foreach (var item in Model.Where(x => x.DepartmentName == itemGroup.Key && x.UserName == itemGroupName.Key).OrderByDescending(x => x.CreatedDate))
                                                 {
                                                     <p>
-                                                        <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins> - @item.ProcessName - @item.DocumentTitle (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)</a>
+                                                        <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins></a> - @item.ProcessName - @item.DocumentTitle (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)
                                                     </p>
+                                                    <br />
                                                 }
                                             </div>
                                         </div>
@@ -90,8 +92,9 @@
                             @foreach (var item in Model.Where(x => x.DocumentTitle == itemGroup.Key).OrderByDescending(x => x.CreatedDate))
                             {
                                 <p>
-                                    <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins> - @item.ProcessName - @item.DocumentText (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)</a>
+                                    <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins></a> - @item.ProcessName - @item.DocumentText (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)
                                 </p>
+                                <br />
                             }
                         </div>
                     </div>
@@ -111,8 +114,9 @@
                             @foreach (var item in Model.Where(x => x.OrderNumber == itemGroup.Key).OrderByDescending(x => x.CreatedDate))
                             {
                                 <p>
-                                    <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins> - @item.ProcessName - @item.DocumentTitle (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)</a>
+                                    <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins></a> - @item.ProcessName - @item.DocumentTitle (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)
                                 </p>
+                                <br />
                             }
                         </div>
                     </div>
@@ -158,8 +162,9 @@
                                                                     @foreach (var item in Model.Where(x => x.OrderDate == itemGroupTwoName.Key).OrderByDescending(x => x.CreatedDate))
                                                                     {
                                                                         <p>
-                                                                            <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins> @item.ProcessName - @item.DocumentTitle (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)</a>
+                                                                            <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins></a> @item.ProcessName - @item.DocumentTitle (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)
                                                                         </p>
+                                                                        <br />
                                                                     }
                                                                 </div>
                                                             </div>
@@ -190,8 +195,9 @@
                             @foreach (var item in Model.Where(x => x.InOutOrganization == itemGroup.Key).OrderByDescending(x => x.CreatedDate))
                             {
                                 <p>
-                                    <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins> - @item.ProcessName - @item.DocumentTitle (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)</a>
+                                    <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins></a> - @item.ProcessName - @item.DocumentTitle (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)
                                 </p>
+                                <br />
                             }
                         </div>
                     </div>
@@ -211,8 +217,9 @@
                             @foreach (var item in Model.Where(x => x.ItemCaseNumber == itemGroup.Key.ItemCaseNumber).OrderByDescending(x => x.CreatedDate))
                             {
                                 <p>
-                                    <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins> - @item.ProcessName - @item.DocumentTitle (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)</a>
+                                    <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins></a> - @item.ProcessName - @item.DocumentTitle (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)
                                 </p>
+                                <br />
                             }
                         </div>
                     </div>
