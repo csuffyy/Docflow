@@ -255,7 +255,7 @@
             <br />
             @if (!User.IsInRole("Administrator"))
             {
-                <button type="submit" id="saveChanges" class="btn btn-default btn-sm" name="action:SaveChanges">@UIElementRes.UIElement.Save</button>
+                <button type="submit" id="saveChanges" class="btn btn-default btn-sm no-blocksubmit" name="action:SaveChanges">@UIElementRes.UIElement.Save</button>
             }
         </div>
     </div>

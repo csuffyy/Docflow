@@ -115,7 +115,7 @@
                 }, 1);
             });
             $(document).on('submit', 'form', function () {
-                var buttons = $(this).find('input[type="submit"],button[type="submit"]');
+                var buttons = $(this).find('input[type="submit"]:not(.no-blocksubmit),button[type="submit"]:not(.no-blocksubmit)');
                 setTimeout(function () {
                     buttons.attr('disabled', 'disabled');
                 }, 0);
