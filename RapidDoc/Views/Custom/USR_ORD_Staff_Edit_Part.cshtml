@@ -104,7 +104,6 @@
             @Html.HiddenFor(model => model.ListSubcription)
             @Html.HiddenFor(model => model.AddReaders)
             @Html.HiddenFor(model => model.AddAttachment)
-            @Html.HiddenFor(model => model.SignName)
             @Html.HiddenFor(model => model.OrderNum)
             @if (!String.IsNullOrEmpty(Model.OrderNum))
             {
@@ -124,13 +123,13 @@
                     </div>
                 </div>
                 @**<div class="col-xs-2">
-                <div class="editor-label">
-                    @Html.LabelForRequired(model => Model.ControlDate)
-                </div>
-                <div class="editor-field">
-                    @Html.TextBoxFor(model => model.ControlDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", data_date_format = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.ToLower(), placeholder = "Срок исполнения", startDate = "" })
-                </div>
-            </div>*@
+                        <div class="editor-label">
+                            @Html.LabelForRequired(model => Model.ControlDate)
+                        </div>
+                        <div class="editor-field">
+                            @Html.TextBoxFor(model => model.ControlDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", data_date_format = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.ToLower(), placeholder = "Срок исполнения", startDate = "" })
+                        </div>
+                    </div>*@
                 <div class="col-xs-8">
                     <div class="editor-label">
                         @Html.LabelFor(model => model.ItemCauseNumber)
@@ -236,6 +235,19 @@
             <div class="editor-field">
                 @Html.TextBoxFor(model => Model.SignTitle, new { @class = "form-control", @size = 256, placeholder = "Подпись должность" })
             </div>
+            @if (User.IsInRole("Administrator") || User.IsInRole("SetupAdministrator"))
+            {
+                <div class="editor-label">
+                    @Html.LabelForRequired(model => Model.SignName)
+                </div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => Model.SignName, new { @class = "form-control", @size = 256, placeholder = "Подпись ФИО" })
+                </div>
+            }
+            else
+            { 
+                @Html.HiddenFor(model => model.SignName)
+            }
 
             <div class="modal itemcause-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-sidebar">
@@ -267,49 +279,49 @@
             {
                 <text>
         var buttoncancelorderstatus = true;
-                </text>
+        </text>
             }
             else
             {
                 <text>
         var buttoncancelorderstatus = false;
-                document.getElementById('buttoncancelorder').style.visibility = 'visible';
-                </text>
+        document.getElementById('buttoncancelorder').style.visibility = 'visible';
+        </text>
             }
 
             if(Model.Addition == false)
             {
                 <text>
         var buttonadditionorderstatus = true;
-                </text>
+        </text>
             }
             else
             {
                 <text>
         var buttonadditionorderstatus = false;
-                document.getElementById('additiontextid').style.visibility = 'visible';
-                </text>
+        document.getElementById('additiontextid').style.visibility = 'visible';
+        </text>
             }
 
             <text>
-            $('#CancelOrder').click(function (event) {
-                buttoncancelorderstatus = !buttoncancelorderstatus;
-                if (buttoncancelorderstatus) {
-                    document.getElementById('buttoncancelorder').style.visibility = 'hidden';
-                } else {
-                    document.getElementById('buttoncancelorder').style.visibility = 'visible';
-                }
-            });
+        $('#CancelOrder').click(function (event) {
+            buttoncancelorderstatus = !buttoncancelorderstatus;
+            if (buttoncancelorderstatus) {
+                document.getElementById('buttoncancelorder').style.visibility = 'hidden';
+            } else {
+                document.getElementById('buttoncancelorder').style.visibility = 'visible';
+            }
+        });
 
-            $('#Addition').click(function (event) {
-                buttonadditionorderstatus = !buttonadditionorderstatus;
-                if (buttonadditionorderstatus) {
-                    document.getElementById('additiontextid').style.visibility = 'hidden';
-                } else {
-                    document.getElementById('additiontextid').style.visibility = 'visible';
-                }
-            });
-            </text>
+        $('#Addition').click(function (event) {
+            buttonadditionorderstatus = !buttonadditionorderstatus;
+            if (buttonadditionorderstatus) {
+                document.getElementById('additiontextid').style.visibility = 'hidden';
+            } else {
+                document.getElementById('additiontextid').style.visibility = 'visible';
+            }
+        });
+        </text>
         }
 
         $('.itemcauseslink').click(function (event) {

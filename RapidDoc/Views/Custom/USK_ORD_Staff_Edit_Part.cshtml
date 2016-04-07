@@ -104,7 +104,6 @@
             @Html.HiddenFor(model => model.ListSubcription)
             @Html.HiddenFor(model => model.AddReaders)
             @Html.HiddenFor(model => model.AddAttachment)
-            @Html.HiddenFor(model => model.SignName)
             @Html.HiddenFor(model => model.OrderNum)
             @if (!String.IsNullOrEmpty(Model.OrderNum))
             {
@@ -236,6 +235,19 @@
             <div class="editor-field">
                 @Html.TextBoxFor(model => Model.SignTitle, new { @class = "form-control", @size = 256, placeholder = "Подпись должность" })
             </div>
+            @if (User.IsInRole("Administrator") || User.IsInRole("SetupAdministrator"))
+            {
+                <div class="editor-label">
+                    @Html.LabelForRequired(model => Model.SignName)
+                </div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => Model.SignName, new { @class = "form-control", @size = 256, placeholder = "Подпись ФИО" })
+                </div>
+            }
+            else
+            {
+                @Html.HiddenFor(model => model.SignName)
+            }
 
             <div class="modal itemcause-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-sidebar">

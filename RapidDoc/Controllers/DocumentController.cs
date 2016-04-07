@@ -1237,7 +1237,7 @@ namespace RapidDoc.Controllers
         public ActionResult GetAllComment(Guid documentId, string lastComment = "")
         {
             SaveComment(documentId, lastComment);
-            var model = _CommentService.GetPartialView(x => x.DocumentTableId == documentId);
+            var model = _CommentService.GetPartialView(x => x.DocumentTableId == documentId).OrderByDescending(x => x.CreatedDate);
             return PartialView("~/Views/Shared/_Comments.cshtml", model);
         }
 

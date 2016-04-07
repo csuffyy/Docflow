@@ -690,4 +690,7 @@
   <data name="Correspondence" xml:space="preserve">
     <value>Корреспонденция</value>
   </data>
+  <data name="Executed" xml:space="preserve">
+    <value>Исполнено</value>
+  </data>
 </root>

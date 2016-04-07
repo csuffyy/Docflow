@@ -18,6 +18,7 @@ using RapidDoc.Models.ViewModels;
 using System.Text.RegularExpressions;
 using System.Data.Entity.Core.Objects;
 
+
 namespace RapidDoc.Models.Services
 {
     public interface IDocumentService
@@ -2010,7 +2011,11 @@ namespace RapidDoc.Models.Services
                 foreach (var childTask in childTasks)
                 {
                     string executor = documentChildTasks.FirstOrDefault(x => x.Id == childTask.DocumentTableId).ApplicationUserModifiedId;
-                    jointMainRelatedText += "Отчет: " + _EmplService.FirstOrDefault(e => e.ApplicationUserId == executor).ShortFullNameType2 + ": " + _SystemService.DeleteAllTags(childTask.ReportText) + "</br>";
+                    jointMainRelatedText += childTask.ReportText.Contains(UIElementRes.UIElement.Executed) == true ?
+                        (UIElementRes.UIElement.Executed + ": " + _EmplService.FirstOrDefault(e => e.ApplicationUserId == executor).ShortFullNameType2 + ": " + childTask.ReportText) :
+                        (UIElementRes.UIElement.Executed + ": " + _EmplService.FirstOrDefault(e => e.ApplicationUserId == executor).ShortFullNameType2 + ": " + _SystemService.DeleteAllTags(childTask.ReportText) + "</br>")
+                        ;
+                    ;
                 }
 
                 var documentIdNew = CloseTask(docTable, userTable, jointMainRelatedText, documentChildTasks.FirstOrDefault().ApplicationUserCreatedId, TrackerType.Approved);
