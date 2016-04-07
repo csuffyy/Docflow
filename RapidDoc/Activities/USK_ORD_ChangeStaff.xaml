@@ -68,7 +68,6 @@
       <AssemblyReference>Microsoft.Owin.Security.Twitter</AssemblyReference>
       <AssemblyReference>Microsoft.WindowsAzure.Configuration</AssemblyReference>
       <AssemblyReference>Microsoft.WindowsAzure.Storage</AssemblyReference>
-      <AssemblyReference>MySql.Data</AssemblyReference>
       <AssemblyReference>Newtonsoft.Json</AssemblyReference>
       <AssemblyReference>Ninject</AssemblyReference>
       <AssemblyReference>Ninject.Web.Common</AssemblyReference>
@@ -533,7 +532,7 @@
                                             <Flowchart DisplayName="Регистрация" sap2010:WorkflowViewState.IdRef="Flowchart_3">
                                               <Flowchart.StartNode>
                                                 <FlowStep x:Name="__ReferenceID9" sap2010:WorkflowViewState.IdRef="FlowStep_6">
-                                                  <local1:WFChooseRoleUser _service="{x:Null}" executionStep="{x:Null}" slaOffset="{x:Null}" DisplayName="Регистрация" sap2010:WorkflowViewState.IdRef="WFChooseRoleUser_2" inputRoleName="KZH_ORD_Registration" inputSystemName="Registration" noneSkip="True" useManual="False">
+                                                  <local1:WFChooseRoleUser _service="{x:Null}" executionStep="{x:Null}" slaOffset="{x:Null}" DisplayName="Регистрация" sap2010:WorkflowViewState.IdRef="WFChooseRoleUser_2" inputRoleName="KZH_SK_ORD_Registration" inputSystemName="Registration" noneSkip="True" useManual="False">
                                                     <local1:WFChooseRoleUser.inputCurrentUser>
                                                       <InArgument x:TypeArguments="x:String">
                                                         <mca:CSharpValue x:TypeArguments="x:String">inputCurrentUser</mca:CSharpValue>
@@ -771,7 +770,7 @@
     <x:Reference>__ReferenceID26</x:Reference>
     <x:Reference>__ReferenceID27</x:Reference>
     <x:Reference>__ReferenceID28</x:Reference>
-    <sads:DebugSymbol.Symbol>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</sads:DebugSymbol.Symbol>
+    <sads:DebugSymbol.Symbol>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</sads:DebugSymbol.Symbol>
   </Flowchart>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>
@@ -976,13 +975,13 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="FlowDecision_2" sap:VirtualizedContainerService.HintSize="122,87">
+      <sap2010:ViewStateData Id="FlowDecision_2" sap:VirtualizedContainerService.HintSize="128,87">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
             <av:Point x:Key="ShapeLocation">186,201</av:Point>
-            <av:Size x:Key="ShapeSize">122,87</av:Size>
-            <av:PointCollection x:Key="FalseConnector">308,244.5 338,244.5 338,250 440,250</av:PointCollection>
+            <av:Size x:Key="ShapeSize">128,87</av:Size>
+            <av:PointCollection x:Key="FalseConnector">314,244.5 344,244.5 344,250 440,250</av:PointCollection>
             <av:PointCollection x:Key="TrueConnector">299,427.42 277.25,427.42 277.25,543.92 547.25,543.92 547.25,573.92</av:PointCollection>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
@@ -992,11 +991,11 @@
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <av:Point x:Key="ShapeLocation">150,129</av:Point>
             <av:Size x:Key="ShapeSize">200,22</av:Size>
-            <av:PointCollection x:Key="ConnectorLocation">250,151 250,181 247,181 247,201</av:PointCollection>
+            <av:PointCollection x:Key="ConnectorLocation">250,151 250,201</av:PointCollection>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="Flowchart_3" sap:VirtualizedContainerService.HintSize="200,51">
+      <sap2010:ViewStateData Id="Flowchart_3" sap:VirtualizedContainerService.HintSize="660,636">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
