@@ -134,13 +134,13 @@
     $('#approveTask').click(function (event) {
         var comment = $('#ApproveCommentTask').summernote('code');
         if (checkTextExists(comment) == false) {
-            bootstrap_alertReport.warning('Необходимо заполнить отчет о закрытии');
+            bootstrap_alertReport.warning('Необходимо заполнить отчет для закрытия поручения');
             event.preventDefault();
             return false;
         }
 
         if (getClearText(comment).length <= 3) {
-            bootstrap_alertReport.warning('Необходимо заполнить более 3 символов');
+            bootstrap_alertReport.warning('Отчет должен быть более 3 символов');
             event.preventDefault();
             return false;
         }
@@ -149,12 +149,12 @@
     $('#rejectTask').click(function (event) {
         var comment = $('#RejectCommentTask').summernote('code');
         if (checkTextExists(comment) == false) {
-            bootstrap_alert.warning('Необходимо заполнить причину отклонения');
+            bootstrap_alert.warning('Необходимо указать причину отклонения');
             event.preventDefault();
             return false;
         }
         if (getClearText(comment).length <= 3) {
-            bootstrap_alert.warning('Необходимо заполнить более 3 символов');
+            bootstrap_alert.warning('Причина отклонения должна быть более 3 символов');
             event.preventDefault();
             return false;
         }     
