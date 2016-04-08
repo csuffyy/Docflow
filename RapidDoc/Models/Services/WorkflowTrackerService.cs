@@ -61,55 +61,10 @@ namespace RapidDoc.Models.Services
             List<WFTrackerListView> trackerViewItems = new List<WFTrackerListView>();
 
             int rowNum = 0;
-            string workers;
             string prevActivityID = String.Empty;
 
             foreach (var item in trackerDomainItems)
             {
-                workers = String.Empty;
-               
-                foreach(var userItem in item.Users)
-                {
-                    EmplTable empl = cacheEmplList.FirstOrDefault(x => x.ApplicationUserId == userItem.UserId);
-
-                    if (workers != String.Empty)
-                    {
-                        workers += ", ";
-                    }
-                    
-                    workers += string.Format("({0}) {1} - {2}", empl.CompanyTable.AliasCompanyName, empl.FullName, empl.TitleTable.TitleName);
-
-                    var delegationItems = repoDelegation.FindAll(x => x.EmplTableFromId == empl.Id
-                        && x.DateFrom <= DateTime.UtcNow && x.DateTo >= DateTime.UtcNow
-                        && x.isArchive == false && x.CompanyTableId == empl.CompanyTable.Id).ToList();
-
-                    bool addUser;
-                    foreach (var delegationItem in delegationItems)
-                    {
-                        addUser = false;
-                        if (delegationItem.GroupProcessTableId != null || delegationItem.ProcessTableId != null)
-                        {
-                            if (delegationItem.ProcessTableId == item.DocumentTable.ProcessTableId)
-                            {
-                                addUser = true;
-                            }
-                            else if (delegationItem.GroupProcessTableId != null && (delegationItem.GroupProcessTableId == item.DocumentTable.ProcessTable.GroupProcessTableId || _GroupProcessService.GetGroupChildren(delegationItem.GroupProcessTableId).Any(x => x == item.DocumentTable.ProcessTable.GroupProcessTableId)))
-                            {
-                                addUser = true;
-                            }
-                        }
-                        else
-                        {
-                            addUser = true;
-                        }
-
-                        if(addUser == true)
-                        {
-                            workers += string.Format(" ==> ({0}) {1} - {2}", delegationItem.EmplTableTo.CompanyTable.AliasCompanyName, delegationItem.EmplTableTo.FullName, delegationItem.EmplTableTo.TitleTable.TitleName);
-                        }
-                    }
-                }
-
                 if(item.ParallelID != String.Empty)
                 {
                     if (prevActivityID != item.ParallelID)
@@ -163,6 +118,50 @@ namespace RapidDoc.Models.Services
                 }
                 else
                 {
+                    string workers = String.Empty;
+
+                    foreach (var userItem in item.Users)
+                    {
+                        EmplTable empl = cacheEmplList.FirstOrDefault(x => x.ApplicationUserId == userItem.UserId);
+
+                        if (workers != String.Empty)
+                        {
+                            workers += ", ";
+                        }
+
+                        workers += string.Format("({0}) {1} - {2}", empl.CompanyTable.AliasCompanyName, empl.FullName, empl.TitleTable.TitleName);
+
+                        var delegationItems = repoDelegation.FindAll(x => x.EmplTableFromId == empl.Id
+                            && x.DateFrom <= DateTime.UtcNow && x.DateTo >= DateTime.UtcNow
+                            && x.isArchive == false && x.CompanyTableId == empl.CompanyTable.Id).ToList();
+
+                        bool addUser;
+                        foreach (var delegationItem in delegationItems)
+                        {
+                            addUser = false;
+                            if (delegationItem.GroupProcessTableId != null || delegationItem.ProcessTableId != null)
+                            {
+                                if (delegationItem.ProcessTableId == item.DocumentTable.ProcessTableId)
+                                {
+                                    addUser = true;
+                                }
+                                else if (delegationItem.GroupProcessTableId != null && (delegationItem.GroupProcessTableId == item.DocumentTable.ProcessTable.GroupProcessTableId || _GroupProcessService.GetGroupChildren(delegationItem.GroupProcessTableId).Any(x => x == item.DocumentTable.ProcessTable.GroupProcessTableId)))
+                                {
+                                    addUser = true;
+                                }
+                            }
+                            else
+                            {
+                                addUser = true;
+                            }
+
+                            if (addUser == true)
+                            {
+                                workers += string.Format(" ==> ({0}) {1} - {2}", delegationItem.EmplTableTo.CompanyTable.AliasCompanyName, delegationItem.EmplTableTo.FullName, delegationItem.EmplTableTo.TitleTable.TitleName);
+                            }
+                        }
+                    }
+
                     EmplTable createdEmpl = cacheEmplList.FirstOrDefault(x => x.ApplicationUserId == item.ApplicationUserCreatedId);
 
                     WFTrackerListView model = new WFTrackerListView
