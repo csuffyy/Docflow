@@ -2094,7 +2094,7 @@ namespace RapidDoc.Models.Services
             }
             else if (parentDocumentSourceTable != null && parentDocumentSourceTable.DocType == DocumentType.Protocol)
             {
-                var protocolDoc = GetDocumentView(parentDocumentSourceTable.RefDocumentId, process);
+                var protocolDoc = GetDocumentView(parentDocumentSourceTable.RefDocumentId, parentDocumentSourceTable.ProcessTable.TableName);
                 if (!String.IsNullOrEmpty(protocolDoc.Chairman))
                 {
                     Guid chairmanEmplId = Guid.Parse(_SystemService.GuidsFromText(protocolDoc.Chairman)[0]);
