@@ -388,6 +388,8 @@ namespace RapidDoc.Models.Infrastructure
         public DbSet<USR_REQ_IT_CTS_ProblemWithWS_Table> USR_REQ_IT_CTS_ProblemWithWS_Table { get; set; }
         public DbSet<USR_REQ_UMM_ProvisionOfWelder_Table> USR_REQ_UMM_ProvisionOfWelder_Table { get; set; }
         public DbSet<USC_REQ_IT_CAP_ChangeDocument_Table> USC_REQ_IT_CAP_ChangeDocument_Table { get; set; }
+        public DbSet<USK_REQ_HR_RequestForTraining_Table> USK_REQ_HR_RequestForTraining_Table { get; set; }
+        public DbSet<USK_REQ_HR_RequestForStaffSelection_Table> USK_REQ_HR_RequestForStaffSelection_Table { get; set; }
                      
         protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder)
         {

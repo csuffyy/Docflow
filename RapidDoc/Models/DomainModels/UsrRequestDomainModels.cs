@@ -4600,6 +4600,51 @@ namespace RapidDoc.Models.DomainModels
 
     }
 
+    public class USK_REQ_HR_RequestForTraining_Table : BasicDocumentTable
+    {
+        public string Department { get; set; }
+        public DateTime? DateFrom { get; set; }
+        public DateTime? DateTo { get; set; }
+        public string Subject { get; set; }
+        public string Vendor { get; set; }
+        public string Participants { get; set; }
+        public bool Active { get; set; }
+        public bool Classroom { get; set; }
+        public bool Other { get; set; }
+        public string Duration { get; set; }
+        public string Location { get; set; }
+        public string Company { get; set; }
+
+    }
+
+    public class USK_REQ_HR_RequestForStaffSelection_Table : BasicDocumentTable
+    {
+        public string Position { get; set; }
+        public int Count { get; set; }
+        public string Department { get; set; }
+        public string Reason { get; set; }
+        public DateTime? ClosedDate { get; set; }
+        public string Possibility { get; set; }
+        public string Executive { get; set; }
+        public string ContactPerson { get; set; }
+        public string Phone { get; set; }
+        public string Age { get; set; }
+        public string Education { get; set; }
+        public string Experience { get; set; }
+        public string Requirement { get; set; }
+        public string Skills { get; set; }
+        public string Character { get; set; }
+        public string Additional { get; set; }
+        public string FuncDuties { get; set; }
+        public string AddDuties { get; set; }
+        public string DirectExecutive { get; set; }
+        public string Management { get; set; }
+        public string Salary { get; set; }
+        public string AddSalary { get; set; }
+        public string Schedule { get; set; }
+        public string BusinessTrip { get; set; }
+    }
+
     #endregion
 
     #region Заявки Kazzinc
