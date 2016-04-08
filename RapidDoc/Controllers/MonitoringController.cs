@@ -53,7 +53,10 @@ namespace RapidDoc.Controllers
                                     detailDoc.RefDocumentId != null &&
                                     ((documentRef.DocType == DocumentType.Order && context.USR_ORD_MainActivity_Table.Any(x => x.DocumentTableId == documentRef.Id)) ||
                                     (documentRef.DocType == DocumentType.IncomingDoc && context.USR_IND_IncomingDocuments_Table.Any(x => x.DocumentTableId == documentRef.Id)) ||
-                                    (documentRef.DocType == DocumentType.Protocol && context.USR_PRT_ProtocolDocuments_Table.Any(x => x.DocumentTableId == documentRef.Id)))
+                                    (documentRef.DocType == DocumentType.Protocol && context.USR_PRT_ProtocolDocuments_Table.Any(x => x.DocumentTableId == documentRef.Id)) ||
+                                    (documentRef.DocType == DocumentType.Order && context.USK_ORD_MainActivity_Table.Any(x => x.DocumentTableId == documentRef.Id)) ||
+                                    (documentRef.DocType == DocumentType.IncomingDoc && context.USK_IND_IncomingDocuments_Table.Any(x => x.DocumentTableId == documentRef.Id)) ||
+                                    (documentRef.DocType == DocumentType.Protocol && context.USK_PRT_DirectorateDocuments_Table.Any(x => x.DocumentTableId == documentRef.Id)))
                                 select new MonitoringTasksView
                                 { 
                                     DocumentNumber = document.DocumentNum,
