@@ -55,6 +55,10 @@
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => trackerItem.Executors)
+                            @if (trackerItem.SignDate != null && !String.IsNullOrEmpty(trackerItem.AllExecutors))
+                            {
+                                <span class="fa fa-ellipsis-h visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-toggle="tooltip" data-placement="top" title="@Html.DisplayFor(modelItem => trackerItem.AllExecutors)"></span>
+                            }
                         </td>
                         @if (isPerformDate == true)
                         {
