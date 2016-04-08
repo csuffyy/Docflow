@@ -94,7 +94,7 @@ namespace RapidDoc.Models.Services
         void CloseUpRelatedTasks(Guid documentId, ApplicationUser userTable);
         void CloseDownRelatedTasks(Guid documentId, ApplicationUser userTable, TrackerType trackerType);
         dynamic CloseTask(DocumentTable docTable, ApplicationUser userTable, string mainCloseText, string closeUserId, TrackerType trackerType);
-        List<List<WFTrackerUsersTable>> GetUsersUpProlongatedTask(Guid documentId, string process);
+        List<List<WFTrackerUsersTable>> GetUsersUpProlongatedTask(Guid documentId, string process, DateTime createdDate);
         Guid FindRootTaskDocument(Guid documentId, string processTableName);
         void ApplyProlongateDate(Guid documentId, DateTime prolongationDate, string currentUserId, ProcessView process);
         void ProlongateDate(Guid documentId, DateTime prolongationDate, string currentUserId, ProcessView process);
@@ -306,6 +306,7 @@ namespace RapidDoc.Models.Services
                 documentAccessList.AddRange(from document in contextQuery.DocumentTable
                                             from tracker in contextQuery.WFTrackerTable.Where(x => x.DocumentTableId == document.Id).OrderByDescending(x => x.LineNum).Take(1)
                                             where document.DocType == DocumentType.Task && tracker.TrackerType == TrackerType.Waiting && tracker.Users.Any(x => x.UserId == user.Id)
+                                            && !contextQuery.USR_TAS_DailyTasks_Table.Any(x => x.RefDocumentId == document.Id && x.ReportText == null)
                                             select document.Id);
 
                 documentAccessList.AddRange(from document in contextQuery.DocumentTable
@@ -2066,12 +2067,12 @@ namespace RapidDoc.Models.Services
             }
         }
 
-        public List<List<WFTrackerUsersTable>> GetUsersUpProlongatedTask(Guid documentId, string process)
+        public List<List<WFTrackerUsersTable>> GetUsersUpProlongatedTask(Guid documentId, string process, DateTime createdDate)
         {
             List<List<WFTrackerUsersTable>> listUsersId = new List<List<WFTrackerUsersTable>>();
             List<List<WFTrackerUsersTable>> listUsersBufId = new List<List<WFTrackerUsersTable>>();
             DocumentTable docTable = Find(documentId);
-            List<WFTrackerTable> trackerUsers = _WorkflowTrackerService.GetCurrentStep(x => x.DocumentTableId == documentId && x.TrackerType == TrackerType.Waiting).OrderByDescending(y => y.LineNum).ToList();
+            List<WFTrackerTable> trackerUsers = _WorkflowTrackerService.GetCurrentStep(x => x.DocumentTableId == documentId && x.TrackerType == TrackerType.Waiting && x.CreatedDate <= createdDate).OrderByDescending(y => y.LineNum).ToList();
 
             foreach (var trackerUser in trackerUsers)
             {
@@ -2089,7 +2090,7 @@ namespace RapidDoc.Models.Services
 
             if (parentDocumentSourceTable != null && parentDocumentSourceTable.DocType == DocumentType.Task && parentDocumentSourceTable.Executed == false)
             {
-                listUsersBufId = GetUsersUpProlongatedTask(parentDocumentSourceTable.Id, process);
+                listUsersBufId = GetUsersUpProlongatedTask(parentDocumentSourceTable.Id, process, docTable.CreatedDate);
             }
             else if (parentDocumentSourceTable != null && parentDocumentSourceTable.DocType == DocumentType.Protocol)
             {

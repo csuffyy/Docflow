@@ -806,7 +806,7 @@ namespace RapidDoc.Models.Services
                         task = true;
                         List<List<WFTrackerUsersTable>> listUsersId = new List<List<WFTrackerUsersTable>>();
                         string process = "USR_TAS_DailyTasks";
-                        listUsersId = _DocumentService.GetUsersUpProlongatedTask(refTaskDocument.Id, process);
+                        listUsersId = _DocumentService.GetUsersUpProlongatedTask(refTaskDocument.Id, process, documentTable.CreatedDate);
                         if (listUsersId.Count() > 0)
                         {
                             endListUsers.AddRange(listUsersId);
