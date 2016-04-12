@@ -749,6 +749,15 @@ namespace RapidDoc.Controllers
 
             _DocumentService.CloseDownRelatedTasks(documentId, user, TrackerType.Approved);
 
+            string relatedReportTexts = _DocumentService.GetDownTaskReports(documentId);
+
+            if (!String.IsNullOrEmpty(relatedReportTexts))
+            {
+                documentIdNew.ReportText = _SystemService.DeleteAllTags(documentIdNew.ReportText);
+                documentIdNew.ReportText += "</br>" + relatedReportTexts;
+                _DocumentService.UpdateDocumentFields(documentIdNew, process);
+            }
+
             if(collection["RefDocumentId"] != null)
             {
                 Guid sourceDocumentId = Guid.Parse(collection["RefDocumentId"]);
@@ -779,11 +788,15 @@ namespace RapidDoc.Controllers
                     }
                     if (documentSourceTable.DocType == DocumentType.Task && documentSourceTable.Executed == false)
                     {
+                       
+                        _DocumentService.ChangeUpRelatedTasksReports(documentSourceTable.Id, user);
+
                         _DocumentService.CloseUpRelatedTasks(documentSourceTable.Id, user);
                     }
+
                 }
             }
-
+                      
             _HistoryUserService.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = Models.Repository.HistoryType.ApproveDocument }, User.Identity.GetUserId());
             if (documentIdNew.RefDocumentId != null)
             {
@@ -853,12 +866,13 @@ namespace RapidDoc.Controllers
         [MultipleButton(Name = "action", Argument = "ReturnTask")]
         public ActionResult ReturnTask(Guid processId, int type, Guid fileId, FormCollection collection, string actionModelName, Guid documentId)
         {
+           // string previousReportText = "";
             if (User.IsInRole("Administrator") || User.IsInRole("SetupAdministrator") || User.IsInRole("OpenDocuments"))
             {
                 string currentUserId = User.Identity.GetUserId();
                 ProcessView process = _ProcessService.FindView(processId);
                 var documentIdNew = _DocumentService.GetDocumentView(_DocumentService.Find(documentId).RefDocumentId, process.TableName);
-
+               // previousReportText = (string)documentIdNew.ReportText;
                 List<WFTrackerTable> trackerTableList = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == documentId).ToList();
 
                 foreach (var tracker in trackerTableList)
@@ -870,13 +884,20 @@ namespace RapidDoc.Controllers
                 }
 
                 DocumentTable documentTable = _DocumentService.Find(documentId);
+                                          
                 documentTable.DocumentState = DocumentState.OnSign;
-                documentTable.ActivityName = "Исполнители";
+                documentTable.ActivityName = "Исполнители";              
                 _DocumentService.UpdateDocument(documentTable, currentUserId);
-
+                         
                 documentIdNew.ReportText = "";
                 _DocumentService.UpdateDocumentFields(documentIdNew, process);
 
+                //DocumentTable documentSourceTable = _DocumentService.Find(documentIdNew.RefDocumentId);
+                //if (documentSourceTable != null && documentSourceTable.DocType == DocumentType.Task)
+                //{
+                //    string reportText = "[" + UIElementRes.UIElement.Executed + "]: [" + _EmplService.FirstOrDefault(e => e.ApplicationUserId == documentTable.ApplicationUserModifiedId).ShortFullNameType2 + "]: " + _SystemService.DeleteAllTags((string)documentIdNew.ReportText);
+                //    _DocumentService.ClearUpRelatedTaskReports(reportText, documentSourceTable.Id);
+                //}
                 return RedirectToAction("Index", "Document");
             }
 
