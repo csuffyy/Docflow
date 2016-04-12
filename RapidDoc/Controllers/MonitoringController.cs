@@ -91,16 +91,45 @@ namespace RapidDoc.Controllers
                 {
 
                     case DocumentType.Order:
-                        USR_ORD_MainActivity_Table order = context.USR_ORD_MainActivity_Table.FirstOrDefault(x => x.DocumentTableId == item.RefDocId);
-                        item.DocumentText = String.Format(@"({0})/({1})", order.OrderNum, order.Subject);
+                        switch (currentUser.CompanyTable.AliasCompanyName)
+	                    {
+                            case "ATK":
+                                USR_ORD_MainActivity_Table orderAtk = context.USR_ORD_MainActivity_Table.FirstOrDefault(x => x.DocumentTableId == item.RefDocId);
+                                item.DocumentText = String.Format(@"({0})/({1})", orderAtk.OrderNum, orderAtk.Subject);
+                            break;
+                            case "KZH":
+                            USK_ORD_MainActivity_Table orderKzh = context.USK_ORD_MainActivity_Table.FirstOrDefault(x => x.DocumentTableId == item.RefDocId);
+                            item.DocumentText = String.Format(@"({0})/({1})", orderKzh.OrderNum, orderKzh.Subject);
+                            break;
+	                    }
                         break;
                     case DocumentType.IncomingDoc:
-                        USR_IND_IncomingDocuments_Table incoming = context.USR_IND_IncomingDocuments_Table.FirstOrDefault(x => x.DocumentTableId == item.RefDocId);
-                        item.DocumentText = String.Format(@"({0})/({1})", incoming.IncomingDocNum, incoming.DocumentSubject);
+                        switch (currentUser.CompanyTable.AliasCompanyName)
+                        {
+                            case "ATK":
+                                USR_IND_IncomingDocuments_Table incomingAtk = context.USR_IND_IncomingDocuments_Table.FirstOrDefault(x => x.DocumentTableId == item.RefDocId);
+                                item.DocumentText = String.Format(@"({0})/({1})", incomingAtk.IncomingDocNum, incomingAtk.DocumentSubject);
+                                break;
+                            case "KZH":
+                                USK_IND_IncomingDocuments_Table incomingKzh = context.USK_IND_IncomingDocuments_Table.FirstOrDefault(x => x.DocumentTableId == item.RefDocId);
+                                item.DocumentText = String.Format(@"({0})/({1})", incomingKzh.IncomingDocNum, incomingKzh.DocumentSubject);
+                                break;
+                        }
+                        
                         break;
                     case DocumentType.Protocol:
-                        USR_PRT_ProtocolDocuments_Table protocol = context.USR_PRT_ProtocolDocuments_Table.FirstOrDefault(x => x.DocumentTableId == item.RefDocId);
-                        item.DocumentText = protocol.Subject;
+                        switch (currentUser.CompanyTable.AliasCompanyName)
+                        {
+                            case "ATK":
+                                USR_PRT_ProtocolDocuments_Table protocolAtk = context.USR_PRT_ProtocolDocuments_Table.FirstOrDefault(x => x.DocumentTableId == item.RefDocId);
+                                item.DocumentText = protocolAtk.Subject;
+                                break;
+                            case "KZH":
+                                USK_PRT_DirectorateDocuments_Table protocolKzh = context.USK_PRT_DirectorateDocuments_Table.FirstOrDefault(x => x.DocumentTableId == item.RefDocId);
+                                item.DocumentText = protocolKzh.Subject;
+                                break;
+                        }
+                        
                         break;
                 }
 
