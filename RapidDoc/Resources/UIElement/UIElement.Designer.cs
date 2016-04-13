@@ -187,6 +187,15 @@ namespace UIElementRes {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Закрыто автоматически.
+        /// </summary>
+        public static string AutoClose {
+            get {
+                return ResourceManager.GetString("AutoClose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Назад.
         /// </summary>
         public static string Back {
@@ -691,7 +700,7 @@ namespace UIElementRes {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Исполнено.
+        ///   Looks up a localized string similar to Исполнено: .
         /// </summary>
         public static string Executed {
             get {

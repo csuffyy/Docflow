@@ -685,6 +685,9 @@
     <value>Correspondence</value>
   </data>
   <data name="Executed" xml:space="preserve">
-    <value>Executed</value>
+    <value>Исполнено: </value>
+  </data>
+  <data name="AutoClose" xml:space="preserve">
+    <value>Закрыто автоматически</value>
   </data>
 </root>

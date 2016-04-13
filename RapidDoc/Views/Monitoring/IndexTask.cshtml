@@ -147,7 +147,7 @@
             <br />
             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true"> 
                 @{type = RapidDoc.Models.Repository.DocumentType.Protocol.ToString();}
-                @foreach (var itemGroup in Model.Where(y => y.DocumentRefType == RapidDoc.Models.Repository.DocumentType.Order).GroupBy(x => x.Year).OrderBy(x => x.Key))
+                @foreach (var itemGroup in Model.Where(y => y.DocumentRefType == RapidDoc.Models.Repository.DocumentType.Protocol).GroupBy(x => x.Year).OrderBy(x => x.Key))
                 {
                     num3++;
                     <div class="panel panel-default">

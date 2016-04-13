@@ -100,7 +100,6 @@ namespace RapidDoc.Models.Services
         void ProlongateDate(Guid documentId, DateTime prolongationDate, string currentUserId, ProcessView process);
         string GetDownTaskReports(Guid documentId);
         void ChangeUpRelatedTasksReports(Guid documentId, ApplicationUser user);
-        void ClearUpRelatedTaskReports(string reportText, Guid documentId);
     }
 
     public class DocumentService : IDocumentService
@@ -2011,12 +2010,12 @@ namespace RapidDoc.Models.Services
 
             if (documentChildTasks.Where(x => x.DocumentState != DocumentState.Closed && x.DocumentState != DocumentState.Cancelled).Count() == 0 && documentChildTasks.Where(x => x.DocumentState == DocumentState.Closed).Count() > 0 && (docTable.DocumentState != DocumentState.Closed && docTable.DocumentState != DocumentState.Cancelled))
             {
-                foreach (var childTask in childTasks)
+                foreach (var childTask in childTasks.Where(x => !x.ReportText.Contains(UIElementRes.UIElement.AutoClose)))
                 {
                     string executor = documentChildTasks.FirstOrDefault(x => x.Id == childTask.DocumentTableId).ApplicationUserModifiedId;
                     jointMainRelatedText += childTask.ReportText.Contains(UIElementRes.UIElement.Executed) == true ?
-                        ("[" + UIElementRes.UIElement.Executed + "]: [" + _EmplService.FirstOrDefault(e => e.ApplicationUserId == executor).ShortFullNameType2 + "]: " + childTask.ReportText) :
-                        ("[" + UIElementRes.UIElement.Executed + "]: [" + _EmplService.FirstOrDefault(e => e.ApplicationUserId == executor).ShortFullNameType2 + "]: " + _SystemService.DeleteAllTags(childTask.ReportText) + "</br>");
+                        ("[" + _EmplService.FirstOrDefault(e => e.ApplicationUserId == executor).ShortFullNameType2 + "] " + UIElementRes.UIElement.Executed + childTask.ReportText) :
+                        ("[" + _EmplService.FirstOrDefault(e => e.ApplicationUserId == executor).ShortFullNameType2 + "] " + UIElementRes.UIElement.Executed +_SystemService.DeleteAllTags(childTask.ReportText) + "</br>");
                 }
 
                 var documentIdNew = CloseTask(docTable, userTable, jointMainRelatedText, documentChildTasks.FirstOrDefault().ApplicationUserCreatedId, TrackerType.Approved);
@@ -2048,7 +2047,7 @@ namespace RapidDoc.Models.Services
         public void CloseDownRelatedTasks(Guid documentId, ApplicationUser userTable, TrackerType trackerType)
         {
             DocumentTable docTable = Find(documentId);
-            string closeText = "Закрыто автоматически";
+            string closeText = UIElementRes.UIElement.AutoClose;
 
             List<USR_TAS_DailyTasks_Table> childTasks = _uow.GetDbContext<ApplicationDbContext>().USR_TAS_DailyTasks_Table.Where(x => x.RefDocumentId == docTable.Id && (x.ReportText == null || x.ReportText == "")).ToList();
 
@@ -2145,8 +2144,8 @@ namespace RapidDoc.Models.Services
                 id = FindRootTaskDocument(parentDocumentSourceTable.Id, processTableName);
                 return id;
             }
-            else if (parentDocumentSourceTable != null)
-                return parentDocumentSourceTable.Id;
+            //else if (parentDocumentSourceTable != null)
+            //    return parentDocumentSourceTable.Id;
 
             return documentId;
         }
@@ -2201,12 +2200,12 @@ namespace RapidDoc.Models.Services
 
             if (childTasks.Count() > 0)
             {
-                foreach (var childTask in childTasks)
+                foreach (var childTask in childTasks.Where(x => !x.ReportText.Contains(UIElementRes.UIElement.AutoClose)))
                 {
                     string executor = FirstOrDefault(x => x.Id == childTask.DocumentTableId).ApplicationUserModifiedId;
                     relatedReportTexts += childTask.ReportText.Contains(UIElementRes.UIElement.Executed) == true ?
-                        ("[" + UIElementRes.UIElement.Executed + "]: [" + _EmplService.FirstOrDefault(e => e.ApplicationUserId == executor).ShortFullNameType2 + "]: " + childTask.ReportText) :
-                        ("[" + UIElementRes.UIElement.Executed + "]: [" + _EmplService.FirstOrDefault(e => e.ApplicationUserId == executor).ShortFullNameType2 + "]: " + _SystemService.DeleteAllTags(childTask.ReportText) + "</br>");
+                        ("[" + _EmplService.FirstOrDefault(e => e.ApplicationUserId == executor).ShortFullNameType2 + "] " + UIElementRes.UIElement.Executed + childTask.ReportText) :
+                        ("[" + _EmplService.FirstOrDefault(e => e.ApplicationUserId == executor).ShortFullNameType2 + "] " + UIElementRes.UIElement.Executed + _SystemService.DeleteAllTags(childTask.ReportText) + "</br>");
                 }
             }
 
@@ -2232,18 +2231,18 @@ namespace RapidDoc.Models.Services
                 string[] stringSeparators = new string[] { "</br>" };
                 
 
-                if (reportChildTask.Contains("[" + UIElementRes.UIElement.Executed + "]:"))
+                if (reportChildTask.Contains(UIElementRes.UIElement.Executed))
                 {
                     List<string> arrayReportText = reportChildTask.Split(stringSeparators, StringSplitOptions.None).ToList();
-                    mainText = arrayReportText.Where(x => !x.Contains("[" + UIElementRes.UIElement.Executed + "]:") && x != null && x != "").FirstOrDefault();
+                    if (arrayReportText[0].Contains("[" + _EmplService.FirstOrDefault(e => e.ApplicationUserId == docTable.ApplicationUserModifiedId).ShortFullNameType2 + "] " + UIElementRes.UIElement.Executed))
+                        mainText = arrayReportText[0];
                 }
 
-                foreach (var childTask in childTasks)
+                foreach (var childTask in childTasks.Where(x => !x.ReportText.Contains(UIElementRes.UIElement.AutoClose)))
                 {
                     string executor = documentChildTasks.FirstOrDefault(x => x.Id == childTask.DocumentTableId).ApplicationUserModifiedId;
-                    jointMainRelatedText += childTask.ReportText.Contains(UIElementRes.UIElement.Executed) == true ?
-                        ("[" + UIElementRes.UIElement.Executed + "]: [" + _EmplService.FirstOrDefault(e => e.ApplicationUserId == executor).ShortFullNameType2 + "]: " + childTask.ReportText) :
-                        ("[" + UIElementRes.UIElement.Executed + "]: [" + _EmplService.FirstOrDefault(e => e.ApplicationUserId == executor).ShortFullNameType2 + "]: " + _SystemService.DeleteAllTags(childTask.ReportText) + "</br>");
+                    jointMainRelatedText += childTask.ReportText.Contains(UIElementRes.UIElement.Executed) == true ? childTask.ReportText :
+                        ("[" + _EmplService.FirstOrDefault(e => e.ApplicationUserId == executor).ShortFullNameType2 + "] " + UIElementRes.UIElement.Executed + _SystemService.DeleteAllTags(childTask.ReportText) + "</br>");
                 }
 
                 if (!String.IsNullOrEmpty(mainText))
@@ -2257,43 +2256,7 @@ namespace RapidDoc.Models.Services
                 if (documentSourceTable != null && documentSourceTable.DocType == DocumentType.Task)
                     ChangeUpRelatedTasksReports(documentSourceTable.Id, user);
             }
-        }
-
-
-        public void ClearUpRelatedTaskReports(string reportText, Guid documentId)
-        {
-            string finalyReportText = "";
-            USR_TAS_DailyTasks_Table childTask = _uow.GetDbContext<ApplicationDbContext>().USR_TAS_DailyTasks_Table.FirstOrDefault(x => x.DocumentTableId == documentId && x.ReportText != null &&
-                x.ReportText != "");
-            DocumentTable docTable = Find(documentId);
-            ProcessView process = _ProcessService.FindView(docTable.ProcessTableId);
-
-            if (childTask != null)
-            {
-                string[] stringSeparators = new string[] { "</br>" };
-                string[] arrayReportText = childTask.ReportText.Split(stringSeparators, StringSplitOptions.None);
-
-                if (arrayReportText != null && arrayReportText.ToList().Count() > 0 && arrayReportText.ToList().Where(x => x.Contains(reportText)).Count() > 0)
-                {
-                    List<string> listReportText = arrayReportText.ToList();
-                    listReportText.ForEach(x => finalyReportText += x == reportText ? "" : (x + "</br>"));
-
-                    childTask.ReportText = finalyReportText;
-                    UpdateDocumentFields(childTask, process);
-                }
-                else if (childTask.ReportText.Contains(reportText))
-                {
-                    childTask.ReportText = "";
-                    UpdateDocumentFields(childTask, process);
-                }
-
-                DocumentTable documentSourceTable = Find(childTask.RefDocumentId);
-                if (documentSourceTable != null && documentSourceTable.DocType == DocumentType.Task)
-                    ClearUpRelatedTaskReports(reportText, documentSourceTable.Id);
-
-            }
-
-        }
+        }    
 
         #endregion   
     }
