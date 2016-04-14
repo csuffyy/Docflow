@@ -851,6 +851,8 @@ namespace RapidDoc.Controllers
                 {
                     if (documentSourceTable.DocType == DocumentType.Task && documentSourceTable.Executed == false)
                     {
+                        _DocumentService.ChangeUpRelatedTasksReports(documentSourceTable.Id, user);
+
                         _DocumentService.CloseUpRelatedTasks(documentSourceTable.Id, user);
                     }
                 }

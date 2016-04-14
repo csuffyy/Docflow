@@ -22,7 +22,8 @@
 @Html.Grid(Model).Named("ordersGrid").Columns(columns =>
 {
     columns.Add(o => o.Id).Css("hidden");
-    columns.Add(o => o.OrgName).Titled(Html.DisplayNameFor(o => ((RapidDoc.Models.ViewModels.OrganizationView)o.Columns).OrgName).ToHtmlString()).Sortable(true).Filterable(true);  
+    columns.Add(o => o.OrgName).Titled(Html.DisplayNameFor(o => ((RapidDoc.Models.ViewModels.OrganizationView)o.Columns).OrgName).ToHtmlString()).Sortable(true).Filterable(true);
+    columns.Add(o => o.Enable).Titled(Html.DisplayNameFor(o => ((RapidDoc.Models.ViewModels.ItemCauseView)o.Columns).Enable).ToHtmlString()).Sortable(true).Filterable(true);
     columns.Add()
         .Encoded(false)
         .Sanitized(false)

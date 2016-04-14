@@ -118,6 +118,9 @@ namespace RapidDoc.Models.ViewModels
     {
         [Display(Name = "Организация")]
         public string OrgName { get; set; }
+
+        [Display(Name = "Включено")]
+        public bool Enable { get; set; }
     }
 
     public class TripMRPView : BasicView

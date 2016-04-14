@@ -75,6 +75,7 @@ namespace RapidDoc.Models.DomainModels
     public class OrganizationTable : BasicTable
     {
         public string OrgName { get; set; }
+        public bool Enable { get; set; }
     }
 
     public class ReasonRequestTable : BasicCompanyNullTable

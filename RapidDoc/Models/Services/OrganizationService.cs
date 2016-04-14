@@ -155,7 +155,7 @@ namespace RapidDoc.Models.Services
 
         public SelectList GetDropListOrganizationNull(Guid? id)
         {
-            var items = GetAllView().ToList();
+            var items = GetAllView().Where(x => x.Enable == true).ToList();
             items.Insert(0, new OrganizationView { OrgName = UIElementRes.UIElement.NoValue, Id = null });
             return new SelectList(items, "Id", "OrgName", id);
         }

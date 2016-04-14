@@ -690,4 +690,7 @@
   <data name="AutoClose" xml:space="preserve">
     <value>Закрыто автоматически</value>
   </data>
+  <data name="Cancelled" xml:space="preserve">
+    <value>Отклонено: </value>
+  </data>
 </root>

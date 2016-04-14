@@ -241,6 +241,15 @@ namespace UIElementRes {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Отклонено: .
+        /// </summary>
+        public static string Cancelled {
+            get {
+                return ResourceManager.GetString("Cancelled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Вы вошли в компанию {0}, поменять на {1}?.
         /// </summary>
         public static string ChangeCompanyQuestion {

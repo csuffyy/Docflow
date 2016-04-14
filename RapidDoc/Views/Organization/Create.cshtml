@@ -17,6 +17,14 @@
             @Html.TextBoxFor(model => model.OrgName, new { @class = "form-control", @size = 70, @maxlength = 70, placeholder = "Altyntau Kokshetau", @autofocus = "required", @x_webkit_speech = "" })
             @Html.ValidationMessageFor(model => model.OrgName)
         </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Enable)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.Enable)
+            @Html.ValidationMessageFor(model => model.Enable)
+        </div>
        
         @{Html.RenderPartial("SaveBackBtn");}
     </fieldset>
