@@ -774,6 +774,7 @@ namespace RapidDoc.Models.Repository
         [Display(Name = "Ж/Д (купе)")]
         Train = 3,
 
+        [Disabled]
         [Display(Name = "Авиа по разрешению")]
         AirPermission = 4,
     }

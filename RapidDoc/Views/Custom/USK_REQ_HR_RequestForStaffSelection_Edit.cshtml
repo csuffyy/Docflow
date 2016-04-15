@@ -1,151 +1,163 @@
-@model RapidDoc.Models.ViewModels.USK_REQ_HR_RequestForStaffSelection_View
+п»ї@model RapidDoc.Models.ViewModels.USK_REQ_HR_RequestForStaffSelection_View
 @using RapidDoc.Extensions;
 
 <div class="editor-label">
     @Html.LabelForRequired(model => Model.Position)
 </div>
 <div class="editor-field">
-    @Html.TextBoxFor(model => Model.Position, new { @class = "form-control", placeholder = "Вакантная должность", @autofocus = "required" })
+    @Html.TextBoxFor(model => Model.Position, new { @class = "form-control", placeholder = "Р’Р°РєР°РЅС‚РЅР°СЏ РґРѕР»Р¶РЅРѕСЃС‚СЊ", @autofocus = "required" })
 </div>
+
 <div class="editor-label">
     @Html.LabelForRequired(model => Model.Count)
 </div>
 <div class="editor-field">
-    @Html.TextBoxFor(model => Model.Count, new { @class = "form-control bfh-number", placeholder = "Кол-во вакансий", @autofocus = "required" })
+    @Html.TextBoxFor(model => Model.Count, new { @class = "form-control bfh-number", placeholder = "РљРѕР»-РІРѕ РІР°РєР°РЅСЃРёР№", @autofocus = "required" })
 </div>
+
 <div class="editor-label">
     @Html.LabelForRequired(model => Model.Department)
 </div>
 <div class="editor-field">
-    @Html.TextBoxFor(model => Model.Department, new { @class = "form-control", placeholder = "Подразделение" })
+    @Html.TextBoxFor(model => Model.Department, new { @class = "form-control", placeholder = "РџРѕРґСЂР°Р·РґРµР»РµРЅРёРµ" })
 </div>
+
 <div class="editor-label">
     @Html.LabelForRequired(model => Model.Reason)
 </div>
 <div class="editor-field">
-    @Html.TextAreaFor(model => Model.Reason, new { @class = "form-control", @row = 5, placeholder = "Причина появления вакансий" })
+    @Html.TextAreaFor(model => Model.Reason, new { @class = "form-control", @row = 5, placeholder = "РџСЂРёС‡РёРЅР° РїРѕСЏРІР»РµРЅРёСЏ РІР°РєР°РЅСЃРёР№" })
 </div>
+
 <div class="editor-label">
     @Html.LabelForRequired(model => Model.ClosedDate)
 </div>
 <div class="editor-field">
-    @Html.TextBoxFor(model => Model.ClosedDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control form-control-date", placeholder = "Желательная дата закрытия вакансий", startDate = "" })
+    @Html.TextBoxFor(model => Model.ClosedDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control form-control-date", placeholder = "Р–РµР»Р°С‚РµР»СЊРЅР°СЏ РґР°С‚Р° Р·Р°РєСЂС‹С‚РёСЏ РІР°РєР°РЅСЃРёР№", startDate = "" })
 </div>
+
 <div class="editor-label">
     @Html.LabelForRequired(model => Model.Possibility)
 </div>
 <div class="editor-field">
-    @Html.TextBoxFor(model => Model.Possibility, new { @class = "form-control", placeholder = "Возможность привлечения иногородних" })
+    @Html.TextBoxFor(model => Model.Possibility, new { @class = "form-control", placeholder = "Р’РѕР·РјРѕР¶РЅРѕСЃС‚СЊ РїСЂРёРІР»РµС‡РµРЅРёСЏ РёРЅРѕРіРѕСЂРѕРґРЅРёС…" })
 </div>
+
 <div class="editor-label">
     @Html.LabelForRequired(model => Model.Executive)
 </div>
 <div class="editor-field">
-    @Html.TextBoxFor(model => Model.Executive, new { @class = "form-control", @data_role = "tagsinputEmpl2", @size = 256, @maxlength = 256, placeholder = "Руководитель подразделения" })
+    @Html.TextBoxFor(model => Model.Executive, new { @class = "form-control", @data_role = "tagsinputEmpl2", @size = 256, @maxlength = 256, placeholder = "Р СѓРєРѕРІРѕРґРёС‚РµР»СЊ РїРѕРґСЂР°Р·РґРµР»РµРЅРёСЏ"})
 </div>
+
 <div class="editor-label">
     @Html.LabelForRequired(model => Model.ContactPerson)
 </div>
 <div class="editor-field">
-    @Html.TextBoxFor(model => Model.ContactPerson, new { @class = "form-control", placeholder = "Контактное лицо" })
+    @Html.TextBoxFor(model => Model.ContactPerson, new { @class = "form-control", placeholder = "РљРѕРЅС‚Р°РєС‚РЅРѕРµ Р»РёС†Рѕ" })
 </div>
+
 <div class="editor-label">
     @Html.LabelForRequired(model => Model.Phone)
 </div>
 <div class="editor-field">
-    @Html.TextBoxFor(model => Model.Phone, new { @class = "form-control", placeholder = "Внутренний телефон" })
+    @Html.TextBoxFor(model => Model.Phone, new { @class = "form-control", placeholder = "Р’РЅСѓС‚СЂРµРЅРЅРёР№ С‚РµР»РµС„РѕРЅ" })
 </div>
+
 <hr />
-<h4 class="text-info" style="text-align:center;">1. Требования к кандидату:</h4>
+<h4 class="text-info" style="text-align:center;">1. РўСЂРµР±РѕРІР°РЅРёСЏ Рє РєР°РЅРґРёРґР°С‚Сѓ:</h4>
+
 <div class="editor-label">
     @Html.LabelForRequired(model => Model.Age)
 </div>
 <div class="editor-field">
-    @Html.TextBoxFor(model => Model.Age, new { @class = "form-control", placeholder = "Возраст" })
+    @Html.TextBoxFor(model => Model.Age, new { @class = "form-control", placeholder = "Р’РѕР·СЂР°СЃС‚" })
 </div>
 <div class="editor-label">
     @Html.LabelForRequired(model => Model.Education)
 </div>
 <div class="editor-field">
-    @Html.TextBoxFor(model => Model.Education, new { @class = "form-control", placeholder = "Образование" })
+    @Html.TextBoxFor(model => Model.Education, new { @class = "form-control", placeholder = "РћР±СЂР°Р·РѕРІР°РЅРёРµ" })
 </div>
 <div class="editor-label">
     @Html.LabelForRequired(model => Model.Experience)
 </div>
 <div class="editor-field">
-    @Html.TextBoxFor(model => Model.Experience, new { @class = "form-control", placeholder = "Опыт работы (в какой области, стаж, должность)" })
+    @Html.TextBoxFor(model => Model.Experience, new { @class = "form-control", placeholder = "РћРїС‹С‚ СЂР°Р±РѕС‚С‹ (РІ РєР°РєРѕР№ РѕР±Р»Р°СЃС‚Рё, СЃС‚Р°Р¶, РґРѕР»Р¶РЅРѕСЃС‚СЊ)" })
 </div>
 <div class="editor-label">
     @Html.LabelForRequired(model => Model.Requirement)
 </div>
 <div class="editor-field">
-    @Html.TextBoxFor(model => Model.Requirement, new { @class = "form-control", placeholder = "Обязательные требования знаний и навыков к вакантной должности" })
+    @Html.TextBoxFor(model => Model.Requirement, new { @class = "form-control", placeholder = "РћР±СЏР·Р°С‚РµР»СЊРЅС‹Рµ С‚СЂРµР±РѕРІР°РЅРёСЏ Р·РЅР°РЅРёР№ Рё РЅР°РІС‹РєРѕРІ Рє РІР°РєР°РЅС‚РЅРѕР№ РґРѕР»Р¶РЅРѕСЃС‚Рё" })
 </div>
 <div class="editor-label">
     @Html.LabelForRequired(model => Model.Skills)
 </div>
 <div class="editor-field">
-    @Html.TextBoxFor(model => Model.Skills, new { @class = "form-control", placeholder = "Наличие желательных знаний и навыков" })
+    @Html.TextBoxFor(model => Model.Skills, new { @class = "form-control", placeholder = "РќР°Р»РёС‡РёРµ Р¶РµР»Р°С‚РµР»СЊРЅС‹С… Р·РЅР°РЅРёР№ Рё РЅР°РІС‹РєРѕРІ" })
 </div>
 <div class="editor-label">
     @Html.LabelForRequired(model => Model.Character)
 </div>
 <div class="editor-field">
-    @Html.TextBoxFor(model => Model.Character, new { @class = "form-control", placeholder = " Личностные качества" })
+    @Html.TextBoxFor(model => Model.Character, new { @class = "form-control", placeholder = " Р›РёС‡РЅРѕСЃС‚РЅС‹Рµ РєР°С‡РµСЃС‚РІР°" })
 </div>
 <div class="editor-label">
     @Html.LabelForRequired(model => Model.Additional)
 </div>
 <div class="editor-field">
-    @Html.TextBoxFor(model => Model.Additional, new { @class = "form-control", placeholder = "Дополнительные требования" })
+    @Html.TextBoxFor(model => Model.Additional, new { @class = "form-control", placeholder = "Р”РѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Рµ С‚СЂРµР±РѕРІР°РЅРёСЏ" })
 </div>
+
 <hr />
-<h4 class="text-info" style="text-align:center;">2. Описание позиции:</h4>
+<h4 class="text-info" style="text-align:center;">2. РћРїРёСЃР°РЅРёРµ РїРѕР·РёС†РёРё:</h4>
+
 <div class="editor-label">
     @Html.LabelForRequired(model => Model.FuncDuties)
 </div>
 <div class="editor-field">
-    @Html.TextBoxFor(model => Model.FuncDuties, new { @class = "form-control", placeholder = "Функциональные обязанности" })
+    @Html.TextBoxFor(model => Model.FuncDuties, new { @class = "form-control", placeholder = "Р¤СѓРЅРєС†РёРѕРЅР°Р»СЊРЅС‹Рµ РѕР±СЏР·Р°РЅРЅРѕСЃС‚Рё" })
 </div>
 <div class="editor-label">
     @Html.LabelForRequired(model => Model.AddDuties)
 </div>
 <div class="editor-field">
-    @Html.TextBoxFor(model => Model.AddDuties, new { @class = "form-control", placeholder = "Дополнительные обязанности" })
+    @Html.TextBoxFor(model => Model.AddDuties, new { @class = "form-control", placeholder = "Р”РѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Рµ РѕР±СЏР·Р°РЅРЅРѕСЃС‚Рё" })
 </div>
 <div class="editor-label">
     @Html.LabelForRequired(model => Model.DirectExecutive)
 </div>
 <div class="editor-field">
-    @Html.TextBoxFor(model => Model.DirectExecutive, new { @class = "form-control", placeholder = "Непосредственный руководитель" })
+    @Html.TextBoxFor(model => Model.DirectExecutive, new { @class = "form-control", placeholder = "РќРµРїРѕСЃСЂРµРґСЃС‚РІРµРЅРЅС‹Р№ СЂСѓРєРѕРІРѕРґРёС‚РµР»СЊ" })
 </div>
 <div class="editor-label">
     @Html.LabelForRequired(model => Model.Management)
 </div>
 <div class="editor-field">
-    @Html.TextBoxFor(model => Model.Management, new { @class = "form-control", placeholder = "В случае, если вакансия предполагает управление людьми, указать количество подчиненных" })
+    @Html.TextBoxFor(model => Model.Management, new { @class = "form-control", placeholder = "Р’ СЃР»СѓС‡Р°Рµ, РµСЃР»Рё РІР°РєР°РЅСЃРёСЏ РїСЂРµРґРїРѕР»Р°РіР°РµС‚ СѓРїСЂР°РІР»РµРЅРёРµ Р»СЋРґСЊРјРё, СѓРєР°Р·Р°С‚СЊ РєРѕР»РёС‡РµСЃС‚РІРѕ РїРѕРґС‡РёРЅРµРЅРЅС‹С…" })
 </div>
 <div class="editor-label">
     @Html.LabelForRequired(model => Model.Salary)
 </div>
 <div class="editor-field">
-    @Html.TextBoxFor(model => Model.Salary, new { @class = "form-control", placeholder = "Ориентировочная заработная плата" })
+    @Html.TextBoxFor(model => Model.Salary, new { @class = "form-control", placeholder = "РћСЂРёРµРЅС‚РёСЂРѕРІРѕС‡РЅР°СЏ Р·Р°СЂР°Р±РѕС‚РЅР°СЏ РїР»Р°С‚Р°" })
 </div>
 <div class="editor-label">
     @Html.LabelForRequired(model => Model.AddSalary)
 </div>
 <div class="editor-field">
-    @Html.TextBoxFor(model => Model.AddSalary, new { @class = "form-control", placeholder = "Дополнительные выплаты (бонусы, премии)" })
+    @Html.TextBoxFor(model => Model.AddSalary, new { @class = "form-control", placeholder = "Р”РѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Рµ РІС‹РїР»Р°С‚С‹ (Р±РѕРЅСѓСЃС‹, РїСЂРµРјРёРё)" })
 </div>
 <div class="editor-label">
     @Html.LabelForRequired(model => Model.Schedule)
 </div>
 <div class="editor-field">
-    @Html.TextBoxFor(model => Model.Schedule, new { @class = "form-control", placeholder = "График работы" })
+    @Html.TextBoxFor(model => Model.Schedule, new { @class = "form-control", placeholder = "Р“СЂР°С„РёРє СЂР°Р±РѕС‚С‹" })
 </div>
 <div class="editor-label">
     @Html.LabelForRequired(model => Model.BusinessTrip)
 </div>
 <div class="editor-field">
-    @Html.TextBoxFor(model => Model.BusinessTrip, new { @class = "form-control", placeholder = "Командировки: куда и как часто" })
+    @Html.TextBoxFor(model => Model.BusinessTrip, new { @class = "form-control", placeholder = "РљРѕРјР°РЅРґРёСЂРѕРІРєРё: РєСѓРґР° Рё РєР°Рє С‡Р°СЃС‚Рѕ" })
 </div>

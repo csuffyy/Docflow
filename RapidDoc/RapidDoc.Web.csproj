@@ -2585,6 +2585,10 @@
     </XamlAppDef>
   </ItemGroup>
   <ItemGroup>
+    <XamlAppDef Include="Activities\USR_REQ_TRIP_RegistrationBusinessTripPTY.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </XamlAppDef>
     <XamlAppDef Include="Activities\USR_REQ_URP_RequestForSelectionPersonal.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -3247,12 +3251,6 @@
     </XamlAppDef>
   </ItemGroup>
   <ItemGroup>
-    <XamlAppDef Include="Activities\USR_REQ_TRIP_RegistrationBusinessTripKZ.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </XamlAppDef>
-  </ItemGroup>
-  <ItemGroup>
     <XamlAppDef Include="Activities\USR_REQ_TRIP_RegistrationBusinessTripPP.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -3532,12 +3530,6 @@
       <Generator>MSBuild:Compile</Generator>
     </XamlAppDef>
     <XamlAppDef Include="Activities\USR_TAS_DailyTasksProlongation.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </XamlAppDef>
-  </ItemGroup>
-  <ItemGroup>
-    <XamlAppDef Include="Activities\USR_REQ_TRIP_RegistrationBusinessTripPTY.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </XamlAppDef>
@@ -4056,6 +4048,12 @@
   </ItemGroup>
   <ItemGroup>
     <XamlAppDef Include="Activities\USK_REQ_HR_RequestForStaffSelection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USR_REQ_TRIP_RegistrationBusinessTripKZ.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </XamlAppDef>
