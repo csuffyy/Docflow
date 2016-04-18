@@ -19,7 +19,7 @@
             @Html.LabelForRequired(model => model.OrgName)
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(model => model.OrgName, new { @class = "form-control", @size = 70, @maxlength = 70, placeholder = "Altyntau Kokshetau", @autofocus = "required", @x_webkit_speech = "" })
+            @Html.TextBoxFor(model => model.OrgName, new { @class = "form-control", placeholder = "Altyntau Kokshetau", @autofocus = "required", @x_webkit_speech = "" })
             @Html.ValidationMessageFor(model => model.OrgName)
         </div>
         
