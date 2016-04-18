@@ -773,7 +773,7 @@ namespace RapidDoc.Controllers
                         _DocumentService.UpdateDocumentFields(sourceDocumentData, processSourceView);
 
                         documentSourceTable.Executed = true;
-                        _DocumentService.UpdateDocument(documentTable, userId);
+                        _DocumentService.UpdateDocument(documentSourceTable, userId);
                     }
                     else if (documentSourceTable.DocType == DocumentType.Protocol)
                     {
