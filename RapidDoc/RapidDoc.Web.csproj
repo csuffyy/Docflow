@@ -2121,6 +2121,11 @@
     <Content Include="Views\Custom\USK_REQ_HR_RequestForTraining_Edit.cshtml" />
     <Content Include="Views\Custom\USK_REQ_HR_RequestForStaffSelection_View.cshtml" />
     <Content Include="Views\Custom\USK_REQ_HR_RequestForStaffSelection_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UMM_ProvisionOfZIF_View.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UMM_ProvisionOfZIF_View_Full.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UMM_ProvisionOfZIF_Edit_ItemId.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UMM_ProvisionOfZIF_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UMM_ProvisionOfZIF_Edit_HighMaster.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -4054,6 +4059,12 @@
   </ItemGroup>
   <ItemGroup>
     <XamlAppDef Include="Activities\USR_REQ_TRIP_RegistrationBusinessTripKZ.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USR_REQ_UMM_ProvisionOfZIF.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </XamlAppDef>

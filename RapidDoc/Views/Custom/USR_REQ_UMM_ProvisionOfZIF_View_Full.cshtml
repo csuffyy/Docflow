@@ -1,0 +1,106 @@
+﻿@model RapidDoc.Models.ViewModels.USR_REQ_UMM_ProvisionOfZIF_View
+@using RapidDoc.Extensions;
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.Days):
+</div>
+<div class="editor-field">
+    @Html.EnumToDescription(Model.Days)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.Item):
+</div>
+<div class="editor-field">
+    @Html.EnumToDescription(Model.Item)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.Department)
+</div>
+<div>
+    @Html.DisplayTextFor(model => Model.Department)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.FIO)
+</div>
+<div>
+    @Html.HtmlDisplayTagsFor(model => Model.FIO)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.Telephone)
+</div>
+<div>
+    @Html.DisplayTextFor(model => Model.Telephone)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.NameItem)
+</div>
+<div>
+    @Html.DisplayTextFor(model => Model.NameItem)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.TechType)
+</div>
+<div class="editor-field">
+    @Html.DisplayTextFor(model => Model.TechType)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.Amount)
+</div>
+<div class="editor-field">
+    @Html.DisplayTextFor(model => Model.Amount)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.UserChooseManual1)
+</div>
+<div>
+    @Html.HtmlDisplayTagsFor(model => Model.UserChooseManual1)
+</div>
+
+
+@if (!String.IsNullOrEmpty(Model.MaterialAmount))
+{
+    <div class="editor-label">
+        @Html.LabelFor(model => Model.MaterialAmount)
+    </div>
+    <div>
+        @Html.DisplayTextFor(model => Model.MaterialAmount)
+    </div>
+}
+
+@if (!String.IsNullOrEmpty(Model.MaterialWeight))
+{
+    <div class="editor-label">
+        @Html.LabelFor(model => Model.MaterialWeight)
+    </div>
+    <div>
+        @Html.DisplayTextFor(model => Model.MaterialWeight)
+    </div>
+}
+
+@if (Model.ActualDate.HasValue && Model.ActualDate != DateTime.MinValue)
+{
+    <div class="editor-label">
+        @Html.LabelFor(model => Model.ActualDate)
+    </div>
+    <div>
+        @Html.FormatValue(Model.ActualDate, "{0:dd.MM.yyyy}")
+    </div>
+}
+
+@if (!String.IsNullOrEmpty(Model.ItemId))
+{
+    <div class="editor-label">
+        @Html.LabelFor(model => Model.ItemId)
+    </div>
+    <div>
+        @Html.DisplayTextFor(model => Model.ItemId)
+    </div>
+}

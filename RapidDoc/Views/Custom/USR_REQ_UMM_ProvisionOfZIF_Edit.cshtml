@@ -1,0 +1,72 @@
+﻿@model RapidDoc.Models.ViewModels.USR_REQ_UMM_ProvisionOfZIF_View
+@using RapidDoc.Extensions;
+
+
+<div class="row">
+    <div class="col-xs-6">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Days):
+        </div>
+        <div class="editor-field">
+            @Html.EnumDropDownListFor(model => Model.Days, new { @class = "selectpicker" })
+        </div>
+    </div>
+
+    <div class="col-xs-6">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Item):
+        </div>
+        <div class="editor-field">
+            @Html.EnumDropDownListFor(model => Model.Item, new { @class = "selectpicker" })
+        </div>
+    </div>
+</div>
+
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.Department)
+</div>
+<div class="editor-field">
+    @Html.TextBoxFor(model => Model.Department, new { @class = "form-control", placeholder = "Подразделение" })
+</div>
+
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.FIO)
+</div>
+<div class="editor-field">
+    @Html.TextBoxFor(model => Model.FIO, new { @class = "form-control", @data_role = "tagsinputEmpl", placeholder = "Ф.И.О. должность" })
+</div>
+
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.Telephone)
+</div>
+<div class="editor-field">
+    @Html.TextBoxFor(model => Model.Telephone, new { @class = "form-control", placeholder = "Номер тел. Вн. и сот." })
+</div>
+
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.NameItem)
+</div>
+<div class="editor-field">
+    @Html.TextBoxFor(model => Model.NameItem, new { @class = "form-control", placeholder = "Наименование" })
+</div>
+
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.TechType)
+</div>
+<div class="editor-field">
+    @Html.TextBoxFor(model => Model.TechType, new { @class = "form-control", placeholder = "Вид техники" })
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.Amount)
+</div>
+<div>
+    @Html.TextBoxFor(model => Model.Amount, new { @class = "form-control", placeholder = "Количество" })
+</div>
+
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.UserChooseManual1)
+</div>
+<div class="editor-field">
+    @Html.TextBoxFor(model => Model.UserChooseManual1, new { @class = "form-control", @data_role = "tagsinputEmpl2", placeholder = "Мастер смены" })
+</div>

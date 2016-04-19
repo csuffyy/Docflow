@@ -4321,6 +4321,25 @@ namespace RapidDoc.Models.DomainModels
         public DateTime? FinishDate { get; set; }
         public string FIO2 { get; set; }
     }
+
+    public class USR_REQ_UMM_ProvisionOfZIF_Table : BasicDocumentTable
+    {
+        public UMMDays Days { get; set; }
+        public UMMItem Item { get; set; }
+        public string Department { get; set; }
+        public string FIO { get; set; }
+        public string Telephone { get; set; }
+        public string NameItem { get; set; }
+        public string TechType { get; set; }
+        public string Amount { get; set; }
+        public string UserChooseManual1 { get; set; }
+
+        public string ItemId { get; set; }
+        public string MaterialAmount { get; set; }
+        public string MaterialWeight{ get; set; }
+        public DateTime? ActualDate { get; set; }
+
+    }
     #endregion
 
     #region Коммандировки

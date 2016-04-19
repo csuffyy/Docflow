@@ -31,9 +31,10 @@ namespace RapidDoc.Controllers
         private readonly IProtocolFoldersService _ProtocolFoldersService;
         private readonly IProcessService _ProcessService;
         private readonly IDepartmentService _DepartmentService;
+        private readonly IDelegationService _DelegationService;
 
         public CustomController(IEmplService emplService, ISystemService systemService, IDocumentService documentService, IServiceIncidentService serviceIncidentService, ICompanyService companyService, IAccountService accountService, ITripSettingsService tripSettingsService, INumberSeqService numberSeqService, ICountryService countryService, IOrganizationService organizationService, IProcessService processService,
-            IReasonRequestService reasonRequestService, IQuestionRequestService questionRequestService, IProtocolFoldersService protocolFoldersService, ITripMRPService iTripMRPService, IDepartmentService departmentService)
+            IReasonRequestService reasonRequestService, IQuestionRequestService questionRequestService, IProtocolFoldersService protocolFoldersService, ITripMRPService iTripMRPService, IDepartmentService departmentService, IDelegationService delegationService)
             : base(companyService, accountService)
         {
             _EmplService = emplService;
@@ -50,6 +51,7 @@ namespace RapidDoc.Controllers
             _ProtocolFoldersService = protocolFoldersService;
             _ITripMRPService = iTripMRPService;
             _DepartmentService = departmentService;
+            _DelegationService = delegationService;
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
@@ -2937,6 +2939,33 @@ namespace RapidDoc.Controllers
             }
 
             return PartialView("USR_REQ_UMM_ManufactureItemsBGP_View_Full", model);
+        }
+
+        public ActionResult GetRequestProvisionOfZIF(RapidDoc.Models.ViewModels.USR_REQ_UMM_ProvisionOfZIF_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+            string curUser = User.Identity.GetUserId();
+            ApplicationUser currentUser = _AccountService.Find(curUser);
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                
+                var current = _DocumentService.GetCurrentSignStep(document.Id).ToList();
+                if (current != null)
+                {
+                    if (current.Any(x => x.SystemName == "MasterUMM") && (current.FirstOrDefault(x => x.SystemName == "MasterUMM").Users.Any(x => x.UserId == curUser) || current.Any(x => _DelegationService.CheckDelegation(currentUser, document.ProcessTable, x))))
+                    {
+                        return PartialView("USR_REQ_UMM_ProvisionOfZIF_Edit_HighMaster", model);
+                    }
+
+                    if (current.Any(x => x.SystemName == "UMMTOIRZIF") && (current.FirstOrDefault(x => x.SystemName == "UMMTOIRZIF").Users.Any(x => x.UserId == curUser) || 
+                        current.Any(x => _DelegationService.CheckDelegation(currentUser, document.ProcessTable, x))))
+                    {
+                        return PartialView("USR_REQ_UMM_ProvisionOfZIF_Edit_ItemId", model);
+                    }
+                }
+            }
+
+            return PartialView("USR_REQ_UMM_ProvisionOfZIF_View_Full", model);
         }
 
         public ActionResult GetRequestManufactureWeldingItemsBGP(RapidDoc.Models.ViewModels.USR_REQ_UMM_ManufactureWeldingItemsBGP_View model)
