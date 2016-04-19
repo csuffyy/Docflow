@@ -19,7 +19,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace RapidDoc.Controllers
 {
-    [Authorize(Roles = "Administrator, SetupAdministrator")]
+    [Authorize(Roles = "Administrator, SetupAdministrator, DirectoryAdministrator")]
     public class ProtocolFoldersController : BasicController
     {
         private readonly IProtocolFoldersService _Service;
