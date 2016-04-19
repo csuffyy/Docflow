@@ -1821,9 +1821,27 @@ namespace RapidDoc.Models.Repository
     public enum ChangeOrderType : byte
     {
         [Display(Name = "Кадровый приказ")]
-        Element1 = 1,
+        Element1 = 0,
 
         [Display(Name = "По основной деятельности")]
-        Element2 = 2
+        Element2 = 1
+    }
+
+    public enum UMMDays : byte
+    {
+        [Display(Name = "В будние дни")]
+        Weekdays = 0,
+
+        [Display(Name = "В ночные, выходные и праздничные дни")]
+        Weekends = 1
+    }
+
+    public enum UMMItem : byte
+    {
+        [Display(Name = "Услуга")]
+        Element1 = 0,
+
+        [Display(Name = "Изделие")]
+        Element2 = 1
     } 
 }
