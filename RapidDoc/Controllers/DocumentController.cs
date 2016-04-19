@@ -248,7 +248,7 @@ namespace RapidDoc.Controllers
             }
 
             DocumentView docuView = _DocumentService.Document2View(documentTable);
-            ProcessView process = _ProcessService.FindView(documentTable.ProcessTableId);
+            ProcessView process = _ProcessService.FirstOrDefaultView(x => x.Id == documentTable.ProcessTableId);
             EmplTable emplTable = _EmplService.GetEmployer(docuView.ApplicationUserCreatedId, docuView.CompanyTableId);
 
             if (docuView == null || process == null || emplTable == null || _DocumentService.isShowDocument(documentTable, currentUser, isAfterView) == false)
@@ -1252,7 +1252,7 @@ namespace RapidDoc.Controllers
         public ActionResult GetAllComment(Guid documentId, string lastComment = "")
         {
             SaveComment(documentId, lastComment);
-            var model = _CommentService.GetPartialView(x => x.DocumentTableId == documentId).OrderByDescending(x => x.CreatedDate);
+            var model = _CommentService.GetPartialView(x => x.DocumentTableId == documentId).OrderBy(x => x.CreatedDate);
             return PartialView("~/Views/Shared/_Comments.cshtml", model);
         }
 
@@ -2636,15 +2636,14 @@ namespace RapidDoc.Controllers
         public ActionResult GetDocumentBaseList(string id, string lang, string company)
         {
             ApplicationUser user = _AccountService.Find(id);
-            var companyTable = _CompanyService.FirstOrDefault(x => x.AliasCompanyName == company);
 
-            if (user == null || companyTable == null)
+            if (user == null)
                 return PartialView("_Empty");
 
             List<DocumentType> model = new List<DocumentType>();
             foreach (DocumentType item in Enum.GetValues(typeof(DocumentType)))
             {
-                if (_DocumentService.Contains(x => x.DocType == item && x.CompanyTableId == companyTable.Id))
+                if (_DocumentService.Contains(x => x.DocType == item && x.CompanyTableId == user.CompanyTableId))
                     model.Add(item);
             }
 
