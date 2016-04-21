@@ -168,7 +168,7 @@ namespace RapidDoc.Models.Services
 
         public SelectList GetDropListProtocolFoldersFullPath(Guid processId, Guid? id, string currentUserId = "")
         {
-            List<ProtocolFoldersView> items = this.GetFullPathItems(GetPartialView(x => x.ProcessTableId == processId && x.ProtocolFoldersParentId == null && x.Enable == true, currentUserId).ToList(), "", currentUserId);
+            List<ProtocolFoldersView> items = this.GetFullPathItems(GetPartialView(x => x.ProcessTableId == processId && x.ProtocolFoldersParentId == null, currentUserId).ToList(), id, "", currentUserId);
             return new SelectList(items, "Id", "ProtocolFolderName", id);
         }
 
@@ -178,7 +178,7 @@ namespace RapidDoc.Models.Services
             return selectList.Where(x => x.Selected == true).FirstOrDefault().Text;
         }
 
-        public List<ProtocolFoldersView> GetFullPathItems(List<ProtocolFoldersView> listProtoolFolder, string path = "", string currentUserId = "")
+        private List<ProtocolFoldersView> GetFullPathItems(List<ProtocolFoldersView> listProtoolFolder, Guid? id, string path = "", string currentUserId = "")
         {
             List<ProtocolFoldersView> listDepartmentId = new List<ProtocolFoldersView>();
             List<ProtocolFoldersView> listDepartmentBufId = new List<ProtocolFoldersView>();
@@ -187,11 +187,12 @@ namespace RapidDoc.Models.Services
             partPath += path;
             foreach (var item in listProtoolFolder)
             {
-                
+                if (item.Enable == true || item.Id == id)   
                     listDepartmentId.Add(new ProtocolFoldersView { ProtocolFolderName = partPath + item.ProtocolFolderName, Id = item.Id });
-                    listDepartmentBufId = GetFullPathItems(GetAllView(currentUserId).Where(x => x.ProtocolFoldersParentId == item.Id).ToList(),
-                        partPath == "" ? item.ProtocolFolderName + "/" : partPath + item.ProtocolFolderName + "/", currentUserId);
-                    listDepartmentId.AddRange(listDepartmentBufId);
+                
+                listDepartmentBufId = GetFullPathItems(GetAllView(currentUserId).Where(x => x.ProtocolFoldersParentId == item.Id).ToList(), id,
+                    partPath == "" ? item.ProtocolFolderName + "/" : partPath + item.ProtocolFolderName + "/", currentUserId);
+                listDepartmentId.AddRange(listDepartmentBufId);
             }
             return listDepartmentId;
         }

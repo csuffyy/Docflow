@@ -3240,9 +3240,9 @@ namespace RapidDoc.Controllers
                 decisionText = _SystemService.DeleteEmptyTag(decisionText);
 
                 if (!String.IsNullOrEmpty(result) && !decisionText.EndsWith(">"))
-                    result = String.Format("{2}. <strong>Ответ. {0}срок {1}г.</strong>", result, model.ControlDate != null ? model.ControlDate.Value.ToShortDateString() : String.Empty, decisionText);
+                    result = String.Format("{2}, <strong>ответ. {0}срок {1}г.</strong>", result, model.ControlDate != null ? model.ControlDate.Value.ToShortDateString() : String.Empty, decisionText);
                 else if(!String.IsNullOrEmpty(result) && decisionText.EndsWith(">"))
-                    result = String.Format("{2} <strong>Ответ. {0}срок {1}г.</strong>", result, model.ControlDate != null ? model.ControlDate.Value.ToShortDateString() : String.Empty, decisionText);
+                    result = String.Format("{2} <strong>ответ. {0}срок {1}г.</strong>", result, model.ControlDate != null ? model.ControlDate.Value.ToShortDateString() : String.Empty, decisionText);
                 else if (!decisionText.EndsWith(">"))
                     result = decisionText + '.';
                 else
