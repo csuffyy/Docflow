@@ -64,9 +64,9 @@
     @Html.TextBoxFor(model => Model.Amount, new { @class = "form-control", placeholder = "Количество" })
 </div>
 
-<div class="editor-label">
-    @Html.LabelForRequired(model => Model.UserChooseManual1)
-</div>
-<div class="editor-field">
-    @Html.TextBoxFor(model => Model.UserChooseManual1, new { @class = "form-control", @data_role = "tagsinputEmpl2", placeholder = "Мастер смены" })
+<hr />
+<div class="alert alert-info" role="alert">
+    <p> В заявке нужно обязательно прикрепить: </p>
+    <p> 1. Чертеж/эскиз;</p>
+    <p> 2. Если услуга, то предоставить фото с указанием дефекта; </p>
 </div>

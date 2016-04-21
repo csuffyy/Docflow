@@ -2952,7 +2952,7 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id).ToList();
                 if (current != null)
                 {
-                    if (current.Any(x => x.SystemName == "MasterUMM") && (current.FirstOrDefault(x => x.SystemName == "MasterUMM").Users.Any(x => x.UserId == curUser) || current.Any(x => _DelegationService.CheckDelegation(currentUser, document.ProcessTable, x))))
+                    if (current.Any(x => x.SystemName == "HighMasterUMM") && (current.FirstOrDefault(x => x.SystemName == "HighMasterUMM").Users.Any(x => x.UserId == curUser) || current.Any(x => _DelegationService.CheckDelegation(currentUser, document.ProcessTable, x))))
                     {
                         return PartialView("USR_REQ_UMM_ProvisionOfZIF_Edit_HighMaster", model);
                     }

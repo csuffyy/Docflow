@@ -14,7 +14,6 @@
 @Html.HiddenFor(model => model.NameItem)
 @Html.HiddenFor(model => model.Amount)
 @Html.HiddenFor(model => model.TechType)
-@Html.HiddenFor(model => model.UserChooseManual1)
 
 
 <div class="editor-label">
@@ -71,13 +70,6 @@
 </div>
 <div class="editor-field">
     @Html.DisplayTextFor(model => Model.Amount)
-</div>
-
-<div class="editor-label">
-    @Html.LabelFor(model => Model.UserChooseManual1)
-</div>
-<div>
-    @Html.HtmlDisplayTagsFor(model => Model.UserChooseManual1)
 </div>
 
 @if (!String.IsNullOrEmpty(Model.ItemId))
