@@ -49,6 +49,8 @@
         @Html.Raw(@Model.MainFieldTranslate)
         <br />
         <br />
+        @if (ViewBag.CompanyAliasName != "KZH")
+        { 
         <div class="container" style="text-align: right;">
             <div style="width:60%; vertical-align:top; float:left; text-align: left;">
                 <strong>
@@ -61,6 +63,7 @@
                 </strong>
             </div>
         </div>
+        }
         <div class="container">
             <div style="text-align: left;">
                 <br />

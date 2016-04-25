@@ -72,19 +72,6 @@
             <hr style="height:1px;border:none;color:#333;background-color:#333;" />
             @Html.Raw(Model.MainFieldTranslate)
             <br />
-            <div class="row">
-                <div class="col-xs-8">
-                    <div class="editor-label">
-                        <strong>@Html.DisplayTextFor(x => x.SignTitle)</strong>
-                    </div>
-                </div>
-                <div class="col-xs-4">
-                    <div class="editor-label">
-                        <strong>@Html.DisplayTextFor(x => x.SignName)</strong>
-                    </div>
-                </div>
-            </div>
-            <br />
             <h6><span style="white-space: pre-line">@Html.Raw(Model.ListFileName)</span></h6>
             @if (!String.IsNullOrEmpty(Model.ListSubcription))
             {
@@ -223,33 +210,9 @@
             <div class="editor-field">
                 @Html.TextAreaFor(model => Model.ListFileName, new { @class = "form-control", placeholder = "Приложения" })
             </div>
-
-            <div class="editor-label">
-                @Html.LabelForRequired(model => Model.Sign)
-            </div>
-            <div class="editor-field">
-                @Html.TextBoxFor(model => Model.Sign, new { @class = "form-control", @data_role = "tagsinputEmplOne", @size = 256, placeholder = "Подпись" })
-            </div>
-
-            <div class="editor-label">
-                @Html.LabelForRequired(model => Model.SignTitle)
-            </div>
-            <div class="editor-field">
-                @Html.TextBoxFor(model => Model.SignTitle, new { @class = "form-control", @size = 256, placeholder = "Подпись должность" })
-            </div>
-            @if (User.IsInRole("Administrator") || User.IsInRole("SetupAdministrator"))
-            {
-                <div class="editor-label">
-                    @Html.LabelForRequired(model => Model.SignName)
-                </div>
-                <div class="editor-field">
-                    @Html.TextBoxFor(model => Model.SignName, new { @class = "form-control", @size = 256, placeholder = "Подпись ФИО" })
-                </div>
-            }
-            else
-            {
-                @Html.HiddenFor(model => model.SignName)
-            }
+            @Html.HiddenFor(model => Model.Sign)
+            @Html.HiddenFor(model => Model.SignTitle)
+            @Html.HiddenFor(model => model.SignName)
 
             <div class="modal itemcause-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-sidebar">

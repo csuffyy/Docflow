@@ -24,6 +24,7 @@ using Microsoft.AspNet.Identity;
 using System.Configuration;
 using Microsoft.AspNet.Identity.EntityFramework;
 using RazorEngine.Templating;
+using NLog;
 
 namespace RapidDoc.Models.Services
 {
@@ -748,6 +749,9 @@ namespace RapidDoc.Models.Services
                         Thread.CurrentThread.CurrentCulture = ci;
                         Thread.CurrentThread.CurrentUICulture = ci;
                     }).Start();
+
+                    Logger logger = LogManager.GetLogger("EmailService");
+                    logger.Info(String.Format("SendReminderEmail: {0} {1} docCount: {2}", user.UserName, user.Email, documents.Count()));
                 }
             }
         }

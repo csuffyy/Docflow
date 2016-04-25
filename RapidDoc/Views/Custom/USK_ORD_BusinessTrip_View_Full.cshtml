@@ -262,19 +262,6 @@ else
 <hr style="height:1px;border:none;color:#333;background-color:#333;" />
 @Html.Raw(Model.MainFieldTranslate)
 <br />
-<div class="row">
-    <div class="col-xs-8">
-        <div class="editor-label">
-            <strong>@Html.DisplayTextFor(x => x.SignTitle)</strong>
-        </div>
-    </div>
-    <div class="col-xs-4">
-        <div class="editor-label">
-            <strong>@Html.DisplayTextFor(x => x.SignName)</strong>
-        </div>
-    </div>
-</div>
-<br />
 <h6><span style="white-space: pre-line">@Html.Raw(Model.ListFileName)</span></h6>
 @if (!String.IsNullOrEmpty(Model.ListSubcription))
 {
@@ -285,8 +272,3 @@ else
         @Html.HtmlDisplayTagsFor(model => Model.ListSubcription)
     </div>
 }
-
-
-
-
-
