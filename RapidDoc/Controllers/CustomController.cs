@@ -229,18 +229,21 @@ namespace RapidDoc.Controllers
             return PartialView("_QuestionRequest");
         }
 
-        public ActionResult GetIncomingDoc(Guid? id = null)
+        public ActionResult GetIncomingDoc(Guid? id = null, bool selected = false)
         {
+            ViewBag.Selected = selected;
             ViewBag.IncomingDocList = _DocumentService.IncomingDocList<USR_IND_IncomingDocuments_Table>(id);
             return PartialView("USR_IND_IncomingDocList");
         }
-        public ActionResult GetIncomingDocKZH(Guid? id = null)
+        public ActionResult GetIncomingDocKZH(Guid? id = null, bool selected = false)
         {
+            ViewBag.Selected = selected;
             ViewBag.IncomingDocList = _DocumentService.IncomingDocList<USK_IND_IncomingDocuments_Table>(id);
             return PartialView("USR_IND_IncomingDocList");
         }
-        public ActionResult GetIncomingDocKZC(Guid? id = null)
+        public ActionResult GetIncomingDocKZC(Guid? id = null, bool selected = false)
         {
+            ViewBag.Selected = selected;
             ViewBag.IncomingDocList = _DocumentService.IncomingDocList<USC_IND_IncomingDocuments_Table>(id);
             return PartialView("USR_IND_IncomingDocList");
         }

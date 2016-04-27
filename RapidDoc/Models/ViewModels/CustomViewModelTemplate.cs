@@ -221,10 +221,6 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Дата регистрации")]
         public DateTime? RegistrationDate { get; set; }
 
-        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
-        [Display(Name = "Получатель")]
-        public string Receiver { get; set; }
-
         [Display(Name = "Тип контроля")]
         public ControlType ControlType { get; set; }
         [Display(Name = "Приоритет")]
@@ -261,7 +257,7 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Исполнен")]
         public bool Executed { get; set; }
 
-        [Display(Name = "Список читателей")]
+        [Display(Name = "Добавить в копию")]
         public string ListReaders { get; set; }
     }
 

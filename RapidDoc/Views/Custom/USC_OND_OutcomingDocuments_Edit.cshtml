@@ -82,7 +82,7 @@
 <div class="row">
     <div class="col-xs-4">
         <div class="editor-label">
-            @Html.LabelForRequired(model => model.OrganizationTableId)
+            @Html.LabelForRequired(model => model.OrganizationTableId) <text class="text-info"><small>(Введите часть названия организации)</small></text>
         </div>
         <div class="editor-field">
             @Html.Action("GetOrganizationORD", "Custom", new { @id = Model.OrganizationTableId })

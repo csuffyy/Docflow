@@ -952,6 +952,20 @@ namespace RapidDoc.Models.Services
                 }
             }
 
+            if (documentTable.DocType == DocumentType.IncomingDoc)
+            {
+                var documentsRef = GetDocumentRefTask(documentTable.Id);
+
+                foreach (var item in documentsRef)
+                {
+                    DocumentTable docTable = Find(item.DocumentId);
+                    if(isShowDocument(docTable, user, isAfterView))
+                    {
+                        return true;
+                    }
+                }
+            }
+
             return false;
         }
 

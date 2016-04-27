@@ -4,7 +4,7 @@
 @{
     Model.OutgoingDate = Model.OutgoingDate ?? DateTime.Today;
     Model.RegistrationDate = Model.RegistrationDate ?? DateTime.Today;
-    Model.ExecutionDate = Model.ExecutionDate ?? DateTime.Today.AddMonths(1);
+    Model.ExecutionDate = Model.ExecutionDate ?? DateTime.Today;
 }
 
 <div class="row">
@@ -103,7 +103,7 @@
 <div class="row">
     <div class="col-xs-4">
         <div class="editor-label">
-            @Html.LabelForRequired(model => model.OrganizationTableId)
+            @Html.LabelForRequired(model => model.OrganizationTableId) <text class="text-info"><small>(Введите часть названия организации)</small></text>
         </div>
         <div class="editor-field">
             @Html.Action("GetOrganizationORD", "Custom", new { @id = Model.OrganizationTableId })
@@ -111,7 +111,7 @@
     </div>
     <div class="col-xs-8">
         <div class="editor-label">
-            @Html.LabelForRequired(model => Model.Receiver)
+            @Html.LabelForRequired(model => Model.Receiver) <text class="text-info"><small>(введите фамилию)</small></text>
         </div>
         <div>
             @Html.TextBoxFor(model => Model.Receiver, new { @class = "form-control", @data_role = "tagsinputEmplIntercompany", @size = 256, placeholder = "Получатель" })
@@ -247,7 +247,7 @@
     @Html.LabelForRequired(model => Model.DocumentSubject)
 </div>
 <div class="editor-field">
-    @Html.TextBoxFor(model => Model.DocumentSubject, new { @class = "form-control", placeholder = "Тема документа" })
+    @Html.TextBoxFor(model => Model.DocumentSubject, new { @class = "form-control", placeholder = "кас. рассмотрения проекта Закона о налогах и других обязательных платежах в бюджет" })
 </div>
 
 <div class="editor-label">

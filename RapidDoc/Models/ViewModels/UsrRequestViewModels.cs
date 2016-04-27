@@ -10624,6 +10624,10 @@ namespace RapidDoc.Models.ViewModels
 
         [Display(Name = "Тип документа")]
         public IncomingDocumentType DocumentType { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Получатель")]
+        public string Receiver { get; set; }
     }
 
     public class USK_IND_IncomingDocuments_View : BasicIncomingDocumentsView
@@ -10636,6 +10640,10 @@ namespace RapidDoc.Models.ViewModels
 
         [Display(Name = "Способ поступления")]
         public IncomingAdmissionMethodType AdmissionMethodType { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Получатель")]
+        public string Receiver { get; set; }
     }
 
     public class USC_IND_IncomingDocuments_View : BasicIncomingDocumentsView
@@ -10648,6 +10656,10 @@ namespace RapidDoc.Models.ViewModels
 
         [Display(Name = "Способ поступления")]
         public IncomingAdmissionMethodType AdmissionMethodType { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Отправить руководителю")]
+        public string Receiver { get; set; }
     }
 
     #endregion

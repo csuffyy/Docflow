@@ -490,7 +490,7 @@
     <value>Шаблоны</value>
   </data>
   <data name="MustAttachedFiles" xml:space="preserve">
-    <value>В документе нужно прикрепить {0} файл(-ов)</value>
+    <value>В документе нужно прикрепить {0} файл(-а)</value>
   </data>
   <data name="SupportFileTypes" xml:space="preserve">
     <value>Поддерживаемые типы файлов</value>
@@ -698,5 +698,8 @@
   </data>
   <data name="Cancelled" xml:space="preserve">
     <value>Отклонено: </value>
+  </data>
+  <data name="Book" xml:space="preserve">
+    <value>Зарегистрировать</value>
   </data>
 </root>

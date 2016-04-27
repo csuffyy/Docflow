@@ -1008,6 +1008,23 @@ namespace RapidDoc.Controllers
             return View("Create", viewModel);
         }
 
+        public string GetDocumentRefInfo(Guid? id)
+        {
+            DocumentTable document = _DocumentService.FirstOrDefault(x => x.Id == id);
+            if (document != null)
+            {
+                if(document.DocType == DocumentType.IncomingDoc)
+                {
+                    var documentData = _DocumentService.GetDocument(document.RefDocumentId, document.ProcessTable.TableName);
+                    return String.Format("{0} - {1}/{2}", document.ProcessName, documentData.IncomingDocNum, ((DateTime?)documentData.RegistrationDate).Value.ToShortDateString());
+                }
+                else
+                    return document.ProcessName;
+            }
+
+            return String.Empty;
+        }
+
         public ActionResult CreateTaskFromDocument(Guid documentId)
         {
             ApplicationUser userTable = _AccountService.Find(User.Identity.GetUserId());
@@ -2423,15 +2440,6 @@ namespace RapidDoc.Controllers
 
             _DocumentService.UpdateDocumentFields(actionModel, processSourceView);
             return RedirectToAction("ShowDocument", new { id = documentId, isAfterView = true });
-        }
-
-        public string GetProcessName(Guid? id)
-        {
-            DocumentTable document = _DocumentService.FirstOrDefault(x => x.Id == id);
-            if (document != null)
-                return document.ProcessName;
-
-            return String.Empty;
         }
 
         public void MappingModelFields(string keyCollection, string field, ref object actionModel, Type type,  FormCollection collection, ref IDictionary<string, object> documentData)

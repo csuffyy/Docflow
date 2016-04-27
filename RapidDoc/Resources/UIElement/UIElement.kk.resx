@@ -693,4 +693,7 @@
   <data name="Cancelled" xml:space="preserve">
     <value>Отклонено: </value>
   </data>
+  <data name="Book" xml:space="preserve">
+    <value>Тіркеп қою</value>
+  </data>
 </root>

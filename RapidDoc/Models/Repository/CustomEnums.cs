@@ -1600,6 +1600,9 @@ namespace RapidDoc.Models.Repository
         [Display(Name = "Подтверждение участия")]
         Element59 = 60,
 
+        [Display(Name = "Рассмотрение проектов законов и нормативных актов")]
+        Element60 = 61,
+
         [Display(Name = "Уведомление")]
         Element14 = 13
     }

@@ -126,12 +126,19 @@
 </div>
 <br />
 
-@if (Model.IncomingNumber != null)
-{ 
-<div class="editor-label">
-    @Html.LabelForRequired(model => Model.IncomingNumberDocId)
-</div>
-@Html.ActionLink(Model.IncomingNumber.ToString() + "/" + Model.IncomingDate.Value.ToShortDateString(), "ShowDocument", "Document", new { id = Model.IncomingNumberDocId, isAfterView = true }, null)
+@if (Model.IncomingNumberDocId != null)
+{
+    <div class="editor-label">
+        @Html.LabelForRequired(model => Model.IncomingNumberDocId)
+    </div>
+    if (Model.IncomingNumber != null)
+    {
+        @Html.ActionLink(Model.IncomingNumber.ToString() + "/" + Model.IncomingDate.Value.ToShortDateString(), "ShowDocument", "Document", new { id = Model.IncomingNumberDocId, isAfterView = true }, null)
+    }
+    else
+    {
+        @Html.Action("GetIncomingDoc", "Custom", new { @id = Model.IncomingNumberDocId, selected = true })
+    }
 }
 <br />
 <div class="row">
