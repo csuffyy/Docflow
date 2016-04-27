@@ -84,6 +84,7 @@ namespace RapidDoc.Models.Services
         SelectList RevocationORDKZHList(Guid? id, bool edit);
         SelectList IncomingDocList<T>(Guid? id) where T : BasicIncomingDocumentsTable;
         SelectList OutcomingDocList<T>(Guid? id) where T : BasicOutcomingDocumentsTable;
+        List<T> GetRefOutcomingDocs<T>(Guid? id) where T : BasicOutcomingDocumentsTable;
         List<IncomingDublicateView> CheckIncomeDublicateDocument(Guid OrganizationId, string OutgoingNumber, DateTime OutgoingDate);
         Type GetTableType(string TableName);
         string ScrubHtml(string value);
@@ -1830,6 +1831,13 @@ namespace RapidDoc.Models.Services
             items.ForEach(x => result.Add(new USR_OND_OutcomingDocList() { Name = x.OutcomingDocNum + "/" + x.OutgoingDate.Value.ToShortDateString() + " " + x.DocumentSubject, Id = x.DocumentTableId }));
 
             return new SelectList(result, "Id", "Name", id);
+        }
+
+        public List<T> GetRefOutcomingDocs<T>(Guid? id) where T : BasicOutcomingDocumentsTable
+        {
+            IRepository<T> repo = _uow.GetRepository<T>();
+            List<T> items = repo.FindAll(x => !String.IsNullOrEmpty(x.OutcomingDocNum) && x.IncomingNumberDocId == id).OrderBy(x => x.OutcomingDocNum).ToList();
+            return items;
         }
 
         private List<USR_ORD_SelectListView> GetOrderList<T>(Guid? id, bool edit, bool addition = false) where T : BasicOrderTable

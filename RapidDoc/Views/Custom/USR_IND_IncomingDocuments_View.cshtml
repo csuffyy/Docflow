@@ -115,14 +115,10 @@
     }
 </div>
 <br />
-@if (Model.OutcomingNumber != null)
-{ 
-<div class="editor-label">
-    @Html.LabelForRequired(model => Model.OutcomingNumberDocId)
+<div>
+    @Html.Action("GetRefOutcomingDocs", "Custom", new { @id = Model.DocumentTableId })
 </div>
-@Html.ActionLink(Model.OutcomingNumber.ToString(), "ShowDocument", "Document", new { id = Model.OutcomingNumberDocId, isAfterView = true }, null)
-<br />
-}
+
 <div class="row">
     <div class="col-xs-4">
         <div class="editor-label">

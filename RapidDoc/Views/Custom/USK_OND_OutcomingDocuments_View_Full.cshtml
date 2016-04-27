@@ -125,20 +125,14 @@
     @Html.Action("GetOrganizationORD", "Custom", new { id = Model.OrganizationTableId, selected = true })
 </div>
 <br />
-
 @if (Model.IncomingNumberDocId != null)
 {
     <div class="editor-label">
         @Html.LabelForRequired(model => Model.IncomingNumberDocId)
     </div>
-    if (Model.IncomingNumber != null)
-    {
-        @Html.ActionLink(Model.IncomingNumber.ToString() + "/" + Model.IncomingDate.Value.ToShortDateString(), "ShowDocument", "Document", new { id = Model.IncomingNumberDocId, isAfterView = true }, null)
-    }
-    else
-    {
+    <div class="editor-field">
         @Html.Action("GetIncomingDoc", "Custom", new { @id = Model.IncomingNumberDocId, selected = true })
-    }
+    </div>
 }
 <br />
 <div class="row">
@@ -224,13 +218,16 @@ else
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-xs-12">
-        <div class="editor-label">
-            @Html.LabelFor(model => Model.Content)
-        </div>
-        <div class="editor-field">
-            @Html.Raw(Model.Content)
+@if (!String.IsNullOrEmpty(Model.Content))
+{
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="editor-label">
+                @Html.LabelFor(model => Model.Content)
+            </div>
+            <div class="editor-field">
+                @Html.Raw(Model.Content)
+            </div>
         </div>
     </div>
-</div>
+}

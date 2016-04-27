@@ -131,14 +131,9 @@
     <div class="editor-label">
         @Html.LabelForRequired(model => Model.IncomingNumberDocId)
     </div>
-    if (Model.IncomingNumber != null)
-    {
-        @Html.ActionLink(Model.IncomingNumber.ToString() + "/" + Model.IncomingDate.Value.ToShortDateString(), "ShowDocument", "Document", new { id = Model.IncomingNumberDocId, isAfterView = true }, null)
-    }
-    else
-    {
+    <div class="editor-field">
         @Html.Action("GetIncomingDoc", "Custom", new { @id = Model.IncomingNumberDocId, selected = true })
-    }
+    </div>
 }
 <br />
 <div class="row">
@@ -230,6 +225,8 @@ else
         </div>
     </div>
 </div>
+@if (!String.IsNullOrEmpty(Model.Content))
+{ 
 <div class="row">
     <div class="col-xs-12">
         <div class="editor-label">
@@ -240,3 +237,4 @@ else
         </div>
     </div>
 </div>
+}

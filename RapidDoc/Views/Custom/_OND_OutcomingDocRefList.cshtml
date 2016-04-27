@@ -1,0 +1,15 @@
+﻿@model List<RapidDoc.Models.ViewModels.USR_OND_OutcomingDocList>
+
+@if (Model.Count() > 0)
+{
+    <div class="editor-label">
+        @Html.Label("Ссылка на исходящий")
+    </div>
+    
+    foreach (var item in Model)
+    {
+        <div class="editor-field">
+            <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })">@item.Name</a>
+        </div>
+    }
+}

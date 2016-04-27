@@ -266,6 +266,36 @@ namespace RapidDoc.Controllers
             return PartialView("USR_OND_OutcomingDocList");
         }
 
+        public ActionResult GetRefOutcomingDocs(Guid? id = null)
+        {
+            List<USR_OND_OutcomingDocList> viewModel = new List<USR_OND_OutcomingDocList>();
+            var domain = _DocumentService.GetRefOutcomingDocs<USR_OND_OutcomingDocuments_Table>(id);
+            foreach (var item in domain)
+                viewModel.Add(new USR_OND_OutcomingDocList() { Id = item.DocumentTableId, Name = String.Format("{0}/{1} {2}", item.OutcomingDocNum, item.OutgoingDate.Value.ToShortDateString(), item.DocumentSubject) });
+            
+            return PartialView("_OND_OutcomingDocRefList", viewModel);
+        }
+
+        public ActionResult GetRefOutcomingDocsKZH(Guid? id = null)
+        {
+            List<USR_OND_OutcomingDocList> viewModel = new List<USR_OND_OutcomingDocList>();
+            var model = _DocumentService.GetRefOutcomingDocs<USK_OND_OutcomingDocuments_Table>(id);
+            foreach (var item in model)
+                viewModel.Add(new USR_OND_OutcomingDocList() { Id = item.DocumentTableId, Name = String.Format("{0}/{1} {2}", item.OutcomingDocNum, item.OutgoingDate.Value.ToShortDateString(), item.DocumentSubject) });
+
+            return PartialView("_OND_OutcomingDocRefList", viewModel);
+        }
+
+        public ActionResult GetRefOutcomingDocsKZC(Guid? id = null)
+        {
+            List<USR_OND_OutcomingDocList> viewModel = new List<USR_OND_OutcomingDocList>();
+            var model = _DocumentService.GetRefOutcomingDocs<USC_OND_OutcomingDocuments_Table>(id);
+            foreach (var item in model)
+                viewModel.Add(new USR_OND_OutcomingDocList() { Id = item.DocumentTableId, Name = String.Format("{0}/{1} {2}", item.OutcomingDocNum, item.OutgoingDate.Value.ToShortDateString(), item.DocumentSubject) });
+
+            return PartialView("_OND_OutcomingDocRefList", viewModel);
+        }
+
         public ActionResult GetPRTFolderORD(Guid processId, Guid? id = null, bool selected = false)
         {
             ViewBag.Selected = selected;

@@ -2130,6 +2130,7 @@
     <Content Include="Views\Custom\USR_REQ_UMM_ProvisionOfZIF_Edit_ItemId.cshtml" />
     <Content Include="Views\Custom\USR_REQ_UMM_ProvisionOfZIF_Edit.cshtml" />
     <Content Include="Views\Custom\USR_REQ_UMM_ProvisionOfZIF_Edit_HighMaster.cshtml" />
+    <Content Include="Views\Custom\_OND_OutcomingDocRefList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
