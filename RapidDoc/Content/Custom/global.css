@@ -689,3 +689,18 @@ input[type='checkbox']:checked.pseudo-checkbox + label:before{/*checked icon*/
    padding: 0 !important;
    margin: 0 !important;
 }
+
+.document-data {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 105%;
+    border-top: 1px solid #ccc; 
+    border-bottom: 1px solid #ccc;
+}
+
+.document-data > * {
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.document-data > h5 {
+    font-size: 100%;
+}

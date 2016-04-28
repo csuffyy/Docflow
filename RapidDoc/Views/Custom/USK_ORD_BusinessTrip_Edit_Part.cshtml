@@ -18,7 +18,6 @@
             @Html.HiddenFor(model => model.AddReaders)
             @Html.HiddenFor(model => model.AddAttachment)
             @Html.HiddenFor(model => model.CountDays)
-            @Html.HiddenFor(model => model.Subject)
             @Html.HiddenFor(model => model.OrderNum)
             @if (!String.IsNullOrEmpty(Model.OrderNum))
             {
@@ -29,7 +28,6 @@
             }
 
             <h4>Ввод работников:</h4>
-
             <div id="CompanyW">
                 @Html.TextBox("CompanyWorker", "", new { @class = "form-control", @data_role = "tagsinputEmplOne1", @size = 256, placeholder = "Работник" })
             </div>
@@ -57,7 +55,7 @@
             </div>
             <br />
             <div class="editor-field">
-                <button type="button" id="addUser" class="btn btn-default btn-sm">@UIElementRes.UIElement.AddUsers</button>
+                <button type="button" id="addUser" class="btn btn-primary btn-sm">@UIElementRes.UIElement.AddUsers</button>
             </div>
 
             <br />
@@ -239,6 +237,20 @@
                     </div>
                 </div>
             </div>
+            @if (User.IsInRole("Administrator"))
+            {
+                <div class="editor-label">
+                    @Html.LabelForRequired(model => Model.Subject)
+                </div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => Model.Subject, new { @class = "form-control", @size = 256, placeholder = "Тема" })
+                </div>
+            }
+            else
+            {
+                @Html.HiddenFor(model => model.Subject)
+            }
+
             @if (String.IsNullOrEmpty(Model.OrderNum))
             {
             <div class="row">
@@ -480,18 +492,18 @@
                 </div>
             }
 
-            <h4 class="text-center"><strong>БҰЙРЫҚ</strong></h4>
-            <h4 class="text-center"><strong>№ @Html.DisplayTextFor(x => x.OrderNum)</strong></h4>
-            <h5 class="text-center"><strong>@Html.FormatValue(Model.OrderDate, "{0:dd.MM.yyyy}") ж.</strong></h5>
+            <p class="text-center"><strong>БҰЙРЫҚ</strong></p>
+            <p class="text-center"><strong>№ @Html.DisplayTextFor(x => x.OrderNum)</strong></p>
+            <p class="text-center"><strong>@Html.FormatValue(Model.OrderDate, "{0:dd.MM.yyyy}") ж.</strong></p>
 
             @if (!String.IsNullOrEmpty(Model.Subject))
             {
-                <h5 class="text-center">
+                <p class="text-center">
                     <strong>
                         ТАҚЫРЫБЫ:
                     </strong>
                     @Html.DisplayTextFor(x => x.Subject)
-                </h5>
+                </p>
             }
             <br />
             <hr style="height:1px;border:none;color:#333;background-color:#333;" />

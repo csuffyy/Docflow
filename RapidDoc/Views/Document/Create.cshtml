@@ -20,7 +20,9 @@
         <legend></legend>
         @Html.HiddenFor(model => model.ProcessView.Id)
         @Html.HiddenFor(model => model.fileId)
-        @Html.Action("GetDocumentData", new { modelDoc = Model.docData, Model.ProcessView.TableName, viewType = "Edit", processId = Model.ProcessView.Id })
+        <div class="document-data">
+            @Html.Action("GetDocumentData", new { modelDoc = Model.docData, Model.ProcessView.TableName, viewType = "Edit", processId = Model.ProcessView.Id })
+        </div>
 
         @if (Model.ProcessTemplates.Count() > 0)
         { 

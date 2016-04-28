@@ -57,16 +57,16 @@
                  </div>
              }
 
-             <h4 class="text-center"><strong>БҰЙРЫҚ</strong></h4>
-             <h4 class="text-center"><strong>№ @Html.DisplayTextFor(x => x.OrderNum)</strong></h4>
-             <h5 class="text-center"><strong>@Html.FormatValue(Model.OrderDate, "{0:dd.MM.yyyy}") ж.</strong></h5>
+             <p class="text-center"><strong>БҰЙРЫҚ</strong></p>
+             <p class="text-center"><strong>№ @Html.DisplayTextFor(x => x.OrderNum)</strong></p>
+             <p class="text-center"><strong>@Html.FormatValue(Model.OrderDate, "{0:dd.MM.yyyy}") ж.</strong></p>
 
-             <h5 class="text-center">
+             <p class="text-center">
                  <strong>
                      ТАҚЫРЫБЫ:
                  </strong>
                  @Html.DisplayTextFor(x => x.Subject)
-             </h5>
+             </p>
              <br />
              <hr style="height:1px;border:none;color:#333;background-color:#333;" />
              @Html.Raw(Model.MainField)
