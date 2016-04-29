@@ -2599,6 +2599,16 @@ namespace RapidDoc.Controllers
             return PartialView(document.ProcessTable.TableName + "_View_Full", model);
         }
 
+        public ActionResult GetManualView(dynamic model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if (User.IsInRole("Administrator"))
+                return PartialView(document.ProcessTable.TableName + "_Edit_Part", model);
+
+            return PartialView(document.ProcessTable.TableName + "_View_Full", model);
+        }
+
         public ActionResult GetManualORDMainActivity(RapidDoc.Models.ViewModels.USR_ORD_MainActivity_View model)
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
@@ -2927,6 +2937,9 @@ namespace RapidDoc.Controllers
                     }
                 }
             }
+
+            if (User.IsInRole("Administrator"))
+                return PartialView(document.ProcessTable.TableName + "_Edit_Part", model);
 
             return PartialView(document.ProcessTable.TableName + "_View_Full", model);
         }

@@ -704,3 +704,8 @@ input[type='checkbox']:checked.pseudo-checkbox + label:before{/*checked icon*/
 .document-data > h5 {
     font-size: 100%;
 }
+
+.itemcauselist {
+    margin: 2px;
+    font-size: 110%;
+}

@@ -1,0 +1,314 @@
+﻿@model RapidDoc.Models.ViewModels.USR_APP_AppealDocuments_View
+@using RapidDoc.Extensions;
+@using RapidDoc.Models.Repository;
+
+@Html.HiddenFor(model => model.Id)
+@Html.HiddenFor(model => model.DocumentTableId)
+@Html.HiddenFor(model => model.Executed)
+
+<div class="row">
+    <div class="col-xs-2 col-xs-offset-11">
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Executed)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.Executed, new { @disabled = true })
+        </div>
+    </div>
+</div>
+
+@if (User.IsInRole("Administrator"))
+{
+    <div class="editor-label">
+        @Html.LabelForRequired(model => Model.RegistrationNum)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(model => Model.RegistrationNum, new { @class = "form-control", @size = 256, placeholder = "Номер" })
+    </div>
+}
+else
+{
+    @Html.HiddenFor(model => model.RegistrationNum)
+    <div class="editor-label">
+        @Html.LabelForRequired(model => Model.RegistrationNum)
+    </div>
+    <div class="editor-field">
+        @Html.DisplayTextFor(model => Model.RegistrationNum)
+    </div>
+}
+
+<h4>Язык обращения:</h4>
+<div class="row">
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Language_Kazakh)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.Language_Kazakh)
+        </div>
+    </div>
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Language_Russian)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.Language_Russian)
+        </div>
+    </div>
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Language_English)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.Language_English)
+        </div>
+    </div>
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Language_Chinese)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.Language_Chinese)
+        </div>
+    </div>
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Language_French)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.Language_French)
+        </div>
+    </div>
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Language_Other)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.Language_Other)
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-6">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.IdentificatorNumber)
+        </div>
+        <div>
+            @Html.TextBoxFor(model => Model.IdentificatorNumber, new { @class = "form-control", @size = 32, @maxlength = 32, placeholder = "ИИН или БИН" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => model.OrganizationTableId)
+        </div>
+        <div class="editor-field">
+            @Html.Action("GetOrganizationORD", "Custom", new { @id = Model.OrganizationTableId })
+        </div>
+    </div>
+    <div class="col-xs-6">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.StatusPerson)
+        </div>
+        <div class="editor-field">
+            @Html.EnumDropDownListFor(model => Model.StatusPerson, new { @class = "selectpickerfull" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Name)
+        </div>
+        <div>
+            @Html.TextBoxFor(model => Model.Name, new { @class = "form-control", @size = 256, @maxlength = 256, placeholder = "ФИО" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Address)
+        </div>
+        <div>
+            @Html.TextBoxFor(model => Model.Address, new { @class = "form-control", @size = 256, @maxlength = 256, placeholder = "Адрес" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => model.CountryTableId)
+        </div>
+        <div class="editor-field">
+            @Html.Action("GetCountryORD", "Custom", new { @id = Model.CountryTableId })
+        </div>
+    </div>
+</div>
+<hr />
+
+<div class="row">
+    <div class="col-xs-6">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.RegistrationDate)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => Model.RegistrationDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", startDate = "" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Whom)
+        </div>
+        <div>
+            @Html.TextBoxFor(model => Model.Whom, new { @class = "form-control", @data_role = "tagsinputEmplOne", @size = 256, @maxlength = 256, placeholder = "Адресован" })
+        </div>
+    </div>
+    <div class="col-xs-6">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.FormAppeal)
+        </div>
+        <div class="editor-field">
+            @Html.EnumDropDownListFor(model => Model.FormAppeal, new { @class = "selectpickerfull" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.TypeAppeal)
+        </div>
+        <div class="editor-field">
+            @Html.EnumDropDownListFor(model => Model.TypeAppeal, new { @class = "selectpickerfull" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.TypeAppealAddition)
+        </div>
+        <div>
+            @Html.TextBoxFor(model => Model.TypeAppealAddition, new { @class = "form-control", @size = 256, @maxlength = 256, placeholder = "Другое" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.CharacterAppeal)
+        </div>
+        <div class="editor-field">
+            @Html.EnumDropDownListFor(model => Model.CharacterAppeal, new { @class = "selectpickerfull" })
+        </div>
+    </div>
+</div>
+<hr />
+
+<div class="row">
+    <div class="col-xs-6">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.CharacterQuestion)
+        </div>
+        <div class="editor-field">
+            @Html.EnumDropDownListFor(model => Model.CharacterQuestion, new { @class = "selectpickerfull" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.CharacterQuestionAddition)
+        </div>
+        <div>
+            @Html.TextBoxFor(model => Model.CharacterQuestionAddition, new { @class = "form-control", @size = 256, @maxlength = 256, placeholder = "Другое" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.ListsCount)
+        </div>
+        <div>
+            @Html.TextBoxFor(model => Model.ListsCount, new { @class = "form-control", @size = 256, @maxlength = 256, placeholder = "Количество листов" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.ApplicationsCount)
+        </div>
+        <div>
+            @Html.TextBoxFor(model => Model.ApplicationsCount, new { @class = "form-control", @size = 256, @maxlength = 256, placeholder = "Количество приложений" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Subject)
+        </div>
+        <div>
+            @Html.TextBoxFor(model => Model.Subject, new { @class = "form-control", placeholder = "Тема" })
+        </div>
+    </div>
+    <div class="col-xs-6">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.ItemCauseNumber)
+                </div>
+                <div class="row">
+                    <div class="col-xs-2">
+                        <div class="editor-field">
+                            <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target=".itemcause-modal">@UIElementRes.UIElement.Choose...</button>
+                        </div>
+                    </div>
+                    <div class="col-xs-10">
+                        @Html.HiddenFor(model => Model.ItemCauseTableId)
+                        @Html.HiddenFor(model => Model.ItemCauseNumber, new { id = "ItemCauseNumberTextId" })
+                        <span id="ItemCauseNumber">@Html.DisplayTextFor(model => Model.ItemCauseNumber)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => model.ReasonRequestTableId)
+        </div>
+        <div class="editor-field">
+            @Html.Action("GetReasonRequest", "Custom", new { @id = Model.ReasonRequestTableId })
+        </div>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => model.QuestionRequestTableId)
+        </div>
+        <div class="editor-field">
+            @Html.Action("GetQuestionRequest", "Custom", new { @id = Model.QuestionRequestTableId })
+        </div>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-xs-12">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.ControlType)
+        </div>
+        <div class="editor-field">
+            @Html.EnumDropDownListFor(model => Model.ControlType, new { @class = "selectpicker" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Priority)
+        </div>
+        <div class="editor-field">
+            @Html.EnumDropDownListFor(model => Model.Priority, new { @class = "selectpicker" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.ExecutionDate)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => Model.ExecutionDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control form-control-date", startDate = "" })
+        </div>
+    </div>
+</div>
+
+<div class="modal itemcause-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sidebar">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">@CustomRes.Custom.ItemCause</h4>
+            </div>
+            <div class="modal-body" style="min-height:700px;">
+                @Html.Action("ItemCausesListLookup", "ItemCause")
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $('.itemcauseslink').click(function (event) {
+            var element = $(event.target);
+            $('#ItemCauseTableId').val(element.attr('data-itemid'));
+            $('#ItemCauseNumber').text(element.text());
+            $('#ItemCauseNumberTextId').val(element.text());
+        });
+
+        $('#TypeAppeal').change(function (event) {
+            if ($('#TypeAppeal').val() == 0) {
+                $('#TypeAppealAddition')[0].disabled = false;
+            }
+            else {
+                $('#TypeAppealAddition')[0].disabled = true;
+                $('#TypeAppealAddition').val("");
+            }
+        });
+
+        $('#CharacterQuestion').change(function (event) {
+            if ($('#CharacterQuestion').val() == 0) {
+                $('#CharacterQuestionAddition')[0].disabled = false;
+            }
+            else {
+                $('#CharacterQuestionAddition')[0].disabled = true;
+                $('#CharacterQuestionAddition').val("");
+            }
+        });
+    });
+</script>

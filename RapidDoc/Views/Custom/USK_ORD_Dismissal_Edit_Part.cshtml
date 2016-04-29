@@ -91,7 +91,11 @@
             @Html.HiddenFor(model => model.ListSubcription)
             @Html.HiddenFor(model => model.AddReaders)
             @Html.HiddenFor(model => model.AddAttachment)
-            @Html.HiddenFor(model => model.OrderNum)
+            @Html.HiddenFor(model => model.ControlUsers)
+            @Html.HiddenFor(model => model.ControlDate)
+            @Html.HiddenFor(model => model.Executed)
+            @Html.HiddenFor(model => model.NoTask)
+
             @if (!String.IsNullOrEmpty(Model.OrderNum))
             {
                 @Html.HiddenFor(model => model.AdditionDocumentId)
@@ -187,6 +191,19 @@
                 </div>
             }
             <hr />
+            @if (User.IsInRole("Administrator"))
+            {
+                <div class="editor-label">
+                    @Html.LabelForRequired(model => Model.OrderNum)
+                </div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => Model.OrderNum, new { @class = "form-control", @size = 256, placeholder = "Номер" })
+                </div>
+            }
+            else
+            {
+                @Html.HiddenFor(model => model.OrderNum)
+            }
             <div class="form-group">
                 <div class="input-group">
                     <span class="input-group-addon">

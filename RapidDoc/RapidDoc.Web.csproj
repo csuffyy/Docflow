@@ -904,7 +904,7 @@
     <Content Include="Scripts\URI.js" />
     <Content Include="Scripts\modernizr-2.6.2-respond-1.1.0.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Views\Custom\USR_APP_AppealDocuments_View.cshtml" />
+    <Content Include="Views\Custom\USR_APP_AppealDocuments_View_Full.cshtml" />
     <Content Include="Views\EmailTemplate\ORDEmailTemplate.cshtml">
       <SubType>Code</SubType>
     </Content>
@@ -1755,7 +1755,7 @@
     <Content Include="Views\Custom\USR_REQ_OKS_RequestForTranslateZIF_Edit.cshtml" />
     <Content Include="Views\Custom\USR_REQ_OKS_RequestForTranslateZIF_View.cshtml" />
     <Content Include="Views\Custom\USR_ORD_Workers.cshtml" />
-    <Content Include="Views\Custom\USR_IND_IncomingDocuments_View.cshtml" />
+    <Content Include="Views\Custom\USR_IND_IncomingDocuments_View_Full.cshtml" />
     <Content Include="Views\Custom\USR_IND_IncomingDocuments_Edit.cshtml" />
     <Content Include="Views\DocumentBase\_DocumentBaseIncoming.cshtml" />
     <Content Include="Views\DocumentBase\IndexIncoming.cshtml" />
@@ -1994,7 +1994,7 @@
     <Content Include="Views\Custom\USR_PRT_DirectorateDocuments_View.cshtml" />
     <Content Include="Views\Custom\USR_PRT_DirectorateDocuments_Edit.cshtml" />
     <Content Include="Views\Custom\USR_APP_AppealIndividualDocuments_Edit.cshtml" />
-    <Content Include="Views\Custom\USR_APP_AppealIndividualDocuments_View.cshtml" />
+    <Content Include="Views\Custom\USR_APP_AppealIndividualDocuments_View_Full.cshtml" />
     <Content Include="Views\Custom\USR_PRT_TechCommitteeDocuments_View_Full.cshtml" />
     <Content Include="Views\Custom\USR_PRT_ProtocolDocuments_View_Full.cshtml" />
     <Content Include="Views\Custom\USR_PRT_ManagementDocuments_View_Full.cshtml" />
@@ -2072,7 +2072,7 @@
     <Content Include="Views\Custom\USK_ORD_Transfer_Edit_Translator.cshtml" />
     <Content Include="Views\Custom\USK_ORD_Transfer_View.cshtml" />
     <Content Include="Views\Custom\USK_ORD_Transfer_View_Full.cshtml" />
-    <Content Include="Views\Custom\USK_IND_IncomingDocuments_View.cshtml" />
+    <Content Include="Views\Custom\USK_IND_IncomingDocuments_View_Full.cshtml" />
     <Content Include="Views\Custom\USK_IND_IncomingDocuments_Edit.cshtml" />
     <Content Include="Views\Custom\USK_OND_OutcomingDocuments_Edit.cshtml" />
     <Content Include="Views\Custom\USK_OND_OutcomingDocuments_Registration.cshtml" />
@@ -2082,7 +2082,7 @@
     <Content Include="Views\Custom\USR_REQ_JU_RequestFoTakeContractByScanner_View.cshtml" />
     <Content Include="Views\Custom\USR_REQ_JU_RequestFoTakeContractByScanner_Edit.cshtml" />
     <Content Include="Views\Custom\USC_IND_IncomingDocuments_Edit.cshtml" />
-    <Content Include="Views\Custom\USC_IND_IncomingDocuments_View.cshtml" />
+    <Content Include="Views\Custom\USC_IND_IncomingDocuments_View_Full.cshtml" />
     <Content Include="Views\Custom\USC_OND_OutcomingDocuments_Edit.cshtml" />
     <Content Include="Views\Custom\USC_OND_OutcomingDocuments_Registration.cshtml" />
     <Content Include="Views\Custom\USC_OND_OutcomingDocuments_View.cshtml" />
@@ -2133,6 +2133,19 @@
     <Content Include="Views\Custom\_OND_OutcomingDocRefList.cshtml" />
     <Content Include="Views\Custom\USK_REQ_IT_CAP_ChangeOrder_Edit.cshtml" />
     <Content Include="Views\Custom\USK_REQ_IT_CAP_ChangeOrder_View.cshtml" />
+    <Content Include="Views\Custom\USR_IND_IncomingDocuments_View.cshtml" />
+    <Content Include="Views\Custom\USR_IND_IncomingDocuments_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USK_IND_IncomingDocuments_View.cshtml" />
+    <Content Include="Views\Custom\USK_IND_IncomingDocuments_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USC_IND_IncomingDocuments_View.cshtml" />
+    <Content Include="Views\Custom\USC_IND_IncomingDocuments_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USR_OND_OutcomingDocuments_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USK_OND_OutcomingDocuments_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USC_OND_OutcomingDocuments_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USR_APP_AppealDocuments_View.cshtml" />
+    <Content Include="Views\Custom\USR_APP_AppealIndividualDocuments_View.cshtml" />
+    <Content Include="Views\Custom\USR_APP_AppealDocuments_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USR_APP_AppealIndividualDocuments_Edit_Part.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

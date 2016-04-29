@@ -12,7 +12,7 @@
     }
 </ul>
  
-<div class="panel-body">
+<div class="panel-body itemcauselist">
     <div class="tab-content">
         <div class="tab-pane fade in active" id="tab1userlist">
             @{int num = 0;}
@@ -22,10 +22,10 @@
                 <p><a href="#" data-toggle="collapse" data-target="#collapseOneArea_@num" aria-expanded="false" aria-controls="collapseOneArea_@num"><strong>@itemGroup.Key</strong></a></p>
                 <div class="collapse.in" id="collapseOneArea_@num">
                     <div class="well well-sm">
-                    @foreach (var item in Model.Where(x => x.DepartmentName == itemGroup.Key && x.IsCurrentUserDepartment == true))
-                    {
-                        <p><a href="#" class="itemcauseslink" data-dismiss="modal" data-itemid="@item.Id">@item.CaseNumber - @item.CaseName</a></p>
-                    }
+                        @foreach (var item in Model.Where(x => x.DepartmentName == itemGroup.Key && x.IsCurrentUserDepartment == true))
+                        {
+                            <p><a href="#" class="itemcauseslink" data-dismiss="modal" data-itemid="@item.Id">@item.CaseNumber - @item.CaseName</a></p>
+                        }
                     </div>
                 </div>
             }
