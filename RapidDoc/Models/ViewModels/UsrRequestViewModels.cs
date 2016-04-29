@@ -10170,6 +10170,38 @@ namespace RapidDoc.Models.ViewModels
         public string BusinessTrip { get; set; }
     }
 
+    public class USK_REQ_IT_CAP_ChangeOrder_View : BasicDocumentView
+    {
+        [Display(Name = "№ Приказа")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string OrderNum { get; set; }
+
+        [DataType(DataType.Date)]
+        [Display(Name = "Дата регистрации")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public DateTime? OrderDate { get; set; }
+
+        [Display(Name = "Тема")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string Subject { get; set; }
+
+        [Display(Name = "Необходимые изменения")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string Description { get; set; }
+
+        [Display(Name = "Причина")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string Reason { get; set; }
+
+        [Display(Name = "Контактный телефон")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string Contact { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Подписант приказа")]
+        public string UserChooseManual1 { get; set; }
+    }
+
     #endregion
 
     #region Заявки Kazzinc

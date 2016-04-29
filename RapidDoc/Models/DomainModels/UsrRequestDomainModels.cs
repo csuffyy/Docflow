@@ -4664,6 +4664,17 @@ namespace RapidDoc.Models.DomainModels
         public string BusinessTrip { get; set; }
     }
 
+    public class USK_REQ_IT_CAP_ChangeOrder_Table : BasicDocumentTable
+    {
+        public string OrderNum { get; set; }
+        public DateTime? OrderDate { get; set; }
+        public string Subject { get; set; }
+        public string Description { get; set; }
+        public string Reason { get; set; }
+        public string Contact { get; set; }
+        public string UserChooseManual1 { get; set; }
+    }
+
     #endregion
 
     #region Заявки Kazzinc

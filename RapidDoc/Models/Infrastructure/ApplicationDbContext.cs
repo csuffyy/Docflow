@@ -315,6 +315,7 @@ namespace RapidDoc.Models.Infrastructure
         public DbSet<USR_APP_AppealDocuments_Table> USR_APP_AppealDocuments_Table { get; set; }
         public DbSet<USR_APP_AppealIndividualDocuments_Table> USR_APP_AppealIndividualDocuments_Table { get; set; }
         public DbSet<USR_PRT_ProtocolDocuments_Table> USR_PRT_ProtocolDocuments_Table { get; set; }
+        public DbSet<USK_REQ_IT_CAP_ChangeOrder_Table> USK_REQ_IT_CAP_ChangeOrder_Table { get; set; }
 
         public DbSet<USR_OFM_VIP_OfficeMemo_Table> USR_OFM_VIP_OfficeMemo_Table { get; set; }
         public DbSet<USR_OFM_BMK_OfficeMemo_Table> USR_OFM_BMK_OfficeMemo_Table { get; set; }

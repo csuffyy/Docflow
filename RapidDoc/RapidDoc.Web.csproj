@@ -2131,6 +2131,8 @@
     <Content Include="Views\Custom\USR_REQ_UMM_ProvisionOfZIF_Edit.cshtml" />
     <Content Include="Views\Custom\USR_REQ_UMM_ProvisionOfZIF_Edit_HighMaster.cshtml" />
     <Content Include="Views\Custom\_OND_OutcomingDocRefList.cshtml" />
+    <Content Include="Views\Custom\USK_REQ_IT_CAP_ChangeOrder_Edit.cshtml" />
+    <Content Include="Views\Custom\USK_REQ_IT_CAP_ChangeOrder_View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -4070,6 +4072,12 @@
   </ItemGroup>
   <ItemGroup>
     <XamlAppDef Include="Activities\USR_REQ_UMM_ProvisionOfZIF.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USK_REQ_IT_CAP_ChangeOrder.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </XamlAppDef>

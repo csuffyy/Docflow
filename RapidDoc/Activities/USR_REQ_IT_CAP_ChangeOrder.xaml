@@ -77,6 +77,7 @@
       <AssemblyReference>Ninject.Web.Common</AssemblyReference>
       <AssemblyReference>Ninject.Web.Mvc</AssemblyReference>
       <AssemblyReference>Ninject.Web.WebApi</AssemblyReference>
+      <AssemblyReference>NLog</AssemblyReference>
       <AssemblyReference>PresentationCore</AssemblyReference>
       <AssemblyReference>PresentationFramework</AssemblyReference>
       <AssemblyReference>RazorEngine</AssemblyReference>
@@ -137,7 +138,7 @@
       <AssemblyReference>RapidDoc</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Flowchart DisplayName="Запрос на внесение изменений в зарегистрированный приказ в Lotus Notes" sap2010:WorkflowViewState.IdRef="Flowchart_2">
+  <Flowchart DisplayName="Запрос на внесение изменений в зарегистрированный приказ" sap2010:WorkflowViewState.IdRef="Flowchart_2">
     <Flowchart.Variables>
       <Variable x:TypeArguments="x:String" Name="bookmarkName" />
       <Variable x:TypeArguments="x:String" Name="dynamic" />
@@ -179,7 +180,7 @@
                       </local1:WFChooseStaffStructure.inputDocumentId>
                       <local1:WFChooseStaffStructure.inputPredicate>
                         <InArgument x:TypeArguments="sle:Expression(s:Func(local2:EmplTable, x:Boolean))">
-                          <mca:CSharpValue x:TypeArguments="sle:Expression(s:Func(local2:EmplTable, x:Boolean))">x =&gt; x.DepartmentTable.DepartmentName == dynamic &amp;&amp; x.TitleTable.TitleName == "Начальник службы"</mca:CSharpValue>
+                          <mca:CSharpValue x:TypeArguments="sle:Expression(s:Func(local2:EmplTable, x:Boolean))">x =&gt; x.DepartmentTable.DepartmentName == dynamic &amp;&amp; x.TitleTable.TitleName == "Начальник службы" &amp;&amp; x.CompanyTable.AliasCompanyName == "ATK"</mca:CSharpValue>
                         </InArgument>
                       </local1:WFChooseStaffStructure.inputPredicate>
                       <local1:WFChooseStaffStructure.inputStep>
@@ -228,7 +229,7 @@
                                   </local1:WFChooseStaffStructure.inputDocumentId>
                                   <local1:WFChooseStaffStructure.inputPredicate>
                                     <InArgument x:TypeArguments="sle:Expression(s:Func(local2:EmplTable, x:Boolean))">
-                                      <mca:CSharpValue x:TypeArguments="sle:Expression(s:Func(local2:EmplTable, x:Boolean))">x =&gt; x.DepartmentTable.DepartmentName == "Управление бухгалтерского учета и отчетности" &amp;&amp; x.TitleTable.TitleName == "Главный бухгалтер"</mca:CSharpValue>
+                                      <mca:CSharpValue x:TypeArguments="sle:Expression(s:Func(local2:EmplTable, x:Boolean))">x =&gt; x.DepartmentTable.DepartmentName == "Управление бухгалтерского учета и отчетности" &amp;&amp; x.TitleTable.TitleName == "Главный бухгалтер" &amp;&amp; x.CompanyTable.AliasCompanyName == "ATK"</mca:CSharpValue>
                                     </InArgument>
                                   </local1:WFChooseStaffStructure.inputPredicate>
                                   <local1:WFChooseStaffStructure.inputStep>
@@ -690,7 +691,7 @@
     <x:Reference>__ReferenceID4</x:Reference>
     <x:Reference>__ReferenceID25</x:Reference>
     <x:Reference>__ReferenceID26</x:Reference>
-    <sads:DebugSymbol.Symbol>d0VEOlxHaXRIdWJcRG9jRmxvd1xSYXBpZERvY1xBY3Rpdml0aWVzXFVTUl9SRVFfSVRfQ0FQX0NoYW5nZU9yZGVyLnhhbWxuHAccZwEDAZUBAZsBAQKMAQO2BQ8CAQGUAQuUAW8DAYYGzwQN7gQrAwHGBfIEE/IEaAMBvAX5BBWOBTYDAZMFmQEPmQGaAQMBiQW8BBHFBBoDAf0EqQEVzQE1AwG1BNEBG9EBcAMBqwSZBB2uBD4DAYIE1gEf1gGDAQMB+AOHBCGSBCoDAeMD2gEh/gFBAwGbA4ICJ4ICfAMBkQPmAyn7A0oDAegChwIrhwKPAQMB3gLUAy3fAzYDAckCiwItrwJOAwH9AbMCM7MCiAEDAfMBswM1yANWAwHKAbgCN7gCmwEDAcABoQM5rANCAwGrAbwCOdsCUwIBa94CPfMCXgIBQvcCQ/cCpwECATiLA0WWA04CASP7AkWGA04CAQ6dARGmARoCAQLcBBPcBGUDAfwFzwSFAs8EjAIDAfsF5gQT5gRoAwHxBeEEE+EEZQMB5wXrBBPrBG4DAd0FzwTiAc8E6gEDAdwFzwT0Ac8E+gEDAdsF1wQT1wReAwHRBdIEE9IEYQMBxwWBBRuBBW0DAbIFhgUbhgVxAwGoBfwEG/wEZQMBngWLBRuLBXYDAZQFwwQ8wwRJAwGIBb8EF78EZAMB/gS7ARu7AW0DAfMEqQH/AakBhgIDAfIExQEbxQFwAwHoBMABG8ABbQMB3gTKARvKAXYDAdQEsQEbsQFmAwHKBKwBG6wBaQMBwAS2ARu2Ae8BAwG2BKEEI6EEdQMBoQSmBCOmBHkDAZcEnAQjnARtAwGNBKsEI6sEfgMBgwSPBCePBHoDAe4DigQnigSCAQMB5APsASfsAXkDAdkD2gGWAtoBnQIDAdgD9gEn9gF8AwHOA/EBJ/EBeQMBxAP7ASf7AYIBAwG6A+IBJ+IBcgMBsAPdASfdAXUDAaYD5wEn5wGjAgMBnAPuAy/uA4EBAwGHA/MDL/MDhQEDAf0C6QMv6QN5AwHzAvgDL/gDigEDAekC3AMz3AOGAQMB1ALXAzPXA44BAwHKAp0CM50ChQEDAb8CiwL2AYsCiQIDAb4CiwKaAosCpQIDAb0CiwLAAosCxwIDAbwCpwIzpwKIAQMBsgKiAjOiAoUBAwGoAosC4AGLAuYBAwGnAqwCM6wCjgEDAZ0CiwKvAosCtQIDAZwCmAIzmAJ+AwGSAo4CM44CgQEDAYgCkwIzkwKXAQMB/gG7Azu7A40BAwHpAcADO8ADkQEDAd8BtgM7tgOFAQMB1QHFAzvFA5YBAwHLAakDP6kDkgEDAbYBpAM/pAOaAQMBrAHJAj/JApEBAwGhAbwCtgK8Ar0CAwGgAdMCP9MClAEDAZYBzgI/zgKRAQMBjAG8AocCvAKNAgMBiwHYAj/YApoBAwGBAbwCnAK8AqsCAwGAAcQCP8QCigECAXa/Aj+/Ao0BAgFs5gJD5gKVAQIBYesCQ+sCmQECAVfhAkPhAo0BAgFN8AJD8AKeAQIBQ5MDS5MDqwECAS6OA0uOA6YBAgEkgwNLgwOoAQIBGf4CS/4CpgECAQ+kATykAV0CAQ2gARegAWQCAQM=</sads:DebugSymbol.Symbol>
+    <sads:DebugSymbol.Symbol>d1xDOlxVc2Vyc1xpZ2RtaXRcU291cmNlXFJlcG9zXERvY2Zsb3dSZXBvXFJhcGlkRG9jXEFjdGl2aXRpZXNcVVNSX1JFUV9JVF9DQVBfQ2hhbmdlT3JkZXIueGFtbG4cBxxnAQMBlQEBmwEBAo0BA7cFDwIBAZUBC5UBbwMBhgbQBA3vBCsDAcYF8wQT8wRoAwG8BfoEFY8FNgMBkwWaAQ+aAZoBAwGJBb0EEcYEGgMB/QSqARXOATUDAbUE0gEb0gFwAwGrBJoEHa8EPgMBggTXAR/XAYMBAwH4A4gEIZMEKgMB4wPbASH/AUEDAZsDgwIngwJ8AwGRA+cDKfwDSgMB6AKIAiuIAo8BAwHeAtUDLeADNgMByQKMAi2wAk4DAf0BtAIztAKIAQMB8wG0AzXJA1YDAcoBuQI3uQKbAQMBwAGiAzmtA0IDAasBvQI53AJTAgFr3wI99AJeAgFC+AJD+AKnAQIBOIwDRZcDTgIBI/wCRYcDTgIBDp4BEacBGgIBAt0EE90EZQMB/AXQBIUC0ASMAgMB+wXnBBPnBGgDAfEF4gQT4gRlAwHnBewEE+wEbgMB3QXQBOIB0ATqAQMB3AXQBPQB0AT6AQMB2wXYBBPYBF4DAdEF0wQT0wRhAwHHBYIFG4IFbQMBsgWHBRuHBXEDAagF/QQb/QRlAwGeBYwFG4wFdgMBlAXEBDzEBEkDAYgFwAQXwARkAwH+BLwBG7wBbQMB8wSqAf8BqgGGAgMB8gTGARvGAXADAegEwQEbwQFtAwHeBMsBG8sBdgMB1ASyARuyAWYDAcoErQEbrQFpAwHABLcBG7cBowIDAbYEogQjogR1AwGhBKcEI6cEeQMBlwSdBCOdBG0DAY0ErAQjrAR+AwGDBJAEJ5AEegMB7gOLBCeLBIIBAwHkA+0BJ+0BeQMB2QPbAZYC2wGdAgMB2AP3ASf3AXwDAc4D8gEn8gF5AwHEA/wBJ/wBggEDAboD4wEn4wFyAwGwA94BJ94BdQMBpgPoASfoAdcCAwGcA+8DL+8DgQEDAYcD9AMv9AOFAQMB/QLqAy/qA3kDAfMC+QMv+QOKAQMB6QLdAzPdA4YBAwHUAtgDM9gDjgEDAcoCngIzngKFAQMBvwKMAvYBjAKJAgMBvgKMApoCjAKlAgMBvQKMAsACjALHAgMBvAKoAjOoAogBAwGyAqMCM6MChQEDAagCjALgAYwC5gEDAacCrQIzrQKOAQMBnQKMAq8CjAK1AgMBnAKZAjOZAn4DAZICjwIzjwKBAQMBiAKUAjOUApcBAwH+AbwDO7wDjQEDAekBwQM7wQORAQMB3wG3Azu3A4UBAwHVAcYDO8YDlgEDAcsBqgM/qgOSAQMBtgGlAz+lA5oBAwGsAcoCP8oCkQEDAaEBvQK2Ar0CvQIDAaAB1AI/1AKUAQMBlgHPAj/PApEBAwGMAb0ChwK9Ao0CAwGLAdkCP9kCmgEDAYEBvQKcAr0CqwIDAYABxQI/xQKKAQIBdsACP8ACjQECAWznAkPnApUBAgFh7AJD7AKZAQIBV+ICQ+ICjQECAU3xAkPxAp4BAgFDlANLlAOrAQIBLo8DS48DpgECASSEA0uEA6gBAgEZ/wJL/wKmAQIBD6UBPKUBXQIBDaEBF6EBZAIBAw==</sads:DebugSymbol.Symbol>
   </Flowchart>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>
