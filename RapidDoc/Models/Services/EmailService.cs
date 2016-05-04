@@ -445,7 +445,7 @@ namespace RapidDoc.Models.Services
             else
             {
                 ApplicationUser parentUser = repoUser.Find(x => x.Id == parentUserId);
-                if (parentUser != null)
+                if (parentUser != null && !users.Any(x => x.Id == parentUser.Id))
                     users.Add(parentUser);
             }
 
