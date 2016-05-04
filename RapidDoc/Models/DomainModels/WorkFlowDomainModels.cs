@@ -167,6 +167,13 @@ namespace RapidDoc.Models.DomainModels
         public virtual DocumentTable DocumentTable { get; set; }
 
         public string Comment { get; set; }
+
+        [ForeignKey("CommentTableParent")]
+        public Guid? CommentTableParentId { get; set; }
+        public virtual CommentTable CommentTableParent { get; set; }
+
+        public string Lineage { get; set; }
+        public int Deep { get; set; }
     }
 
     public class WFTrackerTable : BasicTable

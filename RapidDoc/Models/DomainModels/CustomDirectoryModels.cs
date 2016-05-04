@@ -63,7 +63,8 @@ namespace RapidDoc.Models.DomainModels
     public class PortalParametersTable : BasicCompanyNullTable
     {
         public string ReportDepartments { get; set; }
-
+        public int NumberUserMaxAlerts { get; set; }
+        public int NumberUserMaxAlertsReaders { get; set; }
     }
 
     public class CountryTable : BasicTable

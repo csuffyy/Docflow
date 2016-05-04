@@ -43,7 +43,7 @@ namespace RapidDoc.Models.Services
         void SendExecutorEmail(Guid documentId, string additionalTextCZ = "", bool ordRegistration = false);
         void SendInitiatorRejectEmail(Guid documentId);
         void SendInitiatorClosedEmail(Guid documentId);
-        void SendInitiatorCommentEmail(Guid documentId, string lastComment);
+        void SendInitiatorCommentEmail(Guid documentId, string lastComment, string parentUserId);
         void SendDelegationEmplEmail(DelegationView delegationView);
         void SendReaderEmail(Guid documentId, List<string> newReader);
         void SendNewExecutorEmail(Guid documentId, string userId, string additionalTextCZ = "");
@@ -74,8 +74,9 @@ namespace RapidDoc.Models.Services
         private readonly IDocumentService _DocumentService;
         private readonly IDocumentReaderService _DocumentReaderService;
         private readonly ISystemService _SystemService;
+        private readonly IPortalParametersService _PortalParametersService;
 
-        public EmailService(IUnitOfWork uow, IDocumentService documentService, IDocumentReaderService documentReaderService, ISystemService systemService)
+        public EmailService(IUnitOfWork uow, IDocumentService documentService, IDocumentReaderService documentReaderService, ISystemService systemService, IPortalParametersService portalParametersService)
         {
             _uow = uow;
             repo = uow.GetRepository<EmailParameterTable>();
@@ -84,6 +85,7 @@ namespace RapidDoc.Models.Services
             _DocumentService = documentService;
             _DocumentReaderService = documentReaderService;
             _SystemService = systemService;
+            _PortalParametersService = portalParametersService;
         }
 
         public EmailParameterTable FirstOrDefault(Expression<Func<EmailParameterTable, bool>> predicate)
@@ -410,7 +412,7 @@ namespace RapidDoc.Models.Services
             }
         }
 
-        public void SendInitiatorCommentEmail(Guid documentId, string lastComment)
+        public void SendInitiatorCommentEmail(Guid documentId, string lastComment, string parentUserId)
         {
             var documentTable = _DocumentService.Find(documentId);
             if (documentTable == null)
@@ -418,23 +420,33 @@ namespace RapidDoc.Models.Services
 
             var users = repoUser.FindAll(x => x.Id == documentTable.ApplicationUserCreatedId).ToList();
 
-            var currentReaders = _DocumentReaderService.GetPartial(x => x.DocumentTableId == documentId).ToList();
-            if (currentReaders.Count() < 31)
+            if(String.IsNullOrEmpty(parentUserId))
             {
-                foreach (var reader in currentReaders)
-                    users.Add(repoUser.GetById(reader.UserId));
-            }
-
-            var signUsers = _DocumentService.GetSignUsersDirect(documentTable);
-            if (signUsers != null && signUsers.Count() < 31)
-            {
-                foreach (var signUser in signUsers)
+                var parameters = _PortalParametersService.FirstOrDefault(x => x.CompanyTableId == documentTable.CompanyTableId);
+                var currentReaders = _DocumentReaderService.GetPartial(x => x.DocumentTableId == documentId).ToList();
+                if (currentReaders.Count() < parameters.NumberUserMaxAlertsReaders)
                 {
-                    if (users.Any(x => x.Id == signUser.Id))
-                        continue;
-                    else
-                        users.Add(signUser);
+                    foreach (var reader in currentReaders)
+                        users.Add(repoUser.GetById(reader.UserId));
                 }
+
+                var signUsers = _DocumentService.GetSignUsersDirect(documentTable);
+                if (signUsers != null && signUsers.Count() < parameters.NumberUserMaxAlerts)
+                {
+                    foreach (var signUser in signUsers)
+                    {
+                        if (users.Any(x => x.Id == signUser.Id))
+                            continue;
+                        else
+                            users.Add(signUser);
+                    }
+                }
+            }
+            else
+            {
+                ApplicationUser parentUser = repoUser.Find(x => x.Id == parentUserId);
+                if (parentUser != null)
+                    users.Add(parentUser);
             }
 
             foreach (var user in users)

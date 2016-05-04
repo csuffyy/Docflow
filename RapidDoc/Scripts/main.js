@@ -365,6 +365,7 @@ function summernotemin_init(lang) {
             defaultFontName: 'Arial',
             toolbar: [
                 ['style', ['bold', 'clear']],
+                ['insert', ['link', 'insertfile']],
                 ['misc', ['undo', 'redo']]
             ],
             callbacks: {
@@ -1370,4 +1371,3 @@ function checkIncomeDoc() {
         });
     }
 }
-

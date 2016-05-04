@@ -75,7 +75,12 @@ namespace RapidDoc.Models.ViewModels
     {
         [Display(Name = "Отчетные подразделения")]
         public string ReportDepartments { get; set; }
-       
+
+        [Display(Name = "Максимальное количество пользователей для уведомлений (активный этап)")]
+        public int NumberUserMaxAlerts { get; set; }
+
+        [Display(Name = "Максимальное количество пользователей для уведомлений (читатели)")]
+        public int NumberUserMaxAlertsReaders { get; set; }
     }
 
     public class TaskDelegationView

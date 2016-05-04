@@ -119,7 +119,7 @@
                                         contentType: false,
                                         processData: false,
                                         success: function (result) {
-                                            var fileUrl = '<a href="' + result + '" target="_blank">' + files.name + '</a>';
+                                            var fileUrl = '<p><a href="' + result + '" target="_blank">' + files.name + '</a></p>';
                                             var $node = $('<span></span>').html(fileUrl)[0];
                                             if ($node) {
                                                 context.invoke('editor.insertNode', $node);

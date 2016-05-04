@@ -21,7 +21,8 @@ namespace RapidDoc.Models.Services
         IEnumerable<CommentView> GetPartialView(Expression<Func<CommentTable, bool>> predicate);
         CommentTable FirstOrDefault(Expression<Func<CommentTable, bool>> predicate);
         bool Contains(Expression<Func<CommentTable, bool>> predicate);
-        void SaveDomain(CommentTable domainTable);
+        Guid SaveDomain(CommentTable domainTable);
+        void Save(CommentTable domainTable);
         void Delete(Guid Id);
         CommentTable Find(Guid id);
         void DeleteAll(Guid documenId);
@@ -64,9 +65,9 @@ namespace RapidDoc.Models.Services
                 {
                     EmplTable empl = _EmplService.GetEmployer(comment.ApplicationUserCreatedId, comment.CompanyTableId);
                     if (empl != null)
-                        commentsView.Add(new CommentView { Id = comment.Id, Comment = comment.Comment, CreatedDate = _SystemService.ConvertDateTimeToLocal(user, comment.CreatedDate), EmplName = empl.FullName, TitleName = empl.TitleName });
+                        commentsView.Add(new CommentView { Id = comment.Id, Comment = comment.Comment, CreatedDate = _SystemService.ConvertDateTimeToLocal(user, comment.CreatedDate), EmplName = empl.FullName, TitleName = empl.TitleName, CommentTableParentId = comment.CommentTableParentId, Deep = comment.Deep, Lineage = comment.Lineage });
                     else
-                        commentsView.Add(new CommentView { Id = comment.Id, Comment = comment.Comment, CreatedDate = _SystemService.ConvertDateTimeToLocal(user, comment.CreatedDate), EmplName = user.UserName, TitleName = "" });
+                        commentsView.Add(new CommentView { Id = comment.Id, Comment = comment.Comment, CreatedDate = _SystemService.ConvertDateTimeToLocal(user, comment.CreatedDate), EmplName = user.UserName, TitleName = "", CommentTableParentId = comment.CommentTableParentId, Deep = comment.Deep, Lineage = comment.Lineage });
                 }
             }
 
@@ -80,16 +81,46 @@ namespace RapidDoc.Models.Services
         {
             return repo.Contains(predicate);
         }
-        public void SaveDomain(CommentTable domainTable)
+        public Guid SaveDomain(CommentTable domainTable)
         {
             ApplicationUser user = repoUser.GetById(HttpContext.Current.User.Identity.GetUserId());
-            domainTable.CreatedDate = DateTime.UtcNow;
-            domainTable.ModifiedDate = domainTable.CreatedDate;
-            domainTable.ApplicationUserCreatedId = user.Id;
-            domainTable.ApplicationUserModifiedId = user.Id;
-            domainTable.CompanyTableId = user.CompanyTableId;
-            repo.Add(domainTable);
+
+            if (domainTable.Id == Guid.Empty)
+            {
+                domainTable.CreatedDate = DateTime.UtcNow;
+                domainTable.ModifiedDate = domainTable.CreatedDate;
+                domainTable.ApplicationUserCreatedId = user.Id;
+                domainTable.ApplicationUserModifiedId = user.Id;
+                domainTable.CompanyTableId = user.CompanyTableId;
+                repo.Add(domainTable);
+            }
+            else
+            {
+                domainTable.ModifiedDate = DateTime.UtcNow;
+                domainTable.ApplicationUserModifiedId = user.Id;
+                repo.Update(domainTable);
+            }
             _uow.Commit();
+
+            return domainTable.Id;
+        }
+        public void Save(CommentTable domainTable)
+        {
+            Guid id = this.SaveDomain(domainTable);
+            CommentTable comment = this.Find(id);
+
+            if (comment.CommentTableParentId == null)
+            {
+                comment.Lineage = comment.Id.ToString();
+                comment.Deep = 0;
+            }
+            else
+            {
+                CommentTable commentParent = this.Find(comment.CommentTableParentId ?? Guid.Empty);
+                comment.Lineage = commentParent.Lineage + "-" + comment.Id.ToString();
+                comment.Deep = commentParent.Deep + 1;
+            }
+            this.SaveDomain(comment);
         }
         public void Delete(Guid Id)
         {

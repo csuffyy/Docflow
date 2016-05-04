@@ -489,6 +489,13 @@ fieldset[disabled] .form-control {
 .bs-callout-info h4 {
   color: #34789a;
 }
+.bs-callout-default {
+  background-color: #FFFFFF;
+  border-color: #ccc;
+}
+.bs-callout-default h4 {
+  color: #34789a;
+}
 
 fieldset {
     min-width: 100%;

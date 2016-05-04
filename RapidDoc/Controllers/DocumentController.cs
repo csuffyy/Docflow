@@ -1266,21 +1266,25 @@ namespace RapidDoc.Controllers
             return PartialView("~/Views/Custom/" + tableName + "_" + viewType + ".cshtml", modelDoc);
         }
 
-        public ActionResult GetAllComment(Guid documentId, string lastComment = "")
+        public ActionResult GetAllComment(Guid documentId, Guid? parentId, string lastComment = "")
         {
-            SaveComment(documentId, lastComment);
-            var model = _CommentService.GetPartialView(x => x.DocumentTableId == documentId).OrderBy(x => x.CreatedDate);
+            SaveComment(documentId, parentId, lastComment);
+            var model = _CommentService.GetPartialView(x => x.DocumentTableId == documentId).OrderBy(x => x.CreatedDate).OrderBy(x => x.Lineage);
             return PartialView("~/Views/Shared/_Comments.cshtml", model);
         }
 
         [HttpPost]
-        public void SaveComment(Guid id, string lastComment)
+        public void SaveComment(Guid id, Guid? parentId, string lastComment)
         {
             if (_SystemService.CheckTextExists(lastComment))
             {
-                _CommentService.SaveDomain(new CommentTable { Comment = lastComment, DocumentTableId = id });
+                _CommentService.Save(new CommentTable { Comment = lastComment, DocumentTableId = id, CommentTableParentId = parentId });
                 _HistoryUserService.SaveDomain(new HistoryUserTable { DocumentTableId = id, HistoryType = Models.Repository.HistoryType.NewComment }, User.Identity.GetUserId());
-                _EmailService.SendInitiatorCommentEmail(id, lastComment);
+                var parentComment = _CommentService.FirstOrDefault(x => x.Id == parentId);
+                if (parentComment != null)
+                    _EmailService.SendInitiatorCommentEmail(id, lastComment, parentComment.ApplicationUserCreatedId);
+                else
+                    _EmailService.SendInitiatorCommentEmail(id, lastComment, null);
             }
         }
 
@@ -2179,7 +2183,7 @@ namespace RapidDoc.Controllers
                 }
                 else
                 {
-                    SaveComment(GuidNull2Guid(documentId), approveCommentRequest);
+                    SaveComment(GuidNull2Guid(documentId), null, approveCommentRequest);
                 }
             }
             if (collection["RejectCommentRequest"] != null && _SystemService.CheckTextExists(collection["RejectCommentRequest"]))
@@ -2198,7 +2202,7 @@ namespace RapidDoc.Controllers
                 }
                 else
                 {
-                    SaveComment(documentGuidId, rejectCommentRequest);
+                    SaveComment(documentGuidId, null, rejectCommentRequest);
                 }
             }
             else if (collection["RejectComment"] != null && _SystemService.CheckTextExists(collection["RejectComment"]))
@@ -2217,7 +2221,7 @@ namespace RapidDoc.Controllers
                 }
                 else 
                 {
-                    SaveComment(documentGuidId, rejectCommentRequest);
+                    SaveComment(documentGuidId, null, rejectCommentRequest);
                 }
             }
             else

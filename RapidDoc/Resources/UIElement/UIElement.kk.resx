@@ -696,4 +696,7 @@
   <data name="Book" xml:space="preserve">
     <value>Тіркеп қою</value>
   </data>
+  <data name="Reply" xml:space="preserve">
+    <value>Жауап қайтару</value>
+  </data>
 </root>

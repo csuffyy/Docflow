@@ -139,8 +139,10 @@
             </div>
         }
         </div>
-           
-        @Html.Action("GetAllComment", "Document", new { documentId = Model.DocumentView.Id })
+        
+        <div id="commentblock">   
+            @Html.Action("GetAllComment", "Document", new { documentId = Model.DocumentView.Id })
+        </div>
         <hr />
 
         @if ((Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution || Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.OnSign) && Model.DocumentView.isSign)
@@ -584,6 +586,36 @@
                 location.reload();
             }
         });
+    }
+
+    function replyButton(a, lang, textbtn) {
+        if ($(a).closest('.bs-callout').find('textarea').length < 1) {
+            var timestamp = (new Date().getTime()).toString(36);
+            $(a).closest('.bs-callout').append('<br /><div class="replyblock"><textarea id="' + timestamp + '" class="form-control summernotemin" rows=3></textarea><button type="button" class="btn btn-default btn-xs" onclick="saveChildComment(this)">' + textbtn + '</button></div>');
+            summernotemin_init(lang);
+        }
+        else {
+            $(a).closest('.bs-callout').find('.replyblock').remove();
+        }
+        return false;
+    }
+
+    function saveChildComment(a) {
+        var textAreaId = $(a).parent().find('textarea').attr("id");
+        var comment = $('#' + textAreaId).summernote('code');
+        if (comment) {
+            var parent = $(a).closest('.bs-callout');
+            var parentId = parent.attr('id');
+            $.ajax({
+                url: '@Url.Action("GetAllComment", "Document")',
+                type: 'POST',
+                data: JSON.stringify({ documentId: '@Model.DocumentView.Id', parentId: parentId, lastComment: comment }),
+                contentType: 'application/json',
+                success: function (data) {
+                    $('#commentblock').html(data);
+                }
+            });
+        }
     }
 </script>
 }

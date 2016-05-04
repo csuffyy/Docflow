@@ -263,6 +263,10 @@ namespace RapidDoc.Models.ViewModels
 
         [Display(Name = "Comment", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public string Comment { get; set; }
+
+        public Guid? CommentTableParentId { get; set; }
+        public string Lineage { get; set; }
+        public int Deep { get; set; }
     }
 
     public class HistoryUserView : BasicView

@@ -23,6 +23,20 @@
             @Html.TextBoxFor(model => model.ReportDepartments, new { @class = "form-control", @data_role = "tagsinputDepartment", placeholder = "Список подразделений" })
         </div>
 
+        <div class="editor-label">
+            @Html.LabelFor(model => model.NumberUserMaxAlerts)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.NumberUserMaxAlerts, new { @class = "form-control bfh-number" })
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.NumberUserMaxAlertsReaders)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.NumberUserMaxAlertsReaders, new { @class = "form-control bfh-number" })
+        </div>
+
         <br>
         <p>
             <input class="btn btn-primary btn-sm" type="submit" value=@UIElementRes.UIElement.Save />

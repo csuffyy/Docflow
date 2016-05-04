@@ -702,4 +702,7 @@
   <data name="Book" xml:space="preserve">
     <value>Зарегистрировать</value>
   </data>
+  <data name="Reply" xml:space="preserve">
+    <value>Ответить</value>
+  </data>
 </root>

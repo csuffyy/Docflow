@@ -9,16 +9,29 @@
 
     foreach (var item in Model)
     {
-        <div class="bs-callout bs-callout-info hidden-print">
-            <h4>@item.EmplName <small>@item.TitleName</small></h4>
+        <div id="@item.Id" class="bs-callout @(item.Deep > 0 ? "bs-callout-default" : "bs-callout-info") hidden-print" style='margin-left: @((item.Deep * 10).ToString())px;}'>
+            <div class="row">
+                <div class="col-xs-8">
+                    <h4>@item.EmplName <small>@item.TitleName</small></h4>
+                </div>
+                <div class="col-xs-4">
+                    <h6><small class="pull-right">@item.CreatedDate</small></h6>
+                </div>
+            </div>
             <p><span style="white-space: pre-line">@Html.Raw(item.Comment)</span></p>
-            <h5><small class="pull-right">@item.CreatedDate</small></h5>
+            <span class="pull-right"><a href="#" class="reply" onclick="return replyButton(this, '@UIElementRes.UIElement.LangFullName', '@UIElementRes.UIElement.Save');">@UIElementRes.UIElement.Reply</a></span>
         </div>
-        <div class="well well-sm visible-print">
-            <h5>@item.EmplName <small>@item.TitleName</small></h5>
-            <p>@Html.Raw(item.Comment)</p>
-            <h6><small class="pull-right">@item.CreatedDate</small></h6>
+    <div class="well well-sm visible-print" style='margin-left: @((item.Deep * 10).ToString())px;}'>
+        <div class="row">
+            <div class="col-xs-8">
+                <h6>@item.EmplName <small>@item.TitleName</small></h6>
+            </div>
+            <div class="col-xs-4">
+                <h6><small class="pull-right">@item.CreatedDate</small></h6>
+            </div>
         </div>
+        <p>@Html.Raw(item.Comment)</p>
+    </div>
     }
 }
 </div>
