@@ -9,6 +9,11 @@
 
     foreach (var item in Model)
     {
+        if(item.Deep > 30)
+        {
+            item.Deep = 30;
+        }
+
         <div id="@item.Id" class="bs-callout @(item.Deep > 0 ? "bs-callout-default" : "bs-callout-info") hidden-print" style='margin-left: @((item.Deep * 10).ToString())px;}'>
             <div class="row">
                 <div class="col-xs-8">
