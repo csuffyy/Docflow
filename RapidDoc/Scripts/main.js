@@ -225,30 +225,15 @@ function summernote_init(lang) {
                         bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('text/html');
                     }
 
-                    //var ieClipboardDiv = $('#ie-clipboard-contenteditable');
-                    //startNote.summernote('saveRange');
-                    //ieClipboardDiv.focus();
-
                     setTimeout(function () {
-                        //bufferText = ieClipboardDiv.html();
-                        //console.log('bufferText: ' + bufferText);
-                        //console.log('plainText: ' + plainText);
-
-                        //ieClipboardDiv.empty();
-                        //startNote.summernote('restoreRange');
-
                         if (isChrome || isFirefox || isOpera || isSafari) {
                             if (bufferText != '' || (bufferText == '' && plainText != '')) {
-                                if (checkSupportTags(bufferText)) {
-                                    bufferText = plainText;
-                                }
-                                else {
-                                    bufferText = cleanPastedHTML(bufferText);
-                                }
+                                bufferText = cleanPastedHTML(bufferText);
+                                bufferText = removeProperties(bufferText);
+
                                 //console.log('bufferText: ' + bufferText);
                                 var node = $('<span />').html(bufferText)[0];
                                 startNote.summernote('insertNode', node);
-                                //console.log('Text: ' + startNote.summernote('code'));
                             }
                         }
                     }, 10);
@@ -314,27 +299,12 @@ function summernotelight_init(lang) {
                         bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('text/html');
                     }
 
-                    //var ieClipboardDiv = $('#ie-clipboard-contenteditable');
-                    //startNote.summernote('saveRange');
-                    //ieClipboardDiv.focus();
-
                     setTimeout(function () {
-                        //bufferText = ieClipboardDiv.html();
-                        //console.log('bufferText: ' + bufferText);
-                        //console.log('plainText: ' + plainText);
-
-                        //ieClipboardDiv.empty();
-                        //startNote.summernote('restoreRange');
-
                         if (isChrome || isFirefox || isOpera || isSafari) {
                             if (bufferText != '' || (bufferText == '' && plainText != '')) {
-                                if (checkSupportTags(bufferText)) {
-                                    bufferText = plainText;
-                                }
-                                else {
-                                    bufferText = cleanPastedHTML(bufferText);
-                                }
-                                console.log('bufferText: ' + bufferText);
+                                bufferText = cleanPastedHTML(bufferText);
+                                bufferText = removeProperties(bufferText);
+                                
                                 var node = $('<span />').html(bufferText)[0];
                                 startNote.summernote('insertNode', node);
                             }
@@ -394,17 +364,7 @@ function summernotemin_init(lang) {
                         bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('text/html');
                     }
 
-                    //var ieClipboardDiv = $('#ie-clipboard-contenteditable');
-                    //startNote.summernote('saveRange');
-                    //ieClipboardDiv.focus();
-
                     setTimeout(function () {
-                        //bufferText = ieClipboardDiv.html();
-                        //console.log('bufferText: ' + bufferText);
-                        //console.log('plainText: ' + plainText);
-
-                        //ieClipboardDiv.empty();
-                        //startNote.summernote('restoreRange');
 
                         if (isChrome || isFirefox || isOpera || isSafari) {
                             if (bufferText != '' || (bufferText == '' && plainText != '')) {
@@ -413,8 +373,8 @@ function summernotemin_init(lang) {
                                 }
                                 else {
                                     bufferText = cleanPastedHTML(bufferText);
+                                    bufferText = removeProperties(bufferText);
                                 }
-                                console.log('bufferText: ' + bufferText);
                                 var node = $('<span />').html(bufferText)[0];
                                 startNote.summernote('insertNode', node);
                             }
@@ -450,7 +410,7 @@ function cleanPastedHTML(input) {
     // 2. strip Word generated HTML comments
     var commentSripper = new RegExp('<!--(.*?)-->', 'g');
     var output = output.replace(commentSripper, '');
-    var tagStripper = new RegExp('<(/)*(meta|link|span|strong|h1|h2|h3|h4|h5|h6|small|\\?xml:|st1:|o:|font)(.*?)>', 'gi');
+    var tagStripper = new RegExp('<(/)*(head|html|body|meta|link|span|strong|h1|h2|h3|h4|h5|h6|small|\\?xml:|st1:|o:|font)(.*?)>', 'gi');
     // 3. remove tags leave content if any
     output = output.replace(tagStripper, '');
     // 4. Remove everything in between and including tags '<style(.)style(.)>'
@@ -474,7 +434,40 @@ function cleanPastedHTML(input) {
     var regex = new RegExp('<table border=0', 'gi');
     output = output.replace(regex, '<table class="table table-bordered table-condensed"');
 
+    return output.trim();
+}
+
+function removeProperties(markup) {
+    var div = document.createElement('div');
+    div.innerHTML = markup;
+    var el, els = div.getElementsByTagName('*');
+
+    for (var i = 0, iLen = els.length; i < iLen; i++) {
+        el = els[i];
+        el.id = '';
+        el.style = '';
+        el.className = '';
+
+        if (el.tagName == 'TABLE') {
+            el.className = 'table table-bordered table-condensed';
+        }
+    }
+
+    var commentSripper = new RegExp('<!--(.*?)-->', 'g');
+    var output = div.innerHTML.replace(commentSripper, '');
+    output = replaceAll(output, 'id=""', '');
+    output = replaceAll(output, 'class=""', '');
+
+    var tagStripper = new RegExp('width="(.*?)"', 'gi');
+    output = output.replace(tagStripper, '');
+    var tagStripper = new RegExp('height="(.*?)"', 'gi');
+    output = output.replace(tagStripper, '');
+
     return output;
+}
+
+function replaceAll(str, find, replace) {
+    return str.replace(new RegExp(find, 'g'), replace);
 }
 
 function grid_init(url_json) {
