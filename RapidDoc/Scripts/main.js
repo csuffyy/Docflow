@@ -304,7 +304,7 @@ function summernotelight_init(lang) {
                             if (bufferText != '' || (bufferText == '' && plainText != '')) {
                                 bufferText = cleanPastedHTML(bufferText);
                                 bufferText = removeProperties(bufferText);
-                                
+                                console.log(bufferText);
                                 var node = $('<span />').html(bufferText)[0];
                                 startNote.summernote('insertNode', node);
                             }
@@ -450,6 +450,14 @@ function removeProperties(markup) {
 
         if (el.tagName == 'TABLE') {
             el.className = 'table table-bordered table-condensed';
+            el.style = 'border-collapse:collapse; border: 1px solid black;';
+        }
+
+        if (el.tagName == 'TH') {
+            el.style = 'border: 1px solid black;';
+        }
+        if(el.tagName == 'TD') {
+            el.style = 'border: 1px solid black; padding: 3px;';
         }
     }
 
@@ -463,6 +471,8 @@ function removeProperties(markup) {
     var tagStripper = new RegExp('height="(.*?)"', 'gi');
     output = output.replace(tagStripper, '');
 
+    output = '<span>' + output + '</span>';
+    output = replaceAll(output, '</table>', '</table></br>');
     return output;
 }
 
