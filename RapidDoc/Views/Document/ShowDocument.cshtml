@@ -595,6 +595,7 @@
             summernotemin_init(lang);
         }
         else {
+            $(a).closest('.bs-callout').find('br').remove();
             $(a).closest('.bs-callout').find('.replyblock').remove();
         }
         return false;
