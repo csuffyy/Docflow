@@ -26,7 +26,7 @@
             <p><span style="white-space: pre-line">@Html.Raw(item.Comment)</span></p>
             <span class="pull-right"><a href="#" class="reply" onclick="return replyButton(this, '@UIElementRes.UIElement.LangFullName', '@UIElementRes.UIElement.Save');">@UIElementRes.UIElement.Reply</a></span>
         </div>
-    <div class="well well-sm visible-print" style='margin-left: @((item.Deep * 20).ToString())px;'>
+    <div class="well well-sm visible-print" style='margin-left: @((item.Deep * 10).ToString())px;'>
         <div class="row">
             <div class="col-xs-8">
                 <h6>@item.EmplName <small>@item.TitleName</small></h6>
