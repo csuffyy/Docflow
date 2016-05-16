@@ -242,11 +242,11 @@ namespace RapidDoc.Controllers
                     while (reader.Read())
                     {
                         infoDataList.Add(new KZCInfoData_View {
-                            Login = reader["Login"].ToString(),
+                            Login = reader["Login"].ToString().ToLower(),
                             Surname = reader["Surname"].ToString(),
                             Name = reader["Name"].ToString(),
                             SecondName = reader["SecondName"].ToString(),
-                            Email = reader["Email"].ToString(),
+                            Email = reader["Email"].ToString().ToLower(),
                             Subdivision = reader["Subdivision"].ToString(),
                             Position = reader["Position"].ToString()
                         });
@@ -282,7 +282,7 @@ namespace RapidDoc.Controllers
 
                     companyName = result.Properties["companyname"][0].ToString();
 
-                    if (companyName == "Ustkam ID" || companyName == "Ustkam MK" || companyName == "Astana" || companyName == "Almaty" || companyName == "Kazzinc-GEO")
+                    if (companyName == "Ustkam ID" || companyName == "Ustkam MK" || companyName == "Astana" || companyName == "Almaty" || companyName == "Kazzinc-GEO" || companyName == "Ustkam ID, Kormin" || companyName == "KMTK")
                     {
                         ldapData = result.Properties["cn"][0].ToString();
                         mail = result.Properties["mail"][0].ToString();
@@ -300,7 +300,7 @@ namespace RapidDoc.Controllers
                         {
                             String ApplicationUserId = UserIntegration(userid, mail, String.Empty, _item);
 
-                            var infoItem = infoDataList.FirstOrDefault(x => x.Email == mail && x.Login == userid);
+                            var infoItem = infoDataList.FirstOrDefault(x => x.Email == mail.ToLower() && x.Login == userid.ToLower());
 
                             if (infoItem == null) continue;
 
