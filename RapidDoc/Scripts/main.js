@@ -228,6 +228,8 @@ function summernote_init(lang) {
                     setTimeout(function () {
                         if (isChrome || isFirefox || isOpera || isSafari) {
                             if (bufferText != '' || (bufferText == '' && plainText != '')) {
+                                if (bufferText == '')
+                                    bufferText = plainText;
                                 bufferText = cleanPastedHTML(bufferText);
                                 bufferText = removeProperties(bufferText);
 
@@ -302,6 +304,8 @@ function summernotelight_init(lang) {
                     setTimeout(function () {
                         if (isChrome || isFirefox || isOpera || isSafari) {
                             if (bufferText != '' || (bufferText == '' && plainText != '')) {
+                                if (bufferText == '')
+                                    bufferText = plainText;
                                 bufferText = cleanPastedHTML(bufferText);
                                 bufferText = removeProperties(bufferText);
                                 console.log(bufferText);
