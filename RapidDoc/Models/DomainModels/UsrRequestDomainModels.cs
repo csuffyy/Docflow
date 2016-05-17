@@ -5062,6 +5062,7 @@ namespace RapidDoc.Models.DomainModels
     {
         public OutcomingDispatchTypeKZHC OutcomingDispatchType { get; set; }
         public OutcomingDocumentKZHCType DocumentType { get; set; }
+        public OutcomingTopicTypeKZHC TopicType { get; set; }
     }
 
     #endregion

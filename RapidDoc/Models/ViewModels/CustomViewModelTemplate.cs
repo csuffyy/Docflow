@@ -337,6 +337,9 @@ namespace RapidDoc.Models.ViewModels
 
         [Display(Name = "Требуется перевод")]
         public bool NeedTranslate { get; set; }
+
+        [Display(Name = "Параллельно")]
+        public bool Parallel { get; set; }
     }
 
     public abstract class BasicAppealDocumentsView : BasicDocumentView

@@ -138,11 +138,17 @@
 <div>
     @Html.TextBoxFor(model => Model.Signer, new { @class = "form-control", @data_role = "tagsinputEmplOne", @size = 256, placeholder = "За подписью" })
 </div>
+
 <div class="editor-label">
     @Html.LabelForRequired(model => Model.ListAgreement)
 </div>
-<div>
-    @Html.TextBoxFor(model => Model.ListAgreement, new { @class = "form-control", @data_role = "tagsinputEmplIntercompany", @size = 256, placeholder = "Список согласования" })
+<div class="form-group">
+    <div class="input-group">
+        <span class="input-group-addon checkbox-inline">
+            @Html.CheckBoxFor(model => Model.Parallel, new { @data_labelauty = "Параллельно|Параллельно" })
+        </span>
+        @Html.TextBoxFor(model => Model.ListAgreement, new { @class = "form-control", @data_role = "tagsinputEmplIntercompany", @size = 256, placeholder = "Список согласования" })
+    </div>
 </div>
 <hr />
 

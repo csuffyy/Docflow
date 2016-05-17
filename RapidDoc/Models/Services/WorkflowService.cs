@@ -847,20 +847,26 @@ namespace RapidDoc.Models.Services
 
             if (activity.GetType() == typeof(WFSetUsersForOrder) || activity.GetType() == typeof(WFSetUsersForProtocol) || activity.GetType() == typeof(WFSetUsersForOND))
             {
+                bool parallel = false;
                 List<string> userList = (List<string>)_documentData["ListAgreement"];
                 dynamic particularActivity;
 
                 if (activity.GetType() == typeof(WFSetUsersForProtocol))               
                     particularActivity = activity as WFSetUsersForProtocol;
-                else if (activity.GetType() == typeof(WFSetUsersForOrder))           
+                else if (activity.GetType() == typeof(WFSetUsersForOrder))
                     particularActivity = activity as WFSetUsersForOrder;
                 else
+                {
                     particularActivity = activity as WFSetUsersForOND;
-
+                    parallel = (bool)_documentData["Parallel"];
+                }
                 
                 var particularActivityExpression = particularActivity.inputSystemName.Expression as System.Activities.Expressions.Literal<string>;
                 foreach(string userId in userList)
                 {
+                    if ((parallel == true && String.IsNullOrEmpty(_parallel)) || (parallel == false && !String.IsNullOrEmpty(_parallel)))
+                        break;
+
                     EmplTable empl = _EmplService.FirstOrDefault(x => x.ApplicationUserId == userId);
                     string activityName = String.Empty;
                     if(empl != null && empl.TitleTable != null)

@@ -10732,6 +10732,9 @@ namespace RapidDoc.Models.ViewModels
 
         [Display(Name = "Тип документа")]
         public OutcomingDocumentKZHCType DocumentType { get; set; }
+
+        [Display(Name = "Тематика")]
+        public OutcomingTopicTypeKZHC TopicType { get; set; }
     }
 
     #endregion

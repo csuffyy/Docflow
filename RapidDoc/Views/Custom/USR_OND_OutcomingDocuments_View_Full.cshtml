@@ -172,11 +172,18 @@ else
 </div>
 
 <div class="editor-label">
+    @Html.LabelFor(model => Model.Parallel)
+</div>
+<div class="editor-field">
+    @Html.CheckBoxFor(model => Model.Parallel, new { @disabled = true })
+</div>
+<div class="editor-label">
     @Html.LabelFor(model => Model.ListAgreement)
 </div>
 <div class="editor-field">
     @Html.HtmlDisplayTagsFor(model => Model.ListAgreement)
 </div>
+
 <hr />
 <div class="row">
     <div class="col-xs-6">
