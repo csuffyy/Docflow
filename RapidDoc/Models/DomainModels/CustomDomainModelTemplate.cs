@@ -211,6 +211,7 @@ namespace RapidDoc.Models.DomainModels
         public virtual ItemCauseTable ItemCauseTable { get; set; }
 
         public bool NeedTranslate { get; set; }
+        public bool Parallel{ get; set; }
 
         public string ItemCauseNumber
         {

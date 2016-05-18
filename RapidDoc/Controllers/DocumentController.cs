@@ -546,6 +546,35 @@ namespace RapidDoc.Controllers
         }
 
         [HttpPost]
+        [MultipleButton(Name = "action", Argument = "WithdrawOutDocument")]
+        public ActionResult WithdrawOutDocument(Guid processId, int type, Guid fileId, FormCollection collection, string actionModelName, Guid documentId)
+        {
+            DocumentTable documentTable = _DocumentService.Find(documentId);
+            if (collection["RejectCommentOutDoc"] != null && _SystemService.CheckTextExists(collection["RejectCommentOutDoc"]))
+            {
+                Guid documentGuidId = GuidNull2Guid(documentId);
+                string rejectCommentRequest = collection["RejectCommentOutDoc"].ToString();
+                
+                 SaveComment(documentGuidId, null, rejectCommentRequest);
+            }
+            else
+            {
+                    return RedirectToAction("PageNotFound", "Error");
+            }
+
+            ProcessTable process = _ProcessService.Find(processId);
+            _WorkflowService.AgreementWorkflowWithdraw(documentId, process.TableName, documentTable.WWFInstanceId, processId);
+            _NotificationUsersService.DeleteAll(documentId);
+            if (documentTable.ApplicationUserCreatedId == User.Identity.GetUserId() || User.IsInRole("Administrator") || User.IsInRole("SetupAdministrator"))
+            {
+                var view = ShowDraft(documentId);
+                return view;
+            }
+
+            return RedirectToAction("Index", "Document");
+        }
+
+        [HttpPost]
         [MultipleButton(Name = "action", Argument = "ApproveDocumentCZ")]
         public ActionResult ApproveDocumentCZ(Guid processId, int type, Guid fileId, FormCollection collection, string actionModelName, Guid documentId)
         {

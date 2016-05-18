@@ -49,6 +49,11 @@ namespace RapidDoc.Activities.CodeActivities
 
         public InArgument<bool> noneSkip { get; set; }
 
+        public InArgument<int> inputIndex { get; set; }
+
+        [RequiredArgument]
+        public InArgument<bool> inputParallel { get; set; }
+
         [Browsable(false)]
         [Inject]
         public IWorkflowService _service { get; set; }
@@ -64,18 +69,24 @@ namespace RapidDoc.Activities.CodeActivities
             int slaOffset = context.GetValue(this.slaOffset);
             bool executionStep = context.GetValue(this.executionStep);
             bool noneSkipStep = context.GetValue(this.noneSkip);
+            bool parallel = context.GetValue(this.inputParallel);         
             bool isSkipStep;
+            int index = 0;
+
+            if (parallel == true)
+                index = context.GetValue(this.inputIndex);
 
             _service = DependencyResolver.Current.GetService<IWorkflowService>();
             List<WFTrackerUsersTable> userList = new List<WFTrackerUsersTable>();
             userList.Add(new WFTrackerUsersTable { UserId = userid });
             isSkipStep = _service.CheckSkipStepOrder(documentId, userList, currentUserId);
+
             if (executionStep == true || noneSkipStep == true || isSkipStep == false)
-            {             
-                _service.CreateTrackerRecord(systemName, documentStep, documentId, this.DisplayName, userList, currentUserId, this.Id + userid, useManual, slaOffset, executionStep);
+            {
+                _service.CreateTrackerRecord(systemName, documentStep, documentId, parallel == true ? this.DisplayName + " " + index.ToString() : this.DisplayName, userList, currentUserId, this.Id + userid, useManual, slaOffset, executionStep);
             }
             outputSkipStep.Set(context, isSkipStep);
-            outputBookmark.Set(context, this.DisplayName);
+            outputBookmark.Set(context, parallel == true ? this.DisplayName + " " + index.ToString() : this.DisplayName);
             outputStep.Set(context, documentStep);  
         }
     }

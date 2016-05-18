@@ -1682,6 +1682,21 @@ namespace RapidDoc.Models.Repository
         Element6 = 5
     }
 
+    public enum OutcomingTopicTypeKZHC : byte
+    {
+        [Display(Name = "Нет")]
+        Element1 = 0,
+
+        [Display(Name = "Корреспонденция по вопросам законотворческой деятельности")]
+        Element2 = 1,
+
+        [Display(Name = "Корреспонденция по вопросам недропользования")]
+        Element3 = 2,
+
+        [Display(Name = "Иное")]
+        Element4 = 3
+    }
+
     public enum CategoryPerson : byte
     {
         [Display(Name = "Физическое лицо")]

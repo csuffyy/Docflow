@@ -14,6 +14,7 @@
 @Html.HiddenFor(model => model.Language_Other)
 @Html.HiddenFor(model => model.NeedTranslate)
 @Html.HiddenFor(model => model.IncomingNumberDocId)
+@Html.HiddenFor(model => model.TopicType)
 
 @if (Model.OutcomingDocNum != null)
 {  
@@ -149,6 +150,14 @@ else
         @Html.EnumToDescription(Model.OutcomingDispatchType)
     </div>
 }
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.TopicType):
+</div>
+<div class="editor-field">
+    @Html.EnumToDescription(Model.TopicType)
+</div>
+
 <br />
 
 <div class="editor-label">
@@ -158,6 +167,12 @@ else
     @Html.HtmlDisplayTagsFor(model => Model.Signer)
 </div>
 
+<div class="editor-label">
+    @Html.LabelFor(model => Model.Parallel)
+</div>
+<div class="editor-field">
+    @Html.CheckBoxFor(model => Model.Parallel, new { @disabled = true })
+</div>
 <div class="editor-label">
     @Html.LabelFor(model => Model.ListAgreement)
 </div>

@@ -6,6 +6,7 @@
 @Html.HiddenFor(model => model.DocumentTableId)
 @Html.HiddenFor(model => model.ListAgreement)
 @Html.HiddenFor(model => model.NeedTranslate)
+@Html.HiddenFor(model => model.Parallel)
 
 @if (User.IsInRole("Administrator"))
 {
@@ -137,6 +138,18 @@ else
     <div class="col-xs-4">
         <div class="editor-field">
             @Html.TextBoxFor(model => Model.DispatchType, new { @class = "form-control", placeholder = "Другое" })
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-xs-4">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.TopicType):
+        </div>
+        <div class="editor-field">
+            @Html.EnumDropDownListFor(model => Model.TopicType, new { @class = "selectpickerfull" })
         </div>
     </div>
 </div>

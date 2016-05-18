@@ -424,7 +424,8 @@ namespace RapidDoc.Models.Services
             {
                 var parameters = _PortalParametersService.FirstOrDefault(x => x.CompanyTableId == documentTable.CompanyTableId);
                 var currentReaders = _DocumentReaderService.GetPartial(x => x.DocumentTableId == documentId).ToList();
-                if (currentReaders.Count() < parameters.NumberUserMaxAlertsReaders)
+
+                if (currentReaders != null && currentReaders.Count() < parameters.NumberUserMaxAlertsReaders)
                 {
                     foreach (var reader in currentReaders)
                         users.Add(repoUser.GetById(reader.UserId));
