@@ -847,72 +847,10 @@ namespace RapidDoc.Models.Services
         
         public bool isShowDocument(DocumentTable documentTable, ApplicationUser user, bool isAfterView = false)
         {
-            if (user.Id == documentTable.ApplicationUserCreatedId)
-            {
+            bool ret = isShowDocumentBasic(documentTable, user, isAfterView);
+
+            if (ret == true)
                 return true;
-            }
-
-            if(documentTable.Share == true)
-            {
-                return true;
-            }
-
-            IEnumerable<WFTrackerTable> trackerTables = null;
-
-            if (isAfterView == false)
-            {
-                trackerTables = _WorkflowTrackerService.GetCurrentStep(x => x.DocumentTableId == documentTable.Id && x.SignUserId == null);
-            }
-            else
-            {
-                trackerTables = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == documentTable.Id);
-            }
-
-            if (checkTrackUsers(trackerTables, user.Id))
-            {
-                return true;
-            }
-
-            if (_DelegationService.CheckDelegation(user, documentTable.ProcessTable, trackerTables) == true)
-            {
-                return true;
-            }
-
-            if (_DocumentReaderService.Contains(x => x.DocumentTableId == documentTable.Id && x.UserId == user.Id) || _DocumentReaderService.ContainsRoleUser(documentTable.Id, user.Id))
-            {
-                
-                return true;
-            }
-
-            if (UserManager.IsInRole(user.Id, "Administrator") ||
-                (UserManager.IsInRole(user.Id, "FullView_Request") && documentTable.DocType == DocumentType.Request) ||
-                (UserManager.IsInRole(user.Id, "FullView_Appeal") && documentTable.DocType == DocumentType.AppealDoc) ||
-                (UserManager.IsInRole(user.Id, "FullView_Incoming") && documentTable.DocType == DocumentType.IncomingDoc) ||
-                (UserManager.IsInRole(user.Id, "FullView_OfficeMemo") && documentTable.DocType == DocumentType.OfficeMemo) ||
-                (UserManager.IsInRole(user.Id, "FullView_Order") && documentTable.DocType == DocumentType.Order) ||
-                (UserManager.IsInRole(user.Id, "FullView_Outcoming") && documentTable.DocType == DocumentType.OutcomingDoc) ||
-                (UserManager.IsInRole(user.Id, "FullView_Protocol") && documentTable.DocType == DocumentType.Protocol) ||
-                (UserManager.IsInRole(user.Id, "FullView_Task") && documentTable.DocType == DocumentType.Task))
-            {
-                return true;
-            }
-
-            if (_ModificationUsersService.ContainDocumentUser(documentTable.Id, user.Id))
-            {
-                return true;
-            }
-
-            if (_ProcessService.GetPartial(x => x.Id == documentTable.ProcessTableId).Any(p =>
-                RoleManager.Roles.Where( pr => pr.Id == p.StartReaderRoleId).ToList().Any(x => x.Users.ToList().Any(z => z.UserId == user.Id ))))
-            {
-                return true;
-            }
-
-            if (_ProcessService.GetPartial(x => x.Id == documentTable.ProcessTableId).Any(p =>
-                RoleManager.Roles.Where(pr => pr.Id == p.DocumentBaseRoleId).ToList().Any(x => x.Users.ToList().Any(z => z.UserId == user.Id))))
-            {
-                return true;
-            }
 
             if (documentTable.DocType == DocumentType.Task)
             {
@@ -947,6 +885,92 @@ namespace RapidDoc.Models.Services
                 }
             }
 
+            if (documentTable.DocType == DocumentType.IncomingDoc)
+            {
+                var documentsRef = GetDocumentRefTask(documentTable.Id);
+
+                foreach (var item in documentsRef)
+                {
+                    DocumentTable docTable = Find(item.DocumentId);
+                    if (isShowDocumentBasic(docTable, user, isAfterView))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        private bool isShowDocumentBasic(DocumentTable documentTable, ApplicationUser user, bool isAfterView = false)
+        {
+            if (user.Id == documentTable.ApplicationUserCreatedId)
+            {
+                return true;
+            }
+
+            if (documentTable.Share == true)
+            {
+                return true;
+            }
+
+            IEnumerable<WFTrackerTable> trackerTables = null;
+
+            if (isAfterView == false)
+            {
+                trackerTables = _WorkflowTrackerService.GetCurrentStep(x => x.DocumentTableId == documentTable.Id && x.SignUserId == null);
+            }
+            else
+            {
+                trackerTables = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == documentTable.Id);
+            }
+
+            if (checkTrackUsers(trackerTables, user.Id))
+            {
+                return true;
+            }
+
+            if (_DelegationService.CheckDelegation(user, documentTable.ProcessTable, trackerTables) == true)
+            {
+                return true;
+            }
+
+            if (_DocumentReaderService.Contains(x => x.DocumentTableId == documentTable.Id && x.UserId == user.Id) || _DocumentReaderService.ContainsRoleUser(documentTable.Id, user.Id))
+            {
+
+                return true;
+            }
+
+            if (UserManager.IsInRole(user.Id, "Administrator") ||
+                (UserManager.IsInRole(user.Id, "FullView_Request") && documentTable.DocType == DocumentType.Request) ||
+                (UserManager.IsInRole(user.Id, "FullView_Appeal") && documentTable.DocType == DocumentType.AppealDoc) ||
+                (UserManager.IsInRole(user.Id, "FullView_Incoming") && documentTable.DocType == DocumentType.IncomingDoc) ||
+                (UserManager.IsInRole(user.Id, "FullView_OfficeMemo") && documentTable.DocType == DocumentType.OfficeMemo) ||
+                (UserManager.IsInRole(user.Id, "FullView_Order") && documentTable.DocType == DocumentType.Order) ||
+                (UserManager.IsInRole(user.Id, "FullView_Outcoming") && documentTable.DocType == DocumentType.OutcomingDoc) ||
+                (UserManager.IsInRole(user.Id, "FullView_Protocol") && documentTable.DocType == DocumentType.Protocol) ||
+                (UserManager.IsInRole(user.Id, "FullView_Task") && documentTable.DocType == DocumentType.Task))
+            {
+                return true;
+            }
+
+            if (_ModificationUsersService.ContainDocumentUser(documentTable.Id, user.Id))
+            {
+                return true;
+            }
+
+            if (_ProcessService.GetPartial(x => x.Id == documentTable.ProcessTableId).Any(p =>
+                RoleManager.Roles.Where(pr => pr.Id == p.StartReaderRoleId).ToList().Any(x => x.Users.ToList().Any(z => z.UserId == user.Id))))
+            {
+                return true;
+            }
+
+            if (_ProcessService.GetPartial(x => x.Id == documentTable.ProcessTableId).Any(p =>
+                RoleManager.Roles.Where(pr => pr.Id == p.DocumentBaseRoleId).ToList().Any(x => x.Users.ToList().Any(z => z.UserId == user.Id))))
+            {
+                return true;
+            }
+
             if (documentTable.DocType == DocumentType.OfficeMemo)
             {
                 var documentsRef = GetDocumentRefTask(documentTable.Id);
@@ -955,20 +979,6 @@ namespace RapidDoc.Models.Services
                 {
                     trackerTables = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == item.DocumentId);
                     if (checkTrackUsers(trackerTables, user.Id))
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            if (documentTable.DocType == DocumentType.IncomingDoc)
-            {
-                var documentsRef = GetDocumentRefTask(documentTable.Id);
-
-                foreach (var item in documentsRef)
-                {
-                    DocumentTable docTable = Find(item.DocumentId);
-                    if(isShowDocument(docTable, user, isAfterView))
                     {
                         return true;
                     }
