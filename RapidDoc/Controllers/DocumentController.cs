@@ -1599,7 +1599,7 @@ namespace RapidDoc.Controllers
             string currentUserId = User.Identity.GetUserId();
             var currentItem = _WorkflowTrackerService.FirstOrDefault(x => x.DocumentTableId == id && x.ActivityID == activityId && x.TrackerType == TrackerType.Waiting);
             if (currentItem != null && currentItem.DocumentTable != null &&
-                currentUserId == currentItem.DocumentTable.ApplicationUserCreatedId && DateTime.UtcNow.AddHours(-9) > currentItem.ModifiedDate)
+                ((currentUserId == currentItem.DocumentTable.ApplicationUserCreatedId && DateTime.UtcNow.AddHours(-9) > currentItem.ModifiedDate) || User.IsInRole("Administrator")))
             {
                 currentItem.LastNotificationDate = DateTime.UtcNow;
                 _WorkflowTrackerService.SaveDomain(currentItem, currentUserId);
