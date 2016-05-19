@@ -936,6 +936,14 @@ namespace RapidDoc.Models.Services
                             }
                         }
                     }
+
+                    if (refDocument != null && refDocument.DocType == DocumentType.IncomingDoc)
+                    {
+                        if (isShowDocument(refDocument, user, isAfterView))
+                        {
+                            return true;
+                        }
+                    }
                 }
             }
 

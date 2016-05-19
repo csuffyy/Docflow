@@ -406,7 +406,7 @@ namespace RapidDoc.Models.Services
             }
             catch (InstancePersistenceCommandException)
             {
-                if (documentTable.DocType == DocumentType.OfficeMemo || documentTable.DocType == DocumentType.Task)
+                if (documentTable.DocType == DocumentType.OfficeMemo || documentTable.DocType == DocumentType.Task || documentTable.DocType == DocumentType.OutcomingDoc)
                     MakingWithdrawDoc(documentTable, currentUser);
                 
             }

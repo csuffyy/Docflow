@@ -2678,6 +2678,13 @@ new RapidDoc.Models.DomainModels.OrganizationTable { OrgName = "«САНДВИК
 new RapidDoc.Models.DomainModels.OrganizationTable { OrgName = "ҰЛТТЫҚ БИЗНЕС-РЕЙТИНГ", CreatedDate = DateTime.UtcNow, ModifiedDate = DateTime.UtcNow }
                 );
              */
+            /*
+            for (var num = 0; num < 1000; num++)
+            {
+                context.NumberSeriesBookingTable.AddOrUpdate(
+                    new RapidDoc.Models.DomainModels.NumberSeriesBookingTable { LastNum = num, NumberSeriesTableId = Guid.Parse("84fd84ff-4ece-e511-9d2c-0050569bb4b0"), Enable = true, CreatedDate = DateTime.UtcNow, ModifiedDate = DateTime.UtcNow, ApplicationUserCreatedId = "1cdb4e1c-9603-41f8-8049-930f263f2df8", ApplicationUserModifiedId = "1cdb4e1c-9603-41f8-8049-930f263f2df8" });
+            }
+             */
         }
     }
 }

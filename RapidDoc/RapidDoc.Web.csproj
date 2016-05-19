@@ -2224,6 +2224,14 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <XamlAppDef Include="Activities\USC_OND_OutcomingDocuments.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </XamlAppDef>
+    <XamlAppDef Include="Activities\USK_OND_OutcomingDocuments.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </XamlAppDef>
     <XamlAppDef Include="Activities\USR_OFM_OKS_OfficeMemo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -4079,18 +4087,6 @@
   </ItemGroup>
   <ItemGroup>
     <XamlAppDef Include="Activities\USK_REQ_IT_CAP_ChangeOrder.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </XamlAppDef>
-  </ItemGroup>
-  <ItemGroup>
-    <XamlAppDef Include="Activities\USK_OND_OutcomingDocuments.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </XamlAppDef>
-  </ItemGroup>
-  <ItemGroup>
-    <XamlAppDef Include="Activities\USC_OND_OutcomingDocuments.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </XamlAppDef>
