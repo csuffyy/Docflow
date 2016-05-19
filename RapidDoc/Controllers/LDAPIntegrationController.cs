@@ -54,6 +54,8 @@ namespace RapidDoc.Controllers
                     if (company.AliasCompanyName == "KZC")
                     {
                         getUsersDepartmentKZC(company, company.DomainTable.LDAPBaseDN);
+                        getUsersDepartmentKZC(company, "OU=lgok,O=ustk,C=kz");
+                        getUsersDepartmentKZC(company, "OU=zgok,O=ustk,C=kz");
                     }
                     else
                     {
@@ -282,7 +284,8 @@ namespace RapidDoc.Controllers
 
                     companyName = result.Properties["companyname"][0].ToString();
 
-                    if (companyName == "Ustkam ID" || companyName == "Ustkam MK" || companyName == "Astana" || companyName == "Almaty" || companyName == "Kazzinc-GEO" || companyName == "Ustkam ID, Kormin" || companyName == "KMTK")
+                    if (companyName == "Ustkam ID" || companyName == "Ustkam MK" || companyName == "Astana" || companyName == "Almaty"
+                        || companyName == "Kazzinc-GEO" || companyName == "Ustkam ID, Kormin" || companyName == "KMTK" || companyName == "RGOK")
                     {
                         ldapData = result.Properties["cn"][0].ToString();
                         mail = result.Properties["mail"][0].ToString();
@@ -300,7 +303,7 @@ namespace RapidDoc.Controllers
                         {
                             String ApplicationUserId = UserIntegration(userid, mail, String.Empty, _item);
 
-                            var infoItem = infoDataList.FirstOrDefault(x => x.Email == mail.ToLower() && x.Login == userid.ToLower());
+                            var infoItem = infoDataList.FirstOrDefault(x => x.Login == userid.ToLower());
 
                             if (infoItem == null) continue;
 
@@ -375,7 +378,7 @@ namespace RapidDoc.Controllers
             if (!_EmplService.Contains(x => x.CompanyTableId == _company
                 && x.LDAPGlobalId == _globalId))
             {
-                if (_titleId != Guid.Empty)
+                if (_titleId != Guid.Empty && !String.IsNullOrEmpty(_firstname))
                 {
                     _EmplService.SaveDomain(new EmplTable()
                     {

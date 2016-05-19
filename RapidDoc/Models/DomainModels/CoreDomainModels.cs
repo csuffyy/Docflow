@@ -83,7 +83,6 @@ namespace RapidDoc.Models.DomainModels
         public IEnumerable<NumberSeriesTable> NumberSeriesTables { get; set; }
 
         [StringLength(5)]
-        [Required]
         public string Prefix { get; set; }
         public int LastNum { get; set; }
 
@@ -93,7 +92,7 @@ namespace RapidDoc.Models.DomainModels
         {
             get
             {
-                return this.LastNum.ToString() + "-" + this.Prefix;
+                return String.IsNullOrEmpty(this.Prefix) ? this.LastNum.ToString() : this.LastNum.ToString() + "-" + this.Prefix;
             }
         }
     }
