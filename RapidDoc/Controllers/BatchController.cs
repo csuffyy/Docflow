@@ -167,11 +167,37 @@ namespace RapidDoc.Controllers
 
                             foreach (var document in allDocument.Where(x => (x.DocumentState == Models.Repository.DocumentState.Agreement
                             || x.DocumentState == Models.Repository.DocumentState.Execution
-                            || x.DocumentState == Models.Repository.DocumentState.OnSign)).ToList())
+                            || x.DocumentState == Models.Repository.DocumentState.OnSign) && (x.DocumentNum == "TSK003558" || x.DocumentNum == "TSK003559")).ToList())
                             {
                                 if (document.DocType == DocumentType.Task)
                                 {
                                     childTask = context.USR_TAS_DailyTasks_Table.Where(x => x.RefDocumentId == document.Id && x.ReportText == null).FirstOrDefault();
+
+                                    WFTrackerTable checkHours = _WorkflowTrackerService.FirstOrDefault(w => w.DocumentTableId == document.Id);
+                                    DateTime endDateTime = (DateTime)_Documentservice.GetSLAPerformDate(document.Id, checkHours.StartDateSLA, checkHours.SLAOffset);
+                                    if (DateTime.UtcNow < endDateTime)
+                                    {
+                                        TimeSpan ts = (DateTime)_Documentservice.GetSLAPerformDate(document.Id, checkHours.StartDateSLA, checkHours.SLAOffset) - DateTime.UtcNow;
+                                        if (ts.Days <= System.Globalization.DateTimeFormatInfo.CurrentInfo.DayNames.Length)
+                                        {
+                                            WorkScheduleTable workScheduleTable = _WorkScheduleService.FirstOrDefault(x => x.WorkScheduleName == "8x5");
+                                            int countDays = 0;
+                                            DateTime bufDateTime = DateTime.UtcNow;
+                                            while (bufDateTime.Date <= endDateTime.Date)
+                                            {
+                                                if (!_WorkScheduleService.CheckDayType(workScheduleTable.Id, bufDateTime.Date))
+                                                    countDays++;
+                                                bufDateTime = bufDateTime.AddDays(1);
+                                            }
+                                            if (countDays > 3)
+                                                continue;
+                                        }
+                                        else
+                                            continue;
+                                    }
+
+
+
                                     if (childTask != null)
                                         continue;
                                 }
