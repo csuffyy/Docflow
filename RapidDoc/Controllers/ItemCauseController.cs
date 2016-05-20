@@ -54,6 +54,8 @@ namespace RapidDoc.Controllers
 
             if (emplTable != null && emplTable.DepartmentTableId != null)
                 items.AddRange(_Service.GetCurrentUserItemsCause(_Service.GetPartialView(item => item.Enable == true).ToList(), _DepartmentService.FirstOrDefault(department => department.Id == emplTable.DepartmentTableId), currentApplUser.CompanyTableId ?? Guid.Empty));
+            else
+                items.AddRange(_Service.GetPartialView(item => item.Enable == true).ToList());
 
             return PartialView("_ItemCauseListLookup", items);
         }
