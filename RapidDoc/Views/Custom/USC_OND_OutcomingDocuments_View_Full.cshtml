@@ -15,10 +15,11 @@
 @Html.HiddenFor(model => model.NeedTranslate)
 @Html.HiddenFor(model => model.IncomingNumberDocId)
 @Html.HiddenFor(model => model.TopicType)
+@Html.HiddenFor(model => model.NumberSeriesBookingTableId)
 
 @if (Model.OutcomingDocNum != null)
 {  
-    <h4 class="text-center">№: @String.Format("{0}/{1}", Model.ItemCauseNumberCode, Model.OutcomingDocNum)</h4>
+    <h4 class="text-center">№: @String.Format("{0}-{1}", Model.ItemCauseNumberCode, Model.OutcomingDocNum)</h4>
 }
 
 <div class="row">

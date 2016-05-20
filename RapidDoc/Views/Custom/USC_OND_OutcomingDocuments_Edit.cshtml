@@ -6,6 +6,18 @@
 }
 
 @Html.HiddenFor(model => Model.NeedTranslate)
+
+<div class="row">
+    <div class="col-xs-4">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.NumberSeriesBookingTableId)
+        </div>
+        <div class="editor-field">
+            @Html.Action("GetBookingIncomingDoc", "Custom", new { type = Model.GetType() })
+        </div>
+    </div>
+</div>
+<br />
 <div class="row">
     <div class="col-xs-8">
         <div class="editor-label">
