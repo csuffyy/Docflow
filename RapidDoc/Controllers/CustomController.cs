@@ -166,10 +166,10 @@ namespace RapidDoc.Controllers
             return PartialView("_Empty");
         }
 
-        public ActionResult GetBookingIncomingDoc(Type type)
+        public ActionResult GetBookingIncomingDoc(Type type, Guid? id)
         {
             var numberSeqTable = _NumberSeqService.FirstOrDefault(x => x.TableName == type.Name.Replace("_View", ""));
-            ViewBag.NumberSeqBookingList = _NumberSeqService.GetDropListNumberSeqBookingNull(numberSeqTable.Id, Guid.Empty);
+            ViewBag.NumberSeqBookingList = _NumberSeqService.GetDropListNumberSeqBookingNull(numberSeqTable.Id, id);
             return PartialView("_BookingNumbers");
         }
 
