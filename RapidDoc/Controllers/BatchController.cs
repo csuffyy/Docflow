@@ -167,7 +167,7 @@ namespace RapidDoc.Controllers
 
                             foreach (var document in allDocument.Where(x => (x.DocumentState == Models.Repository.DocumentState.Agreement
                             || x.DocumentState == Models.Repository.DocumentState.Execution
-                            || x.DocumentState == Models.Repository.DocumentState.OnSign) && (x.DocumentNum == "TSK003558" || x.DocumentNum == "TSK003559")).ToList())
+                            || x.DocumentState == Models.Repository.DocumentState.OnSign)).ToList())
                             {
                                 if (document.DocType == DocumentType.Task)
                                 {
