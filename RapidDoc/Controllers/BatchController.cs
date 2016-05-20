@@ -178,7 +178,7 @@ namespace RapidDoc.Controllers
                                     if (DateTime.UtcNow < endDateTime)
                                     {
                                         TimeSpan ts = (DateTime)_Documentservice.GetSLAPerformDate(document.Id, checkHours.StartDateSLA, checkHours.SLAOffset) - DateTime.UtcNow;
-                                        if (ts.Days <= System.Globalization.DateTimeFormatInfo.CurrentInfo.DayNames.Length)
+                                        if (ts.Days <= System.Globalization.DateTimeFormatInfo.CurrentInfo.DayNames.Length * 2)
                                         {
                                             WorkScheduleTable workScheduleTable = _WorkScheduleService.FirstOrDefault(x => x.WorkScheduleName == "8x5");
                                             int countDays = 0;
@@ -189,7 +189,8 @@ namespace RapidDoc.Controllers
                                                     countDays++;
                                                 bufDateTime = bufDateTime.AddDays(1);
                                             }
-                                            if (countDays > 3)
+
+                                            if (countDays > 3 && countDays != System.Globalization.DateTimeFormatInfo.CurrentInfo.DayNames.Length)
                                                 continue;
                                         }
                                         else
