@@ -864,7 +864,7 @@ namespace RapidDoc.Models.Services
                 var particularActivityExpression = particularActivity.inputSystemName.Expression as System.Activities.Expressions.Literal<string>;
                 foreach(string userId in userList)
                 {
-                    if ((parallel == true && String.IsNullOrEmpty(_parallel)) || (parallel == false && !String.IsNullOrEmpty(_parallel)))
+                    if (_documentData.ContainsKey("Parallel") && ((parallel == true && String.IsNullOrEmpty(_parallel)) || (parallel == false && !String.IsNullOrEmpty(_parallel))))
                         break;
 
                     EmplTable empl = _EmplService.FirstOrDefault(x => x.ApplicationUserId == userId);
