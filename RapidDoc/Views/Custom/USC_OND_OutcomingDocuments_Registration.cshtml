@@ -8,9 +8,9 @@
 @Html.HiddenFor(model => model.NeedTranslate)
 @Html.HiddenFor(model => model.Parallel)
 
+@*
 <div class="row">
     <div class="col-xs-4">
-        @*@Html.HiddenFor(x => x.NumberSeriesBookingTableId)*@
         <div class="editor-label">
             @Html.LabelForRequired(model => Model.NumberSeriesBookingTableId)
         </div>
@@ -20,7 +20,17 @@
     </div>
 </div>
 <br />
-
+*@
+<div class="row">
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.OutcomingDocNum)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => Model.OutcomingDocNum, new { @class = "form-control", @size = 256, placeholder = "Номер" })
+        </div>
+    </div>
+</div>
 <div class="row">
     <div class="col-xs-8">
         <div class="editor-label">

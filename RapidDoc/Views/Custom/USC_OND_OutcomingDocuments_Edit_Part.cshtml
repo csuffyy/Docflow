@@ -7,16 +7,17 @@
 @Html.HiddenFor(model => model.ListAgreement)
 @Html.HiddenFor(model => model.NeedTranslate)
 @Html.HiddenFor(model => model.Parallel)
-@Html.HiddenFor(model => model.NumberSeriesBookingTableId)
+@*@Html.HiddenFor(model => model.NumberSeriesBookingTableId)*@
+
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.OutcomingDocNum)
+</div>
+<div class="editor-field">
+    @Html.TextBoxFor(model => Model.OutcomingDocNum, new { @class = "form-control", @size = 256, placeholder = "Номер" })
+</div>
 
 @if (User.IsInRole("Administrator"))
 {
-    <div class="editor-label">
-        @Html.LabelForRequired(model => Model.OutcomingDocNum)
-    </div>
-    <div class="editor-field">
-        @Html.TextBoxFor(model => Model.OutcomingDocNum, new { @class = "form-control", @size = 256, placeholder = "Номер" })
-    </div>
     <div class="editor-label">
         @Html.LabelForRequired(model => Model.ItemCauseNumberCode)
     </div>
@@ -26,7 +27,6 @@
 }
 else
 {
-    @Html.HiddenFor(model => model.OutcomingDocNum)
     @Html.HiddenFor(model => model.ItemCauseNumberCode)
 }
 
