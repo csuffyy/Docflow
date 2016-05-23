@@ -14,7 +14,6 @@
 @Html.HiddenFor(model => model.Language_Other)
 @Html.HiddenFor(model => model.NeedTranslate)
 @Html.HiddenFor(model => model.IncomingNumberDocId)
-@Html.HiddenFor(model => model.TopicType)
 @Html.HiddenFor(model => model.OutcomingDocNum)
 @*@Html.HiddenFor(model => model.NumberSeriesBookingTableId)*@
 
@@ -152,13 +151,6 @@ else
         @Html.EnumToDescription(Model.OutcomingDispatchType)
     </div>
 }
-
-<div class="editor-label">
-    @Html.LabelFor(model => Model.TopicType):
-</div>
-<div class="editor-field">
-    @Html.EnumToDescription(Model.TopicType)
-</div>
 
 <br />
 
