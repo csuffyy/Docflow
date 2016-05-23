@@ -7,6 +7,7 @@
 
 @Html.HiddenFor(model => Model.NeedTranslate)
 
+@*
 <div class="row">
     <div class="col-xs-4">
         <div class="editor-label">
@@ -18,6 +19,18 @@
     </div>
 </div>
 <br />
+*@
+<div class="row">
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.OutcomingDocNum)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => Model.OutcomingDocNum, new { @class = "form-control", @size = 256, placeholder = "Номер" })
+        </div>
+    </div>
+</div>
+
 <div class="row">
     <div class="col-xs-8">
         <div class="editor-label">
@@ -127,17 +140,6 @@
     <div class="col-xs-4">
         <div class="editor-field">
             @Html.TextBoxFor(model => Model.DispatchType, new { @class = "form-control", placeholder = "Другое" })
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-xs-4">
-        <div class="editor-label">
-            @Html.LabelForRequired(model => Model.TopicType):
-        </div>
-        <div class="editor-field">
-            @Html.EnumDropDownListFor(model => Model.TopicType, new { @class = "selectpickerfull" })
         </div>
     </div>
 </div>

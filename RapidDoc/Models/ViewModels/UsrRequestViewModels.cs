@@ -10691,6 +10691,9 @@ namespace RapidDoc.Models.ViewModels
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         [Display(Name = "Получатель")]
         public string Receiver { get; set; }
+
+        [Display(Name = "Тематика")]
+        public OutcomingTopicTypeKZHC TopicType { get; set; }
     }
 
     public class USC_IND_IncomingDocuments_View : BasicIncomingDocumentsView
@@ -10738,6 +10741,9 @@ namespace RapidDoc.Models.ViewModels
 
         [Display(Name = "Тип документа")]
         public OutcomingDocumentKZHCType DocumentType { get; set; }
+
+        [Display(Name = "Тематика")]
+        public OutcomingTopicTypeKZHC TopicType { get; set; }
     }
 
     public class USC_OND_OutcomingDocuments_View : BasicOutcomingDocumentsView
@@ -10747,9 +10753,6 @@ namespace RapidDoc.Models.ViewModels
 
         [Display(Name = "Тип документа")]
         public OutcomingDocumentKZHCType DocumentType { get; set; }
-
-        [Display(Name = "Тематика")]
-        public OutcomingTopicTypeKZHC TopicType { get; set; }
     }
 
     #endregion

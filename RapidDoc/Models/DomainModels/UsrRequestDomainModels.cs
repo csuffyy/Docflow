@@ -5028,6 +5028,7 @@ namespace RapidDoc.Models.DomainModels
         public NatureIncomingQuestion NatureQuestionType { get; set; }
         public IncomingDocumentKZHCType DocumentType { get; set; }
         public IncomingAdmissionMethodType AdmissionMethodType { get; set; }
+        public OutcomingTopicTypeKZHC TopicType { get; set; }
     }
 
     #endregion
@@ -5060,6 +5061,7 @@ namespace RapidDoc.Models.DomainModels
     {
         public OutcomingDispatchTypeKZHC OutcomingDispatchType { get; set; }
         public OutcomingDocumentKZHCType DocumentType { get; set; }
+        public OutcomingTopicTypeKZHC TopicType { get; set; }
     }
     
     #endregion
@@ -5070,7 +5072,6 @@ namespace RapidDoc.Models.DomainModels
     {
         public OutcomingDispatchTypeKZHC OutcomingDispatchType { get; set; }
         public OutcomingDocumentKZHCType DocumentType { get; set; }
-        public OutcomingTopicTypeKZHC TopicType { get; set; }
     }
 
     #endregion

@@ -1746,7 +1746,7 @@ namespace RapidDoc.Models.Services
             string number = String.Empty;
             number = _NumberSeqService.GetDocumentNumORD(numberSeq.Id, bookingNumberId, currentUserId);
 
-            if (!String.IsNullOrEmpty(number))
+            if (!String.IsNullOrEmpty(number) && String.IsNullOrEmpty(document.OutcomingDocNum))
             {
                 document.OutcomingDocNum = number;
                 UpdateDocumentFields(document, processView);
