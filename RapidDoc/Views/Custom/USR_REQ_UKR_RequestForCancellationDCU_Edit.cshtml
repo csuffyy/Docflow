@@ -1,0 +1,23 @@
+@model RapidDoc.Models.ViewModels.USR_REQ_UKR_RequestForCancellationDCU_View
+@using RapidDoc.Extensions;
+
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.UserChooseManual1)
+</div>
+<div class="editor-field">
+    @Html.TextBoxFor(model => Model.UserChooseManual1, new { @class = "form-control", @data_role = "tagsinputEmpl", @size = 256, @maxlength = 256, placeholder = "ИД пользователя", @autofocus = "required" })
+</div>
+
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.Department)
+</div>
+<div class="editor-field">
+    @Html.TextBoxFor(model => Model.Department, new { @class = "form-control", placeholder = "Подразделение" })
+</div>
+
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.DocumentName)
+</div>
+<div class="editor-field">
+    @Html.TextAreaFor(model => Model.DocumentName, new { @class = "form-control", @row = 5, placeholder = "Наименование документа к аннулированию и обоснование причины", @autofocus = "required" })
+</div>

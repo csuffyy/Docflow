@@ -2387,6 +2387,14 @@ namespace RapidDoc.Models.DomainModels
         public string UserChooseManual1 { get; set; }
     }
 
+    public class USR_REQ_UKR_RequestForCancellationDCU_Table : BasicDocumentTable
+    {
+        public string UserChooseManual1 { get; set; }
+
+        public string Department { get; set; }
+
+        public string DocumentName { get; set; }
+    }
     #endregion
 
     #region УРП

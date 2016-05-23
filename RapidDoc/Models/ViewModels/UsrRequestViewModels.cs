@@ -4993,6 +4993,21 @@ namespace RapidDoc.Models.ViewModels
         public string UserChooseManual1 { get; set; }
     }
 
+    public class USR_REQ_UKR_RequestForCancellationDCU_View : BasicDocumentView
+    {
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "ИД пользователя")]
+        public string UserChooseManual1 { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Подразделение")]
+        public string Department { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Наименование документа к аннулированию и обоснование причины")]
+        public string DocumentName { get; set; }
+    }
+
     #endregion
 
     #region УРП

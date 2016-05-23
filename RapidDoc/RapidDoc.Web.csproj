@@ -2146,6 +2146,8 @@
     <Content Include="Views\Custom\USR_APP_AppealIndividualDocuments_View.cshtml" />
     <Content Include="Views\Custom\USR_APP_AppealDocuments_Edit_Part.cshtml" />
     <Content Include="Views\Custom\USR_APP_AppealIndividualDocuments_Edit_Part.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UKR_RequestForCancellationDCU_View.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_UKR_RequestForCancellationDCU_Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -2623,6 +2625,10 @@
   </ItemGroup>
   <ItemGroup>
     <XamlAppDef Include="Activities\USR_REQ_TRIP_RegistrationBusinessTripPTY.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </XamlAppDef>
+    <XamlAppDef Include="Activities\USR_REQ_UKR_RequestForCancellationDCU.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </XamlAppDef>
