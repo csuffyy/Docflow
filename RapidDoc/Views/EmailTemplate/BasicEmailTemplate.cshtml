@@ -121,7 +121,7 @@
                                 @if (@ViewBag.AdditionalText != null && @ViewBag.AdditionalText != String.Empty)
                                 {
                                     <h5>Сопроводительный текст:</h5>
-                                    <p>@ViewBag.AdditionalText</p>
+                                    <p>@Raw(@ViewBag.AdditionalText)</p>
                                 }
                             </div>
 

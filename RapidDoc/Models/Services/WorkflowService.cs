@@ -76,6 +76,7 @@ namespace RapidDoc.Models.Services
         private readonly ISystemService _SystemService;
         private readonly INotificationUsersService _NotificationUsersService;
         private readonly ISearchService _SearchService;
+        private readonly ICommentService _CommentService;
 
         protected RoleManager<ApplicationRole> RoleManager { get; private set; }
         
@@ -83,7 +84,7 @@ namespace RapidDoc.Models.Services
 
         public WorkflowService(IUnitOfWork uow, IDocumentService documentService, IEmplService emplService, 
             IWorkflowTrackerService workflowTrackerService, IEmailService emailService, IHistoryUserService historyUserService,
-            IReviewDocLogService reviewDocLogService, ICustomCheckDocument customCheckDocument, IProcessService processService, ISystemService systemService, INotificationUsersService notificationUsersService, ISearchService searchService)
+            IReviewDocLogService reviewDocLogService, ICustomCheckDocument customCheckDocument, IProcessService processService, ISystemService systemService, INotificationUsersService notificationUsersService, ISearchService searchService, ICommentService commentService)
         {
             repoUser = uow.GetRepository<ApplicationUser>();
             repoIncident = uow.GetRepository<ServiceIncidentTable>();
@@ -99,6 +100,7 @@ namespace RapidDoc.Models.Services
             _SystemService = systemService;
             _NotificationUsersService = notificationUsersService;
             _SearchService = searchService;
+            _CommentService = commentService;
 
             RoleManager = new RoleManager<ApplicationRole>(new RoleStore<ApplicationRole>(_uow.GetDbContext<ApplicationDbContext>()));
         }
@@ -1215,7 +1217,8 @@ namespace RapidDoc.Models.Services
         {
             var documentId = _DocumentService.SaveDocument(docModel, processView.TableName, GuidNull2Guid(processView.Id), fileId, userTable, documentData.ContainsKey("IsNotified") ? (bool)documentData["IsNotified"] : false, documentData.ContainsKey("Share") ? (bool)documentData["Share"] : false);
             DocumentTable documentTable = _DocumentService.Find(documentId);
-
+            if ((documentData.ContainsKey("AdditionalText") && documentData["AdditionalText"] != null && documentData["AdditionalText"] != String.Empty))
+                _CommentService.Save(new CommentTable { Comment = (string)documentData["AdditionalText"], DocumentTableId = documentId });
             Task.Run(() =>
             {
                 IReviewDocLogService _ReviewDocLogServiceTask = DependencyResolver.Current.GetService<IReviewDocLogService>();
@@ -1233,10 +1236,6 @@ namespace RapidDoc.Models.Services
         public Guid GuidNull2Guid(Guid? value)
         {
             return value ?? Guid.Empty;
-        }
-
-
-
-       
+        }   
     }
 }

@@ -393,4 +393,7 @@
   <data name="CreateTasks" xml:space="preserve">
     <value>Отдельное поручение исполнителю</value>
   </data>
+  <data name="AdditionalText" xml:space="preserve">
+    <value>Сопроводительный текст</value>
+  </data>
 </root>

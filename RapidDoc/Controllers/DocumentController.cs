@@ -698,7 +698,9 @@ namespace RapidDoc.Controllers
                     }
                 }
 
-                _EmailService.SendNewExecutorEmail(documentId, users);
+                _EmailService.SendNewExecutorEmail(documentId, users, (collection["AdditionalText"] != null && _SystemService.DeleteAllTags(collection["AdditionalText"]) != String.Empty) ? collection["AdditionalText"] : "");
+                if ((collection["AdditionalText"] != null && _SystemService.DeleteAllTags(collection["AdditionalText"]) != String.Empty))
+                    _CommentService.Save(new CommentTable { Comment = collection["AdditionalText"], DocumentTableId = documentId});
 
                 _HistoryUserService.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = Models.Repository.HistoryType.DelegateTask }, User.Identity.GetUserId());
             }
@@ -734,6 +736,8 @@ namespace RapidDoc.Controllers
                     {
                         string seprateUser = item + "," + arrayTempStructrue[Array.IndexOf(arrayTempStructrue, item) + 1];
                         viewBodyTask.docData.Users = seprateUser;
+                        if ((collection["AdditionalText"] != null && _SystemService.DeleteAllTags(collection["AdditionalText"]) != String.Empty))                        
+                           documentData["AdditionalText"] = collection["AdditionalText"];                      
                         documentData["Users"] = seprateUser;
                         documentData["ExecutionDate"] = viewBodyTask.docData.ExecutionDate;
                         if (collection["IsNotifyTask"].ToLower().Contains("true") == true)

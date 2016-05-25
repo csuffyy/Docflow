@@ -384,4 +384,7 @@
   <data name="CreateTasks" xml:space="preserve">
     <value>-</value>
   </data>
+  <data name="AdditionalText" xml:space="preserve">
+    <value>-</value>
+  </data>
 </root>
