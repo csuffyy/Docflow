@@ -265,7 +265,7 @@
     <value>Попробуйте проверить правильность указаного адреса или перейдите на главную страницу</value>
   </data>
   <data name="PageNotFoundTitle" xml:space="preserve">
-    <value>Oops! Страница не найдена</value>
+    <value>Oops! Страница не найдена или отсутствует доступ на просмотр этого документа</value>
   </data>
   <data name="PasswordRecovery" xml:space="preserve">
     <value>Восстановление пароля</value>

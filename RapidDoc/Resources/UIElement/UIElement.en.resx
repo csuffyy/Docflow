@@ -265,7 +265,7 @@
     <value>Try to verify addresses or go to home page</value>
   </data>
   <data name="PageNotFoundTitle" xml:space="preserve">
-    <value>Oops! Page not found</value>
+    <value>Oops! Page not found or you're not have access to that document</value>
   </data>
   <data name="PasswordRecovery" xml:space="preserve">
     <value>Password recovery</value>

@@ -65,7 +65,7 @@ namespace RapidDoc.Controllers
             if (ModelState.IsValid)
             {
                 ApplicationUser user = null;
-                if (model.UserName.Contains("\\") || model.UserName.Contains("@") || model.UserName.Contains("//"))
+                if (model.UserName.Contains("\\") || model.UserName.Contains("@") || model.UserName.Contains("/"))
                 {
                     string[] parts;
 
@@ -74,7 +74,7 @@ namespace RapidDoc.Controllers
                     else if (model.UserName.Contains("@"))
                         parts = model.UserName.Split(new string[] { "@" }, StringSplitOptions.RemoveEmptyEntries);
                     else
-                        parts = model.UserName.Split(new string[] { "//" }, StringSplitOptions.RemoveEmptyEntries);
+                        parts = model.UserName.Split(new string[] { "/" }, StringSplitOptions.RemoveEmptyEntries);
 
                     if(parts.Count() == 2)
                     {

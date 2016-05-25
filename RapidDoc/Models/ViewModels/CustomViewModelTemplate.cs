@@ -321,7 +321,7 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Тип документа")]
         public string DocumentTypeName { get; set; }
 
-        [Display(Name = "Дополнение")]
+        [Display(Name = "Сопроводительный текст")]
         public string Content { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
