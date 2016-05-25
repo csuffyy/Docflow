@@ -854,48 +854,79 @@ namespace RapidDoc.Models.Services
 
             if (documentTable.DocType == DocumentType.Task)
             {
-                var task = GetDocument(documentTable.RefDocumentId, documentTable.ProcessTable.TableName);
-                if(task != null)
+                var maintask = GetMainTask(documentTable, user, isAfterView);
+
+                if (maintask.DocType == DocumentType.Protocol)
                 {
-                    var refDocument = Find(task.RefDocumentId);
-                    if (refDocument != null && refDocument.DocType == DocumentType.Protocol)
+                    var protocol = GetDocument(maintask.RefDocumentId, maintask.ProcessTable.TableName);
+                    if(protocol != null && !String.IsNullOrEmpty(protocol.Chairman))
                     {
-                        var protocol = GetDocument(refDocument.RefDocumentId, refDocument.ProcessTable.TableName);
-                        if(protocol != null && !String.IsNullOrEmpty(protocol.Chairman))
-                        {
-                            string[] chairman = GetUserListFromStructure(protocol.Chairman);
+                        string[] chairman = GetUserListFromStructure(protocol.Chairman);
 
-                            if(chairman.Count() > 0)
-                            {
-                                Guid emplId = Guid.Parse(chairman[0]);
-                                var empl = _EmplService.FirstOrDefault(x => x.Id == emplId);
-                                if (empl != null && empl.ApplicationUserId == user.Id)
-                                    return true;
-                            }
+                        if(chairman.Count() > 0)
+                        {
+                            Guid emplId = Guid.Parse(chairman[0]);
+                            var empl = _EmplService.FirstOrDefault(x => x.Id == emplId);
+                            if (empl != null && empl.ApplicationUserId == user.Id)
+                                return true;
                         }
                     }
+                }
 
-                    if (refDocument != null && refDocument.DocType == DocumentType.IncomingDoc)
-                    {
-                        if (isShowDocument(refDocument, user, isAfterView))
-                        {
-                            return true;
-                        }
-                    }
+                if (maintask.DocType == DocumentType.IncomingDoc)
+                {
+                    return checkLinkedDownAccessRight(maintask, user, isAfterView);
                 }
             }
 
             if (documentTable.DocType == DocumentType.IncomingDoc)
             {
-                var documentsRef = GetDocumentRefTask(documentTable.Id);
+                return checkLinkedDownAccessRight(documentTable, user, isAfterView);
+            }
 
-                foreach (var item in documentsRef)
+            return false;
+        }
+
+        private DocumentTable GetMainTask(DocumentTable documentTable, ApplicationUser user, bool isAfterView = false)
+        {
+            if (documentTable.DocType == DocumentType.Task)
+            {
+                var task = GetDocument(documentTable.RefDocumentId, documentTable.ProcessTable.TableName);
+                if (task != null)
                 {
-                    DocumentTable docTable = Find(item.DocumentId);
-                    if (isShowDocumentBasic(docTable, user, isAfterView))
+                    var refDocument = Find(task.RefDocumentId);
+                    if (refDocument != null)
                     {
-                        return true;
+                        if (refDocument.DocType == DocumentType.Task)
+                        {
+                            return GetMainTask(refDocument, user, isAfterView);
+                        }
+                        else
+                        {
+                            return refDocument;
+                        }
                     }
+                }
+            }
+
+            return documentTable;
+        }
+
+        private bool checkLinkedDownAccessRight(DocumentTable documentTable, ApplicationUser user, bool isAfterView = false)
+        {
+            var documentsRef = GetDocumentRefTask(documentTable.Id);
+
+            foreach (var item in documentsRef)
+            {
+                DocumentTable docTable = Find(item.DocumentId);
+                if (isShowDocumentBasic(docTable, user, isAfterView))
+                {
+                    return true;
+                }
+
+                if(checkLinkedDownAccessRight(docTable, user, isAfterView))
+                {
+                    return true;
                 }
             }
 
