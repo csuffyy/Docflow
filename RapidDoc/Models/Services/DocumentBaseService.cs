@@ -289,10 +289,10 @@ namespace RapidDoc.Models.Services
                         if (documentView.DispatchType != null && !String.IsNullOrEmpty(documentView.DispatchType))
                         {
                             string dispatchType = documentView.DispatchType;
-                            item.OutcomingDispatchType = (dispatchType.First().ToString().ToUpper() + dispatchType.Substring(1)).Trim();
+                            item.OutcomingDispatchType = dispatchType.ToString().Trim().ToUpper();
                         }
                         else
-                            item.OutcomingDispatchType = documentView.OutcomingDispatchType.GetType().GetMember(documentView.OutcomingDispatchType.ToString())[0].GetCustomAttributes(typeof(DisplayAttribute), false)[0].GetName();
+                            item.OutcomingDispatchType = (documentView.OutcomingDispatchType.GetType().GetMember(documentView.OutcomingDispatchType.ToString())[0].GetCustomAttributes(typeof(DisplayAttribute), false)[0].GetName()).ToString().ToUpper();
 
                         item.OrderDate = documentView.OutgoingDate;
                         item.Month = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(item.OrderDate.Value.Month);
