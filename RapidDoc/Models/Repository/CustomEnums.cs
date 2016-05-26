@@ -1193,7 +1193,10 @@ namespace RapidDoc.Models.Repository
         Organization = 5,
 
         [Display(Name = "По номенклатурному делу")]
-        ItemCase = 6
+        ItemCase = 6,
+
+        [Display(Name = "По виду отправки")]
+        OutDispatchType = 7
     }
 
     public enum AppealFilterType : byte

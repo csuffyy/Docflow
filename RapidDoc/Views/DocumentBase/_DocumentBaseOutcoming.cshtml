@@ -226,6 +226,29 @@
                 </div>
             }
             break;
+
+        case RapidDoc.Models.Repository.OutcomingFilterType.OutDispatchType:
+            foreach (var itemGroup in Model.GroupBy(x => x.OutcomingDispatchType).Where(y => !String.IsNullOrEmpty(y.Key)).OrderBy(x => x.Key))
+            {
+                num++;
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="heading@num">
+                        <p class="panel-title"><a data-toggle="collapse" data-target="#collapseArea_@num" aria-expanded="false" aria-controls="collapseArea_@num"><strong>@itemGroup.Key (@Model.Where(x => x.OutcomingDispatchType == itemGroup.Key).Count())</strong></a></p>
+                    </div>
+                    <div class="panel-collapse collapse" id="collapseArea_@num">
+                        <div class="panel-body">
+                            @foreach (var item in Model.Where(x => x.OutcomingDispatchType == itemGroup.Key).OrderByDescending(x => x.CreatedDate))
+                            {
+                                <p>
+                                    <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins></a> - @item.ProcessName - @item.DocumentTitle (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)
+                                </p>
+                                <br />
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+            break;
     }
 </div>
 

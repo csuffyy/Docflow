@@ -2931,7 +2931,7 @@ namespace RapidDoc.Controllers
                 var current = _DocumentService.GetCurrentSignStep(document.Id);
                 if (current != null)
                 {
-                    if (current.Any(x => x.SystemName == "ONDRegistration") && _CompanyService.Find((Guid)document.CompanyTableId).CompanyName != "Kazzinc")
+                    if (current.Any(x => x.SystemName == "ONDRegistration"))
                     {
                         return PartialView(document.ProcessTable.TableName + "_Registration", model);
                     }

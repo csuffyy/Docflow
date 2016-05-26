@@ -17,6 +17,7 @@ using RapidDoc.Models.Repository;
 using RapidDoc.Models.ViewModels;
 using System.Text.RegularExpressions;
 using System.Globalization;
+using System.ComponentModel.DataAnnotations;
 
 namespace RapidDoc.Models.Services
 {
@@ -226,7 +227,7 @@ namespace RapidDoc.Models.Services
                         return editedItems;
                 case DocumentType.Task:
                         foreach (var item in items)
-                        {
+                        {                         
                             item.CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(item.CreatedDate), timeZoneInfo);
                             item.Month = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(item.CreatedDate.Month);
                             item.MonthNumber = item.CreatedDate.Month;
@@ -284,6 +285,12 @@ namespace RapidDoc.Models.Services
                         var documentView = _DocumentService.GetDocument(item.DocumentRefId, item.ProcessTableName);
                         if (!String.IsNullOrEmpty(documentView.OutcomingDocNum))
                             item.OrderNumber = documentView.OutcomingDocNum;
+
+                        if (documentView.DispatchType != null && !String.IsNullOrEmpty(documentView.DispatchType))
+                            item.OutcomingDispatchType = documentView.DispatchType;
+                        else
+                            item.OutcomingDispatchType = documentView.OutcomingDispatchType.GetType().GetMember(documentView.OutcomingDispatchType.ToString())[0].GetCustomAttributes(typeof(DisplayAttribute), false)[0].GetName();
+
                         item.OrderDate = documentView.OutgoingDate;
                         item.Month = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(item.OrderDate.Value.Month);
                         item.MonthNumber = item.OrderDate.Value.Month;
