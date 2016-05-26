@@ -525,7 +525,7 @@ namespace RapidDoc.Models.Services
                         Executed = item.Executed,
                         UserName = empl.FullName,
                         DocumentText = item.DocumentText,
-                        DepartmentName = department.DepartmentName,
+                        DepartmentName = department != null ? department.DepartmentName : "<>",
                         TrackerActivityName = item.TrackerActivityName,
                         SignUser = item.SignUser
                     });
