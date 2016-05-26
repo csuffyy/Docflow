@@ -287,7 +287,10 @@ namespace RapidDoc.Models.Services
                             item.OrderNumber = documentView.OutcomingDocNum;
 
                         if (documentView.DispatchType != null && !String.IsNullOrEmpty(documentView.DispatchType))
-                            item.OutcomingDispatchType = documentView.DispatchType;
+                        {
+                            string dispatchType = documentView.DispatchType;
+                            item.OutcomingDispatchType = (dispatchType.First().ToString().ToUpper() + dispatchType.Substring(1)).Trim();
+                        }
                         else
                             item.OutcomingDispatchType = documentView.OutcomingDispatchType.GetType().GetMember(documentView.OutcomingDispatchType.ToString())[0].GetCustomAttributes(typeof(DisplayAttribute), false)[0].GetName();
 
