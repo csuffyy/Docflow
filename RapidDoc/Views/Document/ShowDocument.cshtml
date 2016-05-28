@@ -212,7 +212,7 @@
         }
 
         <div class="btn-group hidden-print">
-            <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+            <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
                 <span class="visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">@UIElementRes.UIElement.Create</span> <span class="glyphicon glyphicon-cog visible-xs-inline-block"></span> <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" role="menu">
@@ -237,7 +237,7 @@
                     (Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement ||
                     Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.OnSign))
                 {
-                    if (Model.DocumentView.CreatedBy != User.Identity.Name)
+                    if (Model.DocumentView.CreatedBy != User.Identity.Name && Model.DocumentView.isSign)
                     {
                         <li>
                             <a href="#" data-toggle="modal" data-target=".delegatetask-modal-sm">@UIElementRes.UIElement.Delegate</a>

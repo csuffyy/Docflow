@@ -286,7 +286,7 @@ namespace RapidDoc.Controllers
 
                     if (companyName == "Ustkam ID" || companyName == "Ustkam MK" || companyName == "Astana" || companyName == "Almaty"
                         || companyName == "Kazzinc-GEO" || companyName == "Ustkam ID, Kormin" || companyName == "KMTK" || companyName == "RGOK"
-                        || companyName == "TOO Kazzinc-Remservice" || companyName == "PK Kazzinc-Avtomatica")
+                        || companyName == "TOO Kazzinc-Remservice" || companyName == "PK Kazzinc-Avtomatica" || companyName == "TOO Kazzinctech")
                     {
                         ldapData = result.Properties["cn"][0].ToString();
                         mail = result.Properties["mail"][0].ToString();
