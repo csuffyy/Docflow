@@ -16,6 +16,7 @@
 @Html.HiddenFor(model => model.Receiver)
 @Html.HiddenFor(model => model.ExecutionDate)
 @Html.HiddenFor(model => model.ListReaders)
+@Html.HiddenFor(model => model.TopicType)
 
 <div class="row">
     <div class="col-xs-2 col-xs-offset-11">
@@ -162,6 +163,12 @@
     @Html.HtmlDisplayTagsFor(model => Model.Receiver)
 </div>
 
+<div class="editor-label">
+    @Html.LabelFor(model => Model.TopicType):
+</div>
+<div class="editor-field">
+    @Html.EnumToDescription(Model.TopicType)
+</div>
 
 <div class="editor-label">
     @Html.LabelFor(model => Model.ControlType)

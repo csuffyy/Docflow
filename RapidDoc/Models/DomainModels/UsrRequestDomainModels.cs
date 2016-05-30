@@ -5040,6 +5040,7 @@ namespace RapidDoc.Models.DomainModels
         public NatureIncomingQuestionKZC NatureQuestionType { get; set; }
         public IncomingDocumentKZHCType DocumentType { get; set; }
         public IncomingAdmissionMethodType AdmissionMethodType { get; set; }
+        public OutcomingTopicTypeKZHC TopicType { get; set; }
     }
 
     #endregion
