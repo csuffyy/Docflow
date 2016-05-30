@@ -44,6 +44,7 @@ namespace RapidDoc.Controllers
             _PortalParametersService = portalParametersService;
         }
 
+
         public void Get()
         {
             try
@@ -63,6 +64,9 @@ namespace RapidDoc.Controllers
                         BuildTreeLDAP(company, company.DomainTable.LDAPBaseDN, "", true);
                         CheckActiveUsers(company);
                     }
+
+                    if (company.AliasCompanyName == "ATK")
+                        SetUsersToGroup(company);
 
                     DeleteNotUsedDepartment(company);
                 }
@@ -669,6 +673,59 @@ namespace RapidDoc.Controllers
                     (portalParameters == null || !portalParameters.ReportDepartments.Contains(department.Id.ToString())))
                 {
                     _DepartmentService.Delete(department.Id);
+                }
+            }
+        }
+
+        private void SetUsersToGroup(CompanyTable _item)
+        {        
+            List<string> groups = new List<string>{
+            "_ATK_AllUsers",
+            "_ATK_AllUsersWithoutTopManager",
+           "_ATK_Manager",
+            "_ATK_MiddleManagerAndManager",
+            "_ATK_RouteTopManager",
+            "_TopManager"   
+            };
+
+            ApplicationDbContext context = new ApplicationDbContext();
+            var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+
+            foreach (ApplicationUser user in um.Users.Where(x => x.isDomainUser == true && x.DomainTableId == _item.DomainTableId).ToList())
+            {
+                EmplTable empl = _EmplService.FirstOrDefault(x => x.ApplicationUserId == user.Id);
+                if (empl != null)
+                {
+                    foreach (var group in groups)
+                    {
+                        switch (group)
+                        {
+                            case "_ATK_AllUsers":
+                                if (!um.IsInRole(user.Id, group))
+                                    um.AddToRole(user.Id, group);
+                                break;
+                            case "_ATK_AllUsersWithoutTopManager":
+                                if (empl.ProfileName != "ИД" && empl.ProfileName != "ГД" && !um.IsInRole(user.Id, group))
+                                    um.AddToRole(user.Id, group);
+                                break;
+                            case "_ATK_Manager":
+                                if (empl.ProfileName == "НУ" && !um.IsInRole(user.Id, group))
+                                    um.AddToRole(user.Id, group);
+                                break;
+                            case "_ATK_MiddleManagerAndManager":
+                                if ((empl.ProfileName == "НУ" || empl.ProfileName == "НС") && !um.IsInRole(user.Id, group))
+                                    um.AddToRole(user.Id, group);
+                                break;
+                            case "_ATK_RouteTopManager":
+                                if (empl.ProfileName == "ИД" && !um.IsInRole(user.Id, group))
+                                    um.AddToRole(user.Id, group);
+                                break;
+                            case "_TopManager":
+                                if ((empl.ProfileName == "ИД" || empl.ProfileName == "ГД") && !um.IsInRole(user.Id, group))
+                                    um.AddToRole(user.Id, group);
+                                break;
+                        }
+                    }
                 }
             }
         }
