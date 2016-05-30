@@ -164,18 +164,6 @@ namespace RapidDoc.Controllers
                     return HttpNotFound();
                 }
 
-                string domainSID = String.Empty;
-                if (viewModel.isDomainUser == true)
-                {
-                    if (domainModel.DomainTable != null)
-                    {
-                        PrincipalContext ctx = new PrincipalContext(ContextType.Domain, domainModel.DomainTable.LDAPServer, domainModel.DomainTable.LDAPBaseDN, domainModel.DomainTable.LDAPLogin, domainModel.DomainTable.LDAPPassword);
-                        UserPrincipal user = UserPrincipal.FindByIdentity(ctx, viewModel.AccountDomainName);
-                        if (user != null)
-                            domainSID = user.Sid.ToString();
-                    }
-                }
-
                 domainModel.UserName = viewModel.UserName;
                 domainModel.Email = viewModel.Email;
                 domainModel.CompanyTableId = viewModel.CompanyTableId;
@@ -193,15 +181,34 @@ namespace RapidDoc.Controllers
                 }
                 else
                 {
-                    if (domainModel.isDomainUser == true && domainSID != String.Empty && UserManager.GetLogins(domainModel.Id).Count == 0)
+                    try
                     {
-                        var loginInfo = new UserLoginInfo("Windows", domainSID);
-
-                        var resultLogin = await UserManager.AddLoginAsync(domainModel.Id, loginInfo);
-                        if (!resultLogin.Succeeded)
+                        string domainSID = String.Empty;
+                        if (viewModel.isDomainUser == true)
                         {
-                            ModelState.AddModelError("", result.Errors.FirstOrDefault().ToString());
+                            if (domainModel.DomainTable != null)
+                            {
+                                PrincipalContext ctx = new PrincipalContext(ContextType.Domain, domainModel.DomainTable.LDAPServer, domainModel.DomainTable.LDAPBaseDN, domainModel.DomainTable.LDAPLogin, domainModel.DomainTable.LDAPPassword);
+                                UserPrincipal user = UserPrincipal.FindByIdentity(ctx, viewModel.AccountDomainName);
+                                if (user != null)
+                                    domainSID = user.Sid.ToString();
+                            }
                         }
+
+                        if (domainModel.isDomainUser == true && domainSID != String.Empty && UserManager.GetLogins(domainModel.Id).Count == 0)
+                        {
+                            var loginInfo = new UserLoginInfo("Windows", domainSID);
+
+                            var resultLogin = await UserManager.AddLoginAsync(domainModel.Id, loginInfo);
+                            if (!resultLogin.Succeeded)
+                            {
+                                ModelState.AddModelError("", result.Errors.FirstOrDefault().ToString());
+                            }
+                        }
+                    }
+                    catch
+                    {
+
                     }
                 }
 
