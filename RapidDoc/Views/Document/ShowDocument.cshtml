@@ -227,7 +227,7 @@
                     </li>
                 }
                 @if (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.OfficeMemo &&
-                        Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.OnSign)
+                        Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.OnSign && Model.DocumentView.CreatedBy == User.Identity.Name)
                 {
                     <li>
                         <a href="#" data-toggle="modal" data-target=".addusers-modal">@UIElementRes.UIElement.SendBookmark</a>
