@@ -682,10 +682,10 @@ namespace RapidDoc.Controllers
             List<string> groups = new List<string>{
             "_ATK_AllUsers",
             "_ATK_AllUsersWithoutTopManager",
-           "_ATK_Manager",
+            "_ATK_Manager",
             "_ATK_MiddleManagerAndManager",
             "_ATK_RouteTopManager",
-            "_TopManager"   
+            "_TopManager"
             };
 
             ApplicationDbContext context = new ApplicationDbContext();
@@ -693,7 +693,7 @@ namespace RapidDoc.Controllers
 
             foreach (ApplicationUser user in um.Users.Where(x => x.isDomainUser == true && x.DomainTableId == _item.DomainTableId).ToList())
             {
-                EmplTable empl = _EmplService.FirstOrDefault(x => x.ApplicationUserId == user.Id);
+                EmplTable empl = _EmplService.FirstOrDefault(x => x.ApplicationUserId == user.Id && x.CompanyTableId == _item.Id && x.Enable == true);
                 if (empl != null)
                 {
                     foreach (var group in groups)
