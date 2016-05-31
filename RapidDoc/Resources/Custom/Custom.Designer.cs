@@ -70,6 +70,15 @@ namespace CustomRes {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Список ip адресов.
+        /// </summary>
+        public static string IpList {
+            get {
+                return ResourceManager.GetString("IpList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Номенклатурное дело.
         /// </summary>
         public static string ItemCause {

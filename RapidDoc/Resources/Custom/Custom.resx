@@ -120,6 +120,9 @@
   <data name="Country" xml:space="preserve">
     <value>Города</value>
   </data>
+  <data name="IpList" xml:space="preserve">
+    <value>Список ip адресов</value>
+  </data>
   <data name="ItemCause" xml:space="preserve">
     <value>Номенклатурное дело</value>
   </data>

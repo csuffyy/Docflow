@@ -1,0 +1,26 @@
+﻿@model RapidDoc.Models.ViewModels.IpListView
+@using RapidDoc.Extensions;
+@{
+    ViewBag.Title = "Новый Ip адрес";
+}
+<h2>Город</h2>
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend></legend>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => model.Ip)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Ip, new { @class = "form-control", @size = 70, @maxlength = 70, placeholder = "172.20.12.0", @autofocus = "required", @x_webkit_speech = "" })
+            @Html.ValidationMessageFor(model => model.Ip)
+        </div>
+
+        @{Html.RenderPartial("SaveBackBtn");}
+    </fieldset>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/editentity")
+}
