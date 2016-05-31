@@ -10710,6 +10710,9 @@ namespace RapidDoc.Models.ViewModels
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         [Display(Name = "Отправить руководителю")]
         public string Receiver { get; set; }
+
+        [Display(Name = "Тематика")]
+        public OutcomingTopicTypeKZHC TopicType { get; set; }
     }
 
     #endregion
