@@ -14,10 +14,13 @@ using RapidDoc.Models.Repository;
 using RapidDoc.Models.Services;
 using RapidDoc.Models.ViewModels;
 using RapidDoc.Models.Infrastructure;
+using RapidDoc.Extensions;
 using System.Data.Entity.Core.Objects;
 using System.Text.RegularExpressions;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Web;
+using NLog;
 
 
 namespace RapidDoc.Controllers
@@ -61,6 +64,12 @@ namespace RapidDoc.Controllers
         //http://sitename/api/batch/8/ATK
         public void Get(int id, string companyId)
         {
+            HttpRequestMessage requestMessage = (HttpRequestMessage)HttpContext.Current.Items["MS_HttpRequestMessage"];
+            var ipAddress = requestMessage.GetClientIpAddress();
+            Logger logger = LogManager.GetLogger("IpAdress");
+            logger.Error(String.Format("IpAdress: {0}", ipAddress));
+            return;
+
             CompanyTable company = _CompanyService.FirstOrDefault(x => x.AliasCompanyName == companyId);
             var allDocument = _Documentservice.GetPartial(x => x.CompanyTableId == company.Id).ToList();
             if (allDocument == null)

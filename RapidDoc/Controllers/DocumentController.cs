@@ -2210,7 +2210,7 @@ namespace RapidDoc.Controllers
                     foreach (var tracker in trackers)
                     {
                         approveCommentRequest = _SystemService.DeleteAllTags(approveCommentRequest);
-                        tracker.Comments = approveCommentRequest;
+                        tracker.Comments = _SystemService.DeleteAllSpecialCharacters(_SystemService.DeleteAllTags(approveCommentRequest));
                         _WorkflowTrackerService.SaveDomain(tracker);
                     }
                 }
