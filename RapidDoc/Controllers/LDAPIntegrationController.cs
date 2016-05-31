@@ -9,10 +9,12 @@ using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using RapidDoc.Extensions;
 using RapidDoc.Models.DomainModels;
 using RapidDoc.Models.Infrastructure;
 using RapidDoc.Models.Repository;
@@ -31,8 +33,9 @@ namespace RapidDoc.Controllers
         protected readonly IDepartmentService _DepartmentService;
         protected readonly IItemCauseService _ItemCauseService;
         protected readonly IPortalParametersService _PortalParametersService;
+        protected readonly IIpListService _IpListService;
 
-        public LDAPIntegrationController(ICompanyService companyService, IEmailService emailservice, IEmplService emplService, IWorkScheduleService workScheduleService, ITitleService titleService, IDepartmentService departmentService, IItemCauseService itemCauseService, IPortalParametersService portalParametersService)
+        public LDAPIntegrationController(ICompanyService companyService, IEmailService emailservice, IEmplService emplService, IWorkScheduleService workScheduleService, ITitleService titleService, IDepartmentService departmentService, IItemCauseService itemCauseService, IPortalParametersService portalParametersService, IIpListService ipListService)
         {
             _CompanyService = companyService;
             _Emailservice = emailservice;
@@ -42,40 +45,46 @@ namespace RapidDoc.Controllers
             _DepartmentService = departmentService;
             _ItemCauseService = itemCauseService;
             _PortalParametersService = portalParametersService;
+            _IpListService = ipListService;
         }
-
 
         public void Get()
         {
-            try
+            HttpRequestMessage requestMessage = (HttpRequestMessage)HttpContext.Current.Items["MS_HttpRequestMessage"];
+            var ipAddress = requestMessage.GetClientIpAddress();
+
+            if (_IpListService.Contains(x => x.Ip == ipAddress))
             {
-                var companies = _CompanyService.GetAll().ToList();
-                foreach (var company in companies)
+                try
                 {
-                    if (company.AliasCompanyName == "KZC")
+                    var companies = _CompanyService.GetAll().ToList();
+                    foreach (var company in companies)
                     {
-                        getUsersDepartmentKZC(company, company.DomainTable.LDAPBaseDN);
-                        getUsersDepartmentKZC(company, "OU=lgok,O=ustk,C=kz");
-                        getUsersDepartmentKZC(company, "OU=zgok,O=ustk,C=kz");
-                    }
-                    else
-                    {
-                        BuildTreeLDAP(company, company.DomainTable.LDAPBaseDN, "");
-                        BuildTreeLDAP(company, company.DomainTable.LDAPBaseDN, "", true);
-                        CheckActiveUsers(company);
+                        if (company.AliasCompanyName == "KZC")
+                        {
+                            getUsersDepartmentKZC(company, company.DomainTable.LDAPBaseDN);
+                            getUsersDepartmentKZC(company, "OU=lgok,O=ustk,C=kz");
+                            getUsersDepartmentKZC(company, "OU=zgok,O=ustk,C=kz");
+                        }
+                        else
+                        {
+                            BuildTreeLDAP(company, company.DomainTable.LDAPBaseDN, "");
+                            BuildTreeLDAP(company, company.DomainTable.LDAPBaseDN, "", true);
+                            CheckActiveUsers(company);
+                        }
+
+                        if (company.AliasCompanyName == "ATK")
+                            SetUsersToGroup(company);
+
+                        DeleteNotUsedDepartment(company);
                     }
 
-                    if (company.AliasCompanyName == "ATK")
-                        SetUsersToGroup(company);
-
-                    DeleteNotUsedDepartment(company);
+                    DeleteNotUsedTitle();
                 }
-
-                DeleteNotUsedTitle();
-            }
-            catch (Exception e)
-            {
-                _Emailservice.SendStatusExecutionBatch(String.Format("Procedure LDAP Integration was failed. Message is ({0}).", e.Message), true);
+                catch (Exception e)
+                {
+                    _Emailservice.SendStatusExecutionBatch(String.Format("Procedure LDAP Integration was failed. Message is ({0}).", e.Message), true);
+                }
             }
         }
 

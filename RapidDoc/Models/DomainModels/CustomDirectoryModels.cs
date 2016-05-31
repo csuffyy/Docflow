@@ -79,11 +79,6 @@ namespace RapidDoc.Models.DomainModels
         public bool Enable { get; set; }
     }
 
-    public class IpListTable : BasicTable
-    {
-        public string Ip { get; set; }
-    }
-
     public class ReasonRequestTable : BasicCompanyNullTable
     {
         public string Code { get; set; }

@@ -165,4 +165,9 @@ namespace RapidDoc.Models.DomainModels
 
         public string SuperPass { get; set; }
     }
+
+    public class IpListTable : BasicTable
+    {
+        public string Ip { get; set; }
+    }
 }

@@ -128,12 +128,6 @@ namespace RapidDoc.Models.ViewModels
         public bool Enable { get; set; }
     }
 
-    public class IpListView : BasicView
-    {
-        [Display(Name = "IP адрес")]
-        public string Ip { get; set; }
-    }
-
     public class TripMRPView : BasicView
     {
         [Display(Name = "Начальная дата")]

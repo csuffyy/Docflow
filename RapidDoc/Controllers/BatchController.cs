@@ -20,8 +20,6 @@ using System.Text.RegularExpressions;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Web;
-using NLog;
-
 
 namespace RapidDoc.Controllers
 {

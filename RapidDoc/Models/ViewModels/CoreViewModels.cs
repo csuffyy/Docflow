@@ -166,6 +166,12 @@ namespace RapidDoc.Models.ViewModels
         
     }
 
+    public class IpListView : BasicView
+    {
+        [Display(Name = "IP address")]
+        public string Ip { get; set; }
+    }
+
     public class ViewDataUploadFilesResult
     {
         public string id { get; set; }
