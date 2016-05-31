@@ -53,6 +53,7 @@ namespace RapidDoc.Models.Infrastructure
         public DbSet<TripMRPTable> TripMRPTable { get; set; }
         public DbSet<DocumentSubcriptionListTable> DocumentSubcriptionListTable { get; set; }
         public DbSet<PortalParametersTable> PortalParametersTable { get; set; }
+        public DbSet<IpListTable> IpListTable { get; set; }
 
         //Custom Requests
         public DbSet<USR_REQ_IT_CTS_DeliveryOfPinCode_Table> USR_REQ_IT_CTS_DeliveryOfPinCode_Table { get; set; }

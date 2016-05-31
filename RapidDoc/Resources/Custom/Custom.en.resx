@@ -120,6 +120,9 @@
   <data name="Country" xml:space="preserve">
     <value>Country</value>
   </data>
+  <data name="IpList" xml:space="preserve">
+    <value>Ip list</value>
+  </data>
   <data name="ItemCause" xml:space="preserve">
     <value>Nomenclature deal</value>
   </data>

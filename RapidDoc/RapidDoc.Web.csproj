@@ -312,6 +312,7 @@
     <Compile Include="Controllers\BasicController.cs" />
     <Compile Include="Controllers\CountryController.cs" />
     <Compile Include="Controllers\DocumentBaseController.cs" />
+    <Compile Include="Controllers\IpListController.cs" />
     <Compile Include="Controllers\ItemCauseController.cs" />
     <Compile Include="Controllers\LDAPIntegrationController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
@@ -363,6 +364,7 @@
     <Compile Include="Models\DomainModels\CustomDomainModelTemplate.cs" />
     <Compile Include="Models\DomainModels\UsrRequestDomainModels.cs" />
     <Compile Include="Models\Grids\CountryAjaxPagingGrid.cs" />
+    <Compile Include="Models\Grids\IpListAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\MyFavoriteAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\MyTaskAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\MyDocumentAjaxPagingGrid.cs" />
@@ -402,6 +404,7 @@
     <Compile Include="Models\Interfaces\IUnitOfWork.cs" />
     <Compile Include="Models\Repository\CompanyConstraint.cs" />
     <Compile Include="Models\Services\DocumentSubcriptionService.cs" />
+    <Compile Include="Models\Services\IpListService.cs" />
     <Compile Include="Models\Services\ProtocolFoldersService.cs" />
     <Compile Include="Models\Services\PortalParametersService.cs" />
     <Compile Include="Models\Services\QuestionRequestService.cs" />
@@ -2149,6 +2152,12 @@
     <Content Include="Views\Custom\USR_APP_AppealIndividualDocuments_Edit_Part.cshtml" />
     <Content Include="Views\Custom\USR_REQ_UKR_RequestForCancellationDCU_View.cshtml" />
     <Content Include="Views\Custom\USR_REQ_UKR_RequestForCancellationDCU_Edit.cshtml" />
+    <Content Include="Views\IpList\_IpListGrid.cshtml" />
+    <Content Include="Views\IpList\Create.cshtml" />
+    <Content Include="Views\IpList\Delete.cshtml" />
+    <Content Include="Views\IpList\Detail.cshtml" />
+    <Content Include="Views\IpList\Edit.cshtml" />
+    <Content Include="Views\IpList\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

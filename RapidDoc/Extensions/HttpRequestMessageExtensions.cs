@@ -12,16 +12,6 @@ namespace RapidDoc.Extensions
         private const string RemoteEndpointMessage = "System.ServiceModel.Channels.RemoteEndpointMessageProperty";
         private const string OwinContext = "MS_OwinContext";
 
-        public static bool IsIpAllowed(this HttpRequestMessage request)
-        {
-            if (!request.GetRequestContext().IsLocal)
-            {
-                var ipAddress = request.GetClientIpAddress();
-                
-            }
-            return true;
-        }
-
         public static string GetClientIpAddress(this HttpRequestMessage request)
         {
             //Web-hosting

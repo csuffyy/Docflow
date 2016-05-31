@@ -104,6 +104,7 @@ namespace RapidDoc.App_Start
             kernel.Bind<ITripMRPService>().To<TripMRPService>();
             kernel.Bind<IDocumentSubcriptionService>().To<DocumentSubcriptionService>();
             kernel.Bind<IPortalParametersService>().To<PortalParametersService>();
+            kernel.Bind<IIpListService>().To<IpListService>();
         }        
     }
 }
