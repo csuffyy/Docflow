@@ -1,159 +1,240 @@
 ﻿@model RapidDoc.Models.ViewModels.USR_REQ_URP_RequestForPaymentFirstDay_View
 @using RapidDoc.Extensions;
 
+<div class="row">
+    <div class="col-md-3" style="background-color: #eee; border-left: 3px dashed #bdc3c7;">
+        <span class="label label-primary rowNum cellAligmentMiddle">1</span>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Name1)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => Model.Name1, new { @class = "form-control", @size = 256, @maxlength = 256, @style = "resize: none;" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Department1)
+        </div>
+        <div class="editor-field">
+            @Html.EnumDropDownListFor(model => Model.Department1, new { @class = "selectpickerfull" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Position1)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => Model.Position1, new { @class = "form-control", @size = 256, @maxlength = 256, @style = "resize: none;" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.StartDate1)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => Model.StartDate1, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", placeholder = "", startDate = "" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Destination1)
+        </div>
+        <div class="editor-field">
+            @Html.EnumDropDownListFor(model => Model.Destination1, new { @class = "selectpickerfull" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Term1)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => Model.Term1, new { @class = "form-control bfh-number", @data_max = "365" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Amount1)
+        </div>
+        <div class="editor-field">
+            @Html.HiddenFor(model => Model.Amount1)
+            <p><em id="amounttext1"></em></p>
+        </div>
+        <br />
+    </div>
+    <div class="col-md-3" style="background-color: #eee; border-left: 3px dashed #bdc3c7;">
+        <span class="label label-primary rowNum cellAligmentMiddle">2</span>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Name2)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => Model.Name2, new { @class = "form-control", @size = 256, @maxlength = 256, @style = "resize: none;" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Department2)
+        </div>
+        <div class="editor-field">
+            @Html.EnumDropDownListFor(model => Model.Department2, new { @class = "selectpickerfull" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Position2)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => Model.Position2, new { @class = "form-control", @size = 256, @maxlength = 256, @style = "resize: none;" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.StartDate2)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => Model.StartDate2, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", placeholder = "", startDate = "" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Destination2)
+        </div>
+        <div class="editor-field">
+            @Html.EnumDropDownListFor(model => Model.Destination2, new { @class = "selectpickerfull" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Term2)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => Model.Term2, new { @class = "form-control bfh-number", @data_max = "365" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Amount2)
+        </div>
+        <div class="editor-field">
+            @Html.HiddenFor(model => Model.Amount2)
+            <p><em id="amounttext2"></em></p>
+        </div>
+        <br />
+    </div>
+    <div class="col-md-3" style="background-color: #eee; border-left: 3px dashed #bdc3c7;">
+        <span class="label label-primary rowNum cellAligmentMiddle">3</span>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Name3)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => Model.Name3, new { @class = "form-control", @size = 256, @maxlength = 256, @style = "resize: none;" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Department3)
+        </div>
+        <div class="editor-field">
+            @Html.EnumDropDownListFor(model => Model.Department3, new { @class = "selectpickerfull" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Position3)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => Model.Position3, new { @class = "form-control", @size = 256, @maxlength = 256, @style = "resize: none;" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.StartDate3)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => Model.StartDate3, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", placeholder = "", startDate = "" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Destination3)
+        </div>
+        <div class="editor-field">
+            @Html.EnumDropDownListFor(model => Model.Destination3, new { @class = "selectpickerfull" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Term3)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => Model.Term3, new { @class = "form-control bfh-number", @data_max = "365" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Amount3)
+        </div>
+        <div class="editor-field">
+            @Html.HiddenFor(model => Model.Amount3)
+            <p><em id="amounttext3"></em></p>
+        </div>
+        <br />
+    </div>
+    <div class="col-md-3" style="background-color: #eee; border-left: 3px dashed #bdc3c7;">
+        <span class="label label-primary rowNum cellAligmentMiddle">4</span>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Name4)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => Model.Name4, new { @class = "form-control", @size = 256, @maxlength = 256, @style = "resize: none;" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Department4)
+        </div>
+        <div class="editor-field">
+            @Html.EnumDropDownListFor(model => Model.Department4, new { @class = "selectpickerfull" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Position4)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => Model.Position4, new { @class = "form-control", @size = 256, @maxlength = 256, @style = "resize: none;" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.StartDate4)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => Model.StartDate4, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", placeholder = "", startDate = "" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Destination4)
+        </div>
+        <div class="editor-field">
+            @Html.EnumDropDownListFor(model => Model.Destination4, new { @class = "selectpickerfull" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Term4)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => Model.Term4, new { @class = "form-control bfh-number", @data_max = "365" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Amount4)
+        </div>
+        <div class="editor-field">
+            @Html.HiddenFor(model => Model.Amount4)
+            <p><em id="amounttext4"></em></p>
+        </div>
+        <br />
+    </div>
+</div>
+
 <script type="text/javascript">
     $(function () {
         $('#Name1').blur(function () {
             if ($('#Name1').val())
-                $('#Amount1').val("2121");
+                tripUpdate("1");
             else
-                $('#Amount1').val("");
+                tripRemove("1");
         });
         $('#Name2').blur(function () {
             if ($('#Name2').val())
-                $('#Amount2').val("2121");
+                tripUpdate("2");
             else
-                $('#Amount2').val("");
+                tripRemove("2");
         });
         $('#Name3').blur(function () {
             if ($('#Name3').val())
-                $('#Amount3').val("2121");
+                tripUpdate("3");
             else
-                $('#Amount3').val("");
+                tripRemove("3");
         });
         $('#Name4').blur(function () {
             if ($('#Name4').val())
-                $('#Amount4').val("2121");
+                tripUpdate("4");
             else
-                $('#Amount4').val("");
+                tripRemove("4");
         });
     });
+
+    function tripUpdate(blockId) {
+        $.ajax({
+            type: 'POST',
+            url: '/@ViewContext.RouteData.Values["company"]/Custom/UpdateCalcTripMRP/',
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                $('#Amount' + blockId).val(response);
+                $('#amounttext' + blockId).text(response);
+            }
+        });
+    }
+
+    function tripRemove(blockId) {
+        $('#Amount' + blockId).val("");
+        $('#amounttext' + blockId).text("");
+    }
 </script>
-
-<div class="table-responsivelarge" style="font-size:small;">
-    <table class="table table-condensed table-bordered table-bordered-bold">
-        <thead>
-            <tr>
-                <th>№ п/п</th>
-                <th><label class="label-required">ФИО водителя</label><span class="required">*</span></th>
-                <th><label class="label-required">Подразделение</label><span class="required">*</span></th>
-                <th><label class="label-required">Должность</label><span class="required">*</span></th>
-                <th><label class="label-required">Дата командировки</label><span class="required">*</span></th>
-                <th><label class="label-required">Направление</label><span class="required">*</span></th>
-                <th><label class="label-required">Срок командировки</label><span class="required">*</span></th>
-                <th><label class="label-required">Сумма к начислению(тенге, 1 МРП)</label><span class="required">*</span></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>
-                    1
-                </td>
-                <td>
-                    @Html.TextAreaFor(model => Model.Name1, new { @class = "", @maxlength = 256 })
-                </td>
-                <td>
-                    @Html.EnumDropDownListFor(model => Model.Department1, new { @class = "" })
-                </td>
-                <td>
-                    @Html.TextAreaFor(model => Model.Position1, new { @class = "", @maxlength = 256 })
-                </td>
-                <td>
-                    @Html.TextBoxFor(model => Model.StartDate1, "{0:dd.MM.yyyy}", new { @class = "datepicker", placeholder = "", startDate = "" })
-                </td>
-                <td>
-                    @Html.EnumDropDownListFor(model => Model.Destination1, new { @class = "" })
-                </td>
-                
-                <td>
-                    @Html.TextBoxFor(model => Model.Term1, new { @class = "form-control bfh-number" })
-                </td>
-                <td>
-                    @Html.TextBoxFor(model => Model.Amount1, new { @class = "form-control", @size = 256, @maxlength = 256, @style = "resize: none;", @readonly = true })
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    2
-                </td>
-                <td>
-                    @Html.TextAreaFor(model => Model.Name2, new { @class = "", @maxlength = 256 })
-                </td>
-                <td>
-                    @Html.EnumDropDownListFor(model => Model.Department2, new { @class = "" })
-                </td>
-                <td>
-                    @Html.TextAreaFor(model => Model.Position2, new { @class = "", @maxlength = 256 })
-                </td>
-                <td>
-                    @Html.TextBoxFor(model => Model.StartDate2, "{0:dd.MM.yyyy}", new { @class = "datepicker", placeholder = "", startDate = "" })
-                </td>
-                <td>
-                    @Html.EnumDropDownListFor(model => Model.Destination2, new { @class = "" })
-                </td>
-
-                <td>
-                    @Html.TextBoxFor(model => Model.Term2, new { @class = "form-control bfh-number" })
-                </td>
-                <td>
-                    @Html.TextBoxFor(model => Model.Amount2, new { @class = "form-control", @size = 256, @maxlength = 256, @style = "resize: none;", @readonly = true })
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    3
-                </td>
-                <td>
-                    @Html.TextAreaFor(model => Model.Name3, new { @class = "", @maxlength = 256 })
-                </td>
-                <td>
-                    @Html.EnumDropDownListFor(model => Model.Department3, new { @class = "" })
-                </td>
-                <td>
-                    @Html.TextAreaFor(model => Model.Position3, new { @class = "", @maxlength = 256 })
-                </td>
-                <td>
-                    @Html.TextBoxFor(model => Model.StartDate3, "{0:dd.MM.yyyy}", new { @class = "datepicker", placeholder = "", startDate = "" })
-                </td>
-                <td>
-                    @Html.EnumDropDownListFor(model => Model.Destination3, new { @class = "" })
-                </td>
-
-                <td>
-                    @Html.TextBoxFor(model => Model.Term3, new { @class = "form-control bfh-number" })
-                </td>
-                <td>
-                    @Html.TextBoxFor(model => Model.Amount3, new { @class = "form-control", @size = 256, @maxlength = 256, @style = "resize: none;", @readonly = true })
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    4
-                </td>
-                <td>
-                    @Html.TextAreaFor(model => Model.Name4, new { @class = "", @maxlength = 256 })
-                </td>
-                <td>
-                    @Html.EnumDropDownListFor(model => Model.Department4, new { @class = "" })
-                </td>
-                <td>
-                    @Html.TextAreaFor(model => Model.Position4, new { @class = "", @maxlength = 256 })
-                </td>
-                <td>
-                    @Html.TextBoxFor(model => Model.StartDate4, "{0:dd.MM.yyyy}", new { @class = "datepicker", placeholder = "", startDate = "" })
-                </td>
-                <td>
-                    @Html.EnumDropDownListFor(model => Model.Destination4, new { @class = "" })
-                </td>
-
-                <td>
-                    @Html.TextBoxFor(model => Model.Term4, new { @class = "form-control bfh-number" })
-                </td>
-                <td>
-                    @Html.TextBoxFor(model => Model.Amount4, new { @class = "form-control", @size = 256, @maxlength = 256, @style = "resize: none;", @readonly = true })
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-

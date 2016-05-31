@@ -1,144 +1,229 @@
 ﻿@model RapidDoc.Models.ViewModels.USR_REQ_URP_RequestForPaymentFirstDay_View
 @using RapidDoc.Extensions;
 
-<div class="table-responsivelarge" style="font-size:small;">
-    <table class="table table-condensed table-bordered table-bordered-bold">
-        <thead>
-            <tr>
-                <th>№ п/п</th>
-                <th><label class="label-required">ФИО водителя</label><span class="required">*</span></th>
-                <th><label class="label-required">Подразделение</label><span class="required">*</span></th>
-                <th><label class="label-required">Должность</label><span class="required">*</span></th>
-                <th><label class="label-required">Дата командировки</label><span class="required">*</span></th>
-                <th><label class="label-required">Направление</label><span class="required">*</span></th>
-                <th><label class="label-required">Срок командировки</label><span class="required">*</span></th>
-                <th><label class="label-required">Сумма к начислению(тенге, 1 МРП)</label><span class="required">*</span></th>
-            </tr>
-        </thead>
-        <tbody>
-            @if(!String.IsNullOrEmpty(Model.Name1))
-            { 
-            <tr>
-                <td>
-                    1
-                </td>
-                <td>
-                    @Html.DisplayTextFor(model => Model.Name1)
-                </td>
-                <td>
-                    @Html.EnumToDescription(Model.Department1)
-                </td>
-                <td>
-                    @Html.DisplayTextFor(model => Model.Position1)
-                </td>
-                <td>
-                    @Html.DisplayFor(model => Model.StartDate1)
-                </td>
-                <td>
-                    @Html.EnumToDescription(Model.Destination1)
-                </td>
+@if (!String.IsNullOrEmpty(Model.Name1))
+{
+    <div class="row" style="background-color: #eee; border: 3px dashed #bdc3c7;">
+        <div class="col-xs-4">
+            <span class="label label-primary rowNum cellAligmentMiddle">1</span>
+            <div class="editor-label">
+                @Html.LabelFor(model => Model.Name1)
+            </div>
+            <div class="editor-field">
+                @Html.DisplayTextFor(model => Model.Name1)
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => Model.Department1)
+            </div>
+            <div class="editor-field">
+                @Html.EnumToDescription(Model.Department1)
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => Model.Position1)
+            </div>
+            <div class="editor-field">
+                @Html.DisplayTextFor(model => Model.Position1)
+            </div>
+        </div>
+        <div class="col-xs-4">
+            <div class="editor-label">
+                @Html.LabelFor(model => Model.StartDate1)
+            </div>
+            <div class="editor-field">
+                @Html.DisplayFor(model => Model.StartDate1)
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => Model.Destination1)
+            </div>
+            <div class="editor-field">
+                @Html.EnumToDescription(Model.Destination1)
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => Model.Term1)
+            </div>
+            <div class="editor-field">
+                @Html.DisplayTextFor(model => Model.Term1)
+            </div>
+        </div>
+        <div class="col-xs-4">
+            <div class="editor-label">
+                @Html.LabelFor(model => Model.Amount1)
+            </div>
+            <div class="editor-field">
+                @Html.DisplayTextFor(model => Model.Amount1)
+            </div>
+        </div>
+    </div>
+    <br />
+}
 
-                <td>
-                    @Html.DisplayTextFor(model => Model.Term1)
-                </td>
-                <td>
-                    @Html.DisplayTextFor(model => Model.Amount1)
-                </td>
-            </tr>
-            }
-            @if (!String.IsNullOrEmpty(Model.Name2))
-            { 
-            <tr>
-                <td>
-                    2
-                </td>
-                <td>
-                    @Html.DisplayTextFor(model => Model.Name2)
-                </td>
-                <td>
-                    @Html.EnumToDescription(Model.Department2)
-                </td>
-                <td>
-                    @Html.DisplayTextFor(model => Model.Position2)
-                </td>
-                <td>
-                    @Html.DisplayFor(model => Model.StartDate2)
-                </td>
-                <td>
-                    @Html.EnumToDescription(Model.Destination2)
-                </td>
+@if (!String.IsNullOrEmpty(Model.Name2))
+{
+    <div class="row" style="background-color: #eee; border: 3px dashed #bdc3c7;">
+        <div class="col-xs-4">
+            <span class="label label-primary rowNum cellAligmentMiddle">2</span>
+            <div class="editor-label">
+                @Html.LabelFor(model => Model.Name2)
+            </div>
+            <div class="editor-field">
+                @Html.DisplayTextFor(model => Model.Name2)
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => Model.Department2)
+            </div>
+            <div class="editor-field">
+                @Html.EnumToDescription(Model.Department2)
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => Model.Position2)
+            </div>
+            <div class="editor-field">
+                @Html.DisplayTextFor(model => Model.Position2)
+            </div>
+        </div>
+        <div class="col-xs-4">
+            <div class="editor-label">
+                @Html.LabelFor(model => Model.StartDate2)
+            </div>
+            <div class="editor-field">
+                @Html.DisplayFor(model => Model.StartDate2)
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => Model.Destination2)
+            </div>
+            <div class="editor-field">
+                @Html.EnumToDescription(Model.Destination2)
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => Model.Term2)
+            </div>
+            <div class="editor-field">
+                @Html.DisplayTextFor(model => Model.Term2)
+            </div>
+        </div>
+        <div class="col-xs-4">
+            <div class="editor-label">
+                @Html.LabelFor(model => Model.Amount2)
+            </div>
+            <div class="editor-field">
+                @Html.DisplayTextFor(model => Model.Amount2)
+            </div>
+        </div>
+    </div>
+    <br />
+}
 
-                <td>
-                    @Html.DisplayTextFor(model => Model.Term2)
-                </td>
-                <td>
-                    @Html.DisplayTextFor(model => Model.Amount2)
-                </td>
-            </tr>
-            }
-            @if (!String.IsNullOrEmpty(Model.Name3))
-            { 
-            <tr>
-                <td>
-                    3
-                </td>
-                <td>
-                    @Html.DisplayTextFor(model => Model.Name3)
-                </td>
-                <td>
-                    @Html.EnumToDescription(Model.Department3)
-                </td>
-                <td>
-                    @Html.DisplayTextFor(model => Model.Position3)
-                </td>
-                <td>
-                    @Html.DisplayFor(model => Model.StartDate3)
-                </td>
-                <td>
-                    @Html.EnumToDescription(Model.Destination3)
-                </td>
+@if (!String.IsNullOrEmpty(Model.Name3))
+{
+    <div class="row" style="background-color: #eee; border: 3px dashed #bdc3c7;">
+        <div class="col-xs-4">
+            <span class="label label-primary rowNum cellAligmentMiddle">3</span>
+            <div class="editor-label">
+                @Html.LabelFor(model => Model.Name3)
+            </div>
+            <div class="editor-field">
+                @Html.DisplayTextFor(model => Model.Name3)
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => Model.Department3)
+            </div>
+            <div class="editor-field">
+                @Html.EnumToDescription(Model.Department3)
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => Model.Position3)
+            </div>
+            <div class="editor-field">
+                @Html.DisplayTextFor(model => Model.Position3)
+            </div>
+        </div>
+        <div class="col-xs-4">
+            <div class="editor-label">
+                @Html.LabelFor(model => Model.StartDate3)
+            </div>
+            <div class="editor-field">
+                @Html.DisplayFor(model => Model.StartDate3)
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => Model.Destination3)
+            </div>
+            <div class="editor-field">
+                @Html.EnumToDescription(Model.Destination3)
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => Model.Term3)
+            </div>
+            <div class="editor-field">
+                @Html.DisplayTextFor(model => Model.Term3)
+            </div>
+        </div>
+        <div class="col-xs-4">
+            <div class="editor-label">
+                @Html.LabelFor(model => Model.Amount3)
+            </div>
+            <div class="editor-field">
+                @Html.DisplayTextFor(model => Model.Amount3)
+            </div>
+        </div>
+    </div>
+    <br />
+}
 
-                <td>
-                    @Html.DisplayTextFor(model => Model.Term3)
-                </td>
-                <td>
-                    @Html.DisplayTextFor(model => Model.Amount3)
-                </td>
-            </tr>
-            }
-            @if (!String.IsNullOrEmpty(Model.Name4))
-            {
-            <tr>
-                <td>
-                    4
-                </td>
-                <td>
-                    @Html.DisplayTextFor(model => Model.Name4)
-                </td>
-                <td>
-                    @Html.EnumToDescription(Model.Department4)
-                </td>
-                <td>
-                    @Html.DisplayTextFor(model => Model.Position4)
-                </td>
-                <td>
-                    @Html.DisplayFor(model => Model.StartDate4)
-                </td>
-                <td>
-                    @Html.EnumToDescription(Model.Destination4)
-                </td>
-
-                <td>
-                    @Html.DisplayTextFor(model => Model.Term4)
-                </td>
-                <td>
-                    @Html.DisplayTextFor(model => Model.Amount4)
-                </td>
-            </tr>
-            }
-        </tbody>
-    </table>
-</div>
+@if (!String.IsNullOrEmpty(Model.Name4))
+{
+    <div class="row" style="background-color: #eee; border: 3px dashed #bdc3c7;">
+        <div class="col-xs-4">
+            <span class="label label-primary rowNum cellAligmentMiddle">4</span>
+            <div class="editor-label">
+                @Html.LabelFor(model => Model.Name4)
+            </div>
+            <div class="editor-field">
+                @Html.DisplayTextFor(model => Model.Name4)
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => Model.Department4)
+            </div>
+            <div class="editor-field">
+                @Html.EnumToDescription(Model.Department4)
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => Model.Position4)
+            </div>
+            <div class="editor-field">
+                @Html.DisplayTextFor(model => Model.Position4)
+            </div>
+        </div>
+        <div class="col-xs-4">
+            <div class="editor-label">
+                @Html.LabelFor(model => Model.StartDate4)
+            </div>
+            <div class="editor-field">
+                @Html.DisplayFor(model => Model.StartDate4)
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => Model.Destination4)
+            </div>
+            <div class="editor-field">
+                @Html.EnumToDescription(Model.Destination4)
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => Model.Term4)
+            </div>
+            <div class="editor-field">
+                @Html.DisplayTextFor(model => Model.Term4)
+            </div>
+        </div>
+        <div class="col-xs-4">
+            <div class="editor-label">
+                @Html.LabelFor(model => Model.Amount4)
+            </div>
+            <div class="editor-field">
+                @Html.DisplayTextFor(model => Model.Amount4)
+            </div>
+        </div>
+    </div>
+    <br />
+}
 
 @Html.HiddenFor(model => Model.Name1)
 @Html.HiddenFor(model => Model.Department1)

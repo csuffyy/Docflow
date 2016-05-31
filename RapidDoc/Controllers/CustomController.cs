@@ -3217,6 +3217,21 @@ namespace RapidDoc.Controllers
         }
 
         [HttpPost]
+        public ActionResult UpdateCalcTripMRP()
+        {
+            DateTime dateNow = DateTime.UtcNow.Date;
+            TripMRPTable mrp = _ITripMRPService.FirstOrDefault(x => x.FromDate <= dateNow && x.ToDate >= dateNow);
+            
+            if (mrp != null)
+            {
+                double dayRate = Double.Parse(mrp.Amount, CultureInfo.InvariantCulture);
+                return Content(dayRate.ToString());
+            }
+
+            return Content(String.Empty);
+        }
+
+        [HttpPost]
         public ActionResult CheckIncomeDocument(Guid OrganizationId, string OutgoingNumber, DateTime OutgoingDate)
         {
             var model = _DocumentService.CheckIncomeDublicateDocument(OrganizationId, OutgoingNumber, OutgoingDate);

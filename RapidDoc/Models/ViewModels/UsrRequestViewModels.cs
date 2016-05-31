@@ -6847,46 +6847,74 @@ namespace RapidDoc.Models.ViewModels
 
     public class USR_REQ_URP_RequestForPaymentFirstDay_View : BasicDocumentView
     {
+        [Display(Name = "ФИО водителя")]
         public string Name1 { get; set; }
+        [Display(Name = "ФИО водителя")]
         public string Name2 { get; set; }
+        [Display(Name = "ФИО водителя")]
         public string Name3 { get; set; }
+        [Display(Name = "ФИО водителя")]
         public string Name4 { get; set; }
 
+        [Display(Name = "Подразделение")]
         public HRDepartmentFirstDay Department1 { get; set; }
+        [Display(Name = "Подразделение")]
         public HRDepartmentFirstDay Department2 { get; set; }
+        [Display(Name = "Подразделение")]
         public HRDepartmentFirstDay Department3 { get; set; }
+        [Display(Name = "Подразделение")]
         public HRDepartmentFirstDay Department4 { get; set; }
 
+        [Display(Name = "Должность")]
         public string Position1 { get; set; }
+        [Display(Name = "Должность")]
         public string Position2 { get; set; }
+        [Display(Name = "Должность")]
         public string Position3 { get; set; }
+        [Display(Name = "Должность")]
         public string Position4 { get; set; }
 
         [DataType(DataType.Date)]
+        [Display(Name = "Дата командировки")]
         public DateTime? StartDate1 { get; set; }
 
         [DataType(DataType.Date)]
+        [Display(Name = "Дата командировки")]
         public DateTime? StartDate2 { get; set; }
 
         [DataType(DataType.Date)]
+        [Display(Name = "Дата командировки")]
         public DateTime? StartDate3 { get; set; }
 
         [DataType(DataType.Date)]
+        [Display(Name = "Дата командировки")]
         public DateTime? StartDate4 { get; set; }
 
+        [Display(Name = "Направление")]
         public HRDestinationFirstDay Destination1 { get; set; }
+        [Display(Name = "Направление")]
         public HRDestinationFirstDay Destination2 { get; set; }
+        [Display(Name = "Направление")]
         public HRDestinationFirstDay Destination3 { get; set; }
+        [Display(Name = "Направление")]
         public HRDestinationFirstDay Destination4 { get; set; }
 
+        [Display(Name = "Срок командировки")]
         public int Term1 { get; set; }
+        [Display(Name = "Срок командировки")]
         public int Term2 { get; set; }
+        [Display(Name = "Срок командировки")]
         public int Term3 { get; set; }
+        [Display(Name = "Срок командировки")]
         public int Term4 { get; set; }
 
+        [Display(Name = "Сумма к начислению(тенге, 1 МРП)")]
         public string Amount1 { get; set; }
+        [Display(Name = "Сумма к начислению(тенге, 1 МРП)")]
         public string Amount2 { get; set; }
+        [Display(Name = "Сумма к начислению(тенге, 1 МРП)")]
         public string Amount3 { get; set; }
+        [Display(Name = "Сумма к начислению(тенге, 1 МРП)")]
         public string Amount4 { get; set; }
     }
     #endregion
