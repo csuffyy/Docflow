@@ -163,6 +163,9 @@ namespace RapidDoc.Models.DomainModels
 
     public class CommentTable : BasicCompanyNullTable
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int LineNum { get; set; }
+
         public Guid DocumentTableId { get; set; }
         public virtual DocumentTable DocumentTable { get; set; }
 

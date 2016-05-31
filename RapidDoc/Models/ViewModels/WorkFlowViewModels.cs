@@ -255,6 +255,8 @@ namespace RapidDoc.Models.ViewModels
 
     public class CommentView : BasicCompanyNullView
     {
+        public int LineNum { get; set; }
+
         [Display(Name = "FirstName", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public string EmplName { get; set; }
 

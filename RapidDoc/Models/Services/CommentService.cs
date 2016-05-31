@@ -111,13 +111,13 @@ namespace RapidDoc.Models.Services
 
             if (comment.CommentTableParentId == null)
             {
-                comment.Lineage = comment.Id.ToString();
+                comment.Lineage = comment.LineNum.ToString();
                 comment.Deep = 0;
             }
             else
             {
                 CommentTable commentParent = this.Find(comment.CommentTableParentId ?? Guid.Empty);
-                comment.Lineage = commentParent.Lineage + "-" + comment.Id.ToString();
+                comment.Lineage = commentParent.Lineage + "-" + comment.LineNum.ToString();
                 comment.Deep = commentParent.Deep + 1;
             }
             this.SaveDomain(comment);
