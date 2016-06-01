@@ -349,8 +349,9 @@ namespace RapidDoc.Models.Services
         public void AgreementWorkflowReject(Guid documentId, string TableName, Guid WWFInstanceId, Guid processId, IDictionary<string, object> documentData)
         {
             string currentUserId = HttpContext.Current.User.Identity.GetUserId();
-            IEnumerable<WFTrackerTable> bookmarks = _DocumentService.GetCurrentSignStep(documentId, currentUserId).ToList();
+            IEnumerable<WFTrackerTable> bookmarks = _DocumentService.GetCurrentSignStep(documentId, currentUserId).ToList();           
             _DocumentService.SaveSignData(bookmarks, TrackerType.Cancelled, String.IsNullOrEmpty("") ? true : false);
+           
             if (bookmarks != null)
             {
                 foreach (var bookmark in bookmarks)
@@ -367,6 +368,13 @@ namespace RapidDoc.Models.Services
                     _HistoryUserService.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = Models.Repository.HistoryType.CancelledDocument }, HttpContext.Current.User.Identity.GetUserId());
                     _EmailService.SendInitiatorRejectEmail(documentId);
                 }
+            }
+
+            if (bookmarks.FirstOrDefault().ParallelID != null)
+            {
+                string parallelID = bookmarks.FirstOrDefault().ParallelID;
+                IEnumerable<WFTrackerTable> clearStep = _WorkflowTrackerService.GetPartial(x => x.ParallelID == parallelID && x.TrackerType == TrackerType.Waiting && x.DocumentTableId == documentId).ToList();
+                _DocumentService.SaveSignData(clearStep, TrackerType.NonActive, false);
             }
         }
 
