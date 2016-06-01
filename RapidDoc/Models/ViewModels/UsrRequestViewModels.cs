@@ -10840,6 +10840,15 @@ namespace RapidDoc.Models.ViewModels
 
     #endregion
 
+    #region Протоколы Kazzinc
+
+    public class USC_PRT_ProtocolDocuments_View : BasicProtocolDocumentsView
+    {
+
+    }
+
+    #endregion
+
     public class KZCInfoData_View
     {
         public string Login { get; set; }
