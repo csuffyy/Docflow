@@ -9225,7 +9225,7 @@ namespace RapidDoc.Models.ViewModels
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         public string TechType { get; set; }
 
-        [Display(Name = "Количество проушин, отверстии требующих восстановления")]
+        [Display(Name = "Количество проушин, отверстий требующих восстановления")]
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         public string Amount { get; set; }
 
