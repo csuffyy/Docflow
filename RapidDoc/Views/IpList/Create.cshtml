@@ -1,9 +1,9 @@
 ﻿@model RapidDoc.Models.ViewModels.IpListView
 @using RapidDoc.Extensions;
 @{
-    ViewBag.Title = "Новый Ip адрес";
+    ViewBag.Title = "Новый ip адрес";
 }
-<h2>Город</h2>
+<h2>@ViewBag.Title</h2>
 @using (Html.BeginForm())
 {
     @Html.ValidationSummary(true)

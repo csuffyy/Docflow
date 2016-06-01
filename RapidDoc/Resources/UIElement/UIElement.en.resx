@@ -699,4 +699,10 @@
   <data name="Reply" xml:space="preserve">
     <value>Reply</value>
   </data>
+  <data name="TooltipAboutNotifyTask" xml:space="preserve">
+    <value>Receipt document commissioned by the executor</value>
+  </data>
+  <data name="TooltipCreateSubTask" xml:space="preserve">
+    <value>Individual orders performers, which can be independently shut down</value>
+  </data>
 </root>

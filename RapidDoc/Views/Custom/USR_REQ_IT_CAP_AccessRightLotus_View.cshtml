@@ -3,89 +3,134 @@
 
 <h4 class="text-info">Список доступных баз:</h4>
 <table cellpadding="10" cellspacing="10">
+    @if (Model.Request == true)
+    {
     <tr class="editor-field">
         <td style="text-align:left;">@Html.LabelFor(model => Model.Request)</td>
         <td style="text-align: center; width: 5%;">@Html.CheckBoxFor(model => Model.Request, new { @disabled = true })</td>
-        <td style="text-align:left; width: 95%;">@Html.EnumDropDownListFor(model => Model.AccessRight14, new { @disabled = true })</td>
+        <td style="text-align:left; width: 95%;">@Html.EnumToDescription(Model.AccessRight14)</td>
     </tr>
+    }
+    @if (Model.TreatmentPeople == true)
+    {
     <tr class="editor-field">
         <td style="text-align:left;">@Html.LabelFor(model => Model.TreatmentPeople)</td>
         <td style="text-align: center; width: 5%;">@Html.CheckBoxFor(model => Model.TreatmentPeople, new { @disabled = true })</td>
-        <td style="text-align:left; width: 95%;">@Html.EnumDropDownListFor(model => Model.AccessRight15, new { @disabled = true })</td>
+        <td style="text-align:left; width: 95%;">@Html.EnumToDescription(Model.AccessRight15)</td>
     </tr>
+    }
+    @if (Model.MaterialMeetingsTehkomitet == true)
+    {
     <tr class="editor-field">
         <td style="text-align:left;">@Html.LabelFor(model => Model.MaterialMeetingsTehkomitet)</td>
         <td style="text-align: center; width: 5%;">@Html.CheckBoxFor(model => Model.MaterialMeetingsTehkomitet, new { @disabled = true })</td>
-        <td style="text-align:left; width: 95%;">@Html.EnumDropDownListFor(model => Model.AccessRight16, new { @disabled = true })</td>
+        <td style="text-align:left; width: 95%;">@Html.EnumToDescription(Model.AccessRight16)</td>
     </tr>
+    }
+    @if (Model.Agreement == true)
+    {
     <tr class="editor-field">
         <td style="text-align:left;">@Html.LabelFor(model => Model.Agreement)</td>
         <td style="text-align: center; width: 5%;">@Html.CheckBoxFor(model => Model.Agreement, new { @disabled = true })</td>
-        <td style="text-align:left; width: 95%;">@Html.EnumDropDownListFor(model => Model.AccessRight01, new { @disabled = true })</td>
+        <td style="text-align:left; width: 95%;">@Html.EnumToDescription(Model.AccessRight01)</td>
     </tr>
+    }
+    @if (Model.Orders == true)
+    {
     <tr class="editor-field">
         <td style="text-align:left;">@Html.LabelFor(model => Model.Orders)</td>
         <td style="text-align: center; width: 5%;">@Html.CheckBoxFor(model => Model.Orders, new { @disabled = true })</td>
-        <td style="text-align:left; width: 95%;">@Html.EnumDropDownListFor(model => Model.AccessRight02, new { @disabled = true })</td>
+        <td style="text-align:left; width: 95%;">@Html.EnumToDescription(Model.AccessRight02)</td>
     </tr>
+    }
+    @if (Model.Control == true)
+    {
     <tr class="editor-field">
         <td style="text-align:left;">@Html.LabelFor(model => Model.Control)</td>
         <td style="text-align: center; width: 5%;">@Html.CheckBoxFor(model => Model.Control, new { @disabled = true })</td>
-        <td style="text-align:left; width: 95%;">@Html.EnumDropDownListFor(model => Model.AccessRight03, new { @disabled = true })</td>
+        <td style="text-align:left; width: 95%;">@Html.EnumToDescription(Model.AccessRight03)</td>
     </tr>
+    }
+    @if (Model.Trips == true)
+    {
     <tr class="editor-field">
         <td style="text-align:left;">@Html.LabelFor(model => Model.Trips)</td>
         <td style="text-align: center; width: 5%;">@Html.CheckBoxFor(model => Model.Trips, new { @disabled = true })</td>
-        <td style="text-align:left; width: 95%;">@Html.EnumDropDownListFor(model => Model.AccessRight04, new { @disabled = true })</td>
+        <td style="text-align:left; width: 95%;">@Html.EnumToDescription(Model.AccessRight04)</td>
     </tr>
-
+    }
+    @if (Model.Correspondence == true)
+    {
     <tr class="editor-field">
         <td style="text-align:left;">@Html.LabelFor(model => Model.Correspondence)</td>
         <td style="text-align: center; width: 5%;">@Html.CheckBoxFor(model => Model.Correspondence, new { @disabled = true })</td>
-        <td style="text-align:left; width: 95%;">@Html.EnumDropDownListFor(model => Model.AccessRight05, new { @disabled = true })</td>
+        <td style="text-align:left; width: 95%;">@Html.EnumToDescription(Model.AccessRight05)</td>
     </tr>
+    }
+    @if (Model.MaterialsMeeting == true)
+    {
     <tr class="editor-field">
         <td style="text-align:left;">@Html.LabelFor(model => Model.MaterialsMeeting)</td>
         <td style="text-align: center; width: 5%;">@Html.CheckBoxFor(model => Model.MaterialsMeeting, new { @disabled = true })</td>
-        <td style="text-align:left; width: 95%;">@Html.EnumDropDownListFor(model => Model.AccessRight06, new { @disabled = true })</td>
+        <td style="text-align:left; width: 95%;">@Html.EnumToDescription(Model.AccessRight06)</td>
     </tr>
+    }
+    @if (Model.MaterialsMeetingDirectorate == true)
+    {
     <tr class="editor-field">
         <td style="text-align:left;">@Html.LabelFor(model => Model.MaterialsMeetingDirectorate)</td>
         <td style="text-align: center; width: 5%;">@Html.CheckBoxFor(model => Model.MaterialsMeetingDirectorate, new { @disabled = true })</td>
-        <td style="text-align:left; width: 95%;">@Html.EnumDropDownListFor(model => Model.AccessRight07, new { @disabled = true })</td>
+        <td style="text-align:left; width: 95%;">@Html.EnumToDescription(Model.AccessRight07)</td>
     </tr>
-
+    }
+    @if (Model.ProtocolSolutions == true)
+    {
     <tr class="editor-field">
         <td style="text-align:left;">@Html.LabelFor(model => Model.ProtocolSolutions)</td>
         <td style="text-align: center; width: 5%;">@Html.CheckBoxFor(model => Model.ProtocolSolutions, new { @disabled = true })</td>
-        <td style="text-align:left; width: 95%;">@Html.EnumDropDownListFor(model => Model.AccessRight08, new { @disabled = true })</td>
+        <td style="text-align:left; width: 95%;">@Html.EnumToDescription(Model.AccessRight08)</td>
     </tr>
+    }
+    @if (Model.ProtocolSolutionsDirectorate == true)
+    {
     <tr class="editor-field">
         <td style="text-align:left;">@Html.LabelFor(model => Model.ProtocolSolutionsDirectorate)</td>
         <td style="text-align: center; width: 5%;">@Html.CheckBoxFor(model => Model.ProtocolSolutionsDirectorate, new { @disabled = true })</td>
-        <td style="text-align:left; width: 95%;">@Html.EnumDropDownListFor(model => Model.AccessRight09, new { @disabled = true })</td>
+        <td style="text-align:left; width: 95%;">@Html.EnumToDescription(Model.AccessRight09)</td>
     </tr>
+    }
+    @if (Model.ProtocolManagementSolution == true)
+    {
     <tr class="editor-field">
         <td style="text-align:left;">@Html.LabelFor(model => Model.ProtocolManagementSolution)</td>
         <td style="text-align: center; width: 5%;">@Html.CheckBoxFor(model => Model.ProtocolManagementSolution, new { @disabled = true })</td>
-        <td style="text-align:left; width: 95%;">@Html.EnumDropDownListFor(model => Model.AccessRight10, new { @disabled = true })</td>
+        <td style="text-align:left; width: 95%;">@Html.EnumToDescription(Model.AccessRight10)</td>
     </tr>
-
+    }
+    @if (Model.ProtocolSolutionsCommission == true)
+    {
     <tr class="editor-field">
         <td style="text-align:left;">@Html.LabelFor(model => Model.ProtocolSolutionsCommission)</td>
         <td style="text-align: center; width: 5%;">@Html.CheckBoxFor(model => Model.ProtocolSolutionsCommission, new { @disabled = true })</td>
-        <td style="text-align:left; width: 95%;">@Html.EnumDropDownListFor(model => Model.AccessRight11, new { @disabled = true })</td>
+        <td style="text-align:left; width: 95%;">@Html.EnumToDescription(Model.AccessRight11)</td>
     </tr>
+    }
+    @if (Model.AgreementsSVD == true)
+    {
     <tr class="editor-field">
         <td style="text-align:left;">@Html.LabelFor(model => Model.AgreementsSVD)</td>
         <td style="text-align: center; width: 5%;">@Html.CheckBoxFor(model => Model.AgreementsSVD, new { @disabled = true })</td>
-        <td style="text-align:left; width: 95%;">@Html.EnumDropDownListFor(model => Model.AccessRight12, new { @disabled = true })</td>
+        <td style="text-align:left; width: 95%;">@Html.EnumToDescription(Model.AccessRight12)</td>
     </tr>
+    }
+    @if (Model.RegisterContractsSVD == true)
+    {
     <tr class="editor-field">
         <td style="text-align:left;">@Html.LabelFor(model => Model.RegisterContractsSVD)</td>
         <td style="text-align: center; width: 5%;">@Html.CheckBoxFor(model => Model.RegisterContractsSVD, new { @disabled = true })</td>
-        <td style="text-align:left; width: 95%;">@Html.EnumDropDownListFor(model => Model.AccessRight13, new { @disabled = true })</td>
+        <td style="text-align:left; width: 95%;">@Html.EnumToDescription(Model.AccessRight13)</td>
     </tr>
+    }
 </table>
 <hr />
 <div class="editor-label">

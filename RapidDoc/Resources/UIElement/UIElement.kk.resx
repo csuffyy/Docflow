@@ -699,4 +699,10 @@
   <data name="Reply" xml:space="preserve">
     <value>Жауап қайтару</value>
   </data>
+  <data name="TooltipAboutNotifyTask" xml:space="preserve">
+    <value>-</value>
+  </data>
+  <data name="TooltipCreateSubTask" xml:space="preserve">
+    <value>-</value>
+  </data>
 </root>

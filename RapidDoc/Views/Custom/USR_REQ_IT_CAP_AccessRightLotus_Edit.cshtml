@@ -1,9 +1,22 @@
 ﻿@model RapidDoc.Models.ViewModels.USR_REQ_IT_CAP_AccessRightLotus_View
 @using RapidDoc.Extensions;
 
+@Html.HiddenFor(model => model.MaterialMeetingsTehkomitet)
+@Html.HiddenFor(model => model.AccessRight16)
+@Html.HiddenFor(model => model.Agreement)
+@Html.HiddenFor(model => model.AccessRight01)
+@Html.HiddenFor(model => model.MaterialsMeeting)
+@Html.HiddenFor(model => model.AccessRight06)
+@Html.HiddenFor(model => model.MaterialsMeetingDirectorate)
+@Html.HiddenFor(model => model.AccessRight07)
+@Html.HiddenFor(model => model.AgreementsSVD)
+@Html.HiddenFor(model => model.AccessRight12)
+@Html.HiddenFor(model => model.RegisterContractsSVD)
+@Html.HiddenFor(model => model.AccessRight13)
+
 <h4 class="text-info">Список  доступных баз:</h4>
 <h5 class="text-danger">отметьте нужные Вам базы галочками</h5>
-<table cellpadding="10" cellspacing="10">
+<table class="table table-condensed" cellpadding="10" cellspacing="10">
     <tr class="editor-field">
         <td style="text-align:left;">@Html.LabelFor(model => Model.Request)</td>
         <td style="text-align: center; width: 5%;">@Html.EditorFor(model => model.Request)</td>
@@ -13,16 +26,6 @@
         <td style="text-align:left;">@Html.LabelFor(model => Model.TreatmentPeople)</td>
         <td style="text-align: center; width: 5%;">@Html.EditorFor(model => model.TreatmentPeople)</td>
         <td style="text-align:left; width: 95%;">@Html.EnumDropDownListFor(model => model.AccessRight15, new { @class = "selectpicker" })</td>
-    </tr>
-    <tr class="editor-field">
-        <td style="text-align:left;">@Html.LabelFor(model => Model.MaterialMeetingsTehkomitet)</td>
-        <td style="text-align: center; width: 5%;">@Html.EditorFor(model => model.MaterialMeetingsTehkomitet)</td>
-        <td style="text-align:left; width: 95%;">@Html.EnumDropDownListFor(model => model.AccessRight16, new { @class = "selectpicker" })</td>
-    </tr>
-    <tr class="editor-field">
-        <td style="text-align:left;">@Html.LabelFor(model => Model.Agreement)</td>
-        <td style="text-align: center; width: 5%;">@Html.EditorFor(model => model.Agreement)</td>
-        <td style="text-align:left; width: 95%;">@Html.EnumDropDownListFor(model => model.AccessRight01, new { @class = "selectpicker" })</td>
     </tr>
     <tr class="editor-field">
         <td style="text-align:left;">@Html.LabelFor(model => Model.Orders)</td>
@@ -46,17 +49,6 @@
         <td style="text-align:left; width: 95%;">@Html.EnumDropDownListFor(model => model.AccessRight05, new { @class = "selectpicker" })</td>
     </tr>
     <tr class="editor-field">
-        <td style="text-align:left;">@Html.LabelFor(model => Model.MaterialsMeeting)</td>
-        <td style="text-align: center; width: 5%;">@Html.EditorFor(model => model.MaterialsMeeting)</td>
-        <td style="text-align:left; width: 95%;">@Html.EnumDropDownListFor(model => model.AccessRight06, new { @class = "selectpicker" })</td>
-    </tr>
-
-    <tr class="editor-field">
-        <td style="text-align:left;">@Html.LabelFor(model => Model.MaterialsMeetingDirectorate)</td>
-        <td style="text-align: center; width: 5%;">@Html.EditorFor(model => model.MaterialsMeetingDirectorate)</td>
-        <td style="text-align:left; width: 95%;">@Html.EnumDropDownListFor(model => model.AccessRight07, new { @class = "selectpicker" })</td>
-    </tr>
-    <tr class="editor-field">
         <td style="text-align:left;">@Html.LabelFor(model => Model.ProtocolSolutions)</td>
         <td style="text-align: center; width: 5%;">@Html.EditorFor(model => model.ProtocolSolutions)</td>
         <td style="text-align:left; width: 95%;">@Html.EnumDropDownListFor(model => model.AccessRight08, new { @class = "selectpicker" })</td>
@@ -77,17 +69,6 @@
         <td style="text-align: center; width: 5%;">@Html.EditorFor(model => model.ProtocolSolutionsCommission)</td>
         <td style="text-align:left; width: 95%;">@Html.EnumDropDownListFor(model => model.AccessRight11, new { @class = "selectpicker" })</td>
     </tr>
-    <tr class="editor-field">
-        <td style="text-align:left;">@Html.LabelFor(model => Model.AgreementsSVD)</td>
-        <td style="text-align: center; width: 5%;">@Html.EditorFor(model => model.AgreementsSVD)</td>
-        <td style="text-align:left; width: 95%;">@Html.EnumDropDownListFor(model => model.AccessRight12, new { @class = "selectpicker" })</td>
-    </tr>
-    <tr class="editor-field">
-        <td style="text-align:left;">@Html.LabelFor(model => Model.RegisterContractsSVD)</td>
-        <td style="text-align: center; width: 5%;">@Html.EditorFor(model => model.RegisterContractsSVD)</td>
-        <td style="text-align:left; width: 95%;">@Html.EnumDropDownListFor(model => model.AccessRight13, new { @class = "selectpicker" })</td>
-    </tr>
-
 </table>
 
 <hr />

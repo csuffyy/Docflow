@@ -705,4 +705,10 @@
   <data name="Reply" xml:space="preserve">
     <value>Ответить</value>
   </data>
+  <data name="TooltipAboutNotifyTask" xml:space="preserve">
+    <value>Уведомление о прочтении документа исполнителем поручения</value>
+  </data>
+  <data name="TooltipCreateSubTask" xml:space="preserve">
+    <value>Отдельные поручения исполнителям, которые можно закрыть независимо</value>
+  </data>
 </root>
