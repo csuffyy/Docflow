@@ -5144,5 +5144,14 @@ namespace RapidDoc.Models.DomainModels
     }
 
     #endregion
+
+    #region Протоколы Kazzinc
+
+    public class USC_PRT_ProtocolDocuments_Table : BasicProtocolDocumentsTable
+    {
+
+    }
+
+    #endregion
 }
     
