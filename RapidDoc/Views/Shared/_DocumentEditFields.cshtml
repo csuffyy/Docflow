@@ -22,13 +22,13 @@
         if ((string)property.Name == "Users" || (string)property.Name == "FromUsers" || (string)property.Name == "UserChooseManual2" || (string)property.Name == "UserChooseManual3" || (string)property.Name == "UserChooseManual4" || (string)property.Name == "UserChooseManual5" || (string)property.Name == "UserChooseManual6" || (string)property.Name == "UserChooseManual7" || (string)property.Name == "UserChooseManual8" || (string)property.Name == "UserChooseManual9")
         {
             <div class="editor-field">
-                @Html.TextBox((string)property.Name, null, new { @class = "form-control", @data_role = "tagsinputEmpl", placeholder = "Имя Фамилия" })
+                @Html.TextBox((string)property.Name, null, new { @class = "form-control", @data_role = "tagsinputEmpl", placeholder = "ФИО" })
             </div>
         }
         else if ((string)property.Name == "ToUsers")
         {
             <div class="editor-field">
-                @Html.TextBox((string)property.Name, null, new { @class = "form-control", @data_role = "tagsinputEmpl2", placeholder = "Имя Фамилия" })
+                @Html.TextBox((string)property.Name, null, new { @class = "form-control", @data_role = "tagsinputEmpl2", placeholder = "ФИО" })
             </div>
         }
         else if ((string)property.Name == "UserChooseManual1")
