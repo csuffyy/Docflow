@@ -1345,6 +1345,7 @@ namespace RapidDoc.Models.ViewModels
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         public string FileName { get; set; }
 
+        [DataType(DataType.Date)]
         [Display(Name = "Дата последнего сохранения")]
         public DateTime? LastDate { get; set; }
 
