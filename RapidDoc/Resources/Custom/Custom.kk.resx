@@ -121,7 +121,7 @@
     <value>Қалалар</value>
   </data>
   <data name="IpList" xml:space="preserve">
-    <value>-</value>
+    <value>ip тізімі</value>
   </data>
   <data name="ItemCause" xml:space="preserve">
     <value>Іс номенклатурасы</value>

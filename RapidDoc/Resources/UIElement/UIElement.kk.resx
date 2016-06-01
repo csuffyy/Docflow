@@ -700,9 +700,9 @@
     <value>Жауап қайтару</value>
   </data>
   <data name="TooltipAboutNotifyTask" xml:space="preserve">
-    <value>-</value>
+    <value>Тапсырма орындаушының құжатты оқығаны туралы хабарландыру</value>
   </data>
   <data name="TooltipCreateSubTask" xml:space="preserve">
-    <value>-</value>
+    <value>Тәуелсіз жабуға болатын, орындаушыларға жеке тапсырмалар</value>
   </data>
 </root>

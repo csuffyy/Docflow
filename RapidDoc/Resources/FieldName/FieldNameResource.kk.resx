@@ -382,9 +382,9 @@
     <value>Рөл (Құжаттар базасын қарау)</value>
   </data>
   <data name="CreateTasks" xml:space="preserve">
-    <value>-</value>
+    <value>Орындаушыға жеке тапсырма</value>
   </data>
   <data name="AdditionalText" xml:space="preserve">
-    <value>-</value>
+    <value>Ілеспе мәтін</value>
   </data>
 </root>
