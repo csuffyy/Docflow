@@ -714,23 +714,23 @@ namespace RapidDoc.Controllers
                                     um.AddToRole(user.Id, group);
                                 break;
                             case "_ATK_AllUsersWithoutTopManager":
-                                if (empl.ProfileName != "ИД" && empl.ProfileName != "ГД" && !um.IsInRole(user.Id, group))
+                                if (((String.IsNullOrEmpty(empl.ProfileName) && String.IsNullOrEmpty(empl.TitleTable.ProfileName)) ||(empl.ProfileName != "ИД" && empl.ProfileName != "ГД" && empl.TitleTable.ProfileName != "ГД" && empl.TitleTable.ProfileName != "ГД")) && (!um.IsInRole(user.Id, group)))
                                     um.AddToRole(user.Id, group);
                                 break;
                             case "_ATK_Manager":
-                                if (empl.ProfileName == "НУ" && !um.IsInRole(user.Id, group))
+                                if (((empl.ProfileName == "НУ") || (String.IsNullOrEmpty(empl.ProfileName) && empl.TitleTable.ProfileName == "НУ")) && !um.IsInRole(user.Id, group))
                                     um.AddToRole(user.Id, group);
                                 break;
                             case "_ATK_MiddleManagerAndManager":
-                                if ((empl.ProfileName == "НУ" || empl.ProfileName == "НС") && !um.IsInRole(user.Id, group))
+                                if ((((empl.ProfileName == "НУ") || (String.IsNullOrEmpty(empl.ProfileName) && empl.TitleTable.ProfileName == "НУ")) || ((empl.ProfileName == "НС") || (String.IsNullOrEmpty(empl.ProfileName)  && empl.TitleTable.ProfileName == "НС"))) && !um.IsInRole(user.Id, group))
                                     um.AddToRole(user.Id, group);
                                 break;
                             case "_ATK_RouteTopManager":
-                                if (empl.ProfileName == "ИД" && !um.IsInRole(user.Id, group))
+                                if (((empl.ProfileName == "ИД") || (String.IsNullOrEmpty(empl.ProfileName) && empl.TitleTable.ProfileName == "ИД")) && !um.IsInRole(user.Id, group))
                                     um.AddToRole(user.Id, group);
                                 break;
                             case "_TopManager":
-                                if ((empl.ProfileName == "ИД" || empl.ProfileName == "ГД") && !um.IsInRole(user.Id, group))
+                                if ((((empl.ProfileName == "ИД") || (String.IsNullOrEmpty(empl.ProfileName)  && empl.TitleTable.ProfileName == "ИД")) || ((empl.ProfileName == "ГД") || (String.IsNullOrEmpty(empl.ProfileName) && empl.TitleTable.ProfileName == "ГД"))) && !um.IsInRole(user.Id, group))
                                     um.AddToRole(user.Id, group);
                                 break;
                         }
