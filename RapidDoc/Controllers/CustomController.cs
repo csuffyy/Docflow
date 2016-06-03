@@ -111,9 +111,16 @@ namespace RapidDoc.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public JsonResult JsonEmplBothOption()
+        public JsonResult JsonEmplManual()
         {
-            var jsondata = _EmplService.GetJsonEmplBothOption();
+            var jsondata = _EmplService.GetJsonEmplManual();
+            return Json(jsondata, JsonRequestBehavior.AllowGet);
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public JsonResult JsonEmplManualIntercompany()
+        {
+            var jsondata = _EmplService.GetJsonEmplManualIntercompany();
             return Json(jsondata, JsonRequestBehavior.AllowGet);
         }
 
@@ -3244,19 +3251,17 @@ namespace RapidDoc.Controllers
             return PartialView("USR_ORD_Workers");
         }
 
-        public ViewResult CreateNewQuestionProtocol()
+        public ViewResult CreateNewQuestionProtocol(string viewName)
         {
-            //var model = new PRT_QuestionList_Table() { DecisionList = new List<PRT_DecisionList_Table>() };
-            //model.DecisionList.Add(new PRT_DecisionList_Table());
             var model = new PRT_QuestionList_Table();
             ViewData["counter"] = Guid.NewGuid().ToString("N");
-            return View("_QuestionList", model);
+            return View(viewName, model);
         }
 
-        public ViewResult CreateNewDecisionProtocol(string counter)
+        public ViewResult CreateNewDecisionProtocol(string counter, string viewName)
         {
             ViewData["counter"] = counter;
-            return View("_DecisionList", new PRT_DecisionList_Table());
+            return View(viewName, new PRT_DecisionList_Table());
         }
 
         public ActionResult ProtocolDecisionText(PRT_DecisionList_Table model)

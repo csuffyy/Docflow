@@ -98,7 +98,7 @@
                     <span class="input-group-addon">
                         <a href="#" class="hidden-print" data-toggle="modal" data-target=".documentwhom-modal"><span class="fa fa-users fa-lg" aria-hidden="false"></span></a>
                     </span>
-                    @Html.TextBox("Flow", "", new { @class = "form-control", @data_role = "tagsinputGroup2", @size = 256, @maxlength = 256, placeholder = "Маршрут согласования" })
+                    @Html.TextBox("Flow", "", new { @class = "form-control", @data_role = "tagsinputGroup", @size = 256, @maxlength = 256, placeholder = "Маршрут согласования" })
                 </div>
                 <br />
                 <span>
@@ -184,7 +184,7 @@
         $('.distributiongrouplink_whom').click(function () {
             var element = $(event.target);
             var tagId = element.attr('data-itemid') + ', ' + element.attr('data-rolename');
-            $('input[data-role=tagsinputGroup2]').tagsinput('add', { value: tagId, text: element.text() });
+            $('#Flow').tagsinput('add', { value: tagId, text: element.text() });
         });
 
         $('#rejectCZ').click(function (event) {

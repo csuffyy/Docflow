@@ -20,7 +20,7 @@
         @Html.TextAreaFor(model => Model.Decision, new { @class = "form-control summernotelight" })
         <div class="row">
             <div class="col-xs-8">
-                @Html.TextBoxFor(model => Model.Users, new { @class = "form-control", @data_role = "tagsinputEmployer", placeholder = "Исполнители" })
+                @Html.TextBoxFor(model => Model.Users, new { @class = "form-control", @data_role = "tagsinputEmployerIntercompany", placeholder = "Исполнители" })
             </div>
             <div class="col-xs-2">
                 @Html.TextBoxFor(model => Model.ControlDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", startDate = "" })

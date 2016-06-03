@@ -22,11 +22,11 @@
             {
                 foreach (var decision in Model.DecisionList)
                 {
-                    Html.RenderPartial("~/Views/Custom/_DecisionList.cshtml", decision, new ViewDataDictionary { { "counter", index }, { "documentId", documentId } });
+                    Html.RenderPartial("~/Views/Custom/USC_PRT_DecisionList.cshtml", decision, new ViewDataDictionary { { "counter", index }, { "documentId", documentId } });
                 }
             }
             </div>
-        @Html.ActionLink("Добавить поручение\\решение", "CreateNewDecisionProtocol", "Custom", new { counter = index, viewName = "_DecisionList" }, new { @id = "addItemDecision_" + index, @class = "addItemDecision btn btn-link" })
+        @Html.ActionLink("Добавить поручение\\решение", "CreateNewDecisionProtocol", "Custom", new { counter = index, viewName = "USC_PRT_DecisionList" }, new { @id = "addItemDecision_" + index, @class = "addItemDecision btn btn-link" })
     </div>
     <hr style="width: 100%; color: grey; height: 1px; background-color: grey;" />
 }

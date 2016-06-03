@@ -143,8 +143,8 @@
                 </span>
                 <span class="input-group-addon checkbox-inline">
                     @Html.CheckBoxFor(model => Model.Parallel, new { @data_labelauty = "Параллельно|Параллельно" })
-                </span>
-                @Html.TextBoxFor(model => Model.DocumentWhom, new { @class = "form-control", @data_role = "tagsinputGroup2", @size = 256, placeholder = "Маршрут согласования" })
+                </span>                
+                @Html.TextBoxFor(model => Model.DocumentWhom, new { @class = "form-control", @data_role = "tagsinputGroup", @size = 256, placeholder = "Маршрут согласования" })
             </div>
         </div>
 
@@ -212,19 +212,6 @@
         </div>
     </div>
 </div>
-<div class="modal documentcopy-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sidebar">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">@UIElementRes.UIElement.DistributionGroup - Поле Копия</h4>
-            </div>
-            <div class="modal-body" style="min-height:700px;">
-                @Html.Action("RoleLookup", "Role", new { prefix = "copy" })
-            </div>
-        </div>
-    </div>
-</div>
 <script type="text/javascript">
     $(function () {
         if ($('#MainField').val() == '') {
@@ -241,13 +228,7 @@
         $('.distributiongrouplink_whom').click(function (event) {
             var element = $(event.target);
             var tagId = element.attr('data-itemid') + ', ' + element.attr('data-rolename');
-            $('input[data-role=tagsinputGroup2]').tagsinput('add', { value: tagId, text: element.text() });
-        });
-
-        $('.distributiongrouplink_copy').click(function (event) {
-            var element = $(event.target);
-            var tagId = element.attr('data-itemid') + ', ' + element.attr('data-rolename');
-            $('input[data-role=tagsinputGroup]').tagsinput('add', { value: tagId, text: element.text() });
+            $('#DocumentWhom').tagsinput('add', { value: tagId, text: element.text() });
         });
     });
 </script>

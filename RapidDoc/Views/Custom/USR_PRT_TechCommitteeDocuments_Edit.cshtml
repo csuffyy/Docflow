@@ -179,31 +179,31 @@
                     @Html.LabelForRequired(model => Model.Attended)
                 </div>
                 <div class="editor-field">
-                    @Html.TextBoxFor(model => Model.Attended, new { @class = "form-control", @data_role = "tagsinputEmplBothOpt", placeholder = "Присутствовали" })
+                    @Html.TextBoxFor(model => Model.Attended, new { @class = "form-control", @data_role = "tagsinputEmployerManual", placeholder = "Присутствовали" })
                 </div>
                 <div class="editor-label">
                     @Html.LabelForRequired(model => Model.Invited)
                 </div>
                 <div class="editor-field">
-                    @Html.TextBoxFor(model => Model.Invited, new { @class = "form-control", @data_role = "tagsinputEmplBothOpt1", placeholder = "Приглашенные" })
+                    @Html.TextBoxFor(model => Model.Invited, new { @class = "form-control", @data_role = "tagsinputEmployerManual", placeholder = "Приглашенные" })
                 </div>
                 <div class="editor-label">
                     @Html.LabelForRequired(model => Model.Absent)
                 </div>
                 <div class="editor-field">
-                    @Html.TextBoxFor(model => Model.Absent, new { @class = "form-control", @data_role = "tagsinputEmplBothOpt2", placeholder = "Отсутствовали" })
+                    @Html.TextBoxFor(model => Model.Absent, new { @class = "form-control", @data_role = "tagsinputEmployerManual", placeholder = "Отсутствовали" })
                 </div>
                 <div class="editor-label">
                     @Html.LabelForRequired(model => Model.Chairman)
                 </div>
                 <div class="editor-field">
-                    @Html.TextBoxFor(model => Model.Chairman, new { @class = "form-control", @data_role = "tagsinputEmplOne", placeholder = "Председатель" })
+                    @Html.TextBoxFor(model => Model.Chairman, new { @class = "form-control", @data_role = "tagsinputEmployerOne", placeholder = "Председатель" })
                 </div>
                 <div class="editor-label">
                     @Html.LabelForRequired(model => Model.ListAgreement)
                 </div>
                 <div class="editor-field">
-                    @Html.TextBoxFor(model => Model.ListAgreement, new { @class = "form-control", @data_role = "tagsinputEmpl", placeholder = "Маршрут согласования" })
+                    @Html.TextBoxFor(model => Model.ListAgreement, new { @class = "form-control", @data_role = "tagsinputEmployer", placeholder = "Маршрут согласования" })
                 </div>
             </div>
 
@@ -230,7 +230,7 @@
                             }
                         </div>
                     }
-                    @Html.ActionLink("Добавить вопрос", "CreateNewQuestionProtocol", "Custom", null, new { id = "addItemQuestion", @class = "addItemQuestion btn btn-link" })
+                    @Html.ActionLink("Добавить вопрос", "CreateNewQuestionProtocol", "Custom", new { viewName = "_QuestionList" }, new { id = "addItemQuestion", @class = "addItemQuestion btn btn-link" })
                 </div>
             </div>
             <div class="row">
@@ -261,7 +261,7 @@
                 success: function (html) {
                     $("#questionRow").append(html);
                     datepicker_init("@UIElementRes.UIElement.LangName");
-                    custom_tagsinputEmplDynamic_init("@Url.Action("JsonEmpl", "Custom")");
+                    custom_tagsinputEmployer_init("@Url.Action("JsonEmpl", "Custom")");
                     summernotelight_init("@UIElementRes.UIElement.LangFullName");
                     checkbox_init('@UIElementRes.UIElement.Yes', '@UIElementRes.UIElement.No');
                     numberQuestion();
@@ -292,7 +292,7 @@
             success: function (html) {
                 $("#" + itemdecisionid).append(html);
                 datepicker_init("@UIElementRes.UIElement.LangName");
-                custom_tagsinputEmplDynamic_init("@Url.Action("JsonEmpl", "Custom")");
+                custom_tagsinputEmployer_init("@Url.Action("JsonEmpl", "Custom")");
                 summernotelight_init("@UIElementRes.UIElement.LangFullName");
                 checkbox_init('@UIElementRes.UIElement.Yes', '@UIElementRes.UIElement.No');
                 numberDecision();

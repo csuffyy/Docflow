@@ -158,8 +158,8 @@
                         <p>@UIElementRes.UIElement.СonfirmDeletion</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" id="deleteDraftBtn" class="btn btn-success" name="action:DeleteDraft">@UIElementRes.UIElement.Yes</button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">@UIElementRes.UIElement.No</button>
+                        <button type="submit" id="deleteDraftBtn" class="btn btn-danger" name="action:DeleteDraft">@UIElementRes.UIElement.Yes</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">@UIElementRes.UIElement.No</button>
                     </div>
                 </div>
             </div>
@@ -173,7 +173,7 @@
                         <h4 class="modal-title">@CustomRes.Custom.Users</h4>
                     </div>
                     <div class="modal-body" style="min-height: 180px;">
-                        @Html.TextBox("ReworkUsers", "", new { @class = "form-control", @data_role = "tagsinputEmpl5", @size = 256, @maxlength = 256, placeholder = "Сотрудники" })
+                        @Html.TextBox("ReworkUsers", "", new { @class = "form-control", @data_role = "tagsinputEmployer", @size = 256, @maxlength = 256, placeholder = "Сотрудники" })
                         <br />
                         <br />
                         @Html.TextArea("AdditionalTextRework", new { @class = "form-control", @placeholder = "Cопроводительный текст" })
@@ -298,23 +298,16 @@
         summernotelight_init("@UIElementRes.UIElement.LangFullName");
         summernotemin_init("@UIElementRes.UIElement.LangFullName");
         timepicker_init();
-        custom_tagsinputEmpl_init("@Url.Action("JsonEmpl", "Custom")");
-        custom_tagsinputEmpl2_init("@Url.Action("JsonEmpl", "Custom")");
-        custom_tagsinputEmpl3_init("@Url.Action("JsonEmpl", "Custom")");
-        custom_tagsinputEmpl4_init("@Url.Action("JsonEmpl", "Custom")");
-        custom_tagsinputEmpl5_init("@Url.Action("JsonEmpl", "Custom")");
+        custom_tagsinputEmployer_init("@Url.Action("JsonEmpl", "Custom")");
+        custom_tagsinputEmployerManual_init("@Url.Action("JsonEmplManual", "Custom")");
+        custom_tagsinputEmployerIntercompany_init("@Url.Action("JsonEmplIntercompany", "Custom")");
+        custom_tagsinputEmployerIntercompanyManual_init("@Url.Action("JsonEmplManualIntercompany", "Custom")");
         custom_tagsinputGroup_init("@Url.Action("JsonGroup", "Custom")");
-        custom_tagsinputGroup2_init("@Url.Action("JsonGroup", "Custom")");
-        custom_tagsinputEmplOneKZ_init("@Url.Action("JsonEmplKZ", "Custom")");
-        custom_tagsinputEmplIntercompany_init("@Url.Action("JsonEmplIntercompany", "Custom")");
-        custom_tagsinputEmplIntercompany1_init("@Url.Action("JsonEmplIntercompany", "Custom")");
-        custom_tagsinputEmplOne_init("@Url.Action("JsonEmpl", "Custom")");
         custom_tagsinputOnlyGroup_init("@Url.Action("GetJsonOnlyGroup", "Custom")");
-        custom_tagsinputEmplOne1_init("@Url.Action("GetJsonTripEmpl", "Custom")");
-        custom_tagsinputEmplDynamic_init("@Url.Action("JsonEmpl", "Custom")");
-        custom_tagsinputEmplBothOpt_init("@Url.Action("JsonEmplBothOption", "Custom")");
-        custom_tagsinputEmplBothOpt1_init("@Url.Action("JsonEmplBothOption", "Custom")");
-        custom_tagsinputEmplBothOpt2_init("@Url.Action("JsonEmplBothOption", "Custom")");
+        custom_tagsinputEmployerOne_init("@Url.Action("JsonEmpl", "Custom")");
+        custom_tagsinputEmployerOneIntercompany_init("@Url.Action("JsonEmplIntercompany", "Custom")");
+        custom_tagsinputEmplOneKZ_init("@Url.Action("JsonEmplKZ", "Custom")");
+        custom_tagsinputEmplOneTrip_init("@Url.Action("GetJsonTripEmpl", "Custom")");
         popover_init();
 
         $('[data-toggle="tooltip"]').tooltip();

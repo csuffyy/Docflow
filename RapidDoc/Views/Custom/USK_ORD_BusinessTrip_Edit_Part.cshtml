@@ -33,7 +33,7 @@
 
             <h4>Ввод работников:</h4>
             <div id="CompanyW">
-                @Html.TextBox("CompanyWorker", "", new { @class = "form-control", @data_role = "tagsinputEmplOne1", @size = 256, placeholder = "Работник" })
+                @Html.TextBox("CompanyWorker", "", new { @class = "form-control", @data_role = "tagsinputEmplOneTrip", @size = 256, placeholder = "Работник" })
             </div>
             <br />
             <div id="CustomW">
@@ -628,7 +628,7 @@
             }
             else {
                 $('#CompanyW').hide();
-                $('input[data-role=tagsinputEmplOne1]').tagsinput('removeAll');
+                $('#CompanyWorker').tagsinput('removeAll');
             }
         });
 
@@ -653,7 +653,7 @@
                     $('.alert_placeholderWorker').html('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><span class="sr-only">Error:</span>' + " Не обходио ввести полные данные о сотруднике(ФИО-Подразделение-Должность)" + '</div>');
                 }
                 else {
-                    $('input[data-role=tagsinput]').tagsinput('add', $('#FIO').val() + " - " + $('#Title').val() + " - " + $('#Department').val());
+                    $('#Workers').tagsinput('add', $('#FIO').val() + " - " + $('#Title').val() + " - " + $('#Department').val());
 
                     $('#FIO').val('');
                     $('#Department').val('');
@@ -666,8 +666,8 @@
                 $('#userlist').show();
                 var pattern = /\b[a-f\d-]{36}\b,/;
                 var result = value.replace(pattern, "");
-                $('input[data-role=tagsinput]').tagsinput('add', result);
-                $('input[data-role=tagsinputEmplOne1]').tagsinput('removeAll');
+                $('#Workers').tagsinput('add', result);
+                $('#CompanyWorker').tagsinput('removeAll');
             }
         });
 

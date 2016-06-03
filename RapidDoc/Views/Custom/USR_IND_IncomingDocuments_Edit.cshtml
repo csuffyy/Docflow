@@ -119,7 +119,7 @@
             @Html.LabelForRequired(model => Model.Receiver)
         </div>
         <div>
-            @Html.TextBoxFor(model => Model.Receiver, new { @class = "form-control", @data_role = "tagsinputEmplIntercompany", @size = 256, placeholder = "Получатель" })
+            @Html.TextBoxFor(model => Model.Receiver, new { @class = "form-control", @data_role = "tagsinputEmployerIntercompany", @size = 256, placeholder = "Получатель" })
         </div>
     </div>
 </div>
@@ -246,7 +246,7 @@
     @Html.LabelForRequired(model => Model.ListReaders)
 </div>
 <div>
-    @Html.TextBoxFor(model => Model.ListReaders, new { @class = "form-control", @data_role = "tagsinputEmplIntercompany1", placeholder = "Читатели" })
+    @Html.TextBoxFor(model => Model.ListReaders, new { @class = "form-control", @data_role = "tagsinputEmployerIntercompany", placeholder = "Читатели" })
 </div>
 
 <div class="modal itemcause-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">

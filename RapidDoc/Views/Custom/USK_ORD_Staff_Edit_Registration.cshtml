@@ -88,7 +88,7 @@
             @Html.LabelForRequired(model => Model.ControlUsers)
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(model => model.ControlUsers, new { @class = "form-control", @data_role = "tagsinputEmplOne", @size = 256, placeholder = "ФИО сотрудника" })
+            @Html.TextBoxFor(model => model.ControlUsers, new { @class = "form-control", @data_role = "tagsinputEmployerOne", @size = 256, placeholder = "ФИО сотрудника" })
         </div>
     </div>
 </div>
@@ -186,7 +186,7 @@
         $('.distributiongrouplink_listsubcription').click(function (event) {
             var element = $(event.target);
             var tagId = element.attr('data-itemid') + ', ' + element.attr('data-rolename');
-            $('input[data-role=tagsinputGroup]').tagsinput('add', { value: tagId, text: element.text() });
+            $('#ListSubcription').tagsinput('add', { value: tagId, text: element.text() });
         });
     });
 </script>

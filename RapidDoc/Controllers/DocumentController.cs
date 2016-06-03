@@ -815,7 +815,7 @@ namespace RapidDoc.Controllers
 
                         if (chairman.Count() > 0 && !String.IsNullOrEmpty(chairman[0]))
                         {
-                            EmplTable chairmanEmpl = _EmplService.Find(Guid.Parse(chairman[0]), currentUserId);
+                            EmplTable chairmanEmpl = _EmplService.FindIntercompany(Guid.Parse(chairman[0]));
                             reminderChairmanUser = chairmanEmpl.ApplicationUserId;
                         }
                     }

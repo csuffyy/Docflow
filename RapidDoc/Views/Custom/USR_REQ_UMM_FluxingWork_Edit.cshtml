@@ -12,7 +12,7 @@
     @Html.LabelForRequired(model => Model.FIO1)
 </div>
 <div class="editor-field">
-    @Html.TextBoxFor(model => Model.FIO1, new { @class = "form-control", @data_role = "tagsinputEmpl", placeholder = "Ф.И.О. должность" })
+    @Html.TextBoxFor(model => Model.FIO1, new { @class = "form-control", @data_role = "tagsinputEmployer", placeholder = "Ф.И.О. должность" })
 </div>
 
 <div class="editor-label">
@@ -58,5 +58,5 @@
     @Html.LabelForRequired(model => Model.FIO2)
 </div>
 <div class="editor-field">
-    @Html.TextBoxFor(model => Model.FIO2, new { @class = "form-control", @data_role = "tagsinputEmpl2", placeholder = "Ф.И.О. принимающего заявку" })
+    @Html.TextBoxFor(model => Model.FIO2, new { @class = "form-control", @data_role = "tagsinputEmployer", placeholder = "Ф.И.О. принимающего заявку" })
 </div>

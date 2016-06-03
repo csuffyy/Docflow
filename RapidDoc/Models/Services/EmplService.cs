@@ -40,7 +40,8 @@ namespace RapidDoc.Models.Services
         List<ApplicationRole> GetListRole(Expression<Func<ApplicationRole, bool>> predicate);
         object GetJsonEmpl();
         object GetJsonEmplKZ();
-        object GetJsonEmplBothOption();
+        object GetJsonEmplManual();
+        object GetJsonEmplManualIntercompany();
         object GetJsonTripEmpl();
         object GetJsonUsers();
         object GetJsonGroup();
@@ -220,7 +221,7 @@ namespace RapidDoc.Models.Services
             return jsondata;
         }
 
-        public object GetJsonEmplBothOption()
+        public object GetJsonEmplManual()
         {
             var jsondata = from c in GetPartial(x => x.Enable == true).OrderByDescending(x => x.ProfileTableId)
                            select new
@@ -231,6 +232,16 @@ namespace RapidDoc.Models.Services
             return jsondata;
         }
 
+        public object GetJsonEmplManualIntercompany()
+        {
+            var jsondata = from c in GetPartialIntercompany(x => x.Enable == true).OrderByDescending(x => x.ProfileTableId)
+                           select new
+                           {
+                               text = string.Format("{0} {1}", c.ShortFullNameType2, c.TitleName)
+                           };
+
+            return jsondata;
+        }
 
         public object GetJsonUsers()
         {

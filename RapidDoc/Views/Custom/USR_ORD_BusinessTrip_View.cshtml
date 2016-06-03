@@ -53,7 +53,7 @@
                 <h4 class="modal-title">Создание рассылки</h4>
             </div>
             <div class="modal-body" style="min-height:250px;">
-                @Html.TextBox("ReceiversOrder", "", new { @class = "form-control", @data_role = "tagsinputGroup2", @size = 256, @maxlength = 256, placeholder = "Сотрудники" })
+                @Html.TextBox("ReceiversOrder", "", new { @class = "form-control", @data_role = "tagsinputGroup", @size = 256, @maxlength = 256, placeholder = "Сотрудники" })
                 <br>
                 <span>
                     @Html.CheckBox("AddReaders", false, new { @data_labelauty = "Читателем|Читателем" })

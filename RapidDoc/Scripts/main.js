@@ -527,334 +527,6 @@ function grid_init(url_json) {
     $('table.grid-table > tbody > tr > td.empty:has(.text-danger)').css("background", "#e74c3c");
 }
 
-function custom_tagsinputEmpl_init(url_json) {
-    try {
-        var element = document.getSelection('input[data-role=tagsinputEmpl]');
-        if (typeof (element) != 'undefined' && element != null) {
-            elt = $('input[data-role=tagsinputEmpl]');
-            elt.tagsinput({
-                itemValue: 'value',
-                itemText: 'text',
-                tagClass: function (item) {
-                    return 'label label-primary bts-tags';
-                }
-            });
-
-            elt.tagsinput('input').typeahead({
-                valueKey: 'text',
-                prefetch: url_json,
-                template: '<p>{{text}}</p>',
-                engine: Hogan
-
-            }).bind('typeahead:selected', $.proxy(function (obj, datum) {
-                this.tagsinput('add', datum);
-                this.tagsinput('input').typeahead('setQuery', '');
-            }, elt));
-
-            currentValue = $('input[data-role=tagsinputEmpl]').val();
-            if (currentValue != null) {
-                currentArrData = currentValue.split(",");
-                $('input[data-role=tagsinputEmpl]').val('');
-
-                if (currentArrData.length > 1) {
-                    for (var i = 0; i < currentArrData.length; i += 2) {
-                        var key = currentArrData[i];
-                        var numValue = i;
-                        numValue++;
-                        var value = currentArrData[numValue];
-                        if (value.length > 0)
-                            $('input[data-role=tagsinputEmpl]').tagsinput('add', { "value": key + "," + value, "text": value });
-                    }
-                }
-            }
-        }
-    }
-    catch (e) {
-    }
-}
-
-function custom_tagsinputEmpl2_init(url_json) {
-    var element = document.getSelection('input[data-role=tagsinputEmpl2]');
-    if (typeof (element) != 'undefined' && element != null) {
-        try {
-            elt2 = $('input[data-role=tagsinputEmpl2]');
-            elt2.tagsinput({
-                itemValue: 'value',
-                itemText: 'text',
-                tagClass: function (item) {
-                    return 'label label-primary bts-tags';
-                }
-            });
-
-            elt2.tagsinput('input').typeahead({
-                valueKey: 'text',
-                prefetch: url_json,
-                template: '<p>{{text}}</p>',
-                engine: Hogan
-
-            }).bind('typeahead:selected', $.proxy(function (obj, datum) {
-                this.tagsinput('add', datum);
-                this.tagsinput('input').typeahead('setQuery', '');
-            }, elt2));
-
-            currentValue2 = $('input[data-role=tagsinputEmpl2]').val();
-            if (currentValue2 != null) {
-                currentArrData2 = currentValue2.split(",");
-                $('input[data-role=tagsinputEmpl2]').val('');
-
-                if (currentArrData2.length > 1) {
-                    for (var i = 0; i < currentArrData2.length; i += 2) {
-                        var key = currentArrData2[i];
-                        var numValue = i;
-                        numValue++;
-                        var value = currentArrData2[numValue];
-                        if (value.length > 0)
-                            $('input[data-role=tagsinputEmpl2]').tagsinput('add', { "value": key + "," + value, "text": value });
-                    }
-                }
-            }
-        }
-        catch (e) {
-
-        }
-    }
-}
-
-function custom_tagsinputEmpl3_init(url_json) {
-    var element = document.getSelection('input[data-role=tagsinputEmpl3]');
-    if (typeof (element) != 'undefined' && element != null) {
-        try {
-            elt2 = $('input[data-role=tagsinputEmpl3]');
-            elt2.tagsinput({
-                itemValue: 'value',
-                itemText: 'text',
-                tagClass: function (item) {
-                    return 'label label-primary bts-tags';
-                }
-            });
-
-            elt2.tagsinput('input').typeahead({
-                valueKey: 'text',
-                prefetch: url_json,
-                template: '<p>{{text}}</p>',
-                engine: Hogan
-
-            }).bind('typeahead:selected', $.proxy(function (obj, datum) {
-                this.tagsinput('add', datum);
-                this.tagsinput('input').typeahead('setQuery', '');
-            }, elt2));
-
-            currentValue2 = $('input[data-role=tagsinputEmpl3]').val();
-            if (currentValue2 != null) {
-                currentArrData2 = currentValue2.split(",");
-                $('input[data-role=tagsinputEmpl3]').val('');
-
-                if (currentArrData2.length > 1) {
-                    for (var i = 0; i < currentArrData2.length; i += 2) {
-                        var key = currentArrData2[i];
-                        var numValue = i;
-                        numValue++;
-                        var value = currentArrData2[numValue];
-                        if (value.length > 0)
-                            $('input[data-role=tagsinputEmpl3]').tagsinput('add', { "value": key + "," + value, "text": value });
-                    }
-                }
-            }
-        }
-        catch (e) {
-
-        }
-    }
-}
-
-function custom_tagsinputEmpl4_init(url_json) {
-    var element = document.getSelection('input[data-role=tagsinputEmpl4]');
-    if (typeof (element) != 'undefined' && element != null) {
-        try {
-            elt2 = $('input[data-role=tagsinputEmpl4]');
-            elt2.tagsinput({
-                itemValue: 'value',
-                itemText: 'text',
-                tagClass: function (item) {
-                    return 'label label-primary bts-tags';
-                }
-            });
-
-            elt2.tagsinput('input').typeahead({
-                valueKey: 'text',
-                prefetch: url_json,
-                template: '<p>{{text}}</p>',
-                engine: Hogan
-
-            }).bind('typeahead:selected', $.proxy(function (obj, datum) {
-                this.tagsinput('add', datum);
-                this.tagsinput('input').typeahead('setQuery', '');
-            }, elt2));
-
-            currentValue2 = $('input[data-role=tagsinputEmpl4]').val();
-            if (currentValue2 != null) {
-                currentArrData2 = currentValue2.split(",");
-                $('input[data-role=tagsinputEmpl4]').val('');
-
-                if (currentArrData2.length > 1) {
-                    for (var i = 0; i < currentArrData2.length; i += 2) {
-                        var key = currentArrData2[i];
-                        var numValue = i;
-                        numValue++;
-                        var value = currentArrData2[numValue];
-                        if (value.length > 0)
-                            $('input[data-role=tagsinputEmpl4]').tagsinput('add', { "value": key + "," + value, "text": value });
-                    }
-                }
-            }
-        }
-        catch (e) {
-
-        }
-    }
-}
-
-function custom_tagsinputEmpl5_init(url_json) {
-    var element = document.getSelection('input[data-role=tagsinputEmpl5]');
-    if (typeof (element) != 'undefined' && element != null) {
-        try {
-            elt2 = $('input[data-role=tagsinputEmpl5]');
-            elt2.tagsinput({
-                itemValue: 'value',
-                itemText: 'text',
-                tagClass: function (item) {
-                    return 'label label-primary bts-tags';
-                }
-            });
-
-            elt2.tagsinput('input').typeahead({
-                valueKey: 'text',
-                prefetch: url_json,
-                template: '<p>{{text}}</p>',
-                engine: Hogan
-
-            }).bind('typeahead:selected', $.proxy(function (obj, datum) {
-                this.tagsinput('add', datum);
-                this.tagsinput('input').typeahead('setQuery', '');
-            }, elt2));
-
-            currentValue2 = $('input[data-role=tagsinputEmpl5]').val();
-            if (currentValue2 != null) {
-                currentArrData2 = currentValue2.split(",");
-                $('input[data-role=tagsinputEmpl5]').val('');
-
-                if (currentArrData2.length > 1) {
-                    for (var i = 0; i < currentArrData2.length; i += 2) {
-                        var key = currentArrData2[i];
-                        var numValue = i;
-                        numValue++;
-                        var value = currentArrData2[numValue];
-                        if (value.length > 0)
-                            $('input[data-role=tagsinputEmpl5]').tagsinput('add', { "value": key + "," + value, "text": value });
-                    }
-                }
-            }
-        }
-        catch (e) {
-
-        }
-    }
-}
-
-function custom_tagsinputGroup_init(url_json) {
-    var element = document.getSelection('input[data-role=tagsinputGroup]');
-    if (typeof (element) != 'undefined' && element != null) {
-        try {
-            elt2 = $('input[data-role=tagsinputGroup]');
-            elt2.tagsinput({
-                itemValue: 'value',
-                itemText: 'text',
-                tagClass: function (item) {
-                    return 'label label-primary bts-tags';
-                }
-            });
-
-            elt2.tagsinput('input').typeahead({
-                valueKey: 'text',
-                prefetch: url_json,
-                template: '<p>{{text}}</p>',
-                engine: Hogan
-
-            }).bind('typeahead:selected', $.proxy(function (obj, datum) {
-                this.tagsinput('add', datum);
-                this.tagsinput('input').typeahead('setQuery', '');
-            }, elt2));
-
-            currentValue2 = $('input[data-role=tagsinputGroup]').val();
-            if (currentValue2 != null) {
-                currentArrData2 = currentValue2.split(",");
-                $('input[data-role=tagsinputGroup]').val('');
-
-                if (currentArrData2.length > 1) {
-                    for (var i = 0; i < currentArrData2.length; i += 2) {
-                        var key = currentArrData2[i];
-                        var numValue = i;
-                        numValue++;
-                        var value = currentArrData2[numValue];
-                        if (value.length > 0)
-                            $('input[data-role=tagsinputGroup]').tagsinput('add', { "value": key + "," + value, "text": value });
-                    }
-                }
-            }
-        }
-        catch (e) {
-
-        }
-    }
-}
-
-function custom_tagsinputGroup2_init(url_json) {
-    var element = document.getSelection('input[data-role=tagsinputGroup2]');
-    if (typeof (element) != 'undefined' && element != null) {
-        try {
-            elt2 = $('input[data-role=tagsinputGroup2]');
-            elt2.tagsinput({
-                itemValue: 'value',
-                itemText: 'text',
-                tagClass: function (item) {
-                    return 'label label-primary bts-tags';
-                }
-            });
-
-            elt2.tagsinput('input').typeahead({
-                valueKey: 'text',
-                prefetch: url_json,
-                template: '<p>{{text}}</p>',
-                engine: Hogan
-
-            }).bind('typeahead:selected', $.proxy(function (obj, datum) {
-                this.tagsinput('add', datum);
-                this.tagsinput('input').typeahead('setQuery', '');
-            }, elt2));
-
-            currentValue2 = $('input[data-role=tagsinputGroup2]').val();
-            if (currentValue2 != null) {
-                currentArrData2 = currentValue2.split(",");
-                $('input[data-role=tagsinputGroup2]').val('');
-
-                if (currentArrData2.length > 1) {
-                    for (var i = 0; i < currentArrData2.length; i += 2) {
-                        var key = currentArrData2[i];
-                        var numValue = i;
-                        numValue++;
-                        var value = currentArrData2[numValue];
-                        if (value.length > 0)
-                            $('input[data-role=tagsinputGroup2]').tagsinput('add', { "value": key + "," + value, "text": value });
-                    }
-                }
-            }
-        }
-        catch (e) {
-
-        }
-    }
-}
-
 function custom_tagsinputRoles_init(url_json) {
     var element = document.getSelection('input[data-role=tagsinputRoles]');
     if (typeof (element) != 'undefined' && element != null) {
@@ -902,98 +574,6 @@ function custom_tagsinputRoles_init(url_json) {
     }
 }
 
-function custom_tagsinputEmplIntercompany_init(url_json) {
-    try {
-        var element = document.getSelection('input[data-role=tagsinputEmplIntercompany]');
-        if (typeof (element) != 'undefined' && element != null) {
-            elt = $('input[data-role=tagsinputEmplIntercompany]');
-            elt.tagsinput({
-                itemValue: 'value',
-                itemText: 'text',
-                tagClass: function (item) {
-                    return 'label label-primary bts-tags';
-                }
-            });
-
-            elt.tagsinput('input').typeahead({
-                valueKey: 'text',
-                prefetch: url_json,
-                template: '<p>{{text}}</p>',
-                engine: Hogan
-
-            }).bind('typeahead:selected', $.proxy(function (obj, datum) {
-                this.tagsinput('add', datum);
-                this.tagsinput('input').typeahead('setQuery', '');
-            }, elt));
-
-            currentValue = $('input[data-role=tagsinputEmplIntercompany]').val();
-            if (currentValue != null) {
-                currentArrData = currentValue.split(",");
-                $('input[data-role=tagsinputEmplIntercompany]').val('');
-
-                if (currentArrData.length > 1) {
-                    for (var i = 0; i < currentArrData.length; i += 2) {
-                        var key = currentArrData[i];
-                        var numValue = i;
-                        numValue++;
-                        var value = currentArrData[numValue];
-                        if (value.length > 0)
-                            $('input[data-role=tagsinputEmplIntercompany]').tagsinput('add', { "value": key + "," + value, "text": value });
-                    }
-                }
-            }
-        }
-    }
-    catch (e) {
-    }
-}
-
-function custom_tagsinputEmplIntercompany1_init(url_json) {
-    try {
-        var element = document.getSelection('input[data-role=tagsinputEmplIntercompany1]');
-        if (typeof (element) != 'undefined' && element != null) {
-            elt = $('input[data-role=tagsinputEmplIntercompany1]');
-            elt.tagsinput({
-                itemValue: 'value',
-                itemText: 'text',
-                tagClass: function (item) {
-                    return 'label label-primary bts-tags';
-                }
-            });
-
-            elt.tagsinput('input').typeahead({
-                valueKey: 'text',
-                prefetch: url_json,
-                template: '<p>{{text}}</p>',
-                engine: Hogan
-
-            }).bind('typeahead:selected', $.proxy(function (obj, datum) {
-                this.tagsinput('add', datum);
-                this.tagsinput('input').typeahead('setQuery', '');
-            }, elt));
-
-            currentValue = $('input[data-role=tagsinputEmplIntercompany1]').val();
-            if (currentValue != null) {
-                currentArrData = currentValue.split(",");
-                $('input[data-role=tagsinputEmplIntercompany1]').val('');
-
-                if (currentArrData.length > 1) {
-                    for (var i = 0; i < currentArrData.length; i += 2) {
-                        var key = currentArrData[i];
-                        var numValue = i;
-                        numValue++;
-                        var value = currentArrData[numValue];
-                        if (value.length > 0)
-                            $('input[data-role=tagsinputEmplIntercompany1]').tagsinput('add', { "value": key + "," + value, "text": value });
-                    }
-                }
-            }
-        }
-    }
-    catch (e) {
-    }
-}
-
 function custom_tagsinputOnlyGroup_init(url_json) {
     try {
         var element = document.getSelection('input[data-role=tagsinputOnlyGroup]');
@@ -1037,54 +617,6 @@ function custom_tagsinputOnlyGroup_init(url_json) {
         }
     }
     catch (e) {
-    }
-}
-
-function custom_tagsinputEmplOne_init(url_json) {
-    var element = document.getSelection('input[data-role=tagsinputEmplOne]');
-    if (typeof (element) != 'undefined' && element != null) {
-        try {
-            elt = $('input[data-role=tagsinputEmplOne]');
-            elt.tagsinput({
-                itemValue: 'value',
-                itemText: 'text',
-                maxTags: 1,
-                tagClass: function (item) {
-                    return 'label label-primary bts-tags';
-                }
-            });
-
-            elt.tagsinput('input').typeahead({
-                valueKey: 'text',
-                prefetch: url_json,
-                template: '<p>{{text}}</p>',
-                engine: Hogan
-
-            }).bind('typeahead:selected', $.proxy(function (obj, datum) {
-                this.tagsinput('add', datum);
-                this.tagsinput('input').typeahead('setQuery', '');
-            }, elt));
-
-            currentValue = $('input[data-role=tagsinputEmplOne]').val();
-            if (currentValue != null) {
-                currentArrData = currentValue.split(",");
-                $('input[data-role=tagsinputEmplOne]').val('');
-
-                if (currentArrData.length > 1) {
-                    for (var i = 0; i < currentArrData.length; i += 2) {
-                        var key = currentArrData[i];
-                        var numValue = i;
-                        numValue++;
-                        var value = currentArrData[numValue];
-                        if (value.length > 0)
-                            $('input[data-role=tagsinputEmplOne]').tagsinput('add', { "value": key + "," + value, "text": value });
-                    }
-                }
-            }
-        }
-        catch (e) {
-
-        }
     }
 }
 
@@ -1136,11 +668,11 @@ function custom_tagsinputEmplOneKZ_init(url_json) {
     }
 }
 
-function custom_tagsinputEmplOne1_init(url_json) {
-    var element = document.getSelection('input[data-role=tagsinputEmplOne1]');
+function custom_tagsinputEmplOneTrip_init(url_json) {
+    var element = document.getSelection('input[data-role=tagsinputEmplOneTrip]');
     if (typeof (element) != 'undefined' && element != null) {
         try {
-            elt = $('input[data-role=tagsinputEmplOne1]');
+            elt = $('input[data-role=tagsinputEmplOneTrip]');
             elt.tagsinput({
                 itemValue: 'value',
                 itemText: 'text',
@@ -1161,10 +693,10 @@ function custom_tagsinputEmplOne1_init(url_json) {
                 this.tagsinput('input').typeahead('setQuery', '');
             }, elt));
 
-            currentValue = $('input[data-role=tagsinputEmplOne1]').val();
+            currentValue = $('input[data-role=tagsinputEmplOneTrip]').val();
             if (currentValue != null) {
                 currentArrData = currentValue.split(",");
-                $('input[data-role=tagsinputEmplOne1]').val('');
+                $('input[data-role=tagsinputEmplOneTrip]').val('');
 
                 if (currentArrData.length > 1) {
                     for (var i = 0; i < currentArrData.length; i += 2) {
@@ -1173,7 +705,7 @@ function custom_tagsinputEmplOne1_init(url_json) {
                         numValue++;
                         var value = currentArrData[numValue];
                         if (value.length > 0)
-                            $('input[data-role=tagsinputEmplOne1]').tagsinput('add', { "value": key + "," + value, "text": value });
+                            $('input[data-role=tagsinputEmplOneTrip]').tagsinput('add', { "value": key + "," + value, "text": value });
                     }
                 }
             }
@@ -1184,126 +716,288 @@ function custom_tagsinputEmplOne1_init(url_json) {
     }
 }
 
-function custom_tagsinputEmplDynamic_init(url_json) {
-    $('input[data-role=tagsinputEmplDynamic]').each(function (e) {
-        var elt = $(this);
+function custom_tagsinputEmployer_init(url_json) {
+    try {
+        $('input[data-role=tagsinputEmployer]').each(function (e) {
+            var elt = $(this);
 
-        elt.tagsinput({
-            itemValue: 'value',
-            itemText: 'text',
-            tagClass: function (item) {
-                return 'label label-primary bts-tags';
-            }
-        });
+            elt.tagsinput({
+                itemValue: 'value',
+                itemText: 'text',
+                tagClass: function (item) {
+                    return 'label label-primary bts-tags';
+                }
+            });
 
-        elt.tagsinput('input').typeahead({
-            valueKey: 'text',
-            prefetch: url_json,
-            template: '<p>{{text}}</p>',
-            engine: Hogan
+            elt.tagsinput('input').typeahead({
+                valueKey: 'text',
+                prefetch: url_json,
+                template: '<p>{{text}}</p>',
+                engine: Hogan
 
-        }).bind('typeahead:selected', $.proxy(function (obj, datum) {
-            this.tagsinput('add', datum);
-            this.tagsinput('input').typeahead('setQuery', '');
-        }, elt));
+            }).bind('typeahead:selected', $.proxy(function (obj, datum) {
+                this.tagsinput('add', datum);
+                this.tagsinput('input').typeahead('setQuery', '');
+            }, elt));
 
-        var currentValue = elt.val();
-        if (currentValue != null && currentValue != '') {
-            var currentArrData = currentValue.split(",");
+            var currentValue = elt.val();
+            if (currentValue != null && currentValue != '') {
+                var currentArrData = currentValue.split(",");
 
-            if (currentArrData.length > 1) {
-                for (var i = 0; i < currentArrData.length; i += 2) {
-                    var key = currentArrData[i];
-                    var numValue = i;
-                    numValue++;
-                    var value = currentArrData[numValue];
-                    if (value.length > 0)
-                        $(this).tagsinput('add', { "value": key + "," + value, "text": value });
+                if (currentArrData.length > 1) {
+                    for (var i = 0; i < currentArrData.length; i += 2) {
+                        var key = currentArrData[i];
+                        var numValue = i;
+                        numValue++;
+                        var value = currentArrData[numValue];
+                        if (value.length > 0)
+                            $(this).tagsinput('add', { "value": key + "," + value, "text": value });
+                    }
                 }
             }
-        }
-    });
-}
-
-function custom_tagsinputEmplBothOpt_init(url_json) {
-    try {
-        elt = $('input[data-role=tagsinputEmplBothOpt]');
-        elt.tagsinput({
-            trimValue: true,
-            tagClass: function (item) {
-                return 'label label-primary bts-tags';
-            }
         });
-
-        elt.tagsinput('input').typeahead({
-            valueKey: 'text',
-            prefetch: url_json,
-            template: '<p>{{text}}</p>',
-            engine: Hogan
-
-        }).bind('typeahead:selected', $.proxy(function (obj, datum) {
-            this.tagsinput('add', datum["text"]);
-            this.tagsinput('input').typeahead('setQuery', '');
-        }, elt)).blur(function () {
-            $(this).val('')
-        });
-
     }
     catch (e) {
     }
 }
 
-function custom_tagsinputEmplBothOpt1_init(url_json) {
+function custom_tagsinputEmployerIntercompany_init(url_json) {
     try {
-        elt1 = $('input[data-role=tagsinputEmplBothOpt1]');
-        elt1.tagsinput({
-            trimValue: true,
-            tagClass: function (item) {
-                return 'label label-primary bts-tags';
+        $('input[data-role=tagsinputEmployerIntercompany]').each(function (e) {
+            var elt = $(this);
+
+            elt.tagsinput({
+                itemValue: 'value',
+                itemText: 'text',
+                tagClass: function (item) {
+                    return 'label label-primary bts-tags';
+                }
+            });
+
+            elt.tagsinput('input').typeahead({
+                valueKey: 'text',
+                prefetch: url_json,
+                template: '<p>{{text}}</p>',
+                engine: Hogan
+
+            }).bind('typeahead:selected', $.proxy(function (obj, datum) {
+                this.tagsinput('add', datum);
+                this.tagsinput('input').typeahead('setQuery', '');
+            }, elt));
+
+            var currentValue = elt.val();
+            if (currentValue != null && currentValue != '') {
+                var currentArrData = currentValue.split(",");
+
+                if (currentArrData.length > 1) {
+                    for (var i = 0; i < currentArrData.length; i += 2) {
+                        var key = currentArrData[i];
+                        var numValue = i;
+                        numValue++;
+                        var value = currentArrData[numValue];
+                        if (value.length > 0)
+                            $(this).tagsinput('add', { "value": key + "," + value, "text": value });
+                    }
+                }
             }
         });
-
-        elt1.tagsinput('input').typeahead({
-            valueKey: 'text',
-            prefetch: url_json,
-            template: '<p>{{text}}</p>',
-            engine: Hogan
-
-        }).bind('typeahead:selected', $.proxy(function (obj, datum) {
-            this.tagsinput('add', datum["text"]);
-            this.tagsinput('input').typeahead('setQuery', '');
-        }, elt1)).blur(function () {
-            $(this).val('')
-        });
-
     }
     catch (e) {
     }
 }
 
-function custom_tagsinputEmplBothOpt2_init(url_json) {
+function custom_tagsinputEmployerIntercompanyManual_init(url_json) {
     try {
-        elt2 = $('input[data-role=tagsinputEmplBothOpt2]');
-        elt2.tagsinput({
-            trimValue: true,
-            tagClass: function (item) {
-                return 'label label-primary bts-tags';
+        $('input[data-role=tagsinputEmployerIntercompanyManual]').each(function (e) {
+            var elt = $(this);
+
+            elt.tagsinput({
+                trimValue: true,
+                tagClass: function (item) {
+                    return 'label label-primary bts-tags';
+                }
+            });
+
+            elt.tagsinput('input').typeahead({
+                valueKey: 'text',
+                prefetch: url_json,
+                template: '<p>{{text}}</p>',
+                engine: Hogan
+
+            }).bind('typeahead:selected', $.proxy(function (obj, datum) {
+                this.tagsinput('add', datum["text"]);
+                this.tagsinput('input').typeahead('setQuery', '');
+            }, elt)).blur(function () {
+                $(this).val('')
+            });
+        });
+    }
+    catch (e) {
+    }
+}
+
+function custom_tagsinputEmployerManual_init(url_json) {
+    try {
+        $('input[data-role=tagsinputEmployerManual]').each(function (e) {
+            var elt = $(this);
+
+            elt.tagsinput({
+                trimValue: true,
+                tagClass: function (item) {
+                    return 'label label-primary bts-tags';
+                }
+            });
+
+            elt.tagsinput('input').typeahead({
+                valueKey: 'text',
+                prefetch: url_json,
+                template: '<p>{{text}}</p>',
+                engine: Hogan
+
+            }).bind('typeahead:selected', $.proxy(function (obj, datum) {
+                this.tagsinput('add', datum["text"]);
+                this.tagsinput('input').typeahead('setQuery', '');
+            }, elt)).blur(function () {
+                $(this).val('')
+            });
+        });
+    }
+    catch (e) {
+    }
+}
+
+function custom_tagsinputGroup_init(url_json) {
+    try {
+        $('input[data-role=tagsinputGroup]').each(function (e) {
+            var elt = $(this);
+
+            elt.tagsinput({
+                itemValue: 'value',
+                itemText: 'text',
+                tagClass: function (item) {
+                    return 'label label-primary bts-tags';
+                }
+            });
+
+            elt.tagsinput('input').typeahead({
+                valueKey: 'text',
+                prefetch: url_json,
+                template: '<p>{{text}}</p>',
+                engine: Hogan
+
+            }).bind('typeahead:selected', $.proxy(function (obj, datum) {
+                this.tagsinput('add', datum);
+                this.tagsinput('input').typeahead('setQuery', '');
+            }, elt));
+
+            var currentValue = elt.val();
+            if (currentValue != null && currentValue != '') {
+                var currentArrData = currentValue.split(",");
+
+                if (currentArrData.length > 1) {
+                    for (var i = 0; i < currentArrData.length; i += 2) {
+                        var key = currentArrData[i];
+                        var numValue = i;
+                        numValue++;
+                        var value = currentArrData[numValue];
+                        if (value.length > 0)
+                            $(this).tagsinput('add', { "value": key + "," + value, "text": value });
+                    }
+                }
             }
         });
+    }
+    catch (e) {
+    }
+}
 
-        elt2.tagsinput('input').typeahead({
-            valueKey: 'text',
-            prefetch: url_json,
-            template: '<p>{{text}}</p>',
-            engine: Hogan
+function custom_tagsinputEmployerOne_init(url_json) {
+    try {
+        $('input[data-role=tagsinputEmployerOne]').each(function (e) {
+            var elt = $(this);
 
-        }).bind('typeahead:selected', $.proxy(function (obj, datum) {
-            this.tagsinput('add', datum["text"]);
-            this.tagsinput('input').typeahead('setQuery', '');
-        }, elt2)).blur(function () {
-            $(this).val('')
+            elt.tagsinput({
+                itemValue: 'value',
+                itemText: 'text',
+                maxTags: 1,
+                tagClass: function (item) {
+                    return 'label label-primary bts-tags';
+                }
+            });
+
+            elt.tagsinput('input').typeahead({
+                valueKey: 'text',
+                prefetch: url_json,
+                template: '<p>{{text}}</p>',
+                engine: Hogan
+
+            }).bind('typeahead:selected', $.proxy(function (obj, datum) {
+                this.tagsinput('add', datum);
+                this.tagsinput('input').typeahead('setQuery', '');
+            }, elt));
+
+            currentValue = elt.val();
+            if (currentValue != null && currentValue != '') {
+                var currentArrData = currentValue.split(",");
+
+                if (currentArrData.length > 1) {
+                    for (var i = 0; i < currentArrData.length; i += 2) {
+                        var key = currentArrData[i];
+                        var numValue = i;
+                        numValue++;
+                        var value = currentArrData[numValue];
+                        if (value.length > 0)
+                            $(this).tagsinput('add', { "value": key + "," + value, "text": value });
+                    }
+                }
+            }
         });
+    }
+    catch (e) {
+    }
+}
 
+function custom_tagsinputEmployerOneIntercompany_init(url_json) {
+    try {
+        $('input[data-role=tagsinputEmployerOneIntercompany]').each(function (e) {
+            var elt = $(this);
+
+            elt.tagsinput({
+                itemValue: 'value',
+                itemText: 'text',
+                maxTags: 1,
+                tagClass: function (item) {
+                    return 'label label-primary bts-tags';
+                }
+            });
+
+            elt.tagsinput('input').typeahead({
+                valueKey: 'text',
+                prefetch: url_json,
+                template: '<p>{{text}}</p>',
+                engine: Hogan
+
+            }).bind('typeahead:selected', $.proxy(function (obj, datum) {
+                this.tagsinput('add', datum);
+                this.tagsinput('input').typeahead('setQuery', '');
+            }, elt));
+
+            currentValue = elt.val();
+            if (currentValue != null && currentValue != '') {
+                var currentArrData = currentValue.split(",");
+
+                if (currentArrData.length > 1) {
+                    for (var i = 0; i < currentArrData.length; i += 2) {
+                        var key = currentArrData[i];
+                        var numValue = i;
+                        numValue++;
+                        var value = currentArrData[numValue];
+                        if (value.length > 0)
+                            $(this).tagsinput('add', { "value": key + "," + value, "text": value });
+                    }
+                }
+            }
+        });
     }
     catch (e) {
     }

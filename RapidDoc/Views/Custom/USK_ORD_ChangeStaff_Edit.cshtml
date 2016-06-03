@@ -101,7 +101,7 @@
                         <span class="input-group-addon">
                             <a href="#" class="hidden-print" data-toggle="modal" data-target=".listsubcription-modal"><span class="fa fa-users fa-lg" aria-hidden="false"></span></a>
                         </span>
-                        @Html.TextBoxFor(model => Model.ListSubcription, new { @class = "form-control", @data_role = "tagsinputGroup2", @size = 256, placeholder = "Список рассылки" })
+                        @Html.TextBoxFor(model => Model.ListSubcription, new { @class = "form-control", @data_role = "tagsinputGroup", @size = 256, placeholder = "Список рассылки" })
                     </div>
                 </div>
             </div>
@@ -229,13 +229,13 @@
         $('.distributiongrouplink_listagreement').click(function (event) {
             var element = $(event.target);
             var tagId = element.attr('data-itemid') + ', ' + element.attr('data-rolename');
-            $('input[data-role=tagsinputGroup]').tagsinput('add', { value: tagId, text: element.text() });
+            $('#ListAgreement').tagsinput('add', { value: tagId, text: element.text() });
         });
 
         $('.distributiongrouplink_listsubcription').click(function (event) {
             var element = $(event.target);
             var tagId = element.attr('data-itemid') + ', ' + element.attr('data-rolename');
-            $('input[data-role=tagsinputGroup2]').tagsinput('add', { value: tagId, text: element.text() });
+            $('#ListSubcription').tagsinput('add', { value: tagId, text: element.text() });
         });
 
         $('.itemcauseslink').click(function (event) {

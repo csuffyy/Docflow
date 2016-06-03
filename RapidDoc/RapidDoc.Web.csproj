@@ -2161,6 +2161,8 @@
     <Content Include="Views\Custom\USC_PRT_ProtocolDocuments_Edit.cshtml" />
     <Content Include="Views\Custom\USC_PRT_ProtocolDocuments_View.cshtml" />
     <Content Include="Views\Custom\USC_PRT_ProtocolDocuments_View_Full.cshtml" />
+    <Content Include="Views\Custom\USC_PRT_QuestionList.cshtml" />
+    <Content Include="Views\Custom\USC_PRT_DecisionList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
