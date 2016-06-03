@@ -3276,7 +3276,7 @@ namespace RapidDoc.Controllers
                 {
                     foreach (var item in tmp)
                     {
-                        EmplTable empl = _EmplService.Find(Guid.Parse(item));
+                        EmplTable empl = _EmplService.FindIntercompany(Guid.Parse(item));
 
                         if (empl != null)
                             result = result + String.Format("{0}, ", empl.ShortFullNameType2);
@@ -3316,7 +3316,7 @@ namespace RapidDoc.Controllers
                     result = decisionText;
             }
 
-            return PartialView("USR_PRT_DecisionText", result);
+            return PartialView("_PRT_DecisionText", result);
         }
 	}
 }

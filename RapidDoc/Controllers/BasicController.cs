@@ -42,24 +42,27 @@ namespace RapidDoc.Controllers
 
             if (filterContext.RouteData.Values.Any(x => x.Key == "company"))
             {
+                var companyId = filterContext.RouteData.Values["company"].ToString();
+
                 if (filterContext.ActionParameters.Count() == 0)
                 {
-                    var companyId = filterContext.RouteData.Values["company"].ToString();
-                    ApplicationUser user = _AccountService.Find(User.Identity.GetUserId());
-
-                    if (companyId != user.AliasCompanyName)
+                    if (filterContext.HttpContext.Request.HttpMethod == "GET")
                     {
-                        filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary { 
+                        ApplicationUser user = _AccountService.Find(User.Identity.GetUserId());
+
+                        if (companyId != user.AliasCompanyName)
+                        {
+                            filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary { 
                             { "controller", filterContext.RouteData.Values["controller"].ToString() }, 
                             { "action", filterContext.RouteData.Values["action"].ToString() }, 
                             { "company", user.AliasCompanyName } 
                         });
-                        return;
+                            return;
+                        }
                     }
                 }
                 else
                 {
-                    var companyId = filterContext.RouteData.Values["company"].ToString();
                     if (filterContext.RouteData.RouteHandler != null && !String.IsNullOrEmpty(companyId))
                     {
                         ApplicationUser user = _AccountService.Find(User.Identity.GetUserId());

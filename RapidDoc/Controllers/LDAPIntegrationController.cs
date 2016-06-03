@@ -714,7 +714,7 @@ namespace RapidDoc.Controllers
                                     um.AddToRole(user.Id, group);
                                 break;
                             case "_ATK_AllUsersWithoutTopManager":
-                                if (((String.IsNullOrEmpty(empl.ProfileName) && String.IsNullOrEmpty(empl.TitleTable.ProfileName)) ||(empl.ProfileName != "ИД" && empl.ProfileName != "ГД" && empl.TitleTable.ProfileName != "ГД" && empl.TitleTable.ProfileName != "ИД")) && (!um.IsInRole(user.Id, group)))
+                                if (((String.IsNullOrEmpty(empl.ProfileName) && String.IsNullOrEmpty(empl.TitleTable.ProfileName)) || (empl.ProfileName != "ИД" && empl.ProfileName != "ГД" && empl.TitleTable.ProfileName != "ГД" && empl.TitleTable.ProfileName != "ИД")) && (!um.IsInRole(user.Id, group)))
                                     um.AddToRole(user.Id, group);
                                 break;
                             case "_ATK_Manager":
