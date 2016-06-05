@@ -61,61 +61,65 @@ namespace RapidDoc.Activities.CodeActivities
 
         protected override void Execute(CodeActivityContext context)
         {
-            _service = DependencyResolver.Current.GetService<IDocumentService>();
-            _serviceAccount = DependencyResolver.Current.GetService<IAccountService>();
-            _serviceProcess = DependencyResolver.Current.GetService<IProcessService>();
-            _serviceSearch = DependencyResolver.Current.GetService<ISearchService>();
-            _serviceWorkflow = DependencyResolver.Current.GetService<IWorkflowService>();
-            _serviceProtocolFolders = DependencyResolver.Current.GetService<IProtocolFoldersService>();
-
             Dictionary<string, Object> documentData = context.GetValue(this.inputDocumentData);
             Guid documentId = context.GetValue(this.inputDocumentId);
-            var document = _service.Find(documentId);
-            string currentUserId = document.ApplicationUserCreatedId;
 
-            DocumentTable documentTable = _service.Find(documentId);
-            ProcessTable processTable = _serviceProcess.FirstOrDefault(x => x.Id == documentTable.ProcessTableId);
-            var documentView = _service.GetDocumentView(documentTable.RefDocumentId, processTable.TableName);
-            List<PRT_QuestionList_Table> questionList = documentView.QuestionList;
-
-            int numDecision = 0;
-            int numTwoDecision = 0;
-            int numThreeDecision = 0;
-
-            foreach (var question in questionList)
+            Task.Run(() =>
             {
-                foreach (var decision in question.DecisionList)
+                _service = DependencyResolver.Current.GetService<IDocumentService>();
+                _serviceAccount = DependencyResolver.Current.GetService<IAccountService>();
+                _serviceProcess = DependencyResolver.Current.GetService<IProcessService>();
+                _serviceSearch = DependencyResolver.Current.GetService<ISearchService>();
+                _serviceWorkflow = DependencyResolver.Current.GetService<IWorkflowService>();
+                _serviceProtocolFolders = DependencyResolver.Current.GetService<IProtocolFoldersService>();
+
+                var document = _service.Find(documentId);
+                string currentUserId = document.ApplicationUserCreatedId;
+
+                DocumentTable documentTable = _service.Find(documentId);
+                ProcessTable processTable = _serviceProcess.FirstOrDefault(x => x.Id == documentTable.ProcessTableId);
+                var documentView = _service.GetDocumentView(documentTable.RefDocumentId, processTable.TableName);
+                List<PRT_QuestionList_Table> questionList = documentView.QuestionList;
+
+                int numDecision = 0;
+                int numTwoDecision = 0;
+                int numThreeDecision = 0;
+
+                foreach (var question in questionList)
                 {
-                    if (decision.Type == 0)
-                        numDecision++;
-                    else if (decision.Type == 1)
-                        numTwoDecision++;
-                    else if (decision.Type == 2)
-                        numThreeDecision++;
-
-                    if ((decision.Decision != null && decision.Decision != String.Empty) &&
-                        (decision.Users != null && decision.Users != String.Empty))
+                    foreach (var decision in question.DecisionList)
                     {
-                        if (decision.Separated == true)
+                        if (decision.Type == 0)
+                            numDecision++;
+                        else if (decision.Type == 1)
+                            numTwoDecision++;
+                        else if (decision.Type == 2)
+                            numThreeDecision++;
+
+                        if ((decision.Decision != null && decision.Decision != String.Empty) &&
+                            (decision.Users != null && decision.Users != String.Empty))
                         {
-                            string initailStructure = decision.Users;
-                            string[] arrayTempStructrue = initailStructure.Split(',');
-
-                            Regex isGuid = new Regex(@"^(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}$", RegexOptions.Compiled);
-                            string[] arrayStructure = arrayTempStructrue.Where(a => isGuid.IsMatch(a) == true).ToArray();
-
-                            foreach (var item in arrayStructure)
+                            if (decision.Separated == true)
                             {
-                                string seprateUser = item + "," + arrayTempStructrue[Array.IndexOf(arrayTempStructrue, item) + 1];
-                                CreateTask(seprateUser, documentView, decision, question, documentTable, documentId, currentUserId, numDecision, numTwoDecision, numThreeDecision);
+                                string initailStructure = decision.Users;
+                                string[] arrayTempStructrue = initailStructure.Split(',');
 
+                                Regex isGuid = new Regex(@"^(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}$", RegexOptions.Compiled);
+                                string[] arrayStructure = arrayTempStructrue.Where(a => isGuid.IsMatch(a) == true).ToArray();
+
+                                foreach (var item in arrayStructure)
+                                {
+                                    string seprateUser = item + "," + arrayTempStructrue[Array.IndexOf(arrayTempStructrue, item) + 1];
+                                    CreateTask(seprateUser, documentView, decision, question, documentTable, documentId, currentUserId, numDecision, numTwoDecision, numThreeDecision);
+
+                                }
                             }
+                            else
+                                CreateTask(decision.Users, documentView, decision, question, documentTable, documentId, currentUserId, numDecision, numTwoDecision, numThreeDecision);
                         }
-                        else
-                            CreateTask(decision.Users, documentView, decision, question, documentTable, documentId, currentUserId, numDecision, numTwoDecision, numThreeDecision);
                     }
                 }
-            }
+            });
         }
 
         void CreateTask(string users, dynamic documentView, PRT_DecisionList_Table decision, PRT_QuestionList_Table question, DocumentTable documentTable, Guid documentId, string currentUserId, int numDecision, int numTwoDecision, int numThreeDecision)
@@ -154,13 +158,10 @@ namespace RapidDoc.Activities.CodeActivities
             var taskDocumentId = _service.SaveDocument(docModel, "USR_TAS_DailyTasks", processTable.Id, Guid.NewGuid(), user, false, false);
                         documentTable = _service.Find(taskDocumentId);
 
-                        Task.Run(() =>
-                        {
-                            IReviewDocLogService _ReviewDocLogServiceTask = DependencyResolver.Current.GetService<IReviewDocLogService>();
-                            IHistoryUserService _HistoryUserServiceTask = DependencyResolver.Current.GetService<IHistoryUserService>();
-                            _ReviewDocLogServiceTask.SaveDomain(new ReviewDocLogTable { DocumentTableId = documentId }, "", user);
-                            _HistoryUserServiceTask.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = Models.Repository.HistoryType.NewDocument }, user.Id);
-                        });
+                        IReviewDocLogService _ReviewDocLogServiceTask = DependencyResolver.Current.GetService<IReviewDocLogService>();
+                        IHistoryUserService _HistoryUserServiceTask = DependencyResolver.Current.GetService<IHistoryUserService>();
+                        _ReviewDocLogServiceTask.SaveDomain(new ReviewDocLogTable { DocumentTableId = documentId }, "", user);
+                        _HistoryUserServiceTask.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = Models.Repository.HistoryType.NewDocument }, user.Id);
 
                         _serviceSearch.SaveSearchData(taskDocumentId, docModel, "USR_TAS_DailyTasks", currentUserId);
                         Dictionary<string, object> taskDocumentData = new Dictionary<string, object>();
