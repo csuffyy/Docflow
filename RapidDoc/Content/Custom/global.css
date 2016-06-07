@@ -682,6 +682,16 @@ input[type='checkbox']:checked.pseudo-checkbox + label:before{/*checked icon*/
     margin: 0;
 }
 
+.note-editable > ul > li {
+  text-indent: -13px;
+}
+.note-editable > ul {
+  list-style-type: none;
+}
+.note-editable > ul > li:before {
+  content: "- ";
+}
+
 .bootstrap-duallistbox-container .btn.moveall,
 .bootstrap-duallistbox-container .btn.removeall {
   display: none;

@@ -367,7 +367,7 @@
             needToConfirm = false;
         });       
 
-        $("input[type=text]").change(function () {
+        $("input[type=text], textarea, .note-editable").on('change keyup paste', function () {
             needToConfirm = true;
         });
 
