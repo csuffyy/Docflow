@@ -705,4 +705,7 @@
   <data name="TooltipCreateSubTask" xml:space="preserve">
     <value>Individual orders performers, which can be independently shut down</value>
   </data>
+  <data name="SaveDraftQuestion" xml:space="preserve">
+    <value>There is some data, wish you save it as draft?</value>
+  </data>
 </root>

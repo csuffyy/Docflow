@@ -705,4 +705,7 @@
   <data name="TooltipCreateSubTask" xml:space="preserve">
     <value>Тәуелсіз жабуға болатын, орындаушыларға жеке тапсырмалар</value>
   </data>
+  <data name="SaveDraftQuestion" xml:space="preserve">
+    <value>-</value>
+  </data>
 </root>

@@ -135,16 +135,16 @@
             }
             else
             {
-                <button type="submit" class="btn btn-success btn-lg" name="action:ApproveDocument"><span class="visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">@UIElementRes.UIElement.Approve</span><span class="visible-xs-inline-block glyphicon glyphicon-ok-circle"></span></button>
+                <button type="submit" class="btn btn-success btn-lg" name="action:ApproveDocument" id="approveDraft"><span class="visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">@UIElementRes.UIElement.Approve</span><span class="visible-xs-inline-block glyphicon glyphicon-ok-circle"></span></button>
                 <button type="submit" id="savedraftbtn" class="btn btn-default btn-sm" name="action:SaveDraft">@UIElementRes.UIElement.SaveDraft</button>
-                <button type="button" class="btn btn-default btn-sm visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-toggle="modal" data-target=".rework-modal-sm">@UIElementRes.UIElement.OnRework</button>
+    <button type="button" class="btn btn-default btn-sm visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-toggle="modal" data-target=".rework-modal-sm" id="reworkDraft">@UIElementRes.UIElement.OnRework</button>
             }    
                                  
             @if (Model.DocumentView.CreatedBy == User.Identity.Name || User.IsInRole("Administrator"))
             {
                 <button type="button" class="btn btn-danger btn-sm bg-danger hidden-print" data-toggle="modal" data-target=".bs-delete-modal-sm">@UIElementRes.UIElement.Delete</button>
             }
-            <a href="@Url.Action("Index", "Document")" class="btn btn-default btn-sm visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" role="button">@UIElementRes.UIElement.Cancel</a>
+            <a href="@Url.Action("Index", "Document")" class="btn btn-default btn-sm visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" role="button" id="cancelDraft">@UIElementRes.UIElement.Cancel</a>
 </p>
 
         <div class="modal bs-delete-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
@@ -340,13 +340,46 @@
             return false;
         });
 
+        var needToConfirm = false;
+
         $('#savedraftbtn').click(function () {
+            needToConfirm = false;
             jQuery('#ajaxUploadForm').validate().currentForm = '';
         });
 
         $('#deleteDraftBtn').click(function () {
+            needToConfirm = false;
             jQuery('#ajaxUploadForm').validate().currentForm = '';
         });
+
+        $('#approveDraft').click(function () {
+            needToConfirm = false;
+        });
+
+        $('#reworkDraft').click(function () {
+            needToConfirm = false;
+        });
+
+        $('#cancelCreation').click(function () {
+            needToConfirm = false;
+        });
+        $('#applyRework').click(function () {
+            needToConfirm = false;
+        });       
+
+        $("input[type=text]").change(function () {
+            needToConfirm = true;
+        });
+
+        window.onbeforeunload = confirmExit;
+
+        function confirmExit() {
+            if (needToConfirm == true)
+                return "@UIElementRes.UIElement.SaveDraftQuestion";
+            else {
+                return void (0);
+            }
+        }
     });
 </script>
 }

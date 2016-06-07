@@ -711,4 +711,7 @@
   <data name="TooltipCreateSubTask" xml:space="preserve">
     <value>Отдельные поручения исполнителям, которые можно закрыть независимо</value>
   </data>
+  <data name="SaveDraftQuestion" xml:space="preserve">
+    <value>Имеются заполненные данные, вы можете сохранить документ как черновик, оставшись на странице, в противном случае введенные данные будут удалены.</value>
+  </data>
 </root>

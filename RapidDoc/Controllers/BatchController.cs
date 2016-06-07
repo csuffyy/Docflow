@@ -169,7 +169,7 @@ namespace RapidDoc.Controllers
                             if (!_WorkScheduleService.CheckDayType(_WorkScheduleService.FirstOrDefault(x => x.WorkScheduleName == "8x5").Id, DateTime.UtcNow.Date))
                             {
                                 USR_TAS_DailyTasks_Table childTask = new USR_TAS_DailyTasks_Table();
-                                ApplicationDbContext context = new ApplicationDbContext(); 
+                                ApplicationDbContext context = new ApplicationDbContext();
                                 var users = _AccountService.GetPartial(x => x.Email != null && x.Enable == true).ToList();
                                 List<ReminderUsers> checkData = new List<ReminderUsers>();
 
@@ -198,7 +198,7 @@ namespace RapidDoc.Controllers
                                                     bufDateTime = bufDateTime.AddDays(1);
                                                 }
 
-                                                if (countDays > 3 && countDays != System.Globalization.DateTimeFormatInfo.CurrentInfo.DayNames.Length)
+                                                if (countDays > 4 && countDays != System.Globalization.DateTimeFormatInfo.CurrentInfo.DayNames.Length)
                                                     continue;
                                             }
                                             else
