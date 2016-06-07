@@ -682,13 +682,23 @@ input[type='checkbox']:checked.pseudo-checkbox + label:before{/*checked icon*/
     margin: 0;
 }
 
-.note-editable > ul > li {
+.note-editable ul > li {
   text-indent: -13px;
 }
-.note-editable > ul {
+.note-editable ul {
   list-style-type: none;
 }
-.note-editable > ul > li:before {
+.note-editable ul > li:before {
+  content: "- ";
+}
+
+.document-data ul > li {
+  text-indent: -13px;
+}
+.document-data ul {
+  list-style-type: none;
+}
+.document-data ul > li:before {
   content: "- ";
 }
 
