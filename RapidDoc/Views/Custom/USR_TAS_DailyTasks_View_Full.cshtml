@@ -1,0 +1,180 @@
+﻿@model RapidDoc.Models.ViewModels.USR_TAS_DailyTasks_View
+@using RapidDoc.Extensions;
+@{
+    var refProcessName = Html.Action("GetDocumentRefInfo", "Document", new { id = Model.RefDocumentId });
+}
+
+@if (Model.RefDocumentId.HasValue && Model.RefDocumentId != Guid.Empty)
+{
+    <div class="editor-label">
+        @Html.LabelFor(model => Model.RefDocNum)
+    </div>
+    @Html.ActionLink(Model.RefDocNum.ToString() + " " + refProcessName, "ShowDocument", "Document", new { id = Model.RefDocumentId, isAfterView = true }, null)
+
+    @Html.Partial("_DocumentViewFields", Model, new ViewDataDictionary(ViewData) { { "FieldName", "TextTask" } })
+
+    @Html.HiddenFor(model => model.RefDocumentId)
+    @Html.HiddenFor(model => model.RefDocNum)
+    <br />
+}
+
+<div class="row">
+    <div class="col-xs-2">
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.ExecutionDate)
+        </div>
+        <div class="editor-field">
+            @if (Model.ProlongationDate.HasValue && Model.ProlongationDate != DateTime.MinValue)
+            {
+                <span class="text text-danger"><del>@Html.FormatValue(Model.ExecutionDate, "{0:dd.MM.yyyy}")</del></span>
+            }
+            else
+            {
+                @Html.FormatValue(Model.ExecutionDate, "{0:dd.MM.yyyy}")
+            }
+        </div>
+    </div>
+    <div class="col-xs-2">
+        @if (Model.ProlongationDate.HasValue && Model.ProlongationDate != DateTime.MinValue)
+        {
+            @Html.Partial("_DocumentViewFields", Model, new ViewDataDictionary(ViewData) { { "FieldName", "ProlongationDate" } })
+        }
+    </div>
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.MainField)
+</div>
+<div class="editor-field">
+    @Html.Raw(Model.MainField)
+</div>
+
+@if (Model.ReportText != null && Model.ReportText != "")
+{
+    <div class="editor-label">
+        @Html.LabelFor(model => Model.ReportText)
+    </div>
+    <div class="editor-field">
+        @Html.Raw(Model.ReportText)
+    </div>
+}
+
+<div class="modal delegatetask-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">@CustomRes.Custom.Users</h4>
+            </div>
+            <div class="modal-body" style="min-height: 180px;">
+                @Html.TextBox("Flow", "", new { @class = "form-control", @data_role = "tagsinputEmployerIntercompany", @size = 256, @maxlength = 256, placeholder = "Сотрудники" })
+                <br />
+                <br />
+                <div class="editor-label">
+                    <label>@FieldNameRes.FieldNameResource.CreateTasks</label>
+                    <i class="fa fa-question-circle visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-toggle="tooltip" data-placement="top" title="@UIElementRes.UIElement.TooltipCreateSubTask"></i>
+                </div>
+                <div class="editor-field">
+                    @Html.CheckBox("IsCreateTask", false)
+                </div>
+                <h5 class="modal-title">@FieldNameRes.FieldNameResource.AdditionalText</h5>
+                <div class="editor-field">
+                    @Html.TextArea("AdditionalText", new { @class = "form-control summernotemin", placeholder = "" })
+                </div>
+                <div class="editor-label">
+                    <label>@FieldNameRes.FieldNameResource.Notify</label>
+                    <i class="fa fa-question-circle visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-toggle="tooltip" data-placement="top" title="@UIElementRes.UIElement.TooltipAboutNotifyTask"></i>
+                </div>
+                <div class="editor-field">
+                    @Html.CheckBox("IsNotifyTask", false)
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" name="action:DelegateDocumentTask">@UIElementRes.UIElement.Delegate</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">@UIElementRes.UIElement.Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal rejectcz-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="alert_placeholder"></div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Отмена документа</h4>
+            </div>
+            <div class="modal-body" style="min-height:250px;">
+                @Html.TextArea("RejectCommentTask", new { @class = "form-control summernotemin", @placeholder = "Обязательно укажите причину отмены" })
+                <br>
+                <div class="modal-footer">
+                    <button type="submit" id="rejectTask" class="btn btn-danger" name="action:RejectDocumentTask">@UIElementRes.UIElement.Reject</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">@UIElementRes.UIElement.Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal approvecz-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div id="alert_placeholderReport"></div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Закрытие документа</h4>
+            </div>
+            <div class="modal-body" style="min-height:200px;">
+                @Html.TextArea("ApproveCommentTask", new { @class = "form-control summernotemin", @placeholder = "Отчет" })
+                <br>
+                <div class="modal-footer">
+                    <button type="submit" id="approveTask" class="btn btn-success" name="action:ApproveDocumentTask">@UIElementRes.UIElement.Approve</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">@UIElementRes.UIElement.Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    bootstrap_alertReport = function () { }
+    bootstrap_alertReport.warning = function (message) {
+        $('#alert_placeholderReport').html('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><span class="sr-only">Error:</span>' + message + '</div>')
+    }
+    $('#approveTask').click(function (event) {
+        var comment = $('#ApproveCommentTask').summernote('code');
+        if (checkTextExists(comment) == false) {
+            bootstrap_alertReport.warning('Необходимо заполнить отчет для закрытия поручения');
+            event.preventDefault();
+            return false;
+        }
+
+        if (getClearText(comment).length <= 3) {
+            bootstrap_alertReport.warning('Отчет должен быть более 3 символов');
+            event.preventDefault();
+            return false;
+        }
+    });
+
+    $('#rejectTask').click(function (event) {
+        var comment = $('#RejectCommentTask').summernote('code');
+        if (checkTextExists(comment) == false) {
+            bootstrap_alert.warning('Необходимо указать причину отклонения');
+            event.preventDefault();
+            return false;
+        }
+        if (getClearText(comment).length <= 3) {
+            bootstrap_alert.warning('Причина отклонения должна быть более 3 символов');
+            event.preventDefault();
+            return false;
+        }
+    });
+
+    $('.rejectcz-modal-sm').on('shown.bs.modal', function (e) {
+        $('#RejectCommentTask').summernote('code', $('#lastComment').summernote('code'));
+    })
+
+    $('.approvecz-modal-sm').on('shown.bs.modal', function (e) {
+        $('#ApproveCommentTask').summernote('code', $('#lastComment').summernote('code'));
+    })
+</script>

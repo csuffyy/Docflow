@@ -3108,6 +3108,16 @@ namespace RapidDoc.Controllers
             return PartialView("USR_PRT_TechCommitteeDocuments_View_Full", model);
         }
 
+        public ActionResult GetDailyTask(RapidDoc.Models.ViewModels.USR_TAS_DailyTasks_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+            ViewBag.ProcessId = document.ProcessTableId;
+            if (User.IsInRole("Administrator"))
+                return PartialView("USR_TAS_DailyTasks_Edit", model);
+
+            return PartialView("USR_TAS_DailyTasks_View_Full", model);
+        }
+
         public ActionResult GetPRTProtocolDocuments(RapidDoc.Models.ViewModels.USR_PRT_ProtocolDocuments_View model)
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
