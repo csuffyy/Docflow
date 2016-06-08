@@ -692,13 +692,13 @@ input[type='checkbox']:checked.pseudo-checkbox + label:before{/*checked icon*/
   content: "- ";
 }
 
-.document-data ul > li {
+.document-data ul:not(.nav-tabs) > li {
   text-indent: -13px;
 }
-.document-data ul {
+.document-data ul:not(.nav-tabs) {
   list-style-type: none;
 }
-.document-data ul > li:before {
+.document-data ul:not(.nav-tabs) > li:before {
   content: "- ";
 }
 

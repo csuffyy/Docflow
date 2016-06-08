@@ -15,7 +15,6 @@ using System.Data.Entity.Core;
 using System.Transactions;
 using System.Data.Entity.Infrastructure;
 using Microsoft.AspNet.Identity;
-using NLog;
 
 namespace RapidDoc.Models.Services
 {
@@ -324,14 +323,9 @@ namespace RapidDoc.Models.Services
                     var databaseValues = (NumberSeriesTable)entry.GetDatabaseValues().ToObject();
                     var clientValues = (NumberSeriesTable)entry.Entity;
                     numberSeq.TimeStamp = databaseValues.TimeStamp;
-
-                    Logger logger = LogManager.GetLogger("NumberSeqService");
-                    logger.Error(String.Format("DbUpdateConcurrencyException: {0}, {1}", currentUserId, ex.Message));
                 }
                 catch (Exception ex)
                 {
-                    Logger logger = LogManager.GetLogger("NumberSeqService");
-                    logger.Error(String.Format("Exception: {0}, {1}", currentUserId, ex.Message));
                     throw ex;
                 }
             } while (true);
