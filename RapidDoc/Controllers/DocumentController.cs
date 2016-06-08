@@ -1565,34 +1565,34 @@ namespace RapidDoc.Controllers
             if (isAjax == true)
             {
                 WFTrackerTable tracker = _WorkflowTrackerService.FirstOrDefault(x => x.DocumentTableId == id && x.ActivityID == activityId);
-                if(tracker != null)
-                {
-                    ApplicationUser userTable = _AccountService.Find(User.Identity.GetUserId());
-                    if (userTable == null) return HttpNotFound();
+                if (tracker == null) return HttpNotFound();
 
+                foreach (string data in listdata)
+                {
+                    if (tracker.Users.Exists(x => x.UserId == data) == false)
+                    {
+                        _EmailService.SendNewExecutorEmail(id, data);
+                    }
+                }
+
+                if (User.IsInRole("Administrator"))
+                    tracker.Users = new List<WFTrackerUsersTable>();
+                else
+                    tracker.Users.RemoveAll(x => x.InitiatorUserId != null);
+
+                if (listdata != null)
+                {
+                    string userId = User.Identity.GetUserId();
                     foreach (string data in listdata)
                     {
                         if (tracker.Users.Exists(x => x.UserId == data) == false)
                         {
-                            _EmailService.SendNewExecutorEmail(id, data);
+                            tracker.Users.Add(new WFTrackerUsersTable { UserId = data, InitiatorUserId = userId });
                         }
                     }
-
-                    tracker.Users.RemoveAll(x => x.InitiatorUserId != null);
-
-                    if (listdata != null)
-                    {
-                        foreach (string data in listdata)
-                        {
-                            if (tracker.Users.Exists(x => x.UserId == data) == false)
-                            {
-                                tracker.Users.Add(new WFTrackerUsersTable { UserId = data, InitiatorUserId = userTable.Id });
-                            }
-                        }
-                    }
-
-                    _WorkflowTrackerService.SaveDomain(tracker);
                 }
+
+                _WorkflowTrackerService.SaveDomain(tracker);
             }
 
             return Json(new { result = "Redirect", url = Url.Action("ShowDocument", new { id = id, isAfterView = true }) });
