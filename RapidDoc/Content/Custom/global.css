@@ -678,27 +678,17 @@ input[type='checkbox']:checked.pseudo-checkbox + label:before{/*checked icon*/
     content: "\e006";
 }
 
-.note-editor p, .note-editable > h6, .note-editor > h6, .textblock > h6 {
+.note-editor p, .note-editable > h6, .note-editor > h6, .textblock > h6, .note-editable > ul, .textblock > ul {
     margin: 0;
 }
 
-.note-editable ul > li {
+.document-data ul:not(.nav-tabs):not(.dropdown-menu) > li {
   text-indent: -13px;
 }
-.note-editable ul {
+.document-data ul:not(.nav-tabs):not(.dropdown-menu) {
   list-style-type: none;
 }
-.note-editable ul > li:before {
-  content: "- ";
-}
-
-.document-data ul:not(.nav-tabs) > li {
-  text-indent: -13px;
-}
-.document-data ul:not(.nav-tabs) {
-  list-style-type: none;
-}
-.document-data ul:not(.nav-tabs) > li:before {
+.document-data ul:not(.nav-tabs):not(.dropdown-menu) > li:before {
   content: "- ";
 }
 
