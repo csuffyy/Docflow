@@ -349,6 +349,7 @@
     <Compile Include="Extensions\DefaultScaffoldingExtensions.cs" />
     <Compile Include="Extensions\ExceptionExtensions.cs" />
     <Compile Include="Extensions\Extensions.cs" />
+    <Compile Include="Extensions\HierarchyComparer.cs" />
     <Compile Include="Extensions\HtmlExtensions.cs" />
     <Compile Include="Extensions\HttpRequestMessageExtensions.cs" />
     <Compile Include="Extensions\UrlHelperExtensions.cs" />

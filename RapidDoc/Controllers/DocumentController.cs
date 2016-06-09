@@ -1302,7 +1302,7 @@ namespace RapidDoc.Controllers
         public ActionResult GetAllComment(Guid documentId, Guid? parentId, string lastComment = "")
         {
             SaveComment(documentId, parentId, lastComment);
-            var model = _CommentService.GetPartialView(x => x.DocumentTableId == documentId).OrderBy(x => x.Lineage);
+            var model = _CommentService.GetPartialView(x => x.DocumentTableId == documentId).OrderBy(x => x.Lineage, new HierarchyComparer());
             return PartialView("~/Views/Shared/_Comments.cshtml", model);
         }
 

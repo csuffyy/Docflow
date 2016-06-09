@@ -211,29 +211,60 @@ namespace RapidDoc.Models.Services
             }
 
             var documentAccessListArray = documentAccessList.ToArray();
-            var prepareResult = from search in contextQuery.SearchTable
-                where (search.CreatedDate >= model.StartDate || model.StartDate == null) &&
-                    (search.CreatedDate <= model.EndDate || model.EndDate == null) &&
-                    (search.DocumentTable.CompanyTableId == model.CompanyTableId || model.CompanyTableId == null) &&
-                    (search.DocumentTable.ProcessTableId == model.ProcessTableId || model.ProcessTableId == null) &&
-                    (search.DocumentTable.ApplicationUserCreatedId == createdUserId || createdUserId == null) &&
-                    documentAccessListArray.Contains(search.DocumentTable.Id) &&
-                    (search.DocumentText.Contains(searchString) || (search.DocumentTable.DocumentNum.Contains(searchString)) || searchString == null || searchString == String.Empty)
-                orderby search.CreatedDate descending
-                select new SearchView
-                {
-                    ApplicationUserCreatedId = search.ApplicationUserCreatedId,
-                    ApplicationUserModifiedId = search.ApplicationUserModifiedId,
-                    CreatedDate = search.CreatedDate,
-                    DocumentNum = search.DocumentTable.DocumentNum,
-                    DocumentTableId = search.DocumentTableId,
-                    DocumentText = search.DocumentText,
-                    ProcessName = search.DocumentTable.ProcessTable.ProcessName,
-                    ModifiedDate = search.ModifiedDate,
-                    Id = search.Id,
-                    AliasCompanyName = search.DocumentTable.CompanyTable.AliasCompanyName,
-                    CompanyTableId = search.DocumentTable.CompanyTableId
-                };
+            List<SearchView> prepareResult = new List<SearchView>();
+
+            if (UserManager.IsInRole(currentUser.Id, "Administrator"))
+            {
+                prepareResult.AddRange((from search in contextQuery.SearchTable
+                                     where (search.CreatedDate >= model.StartDate || model.StartDate == null) &&
+                                         (search.CreatedDate <= model.EndDate || model.EndDate == null) &&
+                                         (search.DocumentTable.CompanyTableId == model.CompanyTableId || model.CompanyTableId == null) &&
+                                         (search.DocumentTable.ProcessTableId == model.ProcessTableId || model.ProcessTableId == null) &&
+                                         (search.DocumentTable.ApplicationUserCreatedId == createdUserId || createdUserId == null) &&
+                                         (search.DocumentText.Contains(searchString) || (search.DocumentTable.DocumentNum.Contains(searchString)) || searchString == null || searchString == String.Empty)
+                                     orderby search.CreatedDate descending
+                                     select new SearchView
+                                     {
+                                         ApplicationUserCreatedId = search.ApplicationUserCreatedId,
+                                         ApplicationUserModifiedId = search.ApplicationUserModifiedId,
+                                         CreatedDate = search.CreatedDate,
+                                         DocumentNum = search.DocumentTable.DocumentNum,
+                                         DocumentTableId = search.DocumentTableId,
+                                         DocumentText = search.DocumentText,
+                                         ProcessName = search.DocumentTable.ProcessTable.ProcessName,
+                                         ModifiedDate = search.ModifiedDate,
+                                         Id = search.Id,
+                                         AliasCompanyName = search.DocumentTable.CompanyTable.AliasCompanyName,
+                                         CompanyTableId = search.DocumentTable.CompanyTableId
+                                     }).Take(200));
+            }
+            else
+            {
+                prepareResult.AddRange((from search in contextQuery.SearchTable
+                                     where (search.CreatedDate >= model.StartDate || model.StartDate == null) &&
+                                         (search.CreatedDate <= model.EndDate || model.EndDate == null) &&
+                                         (search.DocumentTable.CompanyTableId == model.CompanyTableId || model.CompanyTableId == null) &&
+                                         (search.DocumentTable.ProcessTableId == model.ProcessTableId || model.ProcessTableId == null) &&
+                                         (search.DocumentTable.ApplicationUserCreatedId == createdUserId || createdUserId == null) &&
+                                         documentAccessListArray.Contains(search.DocumentTable.Id) &&
+                                         (search.DocumentText.Contains(searchString) || (search.DocumentTable.DocumentNum.Contains(searchString)) || searchString == null || searchString == String.Empty)
+                                     orderby search.CreatedDate descending
+                                     select new SearchView
+                                     {
+                                         ApplicationUserCreatedId = search.ApplicationUserCreatedId,
+                                         ApplicationUserModifiedId = search.ApplicationUserModifiedId,
+                                         CreatedDate = search.CreatedDate,
+                                         DocumentNum = search.DocumentTable.DocumentNum,
+                                         DocumentTableId = search.DocumentTableId,
+                                         DocumentText = search.DocumentText,
+                                         ProcessName = search.DocumentTable.ProcessTable.ProcessName,
+                                         ModifiedDate = search.ModifiedDate,
+                                         Id = search.Id,
+                                         AliasCompanyName = search.DocumentTable.CompanyTable.AliasCompanyName,
+                                         CompanyTableId = search.DocumentTable.CompanyTableId
+                                     }).Take(200));
+            }
+
             int count = prepareResult.Count();
             result = prepareResult.Skip(startIndex).Take(blockSize).ToList();
             List<ApplicationUser> users = repoUser.All().ToList();
