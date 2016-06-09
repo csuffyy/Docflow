@@ -211,17 +211,17 @@ namespace RapidDoc.Controllers
                                             continue;
                                     }
 
-                                    List<ApplicationUser> result = new List<ApplicationUser>();
-                                    var usersReminder = _Documentservice.GetSignUsersDirect(document).ToList();
+                                    List<GetUserWithSLA> result = new List<GetUserWithSLA>();
+                                    var usersReminder = _Documentservice.GetSignUsersDirectWithSLA(document).ToList();   
 
                                     foreach (var item in usersReminder)
                                     {
-                                        if (_ReviewDocLogService.isArchive(document.Id, "", item) == false || document.DocType == DocumentType.Task)
+                                        if (_ReviewDocLogService.isArchive(document.Id, "", item.User) == false || document.DocType == DocumentType.Task)
                                         {
                                             if (document.DocType == DocumentType.Task)
                                             {
                                                 var tracker = _WorkflowTrackerService.GetPartial(x => x.TrackerType == TrackerType.Waiting && x.DocumentTableId == document.Id).OrderByDescending(x => x.LineNum).FirstOrDefault();
-                                                if (tracker != null && !tracker.Users.Any(x => x.UserId == item.Id))
+                                                if (tracker != null && !tracker.Users.Any(x => x.UserId == item.User.Id))
                                                     continue;
                                             }
 
@@ -234,9 +234,17 @@ namespace RapidDoc.Controllers
 
                                 foreach (var user in users)
                                 {
-                                    var userDocuments = checkData.Where(x => x.Users.Any(a => a.Id == user.Id)).GroupBy(b => b.DocumentTable).Select(group => group.Key).ToList();
-                                    if (userDocuments.Count() > 0)
-                                        _Emailservice.SendReminderEmail(user, userDocuments);
+                                    List<UserDocumentsWithLSLA> listResult = new List<UserDocumentsWithLSLA>();
+                                    var userDocuments = checkData.Where(x => x.Users.Any(a => a.User.Id == user.Id));
+
+                                    foreach (var item in userDocuments)
+                                    {
+                                        GetUserWithSLA statusSla = item.Users.FirstOrDefault();
+                                        listResult.Add(new UserDocumentsWithLSLA { Document = item.DocumentTable, Status = statusSla.Status, Date = statusSla.Date });
+                                    }
+
+                                    if (listResult.Count() > 0)
+                                        _Emailservice.SendReminderEmailWithSLA(user, listResult);
                                 }
                             }
                             //_Emailservice.SendStatusExecutionBatch(String.Format("Procedure {0} was completed in the {1} company.", id.ToString(), company.AliasCompanyName), false);
@@ -353,13 +361,13 @@ namespace RapidDoc.Controllers
 
     public class ReminderUsers
     {
-        public ReminderUsers(DocumentTable documentTable, List<ApplicationUser> users)
+        public ReminderUsers(DocumentTable documentTable, List<GetUserWithSLA> users)
         {
             DocumentTable = documentTable;
             Users = users;
         }
 
         public DocumentTable DocumentTable { get; set; }
-        public List<ApplicationUser> Users { get; set; }
+        public List<GetUserWithSLA> Users { get; set; }
     }
 }

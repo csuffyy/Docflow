@@ -36,6 +36,7 @@ namespace RapidDoc.Models.Services
         bool CheckDelegation(ApplicationUser user, ProcessTable process, WFTrackerTable trackerTable);
         bool CheckTrackerUsers(IEnumerable<WFTrackerTable> trackerTables, string userId);
         bool CheckTrackerUsers(WFTrackerTable trackerTable, string userId);
+        List<GetUserWithSLA> GetDelegationUsersSLA(DocumentTable document, List<GetUserWithSLA> users);
     }
 
     public class DelegationService : IDelegationService
@@ -322,6 +323,42 @@ namespace RapidDoc.Models.Services
             }
 
             return false;
+        }
+
+
+
+
+        public List<GetUserWithSLA> GetDelegationUsersSLA(DocumentTable document, List<GetUserWithSLA> users)
+        {
+            List<GetUserWithSLA> result = new List<GetUserWithSLA>();
+
+            foreach (var user in users)
+            {
+                var delegationItems = GetPartialIntercompany(x => x.EmplTableFrom.ApplicationUserId == user.User.Id
+                    && x.DateFrom <= DateTime.UtcNow && x.DateTo >= DateTime.UtcNow
+                    && x.isArchive == false && x.CompanyTableId == user.User.CompanyTableId);
+
+                foreach (var delegationItem in delegationItems)
+                {
+                    if (delegationItem.GroupProcessTableId != null || delegationItem.ProcessTableId != null)
+                    {
+                        if (delegationItem.ProcessTableId == document.ProcessTableId)
+                        {
+                            result.Add(new GetUserWithSLA { Status = user.Status, User = repoUser.GetById(delegationItem.EmplTableTo.ApplicationUserId), Date = user.Date });
+                        }
+                        else if (delegationItem.GroupProcessTableId != null && (document.ProcessTable.GroupProcessTableId == delegationItem.GroupProcessTableId || _GroupProcessService.GetGroupChildren(delegationItem.GroupProcessTableId).Any(x => x == document.ProcessTable.GroupProcessTableId)))
+                        {
+                            result.Add(new GetUserWithSLA { Status = user.Status, User = repoUser.GetById(delegationItem.EmplTableTo.ApplicationUserId), Date = user.Date });
+                        }
+                    }
+                    else
+                    {
+                        result.Add(new GetUserWithSLA { Status = user.Status, User = repoUser.GetById(delegationItem.EmplTableTo.ApplicationUserId), Date = user.Date });
+                    }
+                }
+            }
+
+            return result;
         }
     }
 }

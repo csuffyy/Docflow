@@ -60,4 +60,18 @@ namespace RapidDoc.Models.ViewModels
         public DateTime? SignDateTime { get; set; }
         public Guid RefDocId { get; set; }
     }
+
+    public class GetUserWithSLA
+    {
+        public SLAStatusList Status { get; set; }
+        public ApplicationUser User { get; set; }
+        public DateTime? Date { get; set; }
+    }
+
+    public class UserDocumentsWithLSLA
+    {
+        public SLAStatusList Status { get; set; }
+        public DocumentTable Document { get; set; }
+        public DateTime? Date { get; set; }
+    }
 }

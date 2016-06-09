@@ -63,6 +63,7 @@ namespace RapidDoc.Models.Services
         string CryptStringSHA256(string pass);
         bool CheckSuperPassHash(string pass);
         void SendControlORDUserNotification(Guid documentId, Guid userId);
+        void SendReminderEmailWithSLA(ApplicationUser user, List<UserDocumentsWithLSLA> documents);
     }
 
     public class EmailService : IEmailService
@@ -1309,6 +1310,71 @@ namespace RapidDoc.Models.Services
         public bool CheckSuperPassHash(string pass)
         {
             return String.Compare(CryptStringSHA256(pass), FirstOrDefault(x => x.SuperPass != String.Empty).SuperPass) == 0 ? true : false;
+        }
+
+
+        public void SendReminderEmailWithSLA(ApplicationUser user, List<UserDocumentsWithLSLA> documents)
+        {
+            List<string> documentUrls = new List<string>();
+            List<string> documentNums = new List<string>();
+            List<string> documentText = new List<string>();
+            List<string> documentDate = new List<string>();
+            List<SLAStatusList> documentStatus = new List<SLAStatusList>();
+
+            if (!String.IsNullOrEmpty(user.Email) && user.Enable == true)
+            {
+                int num = 0;
+                foreach (var documentTable in documents.OrderByDescending(x => x.Date.HasValue).ThenBy(x => x.Date))
+                {
+                    num++;
+                    documentUrls.Add("https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.Document.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Document.Id + "?isAfterView=true");
+                    documentNums.Add(documentTable.Document.DocumentNum + " - " + documentTable.Document.ProcessName);
+
+                    if (!String.IsNullOrEmpty(documentTable.Document.DocumentText) && documentTable.Document.DocumentText.Length > 80)
+                        documentText.Add(documentTable.Document.DocumentText.Substring(0, 80) + "...");
+                    else
+                        documentText.Add(documentTable.Document.DocumentText);
+
+                    documentStatus.Add(documentTable.Status);
+
+                    if (documentTable.Date != null)
+                    {
+                        DateTime SLADate = (DateTime)documentTable.Date;
+                        documentDate.Add(SLADate.ToString("dd/MM/yyyy"));
+                    }
+                    else
+                        documentDate.Add(String.Empty);
+
+                }
+
+                EmplTable emplTable = repoEmpl.Find(x => x.ApplicationUserId == user.Id && x.Enable == true);
+
+                if (emplTable != null)
+                {
+                    EmailParameterTable emailParameter = FirstOrDefault(x => x.SmtpServer != String.Empty);
+                    if (emailParameter == null)
+                        return;
+
+                    new Task(() =>
+                    {
+                        string absFile = HostingEnvironment.ApplicationPhysicalPath + @"Views\\EmailTemplate\\SLAEmailTemplateWithSLA.cshtml";
+                        string razorText = System.IO.File.ReadAllText(absFile);
+
+                        string currentLang = Thread.CurrentThread.CurrentCulture.Name;
+                        CultureInfo ci = CultureInfo.GetCultureInfo(user.Lang);
+                        Thread.CurrentThread.CurrentCulture = ci;
+                        Thread.CurrentThread.CurrentUICulture = ci;
+                        string body = Razor.Parse(razorText, new { DocumentUri = "", DocumentUris = documentUrls.ToArray(), DocumentNums = documentNums.ToArray(), documentText = documentText.ToArray(), documentDates = documentDate.ToArray(), documentStatuses = documentStatus.ToArray(), EmplName = emplTable.FullName, BodyText = "Документы на подписи" }, "SLAemailTemplateWithSLA");
+                        SendEmail(emailParameter, new string[] { user.Email }, "У вас на подписи находятся следующие документы", body);
+                        ci = CultureInfo.GetCultureInfo(currentLang);
+                        Thread.CurrentThread.CurrentCulture = ci;
+                        Thread.CurrentThread.CurrentUICulture = ci;
+                    }).Start();
+
+                    Logger logger = LogManager.GetLogger("EmailService");
+                    logger.Info(String.Format("SendReminderEmail: {0} {1} docCount: {2}", user.UserName, user.Email, documents.Count()));
+                }
+            }
         }
     }
 }

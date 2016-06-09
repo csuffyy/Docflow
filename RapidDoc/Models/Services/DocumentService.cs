@@ -101,6 +101,8 @@ namespace RapidDoc.Models.Services
         void ProlongateDate(Guid documentId, DateTime prolongationDate, string currentUserId, ProcessView process);
         string GetDownTaskReports(Guid documentId);
         void ChangeUpRelatedTasksReports(Guid documentId, ApplicationUser user);
+        List<GetUserWithSLA> GetSignUsersDirectWithSLA(DocumentTable docuTable);
+
     }
 
     public class DocumentService : IDocumentService
@@ -2383,5 +2385,62 @@ namespace RapidDoc.Models.Services
         }    
 
         #endregion   
+    
+
+        public List<GetUserWithSLA> GetSignUsersDirectWithSLA(DocumentTable docuTable)
+        {
+            List<GetUserWithSLA> signUsers = new List<GetUserWithSLA>();
+            SLAStatusList status = SLAStatusList.NoWarning;
+            DateTime? statusDate = null;
+            if (docuTable != null)
+            {
+                List<WFTrackerTable> trackerTables = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == docuTable.Id && x.TrackerType == TrackerType.Waiting).ToList();
+                List<ApplicationUser> users = repoUser.FindAll(x => x.Enable == true && x.Email != String.Empty).ToList();
+
+                if (trackerTables != null)
+                {
+                    foreach (var trackerTable in trackerTables)
+                    {
+                        if (trackerTable.Users != null)
+                        {
+                            if (trackerTable.SLAOffset > 0)
+                            {
+                                DateTime? date = GetSLAPerformDate(docuTable.Id, trackerTable.StartDateSLA, trackerTable.SLAOffset);
+
+                                if (date != null)
+                                {
+                                    if (date < DateTime.UtcNow)
+                                    {
+                                        status = SLAStatusList.Disturbance;
+                                        statusDate = date;
+                                    }
+                                    if (DateTime.UtcNow < date && (
+                                        Convert.ToInt32((date.Value - DateTime.UtcNow).TotalDays) == 7 || Convert.ToInt32((date.Value - DateTime.UtcNow).TotalDays) < 4))
+                                    {
+                                        status = SLAStatusList.Warning;
+                                        statusDate = date;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                statusDate = null;
+                                status = SLAStatusList.NoWarning;
+                            }
+                            foreach (var trackUser in trackerTable.Users)
+                            {
+                                ApplicationUser user = users.FirstOrDefault(x => x.Id == trackUser.UserId);
+                                if (user != null)
+                                    signUsers.Add(new GetUserWithSLA { Status = status, User = user, Date = statusDate });
+                            }
+                        }
+                    }
+                }
+                List<GetUserWithSLA> delegationUserCheck = signUsers.ToList();
+                signUsers.AddRange(_DelegationService.GetDelegationUsersSLA(docuTable, delegationUserCheck));
+            }
+
+            return signUsers;
+        }
     }
 }
