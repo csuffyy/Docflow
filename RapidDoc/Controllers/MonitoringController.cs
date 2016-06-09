@@ -56,7 +56,9 @@ namespace RapidDoc.Controllers
                                     (documentRef.DocType == DocumentType.Protocol && context.USR_PRT_ProtocolDocuments_Table.Any(x => x.DocumentTableId == documentRef.Id)) ||
                                     (documentRef.DocType == DocumentType.Order && context.USK_ORD_MainActivity_Table.Any(x => x.DocumentTableId == documentRef.Id)) ||
                                     (documentRef.DocType == DocumentType.IncomingDoc && context.USK_IND_IncomingDocuments_Table.Any(x => x.DocumentTableId == documentRef.Id)) ||
-                                    (documentRef.DocType == DocumentType.Protocol && context.USK_PRT_DirectorateDocuments_Table.Any(x => x.DocumentTableId == documentRef.Id)))
+                                    (documentRef.DocType == DocumentType.Protocol && context.USK_PRT_DirectorateDocuments_Table.Any(x => x.DocumentTableId == documentRef.Id)) ||
+                                    (documentRef.DocType == DocumentType.IncomingDoc && context.USC_IND_IncomingDocuments_Table.Any(x => x.DocumentTableId == documentRef.Id)) ||
+                                    (documentRef.DocType == DocumentType.Protocol && context.USC_PRT_ProtocolDocuments_Table.Any(x => x.DocumentTableId == documentRef.Id)))
                                 select new MonitoringTasksView
                                 { 
                                     DocumentNumber = document.DocumentNum,
@@ -114,6 +116,10 @@ namespace RapidDoc.Controllers
                                 USK_IND_IncomingDocuments_Table incomingKzh = context.USK_IND_IncomingDocuments_Table.FirstOrDefault(x => x.DocumentTableId == item.RefDocId);
                                 item.DocumentText = String.Format(@"({0})/({1})", incomingKzh.IncomingDocNum, incomingKzh.DocumentSubject);
                                 break;
+                            case "KZC":
+                                USC_IND_IncomingDocuments_Table incomingKzc = context.USC_IND_IncomingDocuments_Table.FirstOrDefault(x => x.DocumentTableId == item.RefDocId);
+                                item.DocumentText = String.Format(@"({0})/({1})", incomingKzc.IncomingDocNum, incomingKzc.DocumentSubject);
+                                break;
                         }
                         
                         break;
@@ -127,6 +133,10 @@ namespace RapidDoc.Controllers
                             case "KZH":
                                 USK_PRT_DirectorateDocuments_Table protocolKzh = context.USK_PRT_DirectorateDocuments_Table.FirstOrDefault(x => x.DocumentTableId == item.RefDocId);
                                 item.DocumentText = protocolKzh.Subject;
+                                break;
+                            case "KZC":
+                                USC_PRT_ProtocolDocuments_Table protocolKzc = context.USC_PRT_ProtocolDocuments_Table.FirstOrDefault(x => x.DocumentTableId == item.RefDocId);
+                                item.DocumentText = protocolKzc.Subject;
                                 break;
                         }
                         

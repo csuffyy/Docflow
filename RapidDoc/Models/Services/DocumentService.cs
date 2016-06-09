@@ -32,7 +32,6 @@ namespace RapidDoc.Models.Services
         IQueryable<DocumentTaskView> GetTaskDocumentView();
         IEnumerable<DocumentTable> GetPartial(Expression<Func<DocumentTable, bool>> predicate);
         DocumentTable FirstOrDefault(Expression<Func<DocumentTable, bool>> predicate);
-        DocumentView FirstOrDefaultView(Expression<Func<DocumentTable, bool>> predicate);
         bool Contains(Expression<Func<DocumentTable, bool>> predicate);
         IQueryable<DocumentView> GetAgreedDocument();
         DocumentTable Find(Guid? id);
@@ -56,13 +55,10 @@ namespace RapidDoc.Models.Services
         void UpdateFile(FileTable file);
         bool FileContains(Guid documentFileId);
         FileTable GetFile(Guid Id);
-        FileTable FirstOrDefaultFile(Expression<Func<FileTable, bool>> predicate);
         bool FileReplaceContains(Guid id);
         IEnumerable<FileTable> GetAllFilesDocument(Guid documentFileId);
         string DeleteFile(Guid Id);
-        List<ApplicationUser> GetSignUsers(DocumentTable docuTable);
         List<ApplicationUser> GetSignUsersDirect(DocumentTable docuTable);
-        List<WFTrackerUsersTable> GetUsersSLAStatus(DocumentTable docuTable, SLAStatusList status);
         DateTime? GetSLAPerformDate(Guid DocumentId, DateTime? CreatedDate, double SLAOffset);
         IEnumerable<FileTable> GetAllTemplatesDocument(Guid processId);
         IEnumerable<FileTable> GetAllXAMLDocument(Guid processId);
@@ -86,8 +82,6 @@ namespace RapidDoc.Models.Services
         SelectList OutcomingDocList<T>(Guid? id) where T : BasicOutcomingDocumentsTable;
         List<T> GetRefOutcomingDocs<T>(Guid? id) where T : BasicOutcomingDocumentsTable;
         List<IncomingDublicateView> CheckIncomeDublicateDocument(Guid OrganizationId, string OutgoingNumber, DateTime OutgoingDate);
-        Type GetTableType(string TableName);
-        string ScrubHtml(string value);
         double GetSLAHours(Guid documentId, DateTime? startDate, DateTime? endDate);
         Guid DuplicateFile(FileTable fileTable, string userId, Guid? docFileId = null);
         WFTrackerTable FirstOrDefaultTrackerItem(ProcessTable process, Guid documentId, string userId);
@@ -737,10 +731,6 @@ namespace RapidDoc.Models.Services
         {
             return repoDocument.Find(predicate);
         }
-        public DocumentView FirstOrDefaultView(Expression<Func<DocumentTable, bool>> predicate)
-        {
-            return Mapper.Map<DocumentTable, DocumentView>(FirstOrDefault(predicate));
-        }
 
         public DocumentTable Find(Guid? id)
         {
@@ -1034,36 +1024,6 @@ namespace RapidDoc.Models.Services
             return false;
         }
 
-        public List<ApplicationUser> GetSignUsers(DocumentTable docuTable)
-        {
-            List<ApplicationUser> signUsers = new List<ApplicationUser>();
-
-            if(docuTable != null)
-            {
-                IEnumerable<WFTrackerTable> trackerTables = _WorkflowTrackerService.GetCurrentStep(x => x.DocumentTableId == docuTable.Id && x.TrackerType == TrackerType.Waiting);
-
-                if (trackerTables != null)
-                {
-                    foreach (var trackerTable in trackerTables)
-                    {
-                        if (trackerTable.Users != null)
-                        {
-                            foreach (var trackUser in trackerTable.Users)
-                            {
-                                ApplicationUser user = repoUser.GetById(trackUser.UserId);
-                                if (user != null)
-                                    signUsers.Add(user);
-                            }
-                        }
-                    }
-                }
-                List<ApplicationUser> delegationUserCheck = signUsers.ToList();
-                signUsers.AddRange(_DelegationService.GetDelegationUsers(docuTable, delegationUserCheck));
-            }
-
-            return signUsers;
-        }
-
         public List<ApplicationUser> GetSignUsersDirect(DocumentTable docuTable)
         {
             List<ApplicationUser> signUsers = new List<ApplicationUser>();
@@ -1241,11 +1201,6 @@ namespace RapidDoc.Models.Services
             return repoFile.GetById(Id);
         }
 
-        public FileTable FirstOrDefaultFile(Expression<Func<FileTable, bool>> predicate)
-        {
-            return repoFile.Find(predicate);
-        }
-
         public bool FileReplaceContains(Guid id)
         {
             return repoFile.Any(x => x.ReplaceRef == id);
@@ -1296,36 +1251,6 @@ namespace RapidDoc.Models.Services
         {
             repoDocument.Delete(x => x.Id == Id);
             _uow.Commit();
-        }
-
-        public List<WFTrackerUsersTable> GetUsersSLAStatus(DocumentTable docuTable, SLAStatusList status)
-        {
-            List<WFTrackerUsersTable> users = new List<WFTrackerUsersTable>();
-            IEnumerable<WFTrackerTable> items = _WorkflowTrackerService.GetCurrentStep(x => x.DocumentTableId == docuTable.Id && x.TrackerType == TrackerType.Waiting && x.SLAOffset > 0);
-
-            if (items != null)
-            {
-                foreach (var item in items)
-                {
-                    DateTime? date = GetSLAPerformDate(docuTable.Id, item.StartDateSLA, item.SLAOffset);
-
-                    if (date != null)
-                    {
-                        if (SLAStatusList.Disturbance == status && date < DateTime.UtcNow)
-                        {
-                            users.AddRange(item.Users);
-                        }
-
-                        if (SLAStatusList.Warning == status && DateTime.UtcNow < date && (
-                            Convert.ToInt32((date.Value - DateTime.UtcNow).TotalDays) == 7 || Convert.ToInt32((date.Value - DateTime.UtcNow).TotalDays) < 4))
-                        {
-                            users.AddRange(item.Users);
-                        }
-                    }
-                }
-            }
-
-            return users;
         }
 
         public DateTime? GetSLAPerformDate(Guid DocumentId, DateTime? CreatedDate, double SLAOffset)
@@ -1948,19 +1873,6 @@ namespace RapidDoc.Models.Services
                            });
             return items;
         }
-
-        public Type GetTableType(string TableName)
-        {
-            return Type.GetType("RapidDoc.Models.DomainModels." + TableName + "_Table");
-        }
-
-        public string ScrubHtml(string value)
-        {
-            var step1 = Regex.Replace(value, @"<[^>]+>|&nbsp;", "").Trim();
-            var step2 = Regex.Replace(step1, @"\s{2,}", " ");
-            return step2;
-        }
-
 
         public double GetSLAHours(Guid documentId, DateTime? startDate, DateTime? endDate)
         {
