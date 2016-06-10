@@ -42,35 +42,14 @@ namespace RapidDoc.Controllers
             ApplicationUser user = _AccountService.Find(id);
             EmplTable emplTable = _EmplService.FirstOrDefault(x => x.ApplicationUserId == user.Id && x.Enable == true );
             if (emplTable == null)
-            {
                 ModelState.AddModelError(string.Empty, String.Format(ValidationRes.ValidationResource.ErrorEmplNotFound, User.Identity.Name));
-            }
 
-            var allCompanyProcesses = _ProcessService.GetPartialIntercompany(x => x.CompanyTableId == user.CompanyTableId && x.isApproved == true).Select(z => z.Id).ToList();
             List<ProcessView> topProcess = new List<ProcessView>();
             DateTime startDateTopProcess = DateTime.UtcNow.AddDays(-30);
-            var processes = _DocumentService.GetPartial(x => x.CreatedDate >= startDateTopProcess).GroupBy(x => x.ProcessTableId).Where(z => allCompanyProcesses.Contains(z.Key)).Select(g => new { ProcessTableId = g.Key, Count = g.Count() }).OrderByDescending(i => i.Count).Select(y => y.ProcessTableId).ToList();         
-            int num = 0;
 
-            if (processes != null)
-            {
-                foreach (var processId in processes)
-                {
-                    if(num > 8)
-                    {
-                        break;
-                    }
-
-                    List<ProcessView> result = new List<ProcessView>();
-                    ProcessView process = _ProcessService.FindView(processId);
-
-                    if (process != null && CheckCreateProcess(process, user.Id))
-                    {
-                        num++;
-                        topProcess.Add(process);
-                    }
-                }
-            }
+            Guid[] processes = _ProcessService.GetPartialIntercompany(x => x.CompanyTableId == user.CompanyTableId && x.isApproved == true && x.DocType != Models.Repository.DocumentType.Task && x.StartWorkTime == x.EndWorkTime && x.RoleId == null).Select(z => z.Id).ToArray();
+            Guid[] topProcessArray = _DocumentService.GetPartial(x => x.CreatedDate >= startDateTopProcess && x.CompanyTableId == user.CompanyTableId && processes.Contains(x.ProcessTableId)).GroupBy(x => x.ProcessTableId).Select(g => new { ProcessTableId = g.Key, Count = g.Count() }).OrderByDescending(i => i.Count).Take(8).Select(y => y.ProcessTableId).ToArray();
+            topProcess.AddRange(_ProcessService.GetPartialView(x => topProcessArray.Contains(x.Id)));
             ViewBag.TopProcess = topProcess;
 
             var timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById(user.TimeZoneId);
