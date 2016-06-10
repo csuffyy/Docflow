@@ -714,4 +714,7 @@
   <data name="SaveDraftQuestion" xml:space="preserve">
     <value>Есть не сохраненые данные на странице, вы можете сохранить документ как Черновик, оставшись на странице, в противном случае введенные данные будут потеряны.</value>
   </data>
+  <data name="MonitoringRequest" xml:space="preserve">
+    <value>Мониторинг заявок</value>
+  </data>
 </root>

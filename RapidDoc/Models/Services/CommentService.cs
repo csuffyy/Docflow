@@ -67,7 +67,7 @@ namespace RapidDoc.Models.Services
                     if (empl != null)
                         commentsView.Add(new CommentView { Id = comment.Id, Comment = comment.Comment, CreatedDate = _SystemService.ConvertDateTimeToLocal(user, comment.CreatedDate), EmplName = empl.FullName, TitleName = empl.TitleName, CommentTableParentId = comment.CommentTableParentId, Deep = comment.Deep, Lineage = comment.Lineage });
                     else
-                        commentsView.Add(new CommentView { Id = comment.Id, Comment = comment.Comment, CreatedDate = _SystemService.ConvertDateTimeToLocal(user, comment.CreatedDate), EmplName = user.UserName, TitleName = "", CommentTableParentId = comment.CommentTableParentId, Deep = comment.Deep, Lineage = comment.Lineage });
+                        commentsView.Add(new CommentView { Id = comment.Id, Comment = comment.Comment, CreatedDate = _SystemService.ConvertDateTimeToLocal(user, comment.CreatedDate), EmplName = user.UserName, TitleName = String.Empty, CommentTableParentId = comment.CommentTableParentId, Deep = comment.Deep, Lineage = comment.Lineage });
                 }
             }
 
@@ -116,9 +116,9 @@ namespace RapidDoc.Models.Services
             }
             else
             {
-                CommentTable commentParent = this.Find(comment.CommentTableParentId ?? Guid.Empty);
+                CommentTable commentParent = this.Find(_SystemService.GuidNull2Guid(comment.CommentTableParentId));
                 comment.Lineage = commentParent.Lineage + "-" + comment.LineNum.ToString();
-                comment.Deep = commentParent.Deep + 1;
+                comment.Deep = commentParent.Deep++;
             }
             this.SaveDomain(comment);
         }
