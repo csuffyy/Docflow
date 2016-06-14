@@ -708,4 +708,7 @@
   <data name="SaveDraftQuestion" xml:space="preserve">
     <value>-</value>
   </data>
+  <data name="MonitoringRequest" xml:space="preserve">
+    <value>-</value>
+  </data>
 </root>

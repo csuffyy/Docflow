@@ -12,6 +12,7 @@ namespace RapidDoc.Models.Services
     public interface ISystemService
     {
         DateTime ConvertDateTimeToLocal(ApplicationUser userTable, DateTime value);
+        DateTime ConvertDateTimeToLocal(TimeZoneInfo timeZoneInfo, DateTime value);
         bool IsGUID(string expression);
         string[] GuidsFromText(string text);
         string RemoveColorFromText(string text);
@@ -22,6 +23,7 @@ namespace RapidDoc.Models.Services
         string DeleteLastTagSegment(string text);
         string DeleteEmptyTag(string text);
         string ReplaceLastOccurrence(string source, string find, string replace);
+        Guid GuidNull2Guid(Guid? value);
     }
 
     public class SystemService : ISystemService
@@ -34,14 +36,17 @@ namespace RapidDoc.Models.Services
             var timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById(userTable.TimeZoneId);
             return TimeZoneInfo.ConvertTimeFromUtc(value, timeZoneInfo);
         }
+        public DateTime ConvertDateTimeToLocal(TimeZoneInfo timeZoneInfo, DateTime value)
+        {
+            return TimeZoneInfo.ConvertTimeFromUtc(value, timeZoneInfo);
+        }
         public bool IsGUID(string expression)
         {
-            if (expression != null)
-            {
-                Regex isGuid = new Regex(@"^(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}$", RegexOptions.Compiled);
-                return isGuid.IsMatch(expression);
-            }
-            return false;
+            if (String.IsNullOrEmpty(expression))
+                return false;
+
+            Regex isGuid = new Regex(@"^(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}$", RegexOptions.Compiled);
+            return isGuid.IsMatch(expression);
         }
 
         public string[] GuidsFromText(string text)
@@ -114,6 +119,7 @@ namespace RapidDoc.Models.Services
             string prepare = DeleteAllTags(text);
             prepare = DeleteAllSpecialCharacters(prepare);
             prepare = prepare.Trim();
+
             if (String.IsNullOrEmpty(prepare) || String.IsNullOrWhiteSpace(prepare))
                 return false;
 
@@ -129,6 +135,11 @@ namespace RapidDoc.Models.Services
 
             string result = source.Remove(place, find.Length).Insert(place, replace);
             return result;
+        }
+
+        public Guid GuidNull2Guid(Guid? value)
+        {
+            return value ?? Guid.Empty;
         }
     }
 }
