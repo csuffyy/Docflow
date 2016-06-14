@@ -5,7 +5,6 @@
 @Html.HiddenFor(model => model.Id)
 @Html.HiddenFor(model => model.DocumentTableId)
 
-@Html.HiddenFor(model => model.Days)
 @Html.HiddenFor(model => model.Item)
 
 @Html.HiddenFor(model => model.Department)
@@ -14,14 +13,6 @@
 @Html.HiddenFor(model => model.NameItem)
 @Html.HiddenFor(model => model.Amount)
 @Html.HiddenFor(model => model.TechType)
-
-
-<div class="editor-label">
-    @Html.LabelFor(model => Model.Days):
-</div>
-<div class="editor-field">
-    @Html.EnumToDescription(Model.Days)
-</div>
 
 <div class="editor-label">
     @Html.LabelFor(model => Model.Item):

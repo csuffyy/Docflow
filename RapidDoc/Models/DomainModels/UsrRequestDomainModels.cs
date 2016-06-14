@@ -4332,7 +4332,6 @@ namespace RapidDoc.Models.DomainModels
 
     public class USR_REQ_UMM_ProvisionOfZIF_Table : BasicDocumentTable
     {
-        public UMMDays Days { get; set; }
         public UMMItem Item { get; set; }
         public string Department { get; set; }
         public string FIO { get; set; }

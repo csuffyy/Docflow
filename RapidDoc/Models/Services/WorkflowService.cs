@@ -57,7 +57,8 @@ namespace RapidDoc.Models.Services
         void CreateDynamicTracker(List<string> users, Guid documentId, string currentUserId, bool parallel, string additionalText = "");
         bool CheckSkipStepOrder(Guid documentId, List<WFTrackerUsersTable> userlist, string createdBy);
         void CreateSeparateTasks(ProcessView processView, dynamic docModel, Guid fileId, String actionModelName, IDictionary<string, object> documentData, ApplicationUser userTable);
-        Guid GuidNull2Guid(Guid? value);      
+        Guid GuidNull2Guid(Guid? value);
+        List<string> GroupToUserList(Guid documentId, string group);
     }
 
     public class WorkflowService : IWorkflowService
@@ -1244,6 +1245,29 @@ namespace RapidDoc.Models.Services
         public Guid GuidNull2Guid(Guid? value)
         {
             return value ?? Guid.Empty;
-        }   
+        }
+
+        public List<string> GroupToUserList(Guid documentId, string group)
+        {
+            List<string> ofmList = new List<string>();
+
+            RoleManager<ApplicationRole> RoleManager = new RoleManager<ApplicationRole>(new RoleStore<ApplicationRole>(_uow.GetDbContext<ApplicationDbContext>()));
+            ApplicationRole role = RoleManager.FindByName(group);
+            if (role != null && role.Users != null && role.Users.Count() > 0)
+            {
+                var empllist = _EmplService.GetPartialIntercompany(x => x.Enable == true).ToList();
+
+                foreach (IdentityUserRole userRole in role.Users)
+                {
+                    if (!ofmList.Exists(x => x == userRole.UserId) && empllist.Any(x => x.ApplicationUserId == userRole.UserId) && repoUser.Any(x => x.Id == userRole.UserId && x.Enable == true))
+                    {
+                        if (!_WorkflowTrackerService.Contains(x => x.DocumentTableId == documentId && x.SignUserId == userRole.UserId))
+                            ofmList.Add(userRole.UserId);
+                    }
+                }
+            }
+
+            return ofmList;
+        }
     }
 }
