@@ -58,7 +58,7 @@ namespace RapidDoc.Activities.CodeActivities
 
             if (readers.Count() > 0)
             {
-                List<string> newReader = _serviceDocumentReader.SaveOrderReader(document, readers.ToArray(), currentUserId);
+                List<string> newReader = _serviceDocumentReader.SaveOrderReader(document.Id, readers.ToArray(), currentUserId);
                 _serviceEmail.SendReaderEmail(documentId, newReader.Distinct().ToList());
             }
         }
