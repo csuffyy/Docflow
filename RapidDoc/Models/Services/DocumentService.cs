@@ -2326,11 +2326,16 @@ namespace RapidDoc.Models.Services
                                         status = SLAStatusList.Disturbance;
                                         statusDate = date;
                                     }
-                                    if (DateTime.UtcNow < date && (
-                                        Convert.ToInt32((date.Value - DateTime.UtcNow).TotalDays) == 7 || Convert.ToInt32((date.Value - DateTime.UtcNow).TotalDays) < 4))
+                                    else if (DateTime.UtcNow < date && (
+                                     Convert.ToInt32((date.Value - DateTime.UtcNow).TotalDays) == 7 || Convert.ToInt32((date.Value - DateTime.UtcNow).TotalDays) < 4))
                                     {
                                         status = SLAStatusList.Warning;
                                         statusDate = date;
+                                    }
+                                    else
+                                    {
+                                        statusDate = date;
+                                        status = SLAStatusList.NoWarning;
                                     }
                                 }
                             }
