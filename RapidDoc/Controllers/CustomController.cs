@@ -3010,12 +3010,6 @@ namespace RapidDoc.Controllers
                     {
                         return PartialView("USR_REQ_UMM_ProvisionOfZIF_Edit_HighMaster", model);
                     }
-
-                    if (current.Any(x => x.SystemName == "UMMTOIRZIF") && (current.FirstOrDefault(x => x.SystemName == "UMMTOIRZIF").Users.Any(x => x.UserId == curUser) || 
-                        current.Any(x => _DelegationService.CheckDelegation(currentUser, document.ProcessTable, x))))
-                    {
-                        return PartialView("USR_REQ_UMM_ProvisionOfZIF_Edit_ItemId", model);
-                    }
                 }
             }
 

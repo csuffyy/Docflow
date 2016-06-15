@@ -9292,10 +9292,6 @@ namespace RapidDoc.Models.ViewModels
 
     public class USR_REQ_UMM_ProvisionOfZIF_View : BasicDocumentView
     {
-        [Display(Name = "Время выполнения")]
-        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
-        public UMMDays Days { get; set; }
-
         [Display(Name = "Тип изготовления")]
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         public UMMItem Item { get; set; }

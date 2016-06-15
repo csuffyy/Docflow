@@ -274,6 +274,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Activities\CodeActivities\WFAddingReadersUMM.cs" />
     <Compile Include="Activities\CodeActivities\WFCheckParentDepartment.cs" />
     <Compile Include="Activities\CodeActivities\WFChooseOfficeMemoSpecificUser.cs" />
     <Compile Include="Activities\CodeActivities\WFCreateDynamicTracker.cs" />
@@ -2132,7 +2133,6 @@
     <Content Include="Views\Custom\USK_REQ_HR_RequestForStaffSelection_Edit.cshtml" />
     <Content Include="Views\Custom\USR_REQ_UMM_ProvisionOfZIF_View.cshtml" />
     <Content Include="Views\Custom\USR_REQ_UMM_ProvisionOfZIF_View_Full.cshtml" />
-    <Content Include="Views\Custom\USR_REQ_UMM_ProvisionOfZIF_Edit_ItemId.cshtml" />
     <Content Include="Views\Custom\USR_REQ_UMM_ProvisionOfZIF_Edit.cshtml" />
     <Content Include="Views\Custom\USR_REQ_UMM_ProvisionOfZIF_Edit_HighMaster.cshtml" />
     <Content Include="Views\Custom\_OND_OutcomingDocRefList.cshtml" />
