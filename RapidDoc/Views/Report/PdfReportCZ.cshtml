@@ -42,7 +42,7 @@
         <br /> 
         <h4 align ="center">
             <strong>
-                СЛУЖЕБНАЯ ЗАПИСКА <a href="@String.Format("http://" + System.Configuration.ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/{0}/Document/ShowDocument/{1}?isAfterView=true", ViewBag.AliasCompanyName, ViewBag.Id)">@ViewBag.DocumentNum</a><br />
+                СЛУЖЕБНАЯ ЗАПИСКА <a href="@String.Format("http://" + System.Configuration.ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/{0}/Document/ShowDocument/{1}?isAfterView=true", ViewBag.AliasCompanyName, ViewBag.Id)">@ViewBag.DocumentNum</a>, от @ViewBag.CreatedDate.ToShortDateString()<br />
             </strong>
         </h4>
         <h5 align="right">@Html.EnumToDescription("RapidDoc.Models.Repository.Folder", (string)(Model.Folder.ToString())) / @ViewBag.Process.ProcessName / @Model.ItemCauseNumber / @ViewBag.UserCreated.ShortFullNameType2</h5>

@@ -54,24 +54,24 @@ namespace RapidDoc.Models.Services
         }
         public IEnumerable<CommentView> GetPartialView(Expression<Func<CommentTable, bool>> predicate)
         {
-            var comments = GetPartial(predicate);
-            List<CommentView> commentsView = new List<CommentView>();
+            var comments = Mapper.Map<IEnumerable<CommentTable>, IEnumerable<CommentView>>(GetPartial(predicate));
+            ApplicationUser user = repoUser.GetById(HttpContext.Current.User.Identity.GetUserId());
 
-            if (comments != null)
+            foreach (var comment in comments)
             {
-                ApplicationUser user = repoUser.GetById(HttpContext.Current.User.Identity.GetUserId());
+                comment.CreatedDate = _SystemService.ConvertDateTimeToLocal(user, comment.CreatedDate);
 
-                foreach (var comment in comments)
+                EmplTable empl = _EmplService.GetEmployer(comment.ApplicationUserCreatedId, comment.CompanyTableId);
+                if (empl != null)
                 {
-                    EmplTable empl = _EmplService.GetEmployer(comment.ApplicationUserCreatedId, comment.CompanyTableId);
-                    if (empl != null)
-                        commentsView.Add(new CommentView { Id = comment.Id, Comment = comment.Comment, CreatedDate = _SystemService.ConvertDateTimeToLocal(user, comment.CreatedDate), EmplName = empl.FullName, TitleName = empl.TitleName, CommentTableParentId = comment.CommentTableParentId, Deep = comment.Deep, Lineage = comment.Lineage });
-                    else
-                        commentsView.Add(new CommentView { Id = comment.Id, Comment = comment.Comment, CreatedDate = _SystemService.ConvertDateTimeToLocal(user, comment.CreatedDate), EmplName = user.UserName, TitleName = String.Empty, CommentTableParentId = comment.CommentTableParentId, Deep = comment.Deep, Lineage = comment.Lineage });
+                    comment.EmplName = empl.FullName;
+                    comment.TitleName = empl.TitleName;
                 }
+                else
+                    comment.EmplName = user.UserName;
             }
 
-            return commentsView;
+            return comments;
         }
         public CommentTable FirstOrDefault(Expression<Func<CommentTable, bool>> predicate)
         {
@@ -118,7 +118,7 @@ namespace RapidDoc.Models.Services
             {
                 CommentTable commentParent = this.Find(_SystemService.GuidNull2Guid(comment.CommentTableParentId));
                 comment.Lineage = commentParent.Lineage + "-" + comment.LineNum.ToString();
-                comment.Deep = commentParent.Deep++;
+                comment.Deep = commentParent.Deep + 1;
             }
             this.SaveDomain(comment);
         }

@@ -156,6 +156,7 @@ namespace RapidDoc.Controllers
             ViewBag.ListFiles = filesResult;
             ViewBag.Tracker = trackersAssign;
             ViewBag.UserCreated = emplTable;
+            ViewBag.CreatedDate = _SystemService.ConvertDateTimeToLocal(user, docTable.CreatedDate);
             ViewBag.DocState = docTable.DocumentState;
             ViewBag.TableName = docTable.ProcessTable.TableName;
             ViewBag.DocumentNum = docTable.DocumentNum;
