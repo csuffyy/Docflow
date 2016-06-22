@@ -322,18 +322,18 @@
                 </Flowchart>
                 <FlowStep.Next>
                   <FlowStep x:Name="__ReferenceID13" sap2010:WorkflowViewState.IdRef="FlowStep_28">
-                    <local3:WFAddingReadersUMM _service="{x:Null}" _serviceDocumentReader="{x:Null}" _serviceEmail="{x:Null}" _serviceWorkflow="{x:Null}" DisplayName="Добавление читателей" sap2010:WorkflowViewState.IdRef="WFAddingReadersUMM_1" inputUsersGroup="Masters_UMM">
-                      <local3:WFAddingReadersUMM.inputCurrentUser>
+                    <local3:WFAddingReaders _service="{x:Null}" _serviceDocumentReader="{x:Null}" _serviceEmail="{x:Null}" _serviceWorkflow="{x:Null}" DisplayName="Добавление читателей" sap2010:WorkflowViewState.IdRef="WFAddingReaders_1" inputUsersGroup="Masters_UMM">
+                      <local3:WFAddingReaders.inputCurrentUser>
                         <InArgument x:TypeArguments="x:String">
                           <mca:CSharpValue x:TypeArguments="x:String">inputCurrentUser</mca:CSharpValue>
                         </InArgument>
-                      </local3:WFAddingReadersUMM.inputCurrentUser>
-                      <local3:WFAddingReadersUMM.inputDocumentId>
+                      </local3:WFAddingReaders.inputCurrentUser>
+                      <local3:WFAddingReaders.inputDocumentId>
                         <InArgument x:TypeArguments="s:Guid">
                           <mca:CSharpValue x:TypeArguments="s:Guid">inputDocumentId</mca:CSharpValue>
                         </InArgument>
-                      </local3:WFAddingReadersUMM.inputDocumentId>
-                    </local3:WFAddingReadersUMM>
+                      </local3:WFAddingReaders.inputDocumentId>
+                    </local3:WFAddingReaders>
                     <FlowStep.Next>
                       <FlowStep x:Name="__ReferenceID9" sap2010:WorkflowViewState.IdRef="FlowStep_5">
                         <Parallel DisplayName="Параллельное согласование" sap2010:WorkflowViewState.IdRef="Parallel_1">
@@ -614,7 +614,7 @@
     <x:Reference>__ReferenceID11</x:Reference>
     <x:Reference>__ReferenceID12</x:Reference>
     <x:Reference>__ReferenceID13</x:Reference>
-    <sads:DebugSymbol.Symbol>d0VEOlxHaXRIdWJcRG9jRmxvd1xSYXBpZERvY1xBY3Rpdml0aWVzXFVTUl9SRVFfVU1NX1Byb3Zpc2lvbk9mWklGLnhhbWxuHQcdZwEDAZUBAZsBAQKMAQPqBA8CAQGVAQmgARIDAdYGowEN8QEZAwHCBfQBEcICHQMBrgTFAhXQAjEDAZQE0wIZrwQkAgFAswQfswSDAQIBNMcEIdIEKgIBG7cEIcIEKgIBAp0BD50BbwMB4waYAQ+YAWUDAdcGpgETygEzAwGABs4BGc4BbgMB9AXSARvnATwDAcMF9wEXmwI3AwHsBJ8CHZ8CcgMB4ASjAh+4AkADAa8ExQKFAsUCkgIDAa0EzQIbzQJmAwGhBMgCG8gCaQMBlQTXAhucAyYDAf4CnQMb4gMmAwHnAeMDG64EJgIBTdUCHdUCgQECAUHPBCfPBIcBAgEoygQnygSCAQIBHL8EJ78EhAECAQ+6BCe6BIIBAgEDuAEZuAFrAwHKBqYBhwKmAY4CAwHJBsIBGcIBbgMBvQa9ARm9AWsDAbEGxwEZxwF0AwGlBq4BGa4BZAMBmQapARmpAWcDAY0GswEZswGzAgMBgQbaASHaAXMDAegF3wEh3wF3AwHcBdUBIdUBawMB0AXkASHkAXwDAcQFiQIdiQJvAwG2BfcBjwL3AZYCAwG1BZMCHZMCcgMBqQWOAh2OAm8DAZ0FmAIdmAJ4AwGRBf8BHf8BaAMBhQX6AR36AWsDAfkEhAIdhAK2AgMB7QSrAiWrAncDAdQEsAIlsAJ7AwHIBKYCJaYCbwMBvAS1AiW1AoABAwGwBNgCHfwCPQMBvQP9Ah2bAyIDAf8CngMdwgM9AwGmAsMDHeEDIgMB6AHkAx2tBCICAU7qAiPqAnUDAYgE2AKLAtgCkgIDAYcE9AIj9AJ4AwH7A+8CI+8CdQMB7wP5AiP5An4DAeMD2AL6AdgCgAIDAeID4AIj4AJuAwHWA9sCI9sCcQMBygPlAiPlAsoCAwG+A4ADI4ADeAMBgAOEAyGZA0IDAYwDsAMjsAN1AwHyAp4D6wGeA/oBAwHxAp4DlQKeA5wCAwHwAroDI7oDeAMB5AK1AyO1A3UDAdgCvwMjvwN+AwHMAp4DhAKeA4oCAwHLAqYDI6YDbgMBvwKhAyOhA3EDAbMCqwMjqwPHAgMBpwLGAyPGA3gDAekBygMh3wNCAwH1AecDI+cDgQECAU/rAyGrBCwCAVuMAyeMA3kDAbEDkQMnkQN9AwGlA4cDJ4cDcQMBmQOWAyeWA4IBAwGNA9IDJ9IDeQMBmgLXAyfXA30DAY4CzQMnzQNxAwGCAtwDJ9wDggEDAfYB7AMjiwQ9AwGaAYwEI6oEKAIBXPkDKfkDewMB2wHsA6EC7AOoAgMB2gGDBCmDBH4DAc4B/gMp/gN7AwHCAewD3wHsA+UBAwHBAYgEKYgEhAEDAbUB7AP0AewDhgIDAbQB7AOQAuwDlgIDAbMB9AMp9AN0AwGnAe8DKe8DdwMBmwGPBCmPBH4CAV2TBCeoBEgCAWmbBC2bBH8DAY4BoAQtoASDAQMBggGWBC2WBHcCAXalBC2lBIgBAgFq</sads:DebugSymbol.Symbol>
+    <sads:DebugSymbol.Symbol>d0VEOlxHaXRIdWJcRG9jRmxvd1xSYXBpZERvY1xBY3Rpdml0aWVzXFVTUl9SRVFfVU1NX1Byb3Zpc2lvbk9mWklGLnhhbWxuHQcdZwEDAZUBAZsBAQKMAQPqBA8CAQGVAQmgARIDAdYGowEN8QEZAwHCBfQBEcICHQMBrgTFAhXQAi4DAZQE0wIZrwQkAgFAswQfswSDAQIBNMcEIdIEKgIBG7cEIcIEKgIBAp0BD50BbwMB4waYAQ+YAWUDAdcGpgETygEzAwGABs4BGc4BbgMB9AXSARvnATwDAcMF9wEXmwI3AwHsBJ8CHZ8CcgMB4ASjAh+4AkADAa8ExQL/AcUCjAIDAa0EzQIbzQJmAwGhBMgCG8gCaQMBlQTXAhucAyYDAf4CnQMb4gMmAwHnAeMDG64EJgIBTdUCHdUCgQECAUHPBCfPBIcBAgEoygQnygSCAQIBHL8EJ78EhAECAQ+6BCe6BIIBAgEDuAEZuAFrAwHKBqYBhwKmAY4CAwHJBsIBGcIBbgMBvQa9ARm9AWsDAbEGxwEZxwF0AwGlBq4BGa4BZAMBmQapARmpAWcDAY0GswEZswGzAgMBgQbaASHaAXMDAegF3wEh3wF3AwHcBdUBIdUBawMB0AXkASHkAXwDAcQFiQIdiQJvAwG2BfcBjwL3AZYCAwG1BZMCHZMCcgMBqQWOAh2OAm8DAZ0FmAIdmAJ4AwGRBf8BHf8BaAMBhQX6AR36AWsDAfkEhAIdhAK2AgMB7QSrAiWrAncDAdQEsAIlsAJ7AwHIBKYCJaYCbwMBvAS1AiW1AoABAwGwBNgCHfwCPQMBvQP9Ah2bAyIDAf8CngMdwgM9AwGmAsMDHeEDIgMB6AHkAx2tBCICAU7qAiPqAnUDAYgE2AKLAtgCkgIDAYcE9AIj9AJ4AwH7A+8CI+8CdQMB7wP5AiP5An4DAeMD2AL6AdgCgAIDAeID4AIj4AJuAwHWA9sCI9sCcQMBygPlAiPlAsoCAwG+A4ADI4ADeAMBgAOEAyGZA0IDAYwDsAMjsAN1AwHyAp4D6wGeA/oBAwHxAp4DlQKeA5wCAwHwAroDI7oDeAMB5AK1AyO1A3UDAdgCvwMjvwN+AwHMAp4DhAKeA4oCAwHLAqYDI6YDbgMBvwKhAyOhA3EDAbMCqwMjqwPHAgMBpwLGAyPGA3gDAekBygMh3wNCAwH1AecDI+cDgQECAU/rAyGrBCwCAVuMAyeMA3kDAbEDkQMnkQN9AwGlA4cDJ4cDcQMBmQOWAyeWA4IBAwGNA9IDJ9IDeQMBmgLXAyfXA30DAY4CzQMnzQNxAwGCAtwDJ9wDggEDAfYB7AMjiwQ9AwGaAYwEI6oEKAIBXPkDKfkDewMB2wHsA6EC7AOoAgMB2gGDBCmDBH4DAc4B/gMp/gN7AwHCAewD3wHsA+UBAwHBAYgEKYgEhAEDAbUB7AP0AewDhgIDAbQB7AOQAuwDlgIDAbMB9AMp9AN0AwGnAe8DKe8DdwMBmwGPBCmPBH4CAV2TBCeoBEgCAWmbBC2bBH8DAY4BoAQtoASDAQMBggGWBC2WBHcCAXalBC2lBIgBAgFq</sads:DebugSymbol.Symbol>
   </Flowchart>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>
@@ -733,7 +733,7 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="WFAddingReadersUMM_1" sap:VirtualizedContainerService.HintSize="200,22">
+      <sap2010:ViewStateData Id="WFAddingReaders_1" sap:VirtualizedContainerService.HintSize="200,22">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -876,9 +876,9 @@
       <sap2010:ViewStateData Id="FlowStep_28">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
-            <av:Point x:Key="ShapeLocation">270,405.5</av:Point>
+            <av:Point x:Key="ShapeLocation">270,399</av:Point>
             <av:Size x:Key="ShapeSize">200,22</av:Size>
-            <av:PointCollection x:Key="ConnectorLocation">370,427.5 370,464.5</av:PointCollection>
+            <av:PointCollection x:Key="ConnectorLocation">370,421 370,464.5</av:PointCollection>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
@@ -887,7 +887,7 @@
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <av:Point x:Key="ShapeLocation">270,304.5</av:Point>
             <av:Size x:Key="ShapeSize">200,51</av:Size>
-            <av:PointCollection x:Key="ConnectorLocation">370,355.5 370,405.5</av:PointCollection>
+            <av:PointCollection x:Key="ConnectorLocation">370,355.5 370,399</av:PointCollection>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
@@ -921,7 +921,7 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="RapidDoc.Activities.USR_REQ_UMM_ProvisionOfZIF_1" sap:VirtualizedContainerService.HintSize="1190,887" />
+      <sap2010:ViewStateData Id="RapidDoc.Activities.USR_REQ_UMM_ProvisionOfZIF_1" sap:VirtualizedContainerService.HintSize="1190,1127" />
     </sap2010:ViewStateManager>
   </sap2010:WorkflowViewState.ViewStateManager>
 </Activity>

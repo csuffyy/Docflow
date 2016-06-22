@@ -15,7 +15,7 @@ using System.ComponentModel;
 
 namespace RapidDoc.Activities.CodeActivities
 {
-    public sealed class WFAddingReadersUMM : CodeActivity
+    public sealed class WFAddingReaders : CodeActivity
     {
         [Browsable(false)]
         [Inject]
