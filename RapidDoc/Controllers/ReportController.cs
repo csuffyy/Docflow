@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using RapidDoc.Models.Infrastructure;
+using RapidDoc.Extensions;
 using RapidDoc.Models.Repository;
 using RapidDoc.Models.Services;
 using RapidDoc.Models.ViewModels;
@@ -20,6 +21,7 @@ using Microsoft.Office.Interop.Excel;
 using Rotativa;
 using Rotativa.Options;
 using System.Text.RegularExpressions;
+using System.Drawing;
 
 namespace RapidDoc.Controllers
 {
@@ -38,8 +40,9 @@ namespace RapidDoc.Controllers
         private readonly IProtocolFoldersService _ProtocolFoldersService;
         private readonly ISystemService _SystemService;
         private readonly IPortalParametersService _PortalParametersService;
+        private readonly IDocumentReaderService _DocumentReadersService;
 
-        public ReportController(IWorkflowTrackerService workflowTrackerService, IDocumentService documentService, IDepartmentService departmentService, ICompanyService companyService, IAccountService accountService, IProcessService processService, IEmplService emplService, IReportService reportService, IWorkScheduleService workScheduleService, IEmailService emailService, IWorkflowService workflowService, ICommentService commentService, IProtocolFoldersService protocolFoldersService, ISystemService systemService, IPortalParametersService portalParametersService)
+        public ReportController(IWorkflowTrackerService workflowTrackerService, IDocumentService documentService, IDepartmentService departmentService, ICompanyService companyService, IAccountService accountService, IProcessService processService, IEmplService emplService, IReportService reportService, IWorkScheduleService workScheduleService, IEmailService emailService, IWorkflowService workflowService, ICommentService commentService, IProtocolFoldersService protocolFoldersService, ISystemService systemService, IPortalParametersService portalParametersService, IDocumentReaderService documentReadersService)
             : base(companyService, accountService)
         {
             _WorkflowTrackerService = workflowTrackerService;
@@ -55,6 +58,7 @@ namespace RapidDoc.Controllers
             _ProtocolFoldersService = protocolFoldersService;
             _SystemService = systemService;
             _PortalParametersService = portalParametersService;
+            _DocumentReadersService = documentReadersService;
         }
 
         public ActionResult PerformanceDepartment()
@@ -62,7 +66,7 @@ namespace RapidDoc.Controllers
             ViewBag.DepartmentList = _DepartmentService.GetDropListDepartmentNull(null);
             return View();
         }
-        
+
         public ActionResult DetailReport()
         {
             ViewBag.DepartmentList = _DepartmentService.GetDropListDepartmentNull(null);
@@ -70,7 +74,12 @@ namespace RapidDoc.Controllers
         }
 
         public ActionResult TaskReport()
-        {       
+        {
+            return View();
+        }
+
+        public ActionResult IncomingCorrespondenceReportUSC()
+        {
             return View();
         }
 
@@ -91,7 +100,7 @@ namespace RapidDoc.Controllers
 
             var trackersAssign = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == id && x.SystemName == "ORDCustomUserAssign" && x.TrackerType == TrackerType.Approved).ToList();
             trackersAssign.ForEach(item => emplList.Add(_EmplService.GetEmployer(item.SignUserId, process.CompanyTableId)));
-            
+
             var trackerManager = _WorkflowTrackerService.FirstOrDefault(x => x.DocumentTableId == id && x.SystemName == "ORDUserManager" && x.TrackerType == TrackerType.Approved);
             if (trackerManager != null)
             {
@@ -100,9 +109,9 @@ namespace RapidDoc.Controllers
 
             List<FileTable> filesResult = new List<FileTable>();
             var files = _DocumentService.GetAllFilesDocument(docTable.FileId).ToList();
-            foreach(var item in files)
+            foreach (var item in files)
             {
-                if(!_DocumentService.FileReplaceContains(item.Id))
+                if (!_DocumentService.FileReplaceContains(item.Id))
                 {
                     filesResult.Add(item);
                 }
@@ -119,7 +128,7 @@ namespace RapidDoc.Controllers
 
             return new ViewAsPdf("PdfReport", documentView)
             {
-                PageSize = Size.A4,
+                PageSize = Rotativa.Options.Size.A4,
                 IsGrayScale = true,
                 //PageMargins = { Left = 20 },
                 FileName = String.Format("{0}.pdf", docTable.DocumentNum)
@@ -128,7 +137,7 @@ namespace RapidDoc.Controllers
 
         public ActionResult PdfReportCZ(Guid id, Guid? processId)
         {
-            List<ReportCZComments> commentsCZ = new List<ReportCZComments>();  
+            List<ReportCZComments> commentsCZ = new List<ReportCZComments>();
             ApplicationUser user = _AccountService.Find(User.Identity.GetUserId());
             var timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById(user.TimeZoneId);
             DocumentTable docTable = _DocumentService.FirstOrDefault(x => x.Id == id);
@@ -168,7 +177,7 @@ namespace RapidDoc.Controllers
 
             return new ViewAsPdf("PdfReportCZ", documentView)
             {
-                PageSize = Size.A4,
+                PageSize = Rotativa.Options.Size.A4,
                 IsGrayScale = true,
                 FileName = String.Format("{0}.pdf", docTable.DocumentNum)
             };
@@ -196,13 +205,13 @@ namespace RapidDoc.Controllers
 
             var trackersAssign = _WorkflowTrackerService.GetPartialView(x => x.DocumentTableId == id && (x.TrackerType == TrackerType.Approved || x.TrackerType == TrackerType.Cancelled), timeZoneInfo, docTable.DocType);
 
-            if (documentView.Attended != null && documentView.Attended != "") 
+            if (documentView.Attended != null && documentView.Attended != "")
             {
                 string[] arrayAttended = documentView.Attended.Split(',');
                 List<string> listAttended = arrayAttended.ToList();
                 ViewBag.ListAttended = listAttended;
             }
-            if (documentView.Invited != null && documentView.Invited != "")   
+            if (documentView.Invited != null && documentView.Invited != "")
             {
                 string[] arrayInvited = documentView.Invited.Split(',');
                 List<string> listInvited = arrayInvited.ToList();
@@ -241,7 +250,7 @@ namespace RapidDoc.Controllers
                     filesResult.Add(item);
                 }
             }
-           
+
             IEnumerable<SelectListItem> list = _ProtocolFoldersService.GetDropListProtocolFoldersFullPath(process.Id, documentView.ProtocolFoldersTableId);
             if (list.Count() > 0)
                 ViewBag.FolderText = list.Where(x => x.Selected == true).FirstOrDefault().Text;
@@ -264,7 +273,7 @@ namespace RapidDoc.Controllers
             return new ViewAsPdf("PdfReportProtocol", documentView)
             {
                 IsGrayScale = true,
-                PageSize = Size.A4,
+                PageSize = Rotativa.Options.Size.A4,
                 FileName = String.Format("{0}.pdf", docTable.DocumentNum)
             };
         }
@@ -273,7 +282,7 @@ namespace RapidDoc.Controllers
         public FileContentResult GenerateTaskReport(ReportParametersBasicView model)
         {
             int i = 0, j = 0, templateSheets = 1;
-            
+
             ReportExecutionType taskType;
             string subjectDoc = String.Empty;
             List<TaskReportModel> detailTasksList = new List<TaskReportModel>();
@@ -285,7 +294,7 @@ namespace RapidDoc.Controllers
             EmailParameterTable emailParameter = _EmailService.FirstOrDefault(x => x.SmtpServer != String.Empty);
             WrapperImpersonationContext contextImpersonation = new WrapperImpersonationContext(emailParameter.ReportAdminDomain, emailParameter.ReportAdminUser, emailParameter.ReportAdminPassword);
             contextImpersonation.Enter();
-            ApplicationDbContext context = new ApplicationDbContext();         
+            ApplicationDbContext context = new ApplicationDbContext();
 
             Excel.Application excelAppl;
             Excel.Workbook excelWorkbook;
@@ -300,7 +309,7 @@ namespace RapidDoc.Controllers
 
             PortalParametersTable portalParameters = _PortalParametersService.GetAll().FirstOrDefault();
             List<string> departments = _SystemService.GuidsFromText(portalParameters.ReportDepartments).ToList();
-            
+
             //blockDepartment.Add("Руководство", 1);
             //blockDepartment.Add("Заместитель Генерального директора по производству", 2);
             //blockDepartment.Add("Производственно-техническое управление", 3);
@@ -310,7 +319,7 @@ namespace RapidDoc.Controllers
             //blockDepartment.Add("Золотоизвлекательная фабрика", 7);
             //blockDepartment.Add("Административный блок", 8);
             //blockDepartment.Add("Заместитель исполнительного директора по ПБиВП", 9);
-            
+
             List<DepartmentTable> firstDepartment = new List<DepartmentTable>();
             if (otherCompany == true)
             {
@@ -322,7 +331,7 @@ namespace RapidDoc.Controllers
                         firstDepartment.Add(department);
                         blockDepartment.Add(department.DepartmentName, j);
                     }
-                }    
+                }
             }
             else
             {
@@ -343,22 +352,22 @@ namespace RapidDoc.Controllers
             {
                 if (otherCompany == true)
                     templateSheets = 4;
-                
+
                 var allTasksList = (from document in context.DocumentTable
-                                     join detailDoc in context.USR_TAS_DailyTasks_Table
-                                     on document.Id equals detailDoc.DocumentTableId
-                                     join documentRef in context.DocumentTable
-                                     on detailDoc.RefDocumentId equals documentRef.Id
-                                     where document.DocType == DocumentType.Task &&
-                                          document.CompanyTableId == currentUser.CompanyTableId &&
-                                         detailDoc.RefDocumentId != null &&
-                                         (((documentRef.DocType == DocumentType.Order && templateSheets == 1)  ||
-                                         (documentRef.DocType == DocumentType.IncomingDoc && templateSheets == 2) ||
-                                         (documentRef.DocType == DocumentType.Protocol && templateSheets == 3)) || 
-                                         otherCompany == true)
-                                         && ((detailDoc.ExecutionDate >= model.StartDate && detailDoc.ExecutionDate <= model.EndDate && detailDoc.ProlongationDate == null) ||
-                                                (detailDoc.ProlongationDate >= model.StartDate && detailDoc.ProlongationDate <= model.EndDate))
-                                     select document).ToList();
+                                    join detailDoc in context.USR_TAS_DailyTasks_Table
+                                    on document.Id equals detailDoc.DocumentTableId
+                                    join documentRef in context.DocumentTable
+                                    on detailDoc.RefDocumentId equals documentRef.Id
+                                    where document.DocType == DocumentType.Task &&
+                                         document.CompanyTableId == currentUser.CompanyTableId &&
+                                        detailDoc.RefDocumentId != null &&
+                                        (((documentRef.DocType == DocumentType.Order && templateSheets == 1) ||
+                                        (documentRef.DocType == DocumentType.IncomingDoc && templateSheets == 2) ||
+                                        (documentRef.DocType == DocumentType.Protocol && templateSheets == 3)) ||
+                                        otherCompany == true)
+                                        && ((detailDoc.ExecutionDate >= model.StartDate && detailDoc.ExecutionDate <= model.EndDate && detailDoc.ProlongationDate == null) ||
+                                               (detailDoc.ProlongationDate >= model.StartDate && detailDoc.ProlongationDate <= model.EndDate))
+                                    select document).ToList();
 
                 foreach (var item in allTasksList)
                 {
@@ -367,7 +376,7 @@ namespace RapidDoc.Controllers
                     DateTime? closeDate = item.DocumentState == DocumentState.Closed ? docTracker.FirstOrDefault(x => x.SignDate != null).SignDate : null;
                     USR_TAS_DailyTasks_Table taskDoc = context.USR_TAS_DailyTasks_Table.FirstOrDefault(x => x.DocumentTableId == item.Id);
                     if (item.DocumentState == DocumentState.Closed)
-                         reportText = _SystemService.DeleteAllSpecialCharacters(_SystemService.DeleteAllTags(taskDoc.ReportText));
+                        reportText = _SystemService.DeleteAllSpecialCharacters(_SystemService.DeleteAllTags(taskDoc.ReportText));
                     foreach (var tracker in docTracker)
                     {
                         i++;
@@ -383,10 +392,10 @@ namespace RapidDoc.Controllers
                             WFTrackerTable delegationTracker = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == item.Id && x.ApplicationUserCreatedId == empl.ApplicationUserId && x.CreatedDate > tracker.CreatedDate).OrderBy(y => y.CreatedDate).FirstOrDefault();
                             if (delegationTracker != null)
                                 delegationTracker.Users.ForEach(x => delegation += _EmplService.GetEmployer(x.UserId, currentUser.CompanyTableId).ShortFullNameType2 + "\n");
-                            
+
                         }
 
-                        if (item.DocumentState != DocumentState.Closed)       
+                        if (item.DocumentState != DocumentState.Closed)
                             taskType = ReportExecutionType.NoneDone;
                         else
                         {
@@ -401,16 +410,16 @@ namespace RapidDoc.Controllers
                         {
                             case 1:
                                 var refORDDocView = (from detailDoc in context.USR_TAS_DailyTasks_Table
-                                                  join refDocumentTable in context.DocumentTable
-                                                  on detailDoc.RefDocumentId equals refDocumentTable.Id
-                                                  join refDocView in context.USR_ORD_MainActivity_Table
-                                                  on refDocumentTable.Id equals refDocView.DocumentTableId
-                                                   where detailDoc.DocumentTableId == item.Id
-                                                   select refDocView).FirstOrDefault();
+                                                     join refDocumentTable in context.DocumentTable
+                                                     on detailDoc.RefDocumentId equals refDocumentTable.Id
+                                                     join refDocView in context.USR_ORD_MainActivity_Table
+                                                     on refDocumentTable.Id equals refDocView.DocumentTableId
+                                                     where detailDoc.DocumentTableId == item.Id
+                                                     select refDocView).FirstOrDefault();
                                 if (refORDDocView != null)
-                                    subjectDoc = refORDDocView.Subject; 
+                                    subjectDoc = refORDDocView.Subject;
                                 else
-                                    subjectDoc = String.Empty;  
+                                    subjectDoc = String.Empty;
                                 break;
                             case 2:
                                 var refINCDocView = (from detailDoc in context.USR_TAS_DailyTasks_Table
@@ -486,7 +495,7 @@ namespace RapidDoc.Controllers
                             default:
                                 subjectDoc = taskDoc.MainField;
                                 break;
-                        }                        
+                        }
 
                         if (!String.IsNullOrEmpty(subjectDoc) && templateSheets != excelAppl.Worksheets.Count)
                         {
@@ -510,7 +519,7 @@ namespace RapidDoc.Controllers
                     }
                     i = 0;
                 }
-                excelWorksheet = 
+                excelWorksheet =
                     (Worksheet)excelAppl.Worksheets[otherCompany == true ? Convert.ToInt32(otherCompany) : templateSheets];
 
                 if (templateSheets == 3)
@@ -523,7 +532,7 @@ namespace RapidDoc.Controllers
                 detailTasksList.Clear();
                 templateSheets++;
                 rowCount = 6;
-            }    
+            }
             object misValue = System.Reflection.Missing.Value;
             string path = @"C:\Template\Result\" + Guid.NewGuid().ToString() + ".xlsx";
             excelWorkbook.SaveAs(path, Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookNormal, misValue,
@@ -544,6 +553,165 @@ namespace RapidDoc.Controllers
             return File(buff, "application/vnd.ms-excel", "TaskReport.xls");
         }
 
+        [HttpPost]
+        public FileContentResult GenerateCorrespondenceReport(ReportParametersBasicView model)
+        {
+            List<CorrespondenceReport> resultList = new List<CorrespondenceReport>();
+            string currentUserId = User.Identity.GetUserId();
+            ApplicationUser currentUser = _AccountService.Find(currentUserId);
+            OutcomingTopicTypeKZHC[] topicOrder = { OutcomingTopicTypeKZHC.Element2, OutcomingTopicTypeKZHC.Element3, OutcomingTopicTypeKZHC.Element1 };
+            ReportExecutionType taskType;
+            Excel.Application excelAppl;
+            Excel.Workbook excelWorkbook;
+            Excel.Worksheet excelWorksheet;
+
+            string chief = "", delegation = "", readers = "", signUserOutcoming = "";
+            excelAppl = new Excel.Application();
+            excelAppl.Visible = false;
+            excelAppl.DisplayAlerts = false;
+            excelWorkbook = excelAppl.Workbooks.Add(@"C:\Template\CorrespondenceReportUSC.xlsx");
+
+            EmailParameterTable emailParameter = _EmailService.FirstOrDefault(x => x.SmtpServer != String.Empty);
+            WrapperImpersonationContext contextImpersonation = new WrapperImpersonationContext(emailParameter.ReportAdminDomain, emailParameter.ReportAdminUser, emailParameter.ReportAdminPassword);
+            contextImpersonation.Enter();
+            ApplicationDbContext context = new ApplicationDbContext();
+
+            var allCorrespondenceList = (from document in context.DocumentTable
+                                         join detailDoc in context.USC_IND_IncomingDocuments_Table
+                                         on document.Id equals detailDoc.DocumentTableId
+                                         where document.DocType == DocumentType.IncomingDoc &&
+                                              document.CompanyTableId == currentUser.CompanyTableId
+                                             && (document.CreatedDate >= model.StartDate && document.CreatedDate <= model.EndDate)
+                                         select new { document, detailDoc }).ToList();
+            excelWorksheet = (Worksheet)excelAppl.Worksheets[1];
+
+            foreach (var item in allCorrespondenceList)
+            {
+                CorrespondenceReport resultDocument = new CorrespondenceReport();
+                chief = ""; delegation = ""; readers = ""; signUserOutcoming = "";
+
+                resultDocument.IncomingDocumentNum = item.document.DocumentNum;
+                resultDocument.IncomingDocumentId = item.document.Id;
+                resultDocument.IncomingDocumentTopic = item.detailDoc.TopicType;
+                resultDocument.IncomingDateRegistration = item.document.CreatedDate.ToShortDateString();
+                resultDocument.IncomingDocNum = item.detailDoc.IncomingDocNum;
+                resultDocument.OrganizationName = item.detailDoc.OrganizationTable.OrgName;
+                resultDocument.IncomingDocumentSubject = item.detailDoc.DocumentSubject;
+
+                string[] receivers = _SystemService.GuidsFromText(item.detailDoc.Receiver);
+                string executorTask = "";
+                foreach (var receiver in receivers.ToList())
+                {
+                    Guid emplId = new Guid(receiver);
+                    executorTask = _EmplService.GetPartialIntercompany(x => x.Id == emplId).FirstOrDefault().ApplicationUserId;
+                    EmplTable empl = _EmplService.FindIntercompany(emplId);
+                    chief += empl.ShortFullNameType2 + "\n";
+                }
+
+                resultDocument.IncomingChief = chief;
+
+                var refTask = (from detailTaskDoc in context.USR_TAS_DailyTasks_Table
+                               join refDocumentTask in context.DocumentTable
+                               on detailTaskDoc.DocumentTableId equals refDocumentTask.Id
+                               join wfDocumentTask in context.WFTrackerTable
+                               on refDocumentTask.Id equals wfDocumentTask.DocumentTableId
+                               where (detailTaskDoc.RefDocumentId == item.document.Id &&
+                                wfDocumentTask.Users.Any(x => x.UserId == executorTask))
+                               select new { detailTaskDoc, refDocumentTask }).FirstOrDefault();
+                if (refTask != null)
+                {
+                    WFTrackerTable delegationTracker = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == refTask.refDocumentTask.Id && !x.Users.Any(y => y.UserId == executorTask)).OrderBy(y => y.CreatedDate).FirstOrDefault();
+
+                    foreach (var user in delegationTracker.Users.ToList())
+                    {
+                        EmplTable empl = _EmplService.GetPartialIntercompany(x => x.ApplicationUserId == user.UserId).FirstOrDefault();
+                        delegation += empl.ShortFullNameType2 + "\n";
+                    }
+                    resultDocument.TaskDelegation = delegation;
+
+                    List<DocumentReaderTable> readersTable = _DocumentReadersService.GetPartial(x => x.DocumentTableId == item.document.Id).ToList();
+                    readersTable.Concat(_DocumentReadersService.GetPartial(x => x.DocumentTableId == refTask.refDocumentTask.Id).ToList());
+                    foreach (var reader in readersTable.GroupBy(y => y.UserId).Distinct())
+                    {
+                        EmplTable empl = _EmplService.GetPartialIntercompany(x => x.ApplicationUserId == reader.Key).FirstOrDefault();
+                        readers += empl.ShortFullNameType2 + "\n";
+                    }
+                    resultDocument.DocumentReaders = readers;
+
+                    DateTime planDate = refTask.detailTaskDoc.ProlongationDate != null ? (DateTime)refTask.detailTaskDoc.ProlongationDate : (DateTime)refTask.detailTaskDoc.ExecutionDate;
+                    resultDocument.TaskPlaneDate = planDate.ToString() == "" ? "" : planDate.ToShortDateString();
+
+                    DateTime? closeDate = refTask.refDocumentTask.DocumentState == DocumentState.Closed ? _WorkflowTrackerService.FirstOrDefault(x => x.DocumentTableId == refTask.refDocumentTask.Id && x.SignDate != null).SignDate : null;
+                    if (closeDate != null)
+                    {
+                        DateTime factDate = (DateTime)closeDate;
+                        resultDocument.TaskFactDate = factDate.ToShortDateString();
+                    }
+
+                    if (refTask.refDocumentTask.DocumentState != DocumentState.Closed)
+                        taskType = ReportExecutionType.NoneDone;
+                    else
+                    {
+                        WFTrackerTable signTrack = _WorkflowTrackerService.FirstOrDefault(x => x.DocumentTableId == refTask.refDocumentTask.Id && x.SignDate != null);
+                        taskType = planDate >= signTrack.SignDate.Value.Date ? ReportExecutionType.Done : ReportExecutionType.OverDate;
+                        resultDocument.TaskReportText = _SystemService.DeleteAllTags(refTask.detailTaskDoc.ReportText);
+                    }
+
+                    resultDocument.ExecutionType = taskType;
+                }
+                var refOutcomingDocument = (from detailOutcomingDoc in context.USC_OND_OutcomingDocuments_Table
+                                            join refOutcomingDoc in context.DocumentTable
+                                            on detailOutcomingDoc.DocumentTableId equals refOutcomingDoc.Id
+                                            where detailOutcomingDoc.IncomingNumberDocId == item.document.Id ||
+                                            refOutcomingDoc.Id == item.detailDoc.OutcomingNumberDocId
+                                            select new { detailOutcomingDoc, refOutcomingDoc }).FirstOrDefault();
+
+                if (refOutcomingDocument != null)
+                {
+                    resultDocument.OutcomingDocumentNum = refOutcomingDocument.refOutcomingDoc.DocumentNum;
+                    resultDocument.OutcomingDocumentId = refOutcomingDocument.refOutcomingDoc.Id;
+                    resultDocument.OutcomingDocumentCreator = _EmplService.GetEmployer(refOutcomingDocument.refOutcomingDoc.ApplicationUserCreatedId, currentUser.CompanyTableId).ShortFullNameType2;
+
+                    List<WFTrackerTable> signTrackOutcoming = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == refOutcomingDocument.refOutcomingDoc.Id && x.SignUserId != null).ToList();
+                    foreach (var sign in signTrackOutcoming)
+                    {
+                        EmplTable empl = _EmplService.GetPartialIntercompany(x => x.ApplicationUserId == sign.SignUserId).FirstOrDefault();
+                        signUserOutcoming += empl.ShortFullNameType2 + "\n";
+                    }
+                    resultDocument.OutcomingSignUsers = signUserOutcoming;
+
+                    if (refOutcomingDocument.refOutcomingDoc.DocumentState == DocumentState.Closed)
+                    {
+                        WFTrackerTable signTrack = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == refOutcomingDocument.refOutcomingDoc.Id && x.SignDate != null).OrderByDescending(y => y.SignDate).FirstOrDefault();
+                        DateTime signDate = (DateTime)signTrack.SignDate;
+                        resultDocument.OutcomingDateRegistration = signDate.ToShortDateString();
+                        resultDocument.OutcomingInformation = "";
+                    }
+                }
+                resultList.Add(resultDocument);
+            }
+
+            _ReportService.GenerateCorrespondenceReport(resultList, topicOrder, excelWorksheet);
+
+            object misValue = System.Reflection.Missing.Value;
+            string path = @"C:\Template\Result\" + Guid.NewGuid().ToString() + ".xlsx";
+            excelWorkbook.SaveAs(path, Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookNormal, misValue,
+                misValue, misValue, misValue, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlExclusive, misValue,
+                misValue, misValue, misValue, misValue);
+            excelWorkbook.Close(true, misValue, misValue);
+            excelAppl.Quit();
+            FileInfo file = new FileInfo(path);
+
+            byte[] buff = null;
+            FileStream fs = new FileStream(file.FullName, FileMode.Open, FileAccess.Read);
+            BinaryReader br = new BinaryReader(fs);
+            long numBytes = new FileInfo(file.FullName).Length;
+            buff = br.ReadBytes((int)numBytes);
+
+            contextImpersonation.Leave();
+
+            return File(buff, "application/vnd.ms-excel", "CorrespondenceReportUSC.xls");
+        }
 
         [HttpPost]
         public FileContentResult GenerateDetail(ReportParametersBasicView model)
@@ -608,7 +776,7 @@ namespace RapidDoc.Controllers
             WorkScheduleTable workScheduleTable = _WorkScheduleService.FirstOrDefault(x => x.WorkEndTime != null && x.WorkStartTime != null);
 
             foreach (var item in detailData.Where(x => x.Date != null && x.SignDate != null))
-	        {
+            {
                 minutes = 0; int cacheMinutes = 0;
                 int year = item.Date.Value.Year;
                 int c = item.Date.Value.DayOfYear;
@@ -616,46 +784,46 @@ namespace RapidDoc.Controllers
 
                 DateTime createDateWorkEndTime = new DateTime(item.Date.Value.Year, item.Date.Value.Month, item.Date.Value.Day, workScheduleTable.WorkEndTime.Hours, workScheduleTable.WorkEndTime.Minutes, workScheduleTable.WorkEndTime.Seconds);
                 DateTime signDateWorkStartTime = new DateTime(item.SignDate.Value.Year, item.SignDate.Value.Month, item.SignDate.Value.Day, workScheduleTable.WorkStartTime.Hours, workScheduleTable.WorkStartTime.Minutes, workScheduleTable.WorkStartTime.Seconds);
-              
-                if (_WorkScheduleService.CheckDayType(workScheduleTable.Id, signDateWorkStartTime) == false && signDateWorkStartTime < item.SignDate.Value )
+
+                if (_WorkScheduleService.CheckDayType(workScheduleTable.Id, signDateWorkStartTime) == false && signDateWorkStartTime < item.SignDate.Value)
                 {
                     if (c < s)
                     {
                         cacheMinutes += Convert.ToInt32((item.SignDate.Value - signDateWorkStartTime).TotalMinutes);
                     }
-                    else if(c == s)
+                    else if (c == s)
                         cacheMinutes += Convert.ToInt32((item.SignDate.Value - item.Date.Value).TotalMinutes);
                 }
-                if(c < s)
+                if (c < s)
                 {
                     if (_WorkScheduleService.CheckDayType(workScheduleTable.Id, createDateWorkEndTime) == false && createDateWorkEndTime > item.Date.Value)
                     {
                         cacheMinutes += Convert.ToInt32((createDateWorkEndTime - item.Date.Value).TotalMinutes);
-                        
+
                     }
 
                     c++;
                 }
-                 while (c < s)
-                 {
-                     DateTime date = new DateTime(year,1,1).AddDays(c -1);
-                     if (_WorkScheduleService.CheckDayType(workScheduleTable.Id, new DateTime(year,1,1).AddDays(c -1)) == false)
-                     {                       
+                while (c < s)
+                {
+                    DateTime date = new DateTime(year, 1, 1).AddDays(c - 1);
+                    if (_WorkScheduleService.CheckDayType(workScheduleTable.Id, new DateTime(year, 1, 1).AddDays(c - 1)) == false)
+                    {
                         minutes += 480;
-                     }
-                     c++;
-                 }
-                 
-                 minutes += cacheMinutes;
-                 item.Minutes = minutes;
+                    }
+                    c++;
+                }
 
-	        }
+                minutes += cacheMinutes;
+                item.Minutes = minutes;
+
+            }
 
             foreach (var line in detailData)
             {
                 rowCount++;
 
-                if(line.SLAOffset > 0)
+                if (line.SLAOffset > 0)
                     line.PerformDate = _DocumentService.GetSLAPerformDate(line.DocumentId, line.Date, line.SLAOffset);
 
                 //EmplTable emplAuthor = _EmplService.GetEmployer(line.Author, user.CompanyTableId);
@@ -725,28 +893,28 @@ namespace RapidDoc.Controllers
 
             model.EndDate = model.EndDate.AddDays(1);
             var flatData = (from wfTracker in context.WFTrackerTable
-                       join user in context.Users on wfTracker.SignUserId equals user.Id
-                       let empl = context.EmplTable.Where(p => p.ApplicationUserId == user.Id).OrderByDescending(p => p.Enable).FirstOrDefault()
-                       join title in context.TitleTable on empl.TitleTableId equals title.Id
+                            join user in context.Users on wfTracker.SignUserId equals user.Id
+                            let empl = context.EmplTable.Where(p => p.ApplicationUserId == user.Id).OrderByDescending(p => p.Enable).FirstOrDefault()
+                            join title in context.TitleTable on empl.TitleTableId equals title.Id
                             join department in context.DepartmentTable.Where(x => listdepartmentId.Contains(x.DepartmentName) || listdepartmentId.Count == 0) on empl.DepartmentTableId equals department.Id
-                       join document in context.DocumentTable on wfTracker.DocumentTableId equals document.Id
-                       join process in context.ProcessTable on document.ProcessTableId equals process.Id
-                       where wfTracker.ExecutionStep == true && wfTracker.SignUserId != null
-                       && (wfTracker.SignDate >= model.StartDate && wfTracker.SignDate <= model.EndDate)
-                       && wfTracker.TrackerType == TrackerType.Approved
-                       select new ReportPerformanceDepartmentModel
-                       {
-                           FullName = empl.SecondName + " " + empl.FirstName + " " + empl.MiddleName,
-                           UserName = user.UserName,
-                           TitleName = title.TitleName,
-                           DepartmentName = department.DepartmentName,
-                           ProcessName = process.ProcessName,
-                           ActivityName = wfTracker.ActivityName,
-                           SignDate = wfTracker.SignDate,
-                           DocumentId = wfTracker.DocumentTableId,
-                           Date = wfTracker.StartDateSLA,
-                           SLAOffset = wfTracker.SLAOffset
-                       }).ToList();
+                            join document in context.DocumentTable on wfTracker.DocumentTableId equals document.Id
+                            join process in context.ProcessTable on document.ProcessTableId equals process.Id
+                            where wfTracker.ExecutionStep == true && wfTracker.SignUserId != null
+                            && (wfTracker.SignDate >= model.StartDate && wfTracker.SignDate <= model.EndDate)
+                            && wfTracker.TrackerType == TrackerType.Approved
+                            select new ReportPerformanceDepartmentModel
+                            {
+                                FullName = empl.SecondName + " " + empl.FirstName + " " + empl.MiddleName,
+                                UserName = user.UserName,
+                                TitleName = title.TitleName,
+                                DepartmentName = department.DepartmentName,
+                                ProcessName = process.ProcessName,
+                                ActivityName = wfTracker.ActivityName,
+                                SignDate = wfTracker.SignDate,
+                                DocumentId = wfTracker.DocumentTableId,
+                                Date = wfTracker.StartDateSLA,
+                                SLAOffset = wfTracker.SLAOffset
+                            }).ToList();
 
             foreach (var item in flatData.Where(x => x.SLAOffset > 0))
             {
@@ -754,24 +922,24 @@ namespace RapidDoc.Controllers
             }
 
             var gridData = (from data in flatData.ToList()
-                           group data by new
-                           {
-                               data.FullName,
-                               data.UserName,
-                               data.TitleName,
-                               data.DepartmentName,
-                               data.ProcessName
-                           } into gflat
-                           select new
-                           {
-                               FullName = gflat.Key.FullName,
-                               UserName = gflat.Key.UserName,
-                               TitleName = gflat.Key.TitleName,
-                               DepartmentName = gflat.Key.DepartmentName,
-                               ProcessName = gflat.Key.ProcessName,
-                               Count = gflat.Count(),
-                               CountError = gflat.Count(x => x.SignDate > x.PerformDate && x.PerformDate != null)
-                           }).ToList();
+                            group data by new
+                            {
+                                data.FullName,
+                                data.UserName,
+                                data.TitleName,
+                                data.DepartmentName,
+                                data.ProcessName
+                            } into gflat
+                            select new
+                            {
+                                FullName = gflat.Key.FullName,
+                                UserName = gflat.Key.UserName,
+                                TitleName = gflat.Key.TitleName,
+                                DepartmentName = gflat.Key.DepartmentName,
+                                ProcessName = gflat.Key.ProcessName,
+                                Count = gflat.Count(),
+                                CountError = gflat.Count(x => x.SignDate > x.PerformDate && x.PerformDate != null)
+                            }).ToList();
 
             excelAppl = new Excel.Application();
             excelAppl.Visible = false;
@@ -796,8 +964,8 @@ namespace RapidDoc.Controllers
 
             object misValue = System.Reflection.Missing.Value;
             string path = @"C:\Template\Result\" + Guid.NewGuid().ToString() + ".xlsx";
-            excelWorkbook.SaveAs(path, Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookNormal, misValue, 
-                misValue, misValue, misValue, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlExclusive, misValue, 
+            excelWorkbook.SaveAs(path, Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookNormal, misValue,
+                misValue, misValue, misValue, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlExclusive, misValue,
                 misValue, misValue, misValue, misValue);
             excelWorkbook.Close(true, misValue, misValue);
             excelAppl.Quit();
@@ -852,7 +1020,7 @@ namespace RapidDoc.Controllers
 
             WrapperImpersonationContext contextImpersonation = new WrapperImpersonationContext(emailParameter.ReportAdminDomain, emailParameter.ReportAdminUser, emailParameter.ReportAdminPassword);
             contextImpersonation.Enter();
-            
+
             excelAppl = new Excel.Application();
             excelAppl.Visible = false;
             excelAppl.DisplayAlerts = false;
@@ -862,7 +1030,7 @@ namespace RapidDoc.Controllers
 
             foreach (var line in rows)
             {
-                rowCount++;               
+                rowCount++;
                 excelWorksheet.Cells[rowCount, 1] = line.Process.ProcessName.ToString();
                 excelWorksheet.Cells[rowCount, 2] = line.Process.TableName.ToString();
                 excelWorksheet.Cells[rowCount, 3] = line.StageName.ToString();
@@ -908,7 +1076,7 @@ namespace RapidDoc.Controllers
 
             return File(buff, "application/vnd.ms-excel", "ReportRoute.xls");
         }
-	}
+    }
 
     public class ProcessReportModel
     {
@@ -937,6 +1105,30 @@ namespace RapidDoc.Controllers
         public string SignUserId { get; set; }
         public TrackerType TrackerType { get; set; }
         public Guid? WftId { get; set; }
+    }
+
+    public class CorrespondenceReport
+    {
+        public OutcomingTopicTypeKZHC IncomingDocumentTopic { get; set; }
+        public string IncomingDocumentNum { get; set; }
+        public Guid IncomingDocumentId { get; set; }
+        public string IncomingDateRegistration { get; set; }
+        public string IncomingDocNum { get; set; }
+        public string OrganizationName { get; set; }
+        public string IncomingDocumentSubject { get; set; }
+        public string IncomingChief { get; set; }
+        public string TaskDelegation { get; set; }
+        public string DocumentReaders { get; set; }
+        public string TaskPlaneDate { get; set; }
+        public string TaskFactDate { get; set; }
+        public ReportExecutionType ExecutionType { get; set; }
+        public string TaskReportText { get; set; }
+        public string OutcomingDocumentNum { get; set; }
+        public Guid OutcomingDocumentId { get; set; }
+        public string OutcomingDocumentCreator { get; set; }
+        public string OutcomingSignUsers { get; set; }
+        public string OutcomingDateRegistration { get; set; }
+        public string OutcomingInformation { get; set; }
     }
 
     public class DetailReportModel
@@ -976,5 +1168,5 @@ namespace RapidDoc.Controllers
         public string DocNum { get; set; }
         public Guid DocId { get; set; }
     }
-   
+
 }

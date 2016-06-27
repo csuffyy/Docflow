@@ -387,4 +387,10 @@
   <data name="AdditionalText" xml:space="preserve">
     <value>Additional text</value>
   </data>
+  <data name="NewExecuteTaskDate" xml:space="preserve">
+    <value>New execution date</value>
+  </data>
+  <data name="TooltipAboutNewDate" xml:space="preserve">
+    <value>Change date possible only in first step</value>
+  </data>
 </root>

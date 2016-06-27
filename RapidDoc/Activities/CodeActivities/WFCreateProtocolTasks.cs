@@ -139,36 +139,37 @@ namespace RapidDoc.Activities.CodeActivities
                 strDecision = "РЕКОМЕНДОВАНО РУКОВОДСТВУ №" + numThreeDecision.ToString() + " ";
             }
 
-                        USR_TAS_DailyTasks_View docModel = new USR_TAS_DailyTasks_View();
-                        string folderName = _serviceProtocolFolders.GetProtocolFolderName(documentTable.ProcessTableId, documentView.ProtocolFoldersTableId, currentUserId);
+            USR_TAS_DailyTasks_View docModel = new USR_TAS_DailyTasks_View();
+            string folderName = _serviceProtocolFolders.GetProtocolFolderName(documentTable.ProcessTableId, documentView.ProtocolFoldersTableId, currentUserId);
 
-                        if (question.IncludeText == true)
-                            docModel.MainField = strDecision + "<p>" + folderName + "</p>" + documentView.Subject + "\n" + question.Question + "\n" + decision.Decision;
-                        else
-                            docModel.MainField = strDecision + "<p>" + folderName + "</p>" + documentView.Subject + "\n" + decision.Decision;
+            if (question.IncludeText == true)
+                docModel.MainField = strDecision + "<p>" + folderName + "</p>" + documentView.Subject + "\n" + question.Question + "\n" + decision.Decision;
+            else
+                docModel.MainField = strDecision + "<p>" + folderName + "</p>" + documentView.Subject + "\n" + decision.Decision;
 
-                        DateTime? controlDate = decision.ControlDate != null ? decision.ControlDate : DateTime.Now;
+            DateTime? controlDate = decision.ControlDate != null ? decision.ControlDate : DateTime.Now;
 
-                        docModel.ExecutionDate = controlDate;
+            docModel.ExecutionDate = controlDate;
             docModel.Users = users;
-                        docModel.RefDocumentId = documentId;
+            docModel.RefDocumentId = documentId;
             docModel.RefDocNum = documentTable.DocumentNum;
             ApplicationUser user = _serviceAccount.Find(currentUserId);
             ProcessTable processTable = _serviceProcess.FirstOrDefault(x => x.TableName == "USR_TAS_DailyTasks" && x.CompanyTableId == user.CompanyTableId);
             var taskDocumentId = _service.SaveDocument(docModel, "USR_TAS_DailyTasks", processTable.Id, Guid.NewGuid(), user, false, false);
-                        documentTable = _service.Find(taskDocumentId);
+            documentTable = _service.Find(taskDocumentId);
 
-                        IReviewDocLogService _ReviewDocLogServiceTask = DependencyResolver.Current.GetService<IReviewDocLogService>();
-                        IHistoryUserService _HistoryUserServiceTask = DependencyResolver.Current.GetService<IHistoryUserService>();
-                        _ReviewDocLogServiceTask.SaveDomain(new ReviewDocLogTable { DocumentTableId = documentId }, "", user);
-                        _HistoryUserServiceTask.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = Models.Repository.HistoryType.NewDocument }, user.Id);
+            IReviewDocLogService _ReviewDocLogServiceTask = DependencyResolver.Current.GetService<IReviewDocLogService>();
+            IHistoryUserService _HistoryUserServiceTask = DependencyResolver.Current.GetService<IHistoryUserService>();
+            _ReviewDocLogServiceTask.SaveDomain(new ReviewDocLogTable { DocumentTableId = documentId }, "", user);
+            _HistoryUserServiceTask.SaveHistory(documentId, Models.Repository.HistoryType.NewDocument, user.Id,
+                documentTable.DocumentNum, documentTable.ProcessName, documentTable.CreatedBy);
 
-                        _serviceSearch.SaveSearchData(taskDocumentId, docModel, "USR_TAS_DailyTasks", currentUserId);
-                        Dictionary<string, object> taskDocumentData = new Dictionary<string, object>();
-                        taskDocumentData.Add("ExecutionDate", docModel.ExecutionDate);
-                        taskDocumentData.Add("MainField", docModel.MainField);
-                        taskDocumentData.Add("Users", docModel.Users);
-                        _serviceWorkflow.RunWorkflow(documentTable, "USR_TAS_DailyTasks", taskDocumentData, currentUserId);
-                    }
-                }
-            }
+            _serviceSearch.SaveSearchData(taskDocumentId, docModel, "USR_TAS_DailyTasks", currentUserId);
+            Dictionary<string, object> taskDocumentData = new Dictionary<string, object>();
+            taskDocumentData.Add("ExecutionDate", docModel.ExecutionDate);
+            taskDocumentData.Add("MainField", docModel.MainField);
+            taskDocumentData.Add("Users", docModel.Users);
+            _serviceWorkflow.RunWorkflow(documentTable, "USR_TAS_DailyTasks", taskDocumentData, currentUserId);
+        }
+    }
+}

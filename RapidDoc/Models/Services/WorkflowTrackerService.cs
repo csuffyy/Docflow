@@ -70,7 +70,10 @@ namespace RapidDoc.Models.Services
 
                 foreach (var userItem in item.Users)
                 {
-                    EmplTable empl = cacheEmplList.FirstOrDefault(x => x.ApplicationUserId == userItem.UserId);
+                    EmplTable empl = cacheEmplList.FirstOrDefault(x => x.ApplicationUserId == userItem.UserId && x.Enable == true);
+
+                    if (empl == null)
+                        empl = cacheEmplList.FirstOrDefault(x => x.ApplicationUserId == userItem.UserId);
 
                     if (workers != String.Empty)
                     {

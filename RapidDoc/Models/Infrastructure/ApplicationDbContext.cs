@@ -54,6 +54,7 @@ namespace RapidDoc.Models.Infrastructure
         public DbSet<DocumentSubcriptionListTable> DocumentSubcriptionListTable { get; set; }
         public DbSet<PortalParametersTable> PortalParametersTable { get; set; }
         public DbSet<IpListTable> IpListTable { get; set; }
+        public DbSet<ProjectTable> ProjectTable { get; set; }
 
         //Custom Requests
         public DbSet<USR_REQ_IT_CTS_DeliveryOfPinCode_Table> USR_REQ_IT_CTS_DeliveryOfPinCode_Table { get; set; }
@@ -394,7 +395,7 @@ namespace RapidDoc.Models.Infrastructure
         public DbSet<USK_REQ_HR_RequestForStaffSelection_Table> USK_REQ_HR_RequestForStaffSelection_Table { get; set; }
         public DbSet<USR_REQ_UMM_ProvisionOfZIF_Table> USR_REQ_UMM_ProvisionOfZIF_Table { get; set; }
         public DbSet<USR_REQ_UKR_RequestForCancellationDCU_Table> USR_REQ_UKR_RequestForCancellationDCU_Table { get; set; }
-        public DbSet<USC_PRT_ProtocolDocuments_Table> USC_PRT_ProtocolDocuments_Table { get; set; }
+        public DbSet<USC_PRT_ProtocolDocuments_Table> USC_PRT_ProtocolDocuments_Table { get; set; }       
                      
         protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder)
         {

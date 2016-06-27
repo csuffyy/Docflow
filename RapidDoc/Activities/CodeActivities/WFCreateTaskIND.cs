@@ -117,14 +117,15 @@ namespace RapidDoc.Activities.CodeActivities
                             IReviewDocLogService _ReviewDocLogServiceTask = DependencyResolver.Current.GetService<IReviewDocLogService>();
                             IHistoryUserService _HistoryUserServiceTask = DependencyResolver.Current.GetService<IHistoryUserService>();
                             _ReviewDocLogServiceTask.SaveDomain(new ReviewDocLogTable { DocumentTableId = documentId }, "", user);
-                            _HistoryUserServiceTask.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = Models.Repository.HistoryType.NewDocument }, user.Id);
+                            _HistoryUserServiceTask.SaveHistory(documentId, Models.Repository.HistoryType.NewDocument, user.Id,
+                            document.DocumentNum, document.ProcessName, document.CreatedBy);
                         });
 
                         if (!String.IsNullOrWhiteSpace((string)documentData["ListReaders"]))
                         {
                             string[] usersAndRoles = _service.GetUserListFromStructure((string)documentData["ListReaders"]);
                             List<string> readers = _serviceWorkflow.EmplAndRolesToReaders(documentId, usersAndRoles);
-                            List<string> newReader = _serviceDocumentReader.SaveOrderReader(documentId, readers.ToArray(), currentUserId);
+                            List<string> newReader = _serviceDocumentReader.SaveOrderReader(document, readers.ToArray(), currentUserId);
                             _serviceEmail.SendReaderEmail(documentId, newReader.Distinct().ToList());
                         }
 

@@ -9,6 +9,7 @@ using System.Xaml;
 using System.Reflection;
 using System.Linq.Expressions;
 using System.Drawing;
+using RapidDoc.Extensions;
 using RapidDoc.Models.ViewModels;
 using RapidDoc.Models.DomainModels;
 using RapidDoc.Models.Infrastructure;
@@ -30,6 +31,7 @@ namespace RapidDoc.Models.Services
         List<string> GetParentListDepartment(List<DepartmentTable> departmentList);
         int GetDepartmentTaskReport(List<DepartmentTable> departmentTable, Dictionary<string, int> blockDepartment,
             List<TaskReportModel> taskReportModel, Excel.Worksheet excelWorksheet, int rowCount, bool usesBlock, int worksheetNumber, bool otherCompany, string headerText = "");
+        void GenerateCorrespondenceReport(List<CorrespondenceReport> resultList, OutcomingTopicTypeKZHC[] topicOrder, Excel.Worksheet excelWorksheet);
     }
     
     public class ReportService: IReportService
@@ -339,6 +341,75 @@ namespace RapidDoc.Models.Services
             _borders[Excel.XlBordersIndex.xlInsideVertical].Weight = Excel.XlBorderWeight.xlThin;
             _borders[Excel.XlBordersIndex.xlInsideHorizontal].Weight = Excel.XlBorderWeight.xlThin;
            // _borders.Color = Color.Black;
+        }
+
+
+        public void GenerateCorrespondenceReport(List<CorrespondenceReport> resultList, OutcomingTopicTypeKZHC[] topicOrder, Excel.Worksheet excelWorksheet)
+        {
+            int rowCount = 2, maxColumns = 18;
+
+            foreach (var topic in topicOrder.ToList())
+            {
+                int startRowBlock = rowCount + 1, counter = 1;
+                var correspondenceDocs = resultList.Where(x => x.IncomingDocumentTopic == topic);
+
+                Excel.Range range = excelWorksheet.Range[excelWorksheet.Cells[rowCount, 1], excelWorksheet.Cells[rowCount, maxColumns]];
+                this.AllBordersBlock(range.Borders);
+                range.Interior.Color = System.Drawing.ColorTranslator.ToOle(Color.FromArgb(255, 255, 0));
+                range.Merge();
+                range.Font.Bold = true;
+                excelWorksheet.Cells[rowCount, 1] = topic.GetDisplayName();
+                rowCount++;
+
+                foreach (var item in correspondenceDocs)
+                {
+                    excelWorksheet.Cells[rowCount, 1] = counter++;
+                    excelWorksheet.Cells[rowCount, 2] = item.IncomingDocumentNum;
+                    excelWorksheet.Hyperlinks.Add(excelWorksheet.Range[excelWorksheet.Cells[rowCount, 2], excelWorksheet.Cells[rowCount, 2]], String.Format("http://df.altyntau.com/ATK/Document/ShowDocument/{0}?isAfterView=True", item.IncomingDocumentId), Type.Missing, "Перейти к документу");
+                    excelWorksheet.Cells[rowCount, 3] = item.IncomingDateRegistration;
+                    excelWorksheet.Cells[rowCount, 4] = item.IncomingDocNum;
+                    excelWorksheet.Cells[rowCount, 5] = item.OrganizationName;
+                    excelWorksheet.Cells[rowCount, 6] = item.IncomingDocumentSubject;
+
+                    excelWorksheet.Cells[rowCount, 7] = item.IncomingChief;
+                    excelWorksheet.Cells[rowCount, 8] = item.TaskDelegation;
+                    excelWorksheet.Cells[rowCount, 9] = item.DocumentReaders;
+                    excelWorksheet.Cells[rowCount, 10] = item.TaskPlaneDate != null ? item.TaskPlaneDate : "";
+                    excelWorksheet.Cells[rowCount, 11] = item.TaskFactDate != null ? item.TaskFactDate : "";
+
+                    switch (item.ExecutionType)
+                    {
+                        case ReportExecutionType.Done:
+                            excelWorksheet.Cells[rowCount, 12] = "исполнено";
+                            break;
+                        case ReportExecutionType.NoneDone:
+                            excelWorksheet.Cells[rowCount, 12] = "не исполнено";
+                            Excel.Range rangeColor = excelWorksheet.Range[excelWorksheet.Cells[rowCount, 1], excelWorksheet.Cells[rowCount, maxColumns]];
+                            rangeColor.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Red);
+                            break;
+                        case ReportExecutionType.OverDate:
+                            excelWorksheet.Cells[rowCount, 12] = "исполнено с нарушением сроков";
+                            break;
+                    }
+
+                    excelWorksheet.Cells[rowCount, 13] = item.TaskReportText != null ? item.TaskReportText : "";
+
+                    if (!String.IsNullOrEmpty(item.OutcomingDocumentNum))
+                    {
+                        excelWorksheet.Cells[rowCount, 14] = item.OutcomingDocumentNum;
+                        excelWorksheet.Hyperlinks.Add(excelWorksheet.Range[excelWorksheet.Cells[rowCount, 14], excelWorksheet.Cells[rowCount, 14]], String.Format("http://df.altyntau.com/ATK/Document/ShowDocument/{0}?isAfterView=True", item.OutcomingDocumentId), Type.Missing, "Перейти к документу");
+                        excelWorksheet.Cells[rowCount, 15] = item.OutcomingDocumentCreator;
+                        excelWorksheet.Cells[rowCount, 16] = item.OutcomingSignUsers != null ? item.OutcomingSignUsers : "";
+                        excelWorksheet.Cells[rowCount, 17] = item.OutcomingDateRegistration != null ? item.OutcomingDateRegistration : "";
+                        excelWorksheet.Cells[rowCount, 18] = "";
+                    }
+                    rowCount++;
+                    range = excelWorksheet.Range[excelWorksheet.Cells[startRowBlock, 1], excelWorksheet.Cells[rowCount - 1, maxColumns]];
+                    this.AllBordersBlockTasks(range.Borders);
+                    range.HorizontalAlignment = Excel.Constants.xlCenter;
+                    range.VerticalAlignment = Excel.Constants.xlCenter;                  
+                }
+            }
         }
     }
 }

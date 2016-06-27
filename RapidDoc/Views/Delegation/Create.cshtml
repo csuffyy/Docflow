@@ -45,7 +45,6 @@
             @Html.TextBoxFor(model => model.DateTo, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control form-control-date" })
             @Html.ValidationMessageFor(model => model.DateTo)
         </div>
-
         <div class="editor-label">
             @Html.LabelForRequired(model => model.GroupProcessTableId)
         </div>
@@ -53,7 +52,6 @@
             @Html.DropDownList("GroupProcessTableId", (IEnumerable<SelectListItem>)ViewBag.GroupProcessList, new { @class = "selectpicker", @data_live_search = "true", @data_size = "10" })
             @Html.ValidationMessageFor(model => model.GroupProcessTableId)
         </div>
-
         <div class="editor-label">
             @Html.LabelForRequired(model => model.ProcessTableId)
         </div>
@@ -79,9 +77,32 @@
 }
 @section jslaunch {
 <script type="text/javascript">
-$(function () {
+    $(function () {
     selectpicker_init();
     datepicker_init("@UIElementRes.UIElement.LangName");
+      
+        $('#ProcessTableId').change(function (event) {
+            if ($('#ProcessTableId').val() != null || $('#ProcessTableId').val() != '') {
+                $('select[name=GroupProcessTableId]').val(0);
+                $('#GroupProcessTableId').selectpicker('refresh');
+                    }
+                else {               
+                $('select[name=ProcessTableId]').val(0);
+                $('#ProcessTableId').selectpicker('refresh');
+                }
+        });
+
+        $('#GroupProcessTableId').change(function (event) {
+            if ($('#GroupProcessTableId').val() != null || $('#GroupProcessTableId').val() != '') {
+                $('select[name=ProcessTableId]').val(0);
+                $('#ProcessTableId').selectpicker('refresh');
+                
+            }
+            else {
+                $('select[name=GroupProcessTableId]').val(0);
+                $('#GroupProcessTableId').selectpicker('refresh');
+            }
+        });
 });
 </script>
 }

@@ -54,7 +54,7 @@ namespace RapidDoc.Activities.CodeActivities
 
         [Browsable(false)]
         [Inject]
-        public ISystemService _serviceSystem{ get; set; }
+        public ISystemService _serviceSystem { get; set; }
 
         [Browsable(false)]
         [Inject]
@@ -80,7 +80,7 @@ namespace RapidDoc.Activities.CodeActivities
             Guid? additionDocumentId = Guid.Empty;
             var document = _service.Find(documentId);
 
-            if(documentData.ContainsKey("NumberSeriesBookingTableId"))
+            if (documentData.ContainsKey("NumberSeriesBookingTableId"))
             {
                 if ((Guid?)documentData["NumberSeriesBookingTableId"] != null)
                     bookingNumberId = (Guid)documentData["NumberSeriesBookingTableId"];
@@ -91,7 +91,7 @@ namespace RapidDoc.Activities.CodeActivities
                 if (!String.IsNullOrEmpty((string)documentData["ControlUsers"]) && (bool)documentData["NoTask"] == false)
                 {
                     USR_TAS_DailyTasks_View docModel = new USR_TAS_DailyTasks_View();
-                    docModel.MainField = (string)documentData["Subject"] + 
+                    docModel.MainField = (string)documentData["Subject"] +
                         (string)documentData["MainField"] + (string)documentData["MainFieldTranslate"];
 
                     DateTime? controlDate = (DateTime?)documentData["ControlDate"];
@@ -114,7 +114,8 @@ namespace RapidDoc.Activities.CodeActivities
                         IReviewDocLogService _ReviewDocLogServiceTask = DependencyResolver.Current.GetService<IReviewDocLogService>();
                         IHistoryUserService _HistoryUserServiceTask = DependencyResolver.Current.GetService<IHistoryUserService>();
                         _ReviewDocLogServiceTask.SaveDomain(new ReviewDocLogTable { DocumentTableId = documentId }, "", user);
-                        _HistoryUserServiceTask.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = Models.Repository.HistoryType.NewDocument }, user.Id);
+                        _HistoryUserServiceTask.SaveHistory(documentId, Models.Repository.HistoryType.NewDocument, user.Id,
+                            document.DocumentNum, document.ProcessName, document.CreatedBy);
                     });
 
                     _serviceSearch.SaveSearchData(taskDocumentId, docModel, "USR_TAS_DailyTasks", currentUserId);
@@ -124,11 +125,12 @@ namespace RapidDoc.Activities.CodeActivities
                     taskDocumentData.Add("Users", docModel.Users);
                     _serviceWorkflow.RunWorkflow(documentTable, "USR_TAS_DailyTasks", taskDocumentData, currentUserId);
                 }
-                else if ((bool)documentData["NoTask"] == true && !String.IsNullOrEmpty((string)documentData["ControlUsers"])) {
+                else if ((bool)documentData["NoTask"] == true && !String.IsNullOrEmpty((string)documentData["ControlUsers"]))
+                {
                     string[] users = _serviceSystem.GuidsFromText((string)documentData["ControlUsers"]);
                     _serviceEmail.SendControlORDUserNotification(documentId, Guid.Parse(users[0]));
                     List<string> readers = _serviceWorkflow.EmplAndRolesToReaders(documentId, users);
-                    _serviceDocumentReader.SaveOrderReader(documentId, readers.ToArray(), currentUserId);
+                    _serviceDocumentReader.SaveOrderReader(document, readers.ToArray(), currentUserId);
                 }
             }
 
@@ -179,7 +181,7 @@ namespace RapidDoc.Activities.CodeActivities
                     if ((bool)documentData["AddReaders"] == true)
                     {
                         List<string> readers = _serviceWorkflow.EmplAndRolesToReaders(documentId, usersAndRoles);
-                        _serviceDocumentReader.SaveOrderReader(documentId, readers.ToArray(), currentUserId);
+                        _serviceDocumentReader.SaveOrderReader(document, readers.ToArray(), currentUserId);
                     }
 
                     if ((bool)documentData["AddAttachment"] == true)

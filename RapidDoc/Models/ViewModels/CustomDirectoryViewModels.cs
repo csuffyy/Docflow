@@ -128,6 +128,12 @@ namespace RapidDoc.Models.ViewModels
         public bool Enable { get; set; }
     }
 
+    public class ProjectView : BasicView
+    {
+        [Display(Name="Наименование проекта")]
+        public string ProjectName { get; set; }
+    }
+
     public class TripMRPView : BasicView
     {
         [Display(Name = "Начальная дата")]

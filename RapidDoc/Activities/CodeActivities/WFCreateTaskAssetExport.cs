@@ -71,14 +71,14 @@ namespace RapidDoc.Activities.CodeActivities
             _serviceWorkflow = DependencyResolver.Current.GetService<IWorkflowService>();
             _serviceWorkflowTracker = DependencyResolver.Current.GetService<IWorkflowTrackerService>();
             _serviceEmpl = DependencyResolver.Current.GetService<IEmplService>();
-            
+
 
             Dictionary<string, Object> documentData = context.GetValue(this.inputDocumentData);
             Guid documentId = context.GetValue(this.inputDocumentId);
             string currentUserId = context.GetValue(this.inputCurrentUser);
             var document = _service.Find(documentId);
 
-          
+
             USR_TAS_DailyTasks_View docModel = new USR_TAS_DailyTasks_View();
             docModel.MainField = "Напоминание, о возврате";
 
@@ -111,7 +111,8 @@ namespace RapidDoc.Activities.CodeActivities
                 IReviewDocLogService _ReviewDocLogServiceTask = DependencyResolver.Current.GetService<IReviewDocLogService>();
                 IHistoryUserService _HistoryUserServiceTask = DependencyResolver.Current.GetService<IHistoryUserService>();
                 _ReviewDocLogServiceTask.SaveDomain(new ReviewDocLogTable { DocumentTableId = documentId }, "", user);
-                _HistoryUserServiceTask.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = Models.Repository.HistoryType.NewDocument }, user.Id);
+                _HistoryUserServiceTask.SaveHistory(documentId, Models.Repository.HistoryType.NewDocument, user.Id,
+                            document.DocumentNum, document.ProcessName, document.CreatedBy);
             });
 
             _serviceSearch.SaveSearchData(taskDocumentId, docModel, "USR_TAS_DailyTasks", currentUserId);

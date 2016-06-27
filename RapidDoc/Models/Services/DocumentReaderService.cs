@@ -23,9 +23,9 @@ namespace RapidDoc.Models.Services
         DocumentReaderTable FirstOrDefault(Expression<Func<DocumentReaderTable, bool>> predicate);
         bool Contains(Expression<Func<DocumentReaderTable, bool>> predicate);
         bool ContainsRoleUser(Guid documentId, string userId);
-        List<string> SaveReader(Guid documentId, string[] listdata, string currentUserId);
-        List<string> SaveOrderReader(Guid documentId, string[] listdata, string currentUserId);
-        List<string> AddReader(Guid documentId, List<IdentityUserRole> listdata);
+        List<string> SaveReader(DocumentTable document, string[] listdata, string currentUserId);
+        List<string> SaveOrderReader(DocumentTable document, string[] listdata, string currentUserId);
+        List<string> AddReader(DocumentTable document, List<IdentityUserRole> listdata);
         void SaveDomain(DocumentReaderTable domainTable, string currentUserId = "");
         void Delete(Guid documentId);
         void Delete(Expression<Func<DocumentReaderTable, bool>> predicate);
@@ -66,7 +66,7 @@ namespace RapidDoc.Models.Services
         {
             return repo.Contains(predicate);
         }
-        public List<string> SaveReader(Guid documentId, string[] listdata, string currentUserId)
+        public List<string> SaveReader(DocumentTable document, string[] listdata, string currentUserId)
         {
             List<string> newReader = new List<string>();
             string addReadersDescription = String.Empty;
@@ -78,8 +78,8 @@ namespace RapidDoc.Models.Services
             {
                 foreach (string userId in listdata)
                 {
-                    if ((Contains(x => x.DocumentTableId == documentId && x.UserId == userId && x.RoleId == null) == false) &&
-                        (Contains(x => x.DocumentTableId == documentId && x.RoleId == userId) == false))
+                    if ((Contains(x => x.DocumentTableId == document.Id && x.UserId == userId && x.RoleId == null) == false) &&
+                        (Contains(x => x.DocumentTableId == document.Id && x.RoleId == userId) == false))
                     {
                         var empl = _EmplService.GetEmployer(userId, currentUser.CompanyTableId);
                         if (empl == null)
@@ -92,7 +92,7 @@ namespace RapidDoc.Models.Services
                                 if (names != null && names.Count() > 0)
                                 {
                                     DocumentReaderTable reader = new DocumentReaderTable();
-                                    reader.DocumentTableId = documentId;
+                                    reader.DocumentTableId = document.Id;
                                     reader.UserId = userId;
                                     reader.RoleId = userId;
                                     SaveDomain(reader, currentUserId);
@@ -116,7 +116,7 @@ namespace RapidDoc.Models.Services
                                 addReadersDescription += empl.FullName + "; ";
 
                                 DocumentReaderTable reader = new DocumentReaderTable();
-                                reader.DocumentTableId = documentId;
+                                reader.DocumentTableId = document.Id;
                                 reader.UserId = userId;
                                 SaveDomain(reader, currentUserId);
                                 newReader.Add(userId);
@@ -126,10 +126,10 @@ namespace RapidDoc.Models.Services
                 }
             }
 
-            var currentReaders = GetPartial(x => x.DocumentTableId == documentId && x.RoleId == null).ToList();
-            var currentReadersGroup = GetPartial(x => x.DocumentTableId == documentId && x.RoleId != null).GroupBy(x => new { RoleId = x.RoleId, CreateUserId = x.ApplicationUserCreatedId }).ToList();
-            if(listdata == null)
-                Delete(x => x.DocumentTableId == documentId && x.ApplicationUserCreatedId == currentUserId); 
+            var currentReaders = GetPartial(x => x.DocumentTableId == document.Id && x.RoleId == null).ToList();
+            var currentReadersGroup = GetPartial(x => x.DocumentTableId == document.Id && x.RoleId != null).GroupBy(x => new { RoleId = x.RoleId, CreateUserId = x.ApplicationUserCreatedId }).ToList();
+            if (listdata == null)
+                Delete(x => x.DocumentTableId == document.Id && x.ApplicationUserCreatedId == currentUserId);
 
             foreach (var item in currentReaders)
             {
@@ -141,7 +141,7 @@ namespace RapidDoc.Models.Services
                         {
                             var empl = _EmplService.GetEmployer(item.UserId, currentUser.CompanyTableId);
                             removeReadersDescription += empl.FullName + "; ";
-                            Delete(x => x.DocumentTableId == documentId && x.UserId == item.UserId && x.RoleId == null);
+                            Delete(x => x.DocumentTableId == document.Id && x.UserId == item.UserId && x.RoleId == null);
                         }
                     }
                     else
@@ -162,7 +162,7 @@ namespace RapidDoc.Models.Services
                         if (listdata.Contains(item.Key.RoleId) == false && item.Key.CreateUserId == currentUserId)
                         {
                             removeReadersDescription += role.Description + "; ";
-                            Delete(x => x.DocumentTableId == documentId && x.RoleId == item.Key.RoleId);
+                            Delete(x => x.DocumentTableId == document.Id && x.RoleId == item.Key.RoleId);
                         }
                     }
                     else
@@ -174,17 +174,17 @@ namespace RapidDoc.Models.Services
 
             if (addReadersDescription.Length > 0)
             {
-                _HistoryUserService.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = HistoryType.AddReader, Description = addReadersDescription }, currentUserId);
+                _HistoryUserService.SaveHistory(document.Id, Models.Repository.HistoryType.AddReader, currentUserId, document.DocumentNum, document.ProcessName, document.CreatedBy, addReadersDescription);
             }
             if (removeReadersDescription.Length > 0)
             {
-                _HistoryUserService.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = HistoryType.RemoveReader, Description = removeReadersDescription }, currentUserId);
+                _HistoryUserService.SaveHistory(document.Id, Models.Repository.HistoryType.RemoveReader, currentUserId, document.DocumentNum, document.ProcessName, document.CreatedBy, addReadersDescription);
             }
 
             return newReader;
         }
 
-        public List<string> SaveOrderReader(Guid documentId, string[] listdata, string currentUserId)
+        public List<string> SaveOrderReader(DocumentTable document, string[] listdata, string currentUserId)
         {
             List<string> newReader = new List<string>();
             string addReadersDescription = String.Empty;
@@ -195,8 +195,8 @@ namespace RapidDoc.Models.Services
             {
                 foreach (string userId in listdata)
                 {
-                    if ((Contains(x => x.DocumentTableId == documentId && x.UserId == userId && x.RoleId == null) == false) &&
-                        (Contains(x => x.DocumentTableId == documentId && x.RoleId == userId) == false))
+                    if ((Contains(x => x.DocumentTableId == document.Id && x.UserId == userId && x.RoleId == null) == false) &&
+                        (Contains(x => x.DocumentTableId == document.Id && x.RoleId == userId) == false))
                     {
                         var empl = _EmplService.GetEmployer(userId, currentUser.CompanyTableId);
                         if (empl == null)
@@ -207,7 +207,7 @@ namespace RapidDoc.Models.Services
                             if (names != null && names.Count() > 0)
                             {
                                 DocumentReaderTable reader = new DocumentReaderTable();
-                                reader.DocumentTableId = documentId;
+                                reader.DocumentTableId = document.Id;
                                 reader.UserId = userId;
                                 reader.RoleId = userId;
                                 SaveDomain(reader, currentUserId);
@@ -218,11 +218,11 @@ namespace RapidDoc.Models.Services
                         }
                         else
                         {
-                            if(empl.Enable == true)
+                            if (empl.Enable == true)
                             {
                                 addReadersDescription += empl.FullName + "; ";
                                 DocumentReaderTable reader = new DocumentReaderTable();
-                                reader.DocumentTableId = documentId;
+                                reader.DocumentTableId = document.Id;
                                 reader.UserId = userId;
                                 SaveDomain(reader, currentUserId);
                                 newReader.Add(userId);
@@ -232,14 +232,14 @@ namespace RapidDoc.Models.Services
                 }
             }
 
-            if (addReadersDescription.Length > 0)		
-            {		
-                _HistoryUserService.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = HistoryType.AddReader, Description = addReadersDescription }, currentUser.Id);		
+            if (addReadersDescription.Length > 0)
+            {
+                _HistoryUserService.SaveHistory(document.Id, Models.Repository.HistoryType.AddReader, currentUser.Id, document.DocumentNum, document.ProcessName, document.CreatedBy, addReadersDescription);
             }
 
             return newReader;
         }
-        public List<string> AddReader(Guid documentId, List<IdentityUserRole> listdata)
+        public List<string> AddReader(DocumentTable document, List<IdentityUserRole> listdata)
         {
             List<string> newReader = new List<string>();
             string addReadersDescription = String.Empty;
@@ -250,14 +250,14 @@ namespace RapidDoc.Models.Services
             {
                 foreach (var user in listdata)
                 {
-                    if (Contains(x => x.DocumentTableId == documentId && x.UserId == user.UserId) == false)
+                    if (Contains(x => x.DocumentTableId == document.Id && x.UserId == user.UserId) == false)
                     {
                         newReader.Add(user.UserId);
                         var empl = _EmplService.GetEmployer(user.UserId, currentUser.CompanyTableId);
                         addReadersDescription += empl.FullName + "; ";
 
                         DocumentReaderTable reader = new DocumentReaderTable();
-                        reader.DocumentTableId = documentId;
+                        reader.DocumentTableId = document.Id;
                         reader.UserId = user.UserId;
                         SaveDomain(reader);
                     }
@@ -266,7 +266,7 @@ namespace RapidDoc.Models.Services
 
             if (addReadersDescription.Length > 0)
             {
-                _HistoryUserService.SaveDomain(new HistoryUserTable { DocumentTableId = documentId, HistoryType = HistoryType.AddReader, Description = addReadersDescription }, currentUser.Id);
+                _HistoryUserService.SaveHistory(document.Id, Models.Repository.HistoryType.AddReader, currentUser.Id, document.DocumentNum, document.ProcessName, document.CreatedBy, addReadersDescription);
             }
 
             return newReader;
@@ -309,7 +309,7 @@ namespace RapidDoc.Models.Services
 
         public bool ContainsRoleUser(Guid documentId, string userId)
         {
-            var listGroup =  GetPartial(x => x.DocumentTableId == documentId && x.RoleId != null).GroupBy(x => x.RoleId).ToList();
+            var listGroup = GetPartial(x => x.DocumentTableId == documentId && x.RoleId != null).GroupBy(x => x.RoleId).ToList();
             foreach (var item in listGroup)
             {
                 ApplicationRole role = RoleManager.FindById(item.Key);
@@ -325,6 +325,6 @@ namespace RapidDoc.Models.Services
             }
             return false;
         }
-        
+
     }
 }

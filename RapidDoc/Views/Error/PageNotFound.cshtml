@@ -1,4 +1,8 @@
-﻿@{
+﻿@model List<HistoryUserView>
+@using RapidDoc.Models.ViewModels
+
+
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = UIElementRes.UIElement.PageNotFound;
 }
@@ -11,3 +15,89 @@
         <p>@UIElementRes.UIElement.PageNotFoundText <strong>@Html.ActionLink("DOCFLOW", "Index", "Document")</strong></p>
     </div>
 </div>
+
+@if (Model != null && Model.Count() > 0)
+{ 
+    <strong><span class="glyphicon glyphicon-time" aria-hidden="true"></span> @UIElementRes.UIElement.History</strong>
+    foreach (var item in Model.OrderBy(x => x.CreatedDate))
+    {
+        if (item.HistoryType == RapidDoc.Models.Repository.HistoryType.NewDocument)
+        {
+            <p>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @UIElementRes.UIElement.NewDocument
+                @Html.ActionLink(item.DocumentNum.ToString() + " " + "(" + item.ProcessName.ToString() + ")" + " (" + item.ApplicationCreatedUser + ")", "ShowDocument", "Document", new { id = item.DocumentTableId, isAfterView = true }, null)
+            </p>
+        }
+        else if (item.HistoryType == RapidDoc.Models.Repository.HistoryType.NewComment)
+        {
+            <p>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @UIElementRes.UIElement.NewComment
+                @Html.ActionLink(item.DocumentNum.ToString() + " " + "(" + item.ProcessName.ToString() + ")" + " (" + item.ApplicationCreatedUser + ")", "ShowDocument", "Document", new { id = item.DocumentTableId, isAfterView = true }, null)
+            </p>
+        }
+        else if (item.HistoryType == RapidDoc.Models.Repository.HistoryType.ApproveDocument)
+        {
+            <p>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @UIElementRes.UIElement.ApproveDocument
+                @Html.ActionLink(item.DocumentNum.ToString() + " " + "(" + item.ProcessName.ToString() + ")" + " (" + item.ApplicationCreatedUser + ")", "ShowDocument", "Document", new { id = item.DocumentTableId, isAfterView = true }, null)
+            </p>
+        }
+        else if (item.HistoryType == RapidDoc.Models.Repository.HistoryType.CancelledDocument)
+        {
+            <p>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @UIElementRes.UIElement.RejectDocument
+                @Html.ActionLink(item.DocumentNum.ToString() + " " + "(" + item.ProcessName.ToString() + ")" + " (" + item.ApplicationCreatedUser + ")", "ShowDocument", "Document", new { id = item.DocumentTableId, isAfterView = true }, null)
+            </p>
+        }
+        else if (item.HistoryType == RapidDoc.Models.Repository.HistoryType.AddReader)
+        {
+            <p>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @UIElementRes.UIElement.DocumentAddReaders @item.Description
+                @Html.ActionLink(item.DocumentNum.ToString() + " " + "(" + item.ProcessName.ToString() + ")" + " (" + item.ApplicationCreatedUser + ")", "ShowDocument", "Document", new { id = item.DocumentTableId, isAfterView = true }, null)
+            </p>
+        }
+        else if (item.HistoryType == RapidDoc.Models.Repository.HistoryType.RemoveReader)
+        {
+            <p>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @UIElementRes.UIElement.DocumentRemoveReaders @item.Description
+                @Html.ActionLink(item.DocumentNum.ToString() + " " + "(" + item.ProcessName.ToString() + ")" + " (" + item.ApplicationCreatedUser + ")", "ShowDocument", "Document", new { id = item.DocumentTableId, isAfterView = true }, null)
+            </p>
+        }
+        else if (item.HistoryType == RapidDoc.Models.Repository.HistoryType.DeletedFile)
+        {
+            <p>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @UIElementRes.UIElement.DocumentDeletedFile @item.Description
+                @Html.ActionLink(item.DocumentNum.ToString() + " " + "(" + item.ProcessName.ToString() + ")" + " (" + item.ApplicationCreatedUser + ")", "ShowDocument", "Document", new { id = item.DocumentTableId, isAfterView = true }, null)
+            </p>
+        }
+        else if (item.HistoryType == RapidDoc.Models.Repository.HistoryType.Withdraw)
+        {
+            <p>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @UIElementRes.UIElement.WithdrawHistory
+                @Html.ActionLink(item.DocumentNum.ToString() + " " + "(" + item.ProcessName.ToString() + ")" + " (" + item.ApplicationCreatedUser + ")", "ShowDocument", "Document", new { id = item.DocumentTableId, isAfterView = true }, null)
+            </p>
+        }
+        else if (item.HistoryType == RapidDoc.Models.Repository.HistoryType.CopyDocumment)
+        {
+            <p>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @UIElementRes.UIElement.CopyDocumentHistory
+                @Html.ActionLink(item.DocumentNum.ToString() + " " + "(" + item.ProcessName.ToString() + ")" + " (" + item.ApplicationCreatedUser + ")", "ShowDocument", "Document", new { id = item.DocumentTableId, isAfterView = true }, null)
+            </p>
+        }
+        else if (item.HistoryType == RapidDoc.Models.Repository.HistoryType.DelegateTask)
+        {
+            <p>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @UIElementRes.UIElement.DelegateTaskHistory
+                @Html.ActionLink(item.DocumentNum.ToString() + " " + "(" + item.ProcessName.ToString() + ")" + " (" + item.ApplicationCreatedUser + ")", "ShowDocument", "Document", new { id = item.DocumentTableId, isAfterView = true }, null)
+            </p>
+        }
+        else if (item.HistoryType == RapidDoc.Models.Repository.HistoryType.ModifiedDocument)
+        {
+            <p>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @UIElementRes.UIElement.ModifiedDocumentHistory
+                @Html.ActionLink(item.DocumentNum.ToString() + " " + "(" + item.ProcessName.ToString() + ")" + " (" + item.ApplicationCreatedUser + ")", "ShowDocument", "Document", new { id = item.DocumentTableId, isAfterView = true }, null)
+            </p>
+        }
+
+    }
+}

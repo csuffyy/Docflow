@@ -396,4 +396,10 @@
   <data name="AdditionalText" xml:space="preserve">
     <value>Сопроводительный текст</value>
   </data>
+  <data name="NewExecuteTaskDate" xml:space="preserve">
+    <value>Новая дата исполнения</value>
+  </data>
+  <data name="TooltipAboutNewDate" xml:space="preserve">
+    <value>Изменит дату исполнения можно только на первом этапе</value>
+  </data>
 </root>

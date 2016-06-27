@@ -129,6 +129,9 @@
   <data name="Organization" xml:space="preserve">
     <value>Organization</value>
   </data>
+  <data name="Projects" xml:space="preserve">
+    <value>Projects</value>
+  </data>
   <data name="ProtocolFolders" xml:space="preserve">
     <value>Protocol folders</value>
   </data>

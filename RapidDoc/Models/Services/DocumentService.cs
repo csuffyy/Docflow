@@ -2056,7 +2056,7 @@ namespace RapidDoc.Models.Services
             IEmailService _EmailService = DependencyResolver.Current.GetService<IEmailService>();
             IHistoryUserService _HistoryUserService = DependencyResolver.Current.GetService<IHistoryUserService>();
 
-            _HistoryUserService.SaveDomain(new HistoryUserTable { DocumentTableId = docTable.Id, HistoryType = Models.Repository.HistoryType.ApproveDocument }, userTable.Id);
+            _HistoryUserService.SaveHistory(docTable.Id, Models.Repository.HistoryType.ApproveDocument, userTable.Id, docTable.DocumentNum, docTable.ProcessName, docTable.CreatedBy);
 
             if (documentIdNew.RefDocumentId != null)
             {

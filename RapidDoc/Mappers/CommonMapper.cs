@@ -124,9 +124,15 @@ namespace RapidDoc.Mappers
                 .ForMember(x => x.ModifiedDate, opt => opt.Ignore());
 
             Mapper.CreateMap<HistoryUserTable, HistoryUserView>()
-                .ForMember(x => x.DocumentNum, o => o.MapFrom(m => m.DocumentTable.DocumentNum))
-                .ForMember(x => x.ApplicationCreatedUser, o => o.MapFrom(m => m.DocumentTable.CreatedBy))
-                .ForMember(x => x.ProcessName, o => o.MapFrom(m => m.DocumentTable.ProcessTable.ProcessName));
+                .ForMember(x => x.ApplicationCreatedUser, o => o.MapFrom(m => m.CreateBy));
+            Mapper.CreateMap<HistoryUserView, HistoryUserTable>()
+            .ForMember(x => x.ApplicationUserCreatedId, opt => opt.Ignore())
+            .ForMember(x => x.ApplicationUserModified, opt => opt.Ignore())
+            .ForMember(x => x.CreatedDate, opt => opt.Ignore())
+            .ForMember(x => x.ModifiedDate, opt => opt.Ignore());
+            //    .ForMember(x => x.DocumentNum, o => o.MapFrom(m => m.DocumentTable.DocumentNum))
+            //    .ForMember(x => x.ApplicationCreatedUser, o => o.MapFrom(m => m.DocumentTable.CreatedBy))
+            //    .ForMember(x => x.ProcessName, o => o.MapFrom(m => m.DocumentTable.ProcessTable.ProcessName));
 
             Mapper.CreateMap<SearchTable, SearchView>()
                 .ForMember(x => x.DocumentNum, o => o.MapFrom(m => m.DocumentTable.DocumentNum))
@@ -159,6 +165,13 @@ namespace RapidDoc.Mappers
 
             Mapper.CreateMap<OrganizationTable, OrganizationView>();
             Mapper.CreateMap<OrganizationView, OrganizationTable>()
+                .ForMember(x => x.ApplicationUserCreatedId, opt => opt.Ignore())
+                .ForMember(x => x.ApplicationUserModified, opt => opt.Ignore())
+                .ForMember(x => x.CreatedDate, opt => opt.Ignore())
+                .ForMember(x => x.ModifiedDate, opt => opt.Ignore());
+
+            Mapper.CreateMap<ProjectTable, ProjectView>();
+            Mapper.CreateMap<ProjectView, ProjectTable>()
                 .ForMember(x => x.ApplicationUserCreatedId, opt => opt.Ignore())
                 .ForMember(x => x.ApplicationUserModified, opt => opt.Ignore())
                 .ForMember(x => x.CreatedDate, opt => opt.Ignore())

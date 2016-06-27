@@ -1,0 +1,58 @@
+﻿@model RapidDoc.Models.ViewModels.ReportParametersBasicView
+@using RapidDoc.Extensions;
+
+@{
+    ViewBag.Title = UIElementRes.UIElement.CreateReport;
+}
+
+<h2>@UIElementRes.UIElement.IncomingCorrespondenceReport</h2>
+
+@using (Html.BeginForm("GenerateCorrespondenceReport", "Report", FormMethod.Post, new { id = "formreport" }))
+{
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend></legend>
+
+        <div class="editor-label">
+            @Html.LabelForRequired(model => model.StartDate)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.StartDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control form-control-date" })
+            @Html.ValidationMessageFor(model => model.StartDate)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelForRequired(model => model.EndDate)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.EndDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control form-control-date" })
+            @Html.ValidationMessageFor(model => model.EndDate)
+        </div>
+
+        <br>
+        <p>
+            <input id="reportbtn" class="btn btn-primary btn-sm" value=@UIElementRes.UIElement.Run />
+            <a href="javascript:window.history.back();" class="btn btn-default btn-sm">@UIElementRes.UIElement.Back</a>
+        </p>
+    </fieldset>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/editentity")
+}
+@section jslaunch {
+<script type="text/javascript">
+    $(function () {
+        selectpicker_init();
+        datepicker_init("@UIElementRes.UIElement.LangName");
+
+        $("#reportbtn").click(function (e) {
+            e.preventDefault();
+            $("#formreport").submit();
+        });
+    });
+</script>
+}
+
+

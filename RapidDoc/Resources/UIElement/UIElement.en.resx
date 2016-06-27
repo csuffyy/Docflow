@@ -711,4 +711,7 @@
   <data name="MonitoringRequest" xml:space="preserve">
     <value>Monitoring of requests</value>
   </data>
+  <data name="IncomingCorrespondenceReport" xml:space="preserve">
+    <value>Corresopndence report for Kazzic</value>
+  </data>
 </root>

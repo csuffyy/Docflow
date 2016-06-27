@@ -97,6 +97,15 @@ namespace CustomRes {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Проекты.
+        /// </summary>
+        public static string Projects {
+            get {
+                return ResourceManager.GetString("Projects", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Протокольные папки.
         /// </summary>
         public static string ProtocolFolders {

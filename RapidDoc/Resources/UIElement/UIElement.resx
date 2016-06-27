@@ -717,4 +717,7 @@
   <data name="MonitoringRequest" xml:space="preserve">
     <value>Мониторинг заявок</value>
   </data>
+  <data name="IncomingCorrespondenceReport" xml:space="preserve">
+    <value>Отчет по корреспонденции КЦ</value>
+  </data>
 </root>

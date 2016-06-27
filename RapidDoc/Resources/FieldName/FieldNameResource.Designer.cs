@@ -574,6 +574,15 @@ namespace FieldNameRes {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Новая дата исполнения.
+        /// </summary>
+        public static string NewExecuteTaskDate {
+            get {
+                return ResourceManager.GetString("NewExecuteTaskDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Новый пароль.
         /// </summary>
         public static string NewPassword {
@@ -840,6 +849,15 @@ namespace FieldNameRes {
         public static string TitleNameKZ {
             get {
                 return ResourceManager.GetString("TitleNameKZ", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Изменит дату исполнения можно только на первом этапе.
+        /// </summary>
+        public static string TooltipAboutNewDate {
+            get {
+                return ResourceManager.GetString("TooltipAboutNewDate", resourceCulture);
             }
         }
         

@@ -711,4 +711,7 @@
   <data name="MonitoringRequest" xml:space="preserve">
     <value>-</value>
   </data>
+  <data name="IncomingCorrespondenceReport" xml:space="preserve">
+    <value>-</value>
+  </data>
 </root>

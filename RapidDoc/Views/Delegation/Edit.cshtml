@@ -82,6 +82,28 @@
 $(function () {
     selectpicker_init();
     datepicker_init("@UIElementRes.UIElement.LangName");
+    $('#ProcessTableId').change(function (event) {
+        if ($('#ProcessTableId').val() != null || $('#ProcessTableId').val() != '') {
+            $('select[name=GroupProcessTableId]').val(0);
+            $('#GroupProcessTableId').selectpicker('refresh');
+        }
+        else {
+            $('select[name=ProcessTableId]').val(0);
+            $('#ProcessTableId').selectpicker('refresh');
+        }
+    });
+
+    $('#GroupProcessTableId').change(function (event) {
+        if ($('#GroupProcessTableId').val() != null || $('#GroupProcessTableId').val() != '') {
+            $('select[name=ProcessTableId]').val(0);
+            $('#ProcessTableId').selectpicker('refresh');
+
+        }
+        else {
+            $('select[name=GroupProcessTableId]').val(0);
+            $('#GroupProcessTableId').selectpicker('refresh');
+        }
+    });
 });
 </script>
 }

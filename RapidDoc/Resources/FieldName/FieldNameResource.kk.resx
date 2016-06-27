@@ -387,4 +387,10 @@
   <data name="AdditionalText" xml:space="preserve">
     <value>Ілеспе мәтін</value>
   </data>
+  <data name="NewExecuteTaskDate" xml:space="preserve">
+    <value>-</value>
+  </data>
+  <data name="TooltipAboutNewDate" xml:space="preserve">
+    <value>-</value>
+  </data>
 </root>

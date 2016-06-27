@@ -266,8 +266,10 @@ namespace RapidDoc.Models.DomainModels
     {
         public HistoryType HistoryType { get; set; }
         public Guid DocumentTableId { get; set; }
-        public virtual DocumentTable DocumentTable { get; set; }
         public string Description { get; set; }
+        public string DocumentNum { get; set; }
+        public string ProcessName { get; set; }
+        public string CreateBy { get; set; }
     }
 
     public class SearchTable : BasicTable

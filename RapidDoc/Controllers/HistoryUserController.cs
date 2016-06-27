@@ -26,7 +26,7 @@ namespace RapidDoc.Controllers
         {
             string userId = User.Identity.GetUserId();
             DateTime startDate = DateTime.UtcNow.AddDays(-60);
-            var model = _HistoryUserService.GetPartialView(x => x.ApplicationUserCreatedId == userId && x.CreatedDate >= startDate).OrderByDescending(x => x.CreatedDate);
+            var model = _HistoryUserService.GetPartialView(x => x.ApplicationUserCreatedId == userId && x.CreatedDate >= startDate && x.DocumentNum != null).OrderByDescending(x => x.CreatedDate);
 
             return View(model);
         }

@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = CustomRes.Custom.Projects;
+}
+
+<h2>@CustomRes.Custom.Projects</h2>
+
+@{Html.RenderPartial("_NewEntityBtn");}
+
+<div>
+    @Html.Action("Grid")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/gridmvc")
+}
+@section jslaunch {
+    <script type="text/javascript">
+$(function () {
+    grid_init("@Url.Action("GetProjectList", "Project")")
+
+    var detailsUrl = '@Url.Action("Edit", "Project")';
+    pageGrids.ordersGrid.onRowSelect(function (e) {
+    window.location.href = detailsUrl  + '/' + e.row.Id;
+    });
+});
+    </script>
+}

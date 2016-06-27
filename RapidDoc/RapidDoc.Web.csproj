@@ -321,6 +321,7 @@
     <Compile Include="Controllers\DelegationController.cs" />
     <Compile Include="Controllers\DocumentController.cs" />
     <Compile Include="Controllers\MonitoringController.cs" />
+    <Compile Include="Controllers\ProjectController.cs" />
     <Compile Include="Controllers\ProtocolFoldersController.cs" />
     <Compile Include="Controllers\PortalParametersController.cs" />
     <Compile Include="Controllers\QuestionRequestController.cs" />
@@ -348,6 +349,7 @@
     <Compile Include="Controllers\TitleController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Extensions\DefaultScaffoldingExtensions.cs" />
+    <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\ExceptionExtensions.cs" />
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Extensions\HierarchyComparer.cs" />
@@ -378,6 +380,7 @@
     <Compile Include="Models\Grids\GroupProcessAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\ItemCauseAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\NumberSeriesBookingAjaxPagingGrid.cs" />
+    <Compile Include="Models\Grids\ProjectAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\ProtocolFoldersAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\QuestionRequestAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\ReasonRequestAjaxPagingGrid.cs" />
@@ -407,6 +410,7 @@
     <Compile Include="Models\Repository\CompanyConstraint.cs" />
     <Compile Include="Models\Services\DocumentSubcriptionService.cs" />
     <Compile Include="Models\Services\IpListService.cs" />
+    <Compile Include="Models\Services\ProjectService.cs" />
     <Compile Include="Models\Services\ProtocolFoldersService.cs" />
     <Compile Include="Models\Services\PortalParametersService.cs" />
     <Compile Include="Models\Services\QuestionRequestService.cs" />
@@ -2166,6 +2170,13 @@
     <Content Include="Views\Custom\USC_PRT_DecisionList.cshtml" />
     <Content Include="Views\Custom\USR_TAS_DailyTasks_View_Full.cshtml" />
     <Content Include="Views\EmailTemplate\SLAEmailTemplateWithSLA.cshtml" />
+    <Content Include="Views\Report\IncomingCorrespondenceReportUSC.cshtml" />
+    <Content Include="Views\Project\_ProjectGrid.cshtml" />
+    <Content Include="Views\Project\Create.cshtml" />
+    <Content Include="Views\Project\Delete.cshtml" />
+    <Content Include="Views\Project\Detail.cshtml" />
+    <Content Include="Views\Project\Edit.cshtml" />
+    <Content Include="Views\Project\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -4121,6 +4132,7 @@
       <SubType>Designer</SubType>
     </XamlAppDef>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

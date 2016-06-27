@@ -59,10 +59,11 @@
     </div>
 }
 
-<div class="modal delegatetask-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal delegatetask-modal-sm" id="delegateTaskModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content modal-content">
             <div class="modal-header">
+                <div class="alert_placeholderNewDate"></div>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">@CustomRes.Custom.Users</h4>
             </div>
@@ -70,6 +71,7 @@
                 @Html.TextBox("Flow", "", new { @class = "form-control", @data_role = "tagsinputEmployerIntercompany", @size = 256, @maxlength = 256, placeholder = "Сотрудники" })
                 <br />
                 <br />
+                <div id="NewExecutionDate"></div>
                 <div class="editor-label">
                     <label>@FieldNameRes.FieldNameResource.CreateTasks</label>
                     <i class="fa fa-question-circle visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-toggle="tooltip" data-placement="top" title="@UIElementRes.UIElement.TooltipCreateSubTask"></i>
@@ -136,10 +138,14 @@
     </div>
 </div>
 
+
 <script type="text/javascript">
     bootstrap_alertReport = function () { }
     bootstrap_alertReport.warning = function (message) {
         $('#alert_placeholderReport').html('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><span class="sr-only">Error:</span>' + message + '</div>')
+    }
+    bootstrap_alertReport.warningChangeNewDate = function (message) {
+        $('.alert_placeholderNewDate').html('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><span class="sr-only">Error:</span>' + message + '</div>')
     }
     $('#approveTask').click(function (event) {
         var comment = $('#ApproveCommentTask').summernote('code');
@@ -169,6 +175,37 @@
             return false;
         }
     });
+
+    $('#delegateTaskModal').on('shown.bs.modal', function (e) {
+        if ($('.table-responsive tr').length == 2) {
+            $('#NewExecutionDate').html('<div class="editor-label"><label>@FieldNameRes.FieldNameResource.NewExecuteTaskDate&nbsp;</label><i id="newExecutiontooltip" class="fa fa-question-circle visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-toggle="tooltip" data-placement="top" title="@FieldNameRes.FieldNameResource.TooltipAboutNewDate"></i></div><div class="editor-field"><input class="datepicker form-control form-control-date" data-date-format="dd.mm.yyyy" data-val="true" data-val-date="The field Дата исполнения must be a date." format="mm/dd/yyyy" id="newExecuteDate" name="newExecuteDate" placeholder="Дата" startdate="" type="text" value=""></div>');
+            $('#newExecuteDate').datepicker({
+                format: 'dd.mm.yyyy',
+                autoclose: true,
+                language: "@UIElementRes.UIElement.LangName",
+                todayBtn: true,
+                todayHighlight: true
+            });
+            $('#newExecutiontooltip').tooltip();
+
+            $('input[name=newExecuteDate]').datepicker().on('changeDate', function (event) {
+                var currentDt = new Date()
+                currentDt.setHours(0, 0, 0, 0);
+                var f = $("#newExecuteDate").val().split(".");
+                var newExecuteDate = new Date(f[2], f[1] - 1, f[0]);
+
+                if (new Date(currentDt) > new Date(newExecuteDate)) {
+                    bootstrap_alertReport.warningChangeNewDate('Дата не может быть меньше текущей');
+                    $("#newExecuteDate").val('')
+                }
+                else {
+                    $('.alert_placeholderNewDate').html('');
+                }
+            });
+        }
+    })
+
+    
 
     $('.rejectcz-modal-sm').on('shown.bs.modal', function (e) {
         $('#RejectCommentTask').summernote('code', $('#lastComment').summernote('code'));

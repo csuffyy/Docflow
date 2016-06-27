@@ -5,19 +5,35 @@ using System.Web;
 using System.Web.Mvc;
 using RapidDoc.Models.Infrastructure;
 using RapidDoc.Models.Services;
+using RapidDoc.Models.DomainModels;
+using RapidDoc.Models.ViewModels;
 
 namespace RapidDoc.Controllers
 {
     public class ErrorController : BasicController
     {
-        public ErrorController(ICompanyService companyService, IAccountService accountService)
+        private readonly IHistoryUserService _HistoryUserService;
+
+        public ErrorController(ICompanyService companyService, IAccountService accountService, IHistoryUserService historyUserService)
             : base(companyService, accountService)
         {
+            _HistoryUserService = historyUserService;
         }
 
-        public ActionResult PageNotFound()
+        //public ActionResult PageNotFound()
+        //{
+        //    return View();
+        //}
+
+        public ActionResult PageNotFound(Guid? id)
         {
-            return View();
+            if (id != null)
+            {
+                List<HistoryUserView> history = _HistoryUserService.GetPartialView(x => x.DocumentTableId == id && x.DocumentNum != null).ToList();
+                return View(history);
+            }
+            else
+                return View();
         }
 
         public ActionResult WithdrawnDocument()
@@ -50,5 +66,5 @@ namespace RapidDoc.Controllers
 
             return list;
         }
-	}
+    }
 }

@@ -79,6 +79,11 @@ namespace RapidDoc.Models.DomainModels
         public bool Enable { get; set; }
     }
 
+    public class ProjectTable : BasicTable
+    {
+        public string ProjectName { get; set; }
+    }
+
     public class ReasonRequestTable : BasicCompanyNullTable
     {
         public string Code { get; set; }

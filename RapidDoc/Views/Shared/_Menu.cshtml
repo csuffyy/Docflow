@@ -56,6 +56,7 @@
                                 <li>@Html.ActionLink(CustomRes.Custom.ItemCause, "Index", "ItemCause")</li>
                                 <li>@Html.ActionLink(UIElementRes.UIElement.PortalParameters, "Edit", "PortalParameters")</li>
                                 <li>@Html.ActionLink(CustomRes.Custom.IpList, "Index", "IpList")</li>
+                                <li>@Html.ActionLink(CustomRes.Custom.Projects, "Index", "Project")</li>
                             </ul>
                         </li>
                     }
@@ -95,6 +96,9 @@
                                 </li>
                                 <li class="dropdown">
                                     <a href=@Url.Action("TaskReport", "Report")><span class="fa fa-file-excel-o"></span> @UIElementRes.UIElement.TaskReport</a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href=@Url.Action("IncomingCorrespondenceReportUSC", "Report")><span class="fa fa-file-excel-o"></span> @UIElementRes.UIElement.IncomingCorrespondenceReport</a>
                                 </li>
                                 <li class="dropdown">
                                     <a href=@Url.Action("IndexTask", "Monitoring")><span class="fa fa-tasks"></span> @UIElementRes.UIElement.MonitoringTask</a>

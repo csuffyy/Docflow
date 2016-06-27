@@ -22,6 +22,7 @@ namespace RapidDoc.Models.Services
         IEnumerable<HistoryUserView> GetPartialView(Expression<Func<HistoryUserTable, bool>> predicate);
         HistoryUserTable FirstOrDefault(Expression<Func<HistoryUserTable, bool>> predicate);
         HistoryUserView FirstOrDefaultView(Expression<Func<HistoryUserTable, bool>> predicate);
+        void SaveHistory(Guid documentId, HistoryType historyType, string userId, string docNum, string processName, string createBy, string description = null);
         void SaveDomain(HistoryUserTable domainTable, string userId);
         HistoryUserTable Find(Guid id);
         HistoryUserView FindView(Guid id);
@@ -51,7 +52,7 @@ namespace RapidDoc.Models.Services
             var items = Mapper.Map<IEnumerable<HistoryUserTable>, IEnumerable<HistoryUserView>>(GetAll());
             ApplicationUser currentUser = repoUser.GetById(HttpContext.Current.User.Identity.GetUserId());
 
-            foreach(var item in items)
+            foreach (var item in items)
             {
                 EmplTable empl = _EmplService.GetEmployer(item.ApplicationUserCreatedId, currentUser.CompanyTableId);
                 if (empl != null)
@@ -98,7 +99,7 @@ namespace RapidDoc.Models.Services
             }
 
             return items;
-        }        
+        }
         public HistoryUserTable FirstOrDefault(Expression<Func<HistoryUserTable, bool>> predicate)
         {
             return repo.Find(predicate);
@@ -124,6 +125,8 @@ namespace RapidDoc.Models.Services
         }
         public void SaveDomain(HistoryUserTable domainTable, string userId)
         {
+            //DocumentTable doc = _DocumentService.FirstOrDefault(x => x.Id == domainTable.DocumentTableId);
+            //domainTable.Description = doc.DocumentNum + " (" + doc.ProcessTable.ProcessName + ") (" + doc.CreatedBy + ")";
             if (domainTable.Id == Guid.Empty)
             {
                 domainTable.CreatedDate = DateTime.UtcNow;
@@ -140,6 +143,24 @@ namespace RapidDoc.Models.Services
             }
             _uow.Commit();
         }
+
+
+        public void SaveHistory(Guid documentId, HistoryType historyType, string userId, string docNum, string processName, string createBy, string description = null)
+        {
+            var domainTable = new HistoryUserTable();
+
+            domainTable.DocumentTableId = documentId;
+            domainTable.HistoryType = historyType;
+            domainTable.DocumentNum = docNum;
+            domainTable.ProcessName = processName;
+            domainTable.CreateBy = createBy;
+
+            if (description != null)
+                domainTable.Description = description;
+
+            SaveDomain(domainTable, userId);
+        }
+
         public void Delete(Guid id)
         {
             repo.Delete(a => a.Id == id);
@@ -174,5 +195,6 @@ namespace RapidDoc.Models.Services
             repo.Delete(x => x.DocumentTableId == documentId);
             _uow.Commit();
         }
+
     }
 }
