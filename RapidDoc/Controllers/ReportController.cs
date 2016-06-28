@@ -563,7 +563,8 @@ namespace RapidDoc.Controllers
             ReportExecutionType taskType;
             Excel.Application excelAppl;
             Excel.Workbook excelWorkbook;
-            Excel.Worksheet excelWorksheet;
+            Excel.Worksheet excelWorksheet;            
+            const string informationTag = "#Статус";
 
             string chief = "", delegation = "", readers = "", signUserOutcoming = "";
             excelAppl = new Excel.Application();
@@ -656,6 +657,9 @@ namespace RapidDoc.Controllers
                         taskType = planDate >= signTrack.SignDate.Value.Date ? ReportExecutionType.Done : ReportExecutionType.OverDate;
                         resultDocument.TaskReportText = _SystemService.DeleteAllTags(refTask.detailTaskDoc.ReportText);
                     }
+                    CommentTable lastComment = _CommentService.GetPartial(x => x.DocumentTableId == refTask.detailTaskDoc.DocumentTableId && (x.Comment.Contains(informationTag) || x.Comment.Contains(informationTag.ToLower()))).OrderByDescending(y => y.CreatedDate).FirstOrDefault();
+                    if (lastComment != null)
+                        resultDocument.OutcomingInformation = lastComment.Comment.Replace(informationTag, "").Replace(informationTag.ToLower(), "");
 
                     resultDocument.ExecutionType = taskType;
                 }
@@ -685,7 +689,6 @@ namespace RapidDoc.Controllers
                         WFTrackerTable signTrack = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == refOutcomingDocument.refOutcomingDoc.Id && x.SignDate != null).OrderByDescending(y => y.SignDate).FirstOrDefault();
                         DateTime signDate = (DateTime)signTrack.SignDate;
                         resultDocument.OutcomingDateRegistration = signDate.ToShortDateString();
-                        resultDocument.OutcomingInformation = "";
                     }
                 }
                 resultList.Add(resultDocument);

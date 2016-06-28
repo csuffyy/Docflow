@@ -400,9 +400,9 @@ namespace RapidDoc.Models.Services
                         excelWorksheet.Hyperlinks.Add(excelWorksheet.Range[excelWorksheet.Cells[rowCount, 14], excelWorksheet.Cells[rowCount, 14]], String.Format("http://df.altyntau.com/ATK/Document/ShowDocument/{0}?isAfterView=True", item.OutcomingDocumentId), Type.Missing, "Перейти к документу");
                         excelWorksheet.Cells[rowCount, 15] = item.OutcomingDocumentCreator;
                         excelWorksheet.Cells[rowCount, 16] = item.OutcomingSignUsers != null ? item.OutcomingSignUsers : "";
-                        excelWorksheet.Cells[rowCount, 17] = item.OutcomingDateRegistration != null ? item.OutcomingDateRegistration : "";
-                        excelWorksheet.Cells[rowCount, 18] = "";
+                        excelWorksheet.Cells[rowCount, 17] = item.OutcomingDateRegistration != null ? item.OutcomingDateRegistration : "";                       
                     }
+                    excelWorksheet.Cells[rowCount, 18] = String.IsNullOrEmpty(item.OutcomingInformation) ? "" : _SystemService.DeleteAllTags(item.OutcomingInformation);
                     rowCount++;
                     range = excelWorksheet.Range[excelWorksheet.Cells[startRowBlock, 1], excelWorksheet.Cells[rowCount - 1, maxColumns]];
                     this.AllBordersBlockTasks(range.Borders);
