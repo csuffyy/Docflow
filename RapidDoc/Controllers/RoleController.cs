@@ -184,32 +184,29 @@ namespace RapidDoc.Controllers
             var roleTable = await RoleManager.FindByIdAsync(id);
 
             if (roleTable == null)
-            {
                 return HttpNotFound();
-            }
 
             if (isAjax == true)
             {
-                var allUsers = Mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<UserViewModel>>(UserManager.Users);
+                string[] roleUsers = roleTable.Users.Select(x => x.UserId).ToArray();
+                List<string> newUsers = new List<string>();
+                List<string> removeUsers = new List<string>();
 
-                foreach (var user in allUsers)
+                if (listdata != null)
                 {
-                    UserManager.RemoveFromRole(user.Id, roleTable.Name);
+                    newUsers.AddRange(listdata.Except(roleUsers));
+                    removeUsers.AddRange(roleUsers.Except(listdata));
                 }
-            }
-
-            if (listdata != null)
-            {
-                foreach (string userId in listdata)
+                else
                 {
-                    var userTable = await UserManager.FindByIdAsync(userId);
-                    if (userTable == null)
-                    {
-                        return HttpNotFound();
-                    }
-
-                    UserManager.AddToRole(userTable.Id, roleTable.Name);
+                    removeUsers.AddRange(roleUsers);
                 }
+
+                foreach (var userid in newUsers)
+                    UserManager.AddToRole(userid, roleTable.Name);
+
+                foreach (var userid in removeUsers)
+                    UserManager.RemoveFromRole(userid, roleTable.Name);
             }
 
             return Json(new { result = "Redirect", url = Url.Action("Index") });

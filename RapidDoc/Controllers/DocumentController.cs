@@ -236,7 +236,7 @@ namespace RapidDoc.Controllers
                 if (documentTable.ApplicationUserCreatedId == currentUser.Id || UserManager.IsInRole(currentUser.Id, "Administrator") || _ModificationUsersService.ContainDocumentUser(id, currentUser.Id))
                     return RedirectToAction("ShowDraft", "Document", new { id = id });
                 else
-                    return RedirectToAction("WithDrawnDocument", "Error");
+                    return RedirectToAction("PageNotFound", "Error", new { id = id });
             }
 
             var previousModelState = TempData["ModelState"] as ModelStateDictionary;
@@ -469,7 +469,7 @@ namespace RapidDoc.Controllers
             }
             */
             DocumentTable docNew = _DocumentService.Find(documentIdNew);
-            _HistoryUserService.SaveHistory(documentIdNew, Models.Repository.HistoryType.ModifiedDocument, User.Identity.GetUserId(),
+            _HistoryUserService.SaveHistory(documentIdNew, Models.Repository.HistoryType.ModifiedDocument, userTableCurrent.Id,
                             docNew.DocumentNum, docNew.ProcessName, docNew.CreatedBy);
 
             var view = PostDocument(processId, type, OperationType.SaveDraft, documentIdNew, fileId, collection, actionModelName);
@@ -504,6 +504,20 @@ namespace RapidDoc.Controllers
             return PartialView("~/Views/Document/_ModificationDocumentList.cshtml", hierarchyModification);
         }
 
+        public ActionResult GetDelegationTaskModal(Guid documentId, Guid refDocumentId)
+        {
+            ViewBag.IsDateChange = false;
+            DocumentTable documentTableRef = _DocumentService.FirstOrDefault(x => x.Id == refDocumentId);
+            if (documentTableRef.DocType == DocumentType.IncomingDoc && _DocumentService.GetDocumentRefTask(documentId).Count() == 0)
+            {
+                var tracker = _WorkflowTrackerService.GetCurrentStep(x => x.DocumentTableId == documentId);
+                if (tracker != null && tracker.Count() == 1)
+                    ViewBag.IsDateChange = true;
+            }
+
+            return PartialView("~/Views/Custom/_TAS_DailyTasks_DelegationModal.cshtml");
+        }
+
         [HttpPost]
         [MultipleButton(Name = "action", Argument = "DeleteDraft")]
         public ActionResult DeleteDraft(Guid processId, int type, Guid fileId, FormCollection collection, string actionModelName, Guid documentId)
@@ -524,6 +538,7 @@ namespace RapidDoc.Controllers
                 _DocumentReaderService.Delete(documentId);
                 _ModificationUsersService.DeleteAll(documentId);
                 _DocumentService.Delete(documentId);
+
                 return RedirectToAction("Index", "Document");
             }
             else
@@ -625,7 +640,7 @@ namespace RapidDoc.Controllers
             DocumentTable documentTable = _DocumentService.Find(documentId);
             _DocumentService.UpdateDocument(documentTable, user.Id);
 
-            _HistoryUserService.SaveHistory(documentId, Models.Repository.HistoryType.CancelledDocument, User.Identity.GetUserId(),
+            _HistoryUserService.SaveHistory(documentId, Models.Repository.HistoryType.CancelledDocument, user.Id,
                             documentTable.DocumentNum, documentTable.ProcessName, documentTable.CreatedBy);
 
             _EmailService.SendInitiatorRejectEmail(documentId);
@@ -723,7 +738,7 @@ namespace RapidDoc.Controllers
                 if ((collection["AdditionalText"] != null && _SystemService.DeleteAllTags(collection["AdditionalText"]) != String.Empty))
                     _CommentService.Save(new CommentTable { Comment = collection["AdditionalText"], DocumentTableId = documentId });
 
-                _HistoryUserService.SaveHistory(documentId, Models.Repository.HistoryType.DelegateTask, User.Identity.GetUserId(),
+                _HistoryUserService.SaveHistory(documentId, Models.Repository.HistoryType.DelegateTask, userTable.Id,
                             docTable.DocumentNum, docTable.ProcessName, docTable.CreatedBy);
             }
             else
@@ -743,7 +758,7 @@ namespace RapidDoc.Controllers
                     }
                 }
 
-                _HistoryUserService.SaveHistory(documentId, Models.Repository.HistoryType.NewDocument, User.Identity.GetUserId(),
+                _HistoryUserService.SaveHistory(documentId, Models.Repository.HistoryType.NewDocument, userTable.Id,
                             docTable.DocumentNum, docTable.ProcessName, docTable.CreatedBy);
 
                 var viewBodyTask = _DocumentService.CreateViewBodyTaskFromDocument(docTable, process, userTable);
@@ -853,7 +868,7 @@ namespace RapidDoc.Controllers
                 }
             }
 
-            _HistoryUserService.SaveHistory(documentId, Models.Repository.HistoryType.ApproveDocument, User.Identity.GetUserId(),
+            _HistoryUserService.SaveHistory(documentId, Models.Repository.HistoryType.ApproveDocument, userId,
                             documentTable.DocumentNum, documentTable.ProcessName, documentTable.CreatedBy);
             if (documentIdNew.RefDocumentId != null)
             {
@@ -915,7 +930,7 @@ namespace RapidDoc.Controllers
                 }
             }
 
-            _HistoryUserService.SaveHistory(documentId, Models.Repository.HistoryType.CancelledDocument, User.Identity.GetUserId(),
+            _HistoryUserService.SaveHistory(documentId, Models.Repository.HistoryType.CancelledDocument, currentUserId,
                             documentTable.DocumentNum, documentTable.ProcessName, documentTable.CreatedBy);
             _EmailService.SendInitiatorRejectEmail(documentTable.Id);
 
@@ -1050,7 +1065,7 @@ namespace RapidDoc.Controllers
                     return RedirectToAction("PageNotFound", "Error");
                 }
             }
-            _HistoryUserService.SaveHistory(documentId, Models.Repository.HistoryType.NewDocument, User.Identity.GetUserId(),
+            _HistoryUserService.SaveHistory(documentId, Models.Repository.HistoryType.NewDocument, userTable.Id,
                             docTable.DocumentNum, docTable.ProcessName, docTable.CreatedBy);
 
             var viewModel = new DocumentComposite();
@@ -1102,7 +1117,7 @@ namespace RapidDoc.Controllers
                     return RedirectToAction("PageNotFound", "Error");
                 }
             }
-            _HistoryUserService.SaveHistory(documentId, Models.Repository.HistoryType.NewDocument, User.Identity.GetUserId(), docTable.DocumentNum, docTable.ProcessName, docTable.CreatedBy);
+            _HistoryUserService.SaveHistory(documentId, Models.Repository.HistoryType.NewDocument, userTable.Id, docTable.DocumentNum, docTable.ProcessName, docTable.CreatedBy);
 
             var viewBodyTask = _DocumentService.CreateViewBodyTaskFromDocument(docTable, process, userTable);
 
@@ -1150,7 +1165,7 @@ namespace RapidDoc.Controllers
             }
             DocumentTable docNew = _DocumentService.Find(documentIdNew);
 
-            _HistoryUserService.SaveHistory(documentIdNew, Models.Repository.HistoryType.CopyDocumment, User.Identity.GetUserId(),
+            _HistoryUserService.SaveHistory(documentIdNew, Models.Repository.HistoryType.CopyDocumment, userTable.Id,
                             docNew.DocumentNum, docNew.ProcessName, docNew.CreatedBy);
 
             return RedirectToAction("ShowDraft", "Document", new { id = documentIdNew });
@@ -2167,7 +2182,7 @@ namespace RapidDoc.Controllers
                 values.Add(fileName, true);
 
                 if (document != null)
-                    _HistoryUserService.SaveHistory(document.Id, Models.Repository.HistoryType.DeletedFile, User.Identity.GetUserId(), document.DocumentNum, document.ProcessName, document.CreatedBy);
+                    _HistoryUserService.SaveHistory(document.Id, Models.Repository.HistoryType.DeletedFile, user.Id, document.DocumentNum, document.ProcessName, document.CreatedBy);
             }
             else
             {
