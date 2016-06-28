@@ -967,6 +967,10 @@ namespace RapidDoc.Models.Services
                 {
                     errorList.Add("Необходимо заполнить тип документа ");
                 }
+                if (actionModel.ExecutionDate != null && actionModel.ExecutionDate < DateTime.Today)
+                {
+                    errorList.Add(String.Format("Дата исполнения должна быть больше или равна {0}", DateTime.Today.ToShortDateString()));
+                }
             }
 
             if (type == (new USK_IND_IncomingDocuments_View()).GetType())
@@ -979,6 +983,10 @@ namespace RapidDoc.Models.Services
                 {
                     errorList.Add("Необходимо заполнить тип документа ");
                 }
+                if (actionModel.ExecutionDate != null && actionModel.ExecutionDate < DateTime.Today)
+                {
+                    errorList.Add(String.Format("Дата исполнения должна быть больше или равна {0}", DateTime.Today.ToShortDateString()));
+                }
             }
 
             if (type == (new USC_IND_IncomingDocuments_View()).GetType())
@@ -990,6 +998,10 @@ namespace RapidDoc.Models.Services
                 if (String.IsNullOrEmpty(actionModel.DocumentTypeName) && actionModel.DocumentType == IncomingDocumentKZHCType.Element1)
                 {
                     errorList.Add("Необходимо заполнить тип документа ");
+                }
+                if (actionModel.ExecutionDate != null && actionModel.ExecutionDate < DateTime.Today)
+                {
+                    errorList.Add(String.Format("Дата исполнения должна быть больше или равна {0}", DateTime.Today.ToShortDateString()));
                 }
             }
 
