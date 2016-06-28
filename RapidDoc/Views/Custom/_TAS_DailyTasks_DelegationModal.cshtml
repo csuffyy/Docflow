@@ -19,7 +19,7 @@
                         <label>@FieldNameRes.FieldNameResource.NewExecuteTaskDate&nbsp;</label><i id="newExecutiontooltip" class="fa fa-question-circle visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-toggle="tooltip" data-placement="top" title="@FieldNameRes.FieldNameResource.TooltipAboutNewDate"></i>
                     </div>
                     <div class="editor-field">
-                        <input class="datepicker form-control form-control-date" data-date-format="dd.mm.yyyy" data-val="true" data-val-date="The field Дата исполнения must be a date." format="dd.mm.yyyy" id="newExecuteDate" name="newExecuteDate" placeholder="Дата" startdate="27.06.2016" type="text" value="">
+                        <input class="datepicker form-control form-control-date" data-date-format="dd.mm.yyyy" data-val="true" data-val-date="The field Дата исполнения must be a date." format="dd.mm.yyyy" id="newExecuteDate" name="newExecuteDate" placeholder="Дата" startdate="@DateTime.Today.Day.@DateTime.Today.Month.@DateTime.Today.Year" type="text" value="">
                     </div>
                 </div>
                 }
