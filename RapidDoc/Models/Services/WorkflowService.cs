@@ -327,7 +327,7 @@ namespace RapidDoc.Models.Services
                     LoadAOrCompleteInstance(documentId, DocumentState.Agreement, TrackerType.Approved, documentData, instanceStore, activity, instanceInfo, bookmark);
                     DeleteInstanceStoreOwner(instanceStore);                 
                     DocumentTable docTable = _DocumentService.FirstOrDefault(x => x.Id == documentId);
-                    _HistoryUserService.SaveHistory(documentId, Models.Repository.HistoryType.ApproveDocument, HttpContext.Current.User.Identity.GetUserId(), docTable.DocumentNum, docTable.ProcessName, docTable.CreatedBy);
+                    _HistoryUserService.SaveHistory(documentId, Models.Repository.HistoryType.ApproveDocument, currentUserId, docTable.DocumentNum, docTable.ProcessName, docTable.CreatedBy);
                     if (docTable.DocType == DocumentType.Order)
                     {
                         WFTrackerTable stepCount = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == docTable.Id).OrderByDescending(x => x.LineNum).FirstOrDefault(x => x.SystemName != null);
@@ -367,7 +367,7 @@ namespace RapidDoc.Models.Services
                     Activity activity = ChooseActualWorkflow(TableName, fileTableWF, instanceInfo.DefinitionIdentity != null);
                     LoadAOrCompleteInstance(documentId, DocumentState.Cancelled, TrackerType.Cancelled, documentData, instanceStore, activity, instanceInfo, bookmark);
                     DeleteInstanceStoreOwner(instanceStore);
-                    _HistoryUserService.SaveHistory(documentId, Models.Repository.HistoryType.CancelledDocument, HttpContext.Current.User.Identity.GetUserId(), docTable.DocumentNum, docTable.ProcessName, docTable.CreatedBy);
+                    _HistoryUserService.SaveHistory(documentId, Models.Repository.HistoryType.CancelledDocument, currentUserId, docTable.DocumentNum, docTable.ProcessName, docTable.CreatedBy);
                     _EmailService.SendInitiatorRejectEmail(documentId);
                 }
             }
@@ -414,7 +414,7 @@ namespace RapidDoc.Models.Services
                  Activity activity = ChooseActualWorkflow(tableName, fileTableWF, instanceInfo.DefinitionIdentity != null);
                  WithdrawInstance(documentId, DocumentState.Cancelled, TrackerType.Cancelled, instanceStore, activity, instanceInfo);
                  DeleteInstanceStoreOwner(instanceStore);
-                 _HistoryUserService.SaveHistory(documentId, Models.Repository.HistoryType.Withdraw, HttpContext.Current.User.Identity.GetUserId(), documentTable.DocumentNum, documentTable.ProcessName, documentTable.CreatedBy);
+                 _HistoryUserService.SaveHistory(documentId, Models.Repository.HistoryType.Withdraw, currentUser, documentTable.DocumentNum, documentTable.ProcessName, documentTable.CreatedBy);
             }
             catch (InstancePersistenceCommandException)
             {
@@ -601,7 +601,9 @@ namespace RapidDoc.Models.Services
 
                 if (documentTable.DocumentState == DocumentState.Closed)
                 {
-                    _EmailService.SendInitiatorClosedEmail(documentTable.Id);
+                    var lastTracker = _WorkflowTrackerService.GetTracker(documentTable.Id).FirstOrDefault();
+                    if (lastTracker != null && documentTable.ApplicationUserCreatedId != lastTracker.SignUserId)
+                        _EmailService.SendInitiatorClosedEmail(documentTable.Id);
                 }
             }
             catch (Exception ex)
@@ -1234,8 +1236,7 @@ namespace RapidDoc.Models.Services
                 IReviewDocLogService _ReviewDocLogServiceTask = DependencyResolver.Current.GetService<IReviewDocLogService>();
                 IHistoryUserService _HistoryUserServiceTask = DependencyResolver.Current.GetService<IHistoryUserService>();
                 _ReviewDocLogServiceTask.SaveDomain(new ReviewDocLogTable { DocumentTableId = documentId }, "", userTable);
-                _HistoryUserService.SaveHistory(documentId, Models.Repository.HistoryType.NewDocument, HttpContext.Current.User.Identity.GetUserId(), documentTable.DocumentNum, documentTable.ProcessName, documentTable.CreatedBy);
-                
+                _HistoryUserService.SaveHistory(documentId, Models.Repository.HistoryType.NewDocument, userTable.Id, documentTable.DocumentNum, documentTable.ProcessName, documentTable.CreatedBy);
             });
 
             _SearchService.SaveSearchData(documentId, docModel, actionModelName, userTable.Id);

@@ -1575,7 +1575,6 @@
     <Content Include="Views\Custom\USR_REQ_YT_StandbyTransport_View_Edit.cshtml" />
     <Content Include="Views\Custom\USR_REQ_YT_StandbyTransport_View_Show.cshtml" />
     <Content Include="Views\Document\ShowDraft.cshtml" />
-    <Content Include="Views\Error\WithdrawnDocument.cshtml" />
     <Content Include="Views\Custom\USR_REQ_ZIF_RequestForItems_View.cshtml" />
     <Content Include="Views\Custom\USR_REQ_ZIF_RequestForItems_Edit.cshtml" />
     <Content Include="Views\Custom\USR_REQ_ZIF_RequestForItemsMech_View.cshtml" />
@@ -2177,6 +2176,7 @@
     <Content Include="Views\Project\Detail.cshtml" />
     <Content Include="Views\Project\Edit.cshtml" />
     <Content Include="Views\Project\Index.cshtml" />
+    <Content Include="Views\Custom\_TAS_DailyTasks_DelegationModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

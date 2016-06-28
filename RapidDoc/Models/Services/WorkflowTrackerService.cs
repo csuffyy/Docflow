@@ -25,6 +25,7 @@ namespace RapidDoc.Models.Services
         void SaveTrackList(Guid documentId, List<Array> allSteps, string currentUserId = "");
         WFTrackerTable Find(Guid id);
         List<WFTrackerTable> GetCurrentStep(Expression<Func<WFTrackerTable, bool>> predicate);
+        List<WFTrackerTable> GetTracker(Guid documentId);
         void DeleteAll(Guid documentId);
     }
 
@@ -238,6 +239,10 @@ namespace RapidDoc.Models.Services
                 }
             }
             return null;
+        }
+        public List<WFTrackerTable> GetTracker(Guid documentId)
+        {
+            return repo.FindAll(x => x.DocumentTableId == documentId).OrderByDescending(x => x.LineNum).ToList();
         }
         public void SaveTrackList(Guid documentId, List<Array> allSteps, string currentUserId = "")
         {
