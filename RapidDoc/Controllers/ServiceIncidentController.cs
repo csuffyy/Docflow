@@ -41,7 +41,7 @@ namespace RapidDoc.Controllers
             return PartialView("_ServiceIncidentGrid", grid);
         }
 
-        public JsonResult GetServiceIncidentList(int page)
+        public JsonResult GetList(int page)
         {
             var grid = new ServiceIncidentAjaxPagingGrid(_Service.GetAllView(), page, true);
 

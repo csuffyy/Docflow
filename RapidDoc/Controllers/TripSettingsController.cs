@@ -41,7 +41,7 @@ namespace RapidDoc.Controllers
             return PartialView("_TripSettingsGrid", grid);
         }
 
-        public JsonResult GetTripSettingsList(int page)
+        public JsonResult GetList(int page)
         {
             var grid = new TripSettingsAjaxPagingGrid(_Service.GetAllView(), page, true);
 

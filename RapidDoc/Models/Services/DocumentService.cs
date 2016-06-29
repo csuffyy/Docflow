@@ -46,7 +46,7 @@ namespace RapidDoc.Models.Services
         void UpdateDocument(DocumentTable domainTable, string currentUserId = "");
         bool UpdateDocumentFields(dynamic viewTable, ProcessView processView);
         void SaveDocumentText(DocumentTable domainTable);
-        bool isShowDocument(DocumentTable documentTable, ApplicationUser user, bool isAfterView = false);
+        bool isShowDocument(DocumentTable documentTable, ApplicationUser user);
         bool isSignDocument(Guid documentId, ApplicationUser user = null);
         IEnumerable<WFTrackerTable> GetCurrentSignStep(Guid documentId, string currentUserId = "", ApplicationUser user = null);
         SLAStatusList SLAStatus(Guid documentId, string currentUserId = "", ApplicationUser user = null);
@@ -829,16 +829,16 @@ namespace RapidDoc.Models.Services
         }
 
         
-        public bool isShowDocument(DocumentTable documentTable, ApplicationUser user, bool isAfterView = false)
+        public bool isShowDocument(DocumentTable documentTable, ApplicationUser user)
         {
-            bool ret = isShowDocumentBasic(documentTable, user, isAfterView);
+            bool ret = isShowDocumentBasic(documentTable, user);
 
             if (ret == true)
                 return true;
 
             if (documentTable.DocType == DocumentType.Task)
             {
-                var maintask = GetMainTask(documentTable, user, isAfterView);
+                var maintask = GetMainTask(documentTable, user);
 
                 if (maintask.DocType == DocumentType.Protocol)
                 {
@@ -859,19 +859,19 @@ namespace RapidDoc.Models.Services
 
                 if (maintask.DocType == DocumentType.IncomingDoc)
                 {
-                    return checkLinkedDownAccessRight(maintask, user, isAfterView);
+                    return checkLinkedDownAccessRight(maintask, user);
                 }
             }
 
             if (documentTable.DocType == DocumentType.IncomingDoc)
             {
-                return checkLinkedDownAccessRight(documentTable, user, isAfterView);
+                return checkLinkedDownAccessRight(documentTable, user);
             }
 
             return false;
         }
 
-        private DocumentTable GetMainTask(DocumentTable documentTable, ApplicationUser user, bool isAfterView = false)
+        private DocumentTable GetMainTask(DocumentTable documentTable, ApplicationUser user)
         {
             if (documentTable.DocType == DocumentType.Task)
             {
@@ -883,7 +883,7 @@ namespace RapidDoc.Models.Services
                     {
                         if (refDocument.DocType == DocumentType.Task)
                         {
-                            return GetMainTask(refDocument, user, isAfterView);
+                            return GetMainTask(refDocument, user);
                         }
                         else
                         {
@@ -896,19 +896,19 @@ namespace RapidDoc.Models.Services
             return documentTable;
         }
 
-        private bool checkLinkedDownAccessRight(DocumentTable documentTable, ApplicationUser user, bool isAfterView = false)
+        private bool checkLinkedDownAccessRight(DocumentTable documentTable, ApplicationUser user)
         {
             var documentsRef = GetDocumentRefTask(documentTable.Id);
 
             foreach (var item in documentsRef)
             {
                 DocumentTable docTable = Find(item.DocumentId);
-                if (isShowDocumentBasic(docTable, user, isAfterView))
+                if (isShowDocumentBasic(docTable, user))
                 {
                     return true;
                 }
 
-                if(checkLinkedDownAccessRight(docTable, user, isAfterView))
+                if(checkLinkedDownAccessRight(docTable, user))
                 {
                     return true;
                 }
@@ -917,7 +917,7 @@ namespace RapidDoc.Models.Services
             return false;
         }
 
-        private bool isShowDocumentBasic(DocumentTable documentTable, ApplicationUser user, bool isAfterView = false)
+        private bool isShowDocumentBasic(DocumentTable documentTable, ApplicationUser user)
         {
             if (user.Id == documentTable.ApplicationUserCreatedId)
             {
@@ -930,15 +930,7 @@ namespace RapidDoc.Models.Services
             }
 
             IEnumerable<WFTrackerTable> trackerTables = null;
-
-            if (isAfterView == false)
-            {
-                trackerTables = _WorkflowTrackerService.GetCurrentStep(x => x.DocumentTableId == documentTable.Id && x.SignUserId == null);
-            }
-            else
-            {
-                trackerTables = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == documentTable.Id);
-            }
+            trackerTables = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == documentTable.Id);
 
             if (checkTrackUsers(trackerTables, user.Id))
             {

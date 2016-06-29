@@ -70,7 +70,7 @@ namespace RapidDoc.Models.Services
             foreach (var item in items)
             {
                 DocumentTable docuTable = _DocumentService.Find(item.DocumentTableId);
-                item.isShow = _DocumentService.isShowDocument(docuTable, currentUser, true);
+                item.isShow = _DocumentService.isShowDocument(docuTable, currentUser);
 
                 ApplicationUser user = repoUser.GetById(item.ApplicationUserCreatedId);
                 EmplTable empl = repoEmpl.Find(x => x.ApplicationUserId == user.Id && x.CompanyTableId == user.CompanyTableId);
@@ -91,7 +91,7 @@ namespace RapidDoc.Models.Services
             var item = Mapper.Map<SearchTable, SearchView>(FirstOrDefault(predicate));
             DocumentTable docuTable = _DocumentService.Find(item.DocumentTableId);
             ApplicationUser currentUser = repoUser.GetById(HttpContext.Current.User.Identity.GetUserId());
-            item.isShow = _DocumentService.isShowDocument(docuTable, currentUser, true);
+            item.isShow = _DocumentService.isShowDocument(docuTable, currentUser);
 
             return item;
         }

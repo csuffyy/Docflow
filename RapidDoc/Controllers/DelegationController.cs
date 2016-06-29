@@ -58,7 +58,7 @@ namespace RapidDoc.Controllers
             return PartialView("_DelegationGrid", grid);
         }
 
-        public JsonResult GetDelegationList(int page)
+        public JsonResult GetList(int page)
         {
             List<DelegationView> data = new List<DelegationView>();
             string userId = User.Identity.GetUserId();

@@ -40,7 +40,7 @@ namespace RapidDoc.Controllers
             return PartialView("_QuestionRequestGrid", grid);
         }
 
-        public JsonResult GetQuestionRequestList(int page)
+        public JsonResult GetList(int page)
         {
             var grid = new QuestionRequestAjaxPagingGrid(_Service.GetAllView(), page, true);
 

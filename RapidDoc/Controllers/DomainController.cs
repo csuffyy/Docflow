@@ -35,7 +35,7 @@ namespace RapidDoc.Controllers
             return PartialView("_DomainGrid", grid);
         }
 
-        public JsonResult GetDomainList(int page)
+        public JsonResult GetList(int page)
         {
             var grid = new DomainAjaxPagingGrid(_Service.GetAllView(), page, true);
 

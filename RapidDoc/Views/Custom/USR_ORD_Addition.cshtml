@@ -12,6 +12,6 @@ else
 {
     if (listItem != null)
     {
-        @Html.ActionLink(listItem.Text, "ShowDocument", "Document", new { id = listItem.Value, isAfterView = true }, new { target = "_blank" })
+        @Html.ActionLink(listItem.Text, "ShowDocument", "Document", new { id = listItem.Value }, new { target = "_blank" })
     }
 }

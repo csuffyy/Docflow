@@ -43,7 +43,7 @@ namespace RapidDoc.Controllers
             return PartialView("_ProtocolFoldersGrid", grid);
         }
 
-        public JsonResult GetProtocolFoldersList(int page)
+        public JsonResult GetList(int page)
         {
             var grid = new ProtocolFoldersAjaxPagingGrid(_Service.GetAllView(), page, true);
 

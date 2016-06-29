@@ -26,7 +26,7 @@ $(function () {
     grid_init("@Url.Action("GetMyFavoriteList", "Document")")
 
     pageGrids.ordersGrid.onRowSelect(function (e) {
-        window.location.href = '/' + e.row.AliasCompanyName + '/' + 'Document/ShowDocument/' + e.row.Id + '?isAfterView=true';
+        window.location.href = '/' + e.row.AliasCompanyName + '/Document/ShowDocument/' + e.row.Id;
     });
 
     $('.popover-link').popover({

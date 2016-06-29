@@ -18,13 +18,9 @@
 }
 @section jslaunch {
     <script type="text/javascript">
-$(function () {
-    grid_init("@Url.Action("GetNumberSeriesBookingList", "NumberSeq", new { id = ViewBag.NumberSeqId })")
-
-    var detailsUrl = '@Url.Action("BookingEdit", "NumberSeq")';
-    pageGrids.ordersGrid.onRowSelect(function (e) {
-    window.location.href = detailsUrl  + '/' + e.row.Id;
+    $(function () {
+        grid_init("@Url.Action("GetBookingList", new { id = ViewBag.NumberSeqId })");
+        actionForRowGrid('@Url.Action("BookingEdit")');
     });
-});
     </script>
 }

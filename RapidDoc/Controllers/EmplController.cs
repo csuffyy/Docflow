@@ -46,7 +46,7 @@ namespace RapidDoc.Controllers
             return PartialView("_EmplGrid", grid);
         }
 
-        public JsonResult GetEmplList(int page)
+        public JsonResult GetList(int page)
         {
             var grid = new EmplAjaxPagingGrid(_Service.GetAllView(), page, true);
 

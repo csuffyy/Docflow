@@ -22,7 +22,7 @@
                     <h5 class="text-left">
                         @if (node.Enable == true)
                         {
-                            @Html.ActionLink(node.DocumentNum, "ShowDocument", "Document", new { id = node.DocumentId, isAfterView = true }, null)
+                            @Html.ActionLink(node.DocumentNum, "ShowDocument", "Document", new { id = node.DocumentId }, null)
                         }
                         else
                         { 

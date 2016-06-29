@@ -40,7 +40,7 @@ namespace RapidDoc.Controllers
             return PartialView("_OrganizationGrid", grid);
         }
 
-        public JsonResult GetOrganizationList(int page)
+        public JsonResult GetList(int page)
         {
             var grid = new OrganizationAjaxPagingGrid(_Service.GetAllView(), page, true);
 

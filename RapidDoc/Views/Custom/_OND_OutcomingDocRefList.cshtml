@@ -9,7 +9,7 @@
     foreach (var item in Model)
     {
         <div class="editor-field">
-            <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })">@item.Name</a>
+            <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id })">@item.Name</a>
         </div>
     }
 }

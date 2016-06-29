@@ -38,7 +38,7 @@ namespace RapidDoc.Controllers
             return PartialView("_TitleGrid", grid);
         }
 
-        public JsonResult GetTitleList(int page)
+        public JsonResult GetList(int page)
         {
             var grid = new TitleAjaxPagingGrid(_Service.GetAllView(), page, true);
 

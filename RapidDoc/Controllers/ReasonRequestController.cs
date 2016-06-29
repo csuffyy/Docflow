@@ -40,7 +40,7 @@ namespace RapidDoc.Controllers
             return PartialView("_ReasonRequestGrid", grid);
         }
 
-        public JsonResult GetReasonRequestList(int page)
+        public JsonResult GetList(int page)
         {
             var grid = new ReasonRequestAjaxPagingGrid(_Service.GetAllView(), page, true);
 

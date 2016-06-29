@@ -199,7 +199,7 @@ namespace RapidDoc.Models.Services
             ApplicationUser user = repoUser.GetById(documentTable.ApplicationUserCreatedId);
             if (!String.IsNullOrEmpty(user.Email) && user.Enable == true)
             {
-                string documentUri = "http://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id + "?isAfterView=true";
+                string documentUri = "http://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id;
                 EmplTable emplTable = repoEmpl.Find(x => x.ApplicationUserId == user.Id && x.Enable == true);
 
                 EmailParameterTable emailParameter = FirstOrDefault(x => x.SmtpServer != String.Empty);
@@ -243,7 +243,7 @@ namespace RapidDoc.Models.Services
                 {
                     if (!String.IsNullOrEmpty(user.Email) && user.Enable == true)
                     {
-                        string documentUri = "https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id + "?isAfterView=true";
+                        string documentUri = "https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id;
                         EmplTable emplTable = repoEmpl.Find(x => x.ApplicationUserId == user.Id && x.Enable == true);
 
                         EmailParameterTable emailParameter = FirstOrDefault(x => x.SmtpServer != String.Empty);
@@ -290,7 +290,7 @@ namespace RapidDoc.Models.Services
                 List<string> emails = userList.Where(x => x.Email != String.Empty && x.Enable == true).GroupBy(x => x.Email).Select(x => x.Key).ToList();
                 if (emails != null && emails.Count > 0)
                 {
-                    string documentUri = "https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id + "?isAfterView=true";
+                    string documentUri = "https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id;
 
                     EmailParameterTable emailParameter = FirstOrDefault(x => x.SmtpServer != String.Empty);
                     if (emailParameter == null)
@@ -349,7 +349,7 @@ namespace RapidDoc.Models.Services
                 ApplicationUser user = repoUser.GetById(userId);
                 if (!String.IsNullOrEmpty(user.Email) && user.Enable == true)
                 {
-                    string documentUri = "https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id + "?isAfterView=true";
+                    string documentUri = "https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id;
                     EmplTable emplTable = repoEmpl.Find(x => x.ApplicationUserId == user.Id && x.Enable == true);
 
                     EmailParameterTable emailParameter = FirstOrDefault(x => x.SmtpServer != String.Empty);
@@ -386,7 +386,7 @@ namespace RapidDoc.Models.Services
             ApplicationUser user = repoUser.GetById(documentTable.ApplicationUserCreatedId);
             if (!String.IsNullOrEmpty(user.Email) && user.Enable == true)
             {
-                string documentUri = "https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id + "?isAfterView=true";
+                string documentUri = "https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id;
                 EmplTable emplTable = repoEmpl.Find(x => x.ApplicationUserId == user.Id && x.Enable == true);
 
                 EmailParameterTable emailParameter = FirstOrDefault(x => x.SmtpServer != String.Empty);
@@ -455,7 +455,7 @@ namespace RapidDoc.Models.Services
             {
                 if (!String.IsNullOrEmpty(user.Email) && user.UserName != HttpContext.Current.User.Identity.Name && user.Enable == true)
                 {
-                    string documentUri = "https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id + "?isAfterView=true";
+                    string documentUri = "https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id;
                     EmplTable emplTable = repoEmpl.Find(x => x.ApplicationUserId == user.Id && x.Enable == true);
 
                     EmailParameterTable emailParameter = FirstOrDefault(x => x.SmtpServer != String.Empty);
@@ -525,7 +525,7 @@ namespace RapidDoc.Models.Services
 
             if (emails != null && emails.Count > 0)
             {
-                string documentUri = "https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id + "?isAfterView=true";
+                string documentUri = "https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id;
 
                 EmailParameterTable emailParameter = FirstOrDefault(x => x.SmtpServer != String.Empty);
                 if (emailParameter == null)
@@ -563,7 +563,7 @@ namespace RapidDoc.Models.Services
 
             if (!String.IsNullOrEmpty(user.Email) && user.Enable == true)
             {
-                string documentUri = "https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id + "?isAfterView=true";
+                string documentUri = "https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id;
                 EmplTable emplTable = repoEmpl.Find(x => x.ApplicationUserId == user.Id && x.Enable == true);
 
                 EmailParameterTable emailParameter = FirstOrDefault(x => x.SmtpServer != String.Empty);
@@ -603,7 +603,7 @@ namespace RapidDoc.Models.Services
 
             if (emails != null && emails.Count > 0)
             {
-                string documentUri = "https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id + "?isAfterView=true";
+                string documentUri = "https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id;
 
                 EmailParameterTable emailParameter = FirstOrDefault(x => x.SmtpServer != String.Empty);
                 if (emailParameter == null)
@@ -642,7 +642,7 @@ namespace RapidDoc.Models.Services
                 foreach (var documentTable in documents)
                 {
                     num++;
-                    documentUrls.Add("https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id + "?isAfterView=true");
+                    documentUrls.Add("https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id);
                     documentNums.Add(documentTable.DocumentNum + " - " + documentTable.ProcessName);
                     documentText.Add(documentTable.DocumentText);
                 }
@@ -687,7 +687,7 @@ namespace RapidDoc.Models.Services
                 foreach (var documentTable in documents)
                 {
                     num++;
-                    documentUrls.Add("https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id + "?isAfterView=true");
+                    documentUrls.Add("https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id);
                     documentNums.Add(documentTable.DocumentNum + " - " + documentTable.ProcessName);
                     documentText.Add(documentTable.DocumentText);
                 }
@@ -731,7 +731,7 @@ namespace RapidDoc.Models.Services
                 foreach (var documentTable in documents)
                 {
                     num++;
-                    documentUrls.Add("https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id + "?isAfterView=true");
+                    documentUrls.Add("https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id);
                     documentNums.Add(documentTable.DocumentNum + " - " + documentTable.ProcessName);
 
                     if (!String.IsNullOrEmpty(documentTable.DocumentText) && documentTable.DocumentText.Length > 80)
@@ -874,7 +874,7 @@ namespace RapidDoc.Models.Services
             ApplicationUser user = repoUser.GetById(documentTable.ApplicationUserCreatedId);
             if (!String.IsNullOrEmpty(user.Email) && user.Enable == true)
             {
-                string documentUri = "https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id + "?isAfterView=true";
+                string documentUri = "https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id;
                 EmplTable emplTable = repoEmpl.Find(x => x.ApplicationUserId == user.Id && x.Enable == true);
 
                 if (emplTable != null)
@@ -917,7 +917,7 @@ namespace RapidDoc.Models.Services
                 foreach (var documentTable in documents.Where(x => x.DocumentState == DocumentState.Agreement || x.DocumentState == DocumentState.Execution))
                 {
                     num++;
-                    documentUrls.Add("https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id + "?isAfterView=true");
+                    documentUrls.Add("https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id);
                     documentNums.Add(documentTable.DocumentNum + " - " + documentTable.ProcessName);
                     USR_TAS_DailyTasks_Table countHourTable = listDocuments.FirstOrDefault(x => x.DocumentTableId == documentTable.Id);
 
@@ -973,7 +973,7 @@ namespace RapidDoc.Models.Services
 
             if (!String.IsNullOrEmpty(user.Email) && user.Enable == true)
             {
-                string documentUri = "https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id + "?isAfterView=true";
+                string documentUri = "https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id;
                 EmplTable emplTable = repoEmpl.Find(x => x.ApplicationUserId == user.Id && x.Enable == true);
 
                 if (emplTable != null)
@@ -1016,7 +1016,7 @@ namespace RapidDoc.Models.Services
 
             if (!String.IsNullOrEmpty(user.Email) && user.Enable == true)
             {
-                string documentUri = "https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id + "?isAfterView=true";
+                string documentUri = "https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id;
                 EmplTable emplTable = repoEmpl.Find(x => x.ApplicationUserId == user.Id && x.Enable == true);
 
                 if (emplTable != null)
@@ -1059,7 +1059,7 @@ namespace RapidDoc.Models.Services
 
             if (!String.IsNullOrEmpty(user.Email) && user.Enable == true)
             {
-                string documentUri = "https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id + "?isAfterView=true";
+                string documentUri = "https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id;
                 EmplTable emplTable = repoEmpl.Find(x => x.ApplicationUserId == user.Id && x.Enable == true);
 
                 if (emplTable != null)
@@ -1104,7 +1104,7 @@ namespace RapidDoc.Models.Services
                 return;
 
             string uri = "https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString();
-            string documentUri = uri + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id + "?isAfterView=true";
+            string documentUri = uri + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id;
             
             EmailParameterTable emailParameter = FirstOrDefault(x => x.SmtpServer != String.Empty);
             if (emailParameter == null)
@@ -1143,7 +1143,7 @@ namespace RapidDoc.Models.Services
                 ApplicationUser user = repoUser.GetById(item);
                 if (user != null && !String.IsNullOrEmpty(user.Email) && user.Enable == true)
                 {
-                    string documentUri = "https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id + "?isAfterView=true";
+                    string documentUri = "https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id;
                     EmplTable emplTable = repoEmpl.Find(x => x.ApplicationUserId == user.Id && x.Enable == true);
 
                     if (emplTable != null)
@@ -1183,7 +1183,7 @@ namespace RapidDoc.Models.Services
             ApplicationUser user = repoUser.GetById(userId);
             if (!String.IsNullOrEmpty(user.Email) && user.Enable == true)
             {
-                string documentUri = "https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id + "?isAfterView=true";
+                string documentUri = "https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id;
                 EmplTable emplTable = repoEmpl.Find(x => x.ApplicationUserId == user.Id && x.Enable == true);
 
                 if (emplTable != null)
@@ -1222,7 +1222,7 @@ namespace RapidDoc.Models.Services
             ApplicationUser user = repoUser.GetById(documentTable.ApplicationUserCreatedId);
             if (!String.IsNullOrEmpty(user.Email) && user.Enable == true)
             {
-                string documentUri = "https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id + "?isAfterView=true";
+                string documentUri = "https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id;
                 EmplTable emplTable = repoEmpl.Find(x => x.ApplicationUserId == user.Id && x.Enable == true);
 
                 if (emplTable != null)
@@ -1267,7 +1267,7 @@ namespace RapidDoc.Models.Services
                 user = repoUser.GetById(emplTable.ApplicationUserId);
             if (!String.IsNullOrEmpty(user.Email) && user.Enable == true)
             {
-                string documentUri = "https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id + "?isAfterView=true";
+                string documentUri = "https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id;
                 
                 if (emplTable != null)
                 {
@@ -1327,7 +1327,7 @@ namespace RapidDoc.Models.Services
                 foreach (var documentTable in documents.OrderByDescending(x => x.Date.HasValue).ThenBy(x => x.Date))
                 {
                     num++;
-                    documentUrls.Add("https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.Document.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Document.Id + "?isAfterView=true");
+                    documentUrls.Add("https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.Document.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Document.Id);
                     documentNums.Add(documentTable.Document.DocumentNum + " - " + documentTable.Document.ProcessName);
 
                     if (!String.IsNullOrEmpty(documentTable.Document.DocumentText) && documentTable.Document.DocumentText.Length > 80)

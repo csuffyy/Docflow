@@ -294,7 +294,7 @@ namespace RapidDoc.Models.Services
                             excelWorksheet.Cells[rowCount, 11] = task.DocNum;
 
                         Excel.Range rangeLink = task.DocType == DocumentType.Protocol ? excelWorksheet.Range[excelWorksheet.Cells[rowCount, 11], excelWorksheet.Cells[rowCount, 11]] : excelWorksheet.Range[excelWorksheet.Cells[rowCount, 3], excelWorksheet.Cells[rowCount, 3]];
-                        excelWorksheet.Hyperlinks.Add(rangeLink, String.Format("http://df.altyntau.com/ATK/Document/ShowDocument/{0}?isAfterView=True", task.DocId), Type.Missing, "Перейти к документу");
+                        excelWorksheet.Hyperlinks.Add(rangeLink, String.Format("https://df.altyntau.com/ATK/Document/ShowDocument/{0}", task.DocId), Type.Missing, "Перейти к документу");
                         rowCount++;
                     }
                     Excel.Range range = excelWorksheet.Range[excelWorksheet.Cells[startRowBlock, 2], excelWorksheet.Cells[rowCount - 1, maxColumns]];
@@ -365,7 +365,7 @@ namespace RapidDoc.Models.Services
                 {
                     excelWorksheet.Cells[rowCount, 1] = counter++;
                     excelWorksheet.Cells[rowCount, 2] = item.IncomingDocumentNum;
-                    excelWorksheet.Hyperlinks.Add(excelWorksheet.Range[excelWorksheet.Cells[rowCount, 2], excelWorksheet.Cells[rowCount, 2]], String.Format("http://df.altyntau.com/ATK/Document/ShowDocument/{0}?isAfterView=True", item.IncomingDocumentId), Type.Missing, "Перейти к документу");
+                    excelWorksheet.Hyperlinks.Add(excelWorksheet.Range[excelWorksheet.Cells[rowCount, 2], excelWorksheet.Cells[rowCount, 2]], String.Format("https://df.altyntau.com/ATK/Document/ShowDocument/{0}", item.IncomingDocumentId), Type.Missing, "Перейти к документу");
                     excelWorksheet.Cells[rowCount, 3] = item.IncomingDateRegistration;
                     excelWorksheet.Cells[rowCount, 4] = item.IncomingDocNum;
                     excelWorksheet.Cells[rowCount, 5] = item.OrganizationName;
@@ -397,7 +397,7 @@ namespace RapidDoc.Models.Services
                     if (!String.IsNullOrEmpty(item.OutcomingDocumentNum))
                     {
                         excelWorksheet.Cells[rowCount, 14] = item.OutcomingDocumentNum;
-                        excelWorksheet.Hyperlinks.Add(excelWorksheet.Range[excelWorksheet.Cells[rowCount, 14], excelWorksheet.Cells[rowCount, 14]], String.Format("http://df.altyntau.com/ATK/Document/ShowDocument/{0}?isAfterView=True", item.OutcomingDocumentId), Type.Missing, "Перейти к документу");
+                        excelWorksheet.Hyperlinks.Add(excelWorksheet.Range[excelWorksheet.Cells[rowCount, 14], excelWorksheet.Cells[rowCount, 14]], String.Format("https://df.altyntau.com/ATK/Document/ShowDocument/{0}", item.OutcomingDocumentId), Type.Missing, "Перейти к документу");
                         excelWorksheet.Cells[rowCount, 15] = item.OutcomingDocumentCreator;
                         excelWorksheet.Cells[rowCount, 16] = item.OutcomingSignUsers != null ? item.OutcomingSignUsers : "";
                         excelWorksheet.Cells[rowCount, 17] = item.OutcomingDateRegistration != null ? item.OutcomingDateRegistration : "";                       

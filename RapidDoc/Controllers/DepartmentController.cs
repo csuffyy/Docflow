@@ -36,7 +36,7 @@ namespace RapidDoc.Controllers
             return PartialView("_DepartmentGrid", grid);
         }
 
-        public JsonResult GetDepartmentList(int page)
+        public JsonResult GetList(int page)
         {
             var grid = new DepartmentAjaxPagingGrid(_Service.GetAllView(), page, true);
 

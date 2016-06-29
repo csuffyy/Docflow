@@ -48,7 +48,7 @@ namespace RapidDoc.Controllers
             return PartialView("_NumberSeriesBookingGrid", grid);
         }
 
-        public JsonResult GetNumberSeriesList(int page)
+        public JsonResult GetList(int page)
         {
             var grid = new NumberSeriesAjaxPagingGrid(_Service.GetAllView(), page, true);
 
@@ -59,7 +59,7 @@ namespace RapidDoc.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetNumberSeriesBookingList(Guid id, int page)
+        public JsonResult GetBookingList(Guid id, int page)
         {
             var grid = new NumberSeriesBookingAjaxPagingGrid(_Service.GetPartialViewBooking(x => x.NumberSeriesTableId == id && x.Enable == true), page, true);
 

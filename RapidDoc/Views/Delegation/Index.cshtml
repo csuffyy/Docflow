@@ -15,14 +15,10 @@
 }
 @section jslaunch {
 <script type="text/javascript">
-$(function () {
-    datepicker_init("@UIElementRes.UIElement.LangName");
-    grid_init("@Url.Action("GetDelegationList", "Delegation")")
-
-    var detailsUrl = '@Url.Action("Edit", "Delegation")';
-    pageGrids.ordersGrid.onRowSelect(function (e) {
-        window.location.href = detailsUrl  + '/' + e.row.Id;
+    $(function () {
+        datepicker_init("@UIElementRes.UIElement.LangName");
+        grid_init("@Url.Action("GetList")");
+        actionForRowGrid('@Url.Action("Edit")');
     });
-});
 </script>
 }

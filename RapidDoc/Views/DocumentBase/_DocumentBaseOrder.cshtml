@@ -36,7 +36,7 @@
                                     {
                                         <span class="fa fa-check text-success"></span>
                                     }
-                                    <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins></a> - @item.ProcessName - @item.DocumentTitle (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)
+                                    <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id })" target="_blank"><ins>@item.DocumentNum</ins></a> - @item.ProcessName - @item.DocumentTitle (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)
                                 </p>
                                 <br />
                             }
@@ -85,7 +85,7 @@
                                                         {
                                                             <span class="fa fa-check text-success"></span>
                                                         }
-                                                        <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins></a> - @item.ProcessName - @item.DocumentTitle (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)
+                                                        <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id })" target="_blank"><ins>@item.DocumentNum</ins></a> - @item.ProcessName - @item.DocumentTitle (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)
                                                     </p>
                                                     <br />
                                                 }
@@ -136,7 +136,7 @@
                                                 @foreach (var item in Model.Where(x => x.Id == itemGroup.Key.Id && x.ProcessName == itemGroupProcess.Key).OrderByDescending(x => x.CreatedDate))
                                                 {
                                                     <p>
-                                                        <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins></a> - @item.ProcessName - @item.DocumentTitle (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)
+                                                        <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id })" target="_blank"><ins>@item.DocumentNum</ins></a> - @item.ProcessName - @item.DocumentTitle (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)
                                                     </p>
                                                     <br />
                                                 }
@@ -175,7 +175,7 @@
                                     {
                                         <span class="fa fa-check text-success"></span>
                                     }
-                                    <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins></a> - @item.ProcessName (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)
+                                    <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id })" target="_blank"><ins>@item.DocumentNum</ins></a> - @item.ProcessName (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)
                                 </p>
                                 <br />
                             }
@@ -240,7 +240,7 @@
                                                                             {
                                                                                 <span class="fa fa-check text-success"></span>
                                                                             }
-                                                                            <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins></a> - @item.DocumentTitle (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)
+                                                                            <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id })" target="_blank"><ins>@item.DocumentNum</ins></a> - @item.DocumentTitle (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)
                                                                         </p>
                                                                         <br />
                                                                     }
@@ -311,7 +311,7 @@
                                                                             {
                                                                                 <span class="fa fa-check text-success"></span>
                                                                             }
-                                                                            <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id, isAfterView = true })" target="_blank"><ins>@item.DocumentNum</ins></a> @item.ProcessName - @item.DocumentTitle (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)
+                                                                            <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id })" target="_blank"><ins>@item.DocumentNum</ins></a> @item.ProcessName - @item.DocumentTitle (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)
                                                                         </p>
                                                                         <br />
                                                                     }

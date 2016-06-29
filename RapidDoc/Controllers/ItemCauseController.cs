@@ -60,7 +60,7 @@ namespace RapidDoc.Controllers
             return PartialView("_ItemCauseListLookup", items);
         }
 
-        public JsonResult GetItemCausesList(int page)
+        public JsonResult GetList(int page)
         {
             var grid = new ItemCauseAjaxPagingGrid(_Service.GetAllView(), page, true);
 

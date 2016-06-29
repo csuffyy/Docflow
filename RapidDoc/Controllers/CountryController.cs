@@ -40,7 +40,7 @@ namespace RapidDoc.Controllers
              return PartialView("_CountryGrid", grid);
          }
 
-        public JsonResult GetCountryList(int page)
+        public JsonResult GetList(int page)
         {
             var grid = new CountryAjaxPagingGrid(_Service.GetAllView(), page, true);
 

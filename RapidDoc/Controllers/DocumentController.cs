@@ -221,7 +221,7 @@ namespace RapidDoc.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult ShowDocument(Guid id, bool isAfterView = false)
+        public ActionResult ShowDocument(Guid id, bool isAfterView = true)
         {
             DocumentTable documentTable = _DocumentService.Find(id);
             ApplicationUser currentUser = _AccountService.Find(User.Identity.GetUserId());
@@ -251,7 +251,7 @@ namespace RapidDoc.Controllers
             ProcessView process = _ProcessService.FirstOrDefaultView(x => x.Id == documentTable.ProcessTableId);
             EmplTable emplTable = _EmplService.GetEmployer(docuView.ApplicationUserCreatedId, docuView.CompanyTableId);
 
-            if (docuView == null || process == null || emplTable == null || _DocumentService.isShowDocument(documentTable, currentUser, isAfterView) == false)
+            if (docuView == null || process == null || emplTable == null || _DocumentService.isShowDocument(documentTable, currentUser) == false)
             {
                 return RedirectToAction("PageNotFound", "Error", new { id = id });
             }
@@ -346,7 +346,7 @@ namespace RapidDoc.Controllers
             viewModel.docData = _DocumentService.GetDocumentView(documentTable.RefDocumentId, process.TableName);
             viewModel.fileId = docuView.FileId;
             ViewBag.CreatedDate = _SystemService.ConvertDateTimeToLocal(userTable, docuView.CreatedDate);
-            ViewBag.DocumentUrl = "http://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + docuView.AliasCompanyName + "/Document/ShowDocument/" + docuView.Id + "?isAfterView=true";
+            ViewBag.DocumentUrl = "https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + docuView.AliasCompanyName + "/Document/ShowDocument/" + docuView.Id;
             ViewBag.CountSubscribers = _DocumentSubcriptionService.GetPartial(x => x.DocumentTableId == documentTable.Id).Count();
             if (emplTable != null)
             {
@@ -677,7 +677,7 @@ namespace RapidDoc.Controllers
                 _DocumentService.UpdateDocument(documentTable, currentUserId);
             }
 
-            return RedirectToAction("ShowDocument", new { id = documentId, isAfterView = true });
+            return RedirectToAction("ShowDocument", new { id = documentId });
         }
 
         [HttpPost]
@@ -881,7 +881,7 @@ namespace RapidDoc.Controllers
             else
                 _EmailService.SendInitiatorClosedEmail(documentTable.Id);
 
-            return RedirectToAction("ShowDocument", new { id = documentId, isAfterView = true });
+            return RedirectToAction("ShowDocument", new { id = documentId });
         }
 
         [HttpPost]
@@ -999,7 +999,7 @@ namespace RapidDoc.Controllers
                 _EmailService.SendORDForUserEmail(documentTable.Id, appUsers, documentModel, docFile);
             }
 
-            return RedirectToAction("ShowDocument", new { id = documentId, isAfterView = true });
+            return RedirectToAction("ShowDocument", new { id = documentId });
         }
 
         [HttpPost]
@@ -1231,7 +1231,7 @@ namespace RapidDoc.Controllers
             viewModel.ProcessTemplates = _DocumentService.GetAllTemplatesDocument(documentTable.ProcessTableId);
 
             ViewBag.CreatedDate = _SystemService.ConvertDateTimeToLocal(currentUser, docuView.CreatedDate);
-            ViewBag.DocumentUrl = "http://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + docuView.AliasCompanyName + "/Document/ShowDocument/" + docuView.Id + "?isAfterView=true";
+            ViewBag.DocumentUrl = "https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + docuView.AliasCompanyName + "/Document/ShowDocument/" + docuView.Id;
             if (emplTable != null)
             {
                 ViewBag.Initiator = emplTable.ApplicationUserId != null ? emplTable.FullName : docuView.ApplicationUserCreatedId;
@@ -1495,7 +1495,7 @@ namespace RapidDoc.Controllers
                 }
             }
 
-            return RedirectToAction("ShowDocument", new { id = id, isAfterView = true });
+            return RedirectToAction("ShowDocument", new { id = id });
         }
 
         public ActionResult AddReader(Guid id)
@@ -1552,7 +1552,7 @@ namespace RapidDoc.Controllers
                 return Json(new { result = "Error", errorText = errorText });
             }
 
-            return Json(new { result = "Redirect", url = Url.Action("ShowDocument", new { id = id, isAfterView = true }) });
+            return Json(new { result = "Redirect", url = Url.Action("ShowDocument", new { id = id }) });
         }
 
         private IEnumerable<EmplDualListView> InitializeReaderView(Guid id)
@@ -1644,7 +1644,7 @@ namespace RapidDoc.Controllers
                 _WorkflowTrackerService.SaveDomain(tracker);
             }
 
-            return Json(new { result = "Redirect", url = Url.Action("ShowDocument", new { id = id, isAfterView = true }) });
+            return Json(new { result = "Redirect", url = Url.Action("ShowDocument", new { id = id }) });
         }
 
         public ActionResult NotificationUsers(Guid id, string activityId)
@@ -1660,7 +1660,7 @@ namespace RapidDoc.Controllers
                     _EmailService.SendNewExecutorEmail(id, user.UserId);
             }
 
-            return RedirectToAction("ShowDocument", new { id = id, isAfterView = true });
+            return RedirectToAction("ShowDocument", new { id = id });
         }
 
         [HttpPost]
@@ -2525,7 +2525,7 @@ namespace RapidDoc.Controllers
             }
 
             _DocumentService.UpdateDocumentFields(actionModel, processSourceView);
-            return RedirectToAction("ShowDocument", new { id = documentId, isAfterView = true });
+            return RedirectToAction("ShowDocument", new { id = documentId });
         }
 
         public void MappingModelFields(string keyCollection, string field, ref object actionModel, Type type, FormCollection collection, ref IDictionary<string, object> documentData)

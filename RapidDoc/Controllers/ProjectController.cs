@@ -40,7 +40,7 @@ namespace RapidDoc.Controllers
              return PartialView("_ProjectGrid", grid);
          }
 
-        public JsonResult GetProjectList(int page)
+        public JsonResult GetList(int page)
         {
             var grid = new ProjectAjaxPagingGrid(_Service.GetAllView(), page, true);
 

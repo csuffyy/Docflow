@@ -40,7 +40,7 @@ namespace RapidDoc.Controllers
              return PartialView("_IpListGrid", grid);
          }
 
-        public JsonResult GetIpListList(int page)
+        public JsonResult GetList(int page)
         {
             var grid = new IpListAjaxPagingGrid(_Service.GetAllView(), page, true);
 

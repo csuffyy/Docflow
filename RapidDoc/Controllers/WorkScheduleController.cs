@@ -37,7 +37,7 @@ namespace RapidDoc.Controllers
             return PartialView("_WorkScheduleGrid", grid);
         }
 
-        public JsonResult GetWorkScheduleList(int page)
+        public JsonResult GetList(int page)
         {
             var grid = new WorkScheduleAjaxPagingGrid(_Service.GetAllView(), page, true);
 
@@ -77,9 +77,8 @@ namespace RapidDoc.Controllers
             var model = _Service.FindView(id);
 
             if (model == null)
-            {
                 return HttpNotFound();
-            }
+
             return View(model);
         }
 
@@ -106,9 +105,8 @@ namespace RapidDoc.Controllers
             var model = _Service.FindView(id);
 
             if (model == null)
-            {
                 return HttpNotFound();
-            }
+
             return View(model);
         }
 
@@ -127,9 +125,7 @@ namespace RapidDoc.Controllers
 
             var model = _Service.FindView(id);
             if (model == null)
-            {
                 return HttpNotFound();
-            }
 
             return View(model);
         }
@@ -139,9 +135,8 @@ namespace RapidDoc.Controllers
             var model = _Service.FindView(id);
 
             if (model == null)
-            {
                 return HttpNotFound();
-            }
+
             return View(model);
         }
 
@@ -169,9 +164,7 @@ namespace RapidDoc.Controllers
             DateTime date = new DateTime(year, month, day);
 
             if (_Service.CheckDayType(id, date))
-            {
                 return Json(new { dayOff = "true" }, JsonRequestBehavior.AllowGet);
-            }
 
             return Json(new { dayOff = "false" }, JsonRequestBehavior.AllowGet);
         }

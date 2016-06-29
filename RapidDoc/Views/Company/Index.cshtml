@@ -16,13 +16,9 @@
 }
 @section jslaunch {
 <script type="text/javascript">
-$(function () {
-    grid_init("@Url.Action("GetCompanyList", "Company")")
-
-    var detailsUrl = '@Url.Action("Edit", "Company")';
-    pageGrids.ordersGrid.onRowSelect(function (e) {
-        window.location.href = detailsUrl  + '/' + e.row.Id;
+    $(function () {
+        grid_init("@Url.Action("GetList")");
+        actionForRowGrid('@Url.Action("Edit")');
     });
-});
 </script>
 }

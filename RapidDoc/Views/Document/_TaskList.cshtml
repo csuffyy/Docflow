@@ -18,7 +18,7 @@
                         {
                             <span class="text-danger fa fa-times hidden-print"></span>
                         }
-                        <strong>@Html.ActionLink(item.DocumentNum, "ShowDocument", "Document", new { id = item.DocumentId, isAfterView = true }, null) - @item.UserCreate (<small>@item.DateCreate.ToShortDateString()</small>)</strong>
+                        <strong>@Html.ActionLink(item.DocumentNum, "ShowDocument", "Document", new { id = item.DocumentId }, null) - @item.UserCreate (<small>@item.DateCreate.ToShortDateString()</small>)</strong>
                     </p>
                     if(item.DocType == RapidDoc.Models.Repository.DocumentType.Task)
                     {

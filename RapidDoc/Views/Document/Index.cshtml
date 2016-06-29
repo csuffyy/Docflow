@@ -27,16 +27,15 @@
 <script type="text/javascript">
     var currentDocCount = 0;
     var timerCheckDocActive;
-    var jsonStrCheckDocActive = "@Url.Action("GetActiveDocumentCount", "Document")";
+    var jsonStrCheckDocActive = "@Url.Action("GetActiveDocumentCount")";
     var showUser = 0;
 
     $(function () {
-       
-        grid_init("@Url.Action("GetDocumentList", "Document")");
-        popover_init();
 
+        grid_init("@Url.Action("GetDocumentList")");
+        popover_init();
         pageGrids.ordersGrid.onRowSelect(function (e) {
-            window.location.href = '/' + e.row.AliasCompanyName + '/' + 'Document/ShowDocument/' + e.row.Id;
+            window.location.href = '/' + e.row.AliasCompanyName + '/Document/ShowDocument/' + e.row.Id;
         });
 
         try {

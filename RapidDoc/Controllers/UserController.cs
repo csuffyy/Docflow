@@ -49,7 +49,7 @@ namespace RapidDoc.Controllers
             return PartialView("_UserGrid", grid);
         }
 
-        public JsonResult GetUserList(int page)
+        public JsonResult GetList(int page)
         {
             var items = Mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<UserViewModel>>(UserManager.Users);
             var grid = new UserAjaxPagingGrid(items, page, true);

@@ -12,6 +12,6 @@ else
 {
     if (cancellistItem != null)
     {
-        @Html.ActionLink(cancellistItem.Text, "ShowDocument", "Document", new { id = cancellistItem.Value, isAfterView = true }, new { target = "_blank" })
+        @Html.ActionLink(cancellistItem.Text, "ShowDocument", "Document", new { id = cancellistItem.Value }, new { target = "_blank" })
     }
 }

@@ -44,7 +44,7 @@ namespace RapidDoc.Controllers
             return PartialView("_RoleGrid", grid);
         }
 
-        public JsonResult GetRoleList(int page)
+        public JsonResult GetList(int page)
         {
             var items = Mapper.Map<IEnumerable<ApplicationRole>, IEnumerable<RoleViewModel>>(RoleManager.Roles);
             var grid = new RoleAjaxPagingGrid(items.OrderByDescending(x => x.RoleType).ThenBy(y => y.Name), page, true);

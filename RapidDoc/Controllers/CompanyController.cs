@@ -40,7 +40,7 @@ namespace RapidDoc.Controllers
             return PartialView("_CompanyGrid", grid);
         }
 
-        public JsonResult GetCompanyList(int page)
+        public JsonResult GetList(int page)
         {
             var grid = new CompanyAjaxPagingGrid(_CompanyService.GetAllView(), page, true);
 

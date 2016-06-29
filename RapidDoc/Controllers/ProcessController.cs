@@ -50,7 +50,7 @@ namespace RapidDoc.Controllers
             return PartialView("_ProcessGrid", grid);
         }
 
-        public JsonResult GetProcessList(int page)
+        public JsonResult GetList(int page)
         {
             var grid = new ProcessAjaxPagingGrid(_Service.GetAllView(), page, true);
 

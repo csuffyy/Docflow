@@ -140,7 +140,7 @@ function qrcode_init() {
         colorLight: "#ffffff"
     });
 
-    qrcode.makeCode(document.location.href+'?isAfterView=true');
+    qrcode.makeCode(document.location.href);
 }
 
 function checkbox_init(checked, unchecked) {
@@ -1071,4 +1071,10 @@ function checkIncomeDoc() {
             }
         });
     }
+}
+
+function actionForRowGrid(url) {
+    pageGrids.ordersGrid.onRowSelect(function (e) {
+        window.location.href = url + '/' + e.row.Id;
+    });
 }

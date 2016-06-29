@@ -36,7 +36,7 @@ namespace RapidDoc.Controllers
             return PartialView("_ProfileGrid", grid);
         }
 
-        public JsonResult GetProfileList(int page)
+        public JsonResult GetList(int page)
         {
             var grid = new ProfileAjaxPagingGrid(_Service.GetAllView(), page, true);
 

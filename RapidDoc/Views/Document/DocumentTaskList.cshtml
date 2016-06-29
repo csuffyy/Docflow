@@ -27,7 +27,7 @@
 
 @helper CreatedDate(RapidDoc.Models.ViewModels.DocumentTaskView item)
 {
-    <a href="@String.Format("/{0}/Document/ShowDocument/{1}?isAfterView=true", item.AliasCompanyName, item.Id)">@item.CreatedDate.ToShortDateString()</a>
+    <a href="@String.Format("/{0}/Document/ShowDocument/{1}", item.AliasCompanyName, item.Id)">@item.CreatedDate.ToShortDateString()</a>
 }
 
 @Html.Grid(Model).Named("ordersGrid").Columns(columns =>

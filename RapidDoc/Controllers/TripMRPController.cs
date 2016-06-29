@@ -40,7 +40,7 @@ namespace RapidDoc.Controllers
             return PartialView("_TripMRPGrid", grid);
         }
 
-        public JsonResult GetTripMRPList(int page)
+        public JsonResult GetList(int page)
         {
             var grid = new TripMRPAjaxPagingGrid(_Service.GetAllView(), page, true);
 
