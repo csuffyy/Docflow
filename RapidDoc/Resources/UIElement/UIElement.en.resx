@@ -714,4 +714,7 @@
   <data name="IncomingCorrespondenceReport" xml:space="preserve">
     <value>Corresopndence report for Kazzic</value>
   </data>
+  <data name="DeleteDocumentHistory" xml:space="preserve">
+    <value>Delete document</value>
+  </data>
 </root>

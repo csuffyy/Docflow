@@ -583,6 +583,15 @@ namespace UIElementRes {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Удален документ.
+        /// </summary>
+        public static string DeleteDocumentHistory {
+            get {
+                return ResourceManager.GetString("DeleteDocumentHistory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Рассылку.
         /// </summary>
         public static string Delivery {

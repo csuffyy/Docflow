@@ -74,7 +74,8 @@ namespace RapidDoc.Models.Repository
         Withdraw = 7,
         CopyDocumment = 8,
         DelegateTask = 9,
-        ModifiedDocument = 10
+        ModifiedDocument = 10,
+        DeleteDocument = 11
     }
 
     public enum FilterType : byte

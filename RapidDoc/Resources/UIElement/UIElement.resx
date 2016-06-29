@@ -720,4 +720,7 @@
   <data name="IncomingCorrespondenceReport" xml:space="preserve">
     <value>Отчет по корреспонденции КЦ</value>
   </data>
+  <data name="DeleteDocumentHistory" xml:space="preserve">
+    <value>Удален документ</value>
+  </data>
 </root>

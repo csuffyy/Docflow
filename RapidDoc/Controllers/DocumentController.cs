@@ -528,6 +528,8 @@ namespace RapidDoc.Controllers
 
             if ((documentTable.ApplicationUserCreatedId == User.Identity.GetUserId() || User.IsInRole("Administrator") || User.IsInRole("SetupAdministrator")) && documentTable.DocumentState == DocumentState.Created)
             {
+                _HistoryUserService.SaveHistory(documentId, Models.Repository.HistoryType.DeleteDocument, User.Identity.GetUserId(), documentTable.DocumentNum, documentTable.ProcessName, documentTable.CreatedBy);
+
                 _DocumentService.DeleteFiles(documentId);
                 if (searchTable != null)
                     _SearchService.Delete(searchTable.Id);
