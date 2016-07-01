@@ -504,15 +504,19 @@ namespace RapidDoc.Controllers
             return PartialView("~/Views/Document/_ModificationDocumentList.cshtml", hierarchyModification);
         }
 
-        public ActionResult GetDelegationTaskModal(Guid documentId, Guid refDocumentId)
+        public ActionResult GetDelegationTaskModal(Guid documentId, Guid? refDocumentId)
         {
             ViewBag.IsDateChange = false;
-            DocumentTable documentTableRef = _DocumentService.FirstOrDefault(x => x.Id == refDocumentId);
-            if (documentTableRef.DocType == DocumentType.IncomingDoc && _DocumentService.GetDocumentRefTask(documentId).Count() == 0)
+
+            if (refDocumentId != null)
             {
-                var tracker = _WorkflowTrackerService.GetCurrentStep(x => x.DocumentTableId == documentId);
-                if (tracker != null && tracker.Count() == 1)
-                    ViewBag.IsDateChange = true;
+                DocumentTable documentTableRef = _DocumentService.FirstOrDefault(x => x.Id == refDocumentId);
+                if (documentTableRef.DocType == DocumentType.IncomingDoc && _DocumentService.GetDocumentRefTask(documentId).Count() == 0)
+                {
+                    var tracker = _WorkflowTrackerService.GetCurrentStep(x => x.DocumentTableId == documentId);
+                    if (tracker != null && tracker.Count() == 1)
+                        ViewBag.IsDateChange = true;
+                }
             }
 
             return PartialView("~/Views/Custom/_TAS_DailyTasks_DelegationModal.cshtml");
