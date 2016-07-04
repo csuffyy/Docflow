@@ -55,6 +55,7 @@ namespace RapidDoc.Controllers
         private readonly IModificationUsersService _ModificationUsersService;
         private readonly INotificationUsersService _NotificationUsersService;
         private readonly IDocumentSubcriptionService _DocumentSubcriptionService;
+        private readonly IPortalParametersService _PortalParametersService;
 
         protected UserManager<ApplicationUser> UserManager { get; private set; }
         protected RoleManager<ApplicationRole> RoleManager { get; private set; }
@@ -63,7 +64,7 @@ namespace RapidDoc.Controllers
             IWorkflowService workflowService, IEmplService emplService, IAccountService accountService, ISystemService systemService,
             IWorkflowTrackerService workflowTrackerService, IReviewDocLogService reviewDocLogService,
             IDocumentReaderService documentReaderService, ICommentService commentService, IEmailService emailService,
-            IHistoryUserService historyUserService, ISearchService searchService, ICompanyService companyService, ICustomCheckDocument customCheckDocument, IItemCauseService itemCauseService, IModificationUsersService modificationUsers, INotificationUsersService notificationUsersService, IDocumentSubcriptionService documentSubcriptionService)
+            IHistoryUserService historyUserService, ISearchService searchService, ICompanyService companyService, ICustomCheckDocument customCheckDocument, IItemCauseService itemCauseService, IModificationUsersService modificationUsers, INotificationUsersService notificationUsersService, IDocumentSubcriptionService documentSubcriptionService, IPortalParametersService portalParametersService)
             : base(companyService, accountService)
         {
             _DocumentService = documentService;
@@ -83,6 +84,7 @@ namespace RapidDoc.Controllers
             _ModificationUsersService = modificationUsers;
             _NotificationUsersService = notificationUsersService;
             _DocumentSubcriptionService = documentSubcriptionService;
+            _PortalParametersService = portalParametersService;
 
             ApplicationDbContext dbContext = new ApplicationDbContext();
             UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(dbContext));
@@ -807,6 +809,7 @@ namespace RapidDoc.Controllers
             ProcessView process = _ProcessService.FindView(processId);
             var documentIdNew = _DocumentService.GetDocumentView(_DocumentService.Find(documentId).RefDocumentId, process.TableName);
             List<string> upUsersForNotification = _DocumentService.GetUsersUpProlongatedTask(documentId, process.TableName, DateTime.UtcNow).SelectMany(x => x).Select(p => p.UserId).ToList();
+            
             string approveCommentRequest = String.Empty;
 
             if (collection["ApproveCommentTask"] != null && _SystemService.CheckTextExists(collection["ApproveCommentTask"])
@@ -884,7 +887,8 @@ namespace RapidDoc.Controllers
             List<string> userForNotification = new List<string>();
             userForNotification.Add(documentTable.ApplicationUserCreatedId);
 
-            if (documentTable.CompanyTable.AliasCompanyName != "ATK")
+            var parameters = _PortalParametersService.FirstOrDefault(x => x.CompanyTableId == documentTable.CompanyTableId);
+            if (parameters.NotificationAllUserTask == true)
                 userForNotification.AddRange(upUsersForNotification);
 
             if (documentIdNew.RefDocumentId != null)
@@ -954,7 +958,8 @@ namespace RapidDoc.Controllers
             List<string> userForNotification = new List<string>();
             userForNotification.Add(documentTable.ApplicationUserCreatedId);
 
-            if (documentTable.CompanyTable.AliasCompanyName != "ATK")
+            var parameters = _PortalParametersService.FirstOrDefault(x => x.CompanyTableId == documentTable.CompanyTableId);
+            if (parameters.NotificationAllUserTask == true)
                 userForNotification.AddRange(upUsersForNotification);
 
             userForNotification.Remove(User.Identity.GetUserId());

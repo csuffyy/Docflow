@@ -81,6 +81,9 @@ namespace RapidDoc.Models.ViewModels
 
         [Display(Name = "Максимальное количество пользователей для уведомлений (читатели)")]
         public int NumberUserMaxAlertsReaders { get; set; }
+
+        [Display(Name = "Уведомление всех вышестоящих пользователей при закрытии поручений")]
+        public bool NotificationAllUserTask { get; set; }
     }
 
     public class TaskDelegationView

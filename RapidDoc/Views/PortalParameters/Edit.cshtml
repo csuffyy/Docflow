@@ -37,6 +37,14 @@
             @Html.TextBoxFor(model => model.NumberUserMaxAlertsReaders, new { @class = "form-control bfh-number" })
         </div>
 
+        <div class="editor-label">
+            @Html.LabelFor(model => model.NotificationAllUserTask)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.NotificationAllUserTask)
+            @Html.ValidationMessageFor(model => model.NotificationAllUserTask)
+        </div>
+
         <br>
         <p>
             <input class="btn btn-primary btn-sm" type="submit" value=@UIElementRes.UIElement.Save />
@@ -53,6 +61,6 @@
     $(function () {
         selectpicker_init();
         custom_tagsinputDepartment_init("@Url.Action("JsonDepartmentCompany", "Custom")");
-});
+    });
     </script>
 }
