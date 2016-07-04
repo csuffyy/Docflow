@@ -25,6 +25,14 @@
                             @foreach (var item in Model.Where(x => x.UserName == itemGroup.Key).OrderByDescending(x => x.CreatedDate))
                             {
                                 <p>
+                                    @if (item.DocumentState == RapidDoc.Models.Repository.DocumentState.Closed)
+                                    {
+                                        <span class="fa fa-check text-success"></span>
+                                    }
+                                    @if (item.DocumentState == RapidDoc.Models.Repository.DocumentState.Cancelled)
+                                    {
+                                        <span class="fa fa-times text-danger"></span>
+                                    }
                                     <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id })" target="_blank"><ins>@item.DocumentNum</ins></a> - @item.ProcessName - @item.DocumentText (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)
                                 </p>
                                 <br />
@@ -63,6 +71,14 @@
                                                 @foreach (var item in Model.Where(x => x.DepartmentName == itemGroup.Key && x.UserName == itemGroupName.Key).OrderByDescending(x => x.CreatedDate))
                                                 {
                                                     <p>
+                                                        @if (item.DocumentState == RapidDoc.Models.Repository.DocumentState.Closed)
+                                                        {
+                                                            <span class="fa fa-check text-success"></span>
+                                                        }
+                                                        @if (item.DocumentState == RapidDoc.Models.Repository.DocumentState.Cancelled)
+                                                        {
+                                                            <span class="fa fa-times text-danger"></span>
+                                                        }
                                                         <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id })" target="_blank"><ins>@item.DocumentNum</ins></a> - @item.ProcessName - @item.DocumentText (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)
                                                     </p>
                                                     <br />
@@ -93,6 +109,18 @@
                             @foreach (var item in Model.Where(x => x.UserName == itemGroup.Key).OrderByDescending(x => x.CreatedDate))
                             {
                                 <p>
+                                    @if (item.DocumentState == RapidDoc.Models.Repository.DocumentState.Closed)
+                                    {
+                                        <span class="fa fa-check text-success"></span>
+                                    }
+                                    @if (item.DocumentState == RapidDoc.Models.Repository.DocumentState.Cancelled)
+                                    {
+                                        <span class="fa fa-times text-danger"></span>
+                                    }
+                                    @if (item.Delegation == true && item.DocumentState == RapidDoc.Models.Repository.DocumentState.OnSign)
+                                    {
+                                        <span class="fa fa-share-square-o text-info"></span>
+                                    }
                                     <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id })" target="_blank"><ins>@item.DocumentNum</ins></a> - @item.ProcessName - @item.DocumentText (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)
                                 </p>
                                 <br />

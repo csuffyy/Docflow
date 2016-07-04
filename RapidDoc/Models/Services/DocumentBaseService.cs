@@ -420,6 +420,7 @@ namespace RapidDoc.Models.Services
                 items = (from document in contextQuery.DocumentTable
                          where document.DocumentState != DocumentState.Created && user.CompanyTableId == document.CompanyTableId &&
                          ((processId == null)||(processId != null && document.ProcessTableId == processId))
+                         let trackerLast = contextQuery.WFTrackerTable.Where(p => p.DocumentTableId == document.Id).OrderByDescending(p => p.LineNum).FirstOrDefault()
                          join company in contextQuery.CompanyTable on document.CompanyTableId equals company.Id
                          join process in contextQuery.ProcessTable on document.ProcessTableId equals process.Id
                          join tracker in contextQuery.WFTrackerTable on document.Id equals tracker.DocumentTableId
@@ -447,13 +448,15 @@ namespace RapidDoc.Models.Services
                              Executed = document.Executed,
                              DocumentText = document.DocumentText,
                              TrackerActivityName = tracker.ActivityName,
-                             SignUser = tracker.SignUserId
+                             SignUser = tracker.SignUserId,
+                             Delegation = tracker.LineNum != trackerLast.LineNum
                          }).ToList();
 
             }
             else
             {
                 items = (from document in contextQuery.DocumentTable
+                         let trackerLast = contextQuery.WFTrackerTable.Where(p => p.DocumentTableId == document.Id).OrderByDescending(p => p.LineNum).FirstOrDefault()
                          join company in contextQuery.CompanyTable on document.CompanyTableId equals company.Id
                          join process in contextQuery.ProcessTable on document.ProcessTableId equals process.Id
                          join tracker in contextQuery.WFTrackerTable on document.Id equals tracker.DocumentTableId
@@ -501,7 +504,8 @@ namespace RapidDoc.Models.Services
                              Executed = document.Executed,
                              DocumentText = document.DocumentText,
                              TrackerActivityName = tracker.ActivityName,
-                             SignUser = tracker.SignUserId
+                             SignUser = tracker.SignUserId,
+                             Delegation = tracker.LineNum != trackerLast.LineNum
                          }).ToList();
             }
 
@@ -537,7 +541,8 @@ namespace RapidDoc.Models.Services
                         DocumentText = item.DocumentText,
                         DepartmentName = department != null ? department.DepartmentName : "<>",
                         TrackerActivityName = item.TrackerActivityName,
-                        SignUser = item.SignUser
+                        SignUser = item.SignUser,
+                        Delegation = item.Delegation
                     });
                 }
             }

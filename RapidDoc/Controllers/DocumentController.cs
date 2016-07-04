@@ -806,11 +806,14 @@ namespace RapidDoc.Controllers
             string reminderChairmanUser = String.Empty;
             ProcessView process = _ProcessService.FindView(processId);
             var documentIdNew = _DocumentService.GetDocumentView(_DocumentService.Find(documentId).RefDocumentId, process.TableName);
+            List<string> upUsersForNotification = _DocumentService.GetUsersUpProlongatedTask(documentId, process.TableName, DateTime.UtcNow).SelectMany(x => x).Select(p => p.UserId).ToList();
+            string approveCommentRequest = String.Empty;
+
             if (collection["ApproveCommentTask"] != null && _SystemService.CheckTextExists(collection["ApproveCommentTask"])
                 && _SystemService.DeleteAllTags(collection["ApproveCommentTask"]).Length > 3)
             {
                 _DocumentService.SignTaskDocument(documentId, TrackerType.Approved);
-                string approveCommentRequest = collection["ApproveCommentTask"].ToString();
+                approveCommentRequest = collection["ApproveCommentTask"].ToString();
                 documentIdNew.ReportText = approveCommentRequest;
                 _DocumentService.UpdateDocumentFields(documentIdNew, process);
             }
@@ -876,14 +879,22 @@ namespace RapidDoc.Controllers
 
             _HistoryUserService.SaveHistory(documentId, Models.Repository.HistoryType.ApproveDocument, userId,
                             documentTable.DocumentNum, documentTable.ProcessName, documentTable.CreatedBy);
+
+
+            List<string> userForNotification = new List<string>();
+            userForNotification.Add(documentTable.ApplicationUserCreatedId);
+
+            if (documentTable.CompanyTable.AliasCompanyName != "ATK")
+                userForNotification.AddRange(upUsersForNotification);
+
             if (documentIdNew.RefDocumentId != null)
             {
                 DocumentTable refDocumentTable = _DocumentService.Find(documentIdNew.RefDocumentId);
-                _EmailService.SendUsersClosedEmail(documentTable.Id, new List<string> { documentTable.ApplicationUserCreatedId, 
-                    refDocumentTable.DocType != DocumentType.Order ? refDocumentTable.ApplicationUserCreatedId : null, reminderChairmanUser });
+                userForNotification.AddRange(new List<string> { refDocumentTable.DocType != DocumentType.Order ? refDocumentTable.ApplicationUserCreatedId : null, reminderChairmanUser });
             }
-            else
-                _EmailService.SendInitiatorClosedEmail(documentTable.Id);
+
+            userForNotification.Remove(User.Identity.GetUserId());
+            _EmailService.SendUsersClosedEmail(documentTable.Id, userForNotification, approveCommentRequest);
 
             return RedirectToAction("ShowDocument", new { id = documentId });
         }
@@ -896,11 +907,13 @@ namespace RapidDoc.Controllers
             ApplicationUser user = _AccountService.Find(currentUserId);
             ProcessView process = _ProcessService.FindView(processId);
             var documentIdNew = _DocumentService.GetDocumentView(_DocumentService.Find(documentId).RefDocumentId, process.TableName);
+            List<string> upUsersForNotification = _DocumentService.GetUsersUpProlongatedTask(documentId, process.TableName, DateTime.UtcNow).SelectMany(x => x).Select(p => p.UserId).ToList();
+            string rejectCommentRequest = String.Empty;
 
             if (collection["RejectCommentTask"] != null && _SystemService.CheckTextExists(collection["RejectCommentTask"])
                 && ((string)collection["RejectCommentTask"]).Length > 3)
             {
-                string rejectCommentRequest = collection["RejectCommentTask"].ToString();
+                rejectCommentRequest = collection["RejectCommentTask"].ToString();
                 documentIdNew.ReportText = rejectCommentRequest;
                 _DocumentService.UpdateDocumentFields(documentIdNew, process);
             }
@@ -915,7 +928,6 @@ namespace RapidDoc.Controllers
             documentTable.ActivityName = String.Empty;
 
             _DocumentService.UpdateDocument(documentTable, User.Identity.GetUserId());
-            /* _DocumentService.SaveSignData(_DocumentService.GetCurrentSignStep(documentId, currentUserId).ToList(), TrackerType.Cancelled);*/
             _DocumentService.SignTaskDocument(documentId, TrackerType.Cancelled);
 
             _DocumentService.CloseDownRelatedTasks(documentId, user, TrackerType.Cancelled);
@@ -938,7 +950,15 @@ namespace RapidDoc.Controllers
 
             _HistoryUserService.SaveHistory(documentId, Models.Repository.HistoryType.CancelledDocument, currentUserId,
                             documentTable.DocumentNum, documentTable.ProcessName, documentTable.CreatedBy);
-            _EmailService.SendInitiatorRejectEmail(documentTable.Id);
+
+            List<string> userForNotification = new List<string>();
+            userForNotification.Add(documentTable.ApplicationUserCreatedId);
+
+            if (documentTable.CompanyTable.AliasCompanyName != "ATK")
+                userForNotification.AddRange(upUsersForNotification);
+
+            userForNotification.Remove(User.Identity.GetUserId());
+            _EmailService.SendUsersRejectEmail(documentTable.Id, userForNotification, rejectCommentRequest);
 
             return RedirectToAction("Index", "Document");
         }

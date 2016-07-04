@@ -10,9 +10,18 @@
   string type;}
 <div>
     <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active"><a href="#orderds" aria-controls="edit" role="tab" data-toggle="tab"><span class="fa fa-file-text-o" aria-hidden="true"></span> @UIElementRes.UIElement.OrderBase</a></li>
-        <li role="presentation"><a href="#inoutdocs" aria-controls="view" role="tab" data-toggle="tab"><span class="fa fa-envelope-o" aria-hidden="true"></span> @UIElementRes.UIElement.Correspondence</a></li>
-        <li role="presentation"><a href="#protocols" aria-controls="view" role="tab" data-toggle="tab"><span class="fa fa-users" aria-hidden="true"></span> @UIElementRes.UIElement.ProtocolBase</a></li>
+        @if (Model.Any(y => y.DocumentRefType == RapidDoc.Models.Repository.DocumentType.Order))
+        {
+            <li role="presentation" class="active"><a href="#orderds" aria-controls="edit" role="tab" data-toggle="tab"><span class="fa fa-file-text-o" aria-hidden="true"></span> @UIElementRes.UIElement.OrderBase</a></li>
+        }
+        @if (Model.Any(y => y.DocumentRefType == RapidDoc.Models.Repository.DocumentType.IncomingDoc))
+        {
+            <li role="presentation"><a href="#inoutdocs" aria-controls="view" role="tab" data-toggle="tab"><span class="fa fa-envelope-o" aria-hidden="true"></span> @UIElementRes.UIElement.Correspondence</a></li>
+        }
+        @if (Model.Any(y => y.DocumentRefType == RapidDoc.Models.Repository.DocumentType.Protocol))
+        {
+            <li role="presentation"><a href="#protocols" aria-controls="view" role="tab" data-toggle="tab"><span class="fa fa-users" aria-hidden="true"></span> @UIElementRes.UIElement.ProtocolBase</a></li>
+        }
     </ul>
 
     <div class="tab-content">

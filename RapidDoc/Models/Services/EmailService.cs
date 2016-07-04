@@ -37,7 +37,6 @@ namespace RapidDoc.Models.Services
         EmailParameterTable Find(Guid id);
         void InitializeMailParameter();
         void SendEmail(EmailParameterTable emailParameter, string[] emailTo, string subject, string body);
-        void SendInitiatorEmail(Guid documentId);
         void SendInitiatorEmailSignCZ(Guid documentId, string userId);
         void SendInitiatorEmailDocAdding(Guid documentId);
         void SendExecutorEmail(Guid documentId, string additionalTextCZ = "", bool ordRegistration = false);
@@ -58,7 +57,8 @@ namespace RapidDoc.Models.Services
         void SendNoteReadyModificationUserEmail(Guid documentId, string userId, string additionalTextCZ = "");
         void SendNotificationForUserEmail(Guid documentId, string userId, string additionalTextCZ = "");
         void SendORDForUserEmail(Guid documentId, List<string> users, dynamic model, List<FileTable> files);
-        void SendUsersClosedEmail(Guid documentId, List<string> users);
+        void SendUsersClosedEmail(Guid documentId, List<string> users, string additionalText = "");
+        void SendUsersRejectEmail(Guid documentId, List<string> users, string additionalText = "");
         void SendProlongationResultInitiator(Guid documentId, string userId, DateTime prolongationDate, string taskNum, string taskText);
         string CryptStringSHA256(string pass);
         bool CheckSuperPassHash(string pass);
@@ -187,42 +187,6 @@ namespace RapidDoc.Models.Services
                 {
                     continue;
                 }
-            }
-        }
-
-        public void SendInitiatorEmail(Guid documentId)
-        {
-            var documentTable = _DocumentService.Find(documentId);
-            if (documentTable == null)
-                return;
-
-            ApplicationUser user = repoUser.GetById(documentTable.ApplicationUserCreatedId);
-            if (!String.IsNullOrEmpty(user.Email) && user.Enable == true)
-            {
-                string documentUri = "http://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id;
-                EmplTable emplTable = repoEmpl.Find(x => x.ApplicationUserId == user.Id && x.Enable == true);
-
-                EmailParameterTable emailParameter = FirstOrDefault(x => x.SmtpServer != String.Empty);
-                if (emailParameter == null)
-                    return;
-
-                string processName = documentTable.ProcessName;
-
-                new Task(() =>
-                {
-                    string absFile = HostingEnvironment.ApplicationPhysicalPath + @"Views\\EmailTemplate\\BasicEmailTemplate.cshtml";
-                    string razorText = System.IO.File.ReadAllText(absFile);
-
-                    string currentLang = Thread.CurrentThread.CurrentCulture.Name;
-                    CultureInfo ci = CultureInfo.GetCultureInfo(user.Lang);
-                    Thread.CurrentThread.CurrentCulture = ci;
-                    Thread.CurrentThread.CurrentUICulture = ci;
-                    string body = Razor.Parse(razorText, new { DocumentNum = String.Format("{0} - {1}", documentTable.DocumentNum, processName), DocumentUri = documentUri, EmplName = emplTable.FullName, BodyText = UIElementRes.UIElement.SendInitiatorEmail, DocumentText = documentTable.DocumentText }, "emailTemplateDefault");
-                    SendEmail(emailParameter, new string[] { user.Email }, String.Format("Вы создали новый документ [{0}]", documentTable.DocumentNum), body);
-                    ci = CultureInfo.GetCultureInfo(currentLang);
-                    Thread.CurrentThread.CurrentCulture = ci;
-                    Thread.CurrentThread.CurrentUICulture = ci;
-                }).Start();
             }
         }
 
@@ -369,6 +333,48 @@ namespace RapidDoc.Models.Services
                         Thread.CurrentThread.CurrentUICulture = ci;
                         string body = Razor.Parse(razorText, new { DocumentNum = String.Format("{0} - {1}", documentTable.DocumentNum, processName), DocumentUri = documentUri, EmplName = emplTable.FullName, BodyText = UIElementRes.UIElement.SendInitiatorRejectEmail, DocumentText = documentTable.DocumentText }, "emailTemplateDefault");
                         SendEmail(emailParameter, new string[] { user.Email }, String.Format("Ваш документ [{0}] был отменен", documentTable.DocumentNum), body);
+                        ci = CultureInfo.GetCultureInfo(currentLang);
+                        Thread.CurrentThread.CurrentCulture = ci;
+                        Thread.CurrentThread.CurrentUICulture = ci;
+                    }).Start();
+                }
+            }
+        }
+
+        public void SendUsersRejectEmail(Guid documentId, List<string> users, string additionalText = "")
+        {
+            var documentTable = _DocumentService.Find(documentId);
+            if (documentTable == null)
+                return;
+
+            dynamic ViewBag = new DynamicViewBag();
+            ViewBag.AdditionalText = additionalText;
+
+            foreach (var userId in users.Distinct())
+            {
+                ApplicationUser user = repoUser.GetById(userId);
+                if (!String.IsNullOrEmpty(user.Email) && user.Enable == true)
+                {
+                    string documentUri = "https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id;
+                    EmplTable emplTable = repoEmpl.Find(x => x.ApplicationUserId == user.Id && x.Enable == true);
+
+                    EmailParameterTable emailParameter = FirstOrDefault(x => x.SmtpServer != String.Empty);
+                    if (emailParameter == null)
+                        return;
+
+                    string processName = documentTable.ProcessName;
+
+                    new Task(() =>
+                    {
+                        string absFile = HostingEnvironment.ApplicationPhysicalPath + @"Views\\EmailTemplate\\BasicEmailTemplate.cshtml";
+                        string razorText = System.IO.File.ReadAllText(absFile);
+
+                        string currentLang = Thread.CurrentThread.CurrentCulture.Name;
+                        CultureInfo ci = CultureInfo.GetCultureInfo(user.Lang);
+                        Thread.CurrentThread.CurrentCulture = ci;
+                        Thread.CurrentThread.CurrentUICulture = ci;
+                        string body = Razor.Parse(razorText, new { DocumentNum = String.Format("{0} - {1}", documentTable.DocumentNum, processName), DocumentUri = documentUri, EmplName = emplTable.FullName, BodyText = UIElementRes.UIElement.SendInitiatorRejectEmail, DocumentText = documentTable.DocumentText }, ViewBag, "emailTemplateDefault");
+                        SendEmail(emailParameter, new string[] { user.Email }, String.Format("Документ [{0}] был отменен", documentTable.DocumentNum), body);
                         ci = CultureInfo.GetCultureInfo(currentLang);
                         Thread.CurrentThread.CurrentCulture = ci;
                         Thread.CurrentThread.CurrentUICulture = ci;
@@ -1132,11 +1138,14 @@ namespace RapidDoc.Models.Services
         }
 
 
-        public void SendUsersClosedEmail(Guid documentId, List<string> users)
+        public void SendUsersClosedEmail(Guid documentId, List<string> users, string additionalText = "")
         {
             var documentTable = _DocumentService.Find(documentId);
             if (documentTable == null)
                 return;
+
+            dynamic ViewBag = new DynamicViewBag();
+            ViewBag.AdditionalText = additionalText;
 
             foreach (var item in users.Distinct())
 	        {
@@ -1163,7 +1172,7 @@ namespace RapidDoc.Models.Services
                             CultureInfo ci = CultureInfo.GetCultureInfo(user.Lang);
                             Thread.CurrentThread.CurrentCulture = ci;
                             Thread.CurrentThread.CurrentUICulture = ci;
-                            string body = Razor.Parse(razorText, new { DocumentNum = String.Format("{0} - {1}", documentTable.DocumentNum, processName), DocumentUri = documentUri, EmplName = emplTable.FullName, BodyText = UIElementRes.UIElement.SendInitiatorClosedEmail, DocumentText = documentTable.DocumentText }, "emailTemplateDefault");
+                            string body = Razor.Parse(razorText, new { DocumentNum = String.Format("{0} - {1}", documentTable.DocumentNum, processName), DocumentUri = documentUri, EmplName = emplTable.FullName, BodyText = UIElementRes.UIElement.SendInitiatorClosedEmail, DocumentText = documentTable.DocumentText }, ViewBag, "emailTemplateDefault");
                             SendEmail(emailParameter, new string[] { user.Email }, String.Format("Ваш документ [{0}] закрыт", documentTable.DocumentNum), body);
                             ci = CultureInfo.GetCultureInfo(currentLang);
                             Thread.CurrentThread.CurrentCulture = ci;
