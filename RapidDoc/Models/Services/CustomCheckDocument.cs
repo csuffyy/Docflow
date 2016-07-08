@@ -1266,7 +1266,7 @@ namespace RapidDoc.Models.Services
 
             if ((type == (new USR_REQ_HY_RequestTRU_View()).GetType()) || (type == (new USR_REQ_IT_CTP_RequestTRU_View()).GetType()))
             {
-                if (current.Any(x => x.ActivityName == "СХО" || x.ActivityName == "Начальник СХО" || x.ActivityName == "Заведующий складом СТП" || x.SystemName == "CHO" || x.SystemName == "ManagerCHO" || x.SystemName == "ManagerWarehouseCTP") && isSign == true)
+                if (current.Any(x => x.ActivityName == "СХО" || x.ActivityName == "Начальник СХО" || x.ActivityName == "Заведующий складом СТП" || x.ActivityName == "СТП" || x.SystemName == "CHO" || x.SystemName == "ManagerCHO" || x.SystemName == "ManagerWarehouseCTP" || x.SystemName == "CTP") && isSign == true)
                 {
                     if (actionModel.ItemName1 != String.Empty && ((actionModel.Price1 == String.Empty && actionModel.Amount1 == String.Empty) || actionModel.AccountBZ1 == String.Empty))
                     {

@@ -565,16 +565,17 @@ namespace RapidDoc.Controllers
             Excel.Workbook excelWorkbook;
             Excel.Worksheet excelWorksheet;            
             const string informationTag = "#Статус";
-
             string chief = "", delegation = "", readers = "", signUserOutcoming = "";
+            EmailParameterTable emailParameter = _EmailService.FirstOrDefault(x => x.SmtpServer != String.Empty);
+
+            WrapperImpersonationContext contextImpersonation = new WrapperImpersonationContext(emailParameter.ReportAdminDomain, emailParameter.ReportAdminUser, emailParameter.ReportAdminPassword);
+            contextImpersonation.Enter();
+
             excelAppl = new Excel.Application();
             excelAppl.Visible = false;
             excelAppl.DisplayAlerts = false;
             excelWorkbook = excelAppl.Workbooks.Add(@"C:\Template\CorrespondenceReportUSC.xlsx");
 
-            EmailParameterTable emailParameter = _EmailService.FirstOrDefault(x => x.SmtpServer != String.Empty);
-            WrapperImpersonationContext contextImpersonation = new WrapperImpersonationContext(emailParameter.ReportAdminDomain, emailParameter.ReportAdminUser, emailParameter.ReportAdminPassword);
-            contextImpersonation.Enter();
             ApplicationDbContext context = new ApplicationDbContext();
 
             var allCorrespondenceList = (from document in context.DocumentTable

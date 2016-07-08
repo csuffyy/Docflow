@@ -372,7 +372,7 @@ namespace RapidDoc.Models.Services
                 }
             }
 
-            if (bookmarks.FirstOrDefault().ParallelID != null)
+            if (!String.IsNullOrEmpty(bookmarks.FirstOrDefault().ParallelID))
             {
                 string parallelID = bookmarks.FirstOrDefault().ParallelID;
                 IEnumerable<WFTrackerTable> clearStep = _WorkflowTrackerService.GetPartial(x => x.ParallelID == parallelID && x.TrackerType == TrackerType.Waiting && x.DocumentTableId == documentId).ToList();

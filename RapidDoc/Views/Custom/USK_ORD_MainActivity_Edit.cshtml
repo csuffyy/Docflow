@@ -1,7 +1,7 @@
 ﻿@model RapidDoc.Models.ViewModels.USK_ORD_MainActivity_View
 @using RapidDoc.Extensions;
 @{
-    Model.OrderDate = Model.OrderDate ?? DateTime.Today;
+    Model.OrderDate = DateTime.Today;
     Model.ControlDate = Model.ControlDate ?? DateTime.Today.AddDays(2);
     Model.NeedTranslate = true;
 }
