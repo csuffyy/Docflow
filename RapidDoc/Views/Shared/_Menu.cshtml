@@ -78,34 +78,48 @@
                         <ul class="dropdown-menu">
                             @Html.Action("GetDocumentBaseList", "Document", new { id = User.Identity.GetUserId(), lang = UICulture, company = ViewContext.RouteData.Values["company"] })
                         </ul>
-                    </li>
-                    @if (User.IsInRole("Administrator") || User.IsInRole("Reports"))
-                    {
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-area-chart"></span> <span class="visible-xs-inline">@UIElementRes.UIElement.Reports</span> <b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href=@Url.Action("PerformanceDepartment", "Report")><span class="fa fa-file-excel-o"></span> @UIElementRes.UIElement.PerformanceDepartment</a></li>
+                    </li> 
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-area-chart"></span> <span class="visible-xs-inline">@UIElementRes.UIElement.Reports</span> <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            @if (User.IsInRole("Administrator") || User.IsInRole("ReportsRequest"))
+                            {
+                                <li class="dropdown">
+                                    <a href=@Url.Action("PerformanceDepartment", "Report")><span class="fa fa-file-excel-o"></span> @UIElementRes.UIElement.PerformanceDepartment</a>
+                                </li>
                                 <li class="dropdown">
                                     <a href=@Url.Action("Index", "Monitoring")><span class="fa fa-signal"></span> @UIElementRes.UIElement.MonitoringRequest</a>
                                 </li>
+                            }
+                            @if (User.IsInRole("Administrator"))
+                            {
                                 <li class="dropdown">
                                     <a href=@Url.Action("ReportOfRoutes", "Report")><span class="fa fa-file-excel-o"></span> @UIElementRes.UIElement.ReportOfRoutes</a>
                                 </li>
+                            }
+                            @if (User.IsInRole("Administrator") || User.IsInRole("ReportsDetail"))
+                            {
                                 <li class="dropdown">
                                     <a href=@Url.Action("DetailReport", "Report")><span class="fa fa-file-excel-o"></span> @UIElementRes.UIElement.DetailReport</a>
                                 </li>
+                            }
+                            @if (User.IsInRole("Administrator") || User.IsInRole("ReportsTask"))
+                            {
                                 <li class="dropdown">
                                     <a href=@Url.Action("TaskReport", "Report")><span class="fa fa-file-excel-o"></span> @UIElementRes.UIElement.TaskReport</a>
                                 </li>
                                 <li class="dropdown">
-                                    <a href=@Url.Action("IncomingCorrespondenceReportUSC", "Report")><span class="fa fa-file-excel-o"></span> @UIElementRes.UIElement.IncomingCorrespondenceReport</a>
-                                </li>
-                                <li class="dropdown">
                                     <a href=@Url.Action("IndexTask", "Monitoring")><span class="fa fa-tasks"></span> @UIElementRes.UIElement.MonitoringTask</a>
                                 </li>
-                            </ul>
-                        </li>
-                    }
+                            }
+                            @if (User.IsInRole("Administrator") || User.IsInRole("ReportsCorrespondence"))
+                            {
+                                <li class="dropdown">
+                                    <a href=@Url.Action("IncomingCorrespondenceReportUSC", "Report")><span class="fa fa-file-excel-o"></span> @UIElementRes.UIElement.IncomingCorrespondenceReport</a>
+                                </li>
+                            }
+                        </ul>
+                    </li>
 
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">@UICulture.Substring(0, 2).ToUpper() <b class="caret"></b></a>

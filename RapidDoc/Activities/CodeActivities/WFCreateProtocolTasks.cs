@@ -143,9 +143,9 @@ namespace RapidDoc.Activities.CodeActivities
             string folderName = _serviceProtocolFolders.GetProtocolFolderName(documentTable.ProcessTableId, documentView.ProtocolFoldersTableId, currentUserId);
 
             if (question.IncludeText == true)
-                docModel.MainField = strDecision + "<p>" + folderName + "</p>" + documentView.Subject + "\n" + question.Question + "\n" + decision.Decision;
+                docModel.MainField = strDecision + "<p><b>Папка: </b>" + folderName + "</p><p><b>Тема: </b>" + documentView.Subject + "</p><p><b>Вопрос: </b></p>" + question.Question + "</p><p><b>Поручение: </b></p>" + decision.Decision;
             else
-                docModel.MainField = strDecision + "<p>" + folderName + "</p>" + documentView.Subject + "\n" + decision.Decision;
+                docModel.MainField = strDecision + "<p><b>Папка: </b>" + folderName + "</p><p><b>Тема: </b>" + documentView.Subject + "</p><p><b>Поручение: </b></p>" + decision.Decision;
 
             DateTime? controlDate = decision.ControlDate != null ? decision.ControlDate : DateTime.Now;
 
