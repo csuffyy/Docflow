@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.Title = CustomRes.Custom.TaskSchedule;
+}
+
+<h2>@CustomRes.Custom.TaskSchedule</h2>
+
+@{Html.RenderPartial("_NewEntityBtn");}
+
+<div>
+    @Html.Action("Grid")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/gridmvc")
+}
+@section jslaunch {
+    <script type="text/javascript">
+    $(function () {
+        grid_init("@Url.Action("GetList")");
+        actionForRowGrid('@Url.Action("Edit")');
+    });
+    </script>
+}

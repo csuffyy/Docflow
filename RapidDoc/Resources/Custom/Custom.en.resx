@@ -144,6 +144,9 @@
   <data name="RequestText" xml:space="preserve">
     <value>Request text</value>
   </data>
+  <data name="TaskSchedule" xml:space="preserve">
+    <value>Task scheduler</value>
+  </data>
   <data name="TripMRP" xml:space="preserve">
     <value>MRP amount</value>
   </data>

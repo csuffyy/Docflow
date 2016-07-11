@@ -1,0 +1,316 @@
+﻿@model RapidDoc.Models.ViewModels.TaskScheduleView
+@using RapidDoc.Extensions;
+@{
+    ViewBag.Title = "Новое расписанине";
+}
+<h2>@CustomRes.Custom.TaskSchedule</h2>
+@using (Html.BeginForm("Create", "TaskSchedule", new { type = 1, fileId = Model.fileId }, FormMethod.Post, new { id = "ajaxUploadForm", enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        @Html.HiddenFor(model => model.fileId)
+        @Html.HiddenFor(model => model.RefDate)
+        <legend></legend>
+
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.MainField)
+        </div>
+        <div class="editor-field">
+            @Html.TextAreaFor(model => Model.MainField, new { @class = "form-control summernote" })
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Users)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => Model.Users, new { @class = "form-control", @data_role = "tagsinputEmployer", @size = 256, placeholder = "Исполнители" })
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelForRequired(model => model.DateFrom)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.DateFrom, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control form-control-date" })
+            @Html.ValidationMessageFor(model => model.DateFrom)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelForRequired(model => model.DateTo)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.DateTo, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control form-control-date" })
+            @Html.ValidationMessageFor(model => model.DateTo)
+        </div>
+        <hr />
+        <div class="visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+            <h4 class="hidden-print">
+                @UIElementRes.UIElement.AttachedFiles
+                <span class="btn btn-primary btn-xs fileinput-button">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    <span>@UIElementRes.UIElement.AddFiles</span>
+                    <input type="file" name="files" multiple>
+                </span>
+            </h4>
+        </div>
+        <table role="presentation" class="table table-striped table-condensed"><tbody class="files"></tbody></table>
+        <hr />
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.TypePeriod)
+        </div>
+        <div class="editor-field">
+            @Html.EnumDropDownListFor(model => Model.TypePeriod, new { @class = "selectpicker" })
+        </div>
+        <div class="row">
+            <div class="col-xs-4">
+                <div class="editor-label">
+                    @Html.LabelForRequired(model => Model.Periodicity)
+                </div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => Model.Periodicity, new { @class = "form-control bfh-number" })
+                </div>
+            </div>
+            <div class="col-xs-8">
+                <br />
+                <div id="typePeriodMonthlyForm">
+                    @for (int i = 0; i <= 4; i++)
+                    {
+                        <div class="row">
+                            @for (int j = 1; j <= 6; j++)
+                            {
+                                <div class="col-xs-2">
+                                    <div class="editor-label">
+                                        @Html.LabelRequired("Day" + (i * 6 + j))
+                                    </div>
+                                    <div class="editor-field">
+                                        @Html.CheckBox("Day" + (i * 6 + j))
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    <div class="row">
+                        <div class="col-xs-2">
+                            <div class="editor-label">
+                                @Html.LabelRequired("Day31")
+                            </div>
+                            <div class="editor-field">
+                                @Html.CheckBox("Day31")
+                            </div>
+
+                        </div>
+                        <div class="col-xs-2">
+                            <div class="editor-label">
+                                @Html.LabelRequired("Last")
+                            </div>
+                            <div class="editor-field">
+                                @Html.CheckBox("Last")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="typePeriodWeeklyForm">
+                    <div class="row">
+                        <div class="col-xs-2">
+                            <div class="editor-label">
+                                @Html.LabelRequired("Monday")
+                            </div>
+                            <div class="editor-field">
+                                @Html.CheckBox("Monday")
+                            </div>
+                        </div>
+                        <div class="col-xs-2">
+                            <div class="editor-label">
+                                @Html.LabelRequired("Tuesday")
+                            </div>
+                            <div class="editor-field">
+                                @Html.CheckBox("Tuesday")
+                            </div>
+                        </div>
+                        <div class="col-xs-2">
+                            <div class="editor-label">
+                                @Html.LabelRequired("Wednesday")
+                            </div>
+                            <div class="editor-field">
+                                @Html.CheckBox("Wednesday")
+                            </div>
+                        </div>
+                        <div class="col-xs-2">
+                            <div class="editor-label">
+                                @Html.LabelRequired("Thursday")
+                            </div>
+                            <div class="editor-field">
+                                @Html.CheckBox("Thursday")
+                            </div>
+                        </div>
+                        <div class="col-xs-2">
+                            <div class="editor-label">
+                                @Html.LabelRequired("Friday")
+                            </div>
+                            <div class="editor-field">
+                                @Html.CheckBox("Friday")
+                            </div>
+                        </div>
+                        <div class="col-xs-2">
+                            <div class="editor-label">
+                                @Html.LabelRequired("Saturday")
+                            </div>
+                            <div class="editor-field">
+                                @Html.CheckBox("Saturday")
+                            </div>
+                        </div>
+                    </div>
+                    <div class="editor-label">
+                        @Html.LabelRequired("Sunday")
+                    </div>
+                    <div class="editor-field">
+                        @Html.CheckBox("Sunday")
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @{Html.RenderPartial("SaveBackBtn");}
+    </fieldset>
+}
+
+<!-- The template to display files available for upload -->
+<script id="template-upload" type="text/x-tmpl">
+    {% for (var i=0, file; file=o.files[i]; i++) { %}
+    <tr class="template-upload fade">
+        <td>
+            <span class="preview"></span>
+        </td>
+        <td>
+            <p class="name">{%=file.name%}</p>
+            <strong class="error text-danger"></strong>
+        </td>
+        <td>
+            <p class="size">Processing...</p>
+            <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar progress-bar-success" style="width:0%;"></div></div>
+        </td>
+        <td>
+            {% if (!i) { %}
+            <button class="btn btn-warning btn-xs cancel">
+                <i class="glyphicon glyphicon-ban-circle"></i>
+                <span>@UIElementRes.UIElement.Cancel</span>
+            </button>
+            {% } %}
+        </td>
+    </tr>
+    {% } %}
+</script>
+<!-- The template to display files available for download -->
+<script id="template-download" type="text/x-tmpl">
+    {% for (var i=0, file; file=o.files[i]; i++) { %}
+    <tr class="visible-print">
+        <td>{%=file.name%}, {%=file.createdDate%}, {%=file.versionName%}</td>
+    </tr>
+    <tr class="template-download fade hidden-print">
+        <td class="fileuploadtdid hidden">
+            {%=file.id%}
+        </td>
+        <td>
+            <span class="preview">
+                {% if (file.thumbnailUrl) { %}
+                <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" data-gallery><img src="{%=file.thumbnailUrl%}"></a>
+                {% } %}
+            </span>
+        </td>
+        <td>
+            <p class="name">
+                {% if (file.url) { %}
+                <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}">{%=file.name%}</a>
+                {% } else { %}
+                <span>{%=file.name%}</span>
+                {% } %}
+            </p>
+            {% if (file.error) { %}
+            <div><span class="label label-danger">Error</span> {%=file.error%}</div>
+            {% } %}
+        </td>
+        <td>
+            <span class="size visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">{%=o.formatFileSize(file.size)%}</span>
+        </td>
+        <td>
+            <span class="visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">{%=file.createdUser%}</span>
+        </td>
+        <td>
+            <span class="visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">{%=file.createdDate%}</span>
+        </td>
+        <td>
+            {%=file.versionName%}
+        </td>
+        <td>
+            {% if (file.deleteUrl) { %}
+            {% if (file.deleteType != "") { %}
+            <button class="btn btn-danger btn-xs delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}" {% if (file.deletewithcredentials) { %} data-xhr-fields='{"withCredentials":true}' {% } %}>
+                <i class="glyphicon glyphicon-trash"></i>
+                <span>@UIElementRes.UIElement.Delete</span>
+            </button>
+            {% } %}
+            {% } else { %}
+            <button class="btn btn-warning btn-xs cancel">
+                <i class="glyphicon glyphicon-ban-circle"></i>
+                <span>@UIElementRes.UIElement.Cancel</span>
+            </button>
+            {% } %}
+        </td>
+    </tr>
+    {% } %}
+</script>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/editentity")
+    @Scripts.Render("~/bundles/fileupload")
+}
+
+@section jsinit {
+    var urlFileDownload = "@Url.Action("GetAllFileTaskSchedule", "TaskSchedule", new { id = Model.fileId })";
+    var urlFileUpload = "@Url.Action("AjaxUpload", "TaskSchedule", new { fileId = Model.fileId })";
+}
+
+@section jslaunch {
+    <script type="text/javascript">
+        $(function () {
+        summernote_init("@UIElementRes.UIElement.LangFullName");
+        $('#typePeriodMonthlyForm').hide();
+        $('#typePeriodWeeklyForm').hide();
+
+        selectpicker_init();
+        datepicker_init("@UIElementRes.UIElement.LangName");
+        custom_tagsinputEmployer_init("@Url.Action("JsonEmpl", "Custom")");
+        function clearAllCheckbox() {
+            $("input[type=checkbox]:checked").each(function () {
+                $(this).attr('checked', false);
+            });
+        }
+
+        $("#TypePeriod").change(function () {
+            var typePeriod = $("#TypePeriod").val();
+            switch (typePeriod) {
+                case "0":
+                    clearAllCheckbox();
+                    $('#typePeriodMonthlyForm').hide();
+                    $('#typePeriodWeeklyForm').hide();
+                    break;
+                case "1":
+                    clearAllCheckbox();
+                    $('#typePeriodMonthlyForm').hide();
+                    $('#typePeriodWeeklyForm').show();
+                    break;
+                case "2":
+                    clearAllCheckbox();
+                    $('#typePeriodMonthlyForm').show();
+                    $('#typePeriodWeeklyForm').hide();
+                    break;
+                default:
+                    clearAllCheckbox();
+                    $('#typePeriodMonthlyForm').hide();
+                    $('#typePeriodWeeklyForm').hide();
+            }
+        });
+        });
+    </script>
+}

@@ -144,6 +144,9 @@
   <data name="RequestText" xml:space="preserve">
     <value>Текст запроса</value>
   </data>
+  <data name="TaskSchedule" xml:space="preserve">
+    <value>Расписание задач</value>
+  </data>
   <data name="TripMRP" xml:space="preserve">
     <value>Справочник МРП</value>
   </data>

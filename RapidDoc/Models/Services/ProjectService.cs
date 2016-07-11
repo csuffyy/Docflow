@@ -49,7 +49,8 @@ namespace RapidDoc.Models.Services
 
         public IEnumerable<ProjectTable> GetAll()
         {
-            return repo.All();
+            ApplicationUser user = repoUser.GetById(HttpContext.Current.User.Identity.GetUserId());
+            return repo.FindAll(x => x.CompanyTableId == user.CompanyTableId);
         }
 
         public IEnumerable<ProjectView> GetAllView()
@@ -59,7 +60,8 @@ namespace RapidDoc.Models.Services
 
         public IEnumerable<ProjectTable> GetPartial(Expression<Func<ProjectTable, bool>> predicate)
         {
-            return repo.FindAll(predicate);
+            ApplicationUser user = repoUser.GetById(HttpContext.Current.User.Identity.GetUserId());
+            return repo.FindAll(predicate).Where(x => x.CompanyTableId == user.CompanyTableId);
         }
 
         public IEnumerable<ProjectView> GetPartialView(Expression<Func<ProjectTable, bool>> predicate)
@@ -111,7 +113,8 @@ namespace RapidDoc.Models.Services
 
         public void SaveDomain(ProjectTable domainTable)
         {
-            string userId = HttpContext.Current.User.Identity.GetUserId();
+            string userId = HttpContext.Current.User.Identity.GetUserId(); 
+            ApplicationUser user = repoUser.GetById(userId);
 
             if (domainTable.Id == Guid.Empty)
             {
@@ -120,6 +123,7 @@ namespace RapidDoc.Models.Services
                 domainTable.ModifiedDate = domainTable.CreatedDate;
                 domainTable.ApplicationUserCreatedId = userId;
                 domainTable.ApplicationUserModifiedId = userId;
+                domainTable.CompanyTableId = user.CompanyTableId;
                 repo.Add(domainTable);
             }
             else
@@ -139,7 +143,8 @@ namespace RapidDoc.Models.Services
 
         public ProjectTable Find(Guid id)
         {
-            return repo.Find(a => a.Id == id);
+            ApplicationUser user = repoUser.GetById(HttpContext.Current.User.Identity.GetUserId());
+            return repo.Find(a => a.Id == id && a.CompanyTableId == user.CompanyTableId);
         }
 
         public ProjectView FindView(Guid id)

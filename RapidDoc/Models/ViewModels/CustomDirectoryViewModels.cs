@@ -128,7 +128,7 @@ namespace RapidDoc.Models.ViewModels
         public bool Enable { get; set; }
     }
 
-    public class ProjectView : BasicView
+    public class ProjectView : BasicCompanyNullView
     {
         [Display(Name="Наименование проекта")]
         public string ProjectName { get; set; }
@@ -187,5 +187,124 @@ namespace RapidDoc.Models.ViewModels
 
         [Display(Name = "Включено")]
         public bool Enable { get; set; }
+    }
+
+    public class TaskScheduleView : BasicCompanyNullView
+    {
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Текст задачи")]
+        public string MainField { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Исполнители")]
+        public string Users { get; set; }
+
+        public Guid fileId { get; set; }
+        public DateTime? RefDate { get; set; }
+
+        [Display(Name = "Период")]
+        public TaskScheduleTypePeriod TypePeriod { get; set; }
+
+        [Display(Name = "Периодичность")]
+        public int Periodicity { get; set; }
+
+        [DataType(DataType.Date)]
+        [Display(Name = "Начальная дата")]
+        public DateTime? DateFrom { get; set; }
+
+        [DataType(DataType.Date)]
+        [Display(Name = "Конечная дата")]
+        public DateTime? DateTo { get; set; }
+
+
+        [Display(Name = "Понедельник")]
+        public bool Monday { get; set; }
+        [Display(Name = "Вторник")]
+        public bool Tuesday { get; set; }
+        [Display(Name = "Среда")]
+        public bool Wednesday { get; set; }
+        [Display(Name = "Четверг")]
+        public bool Thursday { get; set; }
+        [Display(Name = "Пятница")]
+        public bool Friday { get; set; }
+        [Display(Name = "Суббота")]
+        public bool Saturday { get; set; }
+        [Display(Name = "Воскресенье")]
+        public bool Sunday { get; set; }
+
+        [Display(Name = "1")]
+        public bool Day1 { get; set; }
+        [Display(Name = "2")]
+        public bool Day2 { get; set; }
+        [Display(Name = "3")]
+        public bool Day3 { get; set; }
+        [Display(Name = "4")]
+        public bool Day4 { get; set; }
+        [Display(Name = "5")]
+        public bool Day5 { get; set; }
+        [Display(Name = "6")]
+        public bool Day6 { get; set; }
+        [Display(Name = "7")]
+        public bool Day7 { get; set; }
+        [Display(Name = "8")]
+        public bool Day8 { get; set; }
+        [Display(Name = "9")]
+        public bool Day9 { get; set; }
+        [Display(Name = "10")]
+        public bool Day10 { get; set; }
+
+        [Display(Name = "11")]
+        public bool Day11 { get; set; }
+        [Display(Name = "12")]
+        public bool Day12 { get; set; }
+        [Display(Name = "13")]
+        public bool Day13 { get; set; }
+        [Display(Name = "14")]
+        public bool Day14 { get; set; }
+        [Display(Name = "15")]
+        public bool Day15 { get; set; }
+        [Display(Name = "16")]
+        public bool Day16 { get; set; }
+        [Display(Name = "17")]
+        public bool Day17 { get; set; }
+        [Display(Name = "18")]
+        public bool Day18 { get; set; }
+        [Display(Name = "19")]
+        public bool Day19 { get; set; }
+        [Display(Name = "20")]
+        public bool Day20 { get; set; }
+
+        [Display(Name = "21")]
+        public bool Day21 { get; set; }
+        [Display(Name = "22")]
+        public bool Day22 { get; set; }
+        [Display(Name = "23")]
+        public bool Day23 { get; set; }
+        [Display(Name = "24")]
+        public bool Day24 { get; set; }
+        [Display(Name = "25")]
+        public bool Day25 { get; set; }
+        [Display(Name = "26")]
+        public bool Day26 { get; set; }
+        [Display(Name = "27")]
+        public bool Day27 { get; set; }
+        [Display(Name = "28")]
+        public bool Day28 { get; set; }
+        [Display(Name = "29")]
+        public bool Day29 { get; set; }
+        [Display(Name = "30")]
+        public bool Day30 { get; set; }
+        [Display(Name = "31")]
+        public bool Day31 { get; set; }
+        [Display(Name = "Последний")]
+        public bool Last { get; set; }
+
+    }
+
+    public class TaskScheduleHistroyView : BasicCompanyNullView
+    {
+        public Guid TaskScheduleId { get; set; }
+        public Guid DocumentId { get; set; }
+        public string DocumentNum { get; set; }
     }
 }

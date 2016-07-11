@@ -1861,5 +1861,17 @@ namespace RapidDoc.Models.Repository
 
         [Display(Name = "Изделие")]
         Element2 = 1
+    }
+
+    public enum TaskScheduleTypePeriod : byte
+    {
+        [Display(Name = "Ежедневно")]
+        Daily = 0,
+
+        [Display(Name = "Еженедельно")]
+        Weekly = 1,
+
+        [Display(Name = "Ежемесячно")]
+        Monthly = 2
     } 
 }

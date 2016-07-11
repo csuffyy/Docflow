@@ -79,7 +79,7 @@ namespace RapidDoc.Models.DomainModels
         public bool Enable { get; set; }
     }
 
-    public class ProjectTable : BasicTable
+    public class ProjectTable : BasicCompanyNullTable
     {
         public string ProjectName { get; set; }
     }
@@ -135,5 +135,69 @@ namespace RapidDoc.Models.DomainModels
                 return string.Empty;
             }
         }
+    }
+
+    public class TaskScheduleTable : BasicCompanyNullTable
+    {
+        public string MainField { get; set; }
+        public string Users { get; set; }       
+        public TaskScheduleTypePeriod TypePeriod { get; set; }
+        public int Periodicity { get; set; }
+        public Guid fileId { get; set; }
+        public DateTime? RefDate { get; set; }
+
+        public DateTime? DateFrom { get; set; }
+        public DateTime? DateTo { get; set; }
+
+        public bool Monday { get; set; }
+        public bool Tuesday { get; set; }
+        public bool Wednesday { get; set; }
+        public bool Thursday { get; set; }
+        public bool Friday { get; set; }
+        public bool Saturday { get; set; }
+        public bool Sunday { get; set; }
+
+        public bool Day1 { get; set; }
+        public bool Day2 { get; set; }
+        public bool Day3 { get; set; }
+        public bool Day4 { get; set; }
+        public bool Day5 { get; set; }
+        public bool Day6 { get; set; }
+        public bool Day7 { get; set; }
+        public bool Day8 { get; set; }
+        public bool Day9 { get; set; }
+        public bool Day10 { get; set; }
+
+        public bool Day11 { get; set; }
+        public bool Day12 { get; set; }
+        public bool Day13 { get; set; }
+        public bool Day14 { get; set; }
+        public bool Day15 { get; set; }
+        public bool Day16 { get; set; }
+        public bool Day17 { get; set; }
+        public bool Day18 { get; set; }
+        public bool Day19 { get; set; }
+        public bool Day20 { get; set; }
+
+        public bool Day21 { get; set; }
+        public bool Day22 { get; set; }
+        public bool Day23 { get; set; }
+        public bool Day24 { get; set; }
+        public bool Day25 { get; set; }
+        public bool Day26 { get; set; }
+        public bool Day27 { get; set; }
+        public bool Day28 { get; set; }
+        public bool Day29 { get; set; }
+        public bool Day30 { get; set; }
+        public bool Day31 { get; set; }
+        public bool Last { get; set; }
+
+    }
+
+    public class TaskScheduleHistroyTable : BasicCompanyNullTable
+    {
+        public Guid TaskScheduleId { get; set; }
+        public Guid DocumentId { get; set; }
+        public string DocumentNum { get; set; }
     }
 }

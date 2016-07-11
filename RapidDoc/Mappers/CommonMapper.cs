@@ -172,6 +172,7 @@ namespace RapidDoc.Mappers
 
             Mapper.CreateMap<ProjectTable, ProjectView>();
             Mapper.CreateMap<ProjectView, ProjectTable>()
+                .ForMember(x => x.CompanyTableId, opt => opt.Ignore())
                 .ForMember(x => x.ApplicationUserCreatedId, opt => opt.Ignore())
                 .ForMember(x => x.ApplicationUserModified, opt => opt.Ignore())
                 .ForMember(x => x.CreatedDate, opt => opt.Ignore())
@@ -224,6 +225,22 @@ namespace RapidDoc.Mappers
 
             Mapper.CreateMap<PortalParametersTable, PortalParametersView>();
             Mapper.CreateMap<PortalParametersView, PortalParametersTable>()
+                .ForMember(x => x.CompanyTableId, opt => opt.Ignore())
+                .ForMember(x => x.ApplicationUserCreatedId, opt => opt.Ignore())
+                .ForMember(x => x.ApplicationUserModified, opt => opt.Ignore())
+                .ForMember(x => x.CreatedDate, opt => opt.Ignore())
+                .ForMember(x => x.ModifiedDate, opt => opt.Ignore());
+
+            Mapper.CreateMap<TaskScheduleTable, TaskScheduleView>();
+            Mapper.CreateMap<TaskScheduleView, TaskScheduleTable>()
+                .ForMember(x => x.CompanyTableId, opt => opt.Ignore())
+                .ForMember(x => x.ApplicationUserCreatedId, opt => opt.Ignore())
+                .ForMember(x => x.ApplicationUserModified, opt => opt.Ignore())
+                .ForMember(x => x.CreatedDate, opt => opt.Ignore())
+                .ForMember(x => x.ModifiedDate, opt => opt.Ignore());
+
+            Mapper.CreateMap<TaskScheduleHistroyTable, TaskScheduleHistroyView>();
+            Mapper.CreateMap<TaskScheduleHistroyView, TaskScheduleHistroyTable>()
                 .ForMember(x => x.CompanyTableId, opt => opt.Ignore())
                 .ForMember(x => x.ApplicationUserCreatedId, opt => opt.Ignore())
                 .ForMember(x => x.ApplicationUserModified, opt => opt.Ignore())
