@@ -65,6 +65,7 @@ namespace RapidDoc.Models.DomainModels
         public string ReportDepartments { get; set; }
         public int NumberUserMaxAlerts { get; set; }
         public int NumberUserMaxAlertsReaders { get; set; }
+        public bool NotificationAllUserTask { get; set; }
     }
 
     public class CountryTable : BasicTable

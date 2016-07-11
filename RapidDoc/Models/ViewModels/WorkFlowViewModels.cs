@@ -451,6 +451,7 @@ namespace RapidDoc.Models.ViewModels
         public bool Cancel { get; set; }
         public bool Addition { get; set; }
         public bool Executed { get; set; }
+        public bool Delegation { get; set; }
         public string UserName { get; set; }
         public string ItemCaseNumber { get; set; }
         public string ItemCaseName { get; set; }

@@ -424,6 +424,14 @@ namespace RapidDoc.Models.Infrastructure
              .HasMany(o => o.QuestionList).WithOptional()
             .WillCascadeOnDelete(true);
 
+            modelBuilder.Entity<USK_PRT_DirectorateDocuments_Table>()
+             .HasMany(o => o.QuestionList).WithOptional()
+            .WillCascadeOnDelete(true);
+
+            modelBuilder.Entity<USC_PRT_ProtocolDocuments_Table>()
+             .HasMany(o => o.QuestionList).WithOptional()
+            .WillCascadeOnDelete(true);
+
             modelBuilder.Entity<PRT_QuestionList_Table>()
             .HasMany(o => o.DecisionList).WithOptional()
             .WillCascadeOnDelete(true);

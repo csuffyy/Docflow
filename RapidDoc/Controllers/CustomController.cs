@@ -2900,7 +2900,7 @@ namespace RapidDoc.Controllers
                         return PartialView("USR_REQ_IT_CTP_RequestTRU_Edit_CTP", model);
                     }
 
-                    if (current.Any(x => x.ActivityName == "Заведующий складом СТП" || x.SystemName == "ManagerWarehouse"))
+                    if (current.Any(x => x.ActivityName == "Заведующий складом СТП" || x.SystemName == "ManagerWarehouseCTP"))
                     {
                         return PartialView("USR_REQ_IT_CTP_RequestTRU_Edit_StockMan", model);
                     }

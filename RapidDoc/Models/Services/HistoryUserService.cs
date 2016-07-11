@@ -147,18 +147,24 @@ namespace RapidDoc.Models.Services
 
         public void SaveHistory(Guid documentId, HistoryType historyType, string userId, string docNum, string processName, string createBy, string description = null)
         {
-            var domainTable = new HistoryUserTable();
+            try
+            {
+                var domainTable = new HistoryUserTable();
 
-            domainTable.DocumentTableId = documentId;
-            domainTable.HistoryType = historyType;
-            domainTable.DocumentNum = docNum;
-            domainTable.ProcessName = processName;
-            domainTable.CreateBy = createBy;
+                domainTable.DocumentTableId = documentId;
+                domainTable.HistoryType = historyType;
+                domainTable.DocumentNum = docNum;
+                domainTable.ProcessName = processName;
+                domainTable.CreateBy = createBy;
 
-            if (description != null)
-                domainTable.Description = description;
+                if (description != null)
+                    domainTable.Description = description;
 
-            SaveDomain(domainTable, userId);
+                SaveDomain(domainTable, userId);
+            }
+            catch
+            {
+            }
         }
 
         public void Delete(Guid id)
