@@ -2188,6 +2188,7 @@
     <Content Include="Views\TaskSchedule\Edit.cshtml" />
     <Content Include="Views\TaskSchedule\Index.cshtml" />
     <Content Include="Views\TaskSchedule\_TaskScheduleHistory.cshtml" />
+    <Content Include="Views\Project\USR_TAS_Project.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

@@ -191,6 +191,7 @@ namespace RapidDoc.Models.Services
             docModel.Users = taskSchedule.Users;
             docModel.RefDocumentId = null;
             docModel.RefDocNum = null;
+            docModel.ProjectTableId = taskSchedule.ProjectTableId;
             ProcessTable processTable = _ProcessService.FirstOrDefault(x => x.TableName == "USR_TAS_DailyTasks" && x.CompanyTableId == user.CompanyTableId);
 
             List<FileTable> docFile = _DocumentService.GetAllFilesDocument(taskSchedule.fileId).ToList();

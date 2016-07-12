@@ -57,6 +57,8 @@ namespace RapidDoc.Models.DomainModels
         public string ReportText { get; set; }
         public Guid? RefDocumentId { get; set; }
         public string RefDocNum { get; set; }
+        public Guid? ProjectTableId { get; set; }
+        public virtual ProjectTable ProjectTable { get; set; }
         public bool Separated { get; set; }
     }
 

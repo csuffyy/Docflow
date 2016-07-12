@@ -94,6 +94,9 @@ namespace RapidDoc.Models.ViewModels
 
         public Guid? RefDocumentId { get; set; }
 
+        [Display(Name = "Проект")]
+        public Guid? ProjectTableId { get; set; }
+
         [Display(Name = "Отдельная карточка каждому исполнителю")]
         public bool Separated { get; set; }
     }

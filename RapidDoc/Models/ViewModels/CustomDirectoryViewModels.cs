@@ -205,6 +205,9 @@ namespace RapidDoc.Models.ViewModels
         public Guid fileId { get; set; }
         public DateTime? RefDate { get; set; }
 
+        [Display(Name = "Проект")]
+        public Guid? ProjectTableId { get; set; }
+
         [Display(Name = "Период")]
         public TaskScheduleTypePeriod TypePeriod { get; set; }
 

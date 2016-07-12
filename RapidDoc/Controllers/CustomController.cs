@@ -32,9 +32,10 @@ namespace RapidDoc.Controllers
         private readonly IProcessService _ProcessService;
         private readonly IDepartmentService _DepartmentService;
         private readonly IDelegationService _DelegationService;
+        private readonly IProjectService _ProjectService;
 
         public CustomController(IEmplService emplService, ISystemService systemService, IDocumentService documentService, IServiceIncidentService serviceIncidentService, ICompanyService companyService, IAccountService accountService, ITripSettingsService tripSettingsService, INumberSeqService numberSeqService, ICountryService countryService, IOrganizationService organizationService, IProcessService processService,
-            IReasonRequestService reasonRequestService, IQuestionRequestService questionRequestService, IProtocolFoldersService protocolFoldersService, ITripMRPService iTripMRPService, IDepartmentService departmentService, IDelegationService delegationService)
+            IReasonRequestService reasonRequestService, IQuestionRequestService questionRequestService, IProtocolFoldersService protocolFoldersService, ITripMRPService iTripMRPService, IDepartmentService departmentService, IDelegationService delegationService, IProjectService projectService)
             : base(companyService, accountService)
         {
             _EmplService = emplService;
@@ -52,6 +53,7 @@ namespace RapidDoc.Controllers
             _ITripMRPService = iTripMRPService;
             _DepartmentService = departmentService;
             _DelegationService = delegationService;
+            _ProjectService = projectService;
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
@@ -220,6 +222,13 @@ namespace RapidDoc.Controllers
             ViewBag.Selected = selected;
             ViewBag.OrganizationList = selected == true ? _OrganizationService.GetDropListOrganization(id) :_OrganizationService.GetDropListOrganizationNull(id);
             return PartialView("USR_ORD_Organization");
+        }
+
+        public ActionResult GetTaskProject(Guid? id = null, bool selected = false)
+        {
+            ViewBag.Selected = selected;
+            ViewBag.ProjectList = selected == true ? _ProjectService.GetDropListProject(id) : _ProjectService.GetDropListProjectNull(id);
+            return PartialView("~/Views/Project/USR_TAS_Project.cshtml");
         }
 
         public ActionResult GetReasonRequest(Guid? id = null, bool selected = false)

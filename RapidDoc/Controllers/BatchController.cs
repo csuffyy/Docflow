@@ -246,7 +246,7 @@ namespace RapidDoc.Controllers
                         case 9:
                             DateTime currentDate = DateTime.Now.Date, finalDate = DateTime.Now.Date;
 
-                            List<TaskScheduleTable> allSchedules = _TaskScheduleService.GetPartialIntercompany(x => x.DateFrom <= currentDate && x.DateTo >= currentDate && x.RefDate >= currentDate).ToList();
+                            List<TaskScheduleTable> allSchedules = _TaskScheduleService.GetPartialIntercompany(x => x.DateFrom <= currentDate && x.DateTo >= currentDate && (x.RefDate >= currentDate || x.RefDate == null)).ToList();
                             
 
                             foreach (var schedule in allSchedules)

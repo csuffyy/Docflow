@@ -45,6 +45,17 @@
             @Html.TextBoxFor(model => model.DateTo, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control form-control-date" })
             @Html.ValidationMessageFor(model => model.DateTo)
         </div>
+        <div class="row">
+            <div class="col-xs-4">
+                <div class="editor-label">
+                    @Html.LabelForRequired(model => model.ProjectTableId)
+                </div>
+                <div class="editor-field">
+                    @Html.Action("GetTaskProject", "Custom", new { @id = Model.ProjectTableId })
+                </div>
+            </div>
+        </div>
+
         @Html.Action("GetDelegationTaskModal", "TaskSchedule", new { taskScheduleId = Model.Id })
         <hr />
         <div class="visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
@@ -75,7 +86,7 @@
                     @Html.TextBoxFor(model => Model.Periodicity, new { @class = "form-control bfh-number" })
                 </div>
             </div>
-            <div class="col-xs-8">               
+            <div class="col-xs-8">
                 <br />
                 <div id="typePeriodMonthlyForm">
                     @for (int i = 0; i <= 4; i++)
@@ -279,6 +290,8 @@
 @section jslaunch {
     <script type="text/javascript">
         $(function () {
+            selectpicker_init();
+            selectpickerfull_init();
             summernote_init("@UIElementRes.UIElement.LangFullName");
             function checkPeriodType(clear) {
                 var typePeriod = $("#TypePeriod").val();

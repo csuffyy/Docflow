@@ -42,6 +42,22 @@
     </div>
 </div>
 
+@if (Model.ProjectTableId.HasValue && Model.ProjectTableId != Guid.Empty)
+{
+    <div class="row">
+        <div class="col-xs-4">
+            <div class="editor-label">
+                @Html.LabelForRequired(model => model.ProjectTableId)
+            </div>
+            <div class="editor-field">
+                @Html.Action("GetTaskProject", "Custom", new { @id = Model.ProjectTableId, @selected = true })
+            </div>
+        </div>
+    </div>
+    @Html.HiddenFor(model => model.ProjectTableId)
+    <br />
+}
+
 <div class="editor-label">
     @Html.LabelFor(model => Model.MainField)
 </div>
