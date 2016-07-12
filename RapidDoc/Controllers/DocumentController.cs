@@ -506,9 +506,10 @@ namespace RapidDoc.Controllers
             return PartialView("~/Views/Document/_ModificationDocumentList.cshtml", hierarchyModification);
         }
 
-        public ActionResult GetDelegationTaskModal(Guid documentId, Guid? refDocumentId)
+        public ActionResult GetDelegationTaskModal(Guid documentId, Guid? refDocumentId, DateTime? executionDate)
         {
-            ViewBag.IsDateChange = false;
+            TAS_DailyTasksDelegation_View model = new TAS_DailyTasksDelegation_View();
+            model.IsDateChange = false;
 
             if (refDocumentId != null)
             {
@@ -517,11 +518,12 @@ namespace RapidDoc.Controllers
                 {
                     var tracker = _WorkflowTrackerService.GetCurrentStep(x => x.DocumentTableId == documentId);
                     if (tracker != null && tracker.Count() == 1)
-                        ViewBag.IsDateChange = true;
+                        model.IsDateChange = true;
                 }
             }
 
-            return PartialView("~/Views/Custom/_TAS_DailyTasks_DelegationModal.cshtml");
+            model.ExecutionDate = executionDate;
+            return PartialView("~/Views/Custom/_TAS_DailyTasks_DelegationModal.cshtml", model);
         }
 
         [HttpPost]
@@ -697,101 +699,107 @@ namespace RapidDoc.Controllers
             List<WFTrackerUsersTable> userList = new List<WFTrackerUsersTable>();
             EmplTable emplTable = _EmplService.FirstOrDefault(x => x.ApplicationUserId == userTable.Id && x.Enable == true);
 
-            if (collection["newExecuteDate"] != null && collection["newExecuteDate"] != String.Empty)
+            if ((collection["Flow"] != null && collection["Flow"] != String.Empty))
             {
-                DateTime newExecutionDate = Convert.ToDateTime(collection["newExecuteDate"]);
-                var document = _DocumentService.GetDocumentView(docTable.RefDocumentId, processView.TableName);
-                document.ExecutionDate = newExecutionDate;
-                _DocumentService.UpdateDocumentFields(document, processView);
-                var trackers = _WorkflowTrackerService.GetCurrentStep(x => x.DocumentTableId == docTable.Id);
-                foreach (var item in trackers)
+                if (collection["newExecuteDate"] != null && collection["newExecuteDate"] != String.Empty)
                 {
-                    item.SLAOffset = Convert.ToInt32(_DocumentService.GetSLAHours(docTable.Id, item.StartDateSLA, newExecutionDate));
-                    _WorkflowTrackerService.SaveDomain(item, userTable.Id);
-                }
-            }
+                    DateTime newExecutionDate = Convert.ToDateTime(collection["newExecuteDate"]);
+                    var document = _DocumentService.GetDocumentView(docTable.RefDocumentId, processView.TableName);
 
-            if ((collection["Flow"] != null && collection["Flow"] != String.Empty) && (collection["IsCreateTask"] != null && collection["IsCreateTask"].ToLower().Contains("true") != true))
-            {
-                documentData.Add("Flow", collection["Flow"]);
-
-                List<string> users = _WorkflowService.GetUniqueUserList(documentId, documentData, "Flow");
-               
-                if (users.Count > 0)
-                {
-                    _WorkflowTrackerService.SaveTrackList(documentId, new List<Array> { new string[] { "Исполнитель", "", "" } });
-                    users.ForEach(x => userList.Add(new WFTrackerUsersTable { UserId = x }));
-
-                    WFTrackerTable activeTrackerTable = _WorkflowTrackerService.FirstOrDefault(x => x.DocumentTableId == documentId && x.TrackerType == TrackerType.Waiting);
-                    WFTrackerTable trackerTable = _WorkflowTrackerService.FirstOrDefault(x => x.DocumentTableId == documentId && x.TrackerType == TrackerType.NonActive);
-                    trackerTable.Users = userList;
-                    trackerTable.TrackerType = TrackerType.Waiting;
-                    trackerTable.StartDateSLA = activeTrackerTable.StartDateSLA;
-                    trackerTable.SLAOffset = activeTrackerTable.SLAOffset;
-                    _WorkflowTrackerService.SaveDomain(trackerTable, userTable.Id);
-                }
-                
-
-                _DocumentService.UpdateDocument(docTable, userTable.Id);
-
-                if (collection["IsNotifyTask"].ToLower().Contains("true") == true)
-                {
-                    foreach (var user in users)
+                    if (document.ExecutionDate != newExecutionDate)
                     {
-                        _NotificationUsersService.CreateNotifyForUser(documentId, userTable.Id, user);
+                        document.ProlongationDate = newExecutionDate;
+                        _DocumentService.UpdateDocumentFields(document, processView);
+                        var trackers = _WorkflowTrackerService.GetCurrentStep(x => x.DocumentTableId == docTable.Id);
+                        foreach (var item in trackers)
+                        {
+                            item.SLAOffset = Convert.ToInt32(_DocumentService.GetSLAHours(docTable.Id, item.StartDateSLA, newExecutionDate));
+                            _WorkflowTrackerService.SaveDomain(item, userTable.Id);
+                        }
                     }
                 }
 
-                _EmailService.SendNewExecutorEmail(documentId, users, (collection["AdditionalText"] != null && _SystemService.DeleteAllTags(collection["AdditionalText"]) != String.Empty) ? collection["AdditionalText"] : "");
-                if ((collection["AdditionalText"] != null && _SystemService.DeleteAllTags(collection["AdditionalText"]) != String.Empty))
-                    _CommentService.Save(new CommentTable { Comment = collection["AdditionalText"], DocumentTableId = documentId });
-
-                _HistoryUserService.SaveHistory(documentId, Models.Repository.HistoryType.DelegateTask, userTable.Id,
-                            docTable.DocumentNum, docTable.ProcessName, docTable.CreatedBy);
-            }
-            else
-            {
-                if (userTable == null) return RedirectToAction("PageNotFound", "Error");
-
-                if (emplTable == null) return RedirectToAction("PageNotFound", "Error");
-
-                ProcessView process = _ProcessService.FirstOrDefaultView(x => x.TableName == "USR_TAS_DailyTasks" && x.CompanyTableId == userTable.CompanyTableId);
-
-                if (!String.IsNullOrEmpty(process.RoleId))
+                if (collection["IsCreateTask"] != null && collection["IsCreateTask"].ToLower().Contains("true") != true)
                 {
-                    string roleName = RoleManager.FindById(process.RoleId).Name;
-                    if (!UserManager.IsInRole(userTable.Id, roleName))
+                    documentData.Add("Flow", collection["Flow"]);
+
+                    List<string> users = _WorkflowService.GetUniqueUserList(documentId, documentData, "Flow");
+
+                    if (users.Count > 0)
                     {
-                        return RedirectToAction("PageNotFound", "Error");
+                        _WorkflowTrackerService.SaveTrackList(documentId, new List<Array> { new string[] { "Исполнитель", "", "" } });
+                        users.ForEach(x => userList.Add(new WFTrackerUsersTable { UserId = x }));
+
+                        WFTrackerTable activeTrackerTable = _WorkflowTrackerService.FirstOrDefault(x => x.DocumentTableId == documentId && x.TrackerType == TrackerType.Waiting);
+                        WFTrackerTable trackerTable = _WorkflowTrackerService.FirstOrDefault(x => x.DocumentTableId == documentId && x.TrackerType == TrackerType.NonActive);
+                        trackerTable.Users = userList;
+                        trackerTable.TrackerType = TrackerType.Waiting;
+                        trackerTable.StartDateSLA = activeTrackerTable.StartDateSLA;
+                        trackerTable.SLAOffset = activeTrackerTable.SLAOffset;
+                        _WorkflowTrackerService.SaveDomain(trackerTable, userTable.Id);
                     }
-                }
 
-                _HistoryUserService.SaveHistory(documentId, Models.Repository.HistoryType.NewDocument, userTable.Id,
-                            docTable.DocumentNum, docTable.ProcessName, docTable.CreatedBy);
+                    _DocumentService.UpdateDocument(docTable, userTable.Id);
 
-                var viewBodyTask = _DocumentService.CreateViewBodyTaskFromDocument(docTable, process, userTable);
-
-                string initailStructure = (string)collection["Flow"];
-                string[] arrayTempStructrue = initailStructure.Split(',');
-
-                string[] usersAndRoles = _DocumentService.GetUserListFromStructure((string)collection["Flow"]);
-
-                if (usersAndRoles.Count() > 0)
-                {
-                    foreach (var item in usersAndRoles)
+                    if (collection["IsNotifyTask"].ToLower().Contains("true") == true)
                     {
-                        string seprateUser = item + "," + arrayTempStructrue[Array.IndexOf(arrayTempStructrue, item) + 1];
-                        viewBodyTask.docData.Users = seprateUser;
-                        if ((collection["AdditionalText"] != null && _SystemService.DeleteAllTags(collection["AdditionalText"]) != String.Empty))
-                            documentData["AdditionalText"] = collection["AdditionalText"];
-                        documentData["Users"] = seprateUser;
-                        documentData["ExecutionDate"] = viewBodyTask.docData.ExecutionDate;
-                        if (collection["IsNotifyTask"].ToLower().Contains("true") == true)
-                            documentData["IsNotified"] = true;
-                        List<FileTable> docFile = _DocumentService.GetAllFilesDocument(fileId).ToList();
-                        Guid newDocFileId = Guid.NewGuid();
-                        docFile.ForEach(x => _DocumentService.DuplicateFile(x, User.Identity.GetUserId(), newDocFileId));
-                        _WorkflowService.CreateSeparateTasks(process, viewBodyTask.docData, newDocFileId, actionModelName, documentData, userTable);
+                        foreach (var user in users)
+                        {
+                            _NotificationUsersService.CreateNotifyForUser(documentId, userTable.Id, user);
+                        }
+                    }
+
+                    _EmailService.SendNewExecutorEmail(documentId, users, (collection["AdditionalText"] != null && _SystemService.DeleteAllTags(collection["AdditionalText"]) != String.Empty) ? collection["AdditionalText"] : "");
+                    if ((collection["AdditionalText"] != null && _SystemService.DeleteAllTags(collection["AdditionalText"]) != String.Empty))
+                        _CommentService.Save(new CommentTable { Comment = collection["AdditionalText"], DocumentTableId = documentId });
+
+                    _HistoryUserService.SaveHistory(documentId, Models.Repository.HistoryType.DelegateTask, userTable.Id,
+                                docTable.DocumentNum, docTable.ProcessName, docTable.CreatedBy);
+                }
+                else
+                {
+                    if (userTable == null) return RedirectToAction("PageNotFound", "Error");
+
+                    if (emplTable == null) return RedirectToAction("PageNotFound", "Error");
+
+                    ProcessView process = _ProcessService.FirstOrDefaultView(x => x.TableName == "USR_TAS_DailyTasks" && x.CompanyTableId == userTable.CompanyTableId);
+
+                    if (!String.IsNullOrEmpty(process.RoleId))
+                    {
+                        string roleName = RoleManager.FindById(process.RoleId).Name;
+                        if (!UserManager.IsInRole(userTable.Id, roleName))
+                        {
+                            return RedirectToAction("PageNotFound", "Error");
+                        }
+                    }
+
+                    _HistoryUserService.SaveHistory(documentId, Models.Repository.HistoryType.NewDocument, userTable.Id,
+                                docTable.DocumentNum, docTable.ProcessName, docTable.CreatedBy);
+
+                    var viewBodyTask = _DocumentService.CreateViewBodyTaskFromDocument(docTable, process, userTable);
+
+                    string initailStructure = (string)collection["Flow"];
+                    string[] arrayTempStructrue = initailStructure.Split(',');
+
+                    string[] usersAndRoles = _DocumentService.GetUserListFromStructure((string)collection["Flow"]);
+
+                    if (usersAndRoles.Count() > 0)
+                    {
+                        foreach (var item in usersAndRoles)
+                        {
+                            string seprateUser = item + "," + arrayTempStructrue[Array.IndexOf(arrayTempStructrue, item) + 1];
+                            viewBodyTask.docData.Users = seprateUser;
+                            if ((collection["AdditionalText"] != null && _SystemService.DeleteAllTags(collection["AdditionalText"]) != String.Empty))
+                                documentData["AdditionalText"] = collection["AdditionalText"];
+                            documentData["Users"] = seprateUser;
+                            documentData["ExecutionDate"] = viewBodyTask.docData.ExecutionDate;
+                            if (collection["IsNotifyTask"].ToLower().Contains("true") == true)
+                                documentData["IsNotified"] = true;
+                            List<FileTable> docFile = _DocumentService.GetAllFilesDocument(fileId).ToList();
+                            Guid newDocFileId = Guid.NewGuid();
+                            docFile.ForEach(x => _DocumentService.DuplicateFile(x, User.Identity.GetUserId(), newDocFileId));
+                            _WorkflowService.CreateSeparateTasks(process, viewBodyTask.docData, newDocFileId, actionModelName, documentData, userTable);
+                        }
                     }
                 }
             }

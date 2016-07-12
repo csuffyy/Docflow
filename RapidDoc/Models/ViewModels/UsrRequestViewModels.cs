@@ -10448,6 +10448,12 @@ namespace RapidDoc.Models.ViewModels
         public string RefDocNum { get; set; }
 
     }
+
+    public class TAS_DailyTasksDelegation_View
+    {
+        public bool IsDateChange { get; set; }
+        public DateTime? ExecutionDate { get; set; }
+    }
     #endregion
 
     #region Приказы
