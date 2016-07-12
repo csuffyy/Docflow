@@ -1,0 +1,25 @@
+﻿@model IEnumerable<RapidDoc.Models.ViewModels.TaskScheduleHistroyView>
+@using RapidDoc.Extensions;
+
+@if (Model.Count() > 0)
+{
+    <br />
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-default">
+            <div class="panel-heading role=" tab" id="heading">
+                <p class="panel-title"><a data-toggle="collapse" data-target="#collapseArea" aria-expanded="false" aria-controls="collapseArea"><strong>... (@Model.Count())</strong></a></p>
+            </div>
+            <div class="panel-collapse collapse" id="collapseArea">
+                <div class="panel-body">
+                    @foreach (var createdTask in Model.OrderByDescending(x => x.CreatedDate).Take(20))
+                    {
+                        <p>
+                            <a href="@Url.Action("ShowDocument", "Document", new { id = createdTask.DocumentId })" target="_blank"><ins>@createdTask.DocumentNum</ins></a> - (@createdTask.CreatedDate.ToShortDateString())
+                        </p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
+

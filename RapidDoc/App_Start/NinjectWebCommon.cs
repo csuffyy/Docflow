@@ -106,6 +106,8 @@ namespace RapidDoc.App_Start
             kernel.Bind<IPortalParametersService>().To<PortalParametersService>();
             kernel.Bind<IIpListService>().To<IpListService>();
             kernel.Bind<IProjectService>().To<ProjectService>();
+            kernel.Bind<ITaskScheduleService>().To<TaskScheduleService>();
+            kernel.Bind<ITaskScheduleHistroyService>().To<TaskScheduleHistroyService>();
         }        
     }
 }

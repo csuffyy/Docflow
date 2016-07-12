@@ -340,6 +340,7 @@
     <Compile Include="Controllers\BatchController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\ServiceIncidentController.cs" />
+    <Compile Include="Controllers\TaskScheduleController.cs" />
     <Compile Include="Controllers\TripMRPController.cs" />
     <Compile Include="Controllers\TripSettingsController.cs" />
     <Compile Include="Controllers\WorkScheduleController.cs" />
@@ -387,6 +388,7 @@
     <Compile Include="Models\Grids\OrganizationAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\ProcessAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\ServiceIncidentAjaxPagingGrid.cs" />
+    <Compile Include="Models\Grids\TaskScheduleAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\TripMRPAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\TripSettingsAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\WorkScheduleAjaxPagingGrid.cs" />
@@ -446,6 +448,8 @@
     <Compile Include="Models\Services\DocumentReaderService.cs" />
     <Compile Include="Models\Services\EmailService.cs" />
     <Compile Include="Models\Services\ServiceIncidentService.cs" />
+    <Compile Include="Models\Services\TaskScheduleHistroyService.cs" />
+    <Compile Include="Models\Services\TaskScheduleService.cs" />
     <Compile Include="Models\Services\TripMRPService.cs" />
     <Compile Include="Models\Services\TripSettingsService.cs" />
     <Compile Include="Models\Services\WorkScheduleService.cs" />
@@ -2177,6 +2181,13 @@
     <Content Include="Views\Project\Edit.cshtml" />
     <Content Include="Views\Project\Index.cshtml" />
     <Content Include="Views\Custom\_TAS_DailyTasks_DelegationModal.cshtml" />
+    <Content Include="Views\TaskSchedule\_TaskScheduleGrid.cshtml" />
+    <Content Include="Views\TaskSchedule\Create.cshtml" />
+    <Content Include="Views\TaskSchedule\Delete.cshtml" />
+    <Content Include="Views\TaskSchedule\Detail.cshtml" />
+    <Content Include="Views\TaskSchedule\Edit.cshtml" />
+    <Content Include="Views\TaskSchedule\Index.cshtml" />
+    <Content Include="Views\TaskSchedule\_TaskScheduleHistory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

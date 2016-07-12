@@ -55,7 +55,9 @@ namespace RapidDoc.Models.Infrastructure
         public DbSet<PortalParametersTable> PortalParametersTable { get; set; }
         public DbSet<IpListTable> IpListTable { get; set; }
         public DbSet<ProjectTable> ProjectTable { get; set; }
-
+        public DbSet<TaskScheduleTable> TaskScheduleTable { get; set; }
+        public DbSet<TaskScheduleHistroyTable> TaskScheduleHistroyTable { get; set; }
+        
         //Custom Requests
         public DbSet<USR_REQ_IT_CTS_DeliveryOfPinCode_Table> USR_REQ_IT_CTS_DeliveryOfPinCode_Table { get; set; }
         public DbSet<USR_REQ_IT_CTS_DeliveryOfWS_Table> USR_REQ_IT_CTS_DeliveryOfWS_Table { get; set; }

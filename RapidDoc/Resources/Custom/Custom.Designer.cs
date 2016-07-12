@@ -142,6 +142,15 @@ namespace CustomRes {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Расписание задач.
+        /// </summary>
+        public static string TaskSchedule {
+            get {
+                return ResourceManager.GetString("TaskSchedule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Справочник МРП.
         /// </summary>
         public static string TripMRP {
