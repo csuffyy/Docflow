@@ -1387,6 +1387,15 @@ namespace RapidDoc.Controllers
             return PartialView("~/Views/Shared/_Comments.cshtml", model);
         }
 
+        [Authorize(Roles = "Administrator, SetupAdministrator")]
+        public ActionResult DeleteComment(Guid commentId)
+        {
+            Guid documentId = _CommentService.Find(commentId).DocumentTableId;
+            _CommentService.Delete(commentId);           
+            var model = _CommentService.GetPartialView(x => x.DocumentTableId == documentId).OrderBy(x => x.Lineage, new HierarchyComparer());
+            return PartialView("~/Views/Shared/_Comments.cshtml", model);
+        }
+
         [HttpPost]
         public void SaveComment(Guid id, Guid? parentId, string lastComment)
         {

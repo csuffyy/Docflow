@@ -655,5 +655,18 @@
             });
         }
     }
+
+    function deleteComment(a, id) {
+        $.ajax({
+            url: '@Url.Action("DeleteComment", "Document")',
+            type: 'POST',
+            data: JSON.stringify({ commentId: id}),
+            contentType: 'application/json',
+            success: function (data) {
+                $('#commentblock').html(data);
+            }
+        });
+        return false;
+    }
 </script>
 }

@@ -1,42 +1,48 @@
 ﻿@model IEnumerable<RapidDoc.Models.ViewModels.CommentView>
 
 <div id="comments">
-@if (Model.Count() > 0)
-{
-    <h4 class="hidden-print">@FieldNameRes.FieldNameResource.Comments</h4>
-    <br class="visible-print">
-    <h5 class="visible-print">@FieldNameRes.FieldNameResource.Comments</h5>
-
-    foreach (var item in Model)
+    @if (Model.Count() > 0)
     {
-        if(item.Deep > 30)
-        {
-            item.Deep = 30;
-        }
+        <h4 class="hidden-print">@FieldNameRes.FieldNameResource.Comments</h4>
+        <br class="visible-print">
+        <h5 class="visible-print">@FieldNameRes.FieldNameResource.Comments</h5>
 
-        <div id="@item.Id" class="bs-callout @(item.Deep > 0 ? "bs-callout-default" : "bs-callout-info") hidden-print" style='margin-left: @((item.Deep * 10).ToString())px;'>
-            <div class="row">
-                <div class="col-xs-8">
-                    <h4>@item.EmplName <small>@item.TitleName</small></h4>
+        foreach (var item in Model)
+        {
+            if (item.Deep > 30)
+            {
+                item.Deep = 30;
+            }
+
+            <div id="@item.Id" class="bs-callout @(item.Deep > 0 ? "bs-callout-default" : "bs-callout-info") hidden-print" style='margin-left: @((item.Deep * 10).ToString())px;'>
+                <div class="row">
+                    <div class="col-xs-8">
+                        <h4>@item.EmplName <small>@item.TitleName</small></h4>
+                    </div>
+                    <div class="col-xs-4">
+                        <h6><small class="pull-right">@item.CreatedDate</small></h6>
+                    </div>
                 </div>
-                <div class="col-xs-4">
-                    <h6><small class="pull-right">@item.CreatedDate</small></h6>
+                <p><span style="white-space: pre-line">@Html.Raw(item.Comment)</span></p>
+                <span class="pull-right"><a href="#" class="reply" onclick="return replyButton(this, '@UIElementRes.UIElement.LangFullName', '@UIElementRes.UIElement.Save');">@UIElementRes.UIElement.Reply</a></span>
+                
+                @if ((User.IsInRole("Administrator") || User.IsInRole("SetupAdministrator")) && (!Model.Any(x => x.CommentTableParentId == item.Id)))
+                {
+                    <span class="pull-right"><a href="#" class="reply"
+   onclick="return deleteComment(this, '@item.Id');">@UIElementRes.UIElement.Delete</a>&nbsp;&nbsp;</span>
+                }
                 </div>
+                    <div class="well well-sm visible-print" style='margin-left: @((item.Deep * 10).ToString())px;'>
+                        <div class="row">
+                            <div class="col-xs-8">
+                                <h6>@item.EmplName <small>@item.TitleName</small></h6>
+                            </div>
+                            <div class="col-xs-4">
+                                <h6><small class="pull-right">@item.CreatedDate</small></h6>
+                            </div>
+                        </div>
+                        <p>@Html.Raw(item.Comment)</p>
+                    </div>
+        }
+                }
             </div>
-            <p><span style="white-space: pre-line">@Html.Raw(item.Comment)</span></p>
-            <span class="pull-right"><a href="#" class="reply" onclick="return replyButton(this, '@UIElementRes.UIElement.LangFullName', '@UIElementRes.UIElement.Save');">@UIElementRes.UIElement.Reply</a></span>
-        </div>
-    <div class="well well-sm visible-print" style='margin-left: @((item.Deep * 10).ToString())px;'>
-        <div class="row">
-            <div class="col-xs-8">
-                <h6>@item.EmplName <small>@item.TitleName</small></h6>
-            </div>
-            <div class="col-xs-4">
-                <h6><small class="pull-right">@item.CreatedDate</small></h6>
-            </div>
-        </div>
-        <p>@Html.Raw(item.Comment)</p>
-    </div>
-    }
-}
-</div>
