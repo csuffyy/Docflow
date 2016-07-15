@@ -70,7 +70,6 @@
                             <li>@Html.ActionLink(CustomRes.Custom.QuestionRequest, "Index", "QuestionRequest")</li>
                             <li>@Html.ActionLink(CustomRes.Custom.ProtocolFolders, "Index", "ProtocolFolders")</li>
                             <li>@Html.ActionLink(CustomRes.Custom.Projects, "Index", "Project")</li>
-                            <li>@Html.ActionLink(CustomRes.Custom.TaskSchedule, "Index", "TaskSchedule")</li>
                         </ul>
                     </li>
                     }
@@ -120,6 +119,10 @@
                                 </li>
                             }
                         </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="@Url.Action("Index", "TaskSchedule")"><span class="fa fa-calendar"></span></a>
                     </li>
 
                     <li class="dropdown">

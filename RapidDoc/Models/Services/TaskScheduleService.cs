@@ -10,6 +10,7 @@ using RapidDoc.Models.ViewModels;
 using RapidDoc.Models.Repository;
 using RapidDoc.Models.Infrastructure;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 
 namespace RapidDoc.Models.Services
@@ -23,6 +24,7 @@ namespace RapidDoc.Models.Services
         IEnumerable<TaskScheduleView> GetPartialView(Expression<Func<TaskScheduleTable, bool>> predicate);
         IEnumerable<TaskScheduleTable> GetPartialIntercompany(Expression<Func<TaskScheduleTable, bool>> predicate);
         IEnumerable<TaskScheduleView> GetPartialIntercompanyView(Expression<Func<TaskScheduleTable, bool>> predicate);
+        List<TaskScheduleView> GetTaskScheduleView();
         TaskScheduleTable FirstOrDefault(Expression<Func<TaskScheduleTable, bool>> predicate);
         TaskScheduleView FirstOrDefaultView(Expression<Func<TaskScheduleTable, bool>> prediacate);
         bool Contains(Expression<Func<TaskScheduleTable, bool>> predicate);
@@ -48,6 +50,8 @@ namespace RapidDoc.Models.Services
         private readonly IWorkflowService _WorkflowService;
         private readonly ITaskScheduleHistroyService _TaskScheduleHistroyService;
 
+        protected UserManager<ApplicationUser> UserManager { get; private set; }
+
         public TaskScheduleService(IUnitOfWork _uow, IProcessService processService, IDocumentService documentService, ISearchService searchService, IWorkflowService workflowService, ITaskScheduleHistroyService taskScheduleHistroyService)
         {
             uow = _uow;
@@ -59,6 +63,8 @@ namespace RapidDoc.Models.Services
             _SearchService = searchService;
             _WorkflowService = workflowService;
             _TaskScheduleHistroyService = taskScheduleHistroyService;
+
+            UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_uow.GetDbContext<ApplicationDbContext>()));
         }
 
         public IEnumerable<TaskScheduleTable> GetAll()
@@ -91,6 +97,20 @@ namespace RapidDoc.Models.Services
         {
             var items = Mapper.Map<IEnumerable<TaskScheduleTable>, IEnumerable<TaskScheduleView>>(GetPartialIntercompany(predicate));
             return items;
+        }
+
+        public List<TaskScheduleView> GetTaskScheduleView()
+        {
+            string userId = HttpContext.Current.User.Identity.GetUserId();
+
+            if (UserManager.IsInRole(userId, "Administrator"))
+            {
+                return GetAllView().ToList();
+            }
+            else
+            {
+                return GetPartialView(x => x.ApplicationUserCreatedId == userId).ToList();
+            }
         }
 
         public TaskScheduleTable FirstOrDefault(Expression<Func<TaskScheduleTable, bool>> predicate)

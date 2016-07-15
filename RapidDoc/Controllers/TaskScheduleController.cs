@@ -46,8 +46,9 @@ namespace RapidDoc.Controllers
 
         public ActionResult Grid()
         {
-            IEnumerable<TaskScheduleView> allList= _Service.GetAllView();
-            allList.ToList().ForEach(x => { x.MainField = _SystemService.DeleteAllTags(_SystemService.DeleteAllSpecialCharacters(x.MainField));
+            List<TaskScheduleView> allList = new List<TaskScheduleView>();
+            allList.AddRange(_Service.GetTaskScheduleView());
+            allList.ForEach(x => { x.MainField = _SystemService.DeleteAllTags(_SystemService.DeleteAllSpecialCharacters(x.MainField));
                 x.MainField = x.MainField.Count() > 10 ? x.MainField.Substring(0, 10) : x.MainField; });
             var grid = new TaskScheduleAjaxPagingGrid(allList, 1, false);
             return PartialView("_TaskScheduleGrid", grid);
@@ -55,7 +56,15 @@ namespace RapidDoc.Controllers
 
         public JsonResult GetList(int page)
         {
-            var grid = new TaskScheduleAjaxPagingGrid(_Service.GetAllView(), page, true);
+            List<TaskScheduleView> allList = new List<TaskScheduleView>();
+            allList.AddRange(_Service.GetTaskScheduleView());
+            allList.ForEach(x =>
+            {
+                x.MainField = _SystemService.DeleteAllTags(_SystemService.DeleteAllSpecialCharacters(x.MainField));
+                x.MainField = x.MainField.Count() > 10 ? x.MainField.Substring(0, 10) : x.MainField;
+            });
+
+            var grid = new TaskScheduleAjaxPagingGrid(allList, page, true);
 
             return Json(new
             {
