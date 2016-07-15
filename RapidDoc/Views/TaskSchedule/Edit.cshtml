@@ -16,6 +16,16 @@
         @Html.HiddenFor(model => model.fileId)
         @Html.HiddenFor(model => model.RefDate)
         <legend></legend>
+        <div class="row">
+            <div class="col-xs-4">
+                <div class="editor-label">
+                    @Html.LabelForRequired(model => model.ProjectTableId)
+                </div>
+                <div class="editor-field">
+                    @Html.Action("GetTaskProject", "Custom", new { @id = Model.ProjectTableId })
+                </div>
+            </div>
+        </div>
         <div class="editor-label">
             @Html.LabelForRequired(model => Model.MainField)
         </div>
@@ -44,16 +54,6 @@
         <div class="editor-field">
             @Html.TextBoxFor(model => model.DateTo, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control form-control-date" })
             @Html.ValidationMessageFor(model => model.DateTo)
-        </div>
-        <div class="row">
-            <div class="col-xs-4">
-                <div class="editor-label">
-                    @Html.LabelForRequired(model => model.ProjectTableId)
-                </div>
-                <div class="editor-field">
-                    @Html.Action("GetTaskProject", "Custom", new { @id = Model.ProjectTableId })
-                </div>
-            </div>
         </div>
 
         @Html.Action("GetDelegationTaskModal", "TaskSchedule", new { taskScheduleId = Model.Id })
