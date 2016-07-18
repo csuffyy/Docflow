@@ -245,11 +245,11 @@ namespace RapidDoc.Controllers
                             break;
                         case 9:
                             DateTime currentDate = DateTime.Now.Date, finalDate = currentDate;
-                            List<TaskScheduleTable> allSchedules = _TaskScheduleService.GetPartialIntercompany(x => x.DateFrom <= currentDate && x.DateTo >= currentDate && (x.RefDate >= currentDate || x.RefDate == null)).ToList();
+                            List<TaskScheduleTable> allSchedules = _TaskScheduleService.GetPartialIntercompany(x => x.DateFrom <= currentDate && x.DateTo >= currentDate && (x.RefDate >= currentDate || x.RefDate == null) && x.CompanyTableId == company.Id).ToList();
 
                             foreach (var schedule in allSchedules)
                             {
-                                TaskScheduleHistroyTable lastCreatedTask = _TaskScheduleHistroyService.GetPartialIntercompany(x => x.TaskScheduleId == schedule.Id).OrderByDescending(y => y.CreatedDate).FirstOrDefault();
+                                TaskScheduleHistroyTable lastCreatedTask = _TaskScheduleHistroyService.GetPartialIntercompany(x => x.TaskScheduleId == schedule.Id && x.CompanyTableId == company.Id).OrderByDescending(y => y.CreatedDate).FirstOrDefault();
                                 ApplicationUser user = _AccountService.FirstOrDefault(x => x.Id == schedule.ApplicationUserCreatedId);
 
                                 if (lastCreatedTask == null)

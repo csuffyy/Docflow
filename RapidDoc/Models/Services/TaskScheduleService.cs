@@ -212,7 +212,7 @@ namespace RapidDoc.Models.Services
             docModel.RefDocumentId = null;
             docModel.RefDocNum = null;
             docModel.ProjectTableId = taskSchedule.ProjectTableId;
-            ProcessTable processTable = _ProcessService.FirstOrDefault(x => x.TableName == "USR_TAS_DailyTasks" && x.CompanyTableId == user.CompanyTableId);
+            ProcessTable processTable = _ProcessService.FirstOrDefault(x => x.TableName == "USR_TAS_DailyTasks" && x.CompanyTableId == taskSchedule.CompanyTableId);
 
             List<FileTable> docFile = _DocumentService.GetAllFilesDocument(taskSchedule.fileId).ToList();
             Guid newDocFileId = Guid.NewGuid();
