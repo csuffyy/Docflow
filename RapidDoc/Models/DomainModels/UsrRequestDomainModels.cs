@@ -225,6 +225,22 @@ namespace RapidDoc.Models.DomainModels
         public string Department { get; set; }
         public string Other { get; set; }
     }
+
+    public class USR_REQ_IT_ERP_RequestPermissionJDE_Table : BasicDocumentTable
+    {
+        public string Users { get; set; }
+        public string Department { get; set; }
+        public bool DeleteOldRight { get; set; }
+        public string Reason { get; set; }
+    }
+
+    public class USR_REQ_IT_ERP_CreateUserSUD_Table : BasicDocumentTable
+    {
+        public string Users { get; set; }
+        public string Department { get; set; }
+        public string AddressNumber { get; set; }
+        public string Reason { get; set; }
+    }
     #endregion
 
     #region Заявки СТП

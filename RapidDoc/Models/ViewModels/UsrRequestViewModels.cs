@@ -385,6 +385,45 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Другое")]
         public string Other { get; set; }
     }
+
+    public class USR_REQ_IT_ERP_RequestPermissionJDE_View : BasicDocumentView
+    {
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Users", ResourceType = typeof(CustomRes.Custom))]
+        public string Users { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Подразделение")]
+        public string Department { get; set; }
+
+        [Display(Name = "Удалить доступ к существующему функционалу")]
+        public bool DeleteOldRight { get; set; }
+
+        [DataType(DataType.MultilineText)]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Обоснование")]
+        public string Reason { get; set; }
+    }
+
+    public class USR_REQ_IT_ERP_CreateUserSUD_View : BasicDocumentView
+    {
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Users", ResourceType = typeof(CustomRes.Custom))]
+        public string Users { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Подразделение")]
+        public string Department { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Адресный номер")]
+        public string AddressNumber { get; set; }
+
+        [DataType(DataType.MultilineText)]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Обоснование")]
+        public string Reason { get; set; }
+    }
     #endregion
 
     #region Заявки ИТ СТП

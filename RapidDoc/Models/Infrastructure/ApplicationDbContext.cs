@@ -398,7 +398,9 @@ namespace RapidDoc.Models.Infrastructure
         public DbSet<USK_REQ_HR_RequestForStaffSelection_Table> USK_REQ_HR_RequestForStaffSelection_Table { get; set; }
         public DbSet<USR_REQ_UMM_ProvisionOfZIF_Table> USR_REQ_UMM_ProvisionOfZIF_Table { get; set; }
         public DbSet<USR_REQ_UKR_RequestForCancellationDCU_Table> USR_REQ_UKR_RequestForCancellationDCU_Table { get; set; }
-        public DbSet<USC_PRT_ProtocolDocuments_Table> USC_PRT_ProtocolDocuments_Table { get; set; }       
+        public DbSet<USC_PRT_ProtocolDocuments_Table> USC_PRT_ProtocolDocuments_Table { get; set; }
+        public DbSet<USR_REQ_IT_ERP_RequestPermissionJDE_Table> USR_REQ_IT_ERP_RequestPermissionJDE_Table { get; set; }
+        public DbSet<USR_REQ_IT_ERP_CreateUserSUD_Table> USR_REQ_IT_ERP_CreateUserSUD_Table { get; set; }
                      
         protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder)
         {

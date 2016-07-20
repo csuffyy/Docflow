@@ -2196,6 +2196,10 @@
     <Content Include="Views\Company\RenameDetail.cshtml" />
     <Content Include="Views\Company\RenameEdit.cshtml" />
     <Content Include="Views\Company\Rename.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_IT_ERP_RequestPermissionJDE_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_IT_ERP_RequestPermissionJDE_View.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_IT_ERP_CreateUserSUD_Edit.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_IT_ERP_CreateUserSUD_View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -4151,7 +4155,18 @@
       <SubType>Designer</SubType>
     </XamlAppDef>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USR_REQ_IT_ERP_RequestPermissionJDE.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USR_REQ_IT_ERP_CreateUserSUD.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
