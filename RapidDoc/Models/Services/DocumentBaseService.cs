@@ -196,6 +196,9 @@ namespace RapidDoc.Models.Services
                             }).ToList();
             }
 
+            List<ItemCauseTable> itemCaseList = new List<ItemCauseTable>();
+
+
             switch (type)
 	        {
 		        case DocumentType.Request:
@@ -208,7 +211,7 @@ namespace RapidDoc.Models.Services
                     }
                     return items;           
                 case DocumentType.OfficeMemo:
-                        var itemCaseList = _ItemCauseService.GetAll().ToList();
+                        itemCaseList.AddRange(_ItemCauseService.GetAll().ToList());
 
                         List<BasicDocumantOfficeMemoTable> documentFetchOfficeMemo = new List<BasicDocumantOfficeMemoTable>();
                         foreach (var process in items.GroupBy(x => x.ProcessTableName))
@@ -265,6 +268,7 @@ namespace RapidDoc.Models.Services
                 case DocumentType.IncomingDoc:
                     foreach (var item in items)
                     {
+                        itemCaseList.AddRange(_ItemCauseService.GetAll().ToList());
                         List<BasicIncomingDocumentsTable> documentFetchIncoming = new List<BasicIncomingDocumentsTable>();
                         foreach (var process in items.GroupBy(x => x.ProcessTableName))
                             documentFetchIncoming.AddRange((IEnumerable<BasicIncomingDocumentsTable>)_DocumentService.GetDocumentAll(process.Key));
@@ -278,7 +282,7 @@ namespace RapidDoc.Models.Services
                         item.Year = item.OrderDate.Value.Year.ToString();
                         item.ItemCaseNumber = documentView.ItemCauseNumber;
                         if (documentView.ItemCauseTableId != Guid.Empty && documentView.ItemCauseTableId != null)
-                            item.ItemCaseName = _ItemCauseService.Find((Guid)documentView.ItemCauseTableId).CaseName;
+                            item.ItemCaseName = itemCaseList.FirstOrDefault(x => x.Id == (Guid)documentView.ItemCauseTableId).CaseName;
                         item.DocumentTitle = documentView.DocumentSubject;
                         item.CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(item.CreatedDate), timeZoneInfo);
                         item.CompanyName = _CompanyService.GetCompanyName(_SystemService.GuidNull2Guid(item.CompanyTableId), item.CreatedDate);
@@ -294,6 +298,7 @@ namespace RapidDoc.Models.Services
                 case DocumentType.OutcomingDoc:
                     foreach (var item in items)
                     {
+                        itemCaseList.AddRange(_ItemCauseService.GetAll().ToList());
                         var documentView = _DocumentService.GetDocument(item.DocumentRefId, item.ProcessTableName);
                         if (!String.IsNullOrEmpty(documentView.OutcomingDocNum))
                             item.OrderNumber = documentView.OutcomingDocNum;
@@ -312,7 +317,7 @@ namespace RapidDoc.Models.Services
                         item.Year = item.OrderDate.Value.Year.ToString();
                         item.ItemCaseNumber = documentView.ItemCauseNumber;
                         if (documentView.ItemCauseTableId != Guid.Empty && documentView.ItemCauseTableId != null)
-                            item.ItemCaseName = _ItemCauseService.Find((Guid)documentView.ItemCauseTableId).CaseName;
+                            item.ItemCaseName = itemCaseList.FirstOrDefault(x => x.Id == (Guid)documentView.ItemCauseTableId).CaseName;
                         item.DocumentTitle = documentView.DocumentSubject;
                         item.CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(item.CreatedDate), timeZoneInfo);
                         item.CompanyName = _CompanyService.GetCompanyName(_SystemService.GuidNull2Guid(item.CompanyTableId), item.CreatedDate);
@@ -328,6 +333,7 @@ namespace RapidDoc.Models.Services
                 case DocumentType.AppealDoc:
                     foreach (var item in items)
                     {
+                        itemCaseList.AddRange(_ItemCauseService.GetAll().ToList());
                         List<BasicAppealDocumentsTable> documentFetchAppeal = new List<BasicAppealDocumentsTable>();
                         foreach (var process in items.GroupBy(x => x.ProcessTableName))
                             documentFetchAppeal.AddRange((IEnumerable<BasicAppealDocumentsTable>)_DocumentService.GetDocumentAll(process.Key));
@@ -341,7 +347,7 @@ namespace RapidDoc.Models.Services
                         item.Year = item.OrderDate.Value.Year.ToString();
                         item.ItemCaseNumber = documentView.ItemCauseNumber;
                         if (documentView.ItemCauseTableId != Guid.Empty && documentView.ItemCauseTableId != null)
-                            item.ItemCaseName = _ItemCauseService.Find((Guid)documentView.ItemCauseTableId).CaseName;
+                            item.ItemCaseName = itemCaseList.FirstOrDefault(x => x.Id == (Guid)documentView.ItemCauseTableId).CaseName;
                         item.DocumentTitle = documentView.Subject;
                         item.CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(item.CreatedDate), timeZoneInfo);
                         item.CompanyName = _CompanyService.GetCompanyName(_SystemService.GuidNull2Guid(item.CompanyTableId), item.CreatedDate);
