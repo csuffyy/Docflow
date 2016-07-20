@@ -368,6 +368,7 @@
     <Compile Include="Models\DomainModels\CustomDirectoryModels.cs" />
     <Compile Include="Models\DomainModels\CustomDomainModelTemplate.cs" />
     <Compile Include="Models\DomainModels\UsrRequestDomainModels.cs" />
+    <Compile Include="Models\Grids\RenameCompanyAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\CountryAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\IpListAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\MyFavoriteAjaxPagingGrid.cs" />
@@ -2189,6 +2190,12 @@
     <Content Include="Views\TaskSchedule\Index.cshtml" />
     <Content Include="Views\TaskSchedule\_TaskScheduleHistory.cshtml" />
     <Content Include="Views\Project\USR_TAS_Project.cshtml" />
+    <Content Include="Views\Company\_RenameCompanyGrid.cshtml" />
+    <Content Include="Views\Company\RenameCreate.cshtml" />
+    <Content Include="Views\Company\RenameDelete.cshtml" />
+    <Content Include="Views\Company\RenameDetail.cshtml" />
+    <Content Include="Views\Company\RenameEdit.cshtml" />
+    <Content Include="Views\Company\Rename.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

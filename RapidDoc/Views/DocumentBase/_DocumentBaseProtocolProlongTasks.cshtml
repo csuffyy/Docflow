@@ -7,7 +7,7 @@
 }
 <p><a href="#" class="btn btn-default openall"><span class="glyphicon glyphicon glyphicon-plus" aria-hidden="true"></span></a> <a href="#" class="btn btn-default closeall"><span class="glyphicon glyphicon glyphicon-minus" aria-hidden="true"></span></a></p>
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-    @{int num = 0; string num1;}
+    @{ int num = 0; int num1 = 0; int num2 = 0; string tmpNum = ""; }
     @switch ((RapidDoc.Models.Repository.ProtocolFilterType)Enum.ToObject(typeof(RapidDoc.Models.Repository.ProtocolFilterType), @ViewBag.FilterType))
     {
         case RapidDoc.Models.Repository.ProtocolFilterType.ProlongTaskStatus:
@@ -22,30 +22,33 @@
                         <div class="panel-body">
                             @foreach (var itemGroupStatus in Model.Where(x => x.DepartmentName == itemGroupDepartment.Key).GroupBy(x => x.TaskStatus).Distinct())
                             {
+                                num1++;
+                                tmpNum = String.Format("{0}_{1}", num1, num);
                                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                                     <div class="panel panel-default">
-                                        <div class="panel-heading" role="tab" id="heading@itemGroupStatus.Key@num">
+                                        <div class="panel-heading" role="tab" id="headingTwo@num1">
                                             <p class="panel-title">
-                                                <a data-toggle="collapse" data-target="#collapseArea_@itemGroupStatus.Key@num" aria-expanded="false" aria-controls="collapseArea_@itemGroupStatus.Key@num">
+                                                <a data-toggle="collapse" data-target="#collapseArea_@tmpNum" aria-expanded="false" aria-controls="collapseArea_@tmpNum">
                                                     <strong>@Html.EnumToDescription(itemGroupStatus.Key)</strong>
                                                 </a>
                                             </p>
                                         </div>
-                                        <div class="collapse" id="collapseArea_@itemGroupStatus.Key@num">
+                                        <div class="collapse" id="collapseArea_@tmpNum">
                                             <div class="panel-body">
                                                 @foreach (var itemGroupUserName in Model.Where(x => x.DepartmentName == itemGroupDepartment.Key && x.TaskStatus == itemGroupStatus.Key).GroupBy(x => x.UserName).OrderBy(x => x.Key))
                                                 {
-                                                    num1 = itemGroupUserName.Key.Replace(" ", String.Empty);
+                                                    num2++;
+                                                    tmpNum = String.Format("{0}_{1}_{2}", num2, num1, num);
                                                     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                                                         <div class="panel panel-default">
-                                                            <div class="panel-heading" role="tab" id="heading@num1@itemGroupStatus.Key@num">
+                                                            <div class="panel-heading" role="tab" id="headingThree@num2">
                                                                 <p class="panel-title">
-                                                                    <a data-toggle="collapse" data-target="#collapseArea_@num1@itemGroupStatus.Key@num" aria-expanded="false" aria-controls="collapseArea_@num1@itemGroupStatus.Key@num">
+                                                                    <a data-toggle="collapse" data-target="#collapseArea_@tmpNum" aria-expanded="false" aria-controls="collapseArea_@tmpNum">
                                                                         <strong>@itemGroupUserName.Key</strong>
                                                                     </a>
                                                                 </p>
                                                             </div>
-                                                            <div class="collapse" id="collapseArea_@num1@itemGroupStatus.Key@num">
+                                                            <div class="collapse" id="collapseArea_@tmpNum">
                                                                 <div class="panel-body">
                                                                     @foreach (var task in Model.Where(x => x.DepartmentName == itemGroupDepartment.Key && x.TaskStatus == itemGroupStatus.Key && x.UserName == itemGroupUserName.Key))
                                                                     {

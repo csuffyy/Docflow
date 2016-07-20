@@ -1,0 +1,54 @@
+﻿@model RapidDoc.Models.ViewModels.RenameCompanyView
+@using RapidDoc.Extensions;
+
+@{
+    ViewBag.Title = UIElementRes.UIElement.CreateCompany;
+}
+
+<h2>@UIElementRes.UIElement.CreateCompany</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend></legend>
+
+        <div class="editor-label">
+            @Html.LabelForRequired(model => model.FullCompanyName)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.FullCompanyName, new { @class = "form-control", @size = 256, @maxlength = 256, placeholder = "Company", @autofocus = "required", @x_webkit_speech = "" })
+            @Html.ValidationMessageFor(model => model.FullCompanyName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelForRequired(model => model.DateFrom)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.DateFrom, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control form-control-date" })
+            @Html.ValidationMessageFor(model => model.DateFrom)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelForRequired(model => model.DateTo)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.DateTo, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control form-control-date" })
+            @Html.ValidationMessageFor(model => model.DateTo)
+        </div>
+        
+        @{Html.RenderPartial("SaveBackBtn");}
+    </fieldset>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/editentity")
+}
+@section jslaunch {
+<script type="text/javascript">
+$(function () {
+    datepicker_init("@UIElementRes.UIElement.LangName");
+});
+</script>
+}

@@ -32,6 +32,19 @@ namespace RapidDoc.Models.DomainModels
         }
     }
 
+    public class RenameCompanyTable : EntityTable
+    {
+        public Guid CompanyTableId { get; set; }
+        public IEnumerable<CompanyTable> CompanyTables { get; set; }
+
+        [StringLength(256)]
+        [Required]
+        public string FullCompanyName { get; set; }
+
+        public DateTime? DateFrom { get; set; }
+        public DateTime? DateTo { get; set; }
+    }
+
     public class DomainTable : EntityTable
     {
         [StringLength(20)]

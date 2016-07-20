@@ -18,6 +18,7 @@ namespace RapidDoc.Models.Infrastructure
         }
 
         public DbSet<CompanyTable> CompanyTable { get; set; }
+        public DbSet<RenameCompanyTable> RenameCompanyTable { get; set; }
         public DbSet<TitleTable> TitleTable { get; set; }
         public DbSet<EmplTable> EmplTable { get; set; }
         public DbSet<ProfileTable> ProfileTable { get; set; }

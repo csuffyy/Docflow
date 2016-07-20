@@ -24,6 +24,11 @@ namespace RapidDoc.Mappers
                 .ForMember(x => x.CreatedDate, opt => opt.Ignore())
                 .ForMember(x => x.ModifiedDate, opt => opt.Ignore());
 
+            Mapper.CreateMap<RenameCompanyTable, RenameCompanyView>();
+            Mapper.CreateMap<RenameCompanyView, RenameCompanyTable>()
+                .ForMember(x => x.CreatedDate, opt => opt.Ignore())
+                .ForMember(x => x.ModifiedDate, opt => opt.Ignore());
+
             Mapper.CreateMap<ProfileTable, ProfileView>();
             Mapper.CreateMap<ProfileView, ProfileTable>()
                 .ForMember(x => x.ApplicationUserCreatedId, opt => opt.Ignore())

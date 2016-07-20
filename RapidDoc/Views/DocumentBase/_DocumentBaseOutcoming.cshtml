@@ -6,15 +6,13 @@
 }
 <p><a href="#" class="btn btn-default openall"><span class="glyphicon glyphicon glyphicon-plus" aria-hidden="true"></span></a> <a href="#" class="btn btn-default closeall"><span class="glyphicon glyphicon glyphicon-minus" aria-hidden="true"></span></a></p>
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-    @{int num = 0; string num1;}
+    @{ int num = 0; int num1 = 0; int num2 = 0; string tmpNum = ""; }
     @switch ((RapidDoc.Models.Repository.OutcomingFilterType)Enum.ToObject(typeof(RapidDoc.Models.Repository.OutcomingFilterType), @ViewBag.FilterType))
     {
-
         case RapidDoc.Models.Repository.OutcomingFilterType.Initiator:
 
             foreach (var itemGroup in Model.GroupBy(x => x.UserName).OrderBy(x => x.Key))
             {
-
                 num++;
                 <div class="panel panel-default">
                     <div class="panel-heading" role="tab" id="heading@num">
@@ -46,20 +44,19 @@
                         <div class="panel-body">
                             @foreach (var itemGroupName in Model.Where(x => x.DepartmentName == itemGroup.Key).GroupBy(y => y.UserName).OrderBy(x => x.Key))
                             {
-                                num1 = itemGroupName.Key.Replace(" ", String.Empty);
+                                num1++;
+                                tmpNum = String.Format("{0}_{1}", num1, num);
                                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                                     <div class="panel panel-default">
-                                        <div class="panel-heading" role="tab" id="heading@num1@num">
+                                        <div class="panel-heading" role="tab" id="heading@tmpNum">
                                             <p class="panel-title">
-                                                <a data-toggle="collapse" data-target="#collapseArea_@num1@num" aria-expanded="false" aria-controls="collapseArea_@num1@num">
+                                                <a data-toggle="collapse" data-target="#collapseArea_@tmpNum" aria-expanded="false" aria-controls="collapseArea_@tmpNum">
                                                     <strong>@itemGroupName.Key</strong>
                                                 </a>
                                             </p>
                                         </div>
-                                        <div class="collapse" id="collapseArea_@num1@num">
+                                        <div class="collapse" id="collapseArea_@tmpNum">
                                             <div class="panel-body">
-
-
                                                 @foreach (var item in Model.Where(x => x.DepartmentName == itemGroup.Key && x.UserName == itemGroupName.Key).OrderByDescending(x => x.CreatedDate))
                                                 {
                                                     <p>
@@ -102,25 +99,65 @@
             }
             break;
         case RapidDoc.Models.Repository.OutcomingFilterType.RegistrationNumber:
-            foreach (var itemGroup in Model.GroupBy(x => x.OrderNumber).Where(y => !String.IsNullOrEmpty(y.Key)).OrderBy(c => c.Key.Length).ThenBy(c => c.Key))
+            if (Model.Where(x => x.OrderNumber != null).GroupBy(x => x.CompanyName).Count() > 1)
             {
-                num++;
-                <div class="panel panel-default">
-                    <div class="panel-heading" role="tab" id="heading@num">
-                        <p class="panel-title"><a data-toggle="collapse" data-target="#collapseArea_@num" aria-expanded="false" aria-controls="collapseArea_@num"><strong>@itemGroup.Key</strong></a></p>
-                    </div>
-                    <div class="panel-collapse collapse" id="collapseArea_@num">
-                        <div class="panel-body">
-                            @foreach (var item in Model.Where(x => x.OrderNumber == itemGroup.Key).OrderByDescending(x => x.CreatedDate))
-                            {
-                                <p>
-                                    <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id })" target="_blank"><ins>@item.DocumentNum</ins></a> - @item.ProcessName - @item.DocumentTitle (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)
-                                </p>
-                                <br />
-                            }
+                foreach (var itemGroupCompany in Model.Where(x => x.OrderNumber != null).GroupBy(x => x.CompanyName).OrderBy(x => x.Key))
+                {
+                    num++;
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="heading@num">
+                            <p class="panel-title"><a data-toggle="collapse" data-target="#collapseArea_@num" aria-expanded="true" aria-controls="collapseArea_@num"><strong>@itemGroupCompany.Key</strong></a></p>
+                        </div>
+                        <div class="panel-collapse collapse" id="collapseArea_@num">
+                            <div class="panel-body">
+                                @foreach (var itemGroup in Model.Where(x => !String.IsNullOrEmpty(x.OrderNumber) && x.CompanyName == itemGroupCompany.Key).GroupBy(x => x.OrderNumber).OrderBy(c => c.Key.Length).ThenBy(c => c.Key))
+                                {
+                                    num1++;
+                                    tmpNum = String.Format("{0}_{1}", num1, num);
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" role="tab" id="headingTwo@num1">
+                                            <p class="panel-title"><a data-toggle="collapse" data-target="#collapseArea_@tmpNum" aria-expanded="false" aria-controls="collapseArea_@tmpNum"><strong>@itemGroup.Key</strong></a></p>
+                                        </div>
+                                        <div class="panel-collapse collapse" id="collapseArea_@tmpNum">
+                                            <div class="panel-body">
+                                                @foreach (var item in Model.Where(x => x.OrderNumber == itemGroup.Key && x.CompanyName == itemGroupCompany.Key).OrderByDescending(x => x.CreatedDate))
+                                                {
+                                                    <p>
+                                                        <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id })" target="_blank"><ins>@item.DocumentNum</ins></a> - @item.ProcessName - @item.DocumentTitle (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)
+                                                    </p>
+                                                    <br />
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
                         </div>
                     </div>
-                </div>
+                }
+            }
+            else
+            {
+                foreach (var itemGroup in Model.GroupBy(x => x.OrderNumber).Where(y => !String.IsNullOrEmpty(y.Key)).OrderBy(c => c.Key.Length).ThenBy(c => c.Key))
+                {
+                    num++;
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="heading@num">
+                            <p class="panel-title"><a data-toggle="collapse" data-target="#collapseArea_@num" aria-expanded="false" aria-controls="collapseArea_@num"><strong>@itemGroup.Key</strong></a></p>
+                        </div>
+                        <div class="panel-collapse collapse" id="collapseArea_@num">
+                            <div class="panel-body">
+                                @foreach (var item in Model.Where(x => x.OrderNumber == itemGroup.Key).OrderByDescending(x => x.CreatedDate))
+                                {
+                                    <p>
+                                        <a href="@Url.Action("ShowDocument", "Document", new { id = item.Id })" target="_blank"><ins>@item.DocumentNum</ins></a> - @item.ProcessName - @item.DocumentTitle (@item.CreatedDate) => @Html.EnumToDescription(item.DocumentState)
+                                    </p>
+                                    <br />
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
             }
             break;
         case RapidDoc.Models.Repository.OutcomingFilterType.RegistrationDate:
@@ -135,29 +172,33 @@
                         <div class="panel-body">
                             @foreach (var itemGroupName in Model.Where(x => x.OrderDate != null && x.Year == itemGroup.Key).GroupBy(y => new { y.Month, y.MonthNumber }).OrderBy(x => x.Key.MonthNumber))
                             {
-                                <div class="panel-group" id="headingTwo@num" role="tablist" aria-multiselectable="true">
+                                num1++;
+                                tmpNum = String.Format("{0}_{1}", num1, num);
+                                <div class="panel-group" id="headingTwo@num1" role="tablist" aria-multiselectable="true">
                                     <div class="panel panel-default">
-                                        <div class="panel-heading" role="tab" id="headingTwo@num@itemGroupName.Key.Month">
+                                        <div class="panel-heading" role="tab" id="headingTwo@tmpNum">
                                             <p class="panel-title">
-                                                <a data-toggle="collapse" data-target="#collapseArea_@num@itemGroup.Key@itemGroupName.Key.MonthNumber" aria-expanded="false" aria-controls="collapseArea_@num@itemGroup.Key@itemGroupName.Key.MonthNumber">
+                                                <a data-toggle="collapse" data-target="#collapseArea_@tmpNum" aria-expanded="false" aria-controls="collapseArea_@tmpNum">
                                                     <strong>@itemGroupName.Key.Month</strong>
                                                 </a>
                                             </p>
                                         </div>
-                                        <div class="collapse" id="collapseArea_@num@itemGroup.Key@itemGroupName.Key.MonthNumber">
+                                        <div class="collapse" id="collapseArea_@tmpNum">
                                             <div class="panel-body">
                                                 @foreach (var itemGroupTwoName in Model.Where(x => x.OrderDate != null && x.Year == itemGroup.Key && x.MonthNumber == itemGroupName.Key.MonthNumber).GroupBy(y => y.OrderDate).OrderBy(x => x.Key))
                                                 {
-                                                    <div class="panel-group" id="headingThree@num" role="tablist" aria-multiselectable="true">
+                                                    num2++;
+                                                    tmpNum = String.Format("{0}_{1}_{2}", num2, num1, num);
+                                                    <div class="panel-group" id="headingThree@num2" role="tablist" aria-multiselectable="true">
                                                         <div class="panel panel-default">
-                                                            <div class="panel-heading" role="tab" id="headingThree@num@itemGroupTwoName.Key">
+                                                            <div class="panel-heading" role="tab" id="headingThree@tmpNum">
                                                                 <p class="panel-title">
-                                                                    <a data-toggle="collapse" data-target="#collapseArea_@Html.FormatValue(itemGroupTwoName.Key, "{0:ddMMyyyy}")" aria-expanded="false" aria-controls="collapseArea_@Html.FormatValue(itemGroupTwoName.Key, "{0:ddMMyyyy}")">
+                                                                    <a data-toggle="collapse" data-target="#collapseArea_@tmpNum" aria-expanded="false" aria-controls="collapseArea_@tmpNum">
                                                                         <strong>@Html.FormatValue(itemGroupTwoName.Key, "{0:dd.MM.yyyy}") (@Model.Where(x => x.OrderDate == itemGroupTwoName.Key).Count())</strong>
                                                                     </a>
                                                                 </p>
                                                             </div>
-                                                            <div class="collapse" id="collapseArea_@Html.FormatValue(itemGroupTwoName.Key, "{0:ddMMyyyy}")">
+                                                            <div class="collapse" id="collapseArea_@tmpNum">
                                                                 <div class="panel-body">
                                                                     @foreach (var item in Model.Where(x => x.OrderDate == itemGroupTwoName.Key).OrderByDescending(x => x.CreatedDate))
                                                                     {

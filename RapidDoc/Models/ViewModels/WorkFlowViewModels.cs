@@ -474,6 +474,7 @@ namespace RapidDoc.Models.ViewModels
         public int MonthNumber { get; set; }
         public string Year { get; set; }
         public string OutcomingDispatchType { get; set; }
+        public string CompanyName { get; set; }
     }
 
     public class DocumentBaseProtocolFolderView : BasicCompanyNullView

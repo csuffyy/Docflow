@@ -24,6 +24,24 @@ namespace RapidDoc.Models.ViewModels
         public Guid? DomainTableId { get; set; }
     }
 
+    public class RenameCompanyView : EntityView
+    {
+        public Guid CompanyTableId { get; set; }
+
+        [StringLength(256, ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisLong")]
+        [Display(Name = "CompanyName", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        [Required(ErrorMessageResourceName = "ErrorFieldisNull", ErrorMessageResourceType = typeof(ValidationRes.ValidationResource))]
+        public string FullCompanyName { get; set; }
+
+        [Display(Name = "DateFrom", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        [DataType(DataType.Date)]
+        public DateTime? DateFrom { get; set; }
+
+        [Display(Name = "DateUpTo", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        [DataType(DataType.Date)]
+        public DateTime? DateTo { get; set; }
+    }
+
     public class DomainView : EntityView
     {
         [StringLength(20, ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisLong")]
