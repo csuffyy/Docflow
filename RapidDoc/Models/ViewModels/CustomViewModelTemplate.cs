@@ -78,7 +78,7 @@ namespace RapidDoc.Models.ViewModels
         public DateTime? ProlongationDate { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
-        [Display(Name = "Задача")]
+        [Display(Name = "Поручение")]
         public string MainField { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]

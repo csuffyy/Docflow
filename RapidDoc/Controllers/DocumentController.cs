@@ -577,12 +577,12 @@ namespace RapidDoc.Controllers
         public ActionResult WithdrawOutDocument(Guid processId, int type, Guid fileId, FormCollection collection, string actionModelName, Guid documentId)
         {
             DocumentTable documentTable = _DocumentService.Find(documentId);
-            if (collection["RejectCommentOutDoc"] != null && _SystemService.CheckTextExists(collection["RejectCommentOutDoc"]))
+            if (collection["RejectComment"] != null && _SystemService.CheckTextExists(collection["RejectComment"]))
             {
                 Guid documentGuidId = GuidNull2Guid(documentId);
-                string rejectCommentRequest = collection["RejectCommentOutDoc"].ToString();
+                string rejectComment = collection["RejectComment"].ToString();
 
-                SaveComment(documentGuidId, null, rejectCommentRequest);
+                SaveComment(documentGuidId, null, rejectComment);
             }
             else
             {
@@ -820,11 +820,11 @@ namespace RapidDoc.Controllers
             
             string approveCommentRequest = String.Empty;
 
-            if (collection["ApproveCommentTask"] != null && _SystemService.CheckTextExists(collection["ApproveCommentTask"])
-                && _SystemService.DeleteAllTags(collection["ApproveCommentTask"]).Length > 3)
+            if (collection["ApproveComment"] != null && _SystemService.CheckTextExists(collection["ApproveComment"])
+                && _SystemService.DeleteAllTags(collection["ApproveComment"]).Length > 3)
             {
                 _DocumentService.SignTaskDocument(documentId, TrackerType.Approved);
-                approveCommentRequest = collection["ApproveCommentTask"].ToString();
+                approveCommentRequest = collection["ApproveComment"].ToString();
                 documentIdNew.ReportText = approveCommentRequest;
                 _DocumentService.UpdateDocumentFields(documentIdNew, process);
             }
@@ -920,13 +920,13 @@ namespace RapidDoc.Controllers
             ProcessView process = _ProcessService.FindView(processId);
             var documentIdNew = _DocumentService.GetDocumentView(_DocumentService.Find(documentId).RefDocumentId, process.TableName);
             List<string> upUsersForNotification = _DocumentService.GetUsersUpProlongatedTask(documentId, process.TableName, DateTime.UtcNow).SelectMany(x => x).Select(p => p.UserId).ToList();
-            string rejectCommentRequest = String.Empty;
+            string rejectComment = String.Empty;
 
-            if (collection["RejectCommentTask"] != null && _SystemService.CheckTextExists(collection["RejectCommentTask"])
-                && ((string)collection["RejectCommentTask"]).Length > 3)
+            if (collection["RejectComment"] != null && _SystemService.CheckTextExists(collection["RejectComment"])
+                && ((string)collection["RejectComment"]).Length > 3)
             {
-                rejectCommentRequest = collection["RejectCommentTask"].ToString();
-                documentIdNew.ReportText = rejectCommentRequest;
+                rejectComment = collection["RejectComment"].ToString();
+                documentIdNew.ReportText = rejectComment;
                 _DocumentService.UpdateDocumentFields(documentIdNew, process);
             }
             else
@@ -971,7 +971,7 @@ namespace RapidDoc.Controllers
                 userForNotification.AddRange(upUsersForNotification);
 
             userForNotification.Remove(User.Identity.GetUserId());
-            _EmailService.SendUsersRejectEmail(documentTable.Id, userForNotification, rejectCommentRequest);
+            _EmailService.SendUsersRejectEmail(documentTable.Id, userForNotification, rejectComment);
 
             return RedirectToAction("Index", "Document");
         }
@@ -2294,70 +2294,6 @@ namespace RapidDoc.Controllers
             if (processView == null)
                 return RedirectToAction("PageNotFound", "Error");
 
-            //---------------------------------------------------------------------------
-            if (collection["ApproveCommentRequest"] != null && _SystemService.CheckTextExists(collection["ApproveCommentRequest"]))
-            {
-                Guid documentGuidId = GuidNull2Guid(documentId);
-                string approveCommentRequest = collection["ApproveCommentRequest"].ToString();
-                if (actionModel.GetType().IsSubclassOf(typeof(BasicDocumantOfficeMemoView)))
-                {
-                    var trackers = _WorkflowTrackerService.GetCurrentStep(x => x.DocumentTableId == documentGuidId && x.TrackerType == TrackerType.Waiting);
-                    foreach (var tracker in trackers)
-                    {
-                        approveCommentRequest = _SystemService.DeleteAllTags(approveCommentRequest);
-                        tracker.Comments = _SystemService.DeleteAllSpecialCharacters(_SystemService.DeleteAllTags(approveCommentRequest));
-                        _WorkflowTrackerService.SaveDomain(tracker);
-                    }
-                }
-                else
-                {
-                    SaveComment(GuidNull2Guid(documentId), null, approveCommentRequest);
-                }
-            }
-            if (collection["RejectCommentRequest"] != null && _SystemService.CheckTextExists(collection["RejectCommentRequest"]))
-            {
-                Guid documentGuidId = GuidNull2Guid(documentId);
-                string rejectCommentRequest = collection["RejectCommentRequest"].ToString();
-                if (actionModel.GetType().IsSubclassOf(typeof(BasicDocumantOfficeMemoView)))
-                {
-                    var trackers = _WorkflowTrackerService.GetCurrentStep(x => x.DocumentTableId == documentGuidId && x.TrackerType == TrackerType.Waiting);
-                    foreach (var tracker in trackers)
-                    {
-                        rejectCommentRequest = _SystemService.DeleteAllTags(rejectCommentRequest);
-                        tracker.Comments = rejectCommentRequest;
-                        _WorkflowTrackerService.SaveDomain(tracker);
-                    }
-                }
-                else
-                {
-                    SaveComment(documentGuidId, null, rejectCommentRequest);
-                }
-            }
-            else if (collection["RejectComment"] != null && _SystemService.CheckTextExists(collection["RejectComment"]))
-            {
-                Guid documentGuidId = GuidNull2Guid(documentId);
-                string rejectCommentRequest = collection["RejectComment"].ToString();
-                if (actionModel.GetType().IsSubclassOf(typeof(BasicDocumantOfficeMemoView)))
-                {
-                    var trackers = _WorkflowTrackerService.GetCurrentStep(x => x.DocumentTableId == documentGuidId && x.TrackerType == TrackerType.Waiting);
-                    foreach (var tracker in trackers)
-                    {
-                        rejectCommentRequest = _SystemService.DeleteAllTags(rejectCommentRequest);
-                        tracker.Comments = rejectCommentRequest;
-                        _WorkflowTrackerService.SaveDomain(tracker);
-                    }
-                }
-                else
-                {
-                    SaveComment(documentGuidId, null, rejectCommentRequest);
-                }
-            }
-            else
-            {
-                if (operationType == OperationType.RejectDocument)
-                    ModelState.AddModelError(string.Empty, UIElementRes.UIElement.RejectReason);
-            }
-            //---------------------------------------------------------------------------
             foreach (var key in collection.AllKeys)
             {
                 if (isList.IsMatch(key) && listData.Count() == 0)
@@ -2388,6 +2324,65 @@ namespace RapidDoc.Controllers
 
                 CheckCustomDocument(typeActionModel, actionModel, operationType);
                 CheckAttachedFiles(processView, fileId, documentId);
+            }
+
+            if (ModelState.IsValid)
+            {
+                //---------------------------------------------------------------------------
+                if (operationType == OperationType.ApproveDocument)
+                {
+                    if (collection["ApproveComment"] != null && _SystemService.CheckTextExists(collection["ApproveComment"]))
+                    {
+                        Guid documentGuidId = GuidNull2Guid(documentId);
+                        string approveComment = collection["ApproveComment"].ToString();
+                        if (actionModel.GetType().IsSubclassOf(typeof(BasicDocumantOfficeMemoView)))
+                        {
+                            var trackers = _WorkflowTrackerService.GetCurrentStep(x => x.DocumentTableId == documentGuidId && x.TrackerType == TrackerType.Waiting);
+                            foreach (var tracker in trackers)
+                            {
+                                approveComment = _SystemService.DeleteAllTags(approveComment);
+                                tracker.Comments = _SystemService.DeleteAllSpecialCharacters(_SystemService.DeleteAllTags(approveComment));
+                                _WorkflowTrackerService.SaveDomain(tracker);
+                            }
+                        }
+                        else
+                        {
+                            SaveComment(GuidNull2Guid(documentId), null, approveComment);
+                        }
+                    }
+                }
+                if (operationType == OperationType.RejectDocument)
+                {
+                    if (collection["RejectComment"] != null && _SystemService.CheckTextExists(collection["RejectComment"]))
+                    {
+                        Guid documentGuidId = GuidNull2Guid(documentId);
+                        string rejectComment = collection["RejectComment"].ToString();
+                        if (actionModel.GetType().IsSubclassOf(typeof(BasicDocumantOfficeMemoView)))
+                        {
+                            var trackers = _WorkflowTrackerService.GetCurrentStep(x => x.DocumentTableId == documentGuidId && x.TrackerType == TrackerType.Waiting);
+                            foreach (var tracker in trackers)
+                            {
+                                rejectComment = _SystemService.DeleteAllTags(rejectComment);
+                                tracker.Comments = rejectComment;
+                                _WorkflowTrackerService.SaveDomain(tracker);
+                            }
+                        }
+                        else
+                        {
+                            SaveComment(documentGuidId, null, rejectComment);
+                        }
+                    }
+                    else
+                    {
+                        if (operationType == OperationType.RejectDocument)
+                            ModelState.AddModelError(string.Empty, UIElementRes.UIElement.RejectReason);
+                    }
+                }
+                //---------------------------------------------------------------------------
+            }
+           
+            if (operationType != OperationType.SaveDraft)
+            {
                 _CustomCheckDocument.PreUpdateViewModel(typeActionModel, actionModel, ModelState.IsValid);
             }
 

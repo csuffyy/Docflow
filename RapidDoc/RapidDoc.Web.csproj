@@ -2201,6 +2201,8 @@
     <Content Include="Views\Custom\USR_REQ_IT_ERP_RequestPermissionJDE_View.cshtml" />
     <Content Include="Views\Custom\USR_REQ_IT_ERP_CreateUserSUD_Edit.cshtml" />
     <Content Include="Views\Custom\USR_REQ_IT_ERP_CreateUserSUD_View.cshtml" />
+    <Content Include="Views\Shared\_RejectField.cshtml" />
+    <Content Include="Views\Shared\_ApproveField.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

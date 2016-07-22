@@ -509,10 +509,7 @@ namespace RapidDoc.Models.Services
             ApplicationDbContext contextQuery = _uow.GetDbContext<ApplicationDbContext>();
 
             var items = from document in contextQuery.DocumentTable
-                    where
-                       (contextQuery.WFTrackerTable.Any(x => x.DocumentTableId == document.Id && x.SignUserId == user.Id && (x.TrackerType == TrackerType.Approved || x.TrackerType == TrackerType.Cancelled)))
-                       &&
-                       !(contextQuery.ReviewDocLogTable.Any(x => x.ApplicationUserCreatedId == user.Id && x.DocumentTableId == document.Id && x.isArchive == true))
+                    where contextQuery.WFTrackerTable.Any(x => x.DocumentTableId == document.Id && x.SignUserId == user.Id && (x.TrackerType == TrackerType.Approved || x.TrackerType == TrackerType.Cancelled))
                         join company in contextQuery.CompanyTable on document.CompanyTableId equals company.Id
                         join process in contextQuery.ProcessTable on document.ProcessTableId equals process.Id
                         let empl = contextQuery.EmplTable.Where(p => p.ApplicationUserId == document.ApplicationUserCreatedId).OrderByDescending(p => p.Enable).FirstOrDefault()

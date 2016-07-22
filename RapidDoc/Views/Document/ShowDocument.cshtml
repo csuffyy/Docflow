@@ -147,38 +147,202 @@
 
         @if ((Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution || Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.OnSign) && Model.DocumentView.isSign)
         {
-            if (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Request || Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Order
-                || Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.IncomingDoc
-                || Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.OutcomingDoc
-                || Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.AppealDoc
-                || Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Protocol
-                || (Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement && Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.OfficeMemo))
+            if (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.OfficeMemo && Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.OnSign)
             {
-                <button type="button" class="btn btn-success btn-lg hidden-print" data-toggle="modal" data-target=".bs-approve-modal-sm"><span class="visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">@UIElementRes.UIElement.Approve</span><span class="visible-xs-inline-block glyphicon glyphicon-ok-circle"></span></button>
-                if (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.OutcomingDoc)
-                {
-                    <button type="button" class="btn btn-danger btn-lg hidden-print" data-toggle="modal" data-target=".bs-rejectout-modal-sm"><span class="visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">@UIElementRes.UIElement.Reject</span><span class="visible-xs-inline-block glyphicon glyphicon-remove-circle"></span></button>
-                }
-                else
-                {
-                    <button type="button" class="btn btn-danger btn-lg hidden-print" data-toggle="modal" data-target=".bs-reject-modal-sm"><span class="visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">@UIElementRes.UIElement.Reject</span><span class="visible-xs-inline-block glyphicon glyphicon-remove-circle"></span></button>
-                }
+                <button type="button" class="btn btn-success btn-lg hidden-print" data-toggle="modal" data-target=".approvecz-modal-sm">
+                    <span class="visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">@UIElementRes.UIElement.Approve</span>
+                    <span class="visible-xs-inline-block glyphicon glyphicon-ok-circle"></span>
+                </button>
+                <button type="button" class="btn btn-danger btn-lg hidden-print" data-toggle="modal" data-target=".rejectcz-modal-sm">
+                    <span class="visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">@UIElementRes.UIElement.Reject</span>
+                    <span class="visible-xs-inline-block glyphicon glyphicon-remove-circle"></span>
+                </button>
+
+                <div class="modal approvecz-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+                    <div class="modal-dialog modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Утверждение документа</h4>
+                            </div>
+                            <div class="modal-body" style="min-height:200px;">
+                                @Html.Partial("_ApproveField")
+                                <br>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-success" name="action:ApproveDocumentCZ">@UIElementRes.UIElement.Approve</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">@UIElementRes.UIElement.Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal rejectcz-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+                    <div class="modal-dialog modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <div class="alert_placeholder"></div>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Отмена документа</h4>
+                            </div>
+                            <div class="modal-body" style="min-height:250px;">
+                                @Html.Partial("_RejectField")
+                                <br>
+                                <div class="modal-footer">
+                                    <button type="submit" id="rejectBtn" class="btn btn-danger" name="action:RejectDocumentCZ">@UIElementRes.UIElement.Reject</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">@UIElementRes.UIElement.Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            else if (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Task)
+            {
+                <button type="button" class="btn btn-success btn-lg hidden-print" data-toggle="modal" data-target=".approvetask-modal-sm">
+                    <span class="visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">@UIElementRes.UIElement.Perform</span>
+                    <span class="visible-xs-inline-block glyphicon glyphicon-ok-circle"></span>
+                </button>
+                <button type="button" class="btn btn-danger btn-lg hidden-print" data-toggle="modal" data-target=".rejecttask-modal-sm">
+                    <span class="visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">@UIElementRes.UIElement.Reject</span>
+                    <span class="visible-xs-inline-block glyphicon glyphicon-remove-circle"></span>
+                </button>
+
+                <div class="modal approvetask-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+                    <div class="modal-dialog modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <div class="alert_placeholder"></div>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Закрытие документа</h4>
+                            </div>
+                            <div class="modal-body" style="min-height:200px;">
+                                @Html.Partial("_ApproveField")
+                                <br>
+                                <div class="modal-footer">
+                                    <button type="submit" id="approveBtn" class="btn btn-success" name="action:ApproveDocumentTask">@UIElementRes.UIElement.Approve</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">@UIElementRes.UIElement.Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal rejecttask-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+                    <div class="modal-dialog modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <div class="alert_placeholder"></div>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Отмена документа</h4>
+                            </div>
+                            <div class="modal-body" style="min-height:250px;">
+                                @Html.Partial("_RejectField")
+                                <br>
+                                <div class="modal-footer">
+                                    <button type="submit" id="rejectBtn" class="btn btn-danger" name="action:RejectDocumentTask">@UIElementRes.UIElement.Reject</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">@UIElementRes.UIElement.Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            else if (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.OutcomingDoc)
+            {
+                <button type="button" class="btn btn-success btn-lg hidden-print" data-toggle="modal" data-target=".bs-approve-modal-sm">
+                    <span class="visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">@UIElementRes.UIElement.Approve</span>
+                    <span class="visible-xs-inline-block glyphicon glyphicon-ok-circle"></span>
+                </button>
+                <button type="button" class="btn btn-danger btn-lg hidden-print" data-toggle="modal" data-target=".bs-rejectout-modal-sm">
+                    <span class="visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">@UIElementRes.UIElement.Reject</span>
+                    <span class="visible-xs-inline-block glyphicon glyphicon-remove-circle"></span>
+                </button>
+
+                <div class="modal bs-approve-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Утверждение документа</h4>
+                            </div>
+                            <div class="modal-body" style="min-height:200px;">
+                                @Html.Partial("_ApproveField")
+                                <div class="modal-footer">
+                                    <button type="submit" id="approveBtn" class="btn btn-success" name="action:ApproveDocument">@UIElementRes.UIElement.Approve</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">@UIElementRes.UIElement.Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal bs-rejectout-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <div class="alert_placeholder"></div>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Отмена документа</h4>
+                            </div>
+                            <div class="modal-body" style="min-height:250px;">
+                                @Html.Partial("_RejectField")
+                                <div class="modal-footer">
+                                    <button type="submit" id="rejectBtn" class="btn btn-danger" name="action:WithdrawOutDocument">@UIElementRes.UIElement.Reject</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">@UIElementRes.UIElement.Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             }
             else
             {
-                <button type="button" class="btn btn-success btn-lg hidden-print" data-toggle="modal" data-target=".approvecz-modal-sm">
-                    <span class="visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
-                        @if (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Task)
-                        {
-                            @UIElementRes.UIElement.Perform
-                        }
-                        else
-                        {
-                            @UIElementRes.UIElement.Approve
-                        }
-                    </span><span class="visible-xs-inline-block glyphicon glyphicon-ok-circle"></span>
+                <button type="button" class="btn btn-success btn-lg hidden-print" data-toggle="modal" data-target=".bs-approve-modal-sm">
+                    <span class="visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">@UIElementRes.UIElement.Approve</span>
+                    <span class="visible-xs-inline-block glyphicon glyphicon-ok-circle"></span>
                 </button>
-                <button type="button" class="btn btn-danger btn-lg hidden-print" data-toggle="modal" data-target=".rejectcz-modal-sm"><span class="visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">@UIElementRes.UIElement.Reject</span><span class="visible-xs-inline-block glyphicon glyphicon-remove-circle"></span></button>
+                <button type="button" class="btn btn-danger btn-lg hidden-print" data-toggle="modal" data-target=".bs-reject-modal-sm">
+                    <span class="visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">@UIElementRes.UIElement.Reject</span>
+                    <span class="visible-xs-inline-block glyphicon glyphicon-remove-circle"></span>
+                </button>
+
+                <div class="modal bs-approve-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Утверждение документа</h4>
+                            </div>
+                            <div class="modal-body" style="min-height:200px;">
+                                @Html.Partial("_ApproveField")
+                                <div class="modal-footer">
+                                    <button type="submit" id="approveBtn" class="btn btn-success" name="action:ApproveDocument">@UIElementRes.UIElement.Approve</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">@UIElementRes.UIElement.Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal bs-reject-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <div class="alert_placeholder"></div>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Отмена документа</h4>
+                            </div>
+                            <div class="modal-body" style="min-height:250px;">
+                                @Html.Partial("_RejectField")
+                                <div class="modal-footer">
+                                    <button type="submit" id="rejectBtn" class="btn btn-danger" name="action:RejectDocument">@UIElementRes.UIElement.Reject</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">@UIElementRes.UIElement.Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             }
         }
 
@@ -260,80 +424,6 @@
             </ul>
         </div>
 
-        <div class="modal bs-reject-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <div class="alert_placeholder"></div>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Отмена документа</h4>
-                    </div>
-                    <div class="modal-body" style="min-height:250px;">
-                        @Html.TextArea("RejectCommentRequest", new { @class = "form-control summernotemin", @placeholder = "Обязательно укажите причину отмены" })
-                        <div class="modal-footer">
-                            <button type="submit" id="rejectRequest" class="btn btn-danger" name="action:RejectDocument">@UIElementRes.UIElement.Reject</button>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">@UIElementRes.UIElement.Cancel</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal bs-rejectout-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <div class="alert_placeholder"></div>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Отмена документа</h4>
-                    </div>
-                    <div class="modal-body" style="min-height:250px;">
-                        @Html.TextArea("RejectCommentOutDoc", new { @class = "form-control summernotemin", @placeholder = "Обязательно укажите причину отмены" })
-                        <div class="modal-footer">
-                            <button type="submit" id="rejectOutDoc" class="btn btn-danger" name="action:WithdrawOutDocument">@UIElementRes.UIElement.Reject</button>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">@UIElementRes.UIElement.Cancel</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal bs-approve-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Утверждение документа</h4>
-                    </div>
-                    <div class="modal-body" style="min-height:200px;">
-                        @Html.TextArea("ApproveCommentRequest", new { @class = "form-control summernotemin", @placeholder = "Замечания" })
-                        <div class="modal-footer">
-                            <button type="submit" id="approveRequest" class="btn btn-success" name="action:ApproveDocument">@UIElementRes.UIElement.Approve</button>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">@UIElementRes.UIElement.Cancel</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal bs-withdraw-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-sm">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">@UIElementRes.UIElement.Confirmation</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>@UIElementRes.UIElement.WithdrawQuestion</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-danger" name="action:WithdrawDocument">@UIElementRes.UIElement.Yes</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">@UIElementRes.UIElement.No</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         @if (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Order)
         {
             <a href="#" class="btn btn-default btn-sm hidden-print visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-toggle="modal" data-target=".printorder-modal">@UIElementRes.UIElement.PrintOrder</a>
@@ -357,23 +447,40 @@
         }
 
         <a href=@Url.Action("Index", "Document") class="btn btn-default btn-sm hidden-print visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" role="button">@UIElementRes.UIElement.Close</a>
-    </fieldset>
-}
-    <p>
-        <h4 class="text-right hidden-print">@UIElementRes.UIElement.AddComment</h4>
-        @using (Ajax.BeginForm("GetAllComment", new { documentId = Model.DocumentView.Id }, new AjaxOptions { UpdateTargetId = "comments", OnComplete = "clearTextAreaComment" }, new { name = "commentForm" }))
-    {
-        <div class="hidden-print">
-            @Html.TextArea("lastComment", new { @class = "form-control summernotemin", @rows = "3" })
-            <div class="row">
-                <div class="col-md-7 visible-lg-inline"></div>
-                <div class="col-md-5"><button type="submit" class="btn btn-primary btn-xs btn-block pull-right hidden-print" id="saveCommentBtn">@UIElementRes.UIElement.Save / Ctrl + Enter</button></div>
+    
+        <div class="modal bs-withdraw-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">@UIElementRes.UIElement.Confirmation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>@UIElementRes.UIElement.WithdrawQuestion</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger" name="action:WithdrawDocument">@UIElementRes.UIElement.Yes</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">@UIElementRes.UIElement.No</button>
+                    </div>
+                </div>
             </div>
         </div>
-        <br class="hidden-print">
-    }
-    </p>
-
+    </fieldset>
+}
+<p>
+    <h4 class="text-right hidden-print">@UIElementRes.UIElement.AddComment</h4>
+    @using (Ajax.BeginForm("GetAllComment", new { documentId = Model.DocumentView.Id }, new AjaxOptions { UpdateTargetId = "comments", OnComplete = "clearTextAreaComment" }, new { name = "commentForm" }))
+{
+    <div class="hidden-print">
+        @Html.TextArea("lastComment", new { @class = "form-control summernotemin", @rows = "3" })
+        <div class="row">
+            <div class="col-md-7 visible-lg-inline"></div>
+            <div class="col-md-5"><button type="submit" class="btn btn-primary btn-xs btn-block pull-right hidden-print" id="saveCommentBtn">@UIElementRes.UIElement.Save / Ctrl + Enter</button></div>
+        </div>
+    </div>
+    <br class="hidden-print">
+}
+</p>
     <!-- The template to display files available for upload -->
     <script id="template-upload" type="text/x-tmpl">
     {% for (var i=0, file; file=o.files[i]; i++) { %}
@@ -525,19 +632,35 @@
             $('.alert_placeholder').html('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><span class="sr-only">Error:</span>' + message + '</div>')
         }
 
-        $('#rejectRequest').click(function (event) {
-            var comment = $('#RejectCommentRequest').summernote('code');
+        @if(Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Task)
+        {
+            <text>
+            $('#approveBtn').click(function (event) {
+                var comment = $('#ApproveComment').summernote('code');
+                if (checkTextExists(comment) == false) {
+                    bootstrap_alert.warning('Необходимо заполнить отчет для закрытия поручения');
+                    event.preventDefault();
+                    return false;
+                }
+
+                if (getClearText(comment).length <= 3) {
+                    bootstrap_alert.warning('Отчет должен быть более 3 символов');
+                    event.preventDefault();
+                    return false;
+                }
+            });
+            </text>
+        }
+
+        $('#rejectBtn').click(function (event) {
+            var comment = $('#RejectComment').summernote('code');
             if (checkTextExists(comment) == false) {
-                bootstrap_alert.warning('Необходимо заполнить причину отклонения');
+                bootstrap_alert.warning('Необходимо указать причину отклонения');
                 event.preventDefault();
                 return false;
             }
-        });
-
-        $('#rejectOutDoc').click(function (event) {
-            var comment = $('#RejectCommentOutDoc').summernote('code');
-            if (checkTextExists(comment) == false) {
-                bootstrap_alert.warning('Необходимо заполнить причину отклонения');
+            if (getClearText(comment).length <= 3) {
+                bootstrap_alert.warning('Причина отклонения должна быть более 3 символов');
                 event.preventDefault();
                 return false;
             }
@@ -588,28 +711,11 @@
         $('.printorder-modal').modal('hide');
     });
 
-    $('.bs-reject-modal-sm').on('shown.bs.modal', function (e) {
-        $('#RejectCommentRequest').summernote('code', $('#lastComment').summernote('code'));
-    })
-
-    $('.bs-rejectout-modal-sm').on('shown.bs.modal', function (e) {
-        $('#RejectCommentOutDoc').summernote('code', $('#lastComment').summernote('code'));
-    })
-
-    $('.bs-approve-modal-sm').on('shown.bs.modal', function (e) {
-        $('#ApproveCommentRequest').summernote('code', $('#lastComment').summernote('code'));
-    })
-
-    $('.rejectcz-modal-sm').on('shown.bs.modal', function (e) {
-        $('#RejectComment').summernote('code', $('#lastComment').summernote('code'));
-    })
-
-    $('.approvecz-modal-sm').on('shown.bs.modal', function (e) {
-        $('#ApproveComment').summernote('code', $('#lastComment').summernote('code'));
-    })
-
     $(this).on('shown.bs.modal', function (e) {
         $('button[type=submit]').removeAttr("disabled");
+        $('#ApproveComment').summernote('code', $('#lastComment').summernote('code'));
+        $('#RejectComment').summernote('code', $('#lastComment').summernote('code'));
+        $('.alert_placeholder').html('');
     })
 
     function replaceFile(e) {
@@ -660,7 +766,7 @@
         $.ajax({
             url: '@Url.Action("DeleteComment", "Document")',
             type: 'POST',
-            data: JSON.stringify({ commentId: id}),
+            data: JSON.stringify({ commentId: id }),
             contentType: 'application/json',
             success: function (data) {
                 $('#commentblock').html(data);

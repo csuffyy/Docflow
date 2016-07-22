@@ -628,7 +628,7 @@ namespace RapidDoc.Models.Services
                 }
             }
 
-            if (type == (new USR_TAS_DailyTasks_View()).GetType())
+            if (type == (new USR_TAS_DailyTasks_View()).GetType() && operationType == OperationType.ApproveDocument)
             {
                 if ((actionModel.DocumentTableId == null || actionModel.DocumentTableId == Guid.Empty) && actionModel.ExecutionDate.Date <= DateTime.UtcNow.Date)
                 {
@@ -636,7 +636,7 @@ namespace RapidDoc.Models.Services
                 }
             }
 
-            if (type == (new USR_TAS_DailyTasksProlongation_View()).GetType())
+            if (type == (new USR_TAS_DailyTasksProlongation_View()).GetType() && operationType == OperationType.ApproveDocument)
             {
                 if (actionModel.ExecutionDate >= actionModel.ProlongationDate || (actionModel.ProlongationOldDate != null && actionModel.ProlongationOldDate >= actionModel.ProlongationDate))
                 {
@@ -645,7 +645,7 @@ namespace RapidDoc.Models.Services
 
                 if ((actionModel.DocumentTableId == null || actionModel.DocumentTableId == Guid.Empty) && actionModel.ProlongationDate.Date < DateTime.UtcNow.Date)
                 {
-                    errorList.Add("Дата продления должна быть больше или равна текущей");
+                    errorList.Add("Дата продления должна быть больше или равна текущей. Измените дату или отмените документ.");
                 }
             }
 
