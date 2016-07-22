@@ -349,6 +349,7 @@
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\TitleController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Extensions\AlphanumComparer.cs" />
     <Compile Include="Extensions\DefaultScaffoldingExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\ExceptionExtensions.cs" />

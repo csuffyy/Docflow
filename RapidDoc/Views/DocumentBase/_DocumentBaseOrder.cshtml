@@ -122,7 +122,7 @@
                                         </div>
                                         <div class="panel-collapse collapse" id="collapseArea_@tmpNum">
                                             <div class="panel-body">
-                                                @foreach (var itemGroup in Model.Where(x => x.ProcessName == itemGroupProcess.Key && x.CompanyName == itemGroupCompany.Key).GroupBy(x => new { x.Id, x.OrderNumber, x.Cancel, x.Addition, x.Executed }).Where(y => !String.IsNullOrEmpty(y.Key.OrderNumber)).OrderBy(c => c.Key.OrderNumber.Length).ThenBy(c => c.Key.OrderNumber))
+                                                @foreach (var itemGroup in Model.Where(x => x.ProcessName == itemGroupProcess.Key && x.CompanyName == itemGroupCompany.Key).GroupBy(x => new { x.Id, x.OrderNumber, x.Cancel, x.Addition, x.Executed }).Where(y => !String.IsNullOrEmpty(y.Key.OrderNumber)).OrderBy(c => c.Key.OrderNumber, new AlphanumComparer()))
                                                 {
                                                     num2++;
                                                     tmpNum = String.Format("{0}_{1}_{2}", num2, num1, num);

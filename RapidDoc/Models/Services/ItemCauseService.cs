@@ -22,6 +22,8 @@ namespace RapidDoc.Models.Services
         IEnumerable<ItemCauseView> GetPartialView(Expression<Func<ItemCauseTable, bool>> predicate);
         IEnumerable<ItemCauseTable> GetPartialIntercompany(Expression<Func<ItemCauseTable, bool>> predicate);
         IEnumerable<ItemCauseView> GetPartialIntercompanyView(Expression<Func<ItemCauseTable, bool>> predicate);
+        IEnumerable<ItemCauseTable> GetAllIntercompany();
+        IEnumerable<ItemCauseView> GetAllIntercompanyView();
         ItemCauseTable FirstOrDefault(Expression<Func<ItemCauseTable, bool>> predicate);
         ItemCauseView FirstOrDefaultView(Expression<Func<ItemCauseTable, bool>> prediacate);
         bool Contains(Expression<Func<ItemCauseTable, bool>> predicate);
@@ -57,6 +59,16 @@ namespace RapidDoc.Models.Services
         public IEnumerable<ItemCauseView> GetAllView()
         {
             return Mapper.Map<IEnumerable<ItemCauseTable>, IEnumerable<ItemCauseView>>(GetAll());
+        }
+
+        public IEnumerable<ItemCauseTable> GetAllIntercompany()
+        {
+            return repo.All();
+        }
+
+        public IEnumerable<ItemCauseView> GetAllIntercompanyView()
+        {
+            return Mapper.Map<IEnumerable<ItemCauseTable>, IEnumerable<ItemCauseView>>(GetAllIntercompany());
         }
 
         public IEnumerable<ItemCauseTable> GetPartial(Expression<Func<ItemCauseTable, bool>> predicate)

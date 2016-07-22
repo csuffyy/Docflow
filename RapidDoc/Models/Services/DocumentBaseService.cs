@@ -198,7 +198,6 @@ namespace RapidDoc.Models.Services
 
             List<ItemCauseTable> itemCaseList = new List<ItemCauseTable>();
 
-
             switch (type)
 	        {
 		        case DocumentType.Request:
@@ -211,7 +210,7 @@ namespace RapidDoc.Models.Services
                     }
                     return items;           
                 case DocumentType.OfficeMemo:
-                        itemCaseList.AddRange(_ItemCauseService.GetAll().ToList());
+                        itemCaseList.AddRange(_ItemCauseService.GetAllIntercompany().ToList());
 
                         List<BasicDocumantOfficeMemoTable> documentFetchOfficeMemo = new List<BasicDocumantOfficeMemoTable>();
                         foreach (var process in items.GroupBy(x => x.ProcessTableName))
@@ -266,13 +265,14 @@ namespace RapidDoc.Models.Services
 
                         return editedItems;
                 case DocumentType.IncomingDoc:
-                    foreach (var item in items)
-                    {
-                        itemCaseList.AddRange(_ItemCauseService.GetAll().ToList());
-                        List<BasicIncomingDocumentsTable> documentFetchIncoming = new List<BasicIncomingDocumentsTable>();
+                    itemCaseList.AddRange(_ItemCauseService.GetAllIntercompany().ToList());
+
+                    List<BasicIncomingDocumentsTable> documentFetchIncoming = new List<BasicIncomingDocumentsTable>();
                         foreach (var process in items.GroupBy(x => x.ProcessTableName))
                             documentFetchIncoming.AddRange((IEnumerable<BasicIncomingDocumentsTable>)_DocumentService.GetDocumentAll(process.Key));
 
+                    foreach (var item in items)
+                    {
                         var documentView = documentFetchIncoming.FirstOrDefault(x => x.Id == item.DocumentRefId);
                         if (!String.IsNullOrEmpty(documentView.IncomingDocNum))
                             item.OrderNumber = documentView.IncomingDocNum;
@@ -296,9 +296,10 @@ namespace RapidDoc.Models.Services
                     }
                     return items;
                 case DocumentType.OutcomingDoc:
+                    itemCaseList.AddRange(_ItemCauseService.GetAllIntercompany().ToList());
+
                     foreach (var item in items)
                     {
-                        itemCaseList.AddRange(_ItemCauseService.GetAll().ToList());
                         var documentView = _DocumentService.GetDocument(item.DocumentRefId, item.ProcessTableName);
                         if (!String.IsNullOrEmpty(documentView.OutcomingDocNum))
                             item.OrderNumber = documentView.OutcomingDocNum;
@@ -331,13 +332,14 @@ namespace RapidDoc.Models.Services
                     }
                     return items;
                 case DocumentType.AppealDoc:
-                    foreach (var item in items)
-                    {
-                        itemCaseList.AddRange(_ItemCauseService.GetAll().ToList());
-                        List<BasicAppealDocumentsTable> documentFetchAppeal = new List<BasicAppealDocumentsTable>();
+                    itemCaseList.AddRange(_ItemCauseService.GetAllIntercompany().ToList());
+
+                    List<BasicAppealDocumentsTable> documentFetchAppeal = new List<BasicAppealDocumentsTable>();
                         foreach (var process in items.GroupBy(x => x.ProcessTableName))
                             documentFetchAppeal.AddRange((IEnumerable<BasicAppealDocumentsTable>)_DocumentService.GetDocumentAll(process.Key));
 
+                    foreach (var item in items)
+                    {
                         var documentView = documentFetchAppeal.FirstOrDefault(x => x.Id == item.DocumentRefId);
                         if (!String.IsNullOrEmpty(documentView.RegistrationNum))
                             item.OrderNumber = documentView.RegistrationNum;
@@ -362,12 +364,12 @@ namespace RapidDoc.Models.Services
                     }
                     return items;
                 case DocumentType.Protocol:
-                    foreach (var item in items)
-                    {
-                        List<BasicProtocolDocumentsTable> documentFetchProtocol = new List<BasicProtocolDocumentsTable>();
+                    List<BasicProtocolDocumentsTable> documentFetchProtocol = new List<BasicProtocolDocumentsTable>();
                         foreach (var process in items.GroupBy(x => x.ProcessTableName))
                             documentFetchProtocol.AddRange((IEnumerable<BasicProtocolDocumentsTable>)_DocumentService.GetDocumentAll(process.Key));
 
+                    foreach (var item in items)
+                    {
                         var documentView = documentFetchProtocol.FirstOrDefault(x => x.Id == item.DocumentRefId);
                         if (!String.IsNullOrEmpty(documentView.Subject))
                             item.OrderNumber = documentView.Subject;
