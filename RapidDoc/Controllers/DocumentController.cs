@@ -271,12 +271,12 @@ namespace RapidDoc.Controllers
                 }
                 _NotificationUsersService.SetNotifyForUser(id, currentUser.Id);
             }
-            object viewModel = InitialViewShowDocument(documentTable, process, docuView, currentUser, emplTable);
+            object viewModel = InitialViewShowDocument(documentTable, process, docuView, currentUser, emplTable, String.Empty);
             return View(viewModel);
         }
 
         [HttpPost]
-        public ActionResult ShowDocument(Guid id, OperationType operationType, IDictionary<string, object> documentData, ProcessView process, Guid processId)
+        public ActionResult ShowDocument(Guid id, OperationType operationType, IDictionary<string, object> documentData, ProcessView process, Guid processId, string returnComment = "")
         {
             DocumentTable docuTable = _DocumentService.Find(id);
             if (docuTable == null) return RedirectToAction("PageNotFound", "Error");
@@ -332,11 +332,11 @@ namespace RapidDoc.Controllers
 
             DocumentView docuView = _DocumentService.FindView(id);
             EmplTable emplResult = _EmplService.GetEmployer(docuView.ApplicationUserCreatedId, docuView.CompanyTableId);
-            object viewModelResult = InitialViewShowDocument(docuTable, process, docuView, currentUser, emplResult);
+            object viewModelResult = InitialViewShowDocument(docuTable, process, docuView, currentUser, emplResult, returnComment);
             return View("~/Views/Document/ShowDocument.cshtml", viewModelResult);
         }
 
-        private object InitialViewShowDocument(DocumentTable documentTable, ProcessView process, DocumentView docuView, ApplicationUser userTable, EmplTable emplTable)
+        private object InitialViewShowDocument(DocumentTable documentTable, ProcessView process, DocumentView docuView, ApplicationUser userTable, EmplTable emplTable, string returnComment)
         {
             var viewModel = new DocumentComposite();
             viewModel.ProcessView = process;
@@ -376,6 +376,7 @@ namespace RapidDoc.Controllers
             ViewBag.AddReaders = _HistoryUserService.GetPartialView(x => x.DocumentTableId == documentTable.Id && x.HistoryType == Models.Repository.HistoryType.AddReader);
             ViewBag.RemoveReaders = _HistoryUserService.GetPartialView(x => x.DocumentTableId == documentTable.Id && x.HistoryType == Models.Repository.HistoryType.RemoveReader);
 
+            ViewBag.ReturnComment = returnComment;
             return viewModel;
         }
 
@@ -2247,7 +2248,7 @@ namespace RapidDoc.Controllers
             return result;
         }
 
-        public ActionResult RoutePostMethod(ProcessView processView, dynamic docModel, int type, OperationType operationType, Guid? documentId, Guid fileId, String actionModelName, IDictionary<string, object> documentData)
+        public ActionResult RoutePostMethod(ProcessView processView, dynamic docModel, int type, OperationType operationType, Guid? documentId, Guid fileId, String actionModelName, IDictionary<string, object> documentData, string returnComment)
         {
             ActionResult view;
 
@@ -2259,7 +2260,7 @@ namespace RapidDoc.Controllers
                 case 2:
                     if (_DocumentService.UpdateDocumentFields(docModel, processView))
                         _SearchService.SaveSearchData(GuidNull2Guid(documentId), docModel, actionModelName);
-                    view = ShowDocument(GuidNull2Guid(documentId), operationType, documentData, processView, GuidNull2Guid(processView.Id));
+                    view = ShowDocument(GuidNull2Guid(documentId), operationType, documentData, processView, GuidNull2Guid(processView.Id), returnComment);
                     break;
                 case 3:
                     SaveDocumentDraft(GuidNull2Guid(documentId), docModel, processView);
@@ -2279,6 +2280,7 @@ namespace RapidDoc.Controllers
         {
             IDictionary<string, object> documentData = new Dictionary<string, object>();
             IDictionary<string, IList> listData = new Dictionary<string, IList>();
+            string comment = String.Empty;
             Type typeActionModel = Type.GetType("RapidDoc.Models.ViewModels." + actionModelName + "_View");
             var actionModel = Activator.CreateInstance(typeActionModel);
 
@@ -2326,67 +2328,72 @@ namespace RapidDoc.Controllers
                 CheckAttachedFiles(processView, fileId, documentId);
             }
 
-            if (ModelState.IsValid)
+            //---------------------------------------------------------------------------
+            Guid documentGuidId = GuidNull2Guid(documentId);
+
+            if (operationType == OperationType.ApproveDocument)
             {
-                //---------------------------------------------------------------------------
-                if (operationType == OperationType.ApproveDocument)
+                if (collection["ApproveComment"] != null && _SystemService.CheckTextExists(collection["ApproveComment"]))
                 {
-                    if (collection["ApproveComment"] != null && _SystemService.CheckTextExists(collection["ApproveComment"]))
+                    comment = collection["ApproveComment"].ToString();
+
+                    if (ModelState.IsValid)
                     {
-                        Guid documentGuidId = GuidNull2Guid(documentId);
-                        string approveComment = collection["ApproveComment"].ToString();
                         if (actionModel.GetType().IsSubclassOf(typeof(BasicDocumantOfficeMemoView)))
                         {
                             var trackers = _WorkflowTrackerService.GetCurrentStep(x => x.DocumentTableId == documentGuidId && x.TrackerType == TrackerType.Waiting);
                             foreach (var tracker in trackers)
                             {
-                                approveComment = _SystemService.DeleteAllTags(approveComment);
-                                tracker.Comments = _SystemService.DeleteAllSpecialCharacters(_SystemService.DeleteAllTags(approveComment));
+                                comment = _SystemService.DeleteAllTags(comment);
+                                tracker.Comments = _SystemService.DeleteAllSpecialCharacters(_SystemService.DeleteAllTags(comment));
                                 _WorkflowTrackerService.SaveDomain(tracker);
                             }
                         }
                         else
                         {
-                            SaveComment(GuidNull2Guid(documentId), null, approveComment);
+                            SaveComment(GuidNull2Guid(documentId), null, comment);
                         }
                     }
                 }
-                if (operationType == OperationType.RejectDocument)
-                {
-                    if (collection["RejectComment"] != null && _SystemService.CheckTextExists(collection["RejectComment"]))
-                    {
-                        Guid documentGuidId = GuidNull2Guid(documentId);
-                        string rejectComment = collection["RejectComment"].ToString();
-                        if (actionModel.GetType().IsSubclassOf(typeof(BasicDocumantOfficeMemoView)))
-                        {
-                            var trackers = _WorkflowTrackerService.GetCurrentStep(x => x.DocumentTableId == documentGuidId && x.TrackerType == TrackerType.Waiting);
-                            foreach (var tracker in trackers)
-                            {
-                                rejectComment = _SystemService.DeleteAllTags(rejectComment);
-                                tracker.Comments = rejectComment;
-                                _WorkflowTrackerService.SaveDomain(tracker);
-                            }
-                        }
-                        else
-                        {
-                            SaveComment(documentGuidId, null, rejectComment);
-                        }
-                    }
-                    else
-                    {
-                        if (operationType == OperationType.RejectDocument)
-                            ModelState.AddModelError(string.Empty, UIElementRes.UIElement.RejectReason);
-                    }
-                }
-                //---------------------------------------------------------------------------
             }
+            if (operationType == OperationType.RejectDocument)
+            {
+                if (collection["RejectComment"] != null && _SystemService.CheckTextExists(collection["RejectComment"]))
+                {
+                    comment = collection["RejectComment"].ToString();
+
+                    if (ModelState.IsValid)
+                    {
+                        if (actionModel.GetType().IsSubclassOf(typeof(BasicDocumantOfficeMemoView)))
+                        {
+                            var trackers = _WorkflowTrackerService.GetCurrentStep(x => x.DocumentTableId == documentGuidId && x.TrackerType == TrackerType.Waiting);
+                            foreach (var tracker in trackers)
+                            {
+                                comment = _SystemService.DeleteAllTags(comment);
+                                tracker.Comments = comment;
+                                _WorkflowTrackerService.SaveDomain(tracker);
+                            }
+                        }
+                        else
+                        {
+                            SaveComment(documentGuidId, null, comment);
+                        }
+                    }
+                }
+                else
+                {
+                    if (operationType == OperationType.RejectDocument)
+                        ModelState.AddModelError(string.Empty, UIElementRes.UIElement.RejectReason);
+                }
+            }
+            //---------------------------------------------------------------------------
            
             if (operationType != OperationType.SaveDraft)
             {
                 _CustomCheckDocument.PreUpdateViewModel(typeActionModel, actionModel, ModelState.IsValid);
             }
 
-            ActionResult view = RoutePostMethod(processView, actionModel, type, operationType, documentId, fileId, actionModelName, documentData);
+            ActionResult view = RoutePostMethod(processView, actionModel, type, operationType, documentId, fileId, actionModelName, documentData, comment);
             return view;
         }
 

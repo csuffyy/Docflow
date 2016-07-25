@@ -4,6 +4,7 @@
 @{
     ViewBag.Title = Model.DocumentView.DocumentNum + " - " + Model.ProcessView.ProcessName;
     string documentState = Html.EnumToDescription(Model.DocumentView.DocumentState);
+    string returnComment = ViewBag.ReturnComment;
 }
 
 <div class="row hidden-print">
@@ -472,7 +473,7 @@
     @using (Ajax.BeginForm("GetAllComment", new { documentId = Model.DocumentView.Id }, new AjaxOptions { UpdateTargetId = "comments", OnComplete = "clearTextAreaComment" }, new { name = "commentForm" }))
 {
     <div class="hidden-print">
-        @Html.TextArea("lastComment", new { @class = "form-control summernotemin", @rows = "3" })
+        @Html.TextArea("lastComment", returnComment, new { @class = "form-control summernotemin", @rows = "3" })
         <div class="row">
             <div class="col-md-7 visible-lg-inline"></div>
             <div class="col-md-5"><button type="submit" class="btn btn-primary btn-xs btn-block pull-right hidden-print" id="saveCommentBtn">@UIElementRes.UIElement.Save / Ctrl + Enter</button></div>

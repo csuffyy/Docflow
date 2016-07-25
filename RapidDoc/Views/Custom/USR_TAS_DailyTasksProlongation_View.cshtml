@@ -1,6 +1,7 @@
 ﻿@model RapidDoc.Models.ViewModels.USR_TAS_DailyTasksProlongation_View
 @using RapidDoc.Extensions;
 
+@Html.HiddenFor(model => Model.ExecutionDate)
 <div class="editor-label">
     @Html.LabelFor(model => Model.RefDocNum)
 </div>
@@ -11,7 +12,7 @@
         <div class="editor-label">
             @Html.LabelFor(model => Model.ExecutionDate)
         </div>
-        <div class="editor-field">
+        <div class="editor-field">  
             @if (Model.ProlongationOldDate.HasValue && Model.ProlongationOldDate != DateTime.MinValue)
             {
                 <span class="text text-danger"><del>@Html.FormatValue(Model.ExecutionDate, "{0:dd.MM.yyyy}")</del></span>
