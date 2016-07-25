@@ -25,7 +25,7 @@ namespace RapidDoc.Models.Services
         TaskScheduleHistroyView FirstOrDefaultView(Expression<Func<TaskScheduleHistroyTable, bool>> prediacate);
         bool Contains(Expression<Func<TaskScheduleHistroyTable, bool>> predicate);
         void Save(TaskScheduleHistroyView viewTable);
-        void SaveDomain(TaskScheduleHistroyTable domainTable);
+        void SaveDomain(TaskScheduleHistroyTable domainTable, Guid? companyId, string userId = "");
         void Delete(Guid id);
         TaskScheduleHistroyTable Find(Guid id);
         TaskScheduleHistroyView FindView(Guid id);
@@ -96,19 +96,20 @@ namespace RapidDoc.Models.Services
             {
                 var domainTable = new TaskScheduleHistroyTable();
                 Mapper.Map(viewTable, domainTable);
-                SaveDomain(domainTable);
+                SaveDomain(domainTable, viewTable.CompanyTableId);
             }
             else
             {
                 var domainTable = Find(viewTable.Id ?? Guid.Empty);
                 Mapper.Map(viewTable, domainTable);
-                SaveDomain(domainTable);
+                SaveDomain(domainTable, viewTable.CompanyTableId);
             }
         }
 
-        public void SaveDomain(TaskScheduleHistroyTable domainTable)
+        public void SaveDomain(TaskScheduleHistroyTable domainTable, Guid? companyId, string userId = "")
         {
-            string userId = HttpContext.Current.User.Identity.GetUserId();
+            if (String.IsNullOrEmpty(userId))
+                userId = HttpContext.Current.User.Identity.GetUserId();
 
             if (domainTable.Id == Guid.Empty)
             {
@@ -117,12 +118,14 @@ namespace RapidDoc.Models.Services
                 domainTable.ModifiedDate = domainTable.CreatedDate;
                 domainTable.ApplicationUserCreatedId = userId;
                 domainTable.ApplicationUserModifiedId = userId;
+                domainTable.CompanyTableId = companyId;
                 repo.Add(domainTable);
             }
             else
             {
                 domainTable.ModifiedDate = DateTime.UtcNow;
                 domainTable.ApplicationUserModifiedId = userId;
+                domainTable.CompanyTableId = companyId;
                 repo.Update(domainTable);
             }
             uow.Commit();

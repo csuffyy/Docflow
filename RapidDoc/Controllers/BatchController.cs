@@ -245,7 +245,7 @@ namespace RapidDoc.Controllers
                             break;
                         case 9:
                             DateTime currentDate = DateTime.Now.Date, finalDate = currentDate;
-                            List<TaskScheduleTable> allSchedules = _TaskScheduleService.GetPartialIntercompany(x => x.DateFrom <= currentDate && x.DateTo >= currentDate && (x.RefDate >= currentDate || x.RefDate == null) && x.CompanyTableId == company.Id).ToList();
+                            List<TaskScheduleTable> allSchedules = _TaskScheduleService.GetPartialIntercompany(x => x.DateFrom <= currentDate && x.DateTo >= currentDate && (x.RefDate <= currentDate || x.RefDate == null) && x.CompanyTableId == company.Id).ToList();
 
                             foreach (var schedule in allSchedules)
                             {
@@ -259,14 +259,14 @@ namespace RapidDoc.Controllers
 
                                 switch (schedule.TypePeriod)
                                 {
-                                    case TaskScheduleTypePeriod.Daily:
+                                    //case TaskScheduleTypePeriod.Daily:
                                         
-                                        if (finalDate.Year == currentDate.Year && finalDate.Month == currentDate.Month && finalDate.Day == currentDate.Day)
-                                        {
-                                            _TaskScheduleService.CreateTaskFromSchedule(schedule, finalDate, user);
-                                            _TaskScheduleService.UpdateRefDate(schedule.Periodicity == 0 ? finalDate.AddDays(1).Date : finalDate.AddDays(schedule.Periodicity + 1).Date, schedule.Id, user.Id);
-                                        }
-                                        break;
+                                    //    if (finalDate.Year == currentDate.Year && finalDate.Month == currentDate.Month && finalDate.Day == currentDate.Day)
+                                    //    {
+                                    //        _TaskScheduleService.CreateTaskFromSchedule(schedule, finalDate, user);
+                                    //        _TaskScheduleService.UpdateRefDate(schedule.Periodicity == 0 ? finalDate.AddDays(1).Date : finalDate.AddDays(schedule.Periodicity + 1).Date, schedule.Id, user.Id);
+                                    //    }
+                                    //    break;
                                     case TaskScheduleTypePeriod.Weekly:
 
                                         if ((finalDate <= currentDate && finalDate.AddDays(7).Date >= currentDate) || lastCreatedTask == null)

@@ -286,8 +286,8 @@
         selectpicker_init();
         selectpickerfull_init();
         summernote_init("@UIElementRes.UIElement.LangFullName");
-        $('#typePeriodMonthlyForm').hide();
-        $('#typePeriodWeeklyForm').hide();
+            $('#typePeriodMonthlyForm').hide();
+            $('#typePeriodWeeklyForm').show();
 
         selectpicker_init();
         datepicker_init("@UIElementRes.UIElement.LangName");
@@ -301,17 +301,17 @@
         $("#TypePeriod").change(function () {
             var typePeriod = $("#TypePeriod").val();
             switch (typePeriod) {
+                //case "0":
+                //    clearAllCheckbox();
+                //    $('#typePeriodMonthlyForm').hide();
+                //    $('#typePeriodWeeklyForm').hide();
+                //    break;
                 case "0":
-                    clearAllCheckbox();
-                    $('#typePeriodMonthlyForm').hide();
-                    $('#typePeriodWeeklyForm').hide();
-                    break;
-                case "1":
                     clearAllCheckbox();
                     $('#typePeriodMonthlyForm').hide();
                     $('#typePeriodWeeklyForm').show();
                     break;
-                case "2":
+                case "1":
                     clearAllCheckbox();
                     $('#typePeriodMonthlyForm').show();
                     $('#typePeriodWeeklyForm').hide();
@@ -319,7 +319,7 @@
                 default:
                     clearAllCheckbox();
                     $('#typePeriodMonthlyForm').hide();
-                    $('#typePeriodWeeklyForm').hide();
+                    $('#typePeriodWeeklyForm').show();
             }
         });
         });

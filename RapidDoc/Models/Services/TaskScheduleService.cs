@@ -225,7 +225,8 @@ namespace RapidDoc.Models.Services
             taskScheduleHistroyTable.TaskScheduleId = taskSchedule.Id;
             taskScheduleHistroyTable.DocumentId = documentTable.Id;
             taskScheduleHistroyTable.DocumentNum = documentTable.DocumentNum;
-            _TaskScheduleHistroyService.SaveDomain(taskScheduleHistroyTable);
+
+            _TaskScheduleHistroyService.SaveDomain(taskScheduleHistroyTable, taskSchedule.CompanyTableId);
 
             _SearchService.SaveSearchData(taskDocumentId, docModel, "USR_TAS_DailyTasks", user.Id);
             Dictionary<string, object> taskDocumentData = new Dictionary<string, object>();
