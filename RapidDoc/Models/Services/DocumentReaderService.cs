@@ -178,7 +178,7 @@ namespace RapidDoc.Models.Services
             }
             if (removeReadersDescription.Length > 0)
             {
-                _HistoryUserService.SaveHistory(document.Id, Models.Repository.HistoryType.RemoveReader, currentUserId, document.DocumentNum, document.ProcessName, document.CreatedBy, addReadersDescription);
+                _HistoryUserService.SaveHistory(document.Id, Models.Repository.HistoryType.RemoveReader, currentUserId, document.DocumentNum, document.ProcessName, document.CreatedBy, removeReadersDescription);
             }
 
             return newReader;
