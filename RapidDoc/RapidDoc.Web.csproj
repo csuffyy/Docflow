@@ -2203,6 +2203,8 @@
     <Content Include="Views\Custom\USR_REQ_IT_ERP_CreateUserSUD_View.cshtml" />
     <Content Include="Views\Shared\_RejectField.cshtml" />
     <Content Include="Views\Shared\_ApproveField.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_OKS_RequestForCompanyForm_View.cshtml" />
+    <Content Include="Views\Custom\USR_REQ_OKS_RequestForCompanyForm_Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -4166,6 +4168,12 @@
   </ItemGroup>
   <ItemGroup>
     <XamlAppDef Include="Activities\USR_REQ_IT_ERP_CreateUserSUD.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USR_REQ_OKS_RequestForCompanyForm.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </XamlAppDef>

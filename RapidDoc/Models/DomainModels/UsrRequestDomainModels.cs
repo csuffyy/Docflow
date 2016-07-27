@@ -1043,6 +1043,14 @@ namespace RapidDoc.Models.DomainModels
         public string Reason { get; set; }
         public PayType PayType { get; set; }
     }
+
+    public class USR_REQ_OKS_RequestForCompanyForm_Table : BasicDocumentTable
+    {
+        public string Users { get; set; }
+        public string Department { get; set; }
+        public int Amount { get; set; }
+        public string Purpose { get; set; }
+    }
     #endregion
 
     #region РОГР
@@ -3165,6 +3173,7 @@ namespace RapidDoc.Models.DomainModels
         public string Amount3 { get; set; }
         public string Amount4 { get; set; }
     }
+  
     #endregion
 
     #region УТ

@@ -401,6 +401,8 @@ namespace RapidDoc.Models.Infrastructure
         public DbSet<USC_PRT_ProtocolDocuments_Table> USC_PRT_ProtocolDocuments_Table { get; set; }
         public DbSet<USR_REQ_IT_ERP_RequestPermissionJDE_Table> USR_REQ_IT_ERP_RequestPermissionJDE_Table { get; set; }
         public DbSet<USR_REQ_IT_ERP_CreateUserSUD_Table> USR_REQ_IT_ERP_CreateUserSUD_Table { get; set; }
+        public DbSet<USR_REQ_OKS_RequestForCompanyForm_Table> USR_REQ_OKS_RequestForCompanyForm_Table { get; set; }
+        
                      
         protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder)
         {
