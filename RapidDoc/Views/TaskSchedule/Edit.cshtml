@@ -298,20 +298,20 @@
                 if (clear === true)
                     clearAllCheckbox();
                 switch (typePeriod) {
+                    //case "0":
+                    //    $('#typePeriodMonthlyForm').hide();
+                    //    $('#typePeriodWeeklyForm').hide();
+                    //    break;
                     case "0":
-                        $('#typePeriodMonthlyForm').hide();
-                        $('#typePeriodWeeklyForm').hide();
-                        break;
-                    case "1":
                         $('#typePeriodMonthlyForm').hide();
                         $('#typePeriodWeeklyForm').show();
                         break;
-                    case "2":
+                    case "1":
                         $('#typePeriodMonthlyForm').show();
                         $('#typePeriodWeeklyForm').hide();
                         break;
                     default:
-                        $('#typePeriodMonthlyForm').hide();
+                        $('#typePeriodMonthlyForm').show();
                         $('#typePeriodWeeklyForm').hide();
                 }
             }
