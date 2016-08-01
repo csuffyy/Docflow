@@ -49,7 +49,6 @@ namespace RapidDoc.Models.Services
         void SendNewExecutorEmail(Guid documentId, List<string> userListId, string additionalTextCZ = "");
         void SendSLAWarningEmail(string userId, IEnumerable<DocumentTable> documents);
         void SendSLADisturbanceEmail(string userId, IEnumerable<DocumentTable> documents);
-        void SendReminderEmail(ApplicationUser user, List<DocumentTable> documents);
         void SendReminderTasksEmail(ApplicationUser user, List<DocumentTable> documents, List<USR_TAS_DailyTasks_Table> listDocuments);
         void SendStatusExecutionBatch(string statusText, bool error = false);
         void SendFailedRoutesAdministrator(List<ReportProcessesView> listProcesses);
@@ -725,57 +724,6 @@ namespace RapidDoc.Models.Services
             }
         }
 
-        public void SendReminderEmail(ApplicationUser user, List<DocumentTable> documents)
-        {
-            List<string> documentUrls = new List<string>();
-            List<string> documentNums = new List<string>();
-            List<string> documentText = new List<string>();
-
-            if (!String.IsNullOrEmpty(user.Email) && user.Enable == true)
-            {
-                int num = 0;
-                foreach (var documentTable in documents)
-                {
-                    num++;
-                    documentUrls.Add("https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + documentTable.CompanyTable.AliasCompanyName + "/Document/ShowDocument/" + documentTable.Id);
-                    documentNums.Add(documentTable.DocumentNum + " - " + documentTable.ProcessName);
-
-                    if (!String.IsNullOrEmpty(documentTable.DocumentText) && documentTable.DocumentText.Length > 80)
-                        documentText.Add(documentTable.DocumentText.Substring(0, 80) + "...");
-                    else
-                        documentText.Add(documentTable.DocumentText);
-                }
-
-                EmplTable emplTable = repoEmpl.Find(x => x.ApplicationUserId == user.Id && x.Enable == true);
-
-                if (emplTable != null)
-                {
-                    EmailParameterTable emailParameter = FirstOrDefault(x => x.SmtpServer != String.Empty);
-                    if (emailParameter == null)
-                        return;
-
-                    new Task(() =>
-                    {
-                        string absFile = HostingEnvironment.ApplicationPhysicalPath + @"Views\\EmailTemplate\\SLAEmailTemplate.cshtml";
-                        string razorText = System.IO.File.ReadAllText(absFile);
-
-                        string currentLang = Thread.CurrentThread.CurrentCulture.Name;
-                        CultureInfo ci = CultureInfo.GetCultureInfo(user.Lang);
-                        Thread.CurrentThread.CurrentCulture = ci;
-                        Thread.CurrentThread.CurrentUICulture = ci;
-                        string body = Razor.Parse(razorText, new { DocumentUri = "", DocumentUris = documentUrls.ToArray(), DocumentNums = documentNums.ToArray(), documentText = documentText.ToArray(), EmplName = emplTable.FullName, BodyText = "Документы на подписи" }, "emailTemplateSLAStatus");
-                        SendEmail(emailParameter, new string[] { user.Email }, "У вас на подписи находятся следующие документы", body);
-                        ci = CultureInfo.GetCultureInfo(currentLang);
-                        Thread.CurrentThread.CurrentCulture = ci;
-                        Thread.CurrentThread.CurrentUICulture = ci;
-                    }).Start();
-
-                    Logger logger = LogManager.GetLogger("EmailService");
-                    logger.Info(String.Format("SendReminderEmail: {0} {1} docCount: {2}", user.UserName, user.Email, documents.Count()));
-                }
-            }
-        }
-
         public void SendStatusExecutionBatch(string statusText, bool error = false)
         {
             RoleManager<ApplicationRole> RoleManager = new RoleManager<ApplicationRole>(new RoleStore<ApplicationRole>(_uow.GetDbContext<ApplicationDbContext>()));
@@ -1378,10 +1326,10 @@ namespace RapidDoc.Models.Services
                         ci = CultureInfo.GetCultureInfo(currentLang);
                         Thread.CurrentThread.CurrentCulture = ci;
                         Thread.CurrentThread.CurrentUICulture = ci;
-                    }).Start();
 
-                    Logger logger = LogManager.GetLogger("EmailService");
-                    logger.Info(String.Format("SendReminderEmail: {0} {1} docCount: {2}", user.UserName, user.Email, documents.Count()));
+                        Logger logger = LogManager.GetLogger("EmailService");
+                        logger.Info(String.Format("SendReminderEmail: {0} {1} docCount: {2}", user.UserName, user.Email, documentUrls.Count()));
+                    }).Start();
                 }
             }
         }

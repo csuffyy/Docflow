@@ -145,7 +145,7 @@ namespace RapidDoc.Controllers
 
                 if (user != null && user.Enable == true)
                 {
-                    await SignInAsync(user, model.RememberMe);
+                    await SignInAsync(user, true);
                     return RedirectToLocal(returnUrl);
                 }
                 else
