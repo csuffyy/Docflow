@@ -312,8 +312,9 @@ namespace RapidDoc.Controllers
 
                                         if ((finalDate <= currentDate && finalDate.AddMonths(1).Date >= currentDate) || lastCreatedTask == null)
                                         {
+                                            bool lastDayInMonth = DateTime.DaysInMonth(currentDate.Year, currentDate.Month) == currentDate.Day ? true : false;
                                             bool isThatDay = (bool)(schedule.GetType().GetProperty("Day" + currentDate.Day).GetValue(schedule, null));
-                                            if (isThatDay == true)
+                                            if (isThatDay == true || (schedule.Last == true && lastDayInMonth == schedule.Last))
                                                 _TaskScheduleService.CreateTaskFromSchedule(schedule, currentDate.Date, user);
                                         }
                                         if (lastCreatedTask == null && schedule.RefDate == null)
