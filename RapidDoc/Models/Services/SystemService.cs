@@ -1,28 +1,36 @@
-﻿using RapidDoc.Models.DomainModels;
-using RapidDoc.Models.Infrastructure;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Web;
-using RapidDoc.Models.Repository;
+using RapidDoc.Models.DomainModels;
 
 namespace RapidDoc.Models.Services
 {
     public interface ISystemService
     {
         DateTime ConvertDateTimeToLocal(ApplicationUser userTable, DateTime value);
+
         DateTime ConvertDateTimeToLocal(TimeZoneInfo timeZoneInfo, DateTime value);
+
         bool IsGUID(string expression);
+
         string[] GuidsFromText(string text);
+
         string RemoveColorFromText(string text);
+
         string DeleteAllTags(string text);
+
         string DeleteAllSpecialCharacters(string text);
+
         bool CheckTextExists(string text);
+
         string DeleteGuidText(string text);
+
         string DeleteLastTagSegment(string text);
+
         string DeleteEmptyTag(string text);
+
         string ReplaceLastOccurrence(string source, string find, string replace);
+
         Guid GuidNull2Guid(Guid? value);
     }
 
@@ -31,15 +39,18 @@ namespace RapidDoc.Models.Services
         public SystemService()
         {
         }
+
         public DateTime ConvertDateTimeToLocal(ApplicationUser userTable, DateTime value)
         {
             var timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById(userTable.TimeZoneId);
             return TimeZoneInfo.ConvertTimeFromUtc(value, timeZoneInfo);
         }
+
         public DateTime ConvertDateTimeToLocal(TimeZoneInfo timeZoneInfo, DateTime value)
         {
             return TimeZoneInfo.ConvertTimeFromUtc(value, timeZoneInfo);
         }
+
         public bool IsGUID(string expression)
         {
             if (String.IsNullOrEmpty(expression))

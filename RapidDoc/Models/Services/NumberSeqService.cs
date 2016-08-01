@@ -263,7 +263,7 @@ namespace RapidDoc.Models.Services
 
         public string GetDocumentNumORD(Guid id, Guid? bookingNumberId, string currentUserId = "")
         {
-            var numberSeq = Find(id);
+            NumberSeriesTable numberSeq = null;
             string num = String.Empty;
             string lastnum = String.Empty;
 
@@ -271,7 +271,7 @@ namespace RapidDoc.Models.Services
             {
                 try
                 {
-                    numberSeq = Find(numberSeq.Id);
+                    numberSeq = Find(id);
 
                     if (bookingNumberId != null && bookingNumberId != Guid.Empty)
                     {

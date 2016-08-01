@@ -93,7 +93,6 @@ namespace RapidDoc.Models.DomainModels
         public string ListFileName { get; set; }
 
         public Guid? NumberSeriesBookingTableId { get; set; }
-        public virtual NumberSeriesBookingTable NumberSeriesBookingTable { get; set; }
 
         public int AdditionCount { get; set; }
 
@@ -136,7 +135,6 @@ namespace RapidDoc.Models.DomainModels
         public virtual OrganizationTable OrganizationTable { get; set; }
 
         public Guid? NumberSeriesBookingTableId { get; set; }
-        public virtual NumberSeriesBookingTable NumberSeriesBookingTable { get; set; }
 
         public DateTime? RegistrationDate { get; set; }
 
@@ -189,7 +187,6 @@ namespace RapidDoc.Models.DomainModels
         public virtual OrganizationTable OrganizationTable { get; set; }
 
         public Guid? NumberSeriesBookingTableId { get; set; }
-        public virtual NumberSeriesBookingTable NumberSeriesBookingTable { get; set; }
 
         public string Signer { get; set; }
 

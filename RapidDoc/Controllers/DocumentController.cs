@@ -1627,7 +1627,7 @@ namespace RapidDoc.Controllers
                          FullName = x.Description,
                          ApplicationUserId = x.Id,
                          isActiveDualList = _DocumentReaderService.Contains(z => z.DocumentTableId == id && z.RoleId == x.Id)
-                     }).ToList();
+                     }).OrderBy(x => x.AliasCompanyName).ThenBy(x => x.FullName).ToList();
 
             return result;
         }
@@ -1646,7 +1646,7 @@ namespace RapidDoc.Controllers
                     FullName = m.FullName,
                     ApplicationUserId = m.ApplicationUserId,
                     isActiveDualList = tracker.Users.Any(x => x.UserId == m.ApplicationUserId)
-                }).ToList();
+                }).OrderBy(x => x.AliasCompanyName).ThenBy(x => x.FullName).ToList();
             }
 
             DualListView model = new DualListView();
