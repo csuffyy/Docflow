@@ -207,7 +207,7 @@ namespace RapidDoc.Models.Services
             USR_TAS_DailyTasks_View docModel = new USR_TAS_DailyTasks_View();
             docModel.MainField = taskSchedule.MainField;
 
-            docModel.ExecutionDate = finalDate.AddDays(taskSchedule.Periodicity - 1);
+            docModel.ExecutionDate = finalDate;
             docModel.Users = taskSchedule.Users;
             docModel.RefDocumentId = null;
             docModel.RefDocNum = null;

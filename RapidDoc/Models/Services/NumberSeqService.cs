@@ -293,7 +293,7 @@ namespace RapidDoc.Models.Services
                         {
                             numberSeq.LastNum++;
                         }
-                        while (BookingContains(x => x.LastNum == numberSeq.LastNum && x.NumberSeriesTableId == numberSeq.Id));
+                        while (BookingContains(x => x.LastNum == numberSeq.LastNum && x.NumberSeriesTableId == numberSeq.Id && x.Enable == true));
                         
                         SaveDomain(numberSeq, currentUserId);
 

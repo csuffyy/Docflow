@@ -142,8 +142,6 @@ namespace RapidDoc.Controllers
                                                 continue;
                                         }
 
-
-
                                         if (childTask != null)
                                             continue;
                                     }
@@ -188,12 +186,11 @@ namespace RapidDoc.Controllers
                         case 5:
                             List<ReportProcessesView> listProcesses = new List<ReportProcessesView>();
                             Dictionary<Type, int> typeActivities = new Dictionary<Type, int>
-                        {
-                            {typeof(WFChooseStaffStructure),1},
-                            {typeof(WFChooseSpecificUser),3},
-                            {typeof(WFChooseRoleUser),4}
-                        };
-
+                            {
+                                {typeof(WFChooseStaffStructure),1},
+                                {typeof(WFChooseSpecificUser),3},
+                                {typeof(WFChooseRoleUser),4}
+                            };
 
                             List<ProcessTable> processList = _ProcessService.GetPartialIntercompany(x => x.isApproved == true).ToList();
 
@@ -244,7 +241,7 @@ namespace RapidDoc.Controllers
                             }
                             break;
                         case 9:
-                            DateTime currentDate = DateTime.Now.Date, finalDate = currentDate;
+                            DateTime currentDate = DateTime.Now.Date, finalDate = currentDate, executedTaskDate;
                             List<TaskScheduleTable> allSchedules = _TaskScheduleService.GetPartialIntercompany(x => x.DateFrom <= currentDate && x.DateTo >= currentDate && (x.RefDate <= currentDate || x.RefDate == null) && x.CompanyTableId == company.Id).ToList();
 
                             foreach (var schedule in allSchedules)
@@ -255,8 +252,7 @@ namespace RapidDoc.Controllers
                                 if (lastCreatedTask == null)
                                     finalDate = schedule.DateFrom.Value.Date;                              
                                 else 
-                                    finalDate = schedule.RefDate.Value.Date;
-
+                                    finalDate = schedule.RefDate.Value.Date;                             
                                 switch (schedule.TypePeriod)
                                 {
                                     //case TaskScheduleTypePeriod.Daily:
@@ -268,59 +264,61 @@ namespace RapidDoc.Controllers
                                     //    }
                                     //    break;
                                     case TaskScheduleTypePeriod.Weekly:
-
+                                        executedTaskDate = finalDate.AddDays((schedule.Periodicity) * 7).Date;
                                         if ((finalDate <= currentDate && finalDate.AddDays(7).Date >= currentDate) || lastCreatedTask == null)
                                         {
+
                                             switch (currentDate.DayOfWeek)
                                             {
                                                 case DayOfWeek.Friday:
                                                     if (schedule.Friday == true)
-                                                        _TaskScheduleService.CreateTaskFromSchedule(schedule, currentDate.Date, user);
+                                                        _TaskScheduleService.CreateTaskFromSchedule(schedule, executedTaskDate, user);
                                                     break;
                                                 case DayOfWeek.Monday:
                                                     if (schedule.Monday == true)
-                                                        _TaskScheduleService.CreateTaskFromSchedule(schedule, currentDate.Date, user);
+                                                        _TaskScheduleService.CreateTaskFromSchedule(schedule, executedTaskDate, user);
                                                     break;
                                                 case DayOfWeek.Saturday:
                                                     if (schedule.Saturday == true)
-                                                        _TaskScheduleService.CreateTaskFromSchedule(schedule, currentDate.Date, user);
+                                                        _TaskScheduleService.CreateTaskFromSchedule(schedule, executedTaskDate, user);
                                                     break;
                                                 case DayOfWeek.Sunday:
                                                     if (schedule.Sunday == true)
-                                                        _TaskScheduleService.CreateTaskFromSchedule(schedule, currentDate.Date, user);
+                                                        _TaskScheduleService.CreateTaskFromSchedule(schedule, executedTaskDate, user);
                                                     break;
                                                 case DayOfWeek.Thursday:
                                                     if (schedule.Thursday == true)
-                                                        _TaskScheduleService.CreateTaskFromSchedule(schedule, currentDate.Date, user);
+                                                        _TaskScheduleService.CreateTaskFromSchedule(schedule, executedTaskDate, user);
                                                     break;
                                                 case DayOfWeek.Tuesday:
                                                     if (schedule.Tuesday == true)
-                                                        _TaskScheduleService.CreateTaskFromSchedule(schedule, currentDate.Date, user);
+                                                        _TaskScheduleService.CreateTaskFromSchedule(schedule, executedTaskDate, user);
                                                     break;
                                                 case DayOfWeek.Wednesday:
                                                     if (schedule.Wednesday == true)
-                                                        _TaskScheduleService.CreateTaskFromSchedule(schedule, currentDate.Date, user);
+                                                        _TaskScheduleService.CreateTaskFromSchedule(schedule, executedTaskDate, user);
                                                     break;
                                             }
                                         }
                                         if (lastCreatedTask == null && schedule.RefDate == null)
                                             _TaskScheduleService.UpdateRefDate(currentDate.Date, schedule.Id, user.Id);
                                         else if ((finalDate.AddDays(7).Date <= currentDate.Date) )
-                                            _TaskScheduleService.UpdateRefDate(schedule.Periodicity == 0 ? finalDate.AddDays(7).Date : finalDate.AddDays((schedule.Periodicity + 1) * 7).Date, schedule.Id, user.Id);                          
+                                            _TaskScheduleService.UpdateRefDate(finalDate.AddDays((schedule.Periodicity) * 7).Date, schedule.Id, user.Id);                          
                                         break;
-                                    case TaskScheduleTypePeriod.Monthly:
 
+                                    case TaskScheduleTypePeriod.Monthly:
+                                        executedTaskDate = finalDate.AddMonths(schedule.Periodicity).Date;
                                         if ((finalDate <= currentDate && finalDate.AddMonths(1).Date >= currentDate) || lastCreatedTask == null)
                                         {
                                             bool lastDayInMonth = DateTime.DaysInMonth(currentDate.Year, currentDate.Month) == currentDate.Day ? true : false;
                                             bool isThatDay = (bool)(schedule.GetType().GetProperty("Day" + currentDate.Day).GetValue(schedule, null));
                                             if (isThatDay == true || (schedule.Last == true && lastDayInMonth == schedule.Last))
-                                                _TaskScheduleService.CreateTaskFromSchedule(schedule, currentDate.Date, user);
+                                                _TaskScheduleService.CreateTaskFromSchedule(schedule, executedTaskDate, user);
                                         }
                                         if (lastCreatedTask == null && schedule.RefDate == null)
                                             _TaskScheduleService.UpdateRefDate(currentDate.Date, schedule.Id, user.Id);
                                         else if ((finalDate.AddMonths(1).Date <= currentDate.Date))
-                                            _TaskScheduleService.UpdateRefDate(schedule.Periodicity == 0 ? finalDate.AddMonths(1).Date : finalDate.AddMonths(schedule.Periodicity + 1).Date, schedule.Id, user.Id);      
+                                            _TaskScheduleService.UpdateRefDate(finalDate.AddMonths(schedule.Periodicity).Date, schedule.Id, user.Id);      
                                         break;
                                     
                                 }
