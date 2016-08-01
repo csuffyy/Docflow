@@ -7,9 +7,7 @@
 *@
 @using Microsoft.Owin.Security
 
-<div class="">
-    <h4>@UIElementRes.UIElement.UseWindowsAuthentication</h4>
-    <hr />
+<div>
     <div>
         @using (Html.BeginWindowsAuthForm(new { @class = "form-horizontal", role = "form" }))
         {
@@ -18,5 +16,4 @@
             <button class="btn btn-default" type="submit"><i class="fa fa-windows"></i> Windows</button>
         }
     </div>
-    <br />
 </div>

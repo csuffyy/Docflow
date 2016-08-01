@@ -1,0 +1,84 @@
+﻿@using RapidDoc.Extensions;
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en-US"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang="en-US"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang="en-US"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en-US">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="cleartype" content="on" />
+    <meta http-equiv="Cache-Control" content="no-cache" />
+    <meta http-equiv="msthemecompatible" content="no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOCFLOW - @ViewBag.Title</title>
+    <meta name="application-name" content="Altyntau WF - @ViewBag.Title" />
+    <meta name="msapplication-tooltip" content="@UIElementRes.UIElement.ProgramDescription" />
+    <meta name="msapplication-starturl" content="/" />
+    <meta name="description" content="@UIElementRes.UIElement.ProgramDescription" />
+    <meta name="keywords" content="Enterprise, Workflow, DOCFLOW" />
+    <meta name="author" content="Igor Dmitrov & Dmitriy Shkarendin" />
+    <meta name="copyright" content="(c) DOCFLOW">
+    <meta http-equiv="Reply-to" content="igdmitrov@gmail.com">
+
+    <link rel="shortcut icon" href="@Url.ContentVersioned("~/Content/Custom/image-icon/favicon.ico")" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="@Url.ContentVersioned("~/Content/Custom/image-icon/apple-touch-icon.png")" />
+    <link rel="apple-touch-icon" sizes="57x57" href="@Url.ContentVersioned("~/Content/Custom/image-icon/apple-touch-icon-57x57.png")" />
+    <link rel="apple-touch-icon" sizes="72x72" href="@Url.ContentVersioned("~/Content/Custom/image-icon/apple-touch-icon-72x72.png")" />
+    <link rel="apple-touch-icon" sizes="114x114" href="@Url.ContentVersioned("~/Content/Custom/image-icon/apple-touch-icon-114x114.png")" />
+    <link rel="apple-touch-icon" sizes="144x144" href="@Url.ContentVersioned("~/Content/Custom/image-icon/apple-touch-icon-144x144.png")" />
+    <link rel="apple-touch-icon" sizes="57x57" href="@Url.ContentVersioned("~/Content/Custom/image-icon/apple-touch-icon-60x60.png")" />
+    <link rel="apple-touch-icon" sizes="72x72" href="@Url.ContentVersioned("~/Content/Custom/image-icon/apple-touch-icon-120x120.png")" />
+    <link rel="apple-touch-icon" sizes="114x114" href="@Url.ContentVersioned("~/Content/Custom/image-icon/apple-touch-icon-76x76.png")" />
+    <link rel="apple-touch-icon" sizes="144x144" href="@Url.ContentVersioned("~/Content/Custom/image-icon/apple-touch-icon-152x152.png")" />
+    <meta name="msapplication-TileImage" content="@Url.ContentVersioned("Content/Custom/image-icon/apple-touch-icon-144x144.png")" />
+    <meta name="msapplication-TileColor" content="#2c3e50" />
+    <meta name="msapplication-square70x70logo" content="@Url.ContentVersioned("Content/Custom/image-icon/smalltile.png")" />
+    <meta name="msapplication-square150x150logo" content="@Url.ContentVersioned("Content/Custom/image-icon/mediumtile.png")" />
+    <meta name="msapplication-wide310x150logo" content="@Url.ContentVersioned("Content/Custom/image-icon/widetile.png")" />
+    <meta name="msapplication-square310x310logo" content="@Url.ContentVersioned("Content/Custom/image-icon/largetile.png")" />
+
+    <link type="text/css" rel="stylesheet" href="@Url.ContentVersioned("~/Content/Bootstrap/css/bootstrap.min.css")" />
+    <link type="text/css" rel="stylesheet" href="@Url.ContentVersioned("~/Content/Bootstrap/css/bootstrap-select.min.css")" />
+    <link type="text/css" rel="stylesheet" href="@Url.ContentVersioned("~/Content/Custom/global.css")" />
+
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+
+    <!--[if lte IE 9]>
+      @Scripts.Render("~/bundles/oldBrowsers")
+    <![endif]-->
+</head>
+<body>
+    <div class="row hidden-print">
+        <div class="col-xs-12">
+            <noscript>
+                <div class="alert alert-danger">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <span class="text-center"><strong>@UIElementRes.UIElement.Attention: </strong> @UIElementRes.UIElement.NoJS <a href="http://enable-javascript.com/ru/" class="alert-link">@UIElementRes.UIElement.NoJSLink</a></span>
+                </div>
+            </noscript>
+            <div id="alert_browserVersion" class="hide">
+                <div class="alert alert-danger" role="alert">@UIElementRes.UIElement.OldBrowser</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container body-content">
+        <h2>DOCFLOW</h2>
+        <hr class="header-border" />
+        @RenderBody()
+    </div>
+
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    <script type="text/javascript">
+        if (!Modernizr.canvas) {
+            document.getElementById("alert_browserVersion").className = "well";
+        }
+    </script>
+</body>
+</html>

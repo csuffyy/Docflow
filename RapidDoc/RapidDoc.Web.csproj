@@ -700,9 +700,6 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\Bootstrap\css\bootstrap-select.css.map" />
-    <Content Include="Content\Bootstrap\css\fonts\lato\LatoLatin-Italic.eot" />
-    <Content Include="Content\Bootstrap\css\fonts\lato\LatoLatin-Italic.ttf" />
-    <Content Include="Content\Bootstrap\css\fonts\lato\LatoLatin-Italic.woff" />
     <Content Include="App_Browsers\qt.browser" />
     <Content Include="Content\Summernote\font\summernote.eot" />
     <Content Include="Content\Summernote\font\summernote.ttf" />
@@ -2205,6 +2202,7 @@
     <Content Include="Views\Shared\_ApproveField.cshtml" />
     <Content Include="Views\Custom\USR_REQ_OKS_RequestForCompanyForm_View.cshtml" />
     <Content Include="Views\Custom\USR_REQ_OKS_RequestForCompanyForm_Edit.cshtml" />
+    <Content Include="Views\Shared\_PublicLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

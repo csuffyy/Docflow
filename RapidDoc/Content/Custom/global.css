@@ -726,3 +726,8 @@ input[type='checkbox']:checked.pseudo-checkbox + label:before{/*checked icon*/
     margin: 2px;
     font-size: 110%;
 }
+
+.header-border {
+    border-bottom: 2px solid #bdc3c7;
+    padding-bottom: 1em;
+}

@@ -1,19 +1,15 @@
 ﻿@model RapidDoc.Models.ViewModels.LoginViewModel
 
 @{
+    Layout = "~/Views/Shared/_PublicLayout.cshtml";
     ViewBag.Title = UIElementRes.UIElement.SignIn;
 }
-
-<h2>@ViewBag.Title</h2>
 <div class="row">
     <div class="col-md-8">
         <section id="loginForm">
             @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
                 @Html.AntiForgeryToken()
-                <h4>@UIElementRes.UIElement.LogInTitle</h4>
-                <hr />
-                @Html.ValidationSummary(true)
                 <div class="form-group">
                     @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
                     <div class="col-md-10">
@@ -29,22 +25,11 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(m => m.RememberMe, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.CheckBoxFor(m => m.RememberMe)
-                    </div>
-                </div>
-                <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value=@UIElementRes.UIElement.SignIn class="btn btn-default" />
+                        <input type="submit" value=@UIElementRes.UIElement.SignIn class="btn btn-primary" />
                     </div>
                 </div>
-                
-                @*
-                <p>
-                    <strong>@Html.ActionLink(UIElementRes.UIElement.Register, "Register")</strong> @UIElementRes.UIElement.LogInNoAccount
-                </p>
-                *@
+                @Html.ValidationSummary(true)
             }
         </section>
     </div>
@@ -52,8 +37,6 @@
     <div class="col-md-4">
         <section id="socialLoginForm">
             @Html.Partial("_WindowsLoginPartial", new { ReturnUrl = ViewBag.ReturnUrl })
-            @* @Html.Partial("_ExternalLoginsListPartial", new { Action = "ExternalLogin", ReturnUrl = ViewBag.ReturnUrl }) *@
         </section>
     </div>
-
-    </div>
+</div>
