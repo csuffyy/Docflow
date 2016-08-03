@@ -717,4 +717,10 @@
   <data name="DeleteDocumentHistory" xml:space="preserve">
     <value>-</value>
   </data>
+  <data name="SetNullNumSeq" xml:space="preserve">
+    <value>-</value>
+  </data>
+  <data name="SetNull" xml:space="preserve">
+    <value>-</value>
+  </data>
 </root>

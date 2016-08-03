@@ -1618,6 +1618,24 @@ namespace UIElementRes {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Обнулить.
+        /// </summary>
+        public static string SetNull {
+            get {
+                return ResourceManager.GetString("SetNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Обнулит номерную серию?.
+        /// </summary>
+        public static string SetNullNumSeq {
+            get {
+                return ResourceManager.GetString("SetNullNumSeq", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Настройка.
         /// </summary>
         public static string Settings {

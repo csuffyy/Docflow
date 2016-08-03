@@ -723,4 +723,10 @@
   <data name="DeleteDocumentHistory" xml:space="preserve">
     <value>Удален документ</value>
   </data>
+  <data name="SetNullNumSeq" xml:space="preserve">
+    <value>Обнулит номерную серию?</value>
+  </data>
+  <data name="SetNull" xml:space="preserve">
+    <value>Обнулить</value>
+  </data>
 </root>

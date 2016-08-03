@@ -21,6 +21,11 @@
     <a href=@Url.Action("Booking", new { id=item.Id })><span class="fa fa-link fa-lg"></span></a>
 }
 
+@helper SetNull(RapidDoc.Models.ViewModels.NumberSeriesView item)
+{
+    <a href=@Url.Action("SetNull", new { id = item.Id })><span class="fa fa-repeat fa-lg"></span></a>
+}
+
 @Html.Grid(Model).Named("ordersGrid").Columns(columns =>
 {
     columns.Add(o => o.Id).Css("hidden");
@@ -49,4 +54,9 @@
         .Sanitized(false)
         .SetWidth(30)
         .RenderValueAs(o => DeleteField(o));
+    columns.Add()
+        .Encoded(false)
+        .Sanitized(false)
+        .SetWidth(30)
+        .RenderValueAs(o => SetNull(o));
 }).Selectable(true).SetLanguage(UIElementRes.UIElement.LangName).Sortable().WithPaging(30).WithMultipleFilters()

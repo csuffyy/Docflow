@@ -1,0 +1,28 @@
+﻿@model RapidDoc.Models.ViewModels.NumberSeriesView
+
+@{
+    ViewBag.Title = UIElementRes.UIElement.SetNull;
+}
+
+<h2>@UIElementRes.UIElement.SetNull</h2>
+
+<h3>@UIElementRes.UIElement.SetNullNumSeq</h3>
+<fieldset>
+    <legend></legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.NumberSeriesName)
+    </div>
+    <div class="display-field text-danger">
+        @Html.DisplayFor(model => model.NumberSeriesName)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+    <br>
+    <p>
+        <input class="btn btn-primary btn-sm" type="submit" value=@UIElementRes.UIElement.SetNull />
+        @Html.ActionLink(UIElementRes.UIElement.Back, "Index")
+    </p>
+}

@@ -11,6 +11,7 @@ using System.Web;
 using System.Web.Mvc;
 using RapidDoc.Extensions;
 using RapidDoc.Models.Grids;
+using RapidDoc.Attributes;
 
 namespace RapidDoc.Controllers
 {
@@ -270,6 +271,42 @@ namespace RapidDoc.Controllers
         public ActionResult BookingDetail(Guid id)
         {
             var model = _Service.FindViewBooking(id);
+
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
+            return View(model);
+        }
+
+        [HttpPost, ActionName("SetNull")]
+        [ValidateAntiForgeryToken]
+        public ActionResult SetNullConfirmed(Guid id)
+        {
+            try
+            {
+                _Service.DeleteNumSerivalBooking(id);
+
+                _Service.SetNullNumSerival(id);
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError(string.Empty, e.GetOriginalException().Message);
+            }
+
+            var model = _Service.FindView(id);
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(model);
+        }
+
+        public ActionResult SetNull(Guid id)
+        {
+            var model = _Service.FindView(id);
 
             if (model == null)
             {
