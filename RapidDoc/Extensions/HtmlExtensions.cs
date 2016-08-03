@@ -326,5 +326,14 @@ namespace RapidDoc.Extensions
 
             return result;
         }
+
+        public static MvcHtmlString MultiLineText(this HtmlHelper htmlHelper, string text)
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return MvcHtmlString.Create(string.Empty);
+            }
+            return MvcHtmlString.Create(Regex.Replace(HttpUtility.HtmlEncode(text), Environment.NewLine, "<br/>"));
+        }
     }
 }
