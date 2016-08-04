@@ -38,6 +38,8 @@ namespace RapidDoc.Models.Services
         void SaveDomainBooking(NumberSeriesBookingTable domainTable, string currentUserId = "");
         void Delete(Guid id);
         void DeleteBooking(Guid id);
+        void DeleteNumSerivalBooking(Guid numSerialId);
+        void SetNullNumSerival(Guid numSerialId, string currentUserId = "");
         NumberSeriesTable Find(Guid id);
         NumberSeriesBookingTable FindBooking(Guid id);
         NumberSeriesView FindView(Guid id);
@@ -331,6 +333,22 @@ namespace RapidDoc.Models.Services
             {
                 return HttpContext.Current.User.Identity.GetUserId();
             }
+        }
+
+        public void DeleteNumSerivalBooking(Guid numSerialId)
+        {
+            repoBooking.Delete(a => a.NumberSeriesTableId == numSerialId);
+            _uow.Commit();
+        }
+
+        public void SetNullNumSerival(Guid numSerialId, string currentUserId = "")
+        {
+            if (String.IsNullOrEmpty(currentUserId))
+                currentUserId = getCurrentUserId();
+
+            NumberSeriesTable numSerial = Find(numSerialId);
+            numSerial.LastNum = 0;
+            SaveDomain(numSerial, currentUserId);
         }
     }
 }
