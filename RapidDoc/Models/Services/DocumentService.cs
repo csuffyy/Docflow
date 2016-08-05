@@ -683,12 +683,12 @@ namespace RapidDoc.Models.Services
             var items = from document in contextQuery.DocumentTable
                         where (contextQuery.ProcessTable.Any(p => p.Id == document.ProcessTableId && contextQuery.Roles.Where(pr => pr.Id == p.StartReaderRoleId).ToList().Any(x => x.Users.ToList().Any(z => z.UserId == user.Id)))
                                     ||
-                                    contextQuery.WFTrackerTable.Any(x => x.DocumentTableId == document.Id && x.SignUserId == null && x.TrackerType == TrackerType.Waiting && x.Users.Any(b => b.UserId == user.Id)) ||
+                                    contextQuery.WFTrackerTable.Any(x => x.DocumentTableId == document.Id && x.Users.Any(b => b.UserId == user.Id)) ||
                                     (contextQuery.DelegationTable.Any(d => d.EmplTableTo.ApplicationUserId == user.Id && d.DateFrom <= currentDate && d.DateTo >= currentDate && d.isArchive == false
                                     && d.CompanyTableId == user.CompanyTableId
                                     && (d.GroupProcessTableId == null || (d.GroupProcessTableId != null && childGroupArray.Any(x => x == document.ProcessTable.GroupProcessTableId)))
                                     && (d.ProcessTableId == document.ProcessTableId || d.ProcessTableId == null)
-                                    && contextQuery.WFTrackerTable.Any(w => w.DocumentTableId == document.Id && w.SignUserId == null && w.TrackerType == TrackerType.Waiting && w.Users.Any(b => b.UserId == d.EmplTableFrom.ApplicationUserId))
+                                    && contextQuery.WFTrackerTable.Any(w => w.DocumentTableId == document.Id && w.Users.Any(b => b.UserId == d.EmplTableFrom.ApplicationUserId))
                                     ))
                                 )
                         join company in contextQuery.CompanyTable on document.CompanyTableId equals company.Id
@@ -696,7 +696,7 @@ namespace RapidDoc.Models.Services
                         join documentData in contextQuery.USR_TAS_DailyTasks_Table on document.Id equals documentData.DocumentTableId
                         let empl = contextQuery.EmplTable.Where(p => p.ApplicationUserId == document.ApplicationUserCreatedId).OrderByDescending(p => p.Enable).FirstOrDefault()
                         where process.DocType == DocumentType.Task
-                        orderby document.CreatedDate descending
+                        orderby String.IsNullOrEmpty(document.ActivityName), document.CreatedDate descending
                         select new DocumentTaskView
                         {
                             ActivityName = document.ActivityName,

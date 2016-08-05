@@ -30,6 +30,11 @@
     <a href="@String.Format("/{0}/Document/ShowDocument/{1}", item.AliasCompanyName, item.Id)">@item.CreatedDate.ToShortDateString()</a>
 }
 
+@helper DocumentState(RapidDoc.Models.ViewModels.DocumentTaskView item)
+{
+    <a href="@String.Format("/{0}/Document/ShowDocument/{1}", item.AliasCompanyName, item.Id)">@Html.EnumToDescription(item.DocumentState)</a>
+}
+
 @Html.Grid(Model).Named("ordersGrid").Columns(columns =>
 {
     columns.Add(o => o.Id).Css("hidden");
@@ -49,6 +54,14 @@
         .RenderValueAs(o => StatusField(o));
     columns.Add(o => o.DocumentNum).Titled("#").Sortable(true).Filterable(true);
     columns.Add(o => o.DocumentText).Titled(Html.DisplayNameFor(o => ((RapidDoc.Models.ViewModels.DocumentTaskView)o.Columns).DocumentText).ToHtmlString()).Sortable(false).Filterable(true);
+    columns.Add()
+        .Encoded(false)
+        .Sanitized(false)
+        .SetWidth(1)
+        .Titled(Html.DisplayNameFor(o => ((RapidDoc.Models.ViewModels.DocumentView)o.Columns).DocumentState).ToHtmlString())
+        .Sortable(true)
+        .Filterable(true)
+        .RenderValueAs(o => DocumentState(o));
     columns.Add(o => o.CreatedDate).Titled(Html.DisplayNameFor(o => ((RapidDoc.Models.ViewModels.DocumentTaskView)o.Columns).CreatedDate).ToHtmlString()).Sortable(true).Filterable(true).Encoded(false).Sanitized(false).RenderValueAs(o => CreatedDate(o));
     columns.Add(o => o.ExecutionDate).Titled(Html.DisplayNameFor(o => ((RapidDoc.Models.ViewModels.DocumentTaskView)o.Columns).ExecutionDate).ToHtmlString()).Sortable(true).Filterable(true).Format("{0:d}");
     columns.Add(o => o.CreatedBy).Titled(Html.DisplayNameFor(o => ((RapidDoc.Models.ViewModels.DocumentTaskView)o.Columns).CreatedBy).ToHtmlString()).Sortable(true).Filterable(true).Encoded(false).Sanitized(false).RenderValueAs(o => CreatedByFull(o));
