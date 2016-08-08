@@ -44,13 +44,13 @@ namespace RapidDoc.Models.Grids
             foreach (var displayedItem in _displayingItems)
             {
                 EmplTable empl = null;
-                if (cacheEmplList.Any(x => x.ApplicationUserId == displayedItem.ApplicationUserCreatedId && x.CompanyTableId == displayedItem.CompanyTableId))
+                if (cacheEmplList.Any(x => x.Id == displayedItem.ApplicationEmplCreatedId))
                 {
-                    empl = cacheEmplList.FirstOrDefault(x => x.ApplicationUserId == displayedItem.ApplicationUserCreatedId && x.CompanyTableId == displayedItem.CompanyTableId);
+                    empl = cacheEmplList.FirstOrDefault(x => x.Id == displayedItem.ApplicationEmplCreatedId);
                 }
                 else
                 {
-                    empl = _EmplService.GetEmployer(displayedItem.ApplicationUserCreatedId, displayedItem.CompanyTableId);
+                    empl = _EmplService.GetPartialIntercompany(x => x.Id == displayedItem.ApplicationEmplCreatedId).FirstOrDefault();
                     cacheEmplList.Add(empl);
                 }
                 displayedItem.FullName = empl.ShortFullName;
@@ -58,15 +58,20 @@ namespace RapidDoc.Models.Grids
                 displayedItem.DepartmentName = empl.DepartmentName;
                 displayedItem.CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(displayedItem.CreatedDate), timeZoneInfo);
 
-                displayedItem.isNotReview = false;
+                displayedItem.isNotReview = true;
                 displayedItem.SLAStatus = _DocumentService.SLAStatus(displayedItem.Id ?? Guid.Empty, "", user);
+
+                if (!String.IsNullOrEmpty(displayedItem.DocumentText) && displayedItem.DocumentText.Length > 80)
+                {
+                    displayedItem.DocumentText = displayedItem.DocumentText.Substring(0, 80) + "...";
+                }
             }
 
             return _displayingItems;
         }
     }
 
-    public class MyFavoriteAjaxPagingGrid : DocumentGrid
+    public class MyFavoriteAjaxPagingGrid : MyFavoriteGrid
     {
         public MyFavoriteAjaxPagingGrid(IQueryable<DocumentView> items, int page, bool renderOnlyRows, IReviewDocLogService reviewDocLogService, IDocumentService documentService, IAccountService accountService, ISearchService searchService, IEmplService emplService)
             : base(items, reviewDocLogService, documentService, accountService, searchService, emplService)

@@ -48,13 +48,13 @@ namespace RapidDoc.Models.Grids
                 displayedItem.SLAStatus = _DocumentService.SLAStatus(displayedItem.Id ?? Guid.Empty, "", user);
                 EmplTable empl = null;
 
-                if (cacheEmplList.Any(x => x.ApplicationUserId == displayedItem.ApplicationUserCreatedId && x.CompanyTableId == displayedItem.CompanyTableId))
+                if (cacheEmplList.Any(x => x.Id == displayedItem.ApplicationEmplCreatedId))
                 {
-                    empl = cacheEmplList.FirstOrDefault(x => x.ApplicationUserId == displayedItem.ApplicationUserCreatedId && x.CompanyTableId == displayedItem.CompanyTableId);
+                    empl = cacheEmplList.FirstOrDefault(x => x.Id == displayedItem.ApplicationEmplCreatedId);
                 }
                 else
                 {
-                    empl = _EmplService.GetEmployer(displayedItem.ApplicationUserCreatedId, displayedItem.CompanyTableId);
+                    empl = _EmplService.GetPartialIntercompany(x => x.Id == displayedItem.ApplicationEmplCreatedId).FirstOrDefault();
                     cacheEmplList.Add(empl);
                 }
                 displayedItem.FullName = empl.ShortFullName;

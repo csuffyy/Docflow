@@ -13,13 +13,14 @@ namespace RapidDoc.Models.Repository
         T GetById(Guid Id);
         T GetById(string id);
         IEnumerable<T> All();
+        IQueryable<T> AllQuery();
         T Find(Expression<Func<T, bool>> predicate);
         IEnumerable<T> FindAll(Expression<Func<T, bool>> predicate);
         bool Any();
         bool Any(Expression<Func<T, bool>> predicate);
         bool Contains(Expression<Func<T, bool>> predicate);
         int Count { get; }
-        IQueryable<T> AllQuery();
+        IQueryable<T> QueryAll();
 
         //--CRUD Operations
         void Add(T entity);

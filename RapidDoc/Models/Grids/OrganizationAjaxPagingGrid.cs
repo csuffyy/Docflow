@@ -10,7 +10,7 @@ namespace RapidDoc.Models.Grids
 {
     public class OrganizationGrid : Grid<OrganizationView>
     {
-        public OrganizationGrid(IEnumerable<OrganizationView> items)
+        public OrganizationGrid(IQueryable<OrganizationView> items)
             : base(items)
         {
         }
@@ -18,7 +18,7 @@ namespace RapidDoc.Models.Grids
 
     public class OrganizationAjaxPagingGrid : OrganizationGrid
     {
-        public OrganizationAjaxPagingGrid(IEnumerable<OrganizationView> items, int page, bool renderOnlyRows)
+        public OrganizationAjaxPagingGrid(IQueryable<OrganizationView> items, int page, bool renderOnlyRows)
             : base(items)
         {
             Pager = new AjaxGridPager(this) { CurrentPage = page };

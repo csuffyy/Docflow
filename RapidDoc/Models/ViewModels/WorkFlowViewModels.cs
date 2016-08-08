@@ -159,6 +159,7 @@ namespace RapidDoc.Models.ViewModels
         public bool Cancel { get; set; }
         public Guid? CancelDocumentId { get; set; }
         public bool Executed { get; set; }
+        public Guid? ApplicationEmplCreatedId { get; set; }
     }
 
     public class DocumentTaskView : BasicCompanyNullView
@@ -212,6 +213,7 @@ namespace RapidDoc.Models.ViewModels
         [DataType(DataType.Date)]
         [Display(Name = "Дата исполнения")]
         public DateTime? ExecutionDate { get; set; }
+        public Guid? ApplicationEmplCreatedId { get; set; }
     }
 
     public class WFTrackerListView : BasicCompanyNullView

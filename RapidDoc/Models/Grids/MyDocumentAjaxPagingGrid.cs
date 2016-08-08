@@ -38,35 +38,30 @@ namespace RapidDoc.Models.Grids
 
             _displayingItems = base.GetItemsToDisplay().ToList();
             ApplicationUser user = _AccountService.Find(HttpContext.Current.User.Identity.GetUserId());
-            List<EmplTable> cacheEmplList = new List<EmplTable>();
+            EmplTable empl = _EmplService.GetEmployer(user.Id, user.CompanyTableId);
             var timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById(user.TimeZoneId);
  
             foreach (var displayedItem in _displayingItems)
             {
-                EmplTable empl = null;
-                if (cacheEmplList.Any(x => x.ApplicationUserId == displayedItem.ApplicationUserCreatedId && x.CompanyTableId == displayedItem.CompanyTableId))
-                {
-                    empl = cacheEmplList.FirstOrDefault(x => x.ApplicationUserId == displayedItem.ApplicationUserCreatedId && x.CompanyTableId == displayedItem.CompanyTableId);
-                }
-                else
-                {
-                    empl = _EmplService.GetEmployer(displayedItem.ApplicationUserCreatedId, displayedItem.CompanyTableId);
-                    cacheEmplList.Add(empl);
-                }
                 displayedItem.FullName = empl.ShortFullName;
                 displayedItem.TitleName = empl.TitleName;
                 displayedItem.DepartmentName = empl.DepartmentName;
                 displayedItem.CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(displayedItem.CreatedDate), timeZoneInfo);
 
-                displayedItem.isNotReview = false;
+                displayedItem.isNotReview = true;
                 displayedItem.SLAStatus = _DocumentService.SLAStatus(displayedItem.Id ?? Guid.Empty, "", user);
+
+                if (!String.IsNullOrEmpty(displayedItem.DocumentText) && displayedItem.DocumentText.Length > 80)
+                {
+                    displayedItem.DocumentText = displayedItem.DocumentText.Substring(0, 80) + "...";
+                }
             }
 
             return _displayingItems;
         }
     }
 
-    public class MyDocumentAjaxPagingGrid : DocumentGrid
+    public class MyDocumentAjaxPagingGrid : MyDocumentGrid
     {
         public MyDocumentAjaxPagingGrid(IQueryable<DocumentView> items, int page, bool renderOnlyRows, IReviewDocLogService reviewDocLogService, IDocumentService documentService, IAccountService accountService, ISearchService searchService, IEmplService emplService)
             : base(items, reviewDocLogService, documentService, accountService, searchService, emplService)
