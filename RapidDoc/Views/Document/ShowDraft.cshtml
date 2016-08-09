@@ -78,7 +78,8 @@
                 </div>
             </div>
             <div class="col-xs-4">
-                @if (Model.ProcessView.DocType == RapidDoc.Models.Repository.DocumentType.OfficeMemo)
+                @if (Model.ProcessView.DocType == RapidDoc.Models.Repository.DocumentType.OfficeMemo ||
+                    Model.ProcessView.DocType == RapidDoc.Models.Repository.DocumentType.Discussion)
                 {
                     <div class="editor-label hidden-print">
                         @Html.LabelFor(model => model.DocumentView.Share)
@@ -131,13 +132,13 @@
         <p>
             @if (ViewBag.CountModificationUsers > 0)
             {
-                <button type="submit" class="btn btn-success btn-lg" name="action:SaveReworkDocument">@UIElementRes.UIElement.Save</button>
+                <button type="submit" class="execbtn btn btn-success btn-lg" name="action:SaveReworkDocument">@UIElementRes.UIElement.Save</button>
             }
             else
             {
                 <button type="submit" class="btn btn-success btn-lg" name="action:ApproveDocument" id="approveDraft"><span class="visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">@UIElementRes.UIElement.Approve</span><span class="visible-xs-inline-block glyphicon glyphicon-ok-circle"></span></button>
-                <button type="submit" id="savedraftbtn" class="btn btn-default btn-sm" name="action:SaveDraft">@UIElementRes.UIElement.SaveDraft</button>
-    <button type="button" class="btn btn-default btn-sm visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-toggle="modal" data-target=".rework-modal-sm" id="reworkDraft">@UIElementRes.UIElement.OnRework</button>
+                <button type="submit" class="execbtn btn btn-default btn-sm" name="action:SaveDraft">@UIElementRes.UIElement.SaveDraft</button>
+                <button type="button" class="btn btn-default btn-sm visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-toggle="modal" data-target=".rework-modal-sm" id="reworkDraft">@UIElementRes.UIElement.OnRework</button>
             }    
                                  
             @if (Model.DocumentView.CreatedBy == User.Identity.Name || User.IsInRole("Administrator"))
@@ -342,7 +343,7 @@
 
         var needToConfirm = false;
 
-        $('#savedraftbtn').click(function () {
+        $('.execbtn').click(function () {
             needToConfirm = false;
             jQuery('#ajaxUploadForm').validate().currentForm = '';
         });

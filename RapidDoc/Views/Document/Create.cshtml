@@ -65,7 +65,8 @@
                 </div>
             </div>
             <div class="col-xs-4">
-                @if(Model.ProcessView.DocType == RapidDoc.Models.Repository.DocumentType.OfficeMemo)
+                @if(Model.ProcessView.DocType == RapidDoc.Models.Repository.DocumentType.OfficeMemo ||
+                    Model.ProcessView.DocType == RapidDoc.Models.Repository.DocumentType.Discussion)
                 { 
                     <div class="editor-label hidden-print">
                         @Html.LabelFor(model => model.DocumentView.Share)

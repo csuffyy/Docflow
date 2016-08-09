@@ -66,7 +66,6 @@ namespace RapidDoc.Models.DomainModels
     {
         public string Description { get; set; }
         public string Users { get; set; }
-        public bool GeneralAccess { get; set; }
     }
 
     public abstract class BasicOrderTable : BasicDocumentTable

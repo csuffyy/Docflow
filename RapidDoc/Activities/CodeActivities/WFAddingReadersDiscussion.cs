@@ -56,30 +56,20 @@ namespace RapidDoc.Activities.CodeActivities
 
                 var document = _service.Find(documentId);
 
-                if (documentData.ContainsKey("GeneralAccess"))
+                if ((string)documentData["Users"] != null && !String.IsNullOrEmpty((string)documentData["Users"]))
                 {
-                    if ((bool)documentData["GeneralAccess"] == false && (string)documentData["Users"] != null &&
-                        !String.IsNullOrEmpty((string)documentData["Users"]))
-                    {
-                        List<FileTable> docFile = new List<FileTable>();
+                    List<FileTable> docFile = new List<FileTable>();
 
-                        string[] usersAndRoles = _service.GetUserListFromStructure((string)documentData["Users"]);
-                        List<string> users = _serviceWorkflow.EmplAndRolesToUserList(documentId, usersAndRoles);
+                    string[] usersAndRoles = _service.GetUserListFromStructure((string)documentData["Users"]);
+                    List<string> users = _serviceWorkflow.EmplAndRolesToUserList(documentId, usersAndRoles);
 
-                        IEmailService _EmailService = DependencyResolver.Current.GetService<IEmailService>();
-                        var documentModel = _service.GetDocumentView(document.RefDocumentId, document.ProcessTable.TableName);
-                        List<string> readers = _serviceWorkflow.EmplAndRolesToReaders(documentId, usersAndRoles);
-                        _serviceDocumentReader.SaveOrderReader(document, readers.ToArray(), currentUserId);
+                    IEmailService _EmailService = DependencyResolver.Current.GetService<IEmailService>();
+                    var documentModel = _service.GetDocumentView(document.RefDocumentId, document.ProcessTable.TableName);
+                    List<string> readers = _serviceWorkflow.EmplAndRolesToReaders(documentId, usersAndRoles);
+                    _serviceDocumentReader.SaveOrderReader(document, readers.ToArray(), currentUserId);
 
-                        _EmailService.SendReaderEmail(documentId, readers);
-                    }
-                    else
-                    {
-                        document.Share = true;
-                        _service.UpdateDocument(document, currentUserId);
-                    }
+                    _EmailService.SendReaderEmail(documentId, readers);
                 }
-                
             });
         }
     }

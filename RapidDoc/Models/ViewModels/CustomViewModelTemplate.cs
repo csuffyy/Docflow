@@ -109,9 +109,6 @@ namespace RapidDoc.Models.ViewModels
 
         [Display(Name = "Кому")]
         public string Users { get; set; }
-
-        [Display(Name = "Общий доступ")]
-        public bool GeneralAccess { get; set; }
     }
 
     public abstract class BasicOrderView : BasicDocumentView

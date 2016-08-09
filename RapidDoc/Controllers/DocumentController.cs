@@ -365,12 +365,26 @@ namespace RapidDoc.Controllers
                 ViewBag.CompanyName = String.Empty;
             }
 
-            ModificationUsersTable modificationUser = _ModificationUsersService.FirstOrDefault(x => x.DocumentTableId == documentTable.Id && x.OriginalDocumentId != null);
-            if (modificationUser != null)
+            ViewBag.ModificationUser = String.Empty;
+            Guid? parentDocId = _ModificationUsersService.GetParentDocument(documentTable.Id);
 
-                ViewBag.ModificationUser = _EmplService.FirstOrDefault(x => x.ApplicationUserId == modificationUser.UserId).FullName;
-            else
-                ViewBag.ModificationUser = String.Empty;
+            if (parentDocId != null)
+            {
+                List<ModificationDocumentView> hierarchyModification = new List<ModificationDocumentView>();
+                hierarchyModification.AddRange(_ModificationUsersService.GetHierarchyModification(parentDocId));
+
+                if (hierarchyModification.Count() > 0)
+                {
+                    string hierarchyModificationString = String.Empty;
+
+                    foreach (var item in hierarchyModification.Where(x => x.Enable == true))
+                    {
+                        hierarchyModificationString = hierarchyModificationString + item.Name + " ==> ";
+                    }
+
+                    ViewBag.ModificationUser = hierarchyModificationString.Substring(0, hierarchyModificationString.Length - 5);
+                }
+            }
 
             ViewBag.RejectHistory = _HistoryUserService.GetPartialView(x => x.DocumentTableId == documentTable.Id && x.HistoryType == Models.Repository.HistoryType.CancelledDocument);
             ViewBag.AddReaders = _HistoryUserService.GetPartialView(x => x.DocumentTableId == documentTable.Id && x.HistoryType == Models.Repository.HistoryType.AddReader);
@@ -1286,17 +1300,30 @@ namespace RapidDoc.Controllers
             }
 
             if (_ModificationUsersService.ContainDocumentUser(id, User.Identity.GetUserId()))
-            {
                 ViewBag.CountModificationUsers = _ModificationUsersService.GetPartial(x => x.DocumentTableId == id && x.UserId == currentUser.Id).Count();
-            }
             else
                 ViewBag.CountModificationUsers = 0;
-            ModificationUsersTable modificationUser = _ModificationUsersService.FirstOrDefault(x => x.DocumentTableId == id && x.OriginalDocumentId != null);
-            if (modificationUser != null)
 
-                ViewBag.ModificationUser = _EmplService.FirstOrDefault(x => x.ApplicationUserId == modificationUser.UserId).FullName;
-            else
-                ViewBag.ModificationUser = String.Empty;
+            ViewBag.ModificationUser = String.Empty;
+            Guid? parentDocId = _ModificationUsersService.GetParentDocument(id);
+
+            if(parentDocId != null)
+            {
+                List<ModificationDocumentView> hierarchyModification = new List<ModificationDocumentView>();
+                hierarchyModification.AddRange(_ModificationUsersService.GetHierarchyModification(parentDocId));
+
+                if (hierarchyModification.Count() > 0)
+                {
+                    string hierarchyModificationString = String.Empty;
+
+                    foreach (var item in hierarchyModification.Where(x => x.Enable == true))
+                    {
+                        hierarchyModificationString = hierarchyModificationString + item.Name + " ==> ";
+                    }
+
+                    ViewBag.ModificationUser = hierarchyModificationString.Substring(0, hierarchyModificationString.Length - 5);
+                }
+            }
 
             ViewBag.RejectHistory = _HistoryUserService.GetPartialView(x => x.DocumentTableId == documentTable.Id && x.HistoryType == Models.Repository.HistoryType.CancelledDocument);
             ViewBag.AddReaders = _HistoryUserService.GetPartialView(x => x.DocumentTableId == documentTable.Id && x.HistoryType == Models.Repository.HistoryType.AddReader);
@@ -1319,22 +1346,6 @@ namespace RapidDoc.Controllers
                 if (ModelState.IsValid)
                 {
                     _SearchService.SaveSearchData(documentId, docModel, actionModelName);
-
-                    /*
-                    if (documentTable.ProcessTable != null && !String.IsNullOrEmpty(documentTable.ProcessTable.StartReaderRoleId))
-                    {
-                        try
-                        {
-                            var role = RoleManager.FindById(documentTable.ProcessTable.StartReaderRoleId);
-                            if (role != null && role.Users != null && role.Users.Count > 0)
-                            {
-                                List<string> newReader = _DocumentReaderService.AddReader(documentTable.Id, role.Users.ToList());
-                                _EmailService.SendReaderEmail(documentTable.Id, newReader);
-                            }
-                        }
-                        catch { }
-                    }
-                    */
                     _WorkflowService.RunWorkflow(documentTable, processView.TableName, documentData);
 
                     return RedirectToAction("Index", "Document");
@@ -1366,6 +1377,32 @@ namespace RapidDoc.Controllers
                 ViewBag.TitleName = String.Empty;
                 ViewBag.DepartmentName = String.Empty;
                 ViewBag.CompanyName = String.Empty;
+            }
+
+            if (_ModificationUsersService.ContainDocumentUser(documentId, User.Identity.GetUserId()))
+                ViewBag.CountModificationUsers = _ModificationUsersService.GetPartial(x => x.DocumentTableId == documentId && x.UserId == currentUser.Id).Count();
+            else
+                ViewBag.CountModificationUsers = 0;
+
+            ViewBag.ModificationUser = String.Empty;
+            Guid? parentDocId = _ModificationUsersService.GetParentDocument(documentId);
+
+            if (parentDocId != null)
+            {
+                List<ModificationDocumentView> hierarchyModification = new List<ModificationDocumentView>();
+                hierarchyModification.AddRange(_ModificationUsersService.GetHierarchyModification(parentDocId));
+
+                if (hierarchyModification.Count() > 0)
+                {
+                    string hierarchyModificationString = String.Empty;
+
+                    foreach (var item in hierarchyModification.Where(x => x.Enable == true))
+                    {
+                        hierarchyModificationString = hierarchyModificationString + item.Name + " ==> ";
+                    }
+
+                    ViewBag.ModificationUser = hierarchyModificationString.Substring(0, hierarchyModificationString.Length - 5);
+                }
             }
 
             ViewBag.RejectHistory = _HistoryUserService.GetPartialView(x => x.DocumentTableId == documentTable.Id && x.HistoryType == Models.Repository.HistoryType.CancelledDocument);
