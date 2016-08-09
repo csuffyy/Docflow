@@ -259,13 +259,13 @@ namespace RapidDoc.Models.Services
                             DocumentNum = document.DocumentNum,
                             DocumentState = document.DocumentState,
                             DocumentText = document.DocumentText,
-                            FileId = document.FileId,
                             Id = document.Id,
                             ModifiedDate = document.ModifiedDate,
                             ProcessTableId = document.ProcessTableId,
                             AliasCompanyName = company.AliasCompanyName,
                             ProcessName = process.ProcessName,
-                            CreatedBy = empl.SecondName + " " + empl.FirstName
+                            CreatedBy = empl.SecondName + " " + empl.FirstName,
+                            ApplicationEmplCreatedId = empl.Id
                         };
 
                 return items.AsQueryable();
@@ -358,13 +358,13 @@ namespace RapidDoc.Models.Services
                                 DocumentNum = document.DocumentNum,
                                 DocumentState = document.DocumentState,
                                 DocumentText = document.DocumentText,
-                                FileId = document.FileId,
                                 Id = document.Id,
                                 ModifiedDate = document.ModifiedDate,
                                 ProcessTableId = document.ProcessTableId,
                                 AliasCompanyName = company.AliasCompanyName,
                                 ProcessName = process.ProcessName,
-                                CreatedBy = empl.SecondName + " " + empl.FirstName
+                                CreatedBy = empl.SecondName + " " + empl.FirstName,
+                                ApplicationEmplCreatedId = empl.Id
                             };
 
                 return items.AsQueryable();
@@ -395,13 +395,13 @@ namespace RapidDoc.Models.Services
                             DocumentNum = document.DocumentNum,
                             DocumentState = document.DocumentState,
                             DocumentText = document.DocumentText,
-                            FileId = document.FileId,
                             Id = document.Id,
                             ModifiedDate = document.ModifiedDate,
                             ProcessTableId = document.ProcessTableId,
                             AliasCompanyName = company.AliasCompanyName,
                             ProcessName = process.ProcessName,
-                            CreatedBy = empl.SecondName + " " + empl.FirstName
+                            CreatedBy = empl.SecondName + " " + empl.FirstName,
+                            ApplicationEmplCreatedId = empl.Id
                        };
 
                 return items.AsQueryable();
@@ -490,13 +490,13 @@ namespace RapidDoc.Models.Services
                                 DocumentNum = document.DocumentNum,
                                 DocumentState = document.DocumentState,
                                 DocumentText = document.DocumentText,
-                                FileId = document.FileId,
                                 Id = document.Id,
                                 ModifiedDate = document.ModifiedDate,
                                 ProcessTableId = document.ProcessTableId,
                                 AliasCompanyName = company.AliasCompanyName,
                                 ProcessName = process.ProcessName,
-                                CreatedBy = empl.SecondName + " " + empl.FirstName
+                                CreatedBy = empl.SecondName + " " + empl.FirstName,
+                                ApplicationEmplCreatedId = empl.Id
                             };
 
                 return items.AsQueryable();
@@ -524,13 +524,13 @@ namespace RapidDoc.Models.Services
                         DocumentNum = document.DocumentNum,
                         DocumentState = document.DocumentState,
                         DocumentText = document.DocumentText,
-                        FileId = document.FileId,
                         Id = document.Id,
                         ModifiedDate = document.ModifiedDate,
                         ProcessTableId = document.ProcessTableId,
                         AliasCompanyName = company.AliasCompanyName,
                         ProcessName = process.ProcessName,
-                        CreatedBy = empl.SecondName + " " + empl.FirstName
+                        CreatedBy = empl.SecondName + " " + empl.FirstName,
+                        ApplicationEmplCreatedId = empl.Id
                     };
 
             return items.AsQueryable();
@@ -545,7 +545,6 @@ namespace RapidDoc.Models.Services
                         where document.ApplicationUserCreatedId == user.Id
                             join company in contextQuery.CompanyTable on document.CompanyTableId equals company.Id
                             join process in contextQuery.ProcessTable on document.ProcessTableId equals process.Id
-                        let empl = contextQuery.EmplTable.Where(p => p.ApplicationUserId == document.ApplicationUserCreatedId).OrderByDescending(p => p.Enable).FirstOrDefault()
                         orderby document.CreatedDate descending
                         select new DocumentView
                         {
@@ -557,13 +556,11 @@ namespace RapidDoc.Models.Services
                             DocumentNum = document.DocumentNum,
                             DocumentState = document.DocumentState,
                             DocumentText = document.DocumentText,
-                            FileId = document.FileId,
                             Id = document.Id,
                             ModifiedDate = document.ModifiedDate,
                             ProcessTableId = document.ProcessTableId,
                             AliasCompanyName = company.AliasCompanyName,
-                            ProcessName = process.ProcessName,
-                            CreatedBy = empl.SecondName + " " + empl.FirstName
+                            ProcessName = process.ProcessName
                         };
 
             return items.AsQueryable();
@@ -575,91 +572,32 @@ namespace RapidDoc.Models.Services
             DateTime currentDate = DateTime.UtcNow;
             ApplicationDbContext contextQuery = _uow.GetDbContext<ApplicationDbContext>();
 
-            if (UserManager.IsInRole(user.Id, "Administrator"))
-            {
-                var items = from document in contextQuery.DocumentTable
-                            where (contextQuery.ReviewDocLogTable.Any(x => x.ApplicationUserCreatedId == user.Id && x.DocumentTableId == document.Id && x.isFavorite == true))
-                            join company in contextQuery.CompanyTable on document.CompanyTableId equals company.Id
-                            join process in contextQuery.ProcessTable on document.ProcessTableId equals process.Id
-                            let empl = contextQuery.EmplTable.Where(p => p.ApplicationUserId == document.ApplicationUserCreatedId).OrderByDescending(p => p.Enable).FirstOrDefault()
-                            orderby document.ModifiedDate descending
-                            select new DocumentView
-                            {
-                                ActivityName = document.ActivityName,
-                                ApplicationUserCreatedId = document.ApplicationUserCreatedId,
-                                ApplicationUserModifiedId = document.ApplicationUserModifiedId,
-                                CompanyTableId = document.CompanyTableId,
-                                CreatedDate = document.CreatedDate,
-                                DocumentNum = document.DocumentNum,
-                                DocumentState = document.DocumentState,
-                                DocumentText = document.DocumentText,
-                                FileId = document.FileId,
-                                Id = document.Id,
-                                ModifiedDate = document.ModifiedDate,
-                                ProcessTableId = document.ProcessTableId,
-                                AliasCompanyName = company.AliasCompanyName,
-                                ProcessName = process.ProcessName,
-                                CreatedBy = empl.SecondName + " " + empl.FirstName
-                            };
+            var items = from document in contextQuery.DocumentTable
+                        where (contextQuery.ReviewDocLogTable.Any(x => x.ApplicationUserCreatedId == user.Id && x.DocumentTableId == document.Id && x.isFavorite == true))
+                        join company in contextQuery.CompanyTable on document.CompanyTableId equals company.Id
+                        join process in contextQuery.ProcessTable on document.ProcessTableId equals process.Id
+                        let empl = contextQuery.EmplTable.Where(p => p.ApplicationUserId == document.ApplicationUserCreatedId).OrderByDescending(p => p.Enable).FirstOrDefault()
+                        orderby document.ModifiedDate descending
+                        select new DocumentView
+                        {
+                            ActivityName = document.ActivityName,
+                            ApplicationUserCreatedId = document.ApplicationUserCreatedId,
+                            ApplicationUserModifiedId = document.ApplicationUserModifiedId,
+                            CompanyTableId = document.CompanyTableId,
+                            CreatedDate = document.CreatedDate,
+                            DocumentNum = document.DocumentNum,
+                            DocumentState = document.DocumentState,
+                            DocumentText = document.DocumentText,
+                            Id = document.Id,
+                            ModifiedDate = document.ModifiedDate,
+                            ProcessTableId = document.ProcessTableId,
+                            AliasCompanyName = company.AliasCompanyName,
+                            ProcessName = process.ProcessName,
+                            CreatedBy = empl.SecondName + " " + empl.FirstName,
+                            ApplicationEmplCreatedId = empl.Id
+                        };
 
-                return items.AsQueryable();
-            }
-            else
-            {
-                var delegations = contextQuery.DelegationTable.Where(d => d.EmplTableTo.ApplicationUserId == user.Id && d.DateFrom <= currentDate && d.DateTo >= currentDate && d.isArchive == false
-                    && d.CompanyTableId == user.CompanyTableId && d.GroupProcessTableId != null).ToList();
-                List<Guid> childGroup = new List<Guid>();
-
-                foreach (var item in delegations)
-                {
-                    childGroup.AddRange(_GroupProcessService.GetGroupChildren(item.GroupProcessTableId));
-                    childGroup.Add((Guid)item.GroupProcessTableId);
-                }
-
-                var childGroupArray = childGroup.Distinct().ToArray();
-
-                var items = from document in contextQuery.DocumentTable
-                            where
-                                (document.ApplicationUserCreatedId == user.Id ||
-                                    contextQuery.WFTrackerTable.Any(x => x.DocumentTableId == document.Id && x.SignUserId == null && x.TrackerType == TrackerType.Waiting && x.Users.Any(b => b.UserId == user.Id)) ||
-                                    contextQuery.WFTrackerTable.Any(x => x.DocumentTableId == document.Id && x.SignUserId == user.Id && (x.TrackerType == TrackerType.Approved || x.TrackerType == TrackerType.Cancelled)) ||
-                                    contextQuery.DocumentReaderTable.Any(r => r.DocumentTableId == document.Id && r.UserId == user.Id) ||
-                                          contextQuery.ProcessTable.Any(p => p.Id == document.ProcessTableId && contextQuery.Roles.Where(pr => pr.Id == p.StartReaderRoleId).ToList().Any(x => x.Users.ToList().Any(z => z.UserId == user.Id)))
-                                              ||
-                                    (contextQuery.DocumentReaderTable.Any(d => d.RoleId != null && d.DocumentTableId == document.Id && contextQuery.Roles.Where(r => r.Id == d.RoleId).ToList().Any(x => x.Users.ToList().Any(z => z.UserId == user.Id)))) ||
-                                    (contextQuery.DelegationTable.Any(d => d.EmplTableTo.ApplicationUserId == user.Id && d.DateFrom <= currentDate && d.DateTo >= currentDate && d.isArchive == false
-                                    && d.CompanyTableId == user.CompanyTableId
-                                    && (d.GroupProcessTableId == null || (d.GroupProcessTableId != null && childGroupArray.Any(x => x == document.ProcessTable.GroupProcessTableId)))
-                                    && (d.ProcessTableId == document.ProcessTableId || d.ProcessTableId == null)
-                                    && contextQuery.WFTrackerTable.Any(w => w.DocumentTableId == document.Id && w.SignUserId == null && w.TrackerType == TrackerType.Waiting && w.Users.Any(b => b.UserId == d.EmplTableFrom.ApplicationUserId))
-                                    ))
-                                )
-                                && (contextQuery.ReviewDocLogTable.Any(x => x.ApplicationUserCreatedId == user.Id && x.DocumentTableId == document.Id && x.isFavorite == true))
-                            join company in contextQuery.CompanyTable on document.CompanyTableId equals company.Id
-                            join process in contextQuery.ProcessTable on document.ProcessTableId equals process.Id
-                            let empl = contextQuery.EmplTable.Where(p => p.ApplicationUserId == document.ApplicationUserCreatedId).OrderByDescending(p => p.Enable).FirstOrDefault()
-                            orderby document.ModifiedDate descending
-                            select new DocumentView
-                            {
-                                ActivityName = document.ActivityName,
-                                ApplicationUserCreatedId = document.ApplicationUserCreatedId,
-                                ApplicationUserModifiedId = document.ApplicationUserModifiedId,
-                                CompanyTableId = document.CompanyTableId,
-                                CreatedDate = document.CreatedDate,
-                                DocumentNum = document.DocumentNum,
-                                DocumentState = document.DocumentState,
-                                DocumentText = document.DocumentText,
-                                FileId = document.FileId,
-                                Id = document.Id,
-                                ModifiedDate = document.ModifiedDate,
-                                ProcessTableId = document.ProcessTableId,
-                                AliasCompanyName = company.AliasCompanyName,
-                                ProcessName = process.ProcessName,
-                                CreatedBy = empl.SecondName + " " + empl.FirstName
-                            };
-
-                return items.AsQueryable();
-            }
+            return items.AsQueryable();
         }
 
         public IQueryable<DocumentTaskView> GetTaskDocumentView()
@@ -683,12 +621,12 @@ namespace RapidDoc.Models.Services
             var items = from document in contextQuery.DocumentTable
                         where (contextQuery.ProcessTable.Any(p => p.Id == document.ProcessTableId && contextQuery.Roles.Where(pr => pr.Id == p.StartReaderRoleId).ToList().Any(x => x.Users.ToList().Any(z => z.UserId == user.Id)))
                                     ||
-                                    contextQuery.WFTrackerTable.Any(x => x.DocumentTableId == document.Id && x.SignUserId == null && x.TrackerType == TrackerType.Waiting && x.Users.Any(b => b.UserId == user.Id)) ||
+                                    contextQuery.WFTrackerTable.Any(x => x.DocumentTableId == document.Id && x.Users.Any(b => b.UserId == user.Id)) ||
                                     (contextQuery.DelegationTable.Any(d => d.EmplTableTo.ApplicationUserId == user.Id && d.DateFrom <= currentDate && d.DateTo >= currentDate && d.isArchive == false
                                     && d.CompanyTableId == user.CompanyTableId
                                     && (d.GroupProcessTableId == null || (d.GroupProcessTableId != null && childGroupArray.Any(x => x == document.ProcessTable.GroupProcessTableId)))
                                     && (d.ProcessTableId == document.ProcessTableId || d.ProcessTableId == null)
-                                    && contextQuery.WFTrackerTable.Any(w => w.DocumentTableId == document.Id && w.SignUserId == null && w.TrackerType == TrackerType.Waiting && w.Users.Any(b => b.UserId == d.EmplTableFrom.ApplicationUserId))
+                                    && contextQuery.WFTrackerTable.Any(w => w.DocumentTableId == document.Id && w.Users.Any(b => b.UserId == d.EmplTableFrom.ApplicationUserId))
                                     ))
                                 )
                         join company in contextQuery.CompanyTable on document.CompanyTableId equals company.Id
@@ -696,7 +634,7 @@ namespace RapidDoc.Models.Services
                         join documentData in contextQuery.USR_TAS_DailyTasks_Table on document.Id equals documentData.DocumentTableId
                         let empl = contextQuery.EmplTable.Where(p => p.ApplicationUserId == document.ApplicationUserCreatedId).OrderByDescending(p => p.Enable).FirstOrDefault()
                         where process.DocType == DocumentType.Task
-                        orderby document.CreatedDate descending
+                        orderby String.IsNullOrEmpty(document.ActivityName), document.CreatedDate descending
                         select new DocumentTaskView
                         {
                             ActivityName = document.ActivityName,
@@ -713,7 +651,8 @@ namespace RapidDoc.Models.Services
                             AliasCompanyName = company.AliasCompanyName,
                             ProcessName = process.ProcessName,
                             CreatedBy = empl.SecondName + " " + empl.FirstName,
-                            ExecutionDate = documentData.ProlongationDate == null ? documentData.ExecutionDate : documentData.ProlongationDate
+                            ExecutionDate = documentData.ProlongationDate == null ? documentData.ExecutionDate : documentData.ProlongationDate,
+                            ApplicationEmplCreatedId = empl.Id
                         };
 
             return items.AsQueryable();

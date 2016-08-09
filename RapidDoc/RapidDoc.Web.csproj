@@ -2205,6 +2205,9 @@
     <Content Include="Views\Custom\USR_REQ_OKS_RequestForCompanyForm_Edit.cshtml" />
     <Content Include="Views\Shared\_PublicLayout.cshtml" />
     <Content Include="Views\NumberSeq\SetNull.cshtml" />
+    <Content Include="Views\Document\DocumentAgreedList.cshtml" />
+    <Content Include="Views\Document\DocumentMyList.cshtml" />
+    <Content Include="Views\Document\DocumentMyFavoriteList.cshtml" />
     <Content Include="Views\Custom\USR_DIS_Discussion_View.cshtml" />
     <Content Include="Views\Custom\USR_DIS_Discussion_Edit.cshtml" />
   </ItemGroup>

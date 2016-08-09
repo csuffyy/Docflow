@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Web;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Collections.Generic;
 using AutoMapper;
@@ -10,6 +9,7 @@ using RapidDoc.Models.ViewModels;
 using RapidDoc.Models.Repository;
 using RapidDoc.Models.Infrastructure;
 using System.Web.Mvc;
+using System.Linq;
 
 
 namespace RapidDoc.Models.Services
@@ -17,7 +17,7 @@ namespace RapidDoc.Models.Services
     public interface IOrganizationService
     {
         IEnumerable<OrganizationTable> GetAll();
-        IEnumerable<OrganizationView> GetAllView();
+        IQueryable<OrganizationView> GetAllView();
         IEnumerable<OrganizationTable> GetPartial(Expression<Func<OrganizationTable, bool>> predicate);
         IEnumerable<OrganizationView> GetPartialView(Expression<Func<OrganizationTable, bool>> predicate);
         IEnumerable<OrganizationTable> GetPartialIntercompany(Expression<Func<OrganizationTable, bool>> predicate);
@@ -52,9 +52,14 @@ namespace RapidDoc.Models.Services
             return repo.All();
         }
 
-        public IEnumerable<OrganizationView> GetAllView()
+        public IQueryable<OrganizationView> GetAllView()
         {
-            return Mapper.Map<IEnumerable<OrganizationTable>, IEnumerable<OrganizationView>>(GetAll());
+            return from item in repo.QueryAll().OrderBy(x => x.OrgName)
+                   select new OrganizationView {
+                        Id = item.Id,
+                        OrgName = item.OrgName,
+                        Enable = item.Enable
+                   };
         }
 
         public IEnumerable<OrganizationTable> GetPartial(Expression<Func<OrganizationTable, bool>> predicate)

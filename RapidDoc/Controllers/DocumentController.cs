@@ -136,19 +136,19 @@ namespace RapidDoc.Controllers
         public ActionResult GetAllAgreedDocument()
         {
             var grid = new AgreedDocumentAjaxPagingGrid(_DocumentService.GetAgreedDocument(), 1, false, _ReviewDocLogService, _DocumentService, _AccountService, _SearchService, _EmplService);
-            return PartialView("~/Views/Document/DocumentList.cshtml", grid);
+            return PartialView("~/Views/Document/DocumentAgreedList.cshtml", grid);
         }
 
         public ActionResult GetAllMyDocument()
         {
             var grid = new MyDocumentAjaxPagingGrid(_DocumentService.GetMyDocumentView(), 1, false, _ReviewDocLogService, _DocumentService, _AccountService, _SearchService, _EmplService);
-            return PartialView("~/Views/Document/DocumentList.cshtml", grid);
+            return PartialView("~/Views/Document/DocumentMyList.cshtml", grid);
         }
 
         public ActionResult GetAllMyFavorite()
         {
             var grid = new MyFavoriteAjaxPagingGrid(_DocumentService.GetMyFavoriteView(), 1, false, _ReviewDocLogService, _DocumentService, _AccountService, _SearchService, _EmplService);
-            return PartialView("~/Views/Document/DocumentList.cshtml", grid);
+            return PartialView("~/Views/Document/DocumentMyFavoriteList.cshtml", grid);
         }
 
         public ActionResult GetMyTaskDocument()
@@ -185,7 +185,7 @@ namespace RapidDoc.Controllers
 
             return Json(new
             {
-                Html = RenderPartialViewToString("DocumentList", grid),
+                Html = RenderPartialViewToString("DocumentAgreedList", grid),
                 HasItems = grid.DisplayingItemsCount >= grid.Pager.PageSize
             }, JsonRequestBehavior.AllowGet);
         }
@@ -196,7 +196,7 @@ namespace RapidDoc.Controllers
 
             return Json(new
             {
-                Html = RenderPartialViewToString("DocumentList", grid),
+                Html = RenderPartialViewToString("DocumentMyList", grid),
                 HasItems = grid.DisplayingItemsCount >= grid.Pager.PageSize
             }, JsonRequestBehavior.AllowGet);
         }
@@ -207,7 +207,7 @@ namespace RapidDoc.Controllers
 
             return Json(new
             {
-                Html = RenderPartialViewToString("DocumentList", grid),
+                Html = RenderPartialViewToString("DocumentMyFavoriteList", grid),
                 HasItems = grid.DisplayingItemsCount >= grid.Pager.PageSize
             }, JsonRequestBehavior.AllowGet);
         }

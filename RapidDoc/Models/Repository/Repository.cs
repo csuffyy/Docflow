@@ -73,6 +73,11 @@ namespace RapidDoc.Models.Repository
             return _dbset;
         }
 
+        public virtual IQueryable<T> QueryAll()
+        {
+            return _dbset;
+        }
+
         public virtual T Find(Expression<Func<T, bool>> predicate)
         {
             return _dbset.FirstOrDefault(predicate);

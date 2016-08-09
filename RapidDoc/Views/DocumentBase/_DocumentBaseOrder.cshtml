@@ -227,7 +227,7 @@
             }
             break;
         case RapidDoc.Models.Repository.OrderFilterType.Topic:
-            foreach (var itemGroup in Model.GroupBy(x => x.DocumentTitle).OrderBy(x => x.Key).OrderBy(x => x.Key))
+            foreach (var itemGroup in Model.Where(x => !String.IsNullOrEmpty(x.DocumentTitle)).GroupBy(x => x.DocumentTitle).OrderBy(x => x.Key).OrderBy(x => x.Key))
             {
                 num++;
                 <div class="panel panel-default">

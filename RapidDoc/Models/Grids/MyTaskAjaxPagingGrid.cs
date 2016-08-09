@@ -44,13 +44,13 @@ namespace RapidDoc.Models.Grids
             foreach (var displayedItem in _displayingItems)
             {
                 EmplTable empl = null;
-                if (cacheEmplList.Any(x => x.ApplicationUserId == displayedItem.ApplicationUserCreatedId && x.CompanyTableId == displayedItem.CompanyTableId))
+                if (cacheEmplList.Any(x => x.Id == displayedItem.ApplicationEmplCreatedId))
                 {
-                    empl = cacheEmplList.FirstOrDefault(x => x.ApplicationUserId == displayedItem.ApplicationUserCreatedId && x.CompanyTableId == displayedItem.CompanyTableId);
+                    empl = cacheEmplList.FirstOrDefault(x => x.Id == displayedItem.ApplicationEmplCreatedId);
                 }
                 else
                 {
-                    empl = _EmplService.GetEmployer(displayedItem.ApplicationUserCreatedId, displayedItem.CompanyTableId);
+                    empl = _EmplService.GetPartialIntercompany(x => x.Id == displayedItem.ApplicationEmplCreatedId).FirstOrDefault();
                     cacheEmplList.Add(empl);
                 }
                 displayedItem.FullName = empl.ShortFullName;
@@ -60,6 +60,11 @@ namespace RapidDoc.Models.Grids
 
                 displayedItem.isNotReview = _ReviewDocLogService.isNotReviewDocCurrentUser(displayedItem.Id ?? Guid.Empty, "", user);
                 displayedItem.SLAStatus = _DocumentService.SLAStatus(displayedItem.Id ?? Guid.Empty, "", user);
+
+                if (!String.IsNullOrEmpty(displayedItem.DocumentText) && displayedItem.DocumentText.Length > 80)
+                {
+                    displayedItem.DocumentText = displayedItem.DocumentText.Substring(0, 80) + "...";
+                }
             }
 
             return _displayingItems;
