@@ -36,7 +36,7 @@ namespace RapidDoc.Controllers
             RoleManager = new RoleManager<ApplicationRole>(new RoleStore<ApplicationRole>(dbContext));
         }
 
-        //[OutputCache(Duration = 86400, VaryByParam = "id;lang;company")]
+        [OutputCache(Duration = 86400, VaryByParam = "id;lang;company")]
         public ActionResult Index(string id, string lang, string company)
         {
             ApplicationUser user = _AccountService.Find(id);
