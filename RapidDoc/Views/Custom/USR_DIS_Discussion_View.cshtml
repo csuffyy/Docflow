@@ -7,17 +7,3 @@
 <div>
     @Html.Raw(Model.Description)
 </div>
-
-<div class="editor-label">
-    @Html.LabelFor(model => Model.Users)
-</div>
-<div>
-    @Html.HtmlDisplayTagsFor(model => Model.Users)
-</div>
-
-<div class="editor-label">
-    @Html.LabelFor(model => Model.GeneralAccess)
-</div>
-<div class="editor-field">
-    @Html.CheckBoxFor(model => Model.GeneralAccess, new { @disabled = true })
-</div>
