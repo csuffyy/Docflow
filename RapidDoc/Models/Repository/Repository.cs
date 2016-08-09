@@ -106,11 +106,6 @@ namespace RapidDoc.Models.Repository
             }
         }
 
-        public virtual IQueryable<T> AllQuery()
-        {
-            return _dbset;
-        }
-
         public virtual bool Any(Expression<Func<T, bool>> predicate)
         {
             return _dbset.Any(predicate);
