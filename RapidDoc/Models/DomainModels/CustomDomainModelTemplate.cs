@@ -62,6 +62,13 @@ namespace RapidDoc.Models.DomainModels
         public bool Separated { get; set; }
     }
 
+    public abstract class BasicDailyDiscussionTable : BasicDocumentTable
+    {
+        public string Description { get; set; }
+        public string Users { get; set; }
+        public bool GeneralAccess { get; set; }
+    }
+
     public abstract class BasicOrderTable : BasicDocumentTable
     {
         public string OrderNum { get; set; }

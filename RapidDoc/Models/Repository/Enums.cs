@@ -129,6 +129,9 @@ namespace RapidDoc.Models.Repository
         AppealDoc = 6,
 
         [Display(Name = "Протокол")]
-        Protocol = 7
+        Protocol = 7,
+
+        [Display(Name = "Обсуждение")]
+        Discussion = 8
     }
 }

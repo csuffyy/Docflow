@@ -274,6 +274,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Activities\CodeActivities\WFAddingReadersDiscussion.cs" />
     <Compile Include="Activities\CodeActivities\WFAddingReadersUMM.cs" />
     <Compile Include="Activities\CodeActivities\WFCheckParentDepartment.cs" />
     <Compile Include="Activities\CodeActivities\WFChooseOfficeMemoSpecificUser.cs" />
@@ -2204,6 +2205,8 @@
     <Content Include="Views\Custom\USR_REQ_OKS_RequestForCompanyForm_Edit.cshtml" />
     <Content Include="Views\Shared\_PublicLayout.cshtml" />
     <Content Include="Views\NumberSeq\SetNull.cshtml" />
+    <Content Include="Views\Custom\USR_DIS_Discussion_View.cshtml" />
+    <Content Include="Views\Custom\USR_DIS_Discussion_Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -2287,6 +2290,10 @@
       <Generator>MSBuild:Compile</Generator>
     </XamlAppDef>
     <XamlAppDef Include="Activities\USK_OND_OutcomingDocuments.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </XamlAppDef>
+    <XamlAppDef Include="Activities\USR_DIS_Discussion.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </XamlAppDef>
