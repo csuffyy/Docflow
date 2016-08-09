@@ -5177,5 +5177,14 @@ namespace RapidDoc.Models.DomainModels
     }
 
     #endregion
+
+    #region Обсуждения
+
+    public class USR_DIS_Discussion_Table : BasicDailyDiscussionTable
+    {
+
+    }
+
+    #endregion
 }
     

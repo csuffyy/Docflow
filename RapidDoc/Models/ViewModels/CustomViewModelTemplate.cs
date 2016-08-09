@@ -101,6 +101,19 @@ namespace RapidDoc.Models.ViewModels
         public bool Separated { get; set; }
     }
 
+    public abstract class BasicDailyDiscussionView : BasicDocumentView
+    {
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Текст")]
+        public string Description { get; set; }
+
+        [Display(Name = "Кому")]
+        public string Users { get; set; }
+
+        [Display(Name = "Общий доступ")]
+        public bool GeneralAccess { get; set; }
+    }
+
     public abstract class BasicOrderView : BasicDocumentView
     {
         [Display(Name = "Номер приказа")]

@@ -10916,6 +10916,15 @@ namespace RapidDoc.Models.ViewModels
 
     #endregion
 
+    #region Обсуждения
+
+    public class USR_DIS_Discussion_View : BasicDailyDiscussionView
+    {
+
+    }
+
+    #endregion
+
     public class KZCInfoData_View
     {
         public string Login { get; set; }
