@@ -145,6 +145,13 @@
             {
                 <button type="button" class="btn btn-danger btn-sm bg-danger hidden-print" data-toggle="modal" data-target=".bs-delete-modal-sm">@UIElementRes.UIElement.Delete</button>
             }
+            else
+            {
+                if (ViewBag.CountModificationUsers > 0)
+                {
+                    <button type="submit" class="execbtn btn btn-danger btn-sm bg-danger hidden-print" name="action:DeleteRework">@UIElementRes.UIElement.Delete</button>
+                }
+            }
             <a href="@Url.Action("Index", "Document")" class="btn btn-default btn-sm visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" role="button" id="cancelDraft">@UIElementRes.UIElement.Cancel</a>
 </p>
 

@@ -1022,7 +1022,7 @@ namespace RapidDoc.Models.Services
 
                 if (emplTable != null && !ofmList.Exists(x => x == emplTable.ApplicationUserId) && repoUser.Any(x => x.Id == emplTable.ApplicationUserId && x.Enable == true))
                 {
-                    if (!_WorkflowTrackerService.Contains(x => x.DocumentTableId == documentId && x.SignUserId == emplTable.ApplicationUserId))
+                    if (!_WorkflowTrackerService.Contains(x => x.DocumentTableId == documentId && x.SignUserId == emplTable.ApplicationUserId && x.SystemName != "ORDCustomUserAssign"))
                         ofmList.Add(emplTable.ApplicationUserId);
                 }
                 else
@@ -1037,7 +1037,7 @@ namespace RapidDoc.Models.Services
                         {
                             if (!ofmList.Exists(x => x == userRole.UserId) && empllist.Any(x => x.ApplicationUserId == userRole.UserId) && repoUser.Any(x => x.Id == userRole.UserId && x.Enable == true))
                             {
-                                if (!_WorkflowTrackerService.Contains(x => x.DocumentTableId == documentId && x.SignUserId == userRole.UserId))
+                                if (!_WorkflowTrackerService.Contains(x => x.DocumentTableId == documentId && x.SignUserId == userRole.UserId && x.SystemName != "ORDCustomUserAssign"))
                                     ofmList.Add(userRole.UserId);
                             }
                         }

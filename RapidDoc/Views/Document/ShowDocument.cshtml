@@ -364,11 +364,7 @@
         }
         else
         {
-            if ((Model.DocumentView.isSign == false && Model.DocumentView.DocumentState != RapidDoc.Models.Repository.DocumentState.OnSign)
-                || Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.OnSign)
-            {
-                <a href=@Url.Action("DocumentToArchive", new { id = Model.DocumentView.Id }) class="btn btn-primary btn-sm hidden-print">@UIElementRes.UIElement.ToArchive</a>
-            }
+            <a href=@Url.Action("DocumentToArchive", new { id = Model.DocumentView.Id }) class="btn btn-primary btn-sm hidden-print">@UIElementRes.UIElement.ToArchive</a>
         }
         @if (Model.DocumentView.DocType == RapidDoc.Models.Repository.DocumentType.Task &&
                     (Model.DocumentView.DocumentState == RapidDoc.Models.Repository.DocumentState.Closed ||

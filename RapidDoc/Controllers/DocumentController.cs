@@ -382,7 +382,8 @@ namespace RapidDoc.Controllers
                         hierarchyModificationString = hierarchyModificationString + item.Name + " ==> ";
                     }
 
-                    ViewBag.ModificationUser = hierarchyModificationString.Substring(0, hierarchyModificationString.Length - 5);
+                    if (!String.IsNullOrEmpty(hierarchyModificationString))
+                        ViewBag.ModificationUser = hierarchyModificationString.Substring(0, hierarchyModificationString.Length - 5);
                 }
             }
 
@@ -567,6 +568,22 @@ namespace RapidDoc.Controllers
                 _DocumentReaderService.Delete(documentId);
                 _ModificationUsersService.DeleteAll(documentId);
                 _DocumentService.Delete(documentId);
+
+                return RedirectToAction("Index", "Document");
+            }
+            else
+                return RedirectToAction("PageNotFound", "Error");
+        }
+
+        [HttpPost]
+        [MultipleButton(Name = "action", Argument = "DeleteRework")]
+        public ActionResult DeleteRework(Guid processId, int type, Guid fileId, FormCollection collection, string actionModelName, Guid documentId)
+        {
+            DocumentTable documentTable = _DocumentService.FirstOrDefault(x => x.Id == documentId);
+
+            if (documentTable.DocumentState == DocumentState.Created)
+            {
+                _ModificationUsersService.DeleteAll(documentId);
 
                 return RedirectToAction("Index", "Document");
             }
@@ -1325,7 +1342,8 @@ namespace RapidDoc.Controllers
                         hierarchyModificationString = hierarchyModificationString + item.Name + " ==> ";
                     }
 
-                    ViewBag.ModificationUser = hierarchyModificationString.Substring(0, hierarchyModificationString.Length - 5);
+                    if (!String.IsNullOrEmpty(hierarchyModificationString))
+                        ViewBag.ModificationUser = hierarchyModificationString.Substring(0, hierarchyModificationString.Length - 5);
                 }
             }
 
@@ -1405,7 +1423,8 @@ namespace RapidDoc.Controllers
                         hierarchyModificationString = hierarchyModificationString + item.Name + " ==> ";
                     }
 
-                    ViewBag.ModificationUser = hierarchyModificationString.Substring(0, hierarchyModificationString.Length - 5);
+                    if (!String.IsNullOrEmpty(hierarchyModificationString))
+                        ViewBag.ModificationUser = hierarchyModificationString.Substring(0, hierarchyModificationString.Length - 5);
                 }
             }
 
@@ -1551,18 +1570,12 @@ namespace RapidDoc.Controllers
             DocumentTable docuTable = _DocumentService.Find(id);
             if (docuTable == null) return HttpNotFound();
 
-            if ((_DocumentService.isSignDocument(id, userTable) == false && docuTable.DocumentState != DocumentState.OnSign)
-                || docuTable.DocumentState == DocumentState.OnSign)
+            ReviewDocLogTable reviewTable = _ReviewDocLogService.FirstOrDefault(x => x.DocumentTableId == id && x.ApplicationUserCreatedId == userTable.Id);
+            if (reviewTable != null)
             {
-                ReviewDocLogTable reviewTable = _ReviewDocLogService.FirstOrDefault(x => x.DocumentTableId == id && x.ApplicationUserCreatedId == userTable.Id);
-                if (reviewTable != null)
-                {
-                    reviewTable.isArchive = true;
-                    _ReviewDocLogService.SaveDomain(reviewTable, userTable.UserName);
-                }
+                reviewTable.isArchive = true;
+                _ReviewDocLogService.SaveDomain(reviewTable, userTable.UserName);
             }
-            else
-                return HttpNotFound();
 
             return RedirectToAction("Index");
         }
