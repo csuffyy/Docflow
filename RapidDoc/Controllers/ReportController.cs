@@ -310,16 +310,6 @@ namespace RapidDoc.Controllers
             PortalParametersTable portalParameters = _PortalParametersService.GetAll().FirstOrDefault();
             List<string> departments = _SystemService.GuidsFromText(portalParameters.ReportDepartments).ToList();
 
-            //blockDepartment.Add("Руководство", 1);
-            //blockDepartment.Add("Заместитель Генерального директора по производству", 2);
-            //blockDepartment.Add("Производственно-техническое управление", 3);
-            //blockDepartment.Add("Блок горного производства", 4);
-            //blockDepartment.Add("Блок промышленной безопасности и вспомогательного производства", 5);
-            //blockDepartment.Add("Финансовый блок", 6);
-            //blockDepartment.Add("Золотоизвлекательная фабрика", 7);
-            //blockDepartment.Add("Административный блок", 8);
-            //blockDepartment.Add("Заместитель исполнительного директора по ПБиВП", 9);
-
             List<DepartmentTable> firstDepartment = new List<DepartmentTable>();
             if (otherCompany == true)
             {
@@ -624,12 +614,16 @@ namespace RapidDoc.Controllers
                 {
                     WFTrackerTable delegationTracker = _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == refTask.refDocumentTask.Id && !x.Users.Any(y => y.UserId == executorTask)).OrderBy(y => y.CreatedDate).FirstOrDefault();
 
-                    foreach (var user in delegationTracker.Users.ToList())
+                    if (delegationTracker != null)
                     {
-                        EmplTable empl = _EmplService.GetPartialIntercompany(x => x.ApplicationUserId == user.UserId).FirstOrDefault();
-                        delegation += empl.ShortFullNameType2 + "\n";
+                        foreach (var user in delegationTracker.Users.ToList())
+                        {
+                            EmplTable empl = _EmplService.GetPartialIntercompany(x => x.ApplicationUserId == user.UserId).FirstOrDefault();
+                            delegation += empl.ShortFullNameType2 + "\n";
+                        }
+
+                        resultDocument.TaskDelegation = delegation;
                     }
-                    resultDocument.TaskDelegation = delegation;
 
                     List<DocumentReaderTable> readersTable = _DocumentReadersService.GetPartial(x => x.DocumentTableId == item.document.Id).ToList();
                     readersTable.Concat(_DocumentReadersService.GetPartial(x => x.DocumentTableId == refTask.refDocumentTask.Id).ToList());
