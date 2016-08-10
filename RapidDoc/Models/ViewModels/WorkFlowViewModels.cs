@@ -433,6 +433,23 @@ namespace RapidDoc.Models.ViewModels
         public Guid? ProcessTableId { get; set; }
     }
 
+    public class DiscussionBaseView
+    {
+        [Display(Name = "Grouping", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public DiscussionFilterType FilterType { get; set; }
+
+        [Display(Name = "StartDate", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public DateTime? StartDate { get; set; }
+
+        [Display(Name = "EndDate", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public DateTime? EndDate { get; set; }
+
+        [Display(Name = "ProcessName", ResourceType = typeof(FieldNameRes.FieldNameResource))]
+        public string ProcessName { get; set; }
+
+        public Guid? ProcessTableId { get; set; }
+    }
+
     public class DocumentBaseView : BasicCompanyNullView
     {
         public string DocumentNum { get; set; }

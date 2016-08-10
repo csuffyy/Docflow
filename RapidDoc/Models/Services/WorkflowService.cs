@@ -944,7 +944,7 @@ namespace RapidDoc.Models.Services
                     break;
                 case DocumentType.Protocol:
                     List<string> usersProtocol = this.GetUniqueUserList(documentId, documentData, "ListAgreement");
-                    List<string> chairmanProtocol = this.GetUniqueUserList(documentId, documentData, "Chairman");
+                    List<string> chairmanProtocol = !String.IsNullOrEmpty((string)documentData["Chairman"]) ? this.EmplAndRolesToUserList(documentId, _DocumentService.GetUserListFromStructure((string)documentData["Chairman"])) : new List<string>();              
                     documentData["ListAgreement"] = usersProtocol.Concat(chairmanProtocol).Distinct().ToList();
                     allSteps = this.GetRequestTree(activity, documentData);
                     break;

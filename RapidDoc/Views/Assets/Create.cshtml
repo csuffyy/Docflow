@@ -1,0 +1,50 @@
+﻿@model RapidDoc.Models.ViewModels.AssetsView
+@using RapidDoc.Extensions;
+@{
+    ViewBag.Title = "Новаы ОС";
+}
+<h2>ОС</h2>
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend></legend>
+        <div class="editor-label">
+            @Html.LabelForRequired(model => model.AssetNumber)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.AssetNumber, new { @class = "form-control", placeholder = "Номер ОС", @autofocus = "required"})
+            @Html.ValidationMessageFor(model => model.AssetNumber)
+        </div>
+    
+        <div class="editor-label">
+            @Html.LabelForRequired(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Name, new { @class = "form-control", placeholder = "Наименование" })
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelForRequired(model => model.Location)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Location, new { @class = "form-control", placeholder = "Местоположение" })
+            @Html.ValidationMessageFor(model => model.Location)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelForRequired(model => model.Description)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Description, new { @class = "form-control", placeholder = "Описание" })
+            @Html.ValidationMessageFor(model => model.Description)
+        </div>
+        @{Html.RenderPartial("SaveBackBtn");}
+    </fieldset>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/editentity")
+}
+

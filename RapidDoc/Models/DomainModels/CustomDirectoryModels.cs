@@ -74,6 +74,14 @@ namespace RapidDoc.Models.DomainModels
         public string CityName { get; set; }
     }
 
+    public class AssetsTable : BasicCompanyNullTable
+    {
+        public string AssetNumber { get; set; }
+        public string Name { get; set; }
+        public string Location { get; set; }
+        public string Description { get; set; }
+    }
+
     public class OrganizationTable : BasicTable
     {
         public string OrgName { get; set; }

@@ -61,6 +61,15 @@ namespace CustomRes {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Активы.
+        /// </summary>
+        public static string Assets {
+            get {
+                return ResourceManager.GetString("Assets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Города.
         /// </summary>
         public static string Country {

@@ -122,6 +122,21 @@ namespace RapidDoc.Models.ViewModels
         public string CityName { get; set; }
     }
 
+    public class AssetsView : BasicCompanyNullView
+    {
+        [Display(Name = "Инвентарный номер")]
+        public string AssetNumber { get; set; }
+
+        [Display(Name = "Наименование")]
+        public string Name { get; set; }
+
+        [Display(Name = "Местоположение")]
+        public string Location { get; set; }
+
+        [Display(Name = "Описание")]
+        public string Description { get; set; }
+    }
+
     public class OrganizationView : BasicView
     {
         [Display(Name = "Организация")]

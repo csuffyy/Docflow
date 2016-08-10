@@ -109,6 +109,13 @@ namespace RapidDoc.Models.ViewModels
 
         [Display(Name = "Кому")]
         public string Users { get; set; }
+
+        [Display(Name = "Папка")]
+        public Guid? ProtocolFoldersTableId { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Тема")]
+        public string Subject { get; set; }
     }
 
     public abstract class BasicOrderView : BasicDocumentView

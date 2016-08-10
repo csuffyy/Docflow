@@ -1253,6 +1253,24 @@ namespace RapidDoc.Models.Repository
         ProlongTaskStatus = 9
     }
 
+    public enum DiscussionFilterType : byte
+    {
+        [Display(Name = "По инициатору")]
+        Initiator = 0,
+
+        [Display(Name = "По подразделению")]
+        Department = 1,
+
+        [Display(Name = "По теме документа")]
+        Topic = 2,
+
+        [Display(Name = "По папкам")]
+        Folder = 3,
+
+        [Display(Name = "По дате")]
+        CreateDate = 4
+    }
+
     public enum ProtocolTaskDocumentBaseStatus : byte
     {
         [Display(Name = "В работе")]

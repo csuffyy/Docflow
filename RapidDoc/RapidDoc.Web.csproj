@@ -322,6 +322,7 @@
     <Compile Include="Controllers\DelegationController.cs" />
     <Compile Include="Controllers\DocumentController.cs" />
     <Compile Include="Controllers\MonitoringController.cs" />
+    <Compile Include="Controllers\AssetsController.cs" />
     <Compile Include="Controllers\ProjectController.cs" />
     <Compile Include="Controllers\ProtocolFoldersController.cs" />
     <Compile Include="Controllers\PortalParametersController.cs" />
@@ -370,6 +371,7 @@
     <Compile Include="Models\DomainModels\CustomDirectoryModels.cs" />
     <Compile Include="Models\DomainModels\CustomDomainModelTemplate.cs" />
     <Compile Include="Models\DomainModels\UsrRequestDomainModels.cs" />
+    <Compile Include="Models\Grids\AssetsAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\RenameCompanyAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\CountryAjaxPagingGrid.cs" />
     <Compile Include="Models\Grids\IpListAjaxPagingGrid.cs" />
@@ -415,6 +417,7 @@
     <Compile Include="Models\Repository\CompanyConstraint.cs" />
     <Compile Include="Models\Services\DocumentSubcriptionService.cs" />
     <Compile Include="Models\Services\IpListService.cs" />
+    <Compile Include="Models\Services\AssetsService.cs" />
     <Compile Include="Models\Services\ProjectService.cs" />
     <Compile Include="Models\Services\ProtocolFoldersService.cs" />
     <Compile Include="Models\Services\PortalParametersService.cs" />
@@ -2210,6 +2213,14 @@
     <Content Include="Views\Document\DocumentMyFavoriteList.cshtml" />
     <Content Include="Views\Custom\USR_DIS_Discussion_View.cshtml" />
     <Content Include="Views\Custom\USR_DIS_Discussion_Edit.cshtml" />
+    <Content Include="Views\DocumentBase\IndexDiscussion.cshtml" />
+    <Content Include="Views\DocumentBase\_DocumentBaseDiscussion.cshtml" />
+    <Content Include="Views\Assets\_AssetsGrid.cshtml" />
+    <Content Include="Views\Assets\Create.cshtml" />
+    <Content Include="Views\Assets\Delete.cshtml" />
+    <Content Include="Views\Assets\Detail.cshtml" />
+    <Content Include="Views\Assets\Edit.cshtml" />
+    <Content Include="Views\Assets\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

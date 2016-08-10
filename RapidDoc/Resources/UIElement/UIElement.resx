@@ -729,4 +729,7 @@
   <data name="SetNull" xml:space="preserve">
     <value>Обнулить</value>
   </data>
+  <data name="DiscussionBase" xml:space="preserve">
+    <value>Обсуждения</value>
+  </data>
 </root>

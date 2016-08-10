@@ -2,6 +2,22 @@
 @using RapidDoc.Extensions;
 
 <div class="editor-label">
+    <div class="editor-label">
+        @Html.LabelFor(x => x.ProtocolFoldersTableId):
+    </div>
+    <div class="editor-field">
+        @Html.Action("GetPRTFolderORD", "Custom", new { @processId = ViewBag.ProcessId, id = Model.ProtocolFoldersTableId, selected = true })
+    </div>
+</div>
+
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.Subject)
+</div>
+<div>
+    @Html.DisplayTextFor(model => Model.Subject)
+</div>
+
+<div class="editor-label">
     @Html.LabelFor(model => Model.Description)
 </div>
 <div>

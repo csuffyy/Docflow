@@ -48,6 +48,7 @@ namespace RapidDoc.Models.Infrastructure
         public DbSet<NotificationUsersTable> NotificationUsersTable { get; set; }
         public DbSet<OrganizationTable> OrganizationTable { get; set; }
         public DbSet<CountryTable> CountryTable { get; set; }
+        public DbSet<AssetsTable> AssetsTable { get; set; }
         public DbSet<ReasonRequestTable> ReasonRequestTable { get; set; }
         public DbSet<QuestionRequestTable> QuestionRequestTable { get; set; }
         public DbSet<ProtocolFoldersTable> ProtocolFoldersTable { get; set; }

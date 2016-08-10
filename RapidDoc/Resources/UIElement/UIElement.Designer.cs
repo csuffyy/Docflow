@@ -628,6 +628,15 @@ namespace UIElementRes {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Обсуждения.
+        /// </summary>
+        public static string DiscussionBase {
+            get {
+                return ResourceManager.GetString("DiscussionBase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Отправить.
         /// </summary>
         public static string Dispatch {

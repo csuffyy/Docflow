@@ -120,6 +120,15 @@ namespace RapidDoc.Controllers
             return View(protocolBaseView);
         }
 
+        public ActionResult IndexDiscussion()
+        {
+            DiscussionBaseView discussionBaseView = new DiscussionBaseView();
+            discussionBaseView.StartDate = new DateTime(DateTime.Now.Year, 1, 1);
+            discussionBaseView.EndDate = new DateTime(DateTime.Now.Year, 12, 31);
+
+            return View(discussionBaseView);
+        }
+
         [HttpPost]
         public ActionResult Search(DocumentType documentType, int filterType, DateTime? startDate, DateTime? endDate, Guid? processTableId)
         {
@@ -144,6 +153,19 @@ namespace RapidDoc.Controllers
                     return View("_DocumentBaseOutcoming", _Service.GetAllViewUserDocument(documentType, startDate, endDate));
                 case DocumentType.AppealDoc:
                     return View("_DocumentBaseAppeal", _Service.GetAllViewUserDocument(documentType, startDate, endDate));
+                case DocumentType.Discussion:
+                    processTableId = _ProcessService.FirstOrDefault(x => x.DocType == documentType).Id;
+                    if (processTableId != null)
+                    {
+                        switch ((DiscussionFilterType)filterType)
+                        {
+                            case DiscussionFilterType.Folder:
+                                return View("_DocumentBaseProtocolFolders", _Service.GetProtocolFoldersForDocumentBase(documentType, processTableId, startDate, endDate));
+                            default:
+                                return View("_DocumentBaseDiscussion", _Service.GetAllViewUserDocument(documentType, startDate, endDate).Where(x => x.ProcessTableId == processTableId).ToList());
+                        }
+                    }
+                    break;
                 case DocumentType.Protocol:
                     List<DocumentBaseView> docBaseView, docBaseViewProlong;                   
                     ApplicationDbContext dbContext = new ApplicationDbContext();
@@ -157,27 +179,7 @@ namespace RapidDoc.Controllers
                     switch ((ProtocolFilterType)filterType)
 	                {                 
                         case ProtocolFilterType.Folder:
-                            List<Guid> uniqueListProtocolFolders = new List<Guid>();
-                            List<ProtocolFoldersTable> protocolFolders = dbContext.ProtocolFoldersTable.Where(x => x.ProcessTableId == processTableId).ToList();
-                            docBaseView = _Service.GetAllViewUserDocument(documentType, startDate, endDate).Where(x => x.ProcessTableId == processTableId).ToList();
-                            List<DocumentBaseProtocolFolderView> documentBaseProtocolFolder = new List<DocumentBaseProtocolFolderView>();
-                            foreach (var item in docBaseView)
-                            {
-                                if (item.ProtocolFolderId != null)
-                                    uniqueListProtocolFolders = uniqueListProtocolFolders.Concat(_Service.GetParentListFolders(item.ProtocolFolderId)).Distinct().ToList();
-                            }
-
-                            foreach (var protocolId in uniqueListProtocolFolders)
-                            {
-                                ProtocolFoldersTable protocolFoldersTable = protocolFolders.FirstOrDefault(x => x.Id == protocolId);
-                                List<DocumentBaseView> protocolFolderDocumentBases = new List<DocumentBaseView>();
-                                foreach (var doc in docBaseView.Where(x => x.ProtocolFolderId == protocolId))
-                                {
-                                    protocolFolderDocumentBases.Add(doc);
-                                }
-                                documentBaseProtocolFolder.Add(new DocumentBaseProtocolFolderView { ProtocolFoldersId = protocolId, ProtocolFoldersParentId = protocolFoldersTable.ProtocolFoldersParentId, ProtocolFolderName = protocolFoldersTable.ProtocolFolderName, documentBaseList = protocolFolderDocumentBases });
-                            }
-                            return View("_DocumentBaseProtocolFolders", documentBaseProtocolFolder);
+                            return View("_DocumentBaseProtocolFolders", _Service.GetProtocolFoldersForDocumentBase(documentType, processTableId, startDate, endDate));
                         case ProtocolFilterType.TaskStatus:                                                
                         case ProtocolFilterType.TaskExecutor:
                              protocolTasks = new List<DocumentBaseProtocolTasksView>();

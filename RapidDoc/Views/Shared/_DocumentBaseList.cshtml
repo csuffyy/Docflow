@@ -57,5 +57,12 @@
             @Html.ActionLink(UIElementRes.UIElement.ProtocolBase, "IndexProtocol", "DocumentBase")
         </li>
     }
+
+    if (item == RapidDoc.Models.Repository.DocumentType.Discussion)
+    {
+        <li class="dropdown">
+            @Html.ActionLink(UIElementRes.UIElement.DiscussionBase, "IndexDiscussion", "DocumentBase")
+        </li>
+    }
 }
 

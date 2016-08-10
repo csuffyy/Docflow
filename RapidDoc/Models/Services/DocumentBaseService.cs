@@ -26,6 +26,7 @@ namespace RapidDoc.Models.Services
         List<DocumentBaseView> GetAllViewUserDocument(DocumentType type, DateTime? startDate, DateTime? endDate);
         List<DocumentBaseView> GetAllViewUserDocumentWithExecutors(DocumentType type, DateTime? startDate, DateTime? endDate, Guid? proccesId = null);
         List<Guid> GetParentListFolders(Guid? protocolId);
+        List<DocumentBaseProtocolFolderView> GetProtocolFoldersForDocumentBase(DocumentType documentType, Guid? processTableId, DateTime? startDate, DateTime? endDate);
 
     }
 
@@ -382,6 +383,23 @@ namespace RapidDoc.Models.Services
                         item.ProtocolFolderId = documentView.ProtocolFoldersTableId;
                         item.ProtocolCode = documentView.Subject;
                     }
+                    return items;
+                case DocumentType.Discussion:
+                    List<BasicDailyDiscussionTable> documentFetchDiscussion = new List<BasicDailyDiscussionTable>();
+                    foreach (var process in items.GroupBy(x => x.ProcessTableName))
+                        documentFetchDiscussion.AddRange((IEnumerable<BasicDailyDiscussionTable>)_DocumentService.GetDocumentAll(process.Key));
+
+                    foreach (var item in items)
+                    {
+                        var documentView = documentFetchDiscussion.FirstOrDefault(x => x.Id == item.DocumentRefId);
+                        item.DocumentTitle = documentView.Subject;
+                        item.CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(item.CreatedDate), timeZoneInfo);
+                        item.Month = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(item.CreatedDate.Month);
+                        item.MonthNumber = item.CreatedDate.Month;
+                        item.Year = item.CreatedDate.Year.ToString();
+                        item.ModCreatedDate = item.CreatedDate.ToShortDateString();
+                        item.ProtocolFolderId = documentView.ProtocolFoldersTableId;
+                    }
                     return items; 
              }
 
@@ -597,6 +615,35 @@ namespace RapidDoc.Models.Services
                 listDocumentBaseProtocolFolder.Add(documentBaseProtocolFolder.Id);
 
             return listDocumentBaseProtocolFolder;
+        }
+
+        public List<DocumentBaseProtocolFolderView> GetProtocolFoldersForDocumentBase(DocumentType documentType, Guid? processTableId, DateTime? startDate, DateTime? endDate)
+        {
+            ApplicationDbContext dbContext = new ApplicationDbContext();
+            List<DocumentBaseView> docBaseView;
+            List<Guid> uniqueListProtocolFolders = new List<Guid>();
+
+            List<ProtocolFoldersTable> protocolFolders = dbContext.ProtocolFoldersTable.Where(x => x.ProcessTableId == processTableId).ToList();
+            docBaseView = GetAllViewUserDocument(documentType, startDate, endDate).Where(x => x.ProcessTableId == processTableId).ToList();
+            List<DocumentBaseProtocolFolderView> documentBaseProtocolFolder = new List<DocumentBaseProtocolFolderView>();
+            foreach (var item in docBaseView)
+            {
+                if (item.ProtocolFolderId != null)
+                    uniqueListProtocolFolders = uniqueListProtocolFolders.Concat(GetParentListFolders(item.ProtocolFolderId)).Distinct().ToList();
+            }
+
+            foreach (var protocolId in uniqueListProtocolFolders)
+            {
+                ProtocolFoldersTable protocolFoldersTable = protocolFolders.FirstOrDefault(x => x.Id == protocolId);
+                List<DocumentBaseView> protocolFolderDocumentBases = new List<DocumentBaseView>();
+                foreach (var doc in docBaseView.Where(x => x.ProtocolFolderId == protocolId))
+                {
+                    protocolFolderDocumentBases.Add(doc);
+                }
+                documentBaseProtocolFolder.Add(new DocumentBaseProtocolFolderView { ProtocolFoldersId = protocolId, ProtocolFoldersParentId = protocolFoldersTable.ProtocolFoldersParentId, ProtocolFolderName = protocolFoldersTable.ProtocolFolderName, documentBaseList = protocolFolderDocumentBases });
+            }
+
+            return documentBaseProtocolFolder;
         }
     }
 }

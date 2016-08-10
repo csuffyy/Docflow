@@ -108,6 +108,7 @@ namespace RapidDoc.App_Start
             kernel.Bind<IProjectService>().To<ProjectService>();
             kernel.Bind<ITaskScheduleService>().To<TaskScheduleService>();
             kernel.Bind<ITaskScheduleHistroyService>().To<TaskScheduleHistroyService>();
+            kernel.Bind<IAssetsService>().To<AssetsService>();
         }        
     }
 }

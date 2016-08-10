@@ -723,4 +723,7 @@
   <data name="SetNull" xml:space="preserve">
     <value>Set the null</value>
   </data>
+  <data name="DiscussionBase" xml:space="preserve">
+    <value>Discussions</value>
+  </data>
 </root>
