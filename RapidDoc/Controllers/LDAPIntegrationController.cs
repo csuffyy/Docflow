@@ -66,6 +66,7 @@ namespace RapidDoc.Controllers
                             getUsersDepartmentKZC(company, "OU=lgok,O=ustk,C=kz");
                             getUsersDepartmentKZC(company, "OU=zgok,O=ustk,C=kz");
                             getUsersDepartmentKZC(company, "OU=serebr,O=ustk,C=kz");
+                            getUsersDepartmentKZC(company, "OU=ridder,O=ustk,C=kz");
                         }
                         else
                         {

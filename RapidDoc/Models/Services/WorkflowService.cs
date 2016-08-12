@@ -334,8 +334,10 @@ namespace RapidDoc.Models.Services
                         _EmailService.SendExecutorEmail(documentId, documentData.ContainsKey("AdditionalText") ? (string)documentData["AdditionalText"] : "", stepCount != null && _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == docTable.Id && x.LineNum > stepCount.LineNum).Count() == 1 ? true : false);
                     }
                     else
-                        _EmailService.SendExecutorEmail(documentId, documentData.ContainsKey("AdditionalText") ? (string)documentData["AdditionalText"] : "");
-
+                    {
+                        if (String.IsNullOrEmpty(bookmark.ParallelID))
+                            _EmailService.SendExecutorEmail(documentId, documentData.ContainsKey("AdditionalText") ? (string)documentData["AdditionalText"] : "");
+                    }
                     
                     if (docTable.IsNotified == true)
                     {
@@ -397,7 +399,9 @@ namespace RapidDoc.Models.Services
                     Activity activity = ChooseActualWorkflow(TableName, fileTableWF, instanceInfo.DefinitionIdentity != null);
                     LoadAOrCompleteInstance(documentId, DocumentState.Agreement, TrackerType.Active, documentData, instanceStore, activity, instanceInfo, bookmark, currentUser);
                     DeleteInstanceStoreOwner(instanceStore);
-                    _EmailService.SendExecutorEmail(documentId, documentData.ContainsKey("AdditionalText") ? (string)documentData["AdditionalText"] : "");
+
+                    if (String.IsNullOrEmpty(bookmark.ParallelID))
+                        _EmailService.SendExecutorEmail(documentId, documentData.ContainsKey("AdditionalText") ? (string)documentData["AdditionalText"] : "");
                 }
             }
         }

@@ -892,7 +892,8 @@ namespace RapidDoc.Models.Services
                 (UserManager.IsInRole(user.Id, "FullView_Order") && documentTable.DocType == DocumentType.Order) ||
                 (UserManager.IsInRole(user.Id, "FullView_Outcoming") && documentTable.DocType == DocumentType.OutcomingDoc) ||
                 (UserManager.IsInRole(user.Id, "FullView_Protocol") && documentTable.DocType == DocumentType.Protocol) ||
-                (UserManager.IsInRole(user.Id, "FullView_Task") && documentTable.DocType == DocumentType.Task))
+                (UserManager.IsInRole(user.Id, "FullView_Task") && documentTable.DocType == DocumentType.Task) ||
+                (UserManager.IsInRole(user.Id, "FullView_Discussion") && documentTable.DocType == DocumentType.Discussion))
             {
                 return true;
             }
