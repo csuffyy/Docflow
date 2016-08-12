@@ -86,6 +86,7 @@ namespace RapidDoc.Models.Services
         Guid DuplicateFile(FileTable fileTable, string userId, Guid? docFileId = null);
         WFTrackerTable FirstOrDefaultTrackerItem(ProcessTable process, Guid documentId, string userId);
         DocumentComposite CreateViewBodyTaskFromDocument(DocumentTable docTable, ProcessView process, ApplicationUser userTable);
+        DocumentComposite CreateViewBodyDiscussionFromDocument(DocumentTable docTable, ProcessView process, ApplicationUser userTable);
         void CloseUpRelatedTasks(Guid documentId, ApplicationUser userTable);
         void CloseDownRelatedTasks(Guid documentId, ApplicationUser userTable, TrackerType trackerType);
         dynamic CloseTask(DocumentTable docTable, ApplicationUser userTable, string mainCloseText, string closeUserId, TrackerType trackerType);
@@ -1893,12 +1894,8 @@ namespace RapidDoc.Models.Services
                 viewModel.docData.MainField = refDocument.MainField;
                 viewModel.docData.ExecutionDate = refDocument.ProlongationDate != null ? refDocument.ProlongationDate : refDocument.ExecutionDate;
             }
-
-            Guid newDocFileId = Guid.NewGuid();
-            List<FileTable> docFiles = GetAllFilesDocument(docTable.FileId).ToList();
-            docFiles.ForEach(x => DuplicateFile(x, userTable.Id, newDocFileId));
-
-            viewModel.fileId = newDocFileId;
+          
+            viewModel.fileId = Guid.NewGuid();
             viewModel.ProcessTemplates = GetAllTemplatesDocument((Guid)process.Id);
 
             return viewModel;
@@ -1915,7 +1912,11 @@ namespace RapidDoc.Models.Services
             viewModel.docData.RefDocumentId = docTable.Id;
             viewModel.docData.RefDocNum = docTable.DocumentNum;
 
-            viewModel.fileId = Guid.NewGuid();
+            Guid newDocFileId = Guid.NewGuid();
+            List<FileTable> docFiles = GetAllFilesDocument(docTable.FileId).ToList();
+            docFiles.ForEach(x => DuplicateFile(x, userTable.Id, newDocFileId));
+
+            viewModel.fileId = newDocFileId;
             viewModel.ProcessTemplates = GetAllTemplatesDocument((Guid)process.Id);
 
             return viewModel;

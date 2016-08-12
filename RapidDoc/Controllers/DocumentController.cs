@@ -1220,7 +1220,7 @@ namespace RapidDoc.Controllers
             }
             _HistoryUserService.SaveHistory(documentId, Models.Repository.HistoryType.NewDocument, userTable.Id, docTable.DocumentNum, docTable.ProcessName, docTable.CreatedBy);
 
-            var viewBodyTask = _DocumentService.CreateViewBodyTaskFromDocument(docTable, process, userTable);
+            var viewBodyTask = _DocumentService.CreateViewBodyDiscussionFromDocument(docTable, process, userTable);
 
 
             return View("Create", viewBodyTask);
