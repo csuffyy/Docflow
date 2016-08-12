@@ -70,6 +70,9 @@ namespace RapidDoc.Models.DomainModels
 
         public Guid? ProtocolFoldersTableId { get; set; }
         public virtual ProtocolFoldersTable ProtocolFoldersTable { get; set; }
+
+        public Guid? RefDocumentId { get; set; }
+        public string RefDocNum { get; set; }
     }
 
     public abstract class BasicOrderTable : BasicDocumentTable

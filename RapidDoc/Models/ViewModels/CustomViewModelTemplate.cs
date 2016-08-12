@@ -116,6 +116,11 @@ namespace RapidDoc.Models.ViewModels
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         [Display(Name = "Тема")]
         public string Subject { get; set; }
+
+        [Display(Name = "Ссылка на исходный документ")]
+        public string RefDocNum { get; set; }
+
+        public Guid? RefDocumentId { get; set; }
     }
 
     public abstract class BasicOrderView : BasicDocumentView

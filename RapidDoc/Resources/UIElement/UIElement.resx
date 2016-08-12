@@ -732,4 +732,7 @@
   <data name="DiscussionBase" xml:space="preserve">
     <value>Обсуждения</value>
   </data>
+  <data name="CreateDiscussion" xml:space="preserve">
+    <value>Создать обсуждение</value>
+  </data>
 </root>

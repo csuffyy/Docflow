@@ -418,6 +418,12 @@
                         <a href=@Url.Action("CreateTaskFromDocument", new {documentId = Model.DocumentView.Id})>@UIElementRes.UIElement.CreateTask</a>
                     </li>
                 }
+                @if (Model.DocumentView.DocType != RapidDoc.Models.Repository.DocumentType.Discussion && Model.DocumentView.DocumentState != RapidDoc.Models.Repository.DocumentState.Created)
+                {
+                    <li>
+                        <a href=@Url.Action("CreateDiscussionFromDocument", new { documentId = Model.DocumentView.Id })>@UIElementRes.UIElement.CreateDiscussion</a>
+                    </li>
+                }
             </ul>
         </div>
 

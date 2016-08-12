@@ -1199,6 +1199,32 @@ namespace RapidDoc.Controllers
 
             return View("Create", viewBodyTask);
         }
+        public ActionResult CreateDiscussionFromDocument(Guid documentId)
+        {
+            ApplicationUser userTable = _AccountService.Find(User.Identity.GetUserId());
+            DocumentTable docTable = _DocumentService.Find(documentId);
+            if (userTable == null) return RedirectToAction("PageNotFound", "Error");
+
+            EmplTable emplTable = _EmplService.FirstOrDefault(x => x.ApplicationUserId == userTable.Id && x.Enable == true);
+            if (emplTable == null) return RedirectToAction("PageNotFound", "Error");
+
+            ProcessView process = _ProcessService.FirstOrDefaultView(x => x.TableName == "USR_DIS_Discussion" && x.CompanyTableId == userTable.CompanyTableId);
+
+            if (!String.IsNullOrEmpty(process.RoleId))
+            {
+                string roleName = RoleManager.FindById(process.RoleId).Name;
+                if (!UserManager.IsInRole(userTable.Id, roleName))
+                {
+                    return RedirectToAction("PageNotFound", "Error");
+                }
+            }
+            _HistoryUserService.SaveHistory(documentId, Models.Repository.HistoryType.NewDocument, userTable.Id, docTable.DocumentNum, docTable.ProcessName, docTable.CreatedBy);
+
+            var viewBodyTask = _DocumentService.CreateViewBodyTaskFromDocument(docTable, process, userTable);
+
+
+            return View("Create", viewBodyTask);
+        }
 
         public ActionResult CopyDocument(Guid processId, Guid fileId, Guid documentId)
         {

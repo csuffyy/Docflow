@@ -1892,6 +1892,28 @@ namespace RapidDoc.Models.Services
                 viewModel.docData.MainField = refDocument.MainField;
                 viewModel.docData.ExecutionDate = refDocument.ProlongationDate != null ? refDocument.ProlongationDate : refDocument.ExecutionDate;
             }
+
+            Guid newDocFileId = Guid.NewGuid();
+            List<FileTable> docFiles = GetAllFilesDocument(docTable.FileId).ToList();
+            docFiles.ForEach(x => DuplicateFile(x, userTable.Id, newDocFileId));
+
+            viewModel.fileId = newDocFileId;
+            viewModel.ProcessTemplates = GetAllTemplatesDocument((Guid)process.Id);
+
+            return viewModel;
+        }
+
+        public DocumentComposite CreateViewBodyDiscussionFromDocument(DocumentTable docTable, ProcessView process, ApplicationUser userTable)
+        {
+            var refDocument = GetDocument(docTable.RefDocumentId, docTable.ProcessTable.TableName);
+
+            var viewModel = new DocumentComposite();
+            viewModel.ProcessView = process;
+            viewModel.docData = RouteCustomModelView(process.TableName);
+
+            viewModel.docData.RefDocumentId = docTable.Id;
+            viewModel.docData.RefDocNum = docTable.DocumentNum;
+
             viewModel.fileId = Guid.NewGuid();
             viewModel.ProcessTemplates = GetAllTemplatesDocument((Guid)process.Id);
 

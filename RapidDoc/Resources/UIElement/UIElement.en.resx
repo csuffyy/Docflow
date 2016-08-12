@@ -726,4 +726,7 @@
   <data name="DiscussionBase" xml:space="preserve">
     <value>Discussions</value>
   </data>
+  <data name="CreateDiscussion" xml:space="preserve">
+    <value>Create discussion</value>
+  </data>
 </root>

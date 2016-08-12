@@ -412,6 +412,15 @@ namespace UIElementRes {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Создать обсуждение.
+        /// </summary>
+        public static string CreateDiscussion {
+            get {
+                return ResourceManager.GetString("CreateDiscussion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Новый домен.
         /// </summary>
         public static string CreateDomain {
