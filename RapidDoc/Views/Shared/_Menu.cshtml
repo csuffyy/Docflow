@@ -59,18 +59,24 @@
                             </ul>
                         </li>
                     }
-                    @if (User.IsInRole("Administrator") || User.IsInRole("SetupAdministrator") || User.IsInRole("DirectoryAdministrator"))
+                    @if (User.IsInRole("Administrator") || User.IsInRole("SetupAdministrator") || User.IsInRole("DirectoryAdministrator") || User.IsInRole("DirectoryAssets"))
                     {
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-folder-open"></span> <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li>@Html.ActionLink(CustomRes.Custom.Country, "Index", "Country")</li>
-                            <li>@Html.ActionLink(CustomRes.Custom.Organization, "Index", "Organization")</li>
-                            <li>@Html.ActionLink(CustomRes.Custom.ReasonRequest, "Index", "ReasonRequest")</li>
-                            <li>@Html.ActionLink(CustomRes.Custom.QuestionRequest, "Index", "QuestionRequest")</li>
-                            <li>@Html.ActionLink(CustomRes.Custom.ProtocolFolders, "Index", "ProtocolFolders")</li>
-                            <li>@Html.ActionLink(CustomRes.Custom.Projects, "Index", "Project")</li>
-                            <li>@Html.ActionLink(CustomRes.Custom.Assets, "Index", "Assets")</li>
+                            @if (User.IsInRole("Administrator") || User.IsInRole("SetupAdministrator") || User.IsInRole("DirectoryAdministrator"))
+                            {
+                                <li>@Html.ActionLink(CustomRes.Custom.Country, "Index", "Country")</li>
+                                <li>@Html.ActionLink(CustomRes.Custom.Organization, "Index", "Organization")</li>
+                                <li>@Html.ActionLink(CustomRes.Custom.ReasonRequest, "Index", "ReasonRequest")</li>
+                                <li>@Html.ActionLink(CustomRes.Custom.QuestionRequest, "Index", "QuestionRequest")</li>
+                                <li>@Html.ActionLink(CustomRes.Custom.ProtocolFolders, "Index", "ProtocolFolders")</li>
+                                <li>@Html.ActionLink(CustomRes.Custom.Projects, "Index", "Project")</li>
+                            }
+                            @if (User.IsInRole("Administrator") || User.IsInRole("SetupAdministrator") || User.IsInRole("DirectoryAdministrator") || User.IsInRole("DirectoryAssets"))
+                            {
+                                <li>@Html.ActionLink(CustomRes.Custom.Assets, "Index", "Assets")</li>
+                            }
                         </ul>
                     </li>
                     }

@@ -81,7 +81,8 @@ namespace RapidDoc.Models.Services
                 (UserManager.IsInRole(user.Id, "FullView_Order") && type == DocumentType.Order) ||
                 (UserManager.IsInRole(user.Id, "FullView_Outcoming") && type == DocumentType.OutcomingDoc) ||
                 (UserManager.IsInRole(user.Id, "FullView_Protocol") && type == DocumentType.Protocol) ||
-                (UserManager.IsInRole(user.Id, "FullView_Task") && type == DocumentType.Task))
+                (UserManager.IsInRole(user.Id, "FullView_Task") && type == DocumentType.Task) ||
+                (UserManager.IsInRole(user.Id, "FullView_Discussion") && type == DocumentType.Discussion))
             {
                 items = (from document in contextQuery.DocumentTable
                          where document.DocType == type && (document.CreatedDate >= startDate && document.CreatedDate <= endDate) && document.DocumentState != DocumentState.Created && user.CompanyTableId == document.CompanyTableId
@@ -463,7 +464,8 @@ namespace RapidDoc.Models.Services
                 (UserManager.IsInRole(user.Id, "FullView_Order") && type == DocumentType.Order) ||
                 (UserManager.IsInRole(user.Id, "FullView_Outcoming") && type == DocumentType.OutcomingDoc) ||
                 (UserManager.IsInRole(user.Id, "FullView_Protocol") && type == DocumentType.Protocol) ||
-                (UserManager.IsInRole(user.Id, "FullView_Task") && type == DocumentType.Task))
+                (UserManager.IsInRole(user.Id, "FullView_Task") && type == DocumentType.Task) ||
+                (UserManager.IsInRole(user.Id, "FullView_Discussion") && type == DocumentType.Discussion))
             {
                 items = (from document in contextQuery.DocumentTable
                          where document.DocumentState != DocumentState.Created && user.CompanyTableId == document.CompanyTableId &&
