@@ -2881,7 +2881,6 @@
     <XamlAppDef Include="Activities\USR_REQ_UBP_RequestForExportWastes.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </XamlAppDef>
   </ItemGroup>
   <ItemGroup>

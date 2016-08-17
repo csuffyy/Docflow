@@ -334,7 +334,10 @@ namespace RapidDoc.Models.Repository
         ShareFile = 13,
 
         [Display(Name = "СУД")]
-        SUD = 14
+        SUD = 14,
+
+        [Display(Name = "Docflow")]
+        Docflow = 15
     }
 
     public enum ServiceIncidientPriority : byte
