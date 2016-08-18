@@ -1843,7 +1843,10 @@ namespace RapidDoc.Controllers
                 contentType = files.ContentType.ToString().ToUpper();
                 thumbnail = GetThumbnail(data, contentType);
 
-                if (document != null && document.DocumentState != DocumentState.Created && _DocumentService.GetAllFilesDocument(fileId).ToList().Exists(x => x.ApplicationUserCreatedId == User.Identity.GetUserId() && x.ApplicationUserCreatedId != document.ApplicationUserCreatedId && x.CreatedDate > DateTime.UtcNow.AddMinutes(-5)) == false && document.DocType != DocumentType.Task)
+                if (document != null && document.DocumentState != DocumentState.Created 
+                    && document.ApplicationUserCreatedId != User.Identity.GetUserId()
+                    && document.DocType != DocumentType.Task
+                    && _DocumentService.GetAllFilesDocument(fileId).ToList().Exists(x => x.ApplicationUserCreatedId == User.Identity.GetUserId() && x.ApplicationUserCreatedId != document.ApplicationUserCreatedId && x.CreatedDate > DateTime.UtcNow.AddMinutes(-5)) == false)
                 {
                     _EmailService.SendInitiatorEmailDocAdding(document.Id);
                 }
