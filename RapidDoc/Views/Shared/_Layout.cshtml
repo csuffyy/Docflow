@@ -125,22 +125,18 @@
     }
 
     <script type="text/javascript">
-        if (!Modernizr.canvas) {
-            document.getElementById("alert_browserVersion").className = "well";
-        }
+    if (!Modernizr.canvas) {
+        document.getElementById("alert_browserVersion").className = "well";
+    }
 
-        $(function () {
-            $.validator.addMethod("date",
-                function (value, element) {
-                    var datetimebits = value.match(/^(0?[1-9]|[12][0-9]|3[0-1])[/., -](0?[1-9]|1[0-2])[/., -](19|20)?\d{2} \d{2}:\d{2}$/);
-                    if (datetimebits)
-                        return value.match(/^(0?[1-9]|[12][0-9]|3[0-1])[/., -](0?[1-9]|1[0-2])[/., -](19|20)?\d{2} \d{2}:\d{2}$/);
+    $(function () {
+        $.validator.addMethod("date",
+            function (value, element) {
+                var bits = value.match(@UIElementRes.UIElement.DATETIMEREGEX);
+                    if (bits)
+                        return value.match(@UIElementRes.UIElement.DATETIMEREGEX);
                     else {
-                        var bits = value.match(/^(0?[1-9]|[12][0-9]|3[0-1])[/., -](0?[1-9]|1[0-2])[/., -](19|20)?\d{2}$/);
-                        if (bits)
-                            return value.match(/^(0?[1-9]|[12][0-9]|3[0-1])[/., -](0?[1-9]|1[0-2])[/., -](19|20)?\d{2}$/);
-                        else
-                            return this.optional(element) || false;
+                        return this.optional(element) || false;
                     }
                 },
                 "Please enter a date in the format!"
@@ -153,7 +149,7 @@
 
             $('textarea').autosize();
             checkbox_init('@UIElementRes.UIElement.Yes', '@UIElementRes.UIElement.No');
-        });
+    });
     </script>
 </body>
 </html>
