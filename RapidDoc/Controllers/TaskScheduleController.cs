@@ -207,7 +207,7 @@ namespace RapidDoc.Controllers
                 {
                     name = file.FileName,
                     size = file.ContentLength,
-                    url = @"/Document/DownloadFile/" + file.Id.ToString(),
+                    url = @"/Document/DownloadFileNew/" + file.Id.ToString(),
                     deleteUrl = @"/Document/DeleteFile/" + file.Id.ToString(),
                     thumbnailUrl = @"data:image/png;base64," + Convert.ToBase64String(thumbnail),
                     deleteType = "DELETE"
@@ -269,7 +269,7 @@ namespace RapidDoc.Controllers
                 {
                     name = doc.FileName,
                     size = doc.ContentLength,
-                    url = @"/Document/DownloadFile/" + Id.ToString(),
+                    url = @"/Document/DownloadFileNew/" + Id.ToString(),
                     deleteUrl = @"/Document/DeleteFile/" + Id.ToString(),
                     thumbnailUrl = @"data:image/png;base64," + Convert.ToBase64String(thumbnail),
                     deleteType = "DELETE"

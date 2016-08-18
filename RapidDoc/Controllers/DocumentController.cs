@@ -1888,7 +1888,7 @@ namespace RapidDoc.Controllers
                     id = Id.ToString(),
                     name = doc.FileName,
                     size = doc.ContentLength,
-                    url = @"/Document/DownloadFile/" + Id.ToString(),
+                    url = @"/Document/DownloadFileNew/" + Id.ToString(),
                     deleteUrl = @"/Document/DeleteFile/" + Id.ToString(),
                     thumbnailUrl = @"data:image/png;base64," + Convert.ToBase64String(thumbnail),
                     deleteType = "DELETE",
@@ -2030,7 +2030,7 @@ namespace RapidDoc.Controllers
                         id = Id.ToString(),
                         name = doc.FileName,
                         size = doc.ContentLength,
-                        url = @"/Document/DownloadFile/" + Id.ToString(),
+                        url = @"/Document/DownloadFileNew/" + Id.ToString(),
                         deleteUrl = @"/Document/DeleteFile/" + Id.ToString(),
                         thumbnailUrl = @"data:image/png;base64," + Convert.ToBase64String(thumbnail),
                         deleteType = "DELETE",
@@ -2139,7 +2139,7 @@ namespace RapidDoc.Controllers
                     id = file.Id.ToString(),
                     name = file.FileName,
                     size = file.ContentLength,
-                    url = @"/Document/DownloadFile/" + file.Id.ToString(),
+                    url = @"/Document/DownloadFileNew/" + file.Id.ToString(),
                     deleteUrl = @"/Document/DeleteFile/" + file.Id.ToString(),
                     thumbnailUrl = @"data:image/png;base64," + Convert.ToBase64String(thumbnail),
                     deleteType = deleteType,
@@ -2195,7 +2195,7 @@ namespace RapidDoc.Controllers
                     doc.VersionName = "Version 1";
 
                     Guid Id = _DocumentService.SaveFile(doc, User.Identity.GetUserId());
-                    result = @"/Document/DownloadFile/" + Id.ToString();
+                    result = @"/Document/DownloadFileNew/" + Id.ToString();
                 }
             }
 

@@ -3873,7 +3873,7 @@ namespace RapidDoc.Models.ViewModels
         public string ItemName { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
-        [Display(Name = "Количество")]
+        [Display(Name = "Номенклатурный номер ТМЦ")]
         public string ItemNumber { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]

@@ -44,7 +44,7 @@
             <div>
                 @foreach (var item in Model.ProcessTemplates)
                 {
-                    <a href=@Url.Action(@"DownloadFile/" + item.Id.ToString(), "Document") class=""><span class="fa fa-paperclip fa-2x"></span> @item.FileName</a>
+                    <a href=@Url.Action(@"DownloadFileNew/" + item.Id.ToString(), "Document") class=""><span class="fa fa-paperclip fa-2x"></span> @item.FileName</a>
                 }
             </div>   
         }      
