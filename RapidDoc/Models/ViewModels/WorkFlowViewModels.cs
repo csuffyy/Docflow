@@ -301,9 +301,11 @@ namespace RapidDoc.Models.ViewModels
     {
         public string SearchText { get; set; }
 
+        [DataType(DataType.Date)]
         [Display(Name = "StartDate", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public DateTime? StartDate { get; set; }
 
+        [DataType(DataType.Date)]
         [Display(Name = "EndDate", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public DateTime? EndDate { get; set; }
 
@@ -330,9 +332,11 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Grouping", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public RequestFilterType FilterType { get; set; }
 
+        [DataType(DataType.Date)]
         [Display(Name = "StartDate", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public DateTime? StartDate { get; set; }
 
+        [DataType(DataType.Date)]
         [Display(Name = "EndDate", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public DateTime? EndDate { get; set; }
     }
@@ -342,9 +346,11 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Grouping", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public OfficeMemoFilterType FilterType { get; set; }
 
+        [DataType(DataType.Date)]
         [Display(Name = "StartDate", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public DateTime? StartDate { get; set; }
 
+        [DataType(DataType.Date)]
         [Display(Name = "EndDate", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public DateTime? EndDate { get; set; }
     }
@@ -354,9 +360,11 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Grouping", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public TaskFilterType FilterType { get; set; }
 
+        [DataType(DataType.Date)]
         [Display(Name = "StartDate", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public DateTime? StartDate { get; set; }
 
+        [DataType(DataType.Date)]
         [Display(Name = "EndDate", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public DateTime? EndDate { get; set; }
     }
@@ -366,9 +374,11 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Grouping", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public OrderFilterType FilterType { get; set; }
 
+        [DataType(DataType.Date)]
         [Display(Name = "StartDate", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public DateTime? StartDate { get; set; }
 
+        [DataType(DataType.Date)]
         [Display(Name = "EndDate", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public DateTime? EndDate { get; set; }
     }
@@ -378,9 +388,11 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Grouping", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public IncomingFilterType FilterType { get; set; }
 
+        [DataType(DataType.Date)]
         [Display(Name = "StartDate", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public DateTime? StartDate { get; set; }
 
+        [DataType(DataType.Date)]
         [Display(Name = "EndDate", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public DateTime? EndDate { get; set; }
     }
@@ -397,9 +409,11 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Grouping", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public OutcomingFilterType FilterType { get; set; }
 
+        [DataType(DataType.Date)]
         [Display(Name = "StartDate", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public DateTime? StartDate { get; set; }
 
+        [DataType(DataType.Date)]
         [Display(Name = "EndDate", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public DateTime? EndDate { get; set; }
     }
@@ -409,9 +423,11 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Grouping", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public AppealFilterType FilterType { get; set; }
 
+        [DataType(DataType.Date)]
         [Display(Name = "StartDate", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public DateTime? StartDate { get; set; }
 
+        [DataType(DataType.Date)]
         [Display(Name = "EndDate", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public DateTime? EndDate { get; set; }
     }
@@ -421,9 +437,11 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Grouping", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public ProtocolFilterType FilterType { get; set; }
 
+        [DataType(DataType.Date)]
         [Display(Name = "StartDate", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public DateTime? StartDate { get; set; }
 
+        [DataType(DataType.Date)]
         [Display(Name = "EndDate", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public DateTime? EndDate { get; set; }
 
@@ -438,9 +456,11 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Grouping", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public DiscussionFilterType FilterType { get; set; }
 
+        [DataType(DataType.Date)]
         [Display(Name = "StartDate", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public DateTime? StartDate { get; set; }
 
+        [DataType(DataType.Date)]
         [Display(Name = "EndDate", ResourceType = typeof(FieldNameRes.FieldNameResource))]
         public DateTime? EndDate { get; set; }
 

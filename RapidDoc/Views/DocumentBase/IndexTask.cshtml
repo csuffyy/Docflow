@@ -58,11 +58,6 @@
         selectpickerfull_init();
         datepicker_init("@UIElementRes.UIElement.LangName");
 
-        var startDate = $("#StartDate").val();
-        var endDate = $("#EndDate").val();
-        var filterType = $("#FilterType").val();
-        var detailsUrl = '@Url.Action("ShowDocument", "Document")';
-
         $("#FilterType").change(function (event) {
             $('input:submit').removeAttr("disabled");
         });
@@ -72,7 +67,5 @@
         });
 
     });
-
-
     </script>
 }

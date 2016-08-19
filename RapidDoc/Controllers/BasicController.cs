@@ -1,22 +1,22 @@
-﻿using Ninject;
-using RapidDoc.Filters;
-using RapidDoc.Mappers;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
-using RapidDoc.Models.Services;
-using System.IO;
-using RapidDoc.Models.Repository;
-using System.Reflection;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using RapidDoc.Models.DomainModels;
-using Microsoft.AspNet.Identity;
-using RapidDoc.Models.Infrastructure;
-using Microsoft.AspNet.Identity.EntityFramework;
 using System.Web.Routing;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Ninject;
+using RapidDoc.Filters;
+using RapidDoc.Mappers;
+using RapidDoc.Models.DomainModels;
+using RapidDoc.Models.Infrastructure;
+using RapidDoc.Models.Repository;
+using RapidDoc.Models.Services;
 
 namespace RapidDoc.Controllers
 {
@@ -52,10 +52,10 @@ namespace RapidDoc.Controllers
 
                         if (companyId != user.AliasCompanyName)
                         {
-                            filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary { 
-                            { "controller", filterContext.RouteData.Values["controller"].ToString() }, 
-                            { "action", filterContext.RouteData.Values["action"].ToString() }, 
-                            { "company", user.AliasCompanyName } 
+                            filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary {
+                            { "controller", filterContext.RouteData.Values["controller"].ToString() },
+                            { "action", filterContext.RouteData.Values["action"].ToString() },
+                            { "company", user.AliasCompanyName }
                         });
                             return;
                         }
@@ -97,6 +97,21 @@ namespace RapidDoc.Controllers
             }
         }
 
+        protected override void Initialize(System.Web.Routing.RequestContext requestContext)
+        {
+            base.Initialize(requestContext);
+
+            string culture = "ru-RU";
+            var request = requestContext.HttpContext.Request;
+            HttpCookie cultureCookie = request.Cookies["lang"];
+            if (cultureCookie != null)
+                culture = cultureCookie.Value;
+
+            CultureInfo ci = CultureInfo.GetCultureInfo(culture);
+            System.Threading.Thread.CurrentThread.CurrentCulture = ci;
+            System.Threading.Thread.CurrentThread.CurrentUICulture = ci;
+        }
+
         public ActionResult ChangeCulture(string id)
         {
             string returnUrl = Request.UrlReferrer.PathAndQuery;
@@ -112,7 +127,6 @@ namespace RapidDoc.Controllers
                 cookie.Value = id;
             else
             {
-
                 cookie = new HttpCookie("lang");
                 cookie.HttpOnly = false;
                 cookie.Value = id;
