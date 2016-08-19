@@ -23,7 +23,7 @@
             @Html.LabelForRequired(model => Model.FlyAwayDate)
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(model => Model.FlyAwayDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", startDate = "" })
+            @Html.TextBoxFor(model => Model.FlyAwayDate, UIElementRes.UIElement.DATEFORMAT, new { @class = "datepicker form-control", startDate = "" })
         </div>
     </div>
 </div>
@@ -74,7 +74,7 @@
             @Html.LabelForRequired(model => Model.FlyBackDate)
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(model => Model.FlyBackDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", startDate = "" })
+            @Html.TextBoxFor(model => Model.FlyBackDate, UIElementRes.UIElement.DATEFORMAT, new { @class = "datepicker form-control", startDate = "" })
         </div>
     </div>
 </div>
@@ -106,7 +106,7 @@
             @Html.LabelForRequired(model => Model.FromDate)
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(model => Model.FromDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", startDate = "" })
+            @Html.TextBoxFor(model => Model.FromDate, UIElementRes.UIElement.DATEFORMAT, new { @class = "datepicker form-control", startDate = "" })
         </div>
     </div>
     <div class="col-xs-4">
@@ -114,7 +114,7 @@
             @Html.LabelForRequired(model => Model.ToDate)
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(model => Model.ToDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", startDate = "" })
+            @Html.TextBoxFor(model => Model.ToDate, UIElementRes.UIElement.DATEFORMAT, new { @class = "datepicker form-control", startDate = "" })
         </div>
     </div>
 </div>

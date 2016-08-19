@@ -139,7 +139,7 @@ else
             @Html.LabelForRequired(model => Model.RegistrationDate)
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(model => Model.RegistrationDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", startDate = "" })
+            @Html.TextBoxFor(model => Model.RegistrationDate, UIElementRes.UIElement.DATEFORMAT, new { @class = "datepicker form-control", startDate = "" })
         </div>
         <div class="editor-label">
             @Html.LabelForRequired(model => Model.Whom)
@@ -263,7 +263,7 @@ else
             @Html.LabelForRequired(model => Model.ExecutionDate)
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(model => Model.ExecutionDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control form-control-date", startDate = "" })
+            @Html.TextBoxFor(model => Model.ExecutionDate, UIElementRes.UIElement.DATEFORMAT, new { @class = "datepicker form-control form-control-date", startDate = "" })
         </div>
     </div>
 </div>

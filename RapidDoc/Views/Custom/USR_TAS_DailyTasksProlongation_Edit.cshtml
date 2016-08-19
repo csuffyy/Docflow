@@ -14,11 +14,11 @@
         <div class="editor-field">
             @if (Model.ProlongationOldDate.HasValue && Model.ProlongationOldDate != DateTime.MinValue)
             {
-                <del>@Html.FormatValue(Model.ExecutionDate, "{0:dd.MM.yyyy}")</del>
+                <del>@Html.FormatValue(Model.ExecutionDate, UIElementRes.UIElement.DATEFORMAT)</del>
             }
             else
             {
-                @Html.FormatValue(Model.ExecutionDate, "{0:dd.MM.yyyy}")
+                @Html.FormatValue(Model.ExecutionDate, UIElementRes.UIElement.DATEFORMAT)
             }
         </div>
     </div>
@@ -42,7 +42,7 @@
     @Html.LabelForRequired(model => Model.ProlongationDate)
 </div>
 <div class="editor-field">
-    @Html.TextBoxFor(model => model.ProlongationDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control form-control-date", data_date_format = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.ToLower(), format = "mm/dd/yyyy", placeholder = "Дата", startDate = "" })
+    @Html.TextBoxFor(model => model.ProlongationDate, UIElementRes.UIElement.DATEFORMAT, new { @class = "datepicker form-control form-control-date", data_date_format = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.ToLower(), format = "mm/dd/yyyy", placeholder = "Дата", startDate = "" })
 </div>
 
 <div class="editor-label">

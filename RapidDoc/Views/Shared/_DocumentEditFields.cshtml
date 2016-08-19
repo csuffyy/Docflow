@@ -63,27 +63,20 @@
     }
     else if (property.PropertyType == typeof(DateTime?))
     {
-        if (dataTypeAttr == null)
+        if (dataTypeAttr == null || ((System.ComponentModel.DataAnnotations.DataTypeAttribute)dataTypeAttr).DataType == System.ComponentModel.DataAnnotations.DataType.Date)
         {
             <div class="editor-field">
-                @Html.TextBox((string)property.Name, null, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control form-control-date", data_date_format = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.ToLower(), placeholder = "Дата", startDate = "" })
+                @Html.TextBox((string)property.Name, null, UIElementRes.UIElement.DATEFORMAT, new { @class = "datepicker form-control form-control-date", data_date_format = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.ToLower(), placeholder = "Дата", startDate = "" })
             </div>
         }
         else 
         {
-            if(((System.ComponentModel.DataAnnotations.DataTypeAttribute)dataTypeAttr).DataType == System.ComponentModel.DataAnnotations.DataType.Date)
-            {
-                <div class="editor-field">
-                    @Html.TextBox((string)property.Name, null, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control form-control-date", data_date_format = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.ToLower(), placeholder = "Дата", startDate = "" })
-                </div>
-            }
-            else if (((System.ComponentModel.DataAnnotations.DataTypeAttribute)dataTypeAttr).DataType == System.ComponentModel.DataAnnotations.DataType.DateTime)
+            if (((System.ComponentModel.DataAnnotations.DataTypeAttribute)dataTypeAttr).DataType == System.ComponentModel.DataAnnotations.DataType.DateTime)
             {
                 <div class="editor-field">
                     @Html.TextBox((string)property.Name, null, "{0:dd.MM.yyyy hh:mm}", new { @class = "datetimepicker form-control form-control-date", placeholder = "Дата/время", startDate = "" })
                 </div>
             }
-            
         }    
     }
     else if (property.PropertyType == typeof(int))

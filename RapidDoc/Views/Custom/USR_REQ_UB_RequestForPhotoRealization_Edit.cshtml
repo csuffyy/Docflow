@@ -5,7 +5,7 @@
     @Html.LabelForRequired(model => Model.FromPhotoDate)
 </div>
 <div class="editor-field">
-    @Html.TextBoxFor(model => Model.FromPhotoDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control form-control-date", data_date_format = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.ToLower(), placeholder = "Дата начала", startDate = "" })
+    @Html.TextBoxFor(model => Model.FromPhotoDate, UIElementRes.UIElement.DATEFORMAT, new { @class = "datepicker form-control form-control-date", data_date_format = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.ToLower(), placeholder = "Дата начала", startDate = "" })
 </div>
 
 
@@ -13,7 +13,7 @@
     @Html.LabelForRequired(model => Model.ToPhotoDate)
 </div>
 <div class="editor-field">
-    @Html.TextBoxFor(model => Model.ToPhotoDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control form-control-date", data_date_format = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.ToLower(), placeholder = "Дата окончания", startDate = "" })
+    @Html.TextBoxFor(model => Model.ToPhotoDate, UIElementRes.UIElement.DATEFORMAT, new { @class = "datepicker form-control form-control-date", data_date_format = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.ToLower(), placeholder = "Дата окончания", startDate = "" })
 </div>
 <br />
 @Html.Partial("_DocumentEditFields", Model, new ViewDataDictionary(ViewData) { { "FieldName", "PhotoType" } })

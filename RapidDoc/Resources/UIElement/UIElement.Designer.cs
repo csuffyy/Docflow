@@ -556,6 +556,15 @@ namespace UIElementRes {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0:dd.MM.yyyy}.
+        /// </summary>
+        public static string DATEFORMAT {
+            get {
+                return ResourceManager.GetString("DATEFORMAT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to /(0?[1-9]|[12][0-9]|3[0-1])[/., -](0?[1-9]|1[0-2])[/., -](19|20)?\d{2} \d{2}:\d{2}|(0?[1-9]|[12][0-9]|3[0-1])[/., -](0?[1-9]|1[0-2])[/., -](19|20)?\d{2}$/.
         /// </summary>
         public static string DATETIMEREGEX {

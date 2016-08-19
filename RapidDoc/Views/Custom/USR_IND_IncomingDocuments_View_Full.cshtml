@@ -133,7 +133,7 @@
             @Html.LabelFor(model => Model.OutgoingDate)
         </div>
         <div class="editor-field">
-            @Html.FormatValue(Model.OutgoingDate, "{0:dd.MM.yyyy}")
+            @Html.FormatValue(Model.OutgoingDate, UIElementRes.UIElement.DATEFORMAT)
         </div>
     </div>
 </div>
@@ -151,7 +151,7 @@
             @Html.LabelFor(model => Model.RegistrationDate)
         </div>
         <div class="editor-field">
-            @Html.FormatValue(Model.RegistrationDate, "{0:dd.MM.yyyy}")
+            @Html.FormatValue(Model.RegistrationDate, UIElementRes.UIElement.DATEFORMAT)
         </div>
     </div>
 </div>
@@ -181,7 +181,7 @@
     @Html.LabelForRequired(model => Model.ExecutionDate)
 </div>
 <div class="editor-field">
-    @Html.FormatValue(Model.ExecutionDate, "{0:dd.MM.yyyy}")
+    @Html.FormatValue(Model.ExecutionDate, UIElementRes.UIElement.DATEFORMAT)
 </div>
 <hr />
 <div class="row">

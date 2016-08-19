@@ -23,7 +23,7 @@
                 @Html.TextBoxFor(model => Model.Users, new { @class = "form-control", @data_role = "tagsinputEmployerIntercompany", placeholder = "Исполнители" })
             </div>
             <div class="col-xs-2">
-                @Html.TextBoxFor(model => Model.ControlDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", startDate = "" })
+                @Html.TextBoxFor(model => Model.ControlDate, UIElementRes.UIElement.DATEFORMAT, new { @class = "datepicker form-control", startDate = "" })
             </div>
             <div class="col-xs-2">
                 @Html.CheckBoxFor(model => Model.Separated)

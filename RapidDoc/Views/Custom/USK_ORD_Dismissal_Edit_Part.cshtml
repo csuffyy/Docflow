@@ -57,7 +57,7 @@
 
             <p class="text-center"><strong>БҰЙРЫҚ</strong></p>
             <p class="text-center"><strong>№ @Html.DisplayTextFor(x => x.OrderNum)</strong></p>
-            <p class="text-center"><strong>@Html.FormatValue(Model.OrderDate, "{0:dd.MM.yyyy}") ж.</strong></p>
+            <p class="text-center"><strong>@Html.FormatValue(Model.OrderDate, UIElementRes.UIElement.DATEFORMAT) ж.</strong></p>
 
             <p class="text-center">
                 <strong>
@@ -110,7 +110,7 @@
                         @Html.LabelForRequired(model => Model.OrderDate)
                     </div>
                     <div class="editor-field">
-                        @Html.TextBoxFor(model => model.OrderDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", data_date_format = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.ToLower(), placeholder = "Дата приказа", startDate = "" })
+                        @Html.TextBoxFor(model => model.OrderDate, UIElementRes.UIElement.DATEFORMAT, new { @class = "datepicker form-control", data_date_format = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.ToLower(), placeholder = "Дата приказа", startDate = "" })
                     </div>
                 </div>
                 @**<div class="col-xs-2">
@@ -118,7 +118,7 @@
                         @Html.LabelForRequired(model => Model.ControlDate)
                     </div>
                     <div class="editor-field">
-                        @Html.TextBoxFor(model => model.ControlDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", data_date_format = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.ToLower(), placeholder = "Срок исполнения", startDate = "" })
+                        @Html.TextBoxFor(model => model.ControlDate, UIElementRes.UIElement.DATEFORMAT, new { @class = "datepicker form-control", data_date_format = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.ToLower(), placeholder = "Срок исполнения", startDate = "" })
                     </div>
                 </div>*@
                 <div class="col-xs-8">

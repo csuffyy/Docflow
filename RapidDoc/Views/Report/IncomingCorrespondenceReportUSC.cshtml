@@ -18,7 +18,7 @@
             @Html.LabelForRequired(model => model.StartDate)
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(model => model.StartDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control form-control-date" })
+            @Html.TextBoxFor(model => model.StartDate, UIElementRes.UIElement.DATEFORMAT, new { @class = "datepicker form-control form-control-date" })
             @Html.ValidationMessageFor(model => model.StartDate)
         </div>
 
@@ -26,7 +26,7 @@
             @Html.LabelForRequired(model => model.EndDate)
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(model => model.EndDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control form-control-date" })
+            @Html.TextBoxFor(model => model.EndDate, UIElementRes.UIElement.DATEFORMAT, new { @class = "datepicker form-control form-control-date" })
             @Html.ValidationMessageFor(model => model.EndDate)
         </div>
 

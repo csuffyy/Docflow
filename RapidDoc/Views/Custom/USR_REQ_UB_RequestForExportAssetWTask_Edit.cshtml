@@ -82,7 +82,7 @@
     @Html.LabelForRequired(model => Model.DateReturnOC)
 </div>
 <div class="editor-field">
-    @Html.TextBoxFor(model => model.DateReturnOC, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control form-control-date", data_date_format = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.ToLower(), placeholder = "Ожидаемая дата возврата собственных ОС", startDate = "" })
+    @Html.TextBoxFor(model => model.DateReturnOC, UIElementRes.UIElement.DATEFORMAT, new { @class = "datepicker form-control form-control-date", data_date_format = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.ToLower(), placeholder = "Ожидаемая дата возврата собственных ОС", startDate = "" })
 </div>
 
 <hr />

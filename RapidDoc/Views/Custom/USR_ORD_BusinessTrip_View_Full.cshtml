@@ -245,7 +245,7 @@ else
 
 <p class="text-center"><strong>БҰЙРЫҚ</strong></p>
 <p class="text-center"><strong>№ @Html.DisplayTextFor(x => x.OrderNum)</strong></p>
-<p class="text-center"><strong>@Html.FormatValue(Model.OrderDate, "{0:dd.MM.yyyy}") ж.</strong></p>
+<p class="text-center"><strong>@Html.FormatValue(Model.OrderDate, UIElementRes.UIElement.DATEFORMAT) ж.</strong></p>
 
 @if(!String.IsNullOrEmpty(Model.Subject))
 { 

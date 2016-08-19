@@ -38,13 +38,13 @@
             @Html.LabelFor(model => Model.StartDate)
         </div>
         <div class="editor-field">
-            @Html.FormatValue(Model.StartDate, "{0:dd.MM.yyyy}")
+            @Html.FormatValue(Model.StartDate, UIElementRes.UIElement.DATEFORMAT)
         </div>
         <div>
             @Html.LabelFor(model => Model.EndDate)
         </div>
         <div class="editor-field">
-            @Html.FormatValue(Model.EndDate, "{0:dd.MM.yyyy}")
+            @Html.FormatValue(Model.EndDate, UIElementRes.UIElement.DATEFORMAT)
         </div>
 
         <div class="editor-label">

@@ -22,10 +22,10 @@
                     </p>
                     if(item.DocType == RapidDoc.Models.Repository.DocumentType.Task)
                     {
-                    <p>@FieldNameRes.FieldNameResource.Executor: @Html.HtmlDisplayTags(item.Users) Срок: @Html.FormatValue(item.ExecutionDate, "{0:dd.MM.yyyy}")
+                    <p>@FieldNameRes.FieldNameResource.Executor: @Html.HtmlDisplayTags(item.Users) Срок: @Html.FormatValue(item.ExecutionDate, UIElementRes.UIElement.DATEFORMAT)
                         @if(item.ProlongationDate != null)
                         {
-                            <span>Продление: @Html.FormatValue(item.ProlongationDate, "{0:dd.MM.yyyy}")</span>
+                            <span>Продление: @Html.FormatValue(item.ProlongationDate, UIElementRes.UIElement.DATEFORMAT)</span>
                         }
                     </p>
                     <p>
@@ -41,7 +41,7 @@
                     }
                     else if (item.DocType == RapidDoc.Models.Repository.DocumentType.Request && item.ProlongationDate != null)
                     {
-                        <span><em>Дата продления: @Html.FormatValue(item.ProlongationDate, "{0:dd.MM.yyyy}")</em></span>
+                        <span><em>Дата продления: @Html.FormatValue(item.ProlongationDate, UIElementRes.UIElement.DATEFORMAT)</em></span>
                         <br />
                         <br />
                     }

@@ -194,7 +194,7 @@
                                                             <div class="panel-heading" role="tab" id="headingThree@tmpNum">
                                                                 <p class="panel-title">
                                                                     <a data-toggle="collapse" data-target="#collapseArea_@tmpNum" aria-expanded="false" aria-controls="collapseArea_@tmpNum">
-                                                                        <strong>@Html.FormatValue(itemGroupTwoName.Key, "{0:dd.MM.yyyy}") (@Model.Where(x => x.OrderDate == itemGroupTwoName.Key).Count())</strong>
+                                                                        <strong>@Html.FormatValue(itemGroupTwoName.Key, UIElementRes.UIElement.DATEFORMAT) (@Model.Where(x => x.OrderDate == itemGroupTwoName.Key).Count())</strong>
                                                                     </a>
                                                                 </p>
                                                             </div>

@@ -60,7 +60,7 @@
             @Html.LabelForRequired(model => Model.StartDate)
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(model => Model.StartDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", placeholder = "c", startDate = "" })
+            @Html.TextBoxFor(model => Model.StartDate, UIElementRes.UIElement.DATEFORMAT, new { @class = "datepicker form-control", placeholder = "c", startDate = "" })
         </div>
     </div>
     <div class="col-xs-4">
@@ -68,7 +68,7 @@
             @Html.LabelForRequired(model => Model.EndDate)
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(model => Model.EndDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", placeholder = "по", startDate = "" })
+            @Html.TextBoxFor(model => Model.EndDate, UIElementRes.UIElement.DATEFORMAT, new { @class = "datepicker form-control", placeholder = "по", startDate = "" })
         </div>
     </div>
     <div class="col-xs-4">

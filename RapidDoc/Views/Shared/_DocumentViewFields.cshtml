@@ -38,7 +38,7 @@
     }
     else if (property.PropertyType == typeof(DateTime?))
     {
-        if (dataTypeAttr == null)
+        if (dataTypeAttr == null || ((System.ComponentModel.DataAnnotations.DataTypeAttribute)dataTypeAttr).DataType == System.ComponentModel.DataAnnotations.DataType.Date)
         {
             <div class="editor-field">
                 @Html.Display((string)property.Name, "MM/dd/yyyy")
@@ -46,13 +46,7 @@
         }
         else 
         {
-            if(((System.ComponentModel.DataAnnotations.DataTypeAttribute)dataTypeAttr).DataType == System.ComponentModel.DataAnnotations.DataType.Date)
-            {
-                <div class="editor-field">
-                    @Html.Display((string)property.Name, "MM/dd/yyyy")
-                </div>
-            }
-            else if (((System.ComponentModel.DataAnnotations.DataTypeAttribute)dataTypeAttr).DataType == System.ComponentModel.DataAnnotations.DataType.DateTime)
+            if (((System.ComponentModel.DataAnnotations.DataTypeAttribute)dataTypeAttr).DataType == System.ComponentModel.DataAnnotations.DataType.DateTime)
             {
                 <div class="editor-field">
                     @Html.DisplayText((string)property.Name)

@@ -93,7 +93,6 @@ function duallist_init(placeholder) {
 
 function datepicker_init(lang) {
     var datepicker = $('.datepicker').datepicker({
-        format: 'dd.mm.yyyy',
         autoclose: true,
         language: lang,
         todayBtn: true,

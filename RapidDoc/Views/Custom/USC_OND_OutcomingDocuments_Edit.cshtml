@@ -121,7 +121,7 @@
             @Html.LabelForRequired(model => Model.OutgoingDate)
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(model => Model.OutgoingDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control", startDate = "" })
+            @Html.TextBoxFor(model => Model.OutgoingDate, UIElementRes.UIElement.DATEFORMAT, new { @class = "datepicker form-control", startDate = "" })
         </div>
     </div>
 </div>

@@ -333,10 +333,10 @@
                 </p>
                 <p>
                     <font size="3">
-                        @FieldNameRes.FieldNameResource.Executor: @Html.HtmlDisplayTags(item.Users) Срок: @Html.FormatValue(item.ExecutionDate, "{0:dd.MM.yyyy}")
+                        @FieldNameRes.FieldNameResource.Executor: @Html.HtmlDisplayTags(item.Users) Срок: @Html.FormatValue(item.ExecutionDate, UIElementRes.UIElement.DATEFORMAT)
                         @if (item.ProlongationDate != null)
                         {
-                            <span>Продление: @Html.FormatValue(item.ProlongationDate, "{0:dd.MM.yyyy}")</span>
+                            <span>Продление: @Html.FormatValue(item.ProlongationDate, UIElementRes.UIElement.DATEFORMAT)</span>
                         }
                     </font>
                 </p>
