@@ -5,13 +5,13 @@
     @Html.LabelFor(model => Model.FromPhotoDate)
 </div>
 <div class="editor-field">
-    @Html.DisplayFor(model => Model.FromPhotoDate, "MM/dd/yyyy")
+    @Html.DisplayFor(model => Model.FromPhotoDate, UIElementRes.UIElement.DATEFORMAT2)
 </div>
 <div class="editor-label">
     @Html.LabelFor(model => Model.ToPhotoDate)
 </div>
 <div class="editor-field">
-    @Html.DisplayFor(model => Model.ToPhotoDate, "MM/dd/yyyy")
+    @Html.DisplayFor(model => Model.ToPhotoDate, UIElementRes.UIElement.DATEFORMAT2)
 </div>
 <br>
 @Html.Partial("_DocumentViewFields", Model, new ViewDataDictionary(ViewData) { { "FieldName", "PhotoType" } })

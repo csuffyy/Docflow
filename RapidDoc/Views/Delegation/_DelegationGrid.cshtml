@@ -21,8 +21,8 @@
     columns.Add(o => o.Id).Css("hidden");
     columns.Add(o => o.EmplNameFrom).Titled(Html.DisplayNameFor(o => ((RapidDoc.Models.ViewModels.DelegationView)o.Columns).EmplTableFromId).ToHtmlString()).Sortable(true).Filterable(true);
     columns.Add(o => o.EmplNameTo).Titled(Html.DisplayNameFor(o => ((RapidDoc.Models.ViewModels.DelegationView)o.Columns).EmplTableToId).ToHtmlString()).Sortable(true).Filterable(true);
-    columns.Add(o => o.DateFrom).Titled(Html.DisplayNameFor(o => ((RapidDoc.Models.ViewModels.DelegationView)o.Columns).DateFrom).ToHtmlString()).Sortable(true).Filterable(true).Format("{0:dd/MM/yyyy}");
-    columns.Add(o => o.DateTo).Titled(Html.DisplayNameFor(o => ((RapidDoc.Models.ViewModels.DelegationView)o.Columns).DateTo).ToHtmlString()).Sortable(true).Filterable(true).Format("{0:dd/MM/yyyy}");
+    columns.Add(o => o.DateFrom).Titled(Html.DisplayNameFor(o => ((RapidDoc.Models.ViewModels.DelegationView)o.Columns).DateFrom).ToHtmlString()).Sortable(true).Filterable(true).Format(UIElementRes.UIElement.DATEFORMAT);
+    columns.Add(o => o.DateTo).Titled(Html.DisplayNameFor(o => ((RapidDoc.Models.ViewModels.DelegationView)o.Columns).DateTo).ToHtmlString()).Sortable(true).Filterable(true).Format(UIElementRes.UIElement.DATEFORMAT);
     columns.Add(o => o.GroupProcessName).Titled(Html.DisplayNameFor(o => ((RapidDoc.Models.ViewModels.DelegationView)o.Columns).GroupProcessTableId).ToHtmlString()).Sortable(true).Filterable(true);
     columns.Add(o => o.ProcessName).Titled(Html.DisplayNameFor(o => ((RapidDoc.Models.ViewModels.DelegationView)o.Columns).ProcessTableId).ToHtmlString()).Sortable(true).Filterable(true);
     columns.Add(o => o.AliasCompanyName).Titled(Html.DisplayNameFor(o => ((RapidDoc.Models.ViewModels.DelegationView)o.Columns).AliasCompanyName).ToHtmlString()).Sortable(true).Filterable(true);

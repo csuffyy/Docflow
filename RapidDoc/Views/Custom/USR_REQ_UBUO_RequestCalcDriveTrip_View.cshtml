@@ -12,7 +12,7 @@
     @Html.LabelFor(model => Model.OrderDate)
 </div>
 <div class="editor-field">
-    @Html.DisplayFor(model => Model.OrderDate, "MM/dd/yyyy")
+    @Html.DisplayFor(model => Model.OrderDate, UIElementRes.UIElement.DATEFORMAT2)
 </div>
 <hr />
 @if (!String.IsNullOrEmpty(Model.FIO1))

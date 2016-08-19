@@ -741,4 +741,10 @@
   <data name="DATEFORMAT" xml:space="preserve">
     <value>{0:dd.MM.yyyy}</value>
   </data>
+  <data name="DATETIMEFORMAT" xml:space="preserve">
+    <value>{0:dd.MM.yyyy HH:mm}</value>
+  </data>
+  <data name="DATEFORMAT2" xml:space="preserve">
+    <value>dd.mm.yyyy</value>
+  </data>
 </root>

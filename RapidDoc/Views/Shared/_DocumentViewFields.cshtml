@@ -41,7 +41,7 @@
         if (dataTypeAttr == null || ((System.ComponentModel.DataAnnotations.DataTypeAttribute)dataTypeAttr).DataType == System.ComponentModel.DataAnnotations.DataType.Date)
         {
             <div class="editor-field">
-                @Html.Display((string)property.Name, "MM/dd/yyyy")
+                @Html.Display((string)property.Name, UIElementRes.UIElement.DATEFORMAT2)
             </div>
         }
         else 

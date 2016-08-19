@@ -1297,7 +1297,7 @@ namespace RapidDoc.Models.Services
                     if (documentTable.Date != null)
                     {
                         DateTime SLADate = (DateTime)documentTable.Date;
-                        documentDate.Add(SLADate.ToString("dd/MM/yyyy"));
+                        documentDate.Add(SLADate.ToString(UIElementRes.UIElement.DATEFORMAT2));
                     }
                     else
                         documentDate.Add(String.Empty);

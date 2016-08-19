@@ -22,11 +22,11 @@
                     <div class="editor-field">
                         @if (Model.ExecutionDate.HasValue)
                         {
-                            <input class="datepicker form-control form-control-date" data-date-format="dd.mm.yyyy" data-val="true" data-val-date="The field Дата исполнения must be a date." format="dd.mm.yyyy" id="newExecuteDate" name="newExecuteDate" placeholder="Дата" startdate="@DateTime.Today.Day.@DateTime.Today.Month.@DateTime.Today.Year" type="text" value="@Model.ExecutionDate.Value.ToShortDateString()">
+                            <input class="datepicker form-control form-control-date" data-date-format="@UIElementRes.UIElement.DATEFORMAT2" data-val="true" data-val-date="The field Дата исполнения must be a date." format="@UIElementRes.UIElement.DATEFORMAT2" id="newExecuteDate" name="newExecuteDate" placeholder="Дата" startdate="@DateTime.Today.Day.@DateTime.Today.Month.@DateTime.Today.Year" type="text" value="@Model.ExecutionDate.Value.ToShortDateString()">
                         }
                         else
                         {
-                            <input class="datepicker form-control form-control-date" data-date-format="dd.mm.yyyy" data-val="true" data-val-date="The field Дата исполнения must be a date." format="dd.mm.yyyy" id="newExecuteDate" name="newExecuteDate" placeholder="Дата" startdate="@DateTime.Today.Day.@DateTime.Today.Month.@DateTime.Today.Year" type="text" value="">
+                            <input class="datepicker form-control form-control-date" data-date-format="@UIElementRes.UIElement.DATEFORMAT2" data-val="true" data-val-date="The field Дата исполнения must be a date." format="@UIElementRes.UIElement.DATEFORMAT2" id="newExecuteDate" name="newExecuteDate" placeholder="Дата" startdate="@DateTime.Today.Day.@DateTime.Today.Month.@DateTime.Today.Year" type="text" value="">
                         }
                     </div>
                 </div>

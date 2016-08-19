@@ -42,7 +42,7 @@
     @Html.LabelForRequired(model => Model.ProlongationDate)
 </div>
 <div class="editor-field">
-    @Html.TextBoxFor(model => model.ProlongationDate, UIElementRes.UIElement.DATEFORMAT, new { @class = "datepicker form-control form-control-date", data_date_format = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.ToLower(), format = "mm/dd/yyyy", placeholder = "Дата", startDate = "" })
+    @Html.TextBoxFor(model => model.ProlongationDate, UIElementRes.UIElement.DATEFORMAT, new { @class = "datepicker form-control form-control-date", data_date_format = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.ToLower(), format = UIElementRes.UIElement.DATEFORMAT2, placeholder = "Дата", startDate = "" })
 </div>
 
 <div class="editor-label">
