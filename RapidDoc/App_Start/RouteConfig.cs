@@ -41,12 +41,6 @@ namespace RapidDoc
             ).RouteHandler = new DefaultMvcRouteHandler();
 
             routes.MapRoute(
-                name: "DocumentDownloadNew",
-                url: "Document/DownloadFileNew/{id}",
-                defaults: new { controller = "Document", action = "DownloadFileNew", id = UrlParameter.Optional }
-            ).RouteHandler = new DefaultMvcRouteHandler();
-
-            routes.MapRoute(
                 name: "UploadFile",
                 url: "Document/UploadFile",
                 defaults: new { controller = "Document", action = "UploadFile" }

@@ -31,6 +31,8 @@ using System.Collections;
 using System.Net;
 using RapidDoc.Extensions;
 using AutoMapper;
+using System.Net.Http.Headers;
+using System.Text;
 
 
 namespace RapidDoc.Controllers
@@ -1891,7 +1893,7 @@ namespace RapidDoc.Controllers
                     id = Id.ToString(),
                     name = doc.FileName,
                     size = doc.ContentLength,
-                    url = @"/Document/DownloadFileNew/" + Id.ToString(),
+                    url = @"/Document/DownloadFile/" + Id.ToString(),
                     deleteUrl = @"/Document/DeleteFile/" + Id.ToString(),
                     thumbnailUrl = @"data:image/png;base64," + Convert.ToBase64String(thumbnail),
                     deleteType = "DELETE",
@@ -2033,7 +2035,7 @@ namespace RapidDoc.Controllers
                         id = Id.ToString(),
                         name = doc.FileName,
                         size = doc.ContentLength,
-                        url = @"/Document/DownloadFileNew/" + Id.ToString(),
+                        url = @"/Document/DownloadFile/" + Id.ToString(),
                         deleteUrl = @"/Document/DeleteFile/" + Id.ToString(),
                         thumbnailUrl = @"data:image/png;base64," + Convert.ToBase64String(thumbnail),
                         deleteType = "DELETE",
@@ -2142,7 +2144,7 @@ namespace RapidDoc.Controllers
                     id = file.Id.ToString(),
                     name = file.FileName,
                     size = file.ContentLength,
-                    url = @"/Document/DownloadFileNew/" + file.Id.ToString(),
+                    url = @"/Document/DownloadFile/" + file.Id.ToString(),
                     deleteUrl = @"/Document/DeleteFile/" + file.Id.ToString(),
                     thumbnailUrl = @"data:image/png;base64," + Convert.ToBase64String(thumbnail),
                     deleteType = deleteType,
@@ -2198,7 +2200,7 @@ namespace RapidDoc.Controllers
                     doc.VersionName = "Version 1";
 
                     Guid Id = _DocumentService.SaveFile(doc, User.Identity.GetUserId());
-                    result = @"/Document/DownloadFileNew/" + Id.ToString();
+                    result = @"/Document/DownloadFile/" + Id.ToString();
                 }
             }
 
@@ -2274,29 +2276,26 @@ namespace RapidDoc.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public FileContentResult DownloadFile(Guid Id)
+        public ActionResult DownloadFile(Guid Id)
         {
             FileTable fileTable = _DocumentService.GetFile(Id);
-            return File(fileTable.Data, fileTable.ContentType, fileTable.FileName);
-        }
-
-        [HttpGet]
-        [AllowAnonymous]
-        public ActionResult DownloadFileNew(Guid Id)
-        {
-            FileTable fileTable = _DocumentService.GetFile(Id);
-
             HttpResponseBase response = ControllerContext.HttpContext.Response;
             response.ContentType = fileTable.ContentType;
-            response.AppendHeader("Content-Disposition", String.Format("attachment;filename={0}", fileTable.FileName));
+            string filename = fileTable.FileName.Trim().Replace(",", "_");
+            response.AppendHeader("Content-Disposition", String.Format("inline; filename={0}", filename));
 
-            MemoryStream ms = new MemoryStream(fileTable.Data);
-            FileStreamResult document = new FileStreamResult(ms, fileTable.ContentType);
+            try
+            {
+                MemoryStream ms = new MemoryStream(fileTable.Data);
+                FileStreamResult document = new FileStreamResult(ms, fileTable.ContentType);
 
-            document.FileStream.Seek(0, SeekOrigin.Begin);
-            document.FileStream.CopyTo(response.OutputStream, (int)document.FileStream.Length);
+                document.FileStream.Seek(0, SeekOrigin.Begin);
+                document.FileStream.CopyTo(response.OutputStream, (int)document.FileStream.Length);
 
-            response.Flush();
+                response.Flush();
+            }
+            catch { }
+
             return new EmptyResult();
         }
 

@@ -5,7 +5,7 @@
     foreach (var item in Model)
     {
         <p>
-            <a href=@Url.Action(@"DownloadFileNew/" + item.Id.ToString(), "Document") class="">@item.FileName</a>
+            <a href=@Url.Action(@"DownloadFile/" + item.Id.ToString(), "Document") class="">@item.FileName</a>
         </p>
     }
 }
