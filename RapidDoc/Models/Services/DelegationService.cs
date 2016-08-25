@@ -32,6 +32,7 @@ namespace RapidDoc.Models.Services
         DelegationView FindView(Guid id);
         List<WFTrackerTable> GetDelegationUsers(DocumentTable document, ApplicationUser currentUser, IEnumerable<WFTrackerTable> trackerTables);
         List<ApplicationUser> GetDelegationUsers(DocumentTable document, List<ApplicationUser> users);
+        List<ApplicationUser> GetDelegationUsers(DocumentTable document, List<string> usersId);
         bool CheckDelegation(ApplicationUser user, ProcessTable process, IEnumerable<WFTrackerTable> trackerTables);
         bool CheckDelegation(ApplicationUser user, ProcessTable process, WFTrackerTable trackerTable);
         bool CheckTrackerUsers(IEnumerable<WFTrackerTable> trackerTables, string userId);
@@ -194,6 +195,44 @@ namespace RapidDoc.Models.Services
 
             foreach (var user in users)
             {
+                var delegationItems = GetPartialIntercompany(x => x.EmplTableFrom.ApplicationUserId == user.Id
+                    && x.DateFrom <= DateTime.UtcNow && x.DateTo >= DateTime.UtcNow
+                    && x.isArchive == false && x.CompanyTableId == user.CompanyTableId);
+
+                foreach (var delegationItem in delegationItems)
+                {
+                    if (delegationItem.GroupProcessTableId != null || delegationItem.ProcessTableId != null)
+                    {
+                        if (delegationItem.ProcessTableId == document.ProcessTableId)
+                        {
+                            result.Add(repoUser.GetById(delegationItem.EmplTableTo.ApplicationUserId));
+                        }
+                        else if (delegationItem.GroupProcessTableId != null && (document.ProcessTable.GroupProcessTableId == delegationItem.GroupProcessTableId || _GroupProcessService.GetGroupChildren(delegationItem.GroupProcessTableId).Any(x => x == document.ProcessTable.GroupProcessTableId)))
+                        {
+                            result.Add(repoUser.GetById(delegationItem.EmplTableTo.ApplicationUserId));
+                        }
+                    }
+                    else
+                    {
+                        result.Add(repoUser.GetById(delegationItem.EmplTableTo.ApplicationUserId));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        public List<ApplicationUser> GetDelegationUsers(DocumentTable document, List<string> usersId)
+        {
+            List<ApplicationUser> result = new List<ApplicationUser>();
+
+            foreach (var id in usersId)
+            {
+                var user = repoUser.GetById(id);
+
+                if (user == null)
+                    continue;
+
                 var delegationItems = GetPartialIntercompany(x => x.EmplTableFrom.ApplicationUserId == user.Id
                     && x.DateFrom <= DateTime.UtcNow && x.DateTo >= DateTime.UtcNow
                     && x.isArchive == false && x.CompanyTableId == user.CompanyTableId);

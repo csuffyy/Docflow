@@ -58,13 +58,14 @@ namespace RapidDoc.Controllers
         private readonly INotificationUsersService _NotificationUsersService;
         private readonly IDocumentSubcriptionService _DocumentSubcriptionService;
         private readonly IPortalParametersService _PortalParametersService;
+        private readonly IDelegationService _DelegationService;
 
         protected UserManager<ApplicationUser> UserManager { get; private set; }
         protected RoleManager<ApplicationRole> RoleManager { get; private set; }
 
         public DocumentController(IDocumentService documentService, IProcessService processService,
             IWorkflowService workflowService, IEmplService emplService, IAccountService accountService, ISystemService systemService,
-            IWorkflowTrackerService workflowTrackerService, IReviewDocLogService reviewDocLogService,
+            IWorkflowTrackerService workflowTrackerService, IReviewDocLogService reviewDocLogService, IDelegationService delegationService,
             IDocumentReaderService documentReaderService, ICommentService commentService, IEmailService emailService,
             IHistoryUserService historyUserService, ISearchService searchService, ICompanyService companyService, ICustomCheckDocument customCheckDocument, IItemCauseService itemCauseService, IModificationUsersService modificationUsers, INotificationUsersService notificationUsersService, IDocumentSubcriptionService documentSubcriptionService, IPortalParametersService portalParametersService)
             : base(companyService, accountService)
@@ -87,6 +88,7 @@ namespace RapidDoc.Controllers
             _NotificationUsersService = notificationUsersService;
             _DocumentSubcriptionService = documentSubcriptionService;
             _PortalParametersService = portalParametersService;
+            _DelegationService = delegationService;
 
             ApplicationDbContext dbContext = new ApplicationDbContext();
             UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(dbContext));
@@ -787,6 +789,7 @@ namespace RapidDoc.Controllers
                         }
                     }
 
+                    users.AddRange(_DelegationService.GetDelegationUsers(docTable, users).Select(x => x.Id).ToArray());
                     _EmailService.SendNewExecutorEmail(documentId, users, (collection["AdditionalText"] != null && _SystemService.DeleteAllTags(collection["AdditionalText"]) != String.Empty) ? collection["AdditionalText"] : "");
                     if ((collection["AdditionalText"] != null && _SystemService.DeleteAllTags(collection["AdditionalText"]) != String.Empty))
                         _CommentService.Save(new CommentTable { Comment = collection["AdditionalText"], DocumentTableId = documentId });

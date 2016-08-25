@@ -62,7 +62,7 @@
             <tr>
                 <td></td>
                 <td>
-                    Срок командировки: с @Model.StartDate.ToString(UIElementRes.UIElement.DATEFORMAT2) по @Model.EndDate.ToString(UIElementRes.UIElement.DATEFORMAT2)<br />
+                    Срок командировки: с @Html.FormatValue(Model.StartDate, UIElementRes.UIElement.DATEFORMAT) по @Html.FormatValue(Model.EndDate, UIElementRes.UIElement.DATEFORMAT)<br />
                 </td>
                 <td></td>
             </tr>
