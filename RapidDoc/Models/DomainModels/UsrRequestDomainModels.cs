@@ -5047,24 +5047,18 @@ namespace RapidDoc.Models.DomainModels
 
     #region Входящие документы Kazzinc Holdings
 
-    public class USK_IND_IncomingDocuments_Table : BasicIncomingDocumentsTable
+    public class USK_IND_IncomingDocuments_Table : BasicIncomingDocumentsKZHCTable
     {
         public NatureIncomingQuestion NatureQuestionType { get; set; }
-        public IncomingDocumentKZHCType DocumentType { get; set; }
-        public IncomingAdmissionMethodType AdmissionMethodType { get; set; }
-        public OutcomingTopicTypeKZHC TopicType { get; set; }
     }
 
     #endregion
 
     #region Входящие документы Kazzinc
 
-    public class USC_IND_IncomingDocuments_Table : BasicIncomingDocumentsTable
+    public class USC_IND_IncomingDocuments_Table : BasicIncomingDocumentsKZHCTable
     {
         public NatureIncomingQuestionKZC NatureQuestionType { get; set; }
-        public IncomingDocumentKZHCType DocumentType { get; set; }
-        public IncomingAdmissionMethodType AdmissionMethodType { get; set; }
-        public OutcomingTopicTypeKZHC TopicType { get; set; }
     }
 
     #endregion
