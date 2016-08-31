@@ -69,7 +69,6 @@
       <AssemblyReference>Microsoft.Owin.Security.Twitter</AssemblyReference>
       <AssemblyReference>Microsoft.WindowsAzure.Configuration</AssemblyReference>
       <AssemblyReference>Microsoft.WindowsAzure.Storage</AssemblyReference>
-      <AssemblyReference>MySql.Data</AssemblyReference>
       <AssemblyReference>Newtonsoft.Json</AssemblyReference>
       <AssemblyReference>Ninject</AssemblyReference>
       <AssemblyReference>Ninject.Web.Common</AssemblyReference>
@@ -243,7 +242,7 @@
                         </local1:WFChooseStaffStructure.inputDocumentId>
                         <local1:WFChooseStaffStructure.inputPredicate>
                           <InArgument x:TypeArguments="sle:Expression(s:Func(local2:EmplTable, x:Boolean))">
-                            <mca:CSharpValue x:TypeArguments="sle:Expression(s:Func(local2:EmplTable, x:Boolean))">x =&gt; x.DepartmentTable.DepartmentName == "Участок механических мастерских УММ" &amp;&amp; x.TitleTable.TitleName == "Старший мастер" &amp;&amp; x.CompanyTable.AliasCompanyName == "ATK"</mca:CSharpValue>
+                            <mca:CSharpValue x:TypeArguments="sle:Expression(s:Func(local2:EmplTable, x:Boolean))">x =&gt; x.DepartmentTable.DepartmentName == "Участок механических мастерских УММ" &amp;&amp; x.TitleTable.TitleName == "Электрогазосварщик УММ/ Сменный мастер УММ" &amp;&amp; x.CompanyTable.AliasCompanyName == "ATK"</mca:CSharpValue>
                           </InArgument>
                         </local1:WFChooseStaffStructure.inputPredicate>
                         <local1:WFChooseStaffStructure.inputStep>
@@ -582,7 +581,7 @@
     <x:Reference>__ReferenceID22</x:Reference>
     <x:Reference>__ReferenceID23</x:Reference>
     <x:Reference>__ReferenceID24</x:Reference>
-    <sads:DebugSymbol.Symbol>d2VDOlxVc2Vyc1xpZ2RtaXRcU291cmNlXFJlcG9zXERvY2Zsb3dSZXBvXFJhcGlkRG9jXEFjdGl2aXRpZXNcVVNSX1JFUV9VTU1fV2VsZGluZ0l0ZW1zQkdQV2Vla2VuZHMueGFtbFscBxxnAQMBpwEBrQEBAooBA8oEDwIBAZABCd4BFQMByQPiAQ/iAXMDAcADqgQRtQQaAwGtA+YBEbQCHQMBuwK4Ahe4AnsDAbIClgQZoQQiAwGfArwCGYUDJQMBtgGJAx+JA4MBAwGtAYIEIY0EKgMBmgGNAyHWAy0CATHaAyfaA4sBAgEo7gMp+QMyAgEV3gMp6QMyAgECkwEPtwEvAwH4A7sBFbsBagMB7wO/ARfUATgDAcoDsgQXsgRqAwG3A60EF60EcgMBrgPpAReNAjcDAeoCkQIdkQJyAwHhApUCH6oCQAMBvAKeBB+eBHIDAakCmQQfmQR6AwGgAr8CH94COQMB5QHiAiXiAnoDAdwB5gIn+wJIAwG3AYoEJ4oEegMBpAGFBCeFBIIBAwGbAZADJ68DQgIBYLMDLbMDggECAVe3Ay/MA1ACATL2Ay/2A48BAgEf8QMv8QOKAQIBFuYDL+YDjAECAQzhAy/hA4oBAgEDpQEVpQFnAwGxBJMB/AGTAYMCAwGwBK8BFa8BagMBpwSqARWqAWcDAZ4EtAEVtAFwAwGVBJMB6wGTAfEBAwGUBJsBFZsBYAMBiwSWARWWAWMDAYIEoAEVoAG8AgMB+QPHAR3HAW8DAeYDzAEdzAFzAwHdA8IBHcIBZwMB1APRAR3RAXgDAcsD+wEd+wFvAwGkA+kB5AHpAfMBAwGjA+kBjgLpAZUCAwGiA4UCHYUCcgMBmQOAAh2AAm8DAZADigIdigJ4AwGHA+kB/QHpAYMCAwGGA/EBHfEBaAMB/QLsAR3sAWsDAfQC9gEd9gHBAgMB6wKdAiWdAncDAdgCogIlogJ7AwHPApgCJZgCbwMBxgKnAiWnAoABAwG9AswCJcwCdwMBlgK/AqcCvwKuAgMBlQLWAiXWAnoDAYwC0QIl0QJ3AwGDAtsCJdsCgAEDAfoBvwL4Ab8CjAIDAfkBvwKWAr8CnAIDAfgBxwIlxwJwAwHvAcICJcICcwMB5gHuAi3uAn8DAdMB8wIt8wKDAQMBygHpAi3pAncDAcEB+AIt+AKIAQMBuAGdAy2dA38DAZEBkAOxApADuAIDAZABpwMtpwOCAQMBhwGiAy2iA38CAX6QA6ICkAOmAgIBfawDLawDiAECAXSQA5ICkAOVAgIBc5gDLZgDeAIBapMDLZMDewIBYb8DNb8DhwECAU7EAzXEA4sBAgFFugM1ugN/AgE8yQM1yQOQAQIBMw==</sads:DebugSymbol.Symbol>
+    <sads:DebugSymbol.Symbol>d2FEOlxVc2Vyc1xndWtvemhcU291cmNlXFJlcG9zXERvY2Zsb3dcUmFwaWREb2NcQWN0aXZpdGllc1xVU1JfUkVRX1VNTV9XZWxkaW5nSXRlbXNCR1BXZWVrZW5kcy54YW1sWxwHHGcBAwGnAQGtAQECiQEDyQQPAgEBjwEJ3QEVAwHJA+EBD+EBcwMBwAOpBBG0BBoDAa0D5QERswIdAwG7ArcCF7cCewMBsgKVBBmgBCIDAZ8CuwIZhAMlAwG2AYgDH4gDgwEDAa0BgQQhjAQqAwGaAYwDIdUDLQIBMdkDJ9kDiwECASjtAyn4AzICARXdAynoAzICAQKSAQ+2AS8DAfgDugEVugFqAwHvA74BF9MBOAMBygOxBBexBGoDAbcDrAQXrARyAwGuA+gBF4wCNwMB6gKQAh2QAnIDAeEClAIfqQJAAwG8Ap0EH50EcgMBqQKYBB+YBHoDAaACvgIf3QI5AwHlAeECJeECegMB3AHlAif6AkgDAbcBiQQniQR6AwGkAYQEJ4QEggEDAZsBjwMnrgNCAgFgsgMtsgOCAQIBV7YDL8sDUAIBMvUDL/UDjwECAR/wAy/wA4oBAgEW5QMv5QOMAQIBDOADL+ADigECAQOkARWkAWcDAbEEkgH8AZIBgwIDAbAErgEVrgFqAwGnBKkBFakBZwMBngSzARWzAXADAZUEkgHrAZIB8QEDAZQEmgEVmgFgAwGLBJUBFZUBYwMBggSfARWfAbwCAwH5A8YBHcYBbwMB5gPLAR3LAXMDAd0DwQEdwQFnAwHUA9ABHdABeAMBywP6AR36AW8DAaQD6AHkAegB8wEDAaMD6AGOAugBlQIDAaIDhAIdhAJyAwGZA/8BHf8BbwMBkAOJAh2JAngDAYcD6AH9AegBgwIDAYYD8AEd8AFoAwH9AusBHesBawMB9AL1AR31Ad0CAwHrApwCJZwCdwMB2AKhAiWhAnsDAc8ClwIllwJvAwHGAqYCJaYCgAEDAb0CywIlywJ3AwGWAr4CpwK+Aq4CAwGVAtUCJdUCegMBjALQAiXQAncDAYMC2gIl2gKAAQMB+gG+AvgBvgKMAgMB+QG+ApYCvgKcAgMB+AHGAiXGAnADAe8BwQIlwQJzAwHmAe0CLe0CfwMB0wHyAi3yAoMBAwHKAegCLegCdwMBwQH3Ai33AogBAwG4AZwDLZwDfwMBkQGPA7ECjwO4AgMBkAGmAy2mA4IBAwGHAaEDLaEDfwIBfo8DogKPA6YCAgF9qwMtqwOIAQIBdI8DkgKPA5UCAgFzlwMtlwN4AgFqkgMtkgN7AgFhvgM1vgOHAQIBTsMDNcMDiwECAUW5AzW5A38CATzIAzXIA5ABAgEz</sads:DebugSymbol.Symbol>
   </Flowchart>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>
@@ -663,13 +662,13 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="FlowDecision_2" sap:VirtualizedContainerService.HintSize="126,87">
+      <sap2010:ViewStateData Id="FlowDecision_2" sap:VirtualizedContainerService.HintSize="128,87">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
             <av:Point x:Key="ShapeLocation">236,191</av:Point>
-            <av:Size x:Key="ShapeSize">126,87</av:Size>
-            <av:PointCollection x:Key="FalseConnector">362,234.5 392,234.5 392,230 410,230</av:PointCollection>
+            <av:Size x:Key="ShapeSize">128,87</av:Size>
+            <av:PointCollection x:Key="FalseConnector">364,234.5 394,234.5 394,230 410,230</av:PointCollection>
             <av:PointCollection x:Key="TrueConnector">323,415.42 311.25,415.42 311.25,511.92 581.25,511.92 581.25,541.92</av:PointCollection>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
@@ -683,7 +682,7 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="Flowchart_1" sap:VirtualizedContainerService.HintSize="200,51">
+      <sap2010:ViewStateData Id="Flowchart_1" sap:VirtualizedContainerService.HintSize="624,636">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -977,7 +976,7 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="RapidDoc.Activities.USR_REQ_UMM_WeldingItemsBGPWeekends_1" sap:VirtualizedContainerService.HintSize="880,716" />
+      <sap2010:ViewStateData Id="RapidDoc.Activities.USR_REQ_UMM_WeldingItemsBGPWeekends_1" sap:VirtualizedContainerService.HintSize="880,1627" />
     </sap2010:ViewStateManager>
   </sap2010:WorkflowViewState.ViewStateManager>
 </Activity>
