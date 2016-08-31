@@ -276,7 +276,7 @@ namespace RapidDoc.Models.Services
                 var delegations = (from delegation in contextQuery.DelegationTable
                                    join emplTo in contextQuery.EmplTable on delegation.EmplTableToId equals emplTo.Id
                                       where delegation.DateFrom <= currentDate && delegation.DateTo >= currentDate && delegation.isArchive == false
-                                      && delegation.CompanyTableId == user.CompanyTableId && emplTo.ApplicationUserId == user.Id
+                                      && emplTo.ApplicationUserId == user.Id
                                       select delegation).ToList();
 
                 List<Guid> childGroup = new List<Guid>();
@@ -332,7 +332,6 @@ namespace RapidDoc.Models.Services
                 {
                     documentAccessList.AddRange(from document in contextQuery.DocumentTable
                                                     where (contextQuery.DelegationTable.Any(d => d.EmplTableTo.ApplicationUserId == user.Id && d.DateFrom <= currentDate && d.DateTo >= currentDate && d.isArchive == false
-                                                    && d.CompanyTableId == user.CompanyTableId
                                                     && (d.GroupProcessTableId == null || (d.GroupProcessTableId != null && childGroupArray.Any(x => x == document.ProcessTable.GroupProcessTableId)))
                                                     && (d.ProcessTableId == null || d.ProcessTableId == document.ProcessTableId)
                                                     && contextQuery.WFTrackerTable.Any(w => w.DocumentTableId == document.Id && w.TrackerType == TrackerType.Waiting && w.Users.Any(b => b.UserId == d.EmplTableFrom.ApplicationUserId)) ))
@@ -410,7 +409,7 @@ namespace RapidDoc.Models.Services
             else
             {
                 var delegations = contextQuery.DelegationTable.Where(d => d.EmplTableTo.ApplicationUserId == user.Id && d.DateFrom <= currentDate && d.DateTo >= currentDate && d.isArchive == false
-                    && d.CompanyTableId == user.CompanyTableId && d.GroupProcessTableId != null).ToList();
+                    && d.GroupProcessTableId != null).ToList();
                 List<Guid> childGroup = new List<Guid>();
 
                 foreach (var item in delegations)
@@ -624,7 +623,6 @@ namespace RapidDoc.Models.Services
                                     ||
                                     contextQuery.WFTrackerTable.Any(x => x.DocumentTableId == document.Id && x.Users.Any(b => b.UserId == user.Id)) ||
                                     (contextQuery.DelegationTable.Any(d => d.EmplTableTo.ApplicationUserId == user.Id && d.DateFrom <= currentDate && d.DateTo >= currentDate && d.isArchive == false
-                                    && d.CompanyTableId == user.CompanyTableId
                                     && (d.GroupProcessTableId == null || (d.GroupProcessTableId != null && childGroupArray.Any(x => x == document.ProcessTable.GroupProcessTableId)))
                                     && (d.ProcessTableId == document.ProcessTableId || d.ProcessTableId == null)
                                     && contextQuery.WFTrackerTable.Any(w => w.DocumentTableId == document.Id && w.Users.Any(b => b.UserId == d.EmplTableFrom.ApplicationUserId))
