@@ -78,8 +78,8 @@ namespace RapidDoc.Models.Services
         SelectList AdditionORDList(Guid? id, bool edit);
         SelectList AdditionORDKZHList(Guid? id, bool edit);
         SelectList RevocationORDKZHList(Guid? id, bool edit);
-        SelectList IncomingDocList<T>(Guid? id) where T : BasicIncomingDocumentsTable;
-        SelectList OutcomingDocList<T>(Guid? id) where T : BasicOutcomingDocumentsTable;
+        SelectList IncomingDocList<T>(Guid? id, bool emptyValue = true) where T : BasicIncomingDocumentsTable;
+        SelectList OutcomingDocList<T>(Guid? id, bool emptyValue = true) where T : BasicOutcomingDocumentsTable;
         List<T> GetRefOutcomingDocs<T>(Guid? id) where T : BasicOutcomingDocumentsTable;
         List<IncomingDublicateView> CheckIncomeDublicateDocument(Guid OrganizationId, string OutgoingNumber, DateTime OutgoingDate);
         double GetSLAHours(Guid documentId, DateTime? startDate, DateTime? endDate);
@@ -1703,28 +1703,32 @@ namespace RapidDoc.Models.Services
             return new SelectList(result, "Id", "Name", id);
         }
 
-        public SelectList IncomingDocList<T>(Guid? id) where T : BasicIncomingDocumentsTable
+        public SelectList IncomingDocList<T>(Guid? id, bool emptyValue = true) where T : BasicIncomingDocumentsTable
         {
             List<USR_IND_IncomingDocList> result = new List<USR_IND_IncomingDocList>();
-            result.Insert(0, new USR_IND_IncomingDocList { Name = UIElementRes.UIElement.NoValue, Id = null });
+
+            if (emptyValue == true)
+                result.Insert(0, new USR_IND_IncomingDocList { Name = UIElementRes.UIElement.NoValue, Id = null });
 
             IRepository<T> repo = _uow.GetRepository<T>();
             List<T> items = repo.FindAll(x => !String.IsNullOrEmpty(x.IncomingDocNum) && x.Executed == true).OrderBy(x => x.IncomingDocNum).ToList();
 
-            items.ForEach(x => result.Add(new USR_IND_IncomingDocList() { Name = x.IncomingDocNum + "/" + x.RegistrationDate.Value.ToShortDateString() + " " + x.DocumentSubject, Id = x.DocumentTableId }));
+            items.ForEach(x => result.Add(new USR_IND_IncomingDocList() { Name = String.Format("({0}) {1}/{2} {3}", x.DocumentTable.AliasCompanyName, x.IncomingDocNum, x.RegistrationDate.Value.ToShortDateString(), x.DocumentSubject), Id = x.DocumentTableId }));
 
             return new SelectList(result, "Id", "Name", id);
         }
 
-        public SelectList OutcomingDocList<T>(Guid? id) where T : BasicOutcomingDocumentsTable
+        public SelectList OutcomingDocList<T>(Guid? id, bool emptyValue = true) where T : BasicOutcomingDocumentsTable
         {
             List<USR_OND_OutcomingDocList> result = new List<USR_OND_OutcomingDocList>();
-            result.Insert(0, new USR_OND_OutcomingDocList { Name = UIElementRes.UIElement.NoValue, Id = null });
+
+            if (emptyValue == true)
+                result.Insert(0, new USR_OND_OutcomingDocList { Name = UIElementRes.UIElement.NoValue, Id = null });
 
             IRepository<T> repo = _uow.GetRepository<T>();
             List<T> items = repo.FindAll(x => !String.IsNullOrEmpty(x.OutcomingDocNum)).OrderBy(x => x.OutcomingDocNum).ToList();
 
-            items.ForEach(x => result.Add(new USR_OND_OutcomingDocList() { Name = x.OutcomingDocNum + "/" + x.OutgoingDate.Value.ToShortDateString() + " " + x.DocumentSubject, Id = x.DocumentTableId }));
+            items.ForEach(x => result.Add(new USR_OND_OutcomingDocList() { Name = String.Format("{0}/{1} {2}", x.OutcomingDocNum, x.OutgoingDate.Value.ToShortDateString(), x.DocumentSubject), Id = x.DocumentTableId }));
 
             return new SelectList(result, "Id", "Name", id);
         }

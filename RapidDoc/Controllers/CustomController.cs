@@ -254,7 +254,10 @@ namespace RapidDoc.Controllers
         public ActionResult GetIncomingDocKZH(Guid? id = null, bool selected = false)
         {
             ViewBag.Selected = selected;
-            ViewBag.IncomingDocList = _DocumentService.IncomingDocList<USK_IND_IncomingDocuments_Table>(id);
+            var selectList = _DocumentService.IncomingDocList<USK_IND_IncomingDocuments_Table>(id);
+            var result = selectList.Union(_DocumentService.IncomingDocList<USC_IND_IncomingDocuments_Table>(id, false));
+
+            ViewBag.IncomingDocList = result;
             return PartialView("USR_IND_IncomingDocList");
         }
         public ActionResult GetIncomingDocKZC(Guid? id = null, bool selected = false)
