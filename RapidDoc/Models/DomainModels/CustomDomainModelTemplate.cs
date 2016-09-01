@@ -184,6 +184,13 @@ namespace RapidDoc.Models.DomainModels
         }
     }
 
+    public abstract class BasicIncomingDocumentsKZHCTable : BasicIncomingDocumentsTable
+    {
+        public IncomingDocumentKZHCType DocumentType { get; set; }
+        public IncomingAdmissionMethodType AdmissionMethodType { get; set; }
+        public OutcomingTopicTypeKZHC TopicType { get; set; }
+    }
+
     public abstract class BasicOutcomingDocumentsTable : BasicDocumentTable
     {
         public bool Language_Kazakh { get; set; }

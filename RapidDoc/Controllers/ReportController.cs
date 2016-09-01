@@ -567,14 +567,29 @@ namespace RapidDoc.Controllers
             excelWorkbook = excelAppl.Workbooks.Add(@"C:\Template\CorrespondenceReportUSC.xlsx");
 
             ApplicationDbContext context = new ApplicationDbContext();
+            var allCorrespondenceList = new List<CorrespondenceReportModel>();
 
-            var allCorrespondenceList = (from document in context.DocumentTable
-                                         join detailDoc in context.USC_IND_IncomingDocuments_Table
-                                         on document.Id equals detailDoc.DocumentTableId
-                                         where document.DocType == DocumentType.IncomingDoc &&
-                                              document.CompanyTableId == currentUser.CompanyTableId
-                                             && (document.CreatedDate >= model.StartDate && document.CreatedDate <= model.EndDate)
-                                         select new { document, detailDoc }).ToList();
+            if (currentUser.CompanyTable.AliasCompanyName == "KZC")
+            {
+                allCorrespondenceList = (from document in context.DocumentTable
+                                             join detailDoc in context.USC_IND_IncomingDocuments_Table
+                                             on document.Id equals detailDoc.DocumentTableId
+                                             where document.DocType == DocumentType.IncomingDoc &&
+                                                  document.CompanyTableId == currentUser.CompanyTableId
+                                                 && (document.CreatedDate >= model.StartDate && document.CreatedDate <= model.EndDate)
+                                         select new CorrespondenceReportModel { document = document, detailDoc = detailDoc }).ToList();
+            }
+            else if (currentUser.CompanyTable.AliasCompanyName == "KZH")
+            {
+                allCorrespondenceList = (from document in context.DocumentTable
+                                             join detailDoc in context.USK_IND_IncomingDocuments_Table
+                                             on document.Id equals detailDoc.DocumentTableId
+                                             where document.DocType == DocumentType.IncomingDoc &&
+                                                  document.CompanyTableId == currentUser.CompanyTableId
+                                                 && (document.CreatedDate >= model.StartDate && document.CreatedDate <= model.EndDate)
+                                         select new CorrespondenceReportModel { document = document, detailDoc = detailDoc }).ToList();
+            }
+
             excelWorksheet = (Worksheet)excelAppl.Worksheets[1];
 
             foreach (var item in allCorrespondenceList)
@@ -1167,4 +1182,9 @@ namespace RapidDoc.Controllers
         public Guid DocId { get; set; }
     }
 
+    public class CorrespondenceReportModel
+    {
+        public DocumentTable document { get; set; }
+        public BasicIncomingDocumentsKZHCTable detailDoc { get; set; }
+    }
 }

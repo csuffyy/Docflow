@@ -145,9 +145,9 @@ namespace RapidDoc.Models.Services
         {
             List<WFTrackerTable> result = new List<WFTrackerTable>();
 
-            var delegationItems = GetPartial(x => x.EmplTableTo.ApplicationUserId == user.Id
+            var delegationItems = GetPartialIntercompany(x => x.EmplTableTo.ApplicationUserId == user.Id
                 && x.DateFrom <= DateTime.UtcNow && x.DateTo >= DateTime.UtcNow
-                && x.isArchive == false && x.CompanyTableId == user.CompanyTableId);
+                && x.isArchive == false);
 
             foreach (var delegationItem in delegationItems)
             {
@@ -197,7 +197,7 @@ namespace RapidDoc.Models.Services
             {
                 var delegationItems = GetPartialIntercompany(x => x.EmplTableFrom.ApplicationUserId == user.Id
                     && x.DateFrom <= DateTime.UtcNow && x.DateTo >= DateTime.UtcNow
-                    && x.isArchive == false && x.CompanyTableId == user.CompanyTableId);
+                    && x.isArchive == false);
 
                 foreach (var delegationItem in delegationItems)
                 {
@@ -235,7 +235,7 @@ namespace RapidDoc.Models.Services
 
                 var delegationItems = GetPartialIntercompany(x => x.EmplTableFrom.ApplicationUserId == user.Id
                     && x.DateFrom <= DateTime.UtcNow && x.DateTo >= DateTime.UtcNow
-                    && x.isArchive == false && x.CompanyTableId == user.CompanyTableId);
+                    && x.isArchive == false);
 
                 foreach (var delegationItem in delegationItems)
                 {
@@ -262,9 +262,9 @@ namespace RapidDoc.Models.Services
 
         public bool CheckDelegation(ApplicationUser user, ProcessTable process, IEnumerable<WFTrackerTable> trackerTables)
         {
-            var delegationItems = GetPartial(x => x.EmplTableTo.ApplicationUserId == user.Id
+            var delegationItems = GetPartialIntercompany(x => x.EmplTableTo.ApplicationUserId == user.Id
                 && x.DateFrom <= DateTime.UtcNow && x.DateTo >= DateTime.UtcNow
-                && x.isArchive == false && x.CompanyTableId == user.CompanyTableId);
+                && x.isArchive == false);
 
             foreach (var delegationItem in delegationItems)
             {
@@ -299,9 +299,9 @@ namespace RapidDoc.Models.Services
 
         public bool CheckDelegation(ApplicationUser user, ProcessTable process, WFTrackerTable trackerTable)
         {
-            var delegationItems = GetPartial(x => x.EmplTableTo.ApplicationUserId == user.Id
+            var delegationItems = GetPartialIntercompany(x => x.EmplTableTo.ApplicationUserId == user.Id
                 && x.DateFrom <= DateTime.UtcNow && x.DateTo >= DateTime.UtcNow
-                && x.isArchive == false && x.CompanyTableId == user.CompanyTableId);
+                && x.isArchive == false);
 
             foreach (var delegationItem in delegationItems)
             {
@@ -375,7 +375,7 @@ namespace RapidDoc.Models.Services
             {
                 var delegationItems = GetPartialIntercompany(x => x.EmplTableFrom.ApplicationUserId == user.User.Id
                     && x.DateFrom <= DateTime.UtcNow && x.DateTo >= DateTime.UtcNow
-                    && x.isArchive == false && x.CompanyTableId == user.User.CompanyTableId);
+                    && x.isArchive == false);
 
                 foreach (var delegationItem in delegationItems)
                 {
