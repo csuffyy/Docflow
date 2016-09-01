@@ -404,6 +404,7 @@ namespace RapidDoc.Models.Infrastructure
         public DbSet<USR_REQ_IT_ERP_CreateUserSUD_Table> USR_REQ_IT_ERP_CreateUserSUD_Table { get; set; }
         public DbSet<USR_REQ_OKS_RequestForCompanyForm_Table> USR_REQ_OKS_RequestForCompanyForm_Table { get; set; }
         public DbSet<USR_DIS_Discussion_Table> USR_DIS_Discussion_Table { get; set; }
+        public DbSet<USK_REQ_IT_CAP_DelegationDocflow_Table> USK_REQ_IT_CAP_DelegationDocflow_Table { get; set; }
                      
         protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder)
         {

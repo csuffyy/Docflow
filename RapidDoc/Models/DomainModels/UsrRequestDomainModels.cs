@@ -2110,6 +2110,11 @@ namespace RapidDoc.Models.DomainModels
         public string FIO3 { get; set; }
         public string FIO4 { get; set; }
 
+        public string Position1 { get; set; }
+        public string Position2 { get; set; }
+        public string Position3 { get; set; }
+        public string Position4 { get; set; }
+
         public EmplTripType EmplTripType1 { get; set; }
         public EmplTripType EmplTripType2 { get; set; }
         public EmplTripType EmplTripType3 { get; set; }
@@ -4414,6 +4419,11 @@ namespace RapidDoc.Models.DomainModels
         public string FIO3 { get; set; }
         public string FIO4 { get; set; }
 
+        public string Position1 { get; set; }
+        public string Position2 { get; set; }
+        public string Position3 { get; set; }
+        public string Position4 { get; set; }
+
         public EmplTripType EmplTripType1 { get; set; }
         public EmplTripType EmplTripType2 { get; set; }
         public EmplTripType EmplTripType3 { get; set; }
@@ -4477,6 +4487,11 @@ namespace RapidDoc.Models.DomainModels
         public string FIO2 { get; set; }
         public string FIO3 { get; set; }
         public string FIO4 { get; set; }
+
+        public string Position1 { get; set; }
+        public string Position2 { get; set; }
+        public string Position3 { get; set; }
+        public string Position4 { get; set; }
 
         public EmplTripType EmplTripType1 { get; set; }
         public EmplTripType EmplTripType2 { get; set; }
@@ -4705,6 +4720,17 @@ namespace RapidDoc.Models.DomainModels
         public string Reason { get; set; }
         public string Contact { get; set; }
         public string UserChooseManual1 { get; set; }
+    }
+
+    public class USK_REQ_IT_CAP_DelegationDocflow_Table : BasicDocumentTable
+    {
+        public string FromUsers { get; set; }
+        public string ToUsers { get; set; }
+
+        public DateTime? FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
+        public string Reason { get; set; }
+        public string DocumentName { get; set; }
     }
 
     #endregion

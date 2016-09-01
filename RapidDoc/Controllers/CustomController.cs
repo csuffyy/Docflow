@@ -278,7 +278,10 @@ namespace RapidDoc.Controllers
 
         public ActionResult GetOutcomingDocKZC(Guid? id = null)
         {
-            ViewBag.OutcomingDocList = _DocumentService.OutcomingDocList<USC_OND_OutcomingDocuments_Table>(id);
+            SelectList uscList = _DocumentService.OutcomingDocList<USC_OND_OutcomingDocuments_Table>(id);
+            SelectList uskList = _DocumentService.OutcomingDocList<USK_OND_OutcomingDocuments_Table>(id);
+            SelectList unionList = (SelectList)uscList.Union(uscList);
+            ViewBag.OutcomingDocList = unionList;
             return PartialView("USR_OND_OutcomingDocList");
         }
 
