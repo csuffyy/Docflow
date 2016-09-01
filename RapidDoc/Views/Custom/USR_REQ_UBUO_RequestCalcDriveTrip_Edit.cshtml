@@ -24,7 +24,12 @@
         <div class="editor-field">
             @Html.TextBoxFor(model => Model.FIO1, new { @class = "form-control", @size = 256, @maxlength = 256, @style = "resize: none;" })
         </div>
-
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Position1)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => Model.Position1, new { @class = "form-control", @size = 256, @maxlength = 256, @style = "resize: none;" })
+        </div>
         <div class="editor-label">
             @Html.LabelFor(model => Model.EmplTripType1)
         </div>
@@ -85,7 +90,12 @@
         <div class="editor-field">
             @Html.TextBoxFor(model => Model.FIO2, new { @class = "form-control", @size = 256, @maxlength = 256, @style = "resize: none;" })
         </div>
-
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Position2)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => Model.Position2, new { @class = "form-control", @size = 256, @maxlength = 256, @style = "resize: none;" })
+        </div>
         <div class="editor-label">
             @Html.LabelFor(model => Model.EmplTripType2)
         </div>
@@ -145,7 +155,12 @@
         <div class="editor-field">
             @Html.TextBoxFor(model => Model.FIO3, new { @class = "form-control", @size = 256, @maxlength = 256, @style = "resize: none;" })
         </div>
-
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Position3)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => Model.Position3, new { @class = "form-control", @size = 256, @maxlength = 256, @style = "resize: none;" })
+        </div>
         <div class="editor-label">
             @Html.LabelFor(model => Model.EmplTripType3)
         </div>
@@ -205,7 +220,12 @@
         <div class="editor-field">
             @Html.TextBoxFor(model => Model.FIO4, new { @class = "form-control", @size = 256, @maxlength = 256, @style = "resize: none;" })
         </div>
-
+        <div class="editor-label">
+            @Html.LabelForRequired(model => Model.Position4)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => Model.Position4, new { @class = "form-control", @size = 256, @maxlength = 256, @style = "resize: none;" })
+        </div>
         <div class="editor-label">
             @Html.LabelFor(model => Model.EmplTripType4)
         </div>

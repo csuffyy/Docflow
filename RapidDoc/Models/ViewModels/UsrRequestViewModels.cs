@@ -4261,6 +4261,7 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "Дата приказа")]
         public DateTime? OrderDate { get; set; }
 
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         [Display(Name = "ФИО")]
         public string FIO1 { get; set; }
         [Display(Name = "ФИО")]
@@ -4269,6 +4270,15 @@ namespace RapidDoc.Models.ViewModels
         public string FIO3 { get; set; }
         [Display(Name = "ФИО")]
         public string FIO4 { get; set; }
+
+        [Display(Name = "Должность")]
+        public string Position1 { get; set; }
+        [Display(Name = "Должность")]
+        public string Position2 { get; set; }
+        [Display(Name = "Должность")]
+        public string Position3 { get; set; }
+        [Display(Name = "Должность")]
+        public string Position4 { get; set; }
 
         [Display(Name = "Категория сотрудника")]
         public EmplTripType EmplTripType1 { get; set; }
@@ -9532,6 +9542,15 @@ namespace RapidDoc.Models.ViewModels
         [Display(Name = "ФИО")]
         public string FIO4 { get; set; }
 
+        [Display(Name = "Должность")]
+        public string Position1 { get; set; }
+        [Display(Name = "Должность")]
+        public string Position2 { get; set; }
+        [Display(Name = "Должность")]
+        public string Position3 { get; set; }
+        [Display(Name = "Должность")]
+        public string Position4 { get; set; }
+
         [Display(Name = "Категория сотрудника")]
         public EmplTripType EmplTripType1 { get; set; }
 
@@ -9667,6 +9686,15 @@ namespace RapidDoc.Models.ViewModels
 
         [Display(Name = "ФИО")]
         public string FIO4 { get; set; }
+
+        [Display(Name = "Должность")]
+        public string Position1 { get; set; }
+        [Display(Name = "Должность")]
+        public string Position2 { get; set; }
+        [Display(Name = "Должность")]
+        public string Position3 { get; set; }
+        [Display(Name = "Должность")]
+        public string Position4 { get; set; }
 
         [Display(Name = "Категория сотрудника")]
         public EmplTripType EmplTripType1 { get; set; }
@@ -10304,6 +10332,37 @@ namespace RapidDoc.Models.ViewModels
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
         [Display(Name = "Подписант приказа")]
         public string UserChooseManual1 { get; set; }
+    }
+
+    public class USK_REQ_IT_CAP_DelegationDocflow_View : BasicDocumentView
+    {
+        [Display(Name = "С пользователя")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string FromUsers { get; set; }
+
+        [Display(Name = "На пользователя")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string ToUsers { get; set; }
+
+        [DataType(DataType.Date)]
+        [Display(Name = "С даты")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public DateTime? FromDate { get; set; }
+
+        [DataType(DataType.Date)]
+        [Display(Name = "До даты")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public DateTime? ToDate { get; set; }
+
+        [DataType(DataType.MultilineText)]
+        [Display(Name = "Обоснование")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string Reason { get; set; }
+
+        [DataType(DataType.MultilineText)]
+        [Display(Name = "Наименование документа")]
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        public string DocumentName { get; set; }
     }
 
     #endregion

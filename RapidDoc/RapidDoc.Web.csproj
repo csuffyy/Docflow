@@ -2221,6 +2221,8 @@
     <Content Include="Views\Assets\Detail.cshtml" />
     <Content Include="Views\Assets\Edit.cshtml" />
     <Content Include="Views\Assets\Index.cshtml" />
+    <Content Include="Views\Custom\USK_REQ_IT_CAP_DelegationDocflow_Edit.cshtml" />
+    <Content Include="Views\Custom\USK_REQ_IT_CAP_DelegationDocflow_View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -4193,6 +4195,12 @@
   </ItemGroup>
   <ItemGroup>
     <XamlAppDef Include="Activities\USR_REQ_OKS_RequestForCompanyForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Activities\USK_REQ_IT_CAP_DelegationDocflow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </XamlAppDef>
