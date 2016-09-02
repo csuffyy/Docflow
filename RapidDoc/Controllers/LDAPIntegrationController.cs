@@ -320,20 +320,23 @@ namespace RapidDoc.Controllers
                         {
                             String ApplicationUserId = UserIntegration(userid, mail, String.Empty, _item);
 
-                            var infoItem = infoDataList.FirstOrDefault(x => x.Login == userid.ToLower());
-
-                            if (infoItem == null) continue;
-
-                            Guid? depId = null;
-                            Guid titleId = Guid.Empty;
-
-                            if (!String.IsNullOrEmpty(infoItem.Position))
+                            if (!String.IsNullOrEmpty(ApplicationUserId))
                             {
-                                if (!String.IsNullOrEmpty(infoItem.Subdivision))
-                                    depId = DepartmentIntegration(infoItem.Subdivision, String.Empty, _item.Id);
+                                var infoItem = infoDataList.FirstOrDefault(x => x.Login == userid.ToLower());
 
-                                titleId = TitleIntegration(infoItem.Position);
-                                EmplIntegration(GlobalGuid, infoItem.Name, infoItem.Surname, infoItem.SecondName, String.Empty, String.Empty, ApplicationUserId, depId, titleId, _item.Id, String.Empty);
+                                if (infoItem == null) continue;
+
+                                Guid? depId = null;
+                                Guid titleId = Guid.Empty;
+
+                                if (!String.IsNullOrEmpty(infoItem.Position))
+                                {
+                                    if (!String.IsNullOrEmpty(infoItem.Subdivision))
+                                        depId = DepartmentIntegration(infoItem.Subdivision, String.Empty, _item.Id);
+
+                                    titleId = TitleIntegration(infoItem.Position);
+                                    EmplIntegration(GlobalGuid, infoItem.Name, infoItem.Surname, infoItem.SecondName, String.Empty, String.Empty, ApplicationUserId, depId, titleId, _item.Id, String.Empty);
+                                }
                             }
                         }
                     }
@@ -458,42 +461,39 @@ namespace RapidDoc.Controllers
                     domainModel.DomainTableId = _item.DomainTableId;
                     domainModel.AccountDomainName = _userId;
                     domainModel.Enable = true;
-                    um.Create(domainModel);
+                    IdentityResult result = um.Create(domainModel);
 
-                    if (!String.IsNullOrEmpty(_sid))
+                    if (result.Succeeded)
                     {
-                        var loginInfo = new UserLoginInfo("Windows", _sid);
-                        um.AddLogin(domainModel.Id, loginInfo);
-                    }
-                    um.AddToRole(domainModel.Id, "ActiveUser");
+                        if (!String.IsNullOrEmpty(_sid))
+                        {
+                            var loginInfo = new UserLoginInfo("Windows", _sid);
+                            um.AddLogin(domainModel.Id, loginInfo);
+                        }
+                        um.AddToRole(domainModel.Id, "ActiveUser");
 
-                    domainModel = context.Users.FirstOrDefault(x => x.DomainTableId == _item.DomainTableId && x.AccountDomainName == _userId && x.isDomainUser == true);
+                        domainModel = context.Users.FirstOrDefault(x => x.DomainTableId == _item.DomainTableId && x.AccountDomainName == _userId && x.isDomainUser == true);
+                    }
                 }
                 catch
                 {
-                   
+                    return "";
                 }
             }
             else
             {
                 try
                 {
-                    //MIGRATION CODE
-                    /*
-                    um.RemoveLogin(domainModel.Id, new UserLoginInfo("Windows", domainModel.Logins.FirstOrDefault().ProviderKey));
-                    var loginInfo = new UserLoginInfo("Windows", _sid);
-                    um.AddLogin(domainModel.Id, loginInfo);
-                    */
-
                     domainModel.Email = _email;
                     um.Update(domainModel);
                 }
                 catch
                 {
-                    //domainModel = um.FindByName(_userId);
-                    domainModel = context.Users.FirstOrDefault(x => x.DomainTableId == _item.DomainTableId && x.AccountDomainName == _userId && x.isDomainUser == true);
+                    return "";
                 }
             }
+
+            domainModel = context.Users.FirstOrDefault(x => x.DomainTableId == _item.DomainTableId && x.AccountDomainName == _userId && x.isDomainUser == true);
             return domainModel == null ? "" : domainModel.Id;
         }
 
