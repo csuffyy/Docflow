@@ -283,7 +283,7 @@ namespace RapidDoc.Controllers
         {
             SelectList uscList = _DocumentService.OutcomingDocList<USC_OND_OutcomingDocuments_Table>(id);
             SelectList uskList = _DocumentService.OutcomingDocList<USK_OND_OutcomingDocuments_Table>(id);
-            SelectList unionList = (SelectList)uscList.Union(uscList);
+            var unionList = (IEnumerable<SelectListItem>)uscList.Union(uskList);
             ViewBag.OutcomingDocList = unionList;
             return PartialView("USR_OND_OutcomingDocList");
         }

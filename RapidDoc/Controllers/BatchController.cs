@@ -74,7 +74,7 @@ namespace RapidDoc.Controllers
             if (_IpListService.Contains(x => x.Ip == ipAddress))
             {
                 CompanyTable company = _CompanyService.FirstOrDefault(x => x.AliasCompanyName == companyId);
-                var allDocument = _Documentservice.GetPartial(x => x.CompanyTableId == company.Id).ToList();
+                var allDocument = _Documentservice.GetAll().ToList();
                 if (allDocument == null)
                     return;
                 try
@@ -82,10 +82,10 @@ namespace RapidDoc.Controllers
                     switch (id)
                     {
                         case 3:
-                            foreach (var document in allDocument.Where(x => x.DocumentState == Models.Repository.DocumentState.Closed
+                            foreach (var document in allDocument.Where(x => x.CompanyTableId == company.Id && (x.DocumentState == Models.Repository.DocumentState.Closed
                                 || x.DocumentState == Models.Repository.DocumentState.Cancelled
                                 || x.DocumentState == Models.Repository.DocumentState.Created
-                                || (x.DocumentState == Models.Repository.DocumentState.OnSign && x.DocType != DocumentType.Task)).ToList())
+                                || (x.DocumentState == Models.Repository.DocumentState.OnSign && x.DocType != DocumentType.Task))).ToList())
                             {
                                 IEnumerable<ReviewDocLogTable> reviewDocuments = _ReviewDocLogService.GetPartial(x => x.DocumentTableId == document.Id && x.isArchive == false && x.isFavorite == false).ToList();
 
@@ -167,7 +167,7 @@ namespace RapidDoc.Controllers
                                     checkData.Add(new ReminderUsers(document, result));
                                 }
 
-                                foreach (var user in users)
+                                foreach (var user in users.Where(x => x.DomainTableId == company.DomainTableId))
                                 {
                                     List<UserDocumentsWithLSLA> listResult = new List<UserDocumentsWithLSLA>();
                                     var userDocuments = checkData.Where(x => x.Users.Any(a => a.User.Id == user.Id));
@@ -232,7 +232,7 @@ namespace RapidDoc.Controllers
                             }
                             break;
                         case 8:
-                            foreach (var document in allDocument.Where(x => x.DocType == DocumentType.Order && x.DocumentState == DocumentState.Agreement).Join(_WorkflowTrackerService.GetPartial(w => w.TrackerType == TrackerType.Waiting && w.SystemName == "ORDCustomUserAssign"), x => x.Id, w => w.DocumentTableId, (x, w) => new { Doc = x, Tracker = w }).ToList())
+                            foreach (var document in allDocument.Where(x => x.DocType == DocumentType.Order && x.DocumentState == DocumentState.Agreement && x.CompanyTableId == company.Id).Join(_WorkflowTrackerService.GetPartial(w => w.TrackerType == TrackerType.Waiting && w.SystemName == "ORDCustomUserAssign"), x => x.Id, w => w.DocumentTableId, (x, w) => new { Doc = x, Tracker = w }).ToList())
                             {
                                 if (DateTime.UtcNow > _Documentservice.GetSLAPerformDate(document.Doc.Id, document.Tracker.StartDateSLA, document.Tracker.SLAOffset) && _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == document.Doc.Id && x.TrackerType == TrackerType.NonActive && x.SystemName == "ORDCustomUserAssign").ToList().Count() > 0)
                                 {
