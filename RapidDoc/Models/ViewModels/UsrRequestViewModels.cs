@@ -4262,13 +4262,13 @@ namespace RapidDoc.Models.ViewModels
         public DateTime? OrderDate { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
-        [Display(Name = "ФИО")]
+        [Display(Name = "ФИО (Полностью)")]
         public string FIO1 { get; set; }
-        [Display(Name = "ФИО")]
+        [Display(Name = "ФИО (Полностью)")]
         public string FIO2 { get; set; }
-        [Display(Name = "ФИО")]
+        [Display(Name = "ФИО (Полностью)")]
         public string FIO3 { get; set; }
-        [Display(Name = "ФИО")]
+        [Display(Name = "ФИО (Полностью)")]
         public string FIO4 { get; set; }
 
         [Display(Name = "Должность")]
@@ -9530,16 +9530,16 @@ namespace RapidDoc.Models.ViewModels
         public TypeRequestTrip TypeRequestTrip4 { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
-        [Display(Name = "ФИО")]
+        [Display(Name = "ФИО (Полностью)")]
         public string FIO1 { get; set; }
 
-        [Display(Name = "ФИО")]
+        [Display(Name = "ФИО (Полностью)")]
         public string FIO2 { get; set; }
 
-        [Display(Name = "ФИО")]
+        [Display(Name = "ФИО (Полностью)")]
         public string FIO3 { get; set; }
 
-        [Display(Name = "ФИО")]
+        [Display(Name = "ФИО (Полностью)")]
         public string FIO4 { get; set; }
 
         [Display(Name = "Должность")]
@@ -9675,16 +9675,16 @@ namespace RapidDoc.Models.ViewModels
         public string Description { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
-        [Display(Name = "ФИО")]
+        [Display(Name = "ФИО (Полностью)")]
         public string FIO1 { get; set; }
 
-        [Display(Name = "ФИО")]
+        [Display(Name = "ФИО (Полностью)")]
         public string FIO2 { get; set; }
 
-        [Display(Name = "ФИО")]
+        [Display(Name = "ФИО (Полностью)")]
         public string FIO3 { get; set; }
 
-        [Display(Name = "ФИО")]
+        [Display(Name = "ФИО (Полностью)")]
         public string FIO4 { get; set; }
 
         [Display(Name = "Должность")]
@@ -9832,16 +9832,16 @@ namespace RapidDoc.Models.ViewModels
         public string Description { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
-        [Display(Name = "ФИО")]
+        [Display(Name = "ФИО (Полностью)")]
         public string FIO1 { get; set; }
 
-        [Display(Name = "ФИО")]
+        [Display(Name = "ФИО (Полностью)")]
         public string FIO2 { get; set; }
 
-        [Display(Name = "ФИО")]
+        [Display(Name = "ФИО (Полностью)")]
         public string FIO3 { get; set; }
 
-        [Display(Name = "ФИО")]
+        [Display(Name = "ФИО (Полностью)")]
         public string FIO4 { get; set; }
 
         [Display(Name = "Категория сотрудника")]
