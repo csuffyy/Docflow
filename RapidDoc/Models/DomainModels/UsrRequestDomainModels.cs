@@ -1206,6 +1206,15 @@ namespace RapidDoc.Models.DomainModels
         public TypeJUPurposeRequest TypeDocument { get; set; }
         public string Purpose { get; set; }
     }
+
+    public class USR_REQ_JU_RequestForClosingContract_Table : BasicDocumentTable
+    {
+        public string ContractorName { get; set; }
+        public string ContractNumber { get; set; }
+        public DateTime? ContractDate { get; set; }
+        public string UserChooseManual1 { get; set; }
+    }
+
     #endregion
 
     #region ФЭУ

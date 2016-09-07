@@ -1,0 +1,24 @@
+﻿@model RapidDoc.Models.ViewModels.USR_REQ_JU_RequestForClosingContract_View
+@using RapidDoc.Extensions;
+
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.ContractorName)
+</div>
+<div class="editor-field">
+    @Html.TextBoxFor(model => Model.ContractorName, new { @class = "form-control", placeholder = "Наименование контрагента", @autofocus = "required" })
+</div>
+
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.ContractNumber)
+</div>
+<div class="editor-field">
+    @Html.TextBoxFor(model => Model.ContractNumber, new { @class = "form-control", placeholder = "Подразделение" })
+</div>
+
+<div class="editor-label">
+    @Html.LabelForRequired(model => Model.ContractDate)
+</div>
+<div class="editor-field">
+    @Html.TextBoxFor(model => Model.ContractDate, UIElementRes.UIElement.DATEFORMAT, new { @class = "datepicker form-control form-control-date", placeholder = "Дата", startDate = "" })
+</div>
+<br />

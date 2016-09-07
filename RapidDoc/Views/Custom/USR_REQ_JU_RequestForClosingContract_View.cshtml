@@ -1,0 +1,27 @@
+﻿@model RapidDoc.Models.ViewModels.USR_REQ_JU_RequestForClosingContract_View
+@using RapidDoc.Extensions;
+
+@Html.Action("GetManualRequestForClosingContract", "Custom", new { model = Model })
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.ContractorName)
+</div>
+<div class="editor-field">
+    @Html.HtmlDisplayTagsFor(model => Model.ContractorName)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.ContractNumber)
+</div>
+<div class="editor-field">
+    @Html.DisplayTextFor(model => Model.ContractNumber)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => Model.ContractDate)
+</div>
+<div class="editor-field">
+    @Html.FormatValue(Model.ContractDate, UIElementRes.UIElement.DATEFORMAT)
+</div>
+
+
