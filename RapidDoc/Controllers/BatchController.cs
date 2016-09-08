@@ -74,30 +74,30 @@ namespace RapidDoc.Controllers
             if (_IpListService.Contains(x => x.Ip == ipAddress))
             {
                 CompanyTable company = _CompanyService.FirstOrDefault(x => x.AliasCompanyName == companyId);
-                var allDocument = _Documentservice.GetAll().ToList();
-                if (allDocument == null)
-                    return;
+                List<DocumentTable> documents = new List<DocumentTable>();
+
                 try
                 {
                     switch (id)
                     {
                         case 3:
-                            foreach (var document in allDocument.Where(x => x.CompanyTableId == company.Id && (x.DocumentState == Models.Repository.DocumentState.Closed
+                            documents.AddRange(_Documentservice.GetPartial(x => x.CompanyTableId == company.Id && (x.DocumentState == Models.Repository.DocumentState.Closed
                                 || x.DocumentState == Models.Repository.DocumentState.Cancelled
                                 || x.DocumentState == Models.Repository.DocumentState.Created
-                                || (x.DocumentState == Models.Repository.DocumentState.OnSign && x.DocType != DocumentType.Task))).ToList())
+                                || (x.DocumentState == Models.Repository.DocumentState.OnSign && x.DocType != DocumentType.Task))).ToList());
+
+                            DateTime startDateTime = DateTime.UtcNow.AddDays(-10);
+
+                            foreach (var document in documents)
                             {
-                                IEnumerable<ReviewDocLogTable> reviewDocuments = _ReviewDocLogService.GetPartial(x => x.DocumentTableId == document.Id && x.isArchive == false && x.isFavorite == false).ToList();
+                                IEnumerable<ReviewDocLogTable> reviewDocuments = _ReviewDocLogService.GetPartial(x => x.DocumentTableId == document.Id && x.CreatedDate <= startDateTime && x.isArchive == false && x.isFavorite == false).ToList();
 
                                 if (reviewDocuments != null)
                                 {
                                     foreach (var reviewTable in reviewDocuments)
                                     {
-                                        if (reviewTable.CreatedDate <= DateTime.UtcNow.AddDays(-10))
-                                        {
-                                            reviewTable.isArchive = true;
-                                            _ReviewDocLogService.SaveDomain(reviewTable, "Admin");
-                                        }
+                                        reviewTable.isArchive = true;
+                                        _ReviewDocLogService.SaveDomain(reviewTable, "Admin");
                                     }
                                 }
                             }
@@ -110,9 +110,11 @@ namespace RapidDoc.Controllers
                                 var users = _AccountService.GetPartial(x => x.Email != null && x.Enable == true).ToList();
                                 List<ReminderUsers> checkData = new List<ReminderUsers>();
 
-                                foreach (var document in allDocument.Where(x => (x.DocumentState == Models.Repository.DocumentState.Agreement
-                                || x.DocumentState == Models.Repository.DocumentState.Execution
-                                || x.DocumentState == Models.Repository.DocumentState.OnSign)).ToList())
+                                documents.AddRange(_Documentservice.GetPartial(x => x.DocumentState == Models.Repository.DocumentState.Agreement
+                                    || x.DocumentState == Models.Repository.DocumentState.Execution
+                                    || x.DocumentState == Models.Repository.DocumentState.OnSign).ToList());
+
+                                foreach (var document in documents)
                                 {
                                     if (document.DocType == DocumentType.Task)
                                     {
@@ -147,7 +149,7 @@ namespace RapidDoc.Controllers
                                     }
 
                                     List<GetUserWithSLA> result = new List<GetUserWithSLA>();
-                                    var usersReminder = _Documentservice.GetSignUsersDirectWithSLA(document).ToList();   
+                                    var usersReminder = _Documentservice.GetSignUsersDirectWithSLA(document).ToList();
 
                                     foreach (var item in usersReminder)
                                     {
@@ -232,9 +234,12 @@ namespace RapidDoc.Controllers
                             }
                             break;
                         case 8:
-                            foreach (var document in allDocument.Where(x => x.DocType == DocumentType.Order && x.DocumentState == DocumentState.Agreement && x.CompanyTableId == company.Id).Join(_WorkflowTrackerService.GetPartial(w => w.TrackerType == TrackerType.Waiting && w.SystemName == "ORDCustomUserAssign"), x => x.Id, w => w.DocumentTableId, (x, w) => new { Doc = x, Tracker = w }).ToList())
+                            documents.AddRange(_Documentservice.GetPartial(x => x.CompanyTableId == company.Id && x.DocType == DocumentType.Order && x.DocumentState == DocumentState.Agreement).ToList());
+                            DateTime currentDateTime = DateTime.UtcNow;
+
+                            foreach (var document in documents.Join(_WorkflowTrackerService.GetPartial(w => w.TrackerType == TrackerType.Waiting && w.SystemName == "ORDCustomUserAssign"), x => x.Id, w => w.DocumentTableId, (x, w) => new { Doc = x, Tracker = w }).ToList())
                             {
-                                if (DateTime.UtcNow > _Documentservice.GetSLAPerformDate(document.Doc.Id, document.Tracker.StartDateSLA, document.Tracker.SLAOffset) && _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == document.Doc.Id && x.TrackerType == TrackerType.NonActive && x.SystemName == "ORDCustomUserAssign").ToList().Count() > 0)
+                                if (currentDateTime > _Documentservice.GetSLAPerformDate(document.Doc.Id, document.Tracker.StartDateSLA, document.Tracker.SLAOffset) && _WorkflowTrackerService.GetPartial(x => x.DocumentTableId == document.Doc.Id && x.TrackerType == TrackerType.NonActive && x.SystemName == "ORDCustomUserAssign").ToList().Count() > 0)
                                 {
                                     _WorkflowService.ActiveWorkflowApprove(document.Doc.Id, document.Doc.ProcessTable.TableName, document.Doc.WWFInstanceId, document.Doc.ProcessTableId, new Dictionary<string, object>(), document.Tracker.Users.First().UserId);
                                 }
