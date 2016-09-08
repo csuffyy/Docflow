@@ -2404,7 +2404,25 @@ namespace RapidDoc.Models.ViewModels
         public string Purpose { get; set; }
     }
 
-    
+    public class USR_REQ_JU_RequestForClosingContract_View : BasicDocumentView
+    {
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Наименование контрагента")]
+        public string ContractorName { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Номер договора")]
+        public string ContractNumber { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Дата договора")]
+        public DateTime? ContractDate { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ValidationRes.ValidationResource), ErrorMessageResourceName = "ErrorFieldisNull")]
+        [Display(Name = "Исполнитель")]
+        public string UserChooseManual1 { get; set; }
+    }
+
     #endregion
 
     #region ФЭУ

@@ -2986,6 +2986,25 @@ namespace RapidDoc.Controllers
             return PartialView("_Empty");
         }
 
+        public ActionResult GetManualRequestForClosingContract(RapidDoc.Models.ViewModels.USR_REQ_JU_RequestForClosingContract_View model)
+        {
+            DocumentTable document = _DocumentService.Find(model.DocumentTableId);
+
+            if ((document.DocumentState == RapidDoc.Models.Repository.DocumentState.Agreement || document.DocumentState == RapidDoc.Models.Repository.DocumentState.Execution) && _DocumentService.isSignDocument(document.Id))
+            {
+                var current = _DocumentService.GetCurrentSignStep(document.Id);
+                if (current != null)
+                {
+                    if (current.Any(x => x.ActivityName == "Начальник ЮУ" || x.SystemName == "ChiefClosingContract"))
+                    {
+                        return PartialView("USR_REQ_JU_RequestForClosingContract_Edit_Manual", model);
+                    }
+                }
+            }
+
+            return PartialView("_Empty");
+        }
+
         public ActionResult GetRequestManufactureItemsBGP(RapidDoc.Models.ViewModels.USR_REQ_UMM_ManufactureItemsBGP_View model)
         {
             DocumentTable document = _DocumentService.Find(model.DocumentTableId);
