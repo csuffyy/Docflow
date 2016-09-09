@@ -81,10 +81,10 @@ namespace RapidDoc.Controllers
                     switch (id)
                     {
                         case 3:
-                            documents.AddRange(_Documentservice.GetPartial(x => x.CompanyTableId == company.Id && (x.DocumentState == Models.Repository.DocumentState.Closed
+                            documents.AddRange(_Documentservice.GetPartial(x => x.DocumentState == Models.Repository.DocumentState.Closed
                                 || x.DocumentState == Models.Repository.DocumentState.Cancelled
                                 || x.DocumentState == Models.Repository.DocumentState.Created
-                                || (x.DocumentState == Models.Repository.DocumentState.OnSign && x.DocType != DocumentType.Task))).ToList());
+                                || (x.DocumentState == Models.Repository.DocumentState.OnSign && x.DocType != DocumentType.Task)).ToList());
 
                             DateTime startDateTime = DateTime.UtcNow.AddDays(-10);
 

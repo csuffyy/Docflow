@@ -1721,6 +1721,10 @@ namespace RapidDoc.Controllers
         {
             List<EmplDualListView> result = new List<EmplDualListView>();
             var emplList = _EmplService.GetPartialIntercompany(x => x.ApplicationUserId != null && x.Enable == true);
+
+            if (String.IsNullOrEmpty(activityId))
+                activityId = String.Empty;
+
             WFTrackerTable tracker = _WorkflowTrackerService.FirstOrDefault(x => x.ActivityID == activityId && x.DocumentTableId == id && x.TrackerType == TrackerType.Waiting);
 
             if (tracker != null && tracker.Users != null)
@@ -1745,6 +1749,9 @@ namespace RapidDoc.Controllers
         {
             if (isAjax == true)
             {
+                if (String.IsNullOrEmpty(activityId))
+                    activityId = String.Empty;
+
                 WFTrackerTable tracker = _WorkflowTrackerService.FirstOrDefault(x => x.DocumentTableId == id && x.ActivityID == activityId);
                 if (tracker == null) return HttpNotFound();
 
