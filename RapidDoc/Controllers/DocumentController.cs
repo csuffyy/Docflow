@@ -352,6 +352,13 @@ namespace RapidDoc.Controllers
             viewModel.docData = _DocumentService.GetDocumentView(documentTable.RefDocumentId, process.TableName);
             viewModel.fileId = docuView.FileId;
             ViewBag.CreatedDate = _SystemService.ConvertDateTimeToLocal(userTable, docuView.CreatedDate);
+
+            var tracker = _WorkflowTrackerService.FirstOrDefault(x => x.DocumentTableId == documentTable.Id);
+            if (tracker != null)
+                ViewBag.ApprovedDate = _SystemService.ConvertDateTimeToLocal(userTable, tracker.CreatedDate);
+            else
+                ViewBag.ApprovedDate = String.Empty;
+            
             ViewBag.DocumentUrl = "https://" + ConfigurationManager.AppSettings.Get("WebSiteUrl").ToString() + "/" + docuView.AliasCompanyName + "/Document/ShowDocument/" + docuView.Id;
             ViewBag.CountSubscribers = _DocumentSubcriptionService.GetPartial(x => x.DocumentTableId == documentTable.Id).Count();
             if (emplTable != null)
