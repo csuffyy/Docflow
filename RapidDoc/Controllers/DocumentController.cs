@@ -2391,7 +2391,7 @@ namespace RapidDoc.Controllers
             if (collection.AllKeys.Contains("DocumentView.Share"))
                 documentData.Add("Share", collection["DocumentView.Share"].ToLower().Contains("true"));
 
-            ProcessView processView = _ProcessService.FindView(processId);
+            ProcessView processView = _ProcessService.FirstOrDefaultView(x => x.Id == processId);
             if (processView == null)
                 return RedirectToAction("PageNotFound", "Error");
 
